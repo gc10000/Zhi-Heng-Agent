@@ -85,11 +85,11 @@
 **文件：**`app/ingestion/parsers/excel.py`; `app/ingestion/parsers/markdown.py`; `tests/unit/test_tabular_sources.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M1-05.1** 提取全部非空单元格、sheet/cell 和公式/缓存值。
-- [ ] **M1-05.2** 按文档用途分类。
-- [ ] **M1-05.3** Markdown 标题层级与图片引用保留。
-- [ ] **M1-05.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_tabular_sources.py -q。
-- [ ] **M1-05.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M1-05.1** 提取全部非空单元格、sheet/cell 和公式/缓存值。
+- [x] **M1-05.2** 按文档用途分类。
+- [x] **M1-05.3** Markdown 标题层级与图片引用保留。
+- [x] **M1-05.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_tabular_sources.py -q。
+- [x] **M1-05.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**跨 sheet 不丢内容；公式与缓存值不混淆；项目计划类 Excel 不被默认为设备技术手册。
 

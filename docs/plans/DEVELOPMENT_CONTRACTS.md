@@ -109,6 +109,8 @@ delta 约 50–100ms 合并，最终按压测调节；默认事件保留 24h，�
 
 ## 6. 验证、配置与可选范围
 
+M1-05的ExcelParser(purpose=None)不计算公式，Cell分别记录value/formula/cached_value，来源保留sheet/cell/row，未知坐标不补；工作簿用途默认unknown，项目计划标记project_plan，只有显式用途才能当technical。MarkdownParser(purpose='unknown')保留原文图片语法和行/章节路径，本地安全相对图片登记ParsedImage，远程/缺图标记质量并不联网下载。两解析器由ParserRouter注入，不改旧Excel导入图。
+
 M1-04提供MineruParser(provider,work_dir,max_pages,max_bytes,allow_native_fallback=False)。原件hash/修订/解析版本/限制/降级策略共同隔离检查点；保留segment_offset/hash/batch_id/result hash，成功段直接复用，超时恢复原batch。原始page_idx为0起，仅合法段内页码加offset+1；无页码时保持null和质量标记。缺content_list可用Markdown修复但显式structure_repaired/missing_page_refs；原生降级需显式选择并记录provider_timeout/provider_error。批次领取到上传之间进程中断不承诺供应商exactly-once，保留批次供核对，不伪造成功。
 
 M1-03解析契约已实现：ParsedDocument含pages/blocks/images与tables视图、original_sha256/parser/parser_version/quality_flags/purpose；Block的text为原文、description为模型派生描述，source_refs/product_ids/asset_ids单独传播。ParserRouter注入按pdf/md/xlsx注册的Parser，先detect_format验证实际结构；缺适配器或格式不匹配明确失败。旧导入node_entry共用检测但不接Excel，不能宣称旧图完成XLSX；新流水线使用注入解析器。M2的runner尚未实现。
