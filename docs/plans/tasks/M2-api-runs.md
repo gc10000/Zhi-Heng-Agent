@@ -25,11 +25,11 @@ M0/M1均已通过总控审查；2026-10-23授权M2-01至M2-12按依赖连续执�
 **文件：**`app/main.py`; `app/settings.py`; `app/api/errors.py`; `tests/contract/test_app_lifecycle.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M2-01.1** 统一 /api/v1 与错误信封。
-- [ ] **M2-01.2** 配置加载与资源初始化进入 lifespan。
-- [ ] **M2-01.3** 旧入口保留兼容适配并明确弃用边界。
-- [ ] **M2-01.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_app_lifecycle.py -q。
-- [ ] **M2-01.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M2-01.1** 统一 /api/v1 与错误信封。
+- [x] **M2-01.2** 配置加载与资源初始化进入 lifespan。
+- [x] **M2-01.3** 旧入口保留兼容适配并明确弃用边界。
+- [x] **M2-01.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_app_lifecycle.py -q。
+- [x] **M2-01.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**import app.main 不连数据库、不加载模型、不更改桶策略；缺配置在启动检查说明变量名。
 

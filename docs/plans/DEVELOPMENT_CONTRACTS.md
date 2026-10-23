@@ -179,3 +179,7 @@ Markdown解析器版本2按实际标题级别维护路径；表格rows不含分�
 ## M1审查修复：自包含恢复与目标保护
 
 backup_selection输出version=2，milvus_schema/milvus_indexes纳入snapshot_sha256；restore_sample不得读取源服务，仅使用本地快照及目标客户端。旧v1缺元信息明确拒绝，保留旧快照并另建新版。恢复保留原主键、全部业务/动态字段、向量与对象引用。Mongo/Milvus/MinIO所有目标检查在任何写入前完成；拒绝源目录重叠、已有对象/非空前缀及非规范路径，默认不覆盖或续跑失败目标。测试使用新隔离目标，不删除真实源来模拟不可用。
+
+## M2-01实际入口与生命周期
+
+app.main:create_app(settings=None,resource_factory=open_resources)建立/api/v1；默认lifespan读取Settings并建立Mongo连接，退出关闭，import不建资源。健康/api/v1/health。错误含error.code/message/details和request_id；验证错误仅返回字段位置、不回显输入，未知异常统一500脱敏。旧查询/导入服务继续作为独立本机兼容入口，不挂载新路由、不新增弃用日期；不把旧服务误称受新鉴权保护。后续M2路由仅加入新application。

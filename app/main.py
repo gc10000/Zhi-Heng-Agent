@@ -1,0 +1,52 @@
+"""统一API工厂；导入不连接存储、不加载模型、不修改桶策略。"""
+from contextlib import asynccontextmanager
+from uuid import uuid4
+from fastapi import FastAPI, Request
+from app.api.errors import install
+from app.settings import Settings
+
+
+@asynccontextmanager
+async def open_resources(settings):
+    from pymongo import MongoClient
+    client = MongoClient(settings.mongo_url, serverSelectionTimeoutMS=5000, tz_aware=True)
+    try:
+        client.admin.command('ping')
+        yield {'db': client[settings.database]}
+    finally:
+        client.close()
+
+
+def create_app(*, settings=None, resource_factory=open_resources):
+    @asynccontextmanager
+    async def lifespan(application):
+        application.state.ready = False
+        configured = settings if settings is not None else Settings.load()
+        application.state.settings = configured
+        async with resource_factory(configured) as resources:
+            application.state.resources = resources
+            application.state.ready = True
+            try:
+                yield
+            finally:
+                application.state.ready = False
+
+    application = FastAPI(title='设备技术支持与知识工作台', version='1.0.0', lifespan=lifespan)
+    install(application)
+
+    @application.middleware('http')
+    async def request_identity(request: Request, call_next):
+        request.state.request_id = str(uuid4())
+        result = await call_next(request)
+        result.headers['X-Request-ID'] = request.state.request_id
+        result.headers['X-Content-Type-Options'] = 'nosniff'
+        return result
+
+    @application.get('/api/v1/health', tags=['服务'])
+    def health(request: Request):
+        return {'ready': request.app.state.ready, 'version': 'v1'}
+
+    return application
+
+
+app = create_app()

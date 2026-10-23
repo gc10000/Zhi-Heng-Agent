@@ -153,3 +153,7 @@ M1-11真实新资料贯通测试`tests/integration/test_ingestion_live.py -m liv
 共享图片验收仅兼容历史image/jpg→image/jpeg别名，继续以准确hash和实际JPEG格式解码验证，PNG伪装不能通过；既有对象元数据、桶访问策略不变。`recheck_m0_images.py --source <原真实报告> --output <新路径>`只读原隔离Mongo响应，以正文hash唯一匹配和原final证据核对，再真实HTTP获取准确对象；不调用模型，不写历史，旧图调用退出1与复核退出0分别保留。`verify_m0_cold_start.py --source <原真实报告> --output <新路径>`必须以新Python进程运行，读取根目录.env中的正常模型/设备配置，仅覆盖隔离集合/库、关闭日志和禁止模型下载；不设置线程或预热。该脚本会进行真实模型/云服务调用，并在原隔离Mongo库新会话新增两条消息，不作为离线测试运行。
 
 精确实测命令、退出码及设备见 `development/records/M0-09.md`。r3审查文件生成/检查分别运行 `.venv/Scripts/python.exe scripts/verification/build_m0_review_artifacts.py --spec docs/development/reviews/M0-r3-artifacts.json` 与同参数的 `check_m0_submission.py`。选用本轮105/3实测摘要、真实图片复核和正常冷启动报告，生成独立baseline-manifest-r3.json/M0-r3-diff.patch/M0-r3-file-inventory.json，不覆盖原或r2文件。脚本输出存在时不要重跑真实问答覆盖；需要重验应选新输出名并保留历史。
+
+## M2统一API入口
+
+使用`.venv/Scripts/python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8000`。启动阶段读取根目录.env，必填MONGO_URL与M2_DB_NAME（独立新账本库，不默认沿用旧课程库）；缺配置只报告变量名。API_ALLOWED_ORIGINS默认http://localhost:8000，逗号分隔明确来源、不允许通配符；API_COOKIE_SECURE默认true，只有本机HTTP调试显式false。当前健康检查/api/v1/health，资源在lifespan创建/关闭，import不连接服务或加载模型。旧query_service/file_import_service独立入口保留，不挂载到新API，不承诺旧无鉴权接口有新鉴权保护。
