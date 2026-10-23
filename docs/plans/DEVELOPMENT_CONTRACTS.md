@@ -191,3 +191,7 @@ POST /api/v1/auth/login校验明确Origin与Mongo持久来源限流，返回user
 ## M2-03实际会话与消息契约
 
 GET/POST /api/v1/conversations、PATCH /conversations/{id}（expected_version）、GET /conversations/{id}/messages。目录按字符串ID游标，消息按原子ordinal游标，limit为1–100，消息cursor非负整数；允许序号间隙，不以时间戳分页。每次查询按owner及当前kb授权，越权404。消息message_id由run_id和role稳定生成；同ID不同快照409，product_snapshot/citations持久后不可变。会话创建的product_ids为默认选择，实际逐轮快照在创建run时冻结，不改旧消息。
+
+## M2-04实际运行领取契约
+
+POST /conversations/{id}/runs接受question/client_request_id/kb_id/product_ids，返回202持久快照；GET /runs/{run_id}复核owner及当前kb。幂等键(owner,conversation,client_request_id)，同键不同输入409；消息ID由run/role稳定派生。先持久preparing运行再CAS会话active_run_id，之后标claimed并幂等写用户消息；请求重试或RunRepository.reconcile可核对补足任一步中断。竞争失败请求持久rejected且同键仍409；完成重试不会重新占用。终态释放仅匹配本run，不能清除新run。无Mongo多文档事务、无全局内存锁。执行/事件在后续任务接线。

@@ -16,3 +16,34 @@ def mongo_db():
     client.admin.command('ping')
     yield client[name]
     client.close()
+
+
+@pytest.fixture
+def m2_client(mongo_db):
+    """真实HTTP到独立Mongo的新入口，账号/会话每次随机隔离。"""
+    from contextlib import asynccontextmanager
+    from uuid import uuid4
+    from fastapi.testclient import TestClient
+    from app.main import create_app
+    from app.settings import Settings
+    from app.identity.service import IdentityService, MongoIdentityStore
+    from app.conversations.repository import ConversationRepository
+    from app.runs.repository import RunRepository
+    from app.runs.service import RunService
+    identity = IdentityService(MongoIdentityStore(mongo_db))
+    username = uuid4().hex
+    identity.add_user(username, 'isolated-password', role='viewer', kb_ids=['k'])
+    conversations = ConversationRepository(mongo_db)
+    runs = RunRepository(mongo_db, conversations)
+    resources = {'db': mongo_db, 'identity': identity, 'conversations': conversations,
+                 'runs': runs, 'run_service': RunService(runs)}
+    @asynccontextmanager
+    async def factory(settings):
+        yield resources
+    app = create_app(settings=Settings('unused', mongo_db.name, ('http://testserver',), False), resource_factory=factory)
+    with TestClient(app, raise_server_exceptions=False) as client:
+        result = client.post('/api/v1/auth/login', headers={'Origin': 'http://testserver'},
+                             json={'username': username, 'password': 'isolated-password'})
+        assert result.status_code == 200
+        headers = {'Origin': 'http://testserver', 'X-CSRF-Token': result.json()['csrf_token']}
+        yield client, headers, resources

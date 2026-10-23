@@ -70,11 +70,11 @@ M0/M1均已通过总控审查；2026-10-23授权M2-01至M2-12按依赖连续执�
 **文件：**`app/runs/models.py`; `app/runs/repository.py`; `app/runs/service.py`; `tests/integration/test_run_claim.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M2-04.1** run_id/message_id/client_request_id 分离。
-- [ ] **M2-04.2** 条件领取 conversation.active_run_id，唯一幂等键。
-- [ ] **M2-04.3** 独立状态机处理跨文档补偿。
-- [ ] **M2-04.V** 验证：.venv/Scripts/python.exe -m pytest tests/integration/test_run_claim.py -m integration -q。
-- [ ] **M2-04.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M2-04.1** run_id/message_id/client_request_id 分离。
+- [x] **M2-04.2** 条件领取 conversation.active_run_id，唯一幂等键。
+- [x] **M2-04.3** 独立状态机处理跨文档补偿。
+- [x] **M2-04.V** 验证：.venv/Scripts/python.exe -m pytest tests/integration/test_run_claim.py -m integration -q。
+- [x] **M2-04.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**同请求重发返回同 run；同会话新请求返回 409；跨会话隔离；领取后崩溃可核对，不依赖 replica set 事务。
 

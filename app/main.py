@@ -14,9 +14,13 @@ async def open_resources(settings):
         client.admin.command('ping')
         from app.identity.service import IdentityService, MongoIdentityStore
         from app.conversations.repository import ConversationRepository
+        from app.runs.repository import RunRepository
+        from app.runs.service import RunService
         db = client[settings.database]
+        conversations = ConversationRepository(db)
+        runs = RunRepository(db, conversations)
         yield {'db': db, 'identity': IdentityService(MongoIdentityStore(db), session_seconds=settings.session_seconds),
-               'conversations': ConversationRepository(db)}
+               'conversations': conversations, 'runs': runs, 'run_service': RunService(runs)}
     finally:
         client.close()
 
@@ -41,6 +45,8 @@ def create_app(*, settings=None, resource_factory=open_resources):
     application.include_router(identity_router)
     from app.conversations.api import router as conversation_router
     application.include_router(conversation_router)
+    from app.runs.api import router as run_router
+    application.include_router(run_router)
 
     @application.middleware('http')
     async def request_identity(request: Request, call_next):
