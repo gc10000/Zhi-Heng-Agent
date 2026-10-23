@@ -11,3 +11,5 @@
 本机隔离验收命令和付费开关见records/M1-11.md。测试默认禁止网络；真实测试须显式M1_TEST_DB=m1_test_前缀。真实供应商单独需要M1_LIVE_PROVIDER=1。当前旧导入/问答公开入口保持原链路，M2后再切新任务入口。
 
 运行限制：同步导入需调用方持有本地原件路径和有效解析work_dir；大规模任务调度/下载鉴权在后续阶段。缓存租约过期、上传成功但本地确认前硬崩溃不承诺供应商exactly-once。MinerU若provider.json保留batch_id但uploaded=false，应先核对供应商批次；原批次可取结果时沿用，确认未上传且临时上传URL不可恢复时，保留原provider.json副本，再明确标记failed=true后重试建立新批次，旧batch进入previous_batches；不改成功segment.json。此人为恢复窗口未做破坏性真实故障演练，不能声称所有供应商崩溃窗口自动恢复。
+
+审查修复版本：MarkdownParser.version=2，chunking.VERSION=2，处理身份包含两者。旧处理身份与新版不同，旧请求继续处理会明确ConflictError，需新请求创建新修订；历史read_original/read_chunk/read_asset不重解析。Markdown表格row_numbers是物理行映射，首个SourceRef为数据行范围，附表头独立来源；Excel数据中的短横线不能当分隔语法，PDF未知行保持null。

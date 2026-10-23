@@ -5,7 +5,7 @@ from tempfile import TemporaryDirectory
 from app.ingestion.models import ParsedDocument
 from app.ingestion.parsers.router import detect_format,UnsupportedFormatError
 from app.ingestion.stages.images import process_images
-from app.ingestion.stages.chunking import chunk_document
+from app.ingestion.stages.chunking import chunk_document, VERSION as CHUNKER_VERSION
 from app.knowledge.models import content_hash
 from app.knowledge.repository import ConflictError,fingerprint
 from app.knowledge.publishing import RevisionPublisher
@@ -34,7 +34,7 @@ class IngestionService:
         current=self.repo.get_revision(r.revision_id)
         # 请求身份绑定处理配置，重试不能悄悄更换模型/预算/解析实现。
         adapter=self.router.parsers[kind]
-        signature=fingerprint({'pipeline':'1','format':kind,'adapter':type(adapter).__name__,'parser_version':getattr(adapter,'version','1'),
+        signature=fingerprint({'pipeline':'1','chunker_version':CHUNKER_VERSION,'format':kind,'adapter':type(adapter).__name__,'parser_version':getattr(adapter,'version','1'),
                                'max_chars':self.max_chars,'model':self.model,'prompt_version':self.prompt_version})
         reserved=self.repo.revisions.update_one(self.repo.scope|{'revision_id':r.revision_id,
             '$or':[{'pipeline_identity':{'$exists':False}},{'pipeline_identity':signature}]},{'$set':{'pipeline_identity':signature}})

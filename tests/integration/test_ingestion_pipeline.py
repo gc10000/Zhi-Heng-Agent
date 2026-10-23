@@ -49,6 +49,12 @@ def test_new_document_registration_to_search_and_original_with_retry(v2_setup,re
     # 仍用真实BGE搜索，命中活动修订并带来源。
     hits=index.search(repo,'LA2608如何检查控制器',embedder=real_embedder,product_ids=('LA2608',))
     assert hits and all(h['entity']['revision_id']==rid for h in hits)
+    # 处理版本变化不能复用既有请求，历史发布产物仍可独立回看。
+    service.router.parsers['md'].version='changed-parser'
+    with pytest.raises(ConflictError):
+        service.import_file(path,request_id='request',expected_active=None)
+    assert service.read_original(rid)==path.read_bytes()
+    service.router.parsers['md'].version='2'
     path.write_text('# 配置\n\n不同正文',encoding='utf-8')
     with pytest.raises(ConflictError):service.import_file(path,request_id='request',expected_active=None,purpose='technical',product_ids=('LA2608',))
     assert service.read_original(rid)!=path.read_bytes()

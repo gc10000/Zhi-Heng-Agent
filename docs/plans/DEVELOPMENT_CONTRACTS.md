@@ -172,3 +172,7 @@ M1-03解析契约已实现：ParsedDocument含pages/blocks/images与tables视图
 ### M0 第3轮验收补充
 
 允许既有HTTP元数据image/jpg作为image/jpeg的限定别名，仍须实际JPEG、复制时精确SHA256、verify/load完整解码；PNG/其他类型不能借此通过。不修改对象元数据或桶策略。只读复核必须用原响应正文SHA256唯一匹配真实持久化助手消息，且原报告已证明唯一final、正文/final一致及图集合合法；再比对持久化图集合与原final并真实下载。复核退出码与源命令退出码分别记录，不把重新构造参数当新final事件。正常冷启动报告须说明隔离/日志/下载保护覆盖及实际线程环境，不把图片诊断预热结果当冷启动。第三轮自验见M0-submission-r3.md，总控已通过，授权与验证边界见M0-review-r3.md及REVIEW_STATUS.md；提交快照的待审查字段按原时点保留。
+
+## M1审查修复：表格物理来源与处理版本
+
+Markdown解析器版本2按实际标题级别维护路径；表格rows不含分隔语法，row_numbers与每一数据行一一对应原文件物理行（含表头）。拆片SourceRef首项指正文范围，重复表头使用独立SourceRef。Excel短横线是数据，保留sheet/cell/实际row；PDF未知行/列不推算。切片版本2进入pipeline_identity，升级解析/切片需新请求修订，不回写已发布旧产物；历史回看使用已存载荷。

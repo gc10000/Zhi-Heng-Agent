@@ -3,6 +3,8 @@ import re
 from app.knowledge.models import Chunk,SourceRef,stable_id,content_hash
 from html.parser import HTMLParser
 
+VERSION = '2'
+
 
 class _TableReader(HTMLParser):
     def __init__(self):
@@ -86,9 +88,8 @@ def chunk_document(document,*,max_chars=2000,default_product_ids=()):
         section_id=stable_id('section',document.revision_id,[block.block_id,block.heading_path])
         parts=[]
         if block.kind=='table' and block.rows:
-            # Markdown分隔行不是数据；Excel保留原行号，表头每片重复。
+            # 分隔语法由格式解析器处理；此处所有行均为真实数据，表头每片重复。
             rows=list(block.rows)
-            if len(rows)>1 and all(re.fullmatch(r':?-+:?',c.strip()) for c in rows[1]):rows.pop(1)
             header=' | '.join(rows[0])+'\n'
             if len(header)>=max_chars:raise ChunkBoundaryError('表头超限，请人工结构化处理')
             current=header;start=1;last=0
@@ -108,11 +109,27 @@ def chunk_document(document,*,max_chars=2000,default_product_ids=()):
             uid=stable_id('chunk',document.revision_id,[block.block_id,index,content_hash(text.encode()),max_chars])
             refs=block.source_refs
             if row_start is not None:
-                original_start=block.row_numbers[row_start] if block.row_numbers else (refs[0].row_start or 1)+row_start if refs else row_start+1
-                original_end=block.row_numbers[row_end] if block.row_numbers else (refs[0].row_start or 1)+row_end if refs else row_end+1
                 if refs:
-                    summary=SourceRef(**(refs[0].model_dump()|{'cell':None,'row_start':original_start,'row_end':original_end}))
-                    refs=(summary,)+tuple(ref for ref in refs if ref.cell and (ref.row_start==block.row_numbers[0] or original_start<=ref.row_start<=original_end))
+                    source=refs[0]
+                    if block.row_numbers:
+                        original_start=block.row_numbers[row_start]
+                        original_end=block.row_numbers[row_end]
+                    elif source.kind=='excel' and source.row_start is not None:
+                        original_start=source.row_start+row_start
+                        original_end=source.row_start+row_end
+                    else:
+                        original_start=original_end=None
+                    locations={'cell':None,'row_start':original_start,'row_end':original_end}
+                    if source.kind=='markdown' and block.row_numbers:
+                        locations.update(line_start=original_start,line_end=original_end)
+                    summary=SourceRef(**(source.model_dump()|locations))
+                    details=tuple(ref for ref in refs if ref.cell and original_start is not None
+                                  and (ref.row_start==(block.row_numbers[0] if block.row_numbers else source.row_start)
+                                       or original_start<=ref.row_start<=original_end))
+                    if source.kind=='markdown' and block.row_numbers and row_start>0:
+                        header=block.row_numbers[0]
+                        details+=(SourceRef(**(source.model_dump()|{'line_start':header,'line_end':header,'row_start':header,'row_end':header})),)
+                    refs=(summary,)+details
             result.append(Chunk(document_id=document.document_id,revision_id=document.revision_id,section_id=section_id,chunk_uid=uid,
                 parent_chunk_uid=parent,ordinal=len(result),text=text,heading_path=block.heading_path,source_refs=refs,
                 product_ids=block.product_ids or tuple(default_product_ids),asset_ids=block.asset_ids,
