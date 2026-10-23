@@ -9,7 +9,7 @@
 | 阶段 | 审查状态 | 当前实现授权 | 结果记录 |
 | --- | --- | --- | --- |
 | M0 | 通过 | 9/9；R1/R2/R3验收通过，历史未知根因及失败证据保留 | [第3轮审查](reviews/M0-review-r3.md) · [第3轮提交](reviews/M0-submission-r3.md) · [第2轮审查](reviews/M0-review-r2.md) · [第1轮审查](reviews/M0-review.md) |
-| M1 | 需修复 | 独立181+3通过，真实产物复核通过；R1表格丢值/来源、R2标题层级、R3恢复schema、R4目标隔离待修复；7/11，M2不进入 | [第1轮审查](reviews/M1-review.md) · [阶段提交](reviews/M1-submission.md) · [提交时验证摘要](reviews/M1-validation-summary.json) |
+| M1 | 待审查 | 第2轮R1–R4修复自验，205+3通过，新隔离恢复及原供应商产物只读复核通过；11/11自验，M2未授权 | [第2轮提交](reviews/M1-submission-r2.md) · [第2轮摘要](reviews/M1-validation-summary-r2.json) · [第1轮审查](reviews/M1-review.md) · [首轮提交](reviews/M1-submission.md) |
 | M2 | 未提交 | 等待前置阶段与总控授权 | 尚无 |
 | M3 | 未提交 | 等待前置阶段与总控授权 | 尚无 |
 | M4 | 未提交 | 等待前置阶段与总控授权 | 尚无 |
@@ -27,6 +27,10 @@
 - 以用户最新明确指令为准调整节奏；不以后台等待或自动监听替代审查。当前必须由用户回原会话发送“审查 M0”等消息触发。
 
 ## 当前接续点
+
+M1第2轮开发自验完成，等待总控审查M1；详见reviews/M1-submission-r2.md。最终205 passed（139.12秒，2 deselected）、既有3 tests OK；真实隔离恢复与只读供应商复核通过。已修复R1–R4，保留首轮证据，不自行标记总控通过，M2未授权。
+
+### 第1轮结论（历史）
 
 M1第1轮总控需修复。独立181 passed（169.84秒）、3 tests OK、78文件/49Python/176链接检查及真实供应商产物只读复核通过；另补正常函数反例发现R1–R4。重开M1-05、07、10、11，M1 7/11、核心16/76。允许继续M1修复并提交M1-submission-r2.md，M2未授权；完整要求见reviews/M1-review.md。原2945ebc提交、原manifest/验证摘要和失败证据保留。
 

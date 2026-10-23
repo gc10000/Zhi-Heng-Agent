@@ -24,7 +24,7 @@ def verify_results():
     summary=json.loads(SUMMARY.read_text(encoding='utf-8'))
     for evidence in summary['raw_evidence']:
         if sha(ROOT/evidence['path'])!=evidence['sha256']:raise ValueError('原始证据hash变化：'+evidence['path'])
-    suite=ET.parse(ROOT/'docs/development/evidence/M1-stage-final.xml').getroot().find('testsuite')
+    suite=ET.parse(ROOT/summary['stage'].get('junit','docs/development/evidence/M1-stage-final.xml')).getroot().find('testsuite')
     if any(int(suite.attrib[k]) for k in ('errors','failures','skipped')):raise ValueError('阶段实际结果含未通过项')
     if int(suite.attrib['tests'])!=summary['stage']['passed']:raise ValueError('摘要与JUnit实际测试数不符')
     if any(summary[key]['exit_code'] for key in ('stage','legacy_reimport','live','current_code_live_recheck')):raise ValueError('存在非零退出')
@@ -52,8 +52,14 @@ def validate_files(paths):
 
 
 def main():
+    global MANIFEST,SUMMARY,BASE
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--check',action='store_true')
-    args=parser.parse_args();summary=verify_results()
+    parser.add_argument('--manifest',type=Path,default=MANIFEST)
+    parser.add_argument('--summary',type=Path,default=SUMMARY)
+    parser.add_argument('--base',default=BASE)
+    args=parser.parse_args()
+    MANIFEST=ROOT/args.manifest;SUMMARY=ROOT/args.summary;BASE=args.base
+    summary=verify_results()
     if args.check:
         saved=json.loads(MANIFEST.read_text(encoding='utf-8'));paths=[f['path'] for f in saved['files']]
     else:

@@ -1,0 +1,144 @@
+{
+  "notice": "第2轮明确脱敏摘要，来自本轮原始JUnit/控制台；原始现场留本机，不覆盖首轮。",
+  "stage": {
+    "command": "$env:M1_TEST_DB='m1_test_20261023_r2_final'; .venv/Scripts/python.exe -m pytest tests/unit tests/integration tests/contract -m 'not live_provider' -q --junitxml=docs/development/evidence/M1-r2-stage-final.xml",
+    "junit": "docs/development/evidence/M1-r2-stage-final.xml",
+    "exit_code": 0,
+    "passed": 205,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "deselected": 2,
+    "seconds_junit": 139.121,
+    "groups": {
+      "unit": 178,
+      "integration": 15,
+      "contract": 12
+    }
+  },
+  "legacy_reimport": {
+    "exit_code": 0,
+    "passed": 3,
+    "fake_io": true
+  },
+  "live": {
+    "exit_code": 0,
+    "mode": "本轮未重复付费供应商测试；保留首轮有效报告，只读复核",
+    "provider_calls_this_round": 0
+  },
+  "current_code_live_recheck": {
+    "exit_code": 0,
+    "passed": true,
+    "provider_calls": 0,
+    "document_chunk_counts": [
+      5,
+      2
+    ]
+  },
+  "raw_evidence": [
+    {
+      "path": "docs/development/evidence/M1-r2-artifact-green.txt",
+      "sha256": "f304c9d89e02f03b18e8d33a61b95068ab857e2c47e51b80de5057aa3cd7d278"
+    },
+    {
+      "path": "docs/development/evidence/M1-r2-artifact-green.xml",
+      "sha256": "a999525b85aab2c354f03b377df59d462bb857c8adcdda2a8fb2ebae47895fcc"
+    },
+    {
+      "path": "docs/development/evidence/M1-r2-artifact-red.txt",
+      "sha256": "55c58bdf102a945869f1912a3ea9d599c8618cb4061aa9afd64a3e26e2978ba9"
+    },
+    {
+      "path": "docs/development/evidence/M1-r2-artifact-red.xml",
+      "sha256": "3df2ea35d2ed53ea12db2cbff5989f41f09d3d19c853d25a12c253fa8a2cd282"
+    },
+    {
+      "path": "docs/development/evidence/M1-r2-integration-retry.txt",
+      "sha256": "44a090146dfc27f21868607b2cc6c81e71f05c80f1f61c7a779172524386855f"
+    },
+    {
+      "path": "docs/development/evidence/M1-r2-integration-retry.xml",
+      "sha256": "38194c246005c8bc47f69ad1bab2d9f8956710c31796f9debefad4d1357b9afb"
+    },
+    {
+      "path": "docs/development/evidence/M1-r2-integration.txt",
+      "sha256": "7b3af6d9ea365fdd69c7f633fd97f1f1fb218dab1d3fb4a1c92af409c406118b"
+    },
+    {
+      "path": "docs/development/evidence/M1-r2-integration.xml",
+      "sha256": "f1805b9df1b2fe83a3c7032398018987e547ca34114557bce303f0f25d9a4e1c"
+    },
+    {
+      "path": "docs/development/evidence/M1-r2-live-recheck.json",
+      "sha256": "18a5f285b02591a6ee9f4d8efa27bfe47fafb4c88beb9f79a10e7e8ee14c6b79"
+    },
+    {
+      "path": "docs/development/evidence/M1-r2-live-recheck.txt",
+      "sha256": "290f3771eb552f07aca3f852b703d7c3526d462ca24e2b99208bcbe8b89b6367"
+    },
+    {
+      "path": "docs/development/evidence/M1-r2-offline.txt",
+      "sha256": "50374ca38d26b8c1fd508a6943788373cd7d33c1296d9b52b3f49d7f6fa3f0b3"
+    },
+    {
+      "path": "docs/development/evidence/M1-r2-offline.xml",
+      "sha256": "64df169797d1c148f764cbc6c044ab6c962cd6fa5bb156d51a93c4716c601dd7"
+    },
+    {
+      "path": "docs/development/evidence/M1-r2-recovery-green.txt",
+      "sha256": "b922989b3b7ec57028f65cc7856d52e2ae9943100402af367fe32c19929d3524"
+    },
+    {
+      "path": "docs/development/evidence/M1-r2-recovery-green.xml",
+      "sha256": "07640f0ad0cdb68759fc20e09ed8c835a113d6fd91385f0cfa497033c33d8b01"
+    },
+    {
+      "path": "docs/development/evidence/M1-r2-recovery-locations.json",
+      "sha256": "a7f21419692e741bcb01f33294e36642bab5282699acbc67e2a2c0890c24721f"
+    },
+    {
+      "path": "docs/development/evidence/M1-r2-recovery-red.txt",
+      "sha256": "81e63524ba55f85109e21d33a3805e1df3c2c2e96d727870a6f1a2f320cf0d5e"
+    },
+    {
+      "path": "docs/development/evidence/M1-r2-recovery-red.xml",
+      "sha256": "45431d4a267e00763045439ba1bf9651989d54ccea5bcf7fb0b9c9fe96e9519e"
+    },
+    {
+      "path": "docs/development/evidence/M1-r2-reimport.txt",
+      "sha256": "3424e6b5b35b427e313fa23d09d878b7e9f61a071f72f3194909cd208c013577"
+    },
+    {
+      "path": "docs/development/evidence/M1-r2-sources-green.txt",
+      "sha256": "a6d7b0433e1c80bf006e1e51e197a15f333225caa8df883bd235e90579995639"
+    },
+    {
+      "path": "docs/development/evidence/M1-r2-sources-green.xml",
+      "sha256": "a62c9878d2e7ff3b064dfbfcdfdadfd405ed4101d173a3a49a98f415352742d4"
+    },
+    {
+      "path": "docs/development/evidence/M1-r2-sources-red.txt",
+      "sha256": "05b1892fb14fbd856806febcae7506e349a54b75222cb51138322bff46b635a2"
+    },
+    {
+      "path": "docs/development/evidence/M1-r2-sources-red.xml",
+      "sha256": "32fe1fdecb26341d97adc82d14e5f1a0eea793b82e0b6297adcd484f0111ad4a"
+    },
+    {
+      "path": "docs/development/evidence/M1-r2-stage-final.txt",
+      "sha256": "a1bfc314be8f20479295079e2627a7105cdf700cc37af2591e19321d5c9201fe"
+    },
+    {
+      "path": "docs/development/evidence/M1-r2-stage-final.xml",
+      "sha256": "9c69b1fc1829f9f37c90492ca4487fc1e5db500c9938827568ceef938ba6606a"
+    },
+    {
+      "path": "docs/development/evidence/M1-r2-stage.txt",
+      "sha256": "a2a0345f8fd33d5837fe7b566d9838494f947aa47955ebd15c03cccb604d12af"
+    },
+    {
+      "path": "docs/development/evidence/M1-r2-stage.xml",
+      "sha256": "5bdd6b690b4d8cf39154ecfcff30ed632559a7d8247eff710d19d0b532a75edd"
+    }
+  ]
+}
