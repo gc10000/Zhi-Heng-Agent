@@ -1,0 +1,9 @@
+# 修订发布、核对与回滚
+
+注册修订为staged，claim_attempt以CAS递增。索引开始前以Mongo单文档条件更新冻结`index_identity`（集合及完整切片载荷hash）。同一修订重试只能写相同载荷；编码/分批写失败保留现场，不切换旧活动指针。需改变内容则新建修订。
+
+RevisionPublisher.validate读取原件并校验SHA256，完整读取索引并核对数量、正文/元数据指纹、向量维度/有限性/非空、来源归属，逐资产读回hash及完整解码并检查摘要状态。未绑定来源或未就绪图片不能发布。验证结果绑定attempt、索引manifest和资产hash，CAS将staged改validated；此后索引适配器拒绝写入。
+
+publish在切换前再次检查验证快照，要求显式expected_active（首次None）。documents单文档原子更新active_revision_id、active_generation和publish_outbox；并发相同旧指针只有一个胜者。指针是当前版本事实；随后更新revision为published并清outbox。若指针后进程退出，reconcile(document_id)重读当前指针及事件，复核验证快照再完成状态，不回写已被另一发布替代的事件。无Mongo跨集合事务假设。
+
+回滚调用同一publish，目标可为已验证/已发布历史修订，expected_active为当前指针；不重解析、不删新版索引。V2Index.search一次读取活动修订清单作为查询快照；历史引用通过授权仓储及显式revision_rows回看。旧查询图仍保留，M2再接公开任务/API。索引/对象存储不支持防管理员外部篡改的事务；发布会检测已发生篡改，运行时存储权限及备份由部署阶段补充。

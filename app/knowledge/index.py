@@ -72,6 +72,12 @@ class V2Index:
             'metadata':c.model_dump(mode='json',exclude={'chunk_uid','document_id','revision_id','ordinal','text'}),'content_sha256':hashes[c.chunk_uid]} for c in chunks}
         payload_hashes={uid:fingerprint(value) for uid,value in payloads.items()}
         manifest={'count':len(chunks),'hashes':hashes,'payload_hashes':payload_hashes,'collection':self.collection,'manifest_sha256':fingerprint(payload_hashes)}
+        # 在任何耗时编码/写入前冻结修订载荷。旧attempt即使在外部IO后恢复，
+        # 也只能写相同业务载荷，不能污染已验证的新attempt。
+        identity=fingerprint({'collection':self.collection,'payload_hashes':payload_hashes})
+        reserved=repo.revisions.update_one(repo.scope|{'revision_id':revision_id,'attempt':attempt,'status':'staged',
+            '$or':[{'index_identity':{'$exists':False}},{'index_identity':identity}]},{'$set':{'index_identity':identity}})
+        if not reserved.matched_count:raise ConflictError('修订索引载荷已冻结或attempt过期')
         prior=self.revision_rows(repo,revision_id)
         if any(row['chunk_uid'] not in payload_hashes or fingerprint(self.payload(row))!=payload_hashes[row['chunk_uid']] for row in prior):
             raise ConflictError('同修订已有不同切片，须创建新修订')

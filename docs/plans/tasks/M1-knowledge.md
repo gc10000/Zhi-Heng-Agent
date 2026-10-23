@@ -147,11 +147,11 @@
 **文件：**`app/knowledge/publishing.py`; `tests/integration/test_revision_publish.py`; `docs/architecture/revision-lifecycle.md`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M1-09.1** staged→validated→published。
-- [ ] **M1-09.2** 验证数量/hash/向量与图片。
-- [ ] **M1-09.3** 条件更新 active_revision_id，检索只用活动修订清单，发布失败可核对。
-- [ ] **M1-09.V** 验证：.venv/Scripts/python.exe -m pytest tests/integration/test_revision_publish.py -m integration -q。
-- [ ] **M1-09.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M1-09.1** staged→validated→published。
+- [x] **M1-09.2** 验证数量/hash/向量与图片。
+- [x] **M1-09.3** 条件更新 active_revision_id，检索只用活动修订清单，发布失败可核对。
+- [x] **M1-09.V** 验证：.venv/Scripts/python.exe -m pytest tests/integration/test_revision_publish.py -m integration -q。
+- [x] **M1-09.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**插入失败旧版仍可用；新旧引用各可回看；回切不重解析；并发发布仅一个合法指针生效。
 

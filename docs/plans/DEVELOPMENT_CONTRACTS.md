@@ -109,6 +109,8 @@ delta 约 50–100ms 合并，最终按压测调节；默认事件保留 24h，�
 
 ## 6. 验证、配置与可选范围
 
+M1-09的RevisionPublisher(repo,index,read_original,asset_store)以validate(revision_id,attempt)校验原件、完整索引及图资产并转validated；publish(revision_id,expected_active)重验并CAS单资料活动指针，首次expected_active=None。指针文档内outbox可由reconcile(document_id)修复发布状态；历史validated/published目标可通过同入口回滚，不删新版。索引前冻结index_identity，载荷变化必须新建修订。无跨集合事务，旧公开查询图保持兼容，M2再接任务协议。
+
 M1-08的V2Index使用显式新集合、INT32 ordinal、来源JSON和BGE dense/learned sparse；所有范围值严格字符串JSON转义。write_revision要求staged/attempt一致，同UID正文或元数据变化拒绝；索引清单含正文hash与完整业务载荷hash。search默认读取活动修订快照，空快照不编码；内部显式快照也须复核调用归属。旧集合不删不重建。
 
 M1-07的chunk_document(parsed,max_chars=2000,default_product_ids=())返回Chunk；完整标题留元数据不重复占长标题正文预算，chunk_uid由修订/块/分片/内容hash及上限稳定生成，子片父指向同块首片。原子图片/表格单行超限显式失败，表头重复、行范围真实，Excel单元格refs原样保留；来源document/revision不匹配拒绝。按块不跨型号合并；字符预算不是token预算。旧splitter复用split_text完成N1兜底，原M0章节身份/表格边界不变。
