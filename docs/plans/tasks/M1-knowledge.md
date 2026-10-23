@@ -117,11 +117,11 @@
 **文件：**`app/ingestion/stages/chunking.py`; `tests/unit/test_structured_chunks.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M1-07.1** 保留 heading_path/source_refs/asset_ids。
-- [ ] **M1-07.2** 表格拆分重复表头并保留行范围。
-- [ ] **M1-07.3** 支持块级型号范围与同修订父子关系。
-- [ ] **M1-07.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_structured_chunks.py -q。
-- [ ] **M1-07.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M1-07.1** 保留 heading_path/source_refs/asset_ids。
+- [x] **M1-07.2** 表格拆分重复表头并保留行范围。
+- [x] **M1-07.3** 支持块级型号范围与同修订父子关系。
+- [x] **M1-07.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_structured_chunks.py -q。
+- [x] **M1-07.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**长表、步骤列表、警示框和配图可溯源；chunk_uid 重试稳定；不跨型号合并。
 

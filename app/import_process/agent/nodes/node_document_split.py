@@ -157,15 +157,17 @@ def _split_long_section(section: Dict[str, Any], max_length: int = DEFAULT_MAX_C
     available_len = max_length - len(prefix)
     # 极端情况：标题长度超过阈值，无法切分，返回原章节
     if available_len <= 0:
-        logger.warning(f"章节标题过长，无法切分：{title[:20]}...")
-        return [deepcopy(section)]
+        # 超长标题留在元数据，不复制到每个正文切片占满预算。
+        prefix = ''
+        available_len = max_length
 
     # 清理正文重复标题：避免原章节中正文开头重复标题，导致子Chunk内容冗余
     body = content
     if title and body.lstrip().startswith(title):
         body = body[body.find(title) + len(title):].lstrip()
 
-    # 初始化LangChain递归分割器（核心工具：按优先级分隔符切分，保留语义）
+    from app.ingestion.stages.chunking import split_text
+    # 新共享分割器保留图片原子并为无分隔符长串提供字符兜底。
     # 分割符从粗到细；当前无空串兜底，无分隔符长串的完整边界交 M1-07。
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=available_len,  # 正文部分最大长度（已扣除标题）
@@ -176,7 +178,7 @@ def _split_long_section(section: Dict[str, Any], max_length: int = DEFAULT_MAX_C
 
     # 切分正文并组装子章节（带完整元信息，便于溯源）
     sub_sections = []
-    for idx, chunk in enumerate(splitter.split_text(body), start=1):
+    for idx, chunk in enumerate(split_text(body, available_len), start=1):
         # 清理空内容：跳过切分后的空字符串
         text = chunk.strip()
         if not text:

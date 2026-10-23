@@ -28,6 +28,7 @@ class Block(Entity):
     product_ids: tuple[ID, ...] = ()
     asset_ids: tuple[ID, ...] = ()
     rows: tuple[tuple[str, ...], ...] = ()
+    row_numbers: tuple[int, ...] = ()
     cells: tuple[Cell, ...] = ()
 
 

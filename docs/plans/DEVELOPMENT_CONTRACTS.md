@@ -109,6 +109,8 @@ delta 约 50–100ms 合并，最终按压测调节；默认事件保留 24h，�
 
 ## 6. 验证、配置与可选范围
 
+M1-07的chunk_document(parsed,max_chars=2000,default_product_ids=())返回Chunk；完整标题留元数据不重复占长标题正文预算，chunk_uid由修订/块/分片/内容hash及上限稳定生成，子片父指向同块首片。原子图片/表格单行超限显式失败，表头重复、行范围真实，Excel单元格refs原样保留；来源document/revision不匹配拒绝。按块不跨型号合并；字符预算不是token预算。旧splitter复用split_text完成N1兜底，原M0章节身份/表格边界不变。
+
 M1-06的process_images返回新ParsedDocument及Asset列表，原文不写模型描述；派生块kind=image、description单独存，SourceRef.kind=image_description。稳定asset_id连接原图片及摘要，重试替换派生块。ImageSummaryService联合键包含原图/上下文hash、模型、prompt版本；MongoSummaryCache以owner/lease CAS，忙碌抛SummaryBusy，失败可再次领取。SharedRateLimiter通过同MongoRateStore/key预约全部导入的供应商slot，不是每线程限额。AssetStore要求注入已存在bucket客户端，只写指定前缀，不调用建桶或策略修改。租约是有界排重，不承诺外部计费跨硬崩溃exactly-once。
 
 M1-05的ExcelParser(purpose=None)不计算公式，Cell分别记录value/formula/cached_value，来源保留sheet/cell/row，未知坐标不补；工作簿用途默认unknown，项目计划标记project_plan，只有显式用途才能当technical。MarkdownParser(purpose='unknown')保留原文图片语法和行/章节路径，本地安全相对图片登记ParsedImage，远程/缺图标记质量并不联网下载。两解析器由ParserRouter注入，不改旧Excel导入图。
