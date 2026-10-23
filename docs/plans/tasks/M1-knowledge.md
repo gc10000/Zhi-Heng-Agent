@@ -40,11 +40,11 @@
 **文件：**`app/knowledge/repository.py`; `app/products/repository.py`; `tests/integration/test_knowledge_repository.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M1-02.1** 创建 Mongo 唯一索引和条件更新。
-- [ ] **M1-02.2** 注册原件/修订及处理 attempt。
-- [ ] **M1-02.3** 无跨集合事务假设，失败可核对补偿。
-- [ ] **M1-02.V** 验证：.venv/Scripts/python.exe -m pytest tests/integration/test_knowledge_repository.py -m integration -q。
-- [ ] **M1-02.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M1-02.1** 创建 Mongo 唯一索引和条件更新。
+- [x] **M1-02.2** 注册原件/修订及处理 attempt。
+- [x] **M1-02.3** 无跨集合事务假设，失败可核对补偿。
+- [x] **M1-02.V** 验证：.venv/Scripts/python.exe -m pytest tests/integration/test_knowledge_repository.py -m integration -q。
+- [x] **M1-02.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**重复请求不产生重复修订；同名不同资料互不覆盖；单机 Mongo 可运行；对旧消息/资料无回写。
 

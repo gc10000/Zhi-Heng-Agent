@@ -9,7 +9,10 @@ import pytest
 
 
 @pytest.fixture(autouse=True)
-def offline_boundary(monkeypatch):
+def offline_boundary(monkeypatch, request):
+    # 显式命令授权独立M1测试库才允许真实集成；标记本身不开放网络。
+    if request.node.get_closest_marker('integration') and os.getenv('M1_TEST_DB', '').startswith('m1_test_'):
+        return
     import dotenv
     monkeypatch.setattr(dotenv, 'load_dotenv', lambda *a, **kw: False)
     for name in list(os.environ):

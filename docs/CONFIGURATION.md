@@ -142,6 +142,8 @@ resume_m0_live 的 --cpu-threads/--prewarm-reranker 仅为既有图片失败诊�
 
 ## M0 第3轮真实验收与审查运行说明
 
+M1真实集成测试显式设置M1_TEST_DB为m1_test_开头独立库，测试读取根目录.env的MONGO_URL，缺独立库报错不跳过。默认单元/契约测试仍隔离网络；integration标记本身不开放网络，测试不删除库/集合。示例：`$env:M1_TEST_DB='m1_test_20261023_repository'` 后执行指定integration文件。测试变量不应填原业务库；M1_TEST_DB默认留空不影响应用。
+
 2026-10-23用户恢复已有Docker后，原图片题续验及正常配置新进程冷启动已自验完成，105项单元/契约和3项既有回归通过。上节“真实HTTP尚待R3”是第2轮时点，当前见 `development/reviews/M0-submission-r3.md`。本轮没有新增环境变量、改写.env或安装/升级依赖，因此.env.example无新增项。
 
 共享图片验收仅兼容历史image/jpg→image/jpeg别名，继续以准确hash和实际JPEG格式解码验证，PNG伪装不能通过；既有对象元数据、桶访问策略不变。`recheck_m0_images.py --source <原真实报告> --output <新路径>`只读原隔离Mongo响应，以正文hash唯一匹配和原final证据核对，再真实HTTP获取准确对象；不调用模型，不写历史，旧图调用退出1与复核退出0分别保留。`verify_m0_cold_start.py --source <原真实报告> --output <新路径>`必须以新Python进程运行，读取根目录.env中的正常模型/设备配置，仅覆盖隔离集合/库、关闭日志和禁止模型下载；不设置线程或预热。该脚本会进行真实模型/云服务调用，并在原隔离Mongo库新会话新增两条消息，不作为离线测试运行。
