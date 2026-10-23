@@ -17,6 +17,11 @@ class Settings:
     run_lease_seconds: int = 60
     input_wait_seconds: int = 86400
     run_pending_seconds: int = 300
+    knowledge_owner_id: str | None = None
+    object_bucket: str | None = None
+    object_prefix: str | None = None
+    milvus_collection: str | None = None
+    upload_max_bytes: int = 100_000_000
 
     @classmethod
     def load(cls):
@@ -34,11 +39,15 @@ class Settings:
         values = {}
         for name, default, field in [('RUN_LEASE_SECONDS', 60, 'run_lease_seconds'),
                                      ('RUN_INPUT_WAIT_SECONDS', 86400, 'input_wait_seconds'),
-                                     ('RUN_PENDING_SECONDS', 300, 'run_pending_seconds')]:
+                                     ('RUN_PENDING_SECONDS', 300, 'run_pending_seconds'),
+                                     ('UPLOAD_MAX_BYTES', 100_000_000, 'upload_max_bytes')]:
             try:
                 values[field] = int(os.getenv(name, str(default)))
                 if values[field] < 1:
                     raise ValueError()
             except ValueError:
                 raise ConfigurationError(name + '必须为正整数秒。') from None
-        return cls(os.environ['MONGO_URL'], os.environ['M2_DB_NAME'], origins, secure == 'true', **values)
+        return cls(os.environ['MONGO_URL'], os.environ['M2_DB_NAME'], origins, secure == 'true',
+            knowledge_owner_id=os.getenv('M2_KNOWLEDGE_OWNER_ID') or None,
+            object_bucket=os.getenv('M2_OBJECT_BUCKET') or None, object_prefix=os.getenv('M2_OBJECT_PREFIX') or None,
+            milvus_collection=os.getenv('M2_MILVUS_COLLECTION') or None, **values)

@@ -113,14 +113,14 @@ M0/M1均已通过总控审查；2026-10-23授权M2-01至M2-12按依赖连续执�
 ### M2-07：知识目录、上传与任务 API
 
 **依赖：**M2-02,M1-11。
-**文件：**`app/knowledge/api.py`; `app/knowledge/upload.py`; `tests/contract/test_document_upload.py`。
+**文件：**`app/knowledge/api.py`; `app/knowledge/upload.py`; `app/knowledge/gateway.py`; `app/ingestion/jobs.py`; `tests/contract/test_document_upload.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M2-07.1** 产品/资料分页、上传与 revision 查询。
-- [ ] **M2-07.2** 随机对象键，原文件名只展示。
-- [ ] **M2-07.3** 限制大小/MIME/扩展名并拒绝路径穿越。
-- [ ] **M2-07.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_document_upload.py -q。
-- [ ] **M2-07.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M2-07.1** 产品/资料分页、上传与 revision 查询。
+- [x] **M2-07.2** 随机对象键，原文件名只展示。
+- [x] **M2-07.3** 限制大小/MIME/扩展名并拒绝路径穿越。
+- [x] **M2-07.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_document_upload.py -q。
+- [x] **M2-07.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**同名上传不覆盖；不支持格式明确 4xx；用户无权发布；接口返回 job_id 与 revision_id。
 

@@ -167,3 +167,9 @@ M1-11真实新资料贯通测试`tests/integration/test_ingestion_live.py -m liv
 ## M2运行超时与恢复
 
 RUN_LEASE_SECONDS默认60秒，执行器需定期续约；RUN_PENDING_SECONDS默认300秒，未领取运行超时中断；RUN_INPUT_WAIT_SECONDS默认86400秒，为等待型号确认的独立期限，不按执行心跳误判。均为正整数秒，填写根目录.env。新API生命周期每10秒核对超时和终态outbox/占用，多个进程通过版本CAS避免相互覆盖；重启可恢复候选、恢复点及取消意图。改动默认配置不写回历史消息/课程数据。
+
+## M2知识目录与上传
+
+M2_KNOWLEDGE_OWNER_ID指定当前单组织知识owner，用户的kb_ids仍限定读取范围；不默认接管旧资料owner。M2_OBJECT_BUCKET指定已存在桶，M2_OBJECT_PREFIX指定独立相对前缀（例如knowledge-api-v2/），新API不建桶/改策略；原件随机key，名称仅展示。M2_MILVUS_COLLECTION须为独立v2集合且不同于CHUNKS_COLLECTION，复用MILVUS_URL；上传不要求Milvus或模型在线，索引/发布时才连接。MINIO_ENDPOINT/MINIO_ACCESS_KEY/MINIO_SECRET_KEY及可选MINIO_SECURE沿用连接变量，但绝不打印值。缺配置仅相关端点503列变量名/用途/根目录.env，身份/会话等仍可用。UPLOAD_MAX_BYTES默认100000000字节，正整数；multipart元数据最多另64KiB，文件不支持路径名。
+
+POST /products为维护者注册产品及显式kb关联；GET目录限当前组织+kb。POST /documents接受file、kb_id、client_request_id、product_ids（JSON列表）、purpose及可选document_id（同资料新修订），成功202返回document_id/revision_id/job_id；job pending/uploaded不表示已索引或发布。GET import-jobs返回阶段/attempt/可重试标记，retry需维护者/版本及错误可重试。修订发布/回滚复用M1真实产物验证和CAS；withdraw只撤活动指针，历史不删。

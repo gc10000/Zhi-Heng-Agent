@@ -17,6 +17,16 @@ def response(request, status, code, message, details=None):
 
 
 def install(app):
+    from app.knowledge.repository import ConflictError, ScopeError
+
+    @app.exception_handler(ConflictError)
+    async def conflict_error(request: Request, exc):
+        return response(request, 409, 'version_conflict', '资料版本或幂等请求内容冲突，请刷新后重试。')
+
+    @app.exception_handler(ScopeError)
+    async def scope_error(request: Request, exc):
+        return response(request, 404, 'not_found', '资源不存在或不在授权范围。')
+
     @app.exception_handler(APIError)
     async def api_error(request: Request, exc: APIError):
         return response(request, exc.status, exc.code, exc.message, exc.details)

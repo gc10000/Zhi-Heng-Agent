@@ -46,7 +46,7 @@ M1-01已冻结Pydantic实体契约，具体字段及UUID/SourceRef规则见[知�
 | `GET/POST /conversations` | title/kb_id/product_ids | 目录/新会话，owner 由服务端设置 | M2-03 |
 | `PATCH /conversations/{id}` | title/archived，乐观版本 | 更新自身会话，禁止改 owner | M2-03 |
 | `GET /conversations/{id}/messages` | cursor/limit | 正序历史分页；逐轮产品/引用快照 | M2-03 |
-| `POST /conversations/{id}/runs` | client_request_id、question、product_ids、kb_id | 首次 201；同幂等请求返回同 run；同键不同内容 409 | M2-04 |
+| `POST /conversations/{id}/runs` | client_request_id、question、product_ids、kb_id | 202持久快照；同幂等请求返回同 run；同键不同内容 409 | M2-04 |
 | `GET /runs/{id}` | 已登录身份 | status、last_seq、partial/final answer、citations、awaiting_input | M2-05 |
 | `GET /runs/{id}/events` | `Last-Event-ID` 或 `after_seq` | text/event-stream；游标失效 410，再读快照 | M2-05 |
 | `POST /runs/{id}/confirm-product` | product_ids、expected_version | 只允许从持久候选中选，owner 与版本必须匹配 | M2-06 |
@@ -205,3 +205,5 @@ GET /runs/{id}/events接受非负after_seq及Last-Event-ID（取较大值），�
 POST /runs/{id}/confirm-product要求expected_version/product_ids，校验当前awaiting_input、owner/kb/候选/人工期限；保存新产品快照及恢复点后pending，重新领取执行token，旧token不能结束新执行。POST /runs/{id}/cancel按版本保存cancel_requested，同一expected_version重复取消幂等；运行边界收敛cancelled，取消后拒绝completed。终态不可复活。执行租约续约也增加version，扫描不能按旧版本中断已续约任务；人工等待独立超时。run.input_product_snapshot冻结创建时用户消息选择，run.product_snapshot可随确认变化，避免原请求重发篡改旧消息。默认执行60秒、排队300秒、人工86400秒，每10秒CAS扫描恢复；新run占用不会被旧run释放。
 
 取消意图存在但原执行租约失效时标interrupted（未获得执行器停止确认）；未开始执行/人工等待无租约的取消可由扫描直接收敛cancelled。
+
+M2-07知识数据使用显式M2_KNOWLEDGE_OWNER_ID的单组织归属，用户当前kb授权仍必须匹配；个人会话/运行不共享。产品需knowledge_product_kbs显式绑定kb。上传接收multipart file/kb_id/product_ids(JSON列表)/client_request_id，可指定document_id建立新修订；purpose默认unknown。请求绑定原件hash和元数据，先登记不可变修订/任务，再保存随机对象键，成功后202；实际导入/发布在后续执行任务或维护API完成。旧课程资料不自动接管。

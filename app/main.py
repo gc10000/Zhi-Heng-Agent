@@ -18,15 +18,20 @@ async def open_resources(settings):
         from app.runs.service import RunService
         from app.runs.events import EventLedger
         from app.runs.commands import RunCommands
+        from app.knowledge.resources import KnowledgeResources
         db = client[settings.database]
         conversations = ConversationRepository(db)
         runs = RunRepository(db, conversations)
         events = EventLedger(runs)
         commands = RunCommands(runs, events, lease_seconds=settings.run_lease_seconds,
                                input_wait_seconds=settings.input_wait_seconds, pending_seconds=settings.run_pending_seconds)
-        yield {'db': db, 'identity': IdentityService(MongoIdentityStore(db), session_seconds=settings.session_seconds),
-               'conversations': conversations, 'runs': runs, 'run_service': RunService(runs),
-               'events': events, 'commands': commands}
+        knowledge = KnowledgeResources(db, settings)
+        try:
+            yield {'db': db, 'identity': IdentityService(MongoIdentityStore(db), session_seconds=settings.session_seconds),
+                   'conversations': conversations, 'runs': runs, 'run_service': RunService(runs),
+                   'events': events, 'commands': commands, 'knowledge': knowledge.get}
+        finally:
+            knowledge.close()
     finally:
         client.close()
 
@@ -69,6 +74,8 @@ def create_app(*, settings=None, resource_factory=open_resources):
     application.include_router(conversation_router)
     from app.runs.api import router as run_router
     application.include_router(run_router)
+    from app.knowledge.api import router as knowledge_router
+    application.include_router(knowledge_router)
 
     @application.middleware('http')
     async def request_identity(request: Request, call_next):
