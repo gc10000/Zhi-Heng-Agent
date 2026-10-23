@@ -192,11 +192,11 @@ M0/M1均已通过总控审查；2026-10-23授权M2-01至M2-12按依赖连续执�
 **文件：**`docs/development/records/M2-12.md`; `docs/architecture/api-v1.md`; `docs/runbooks/worker-recovery.md`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M2-12.1** 导出 OpenAPI/事件样例。
-- [ ] **M2-12.2** 执行幂等/并发/取消/重放/越权/恢复矩阵。
-- [ ] **M2-12.3** 记录 cookie 与 SSE 代理设置。
-- [ ] **M2-12.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract tests/integration -m 'not live_provider' -q。
-- [ ] **M2-12.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M2-12.1** 导出 OpenAPI/事件样例。
+- [x] **M2-12.2** 执行幂等/并发/取消/重放/越权/恢复矩阵。
+- [x] **M2-12.3** 记录 cookie 与 SSE 代理设置。
+- [x] **M2-12.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit tests/contract tests/integration -m 'not live_provider' -q。
+- [x] **M2-12.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**真实新 API 可覆盖登录→导入→问答→澄清→引用；故障矩阵通过；前端可据固定契约开发。
 

@@ -1,0 +1,135 @@
+{
+  "notice": "M2脱敏摘要：从本轮原始JUnit/控制台/报告读取，原始证据仅本机保留。不是总控审查通过结论。",
+  "date": "2026-10-24",
+  "stage": {
+    "exit_code": 0,
+    "passed": 326,
+    "deselected": 2,
+    "skipped": 0,
+    "seconds": 205.655,
+    "junit": "docs/development/evidence/M2-stage-v2.xml",
+    "test_directory_counts": {
+      "unit": 178,
+      "contract": 74,
+      "integration": 74
+    },
+    "integration_notice": "integration目录含纯错误分类/非法key探针及真实存储配合模型端口注入，不能将74全部描述为供应商端到端。"
+  },
+  "legacy_reimport": {
+    "exit_code": 0,
+    "passed": 3,
+    "seconds": 0.128
+  },
+  "live_api": {
+    "exit_code": 0,
+    "passed": true,
+    "seconds": 51.593,
+    "paid_answer_attempts": 1,
+    "checks": {
+      "login": true,
+      "linux_import_published": true,
+      "original_hash": true,
+      "clarification_confirm": true,
+      "grounded_answer": true,
+      "citation_revision_source": true,
+      "message_snapshot": true,
+      "single_terminal": true,
+      "delta_snapshot_equal": true,
+      "idempotent_run": true,
+      "event_order": true
+    },
+    "answer_sha256": "84e78e4c39b1ce634a7d4d8f2ca16b479049b3069fc91310302c7f10c6947509",
+    "answer_chars": 132,
+    "notice": "独立API真实HTTP、Linux worker、真实BGE/重排/LLM；合成Markdown小样，无MinerU/视觉调用，未复验生产灾备。"
+  },
+  "prior_failed_stage": {
+    "exit_code": 1,
+    "passed": 323,
+    "failed": 2,
+    "deselected": 2,
+    "seconds": 204.04,
+    "resolution": "正式孤立运行红测后逐条恢复范围保护；每例独立账本，原断言/原证据保留。"
+  },
+  "raw_evidence": [
+    {
+      "path": "docs/development/evidence/M2-stage-final.xml",
+      "sha256": "deaaef07f3438606fdf85c367d10ae61f875492e2035b99b26702523816b07d6",
+      "bytes": 48817
+    },
+    {
+      "path": "docs/development/evidence/M2-stage-final.txt",
+      "sha256": "f865f04300518d7c04ea408b38cb34e2323630a1f1ef44c9d165ee01b56491fc",
+      "bytes": 6684
+    },
+    {
+      "path": "docs/development/evidence/M2-stage-v2.xml",
+      "sha256": "c9f2cd044cc0d8b1bdc35d7290177c8d2f8c9ef01a266df3681dc78ea2ad70a8",
+      "bytes": 44292
+    },
+    {
+      "path": "docs/development/evidence/M2-stage-v2.txt",
+      "sha256": "4a11f481f01317ef657bf5cc56408b7c0f2a14fe39cc4378c360d62b9a881010",
+      "bytes": 1761
+    },
+    {
+      "path": "docs/development/evidence/M2-legacy-reimport.txt",
+      "sha256": "4263fe729b695749f219582b12ffdb2cd1edd024403a9954b04fd849be663001",
+      "bytes": 761
+    },
+    {
+      "path": "docs/development/evidence/M2-legacy-reimport-v2.txt",
+      "sha256": "14cbc06f9da38a6dd8b0d82afd2fe97017878f313bd0669a87871f24e4a026b4",
+      "bytes": 546
+    },
+    {
+      "path": "docs/development/evidence/M2-live-api-first.json",
+      "sha256": "d6ee8ec2dec62eed496e3bf2cae115182e152e543136e9bcd2cfff713c3cac12",
+      "bytes": 1337
+    },
+    {
+      "path": "docs/development/evidence/M2-0910-checkpoint.xml",
+      "sha256": "b2a07c09c7890d75b729b93aa3c6aa19df620170fd8c7618b39e78b8680254b7",
+      "bytes": 2312
+    },
+    {
+      "path": "docs/development/evidence/M2-11-sink-red.xml",
+      "sha256": "e5a706e6a3c4cbdf71b36bfa57eaad7c68da92f52c882a0fa0cf89959d8d8e78",
+      "bytes": 3755
+    },
+    {
+      "path": "docs/development/evidence/M2-11-message-red.xml",
+      "sha256": "6068b9a81a3c88e9ac7ade727927a4504832b0a8469496b65c59f58d126e6ef9",
+      "bytes": 2174
+    },
+    {
+      "path": "docs/development/evidence/M2-11-scheduler-red.xml",
+      "sha256": "b3316713e79f19001f71de9dca1d90b5dde099a342b761edc2bf20dc2f8b39cc",
+      "bytes": 1427
+    },
+    {
+      "path": "docs/development/evidence/M2-11-image-red.xml",
+      "sha256": "0680191f15ec3eaf987aaf6354d65c64a5201f5353a4ce6eebd646e25bc34527",
+      "bytes": 1927
+    },
+    {
+      "path": "docs/development/evidence/M2-11-boundaries-red.xml",
+      "sha256": "1dec9dea464ae25b1df0e92aca15bf0af7de2ee99590fd1301062a99353afd53",
+      "bytes": 3509
+    },
+    {
+      "path": "docs/development/evidence/M2-11-orphan-red.xml",
+      "sha256": "1144d289df419357b910eef14c3fe2af4458799997118c516ec864c83ebbdd30",
+      "bytes": 2747
+    },
+    {
+      "path": "docs/development/evidence/M2-11-recovery-green.xml",
+      "sha256": "d502c3d2dc916dc7bcd5090aee05700a0c15c39997c3d2d5942225ee282ed24c",
+      "bytes": 4353
+    },
+    {
+      "path": "docs/development/evidence/M2-11-final.xml",
+      "sha256": "a90e81ca478c881f17380df128421de076caf86b9ce94876aec0d4a49bc51fab",
+      "bytes": 4936
+    }
+  ]
+}

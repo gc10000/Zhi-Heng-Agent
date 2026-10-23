@@ -1,0 +1,113 @@
+{
+  "notice": "协议示例，非真实执行证据。seq允许间隙；实际完整citation结构以事件和持久快照为准。",
+  "events": [
+    {
+      "run_id": "example-run",
+      "seq": 1,
+      "type": "run.started",
+      "at": "2026-10-24T00:00:00+00:00",
+      "payload": {
+        "conversation_id": "example-conversation",
+        "message_id": "example-user-message"
+      }
+    },
+    {
+      "run_id": "example-run",
+      "seq": 2,
+      "type": "product.candidates",
+      "at": "2026-10-24T00:00:01+00:00",
+      "payload": {
+        "candidates": [
+          {
+            "product_id": "example-p1",
+            "model": "示例AX24"
+          },
+          {
+            "product_id": "example-p2",
+            "model": "示例AX48"
+          }
+        ],
+        "expected_version": 3
+      }
+    },
+    {
+      "run_id": "example-run",
+      "seq": 3,
+      "type": "product.confirmed",
+      "at": "2026-10-24T00:01:00+00:00",
+      "payload": {
+        "product_ids": [
+          "example-p1"
+        ],
+        "version": 1
+      }
+    },
+    {
+      "run_id": "example-run",
+      "seq": 4,
+      "type": "run.started",
+      "at": "2026-10-24T00:01:01+00:00",
+      "payload": {
+        "conversation_id": "example-conversation",
+        "message_id": "example-user-message"
+      }
+    },
+    {
+      "run_id": "example-run",
+      "seq": 5,
+      "type": "stage.changed",
+      "at": "2026-10-24T00:01:02+00:00",
+      "payload": {
+        "stage": "retrieve"
+      }
+    },
+    {
+      "run_id": "example-run",
+      "seq": 6,
+      "type": "citation.selected",
+      "at": "2026-10-24T00:01:03+00:00",
+      "payload": {
+        "citations": [
+          {
+            "citation_id": "example-citation",
+            "chunk_uid": "example-chunk",
+            "document_id": "example-doc",
+            "revision_id": "example-revision",
+            "text": "示例参数24V。",
+            "source_refs": [
+              {
+                "kind": "markdown",
+                "line_start": 3
+              }
+            ],
+            "asset_ids": []
+          }
+        ]
+      }
+    },
+    {
+      "run_id": "example-run",
+      "seq": 7,
+      "type": "answer.delta",
+      "at": "2026-10-24T00:01:04+00:00",
+      "payload": {
+        "text": "示例参数为24V。"
+      }
+    },
+    {
+      "run_id": "example-run",
+      "seq": 8,
+      "type": "run.completed",
+      "at": "2026-10-24T00:01:05+00:00",
+      "payload": {
+        "answer": "示例参数为24V。",
+        "citations": [
+          {
+            "citation_id": "example-citation"
+          }
+        ],
+        "message_id": "example-assistant-message"
+      }
+    }
+  ]
+}
