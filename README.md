@@ -1,8 +1,8 @@
 # Product Knowledge RAG
 
-> 正在将课程底座演进为“设备技术支持与知识工作台”。M0正确性修复已通过总控审查；M1已实现知识身份、可恢复解析、图资产与摘要缓存、结构化切片、v2双路索引、验证发布/回滚和隔离迁移，阶段自验完成，等待总控审查M1。[完整优化计划](docs/plans/2026-10-22-technical-support-optimization.md)与[可视化路线图](docs/brainstorming/2026-10-22/support-plan.html)保留设计背景。
+> 正在将课程底座演进为“设备技术支持与知识工作台”。M0正确性修复已通过总控审查；M1已实现知识身份、可恢复解析、图资产与摘要缓存、结构化切片、v2双路索引、验证发布/回滚和隔离迁移，已通过第二轮总控审查，授权开始M2统一API与持久任务阶段。[完整优化计划](docs/plans/2026-10-22-technical-support-optimization.md)与[可视化路线图](docs/brainstorming/2026-10-22/support-plan.html)保留设计背景。
 
-> 开发以[总清单](docs/plans/DEVELOPMENT_TODO.md)、[进度](docs/development/PROGRESS.md)和[阶段审查](docs/development/REVIEW_STATUS.md)为准。M1通过同步领域服务贯通注册到回看，见[导入架构](docs/architecture/ingestion-pipeline.md)与[迁移运行手册](docs/runbooks/index-migration.md)。旧公开导入/查询入口保持原链路；M2任务API和Vue 3前端尚未实现，当前未进入M2。
+> 开发以[总清单](docs/plans/DEVELOPMENT_TODO.md)、[进度](docs/development/PROGRESS.md)和[阶段审查](docs/development/REVIEW_STATUS.md)为准。M1通过同步领域服务贯通注册到回看，见[导入架构](docs/architecture/ingestion-pipeline.md)与[迁移运行手册](docs/runbooks/index-migration.md)。旧公开导入/查询入口保持原链路；M2任务API和Vue 3前端尚未实现；M2-01至M2-12已获实现授权，M3待M2阶段验收，详见[M1第二轮总控结论](docs/development/reviews/M1-review-r2.md)。
 
 > 原课程全部产品资料已完成入库：85 份 PDF + 1 份 Excel，6,612 个切片。范围、验证与续传记录见 [全量导入记录](docs/COURSE_IMPORT.md)。
 
