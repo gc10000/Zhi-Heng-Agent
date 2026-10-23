@@ -55,11 +55,11 @@
 **文件：**`app/ingestion/models.py`; `app/ingestion/parsers/base.py`; `app/ingestion/parsers/router.py`; `tests/unit/test_parser_routing.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M1-03.1** 定义 ParsedDocument/Block/SourceRef。
-- [ ] **M1-03.2** 从旧 node_entry 提取格式路由。
-- [ ] **M1-03.3** 扩展名大小写归一，按实际类型验证 PDF/MD/XLSX。
-- [ ] **M1-03.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_parser_routing.py -q。
-- [ ] **M1-03.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M1-03.1** 定义 ParsedDocument/Block/SourceRef。
+- [x] **M1-03.2** 从旧 node_entry 提取格式路由。
+- [x] **M1-03.3** 扩展名大小写归一，按实际类型验证 PDF/MD/XLSX。
+- [x] **M1-03.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_parser_routing.py -q。
+- [x] **M1-03.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**不支持格式在入口返回错误；解析降级带质量标记；原文/模型图像描述字段分离。
 

@@ -70,7 +70,7 @@
 
 - [x] **M1-01** [知识数据与稳定标识](tasks/M1-knowledge.md#m1-01) · 依赖：M0-09
 - [x] **M1-02** [注册表与幂等仓储](tasks/M1-knowledge.md#m1-02) · 依赖：M1-01
-- [ ] **M1-03** [解析契约与格式路由](tasks/M1-knowledge.md#m1-03) · 依赖：M1-01
+- [x] **M1-03** [解析契约与格式路由](tasks/M1-knowledge.md#m1-03) · 依赖：M1-01
 - [ ] **M1-04** [长 PDF 分段与恢复](tasks/M1-knowledge.md#m1-04) · 依赖：M1-03
 - [ ] **M1-05** [Excel 与 Markdown 解析](tasks/M1-knowledge.md#m1-05) · 依赖：M1-03
 - [ ] **M1-06** [图片资产、摘要缓存与限流](tasks/M1-knowledge.md#m1-06) · 依赖：M1-02,M1-03

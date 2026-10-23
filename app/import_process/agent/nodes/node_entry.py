@@ -6,6 +6,7 @@ from app.core.logger import logger
 from app.import_process.agent.state import ImportGraphState, create_default_state
 from app.utils.format_utils import format_state
 from app.utils.task_utils import add_running_task, add_done_task
+from app.ingestion.parsers.router import detect_format
 
 def node_entry(state: ImportGraphState) -> ImportGraphState:
     """
@@ -30,19 +31,22 @@ def node_entry(state: ImportGraphState) -> ImportGraphState:
     document_path = state.get("local_file_path", "")
     if not document_path:
         logger.error(f"【{func_name}】核心参数缺失：工作流状态中未配置local_file_path，文件路径为空")
-        return state
+        raise ValueError('原件路径不能为空')
 
     # 2. 根据文件后缀判断类型，设置对应解析开关
-    if document_path.endswith(".pdf"):
+    kind = detect_format(document_path)
+    state['is_pdf_read_enabled'] = False
+    state['is_md_read_enabled'] = False
+    if kind == 'pdf':
         logger.info(f"【{func_name}】文件类型校验通过：{document_path} → PDF格式，开启PDF解析流程")
         state["is_pdf_read_enabled"] = True
         state["pdf_path"] = document_path
-    elif document_path.endswith(".md"):
+    elif kind == 'md':
         logger.info(f"【{func_name}】文件类型校验通过：{document_path} → MD格式，开启MD解析流程")
         state["is_md_read_enabled"] = True
         state["md_path"] = document_path
     else:
-        logger.warning(f"【{func_name}】文件类型校验失败：{document_path} → 不支持的格式，仅支持.pdf/.md")
+        raise ValueError('旧导入图不支持Excel，请使用M1格式解析流水线')
 
     # 3. 提取文件无后缀纯名称，作为全局业务标识
     file_name = os.path.basename(document_path)
