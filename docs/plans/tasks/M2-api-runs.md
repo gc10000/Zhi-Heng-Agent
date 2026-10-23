@@ -9,7 +9,7 @@
 
 ## 进入条件与执行约束
 
-M0/M1均已通过总控审查；2026-10-23授权M2-01至M2-12按依赖连续执行，尚未开始实现。阶段末提交M2-submission.md，等待总控审查后再进入M3；范围见[M1第二轮总控结论](../../development/reviews/M1-review-r2.md)。
+M0/M1均已通过总控审查；2026-10-23授权M2-01至M2-12按依赖连续执行，当前逐项实现。阶段末提交M2-submission.md，等待总控审查后再进入M3；范围见[M1第二轮总控结论](../../development/reviews/M1-review-r2.md)。
 
 - 以下文件均为**计划创建/修改**，不表示已经存在；执行前用 `rg` 核对真实接口与源码。
 - 本阶段遵守总清单中的 Vue 3、中文注释、数据隔离、配置脱敏和完成证据规则。
@@ -55,11 +55,11 @@ M0/M1均已通过总控审查；2026-10-23授权M2-01至M2-12按依赖连续执�
 **文件：**`app/conversations/models.py`; `app/conversations/repository.py`; `app/conversations/api.py`; `tests/contract/test_conversation_ownership.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M2-03.1** 拆 conversation/message ID。
-- [ ] **M2-03.2** 按 owner 和 kb 授权，历史游标分页。
-- [ ] **M2-03.3** 设备选择保存逐轮 snapshot，不回写旧消息。
-- [ ] **M2-03.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_conversation_ownership.py -q。
-- [ ] **M2-03.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M2-03.1** 拆 conversation/message ID。
+- [x] **M2-03.2** 按 owner 和 kb 授权，历史游标分页。
+- [x] **M2-03.3** 设备选择保存逐轮 snapshot，不回写旧消息。
+- [x] **M2-03.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_conversation_ownership.py -q。
+- [x] **M2-03.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**用户 B 无法读 A 的目录/历史；同时间历史分页无遗漏；切换设备后旧消息主体不改变。
 

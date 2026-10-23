@@ -187,3 +187,7 @@ app.main:create_app(settings=None,resource_factory=open_resources)建立/api/v1�
 ## M2-02实际身份契约
 
 POST /api/v1/auth/login校验明确Origin与Mongo持久来源限流，返回user（user_id/username/role/kb_ids）和csrf_token及support_session HttpOnly/SameSite Strict Cookie；GET /me恢复公开身份与CSRF；POST /auth/logout需Origin和X-CSRF-Token并撤销会话。账号/会话/限流在users/login_sessions/login_attempts，密码scrypt含随机salt，原始会话令牌不入库。401登录失效、403同源/CSRF/功能权限、404具体资源越权；字段验证不回显输入。viewer无维护权限，所有角色的kb范围仍必须显式授权。账号仅本机create_user.py交互创建，无默认账号密码，不改真实.env。
+
+## M2-03实际会话与消息契约
+
+GET/POST /api/v1/conversations、PATCH /conversations/{id}（expected_version）、GET /conversations/{id}/messages。目录按字符串ID游标，消息按原子ordinal游标，limit为1–100，消息cursor非负整数；允许序号间隙，不以时间戳分页。每次查询按owner及当前kb授权，越权404。消息message_id由run_id和role稳定生成；同ID不同快照409，product_snapshot/citations持久后不可变。会话创建的product_ids为默认选择，实际逐轮快照在创建run时冻结，不改旧消息。
