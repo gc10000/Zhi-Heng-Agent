@@ -32,12 +32,25 @@ def test_invalid_vectors_block_validation(bad):
     with pytest.raises(ValueError):publisher.inspect(revision)
 
 
+@pytest.mark.parametrize('sparse',[{1:0.},{1:-0.5}])
+def test_nonpositive_learned_sparse_cannot_be_published(sparse):
+    publisher,revision,row=fixture();row['sparse_vector']=sparse
+    with pytest.raises(ValueError):publisher.inspect(revision)
+
+
 def test_picture_reference_requires_asset_validator():
     publisher,revision,row=fixture()
     row['metadata']['asset_ids']=['missing']
     hashes={'c':fingerprint(V2Index.payload(row))}
     revision['stages']['indexed'].update(payload_hashes=hashes,manifest_sha256=fingerprint(hashes))
     with pytest.raises(ValueError,match='图片资产'):publisher.inspect(revision)
+
+
+def test_parent_cannot_point_outside_current_revision():
+    publisher,revision,row=fixture();row['metadata']['parent_chunk_uid']='foreign'
+    hashes={'c':fingerprint(V2Index.payload(row))}
+    revision['stages']['indexed'].update(payload_hashes=hashes,manifest_sha256=fingerprint(hashes))
+    with pytest.raises(ValueError,match='父'):publisher.inspect(revision)
 
 
 @pytest.mark.parametrize('bad',['pending','foreign','decode','hash'])

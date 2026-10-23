@@ -1,6 +1,6 @@
 # 开发公共契约与任务交接边界
 
-日期：2026-10-22。状态：**待实现的 v1 设计契约**，不表示接口已经可调用。关联：[开发总清单](DEVELOPMENT_TODO.md)、[原始优化方案](2026-10-22-technical-support-optimization.md)。
+日期：2026-10-23。状态：M0/M1领域接口已按实际实现冻结；M2及以后API/事件仍为待实现v1契约，不表示已可调用。关联：[开发总清单](DEVELOPMENT_TODO.md)、[原始优化方案](2026-10-22-technical-support-optimization.md)。
 
 ## 1. 稳定接口和文件归属
 
@@ -15,8 +15,9 @@
 | `SourceRef` | M1-01，`app/knowledge/models.py` | document_id/revision_id、kind、page/section_path/sheet/cell/bbox 可空；明确原件与描述来源 | 解析、切片、引用、PDF、评测标签 |
 | `ParsedDocument` | M1-03，`app/ingestion/models.py` | pages/blocks/tables/images、原件 hash、parser/version、质量标记、source_refs | 切片/图像/索引 |
 | 知识仓储 | M1-02，`app/knowledge/repository.py` | `register_document`、`create_revision`、`get_active_revisions`；显式接收 kb/owner 范围 | 上传、索引、发布、检索 |
-| 发布服务 | M1-09，`app/knowledge/publishing.py` | `validate_revision(document_id, revision_id)`、`publish_revision(document_id, revision_id, expected_active_revision_id)`；条件切换活动指针 | 维护者 API、迁移 |
-| 导入阶段 | M1-03/M2-10，`app/ingestion/runner.py` | `run_import(job_id, attempt)` 从对象键和检查点执行；过期 attempt 不可发布 | Linux Celery worker |
+| 发布服务 | M1-09，`app/knowledge/publishing.py` | `RevisionPublisher.validate(revision_id, attempt=...)`、`publish(revision_id, expected_active=...)`、`reconcile(document_id)`；范围由注入repo固定 | 后续维护者API、迁移 |
+| 同步领域导入 | M1-11，`app/ingestion/service.py` | `IngestionService.import_file(path, request_id=..., expected_active=...)`；原件/切片/资产按修订回看 | 本机领域调用、M2后续适配 |
+| 任务导入阶段（待实现） | M2-10，`app/ingestion/runner.py` | 计划`run_import(job_id, attempt)`从对象键和检查点执行；过期attempt不可发布 | Linux Celery worker |
 | 问答运行 | M2-04/11，`app/runs/service.py`、`query_runner.py` | 创建、领取、恢复/中断、终态与幂等；旧图经适配器接入 | API、Vue SSE、观测 |
 | SSE 消费 | M3-05，`useRunStream.ts` | 输入 run_id 与最后 seq，消费事件/快照，关闭订阅；取消单独调用后端 | ChatPage、Pinia run store |
 | 检索候选 | M4-02，`app/retrieval/models.py` | `RetrievalHit`、`QueryPlan`、`EvidencePack`；保留范围、修订、分数来源与实际入选证据 | 检索各节点、引用、评测 |
@@ -108,6 +109,8 @@ delta 约 50–100ms 合并，最终按压测调节；默认事件保留 24h，�
 - M3-01 建立固定脚本：`typecheck`（vue-tsc）、`build`（Vite）、`test:unit`（Vitest）、`test:e2e`（Playwright）；测试名过滤语法随锁定版本实测并更新计划。
 
 ## 6. 验证、配置与可选范围
+
+M1-11新增同步IngestionService接线已批准M1能力，无M2任务/API。import_file要求request_id/expected_active，支持同资料新修订；原件/解析JSON/原始配图快照写指定对象前缀，失败类型向外传播且仅当前staged attempt可置failed。恢复复用快照及摘要缓存；配置/图片输入变化须新修订。来源回看方法逐项复核仓储范围，完成旧请求不会自动激活已回滚版本。缺图/未解析远程图或摘要未就绪不能发布；PDF显式降级质量保留、标题跨段传播，结构版本为structure-2。V2Index验证完整字段类型，Mongo knowledge_chunk_claims唯一身份预留防止跨修订主键覆盖，要求同一v2集合对应同一注册表数据库；发布验证父关系同修订且无环，learned sparse必须正权重。公开任务接线与生产权限仍由M2承担。
 
 M1-10迁移工具接受显式source_id/name/original_key/original_sha256/chunk_ids及images(url/object_key/sha256)清单。dry-run零服务写；无清单退出2、报告缺项。backup_selection只读选定源并保存完整本地快照；restore_sample要求独立空Mongo和新Milvus/对象前缀，读回一致才生成recovery-report。migrate_batch在任何注册前检查恢复报告/快照hash，只允许1–3份m1_test隔离小样，按快照hash＋源身份checkpoint恢复；同名不合并，旧绝对图URL映射asset://ID，源坐标缺失仍null。全库发现/全量迁移不在当前授权。
 

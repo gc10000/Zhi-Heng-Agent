@@ -108,6 +108,7 @@ class MineruParser:
         self.max_pages=max_pages if max_pages is not None else int(os.getenv('MINERU_SEGMENT_MAX_PAGES','50'))
         self.max_bytes=max_bytes if max_bytes is not None else int(os.getenv('MINERU_SEGMENT_MAX_BYTES','100000000'))
         self.allow_native_fallback=allow_native_fallback
+        self.version=f'{provider.version}+structure-2/pages={self.max_pages}/bytes={self.max_bytes}/native={allow_native_fallback}'
 
     def parse(self,path,*,document_id,revision_id):
         import fitz
@@ -115,6 +116,7 @@ class MineruParser:
         base=self.work_dir/stable_id('parse-cache',revision_id,[document_id,digest,self.provider.version,self.max_pages,self.max_bytes,self.allow_native_fallback])
         segments=split_pdf(path,base/'inputs',max_pages=self.max_pages,max_bytes=self.max_bytes)
         blocks,images,flags=[],[],[]
+        headings={}
         for segment in segments:
             work=base/str(segment['segment_offset']);work.mkdir(parents=True,exist_ok=True)
             checkpoint=work/'segment.json'
@@ -148,6 +150,14 @@ class MineruParser:
                 if kind=='table': text=item.get('table_body','') or text
                 kind='heading' if kind=='text' and item.get('text_level') else kind
                 if kind not in {'text','heading','table','image','warning','steps'}: kind='text'
+                if kind=='heading':
+                    level=item.get('text_level',1)
+                    if not isinstance(level,int) or not 1<=level<=6:
+                        level=1;flags.append('heading_level_repaired')
+                    headings={n:title for n,title in headings.items() if n<level}
+                    headings[level]=text
+                heading_path=tuple(headings[n] for n in sorted(headings))
+                ref=ref.model_copy(update={'section_path':heading_path})
                 asset_ids=()
                 if kind=='image' and item.get('img_path'):
                     root=Path(result.get('root',work/'result')).resolve()
@@ -155,11 +165,11 @@ class MineruParser:
                     if not image_path.is_relative_to(root) or not image_path.is_file():
                         raise ProviderError('解析图片缺失或路径越界')
                     image_id=stable_id('image',revision_id,[bid])
-                    images.append(ParsedImage(image_id=image_id,local_path=str(image_path),context=text,source_refs=(ref,)))
                     asset_ids=(image_id,)
                     text=' '.join(item.get('image_caption',[])) or text
-                blocks.append(Block(block_id=bid,kind=kind,text=text,source_refs=(ref,),asset_ids=asset_ids))
+                    images.append(ParsedImage(image_id=image_id,local_path=str(image_path),context=' / '.join(heading_path)+'\n'+text,source_refs=(ref,)))
+                blocks.append(Block(block_id=bid,kind=kind,text=text,heading_path=heading_path,source_refs=(ref,),asset_ids=asset_ids))
         with fitz.open(path) as pdf:
             pages=tuple(Page(number=i+1,width=p.rect.width,height=p.rect.height,rotation=p.rotation) for i,p in enumerate(pdf))
         return ParsedDocument(document_id=document_id,revision_id=revision_id,original_sha256=digest,parser='mineru',
-                              parser_version=self.provider.version,quality_flags=tuple(sorted(set(flags))),pages=pages,blocks=tuple(blocks),images=tuple(images))
+                              parser_version=self.provider.version+'+structure-2',quality_flags=tuple(sorted(set(flags))),pages=pages,blocks=tuple(blocks),images=tuple(images))

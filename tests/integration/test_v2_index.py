@@ -12,8 +12,15 @@ def real_embedder():
     from dotenv import load_dotenv
     from pathlib import Path
     load_dotenv(Path(__file__).resolve().parents[2]/'.env')
-    from app.lm.embedding_utils import generate_embeddings
-    return generate_embeddings
+    from app.lm import embedding_utils
+    # 单元用例可能已在dotenv禁用时导入配置；真实夹具显式绑定当前环境，
+    # 避免用模块导入顺序决定是否错误回退到在线模型名称。
+    config=embedding_utils.embedding_config
+    config.bge_m3_path=os.environ['BGE_M3_PATH'];config.bge_device=os.getenv('BGE_DEVICE','cpu')
+    config.bge_fp16=os.getenv('BGE_FP16','').lower() in ('1','true')
+    from pathlib import Path
+    if not Path(config.bge_m3_path).is_dir():pytest.fail('BGE_M3_PATH须指向现有本地模型，不下载')
+    return embedding_utils.generate_embeddings
 
 
 @pytest.fixture
@@ -52,3 +59,10 @@ def test_real_dual_vector_index_scopes_and_idempotence(v2_setup,real_embedder):
     from app.knowledge.repository import KnowledgeRepository,ScopeError
     other=KnowledgeRepository(repo.db,kb_id=repo.kb_id,owner_id='other')
     with pytest.raises(ScopeError):index.search(other,'x',embedder=real_embedder,revision_snapshot=snapshot)
+    d2=repo.register_document('other-document',name='另一个资料')
+    r2=repo.create_revision(d2.document_id,'r2',original_sha256='b'*64,object_key='m1-test/other')
+    a2=repo.claim_attempt(r2.revision_id,expected_attempt=0)
+    collision=c.model_copy(update={'document_id':d2.document_id,'revision_id':r2.revision_id,
+        'source_refs':(SourceRef(document_id=d2.document_id,revision_id=r2.revision_id,kind='pdf',page=1),)})
+    with pytest.raises(ConflictError):
+        index.write_revision(repo,r2.revision_id,[collision],attempt=a2,embedder=lambda *a:pytest.fail('全局chunk身份冲突必须先拒绝'))

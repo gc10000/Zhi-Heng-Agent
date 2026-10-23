@@ -38,12 +38,17 @@ class AssetStore:
         with Image.open(BytesIO(data)) as decoded:decoded.load()
         digest=content_hash(data)
         key=self.prefix+stable_id('asset-object',revision_id,[document_id,digest])
-        self.client.put_object(self.bucket,key,BytesIO(data),len(data),content_type=media,metadata={'sha256':digest})
         asset=Asset(asset_id=image.image_id,document_id=document_id,revision_id=revision_id,sha256=digest,object_key=key,media_type=media,
                     source_refs=image.source_refs,description=description,description_status=status,description_cache_key=cache_key)
         existing=self.collection.find_one({'asset_id':asset.asset_id})
         if existing and any(existing[k]!=getattr(asset,k) for k in ('document_id','revision_id','sha256','object_key')):
             raise ValueError('资产身份内容冲突')
+        # 上传前预留不可变身份，避免错误/并发请求先写出不属于此资产的对象。
+        try:
+            self.collection.update_one({'asset_id':asset.asset_id,'document_id':document_id,'revision_id':revision_id,'sha256':digest,'object_key':key},
+                {'$setOnInsert':asset.model_dump(mode='json')},upsert=True)
+        except DuplicateKeyError:raise ValueError('资产身份内容冲突') from None
+        self.client.put_object(self.bucket,key,BytesIO(data),len(data),content_type=media,metadata={'sha256':digest})
         self.collection.update_one({'asset_id':asset.asset_id},{'$set':asset.model_dump(mode='json')},upsert=True)
         return asset
 

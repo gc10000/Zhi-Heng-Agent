@@ -26,7 +26,7 @@ def test_mongo_cache_claim_and_shared_rate_reservation(mongo_db):
     assert sorted(slots)==[100+2*i for i in range(8)]
 
 
-def test_original_image_and_description_are_linked_in_isolated_objects(mongo_db,tmp_path):
+def test_original_image_and_description_are_linked_in_isolated_objects(mongo_db,tmp_path,monkeypatch):
     from minio import Minio
     from PIL import Image
     from types import SimpleNamespace
@@ -38,7 +38,7 @@ def test_original_image_and_description_are_linked_in_isolated_objects(mongo_db,
     path=tmp_path/'image.png';path.write_bytes(data.getvalue())
     document_id=str(uuid4());revision_id=str(uuid4())
     parsed=ParsedDocument(document_id=document_id,revision_id=revision_id,original_sha256='a'*64,parser='test',parser_version='1',
-        images=(ParsedImage(image_id=str(uuid4()),local_path=str(path),context='独立拓扑测试',source_refs=(SourceRef(document_id=document_id,revision_id=revision_id,kind='pdf',page=1),)),))
+        images=(ParsedImage(image_id=str(uuid4()),local_path=str(path),context='独立拓扑测试 '+revision_id,source_refs=(SourceRef(document_id=document_id,revision_id=revision_id,kind='pdf',page=1),)),))
     client=Minio(os.environ['MINIO_ENDPOINT'],access_key=os.environ['MINIO_ACCESS_KEY'],secret_key=os.environ['MINIO_SECRET_KEY'],secure=os.getenv('MINIO_SECURE','').lower()=='true')
     store=AssetStore(mongo_db,client,bucket=os.environ['MINIO_BUCKET_NAME'],prefix='m1-test/'+mongo_db.name+'/')
     calls=[]
@@ -51,3 +51,7 @@ def test_original_image_and_description_are_linked_in_isolated_objects(mongo_db,
     assert result.blocks[-1].source_refs[0].kind=='image_description'
     process_images(parsed,store,service,model='fake-model',prompt_version='1')
     assert len(calls)==1
+    def forbidden_upload(*args,**kwargs):pytest.fail('身份冲突必须在上传前拒绝')
+    monkeypatch.setattr(client,'put_object',forbidden_upload)
+    with pytest.raises(ValueError,match='身份'):
+        store.put_image(parsed.images[0],document_id='different-document',revision_id=revision_id,data=data.getvalue())

@@ -19,6 +19,12 @@ class RevisionPublisher:
         if len(rows)!=manifest['count'] or payloads!=manifest['payload_hashes'] or fingerprint(payloads)!=manifest['manifest_sha256']:
             raise ValueError('索引数量/完整载荷hash不符')
         assets=set()
+        parents={row['chunk_uid']:row['metadata'].get('parent_chunk_uid') for row in rows}
+        for uid in parents:
+            visited=set();cursor=uid
+            while cursor is not None:
+                if cursor not in parents or cursor in visited:raise ValueError('切片父关系跨修订或成环')
+                visited.add(cursor);cursor=parents[cursor]
         for row in rows:
             if content_hash(row['text'].encode())!=row['content_sha256']:raise ValueError('切片正文hash不符')
             self.index.validate_vectors(row['dense_vector'],row['sparse_vector'],self.index.dense_dim)

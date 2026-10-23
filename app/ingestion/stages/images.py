@@ -41,14 +41,16 @@ class ImageSummaryService:
 
 
 class VisionDescriber:
-    def __init__(self,client,model,prompt):self.client,self.model,self.prompt=client,model,prompt
+    def __init__(self,client,model,prompt,*,request_options=None):
+        self.client,self.model,self.prompt=client,model,prompt
+        self.request_options=dict(request_options or {})
     def __call__(self,data,context):
         from io import BytesIO
         from PIL import Image
         with Image.open(BytesIO(data)) as decoded:media=Image.MIME.get(decoded.format)
         response=self.client.chat.completions.create(model=self.model,messages=[{'role':'user','content':[
             {'type':'text','text':self.prompt+'\n上下文：'+context},
-            {'type':'image_url','image_url':{'url':'data:'+media+';base64,'+base64.b64encode(data).decode()}}]}],temperature=0)
+            {'type':'image_url','image_url':{'url':'data:'+media+';base64,'+base64.b64encode(data).decode()}}]}],temperature=0,**self.request_options)
         return response.choices[0].message.content
 
 

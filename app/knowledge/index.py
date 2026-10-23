@@ -32,6 +32,10 @@ class V2Index:
             raise ValueError('已有v2集合字段不兼容，拒绝覆盖')
         if int(fields['ordinal']['type'])!=int(DataType.INT32) or int(fields['dense_vector']['params']['dim'])!=self.dense_dim:
             raise ValueError('已有v2序号/向量维度不兼容')
+        expected={name:DataType.VARCHAR for name in ('chunk_uid','owner_id','kb_id','document_id','revision_id','text','content_sha256')}
+        expected.update(ordinal=DataType.INT32,metadata=DataType.JSON,dense_vector=DataType.FLOAT_VECTOR,sparse_vector=DataType.SPARSE_FLOAT_VECTOR)
+        if any(int(fields[name]['type'])!=int(kind) for name,kind in expected.items()) or not fields['chunk_uid'].get('is_primary'):
+            raise ValueError('已有v2字段类型或主键不兼容')
         self.client.load_collection(self.collection)
 
     def revision_rows(self,repo,revision_id,*,vectors=False):
@@ -47,6 +51,7 @@ class V2Index:
                 if not batch:break
                 rows.extend(batch)
         finally:iterator.close()
+        rows.sort(key=lambda row:(row['ordinal'],row['chunk_uid']))
         return rows
 
     @staticmethod
@@ -58,7 +63,7 @@ class V2Index:
     def validate_vectors(dense,sparse,dimension):
         if len(dense)!=dimension or not all(math.isfinite(float(v)) for v in dense) or not any(float(v) for v in dense):
             raise ValueError('稠密向量为空/维度错误/非有限值')
-        if not sparse or any(int(k)<0 or not math.isfinite(float(v)) for k,v in sparse.items()):
+        if not sparse or any(int(k)<0 or not math.isfinite(float(v)) or float(v)<=0 for k,v in sparse.items()):
             raise ValueError('learned sparse向量缺失或非法')
 
     def write_revision(self,repo,revision_id,chunks,*,attempt,embedder):
@@ -78,6 +83,18 @@ class V2Index:
         reserved=repo.revisions.update_one(repo.scope|{'revision_id':revision_id,'attempt':attempt,'status':'staged',
             '$or':[{'index_identity':{'$exists':False}},{'index_identity':identity}]},{'$set':{'index_identity':identity}})
         if not reserved.matched_count:raise ConflictError('修订索引载荷已冻结或attempt过期')
+        # Milvus主键是全集合唯一，范围过滤不能阻止跨修订upsert覆盖。
+        # Mongo唯一_id预留身份，兼容已写入行也在编码前读回复核。
+        claims=repo.db['knowledge_chunk_claims']
+        for uid,digest in payload_hashes.items():
+            key={'_id':fingerprint([self.collection,uid])}
+            repo._insert_once(claims,key,key|{'request_fingerprint':digest,'revision_id':revision_id})
+        uids=list(payload_hashes)
+        for start in range(0,len(uids),64):
+            existing=self.client.get(collection_name=self.collection,ids=uids[start:start+64],
+                output_fields=list(next(iter(payloads.values()))),consistency_level='Strong')
+            if any(fingerprint(self.payload(row))!=payload_hashes[row['chunk_uid']] for row in existing):
+                raise ConflictError('chunk_uid已被不同业务载荷占用')
         prior=self.revision_rows(repo,revision_id)
         if any(row['chunk_uid'] not in payload_hashes or fingerprint(self.payload(row))!=payload_hashes[row['chunk_uid']] for row in prior):
             raise ConflictError('同修订已有不同切片，须创建新修订')

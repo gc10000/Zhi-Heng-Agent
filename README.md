@@ -1,13 +1,13 @@
 # Product Knowledge RAG
 
-> 已选定“设备技术支持与知识工作台”作为个人项目改造方向。[完整优化计划](docs/plans/2026-10-22-technical-support-optimization.md)包含代码审查、GitHub 源码复用、前后端设计与八阶段验收；[可视化路线图](docs/brainstorming/2026-10-22/support-plan.html)可直接用浏览器打开。当前处于规划阶段，尚未实施产品化改造。
+> 正在将课程底座演进为“设备技术支持与知识工作台”。M0正确性修复已通过总控审查；M1已实现知识身份、可恢复解析、图资产与摘要缓存、结构化切片、v2双路索引、验证发布/回滚和隔离迁移，阶段自验完成，等待总控审查M1。[完整优化计划](docs/plans/2026-10-22-technical-support-optimization.md)与[可视化路线图](docs/brainstorming/2026-10-22/support-plan.html)保留设计背景。
 
-> 后续开发以 [开发 ToDo 总清单](docs/plans/DEVELOPMENT_TODO.md)为入口：8 阶段、78 项任务，包含文件、依赖、步骤和验收条件；前端使用 **Vue 3**。每项开发同步[进度与接续点](docs/development/PROGRESS.md)、[变更记录](docs/development/CHANGELOG.md)和任务验收证据。M0 已通过总控审查，当前下一项为 **M1-01 知识数据与稳定标识**，授权范围见[阶段审查](docs/development/REVIEW_STATUS.md)。
+> 开发以[总清单](docs/plans/DEVELOPMENT_TODO.md)、[进度](docs/development/PROGRESS.md)和[阶段审查](docs/development/REVIEW_STATUS.md)为准。M1通过同步领域服务贯通注册到回看，见[导入架构](docs/architecture/ingestion-pipeline.md)与[迁移运行手册](docs/runbooks/index-migration.md)。旧公开导入/查询入口保持原链路；M2任务API和Vue 3前端尚未实现，当前未进入M2。
 
 > 原课程全部产品资料已完成入库：85 份 PDF + 1 份 Excel，6,612 个切片。范围、验证与续传记录见 [全量导入记录](docs/COURSE_IMPORT.md)。
 
 
-面向产品技术支持与运维文档的知识问答系统。以培训配套「掌柜智库 RAG」代码为基础，当前阶段完成运行代码迁移与配置梳理，优先验证原有流程。
+面向设备技术支持与运维文档的知识问答系统。以培训配套「掌柜智库 RAG」代码为基础，保留课程来源及原知识数据，逐阶段增加可追溯和可恢复能力。
 
 来源与授权情况见 [NOTICE.md](NOTICE.md)。
 

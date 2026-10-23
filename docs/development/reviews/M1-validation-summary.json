@@ -1,0 +1,89 @@
+{
+  "notice": "明确脱敏摘要，按真实原始输出和JUnit动态提取；不是原始报告替代品，原件留本地evidence。",
+  "stage": {
+    "command": "$env:M1_TEST_DB='m1_test_20261023_stage'; .venv/Scripts/python.exe -m pytest tests/unit tests/integration tests/contract -m 'not live_provider' -q --junitxml=docs/development/evidence/M1-stage-final.xml",
+    "exit_code": 0,
+    "passed": 181,
+    "deselected": 2,
+    "skipped": 0,
+    "seconds_junit": 176.717,
+    "groups": {
+      "unit": 154,
+      "integration": 15,
+      "contract": 12
+    }
+  },
+  "legacy_reimport": {
+    "command": ".venv/Scripts/python.exe -m unittest discover -s test -p test_document_reimport.py -q",
+    "exit_code": 0,
+    "passed": 3,
+    "seconds": 0.636,
+    "fake_io": true
+  },
+  "live": {
+    "command": "$env:M1_TEST_DB='m1_test_20261023_live'; $env:M1_LIVE_PROVIDER='1'; .venv/Scripts/python.exe -m pytest tests/integration/test_ingestion_live.py -m live_provider -q",
+    "exit_code": 0,
+    "passed": 1,
+    "seconds": 77.2,
+    "fake": false,
+    "vision_calls": 1,
+    "cache_retry": true,
+    "mineru_pages": 1,
+    "document_chunk_counts": [
+      5,
+      2
+    ],
+    "image_sha256": "3735b6ffe0d2e45c734199ff0ca775d17607ac8a46d49285c02bcfc9d0259a26",
+    "image_size": [
+      960,
+      300
+    ]
+  },
+  "current_code_live_recheck": {
+    "exit_code": 0,
+    "passed": true,
+    "provider_calls": 0
+  },
+  "syntax": {
+    "exit_code": 0,
+    "python_files": 25
+  },
+  "raw_evidence": [
+    {
+      "path": "docs/development/evidence/M1-stage-first.txt",
+      "sha256": "0c717ec4537e2b6769c83b5871b54b5ae7f1ae311554f7de3af6605acaeaa5ac"
+    },
+    {
+      "path": "docs/development/evidence/M1-stage-first.xml",
+      "sha256": "65f34e02e3f0402311c311a72fb2d7559fe86650e4ea62b8d984a9b274209de3"
+    },
+    {
+      "path": "docs/development/evidence/M1-stage-final.txt",
+      "sha256": "5dcfa5c16edac05a6dc4f8806561b507ddbf19694e9acbe352e4ce62658e57c7"
+    },
+    {
+      "path": "docs/development/evidence/M1-stage-final.xml",
+      "sha256": "91603587e8f39cda4ec557381bafe4f3722dc68d6e9c86951ac91bd6d178cca6"
+    },
+    {
+      "path": "docs/development/evidence/M1-stage-reimport.txt",
+      "sha256": "f263427de7eb5fb0c0a8edd4ac5482d48a846a59799f96f8517b991e765d7ba4"
+    },
+    {
+      "path": "docs/development/evidence/M1-11-live-first.txt",
+      "sha256": "573aaa35a5b3a283bd037620565b8fba5d0e0c24e9cdfd0150392178f13cb483"
+    },
+    {
+      "path": "docs/development/evidence/M1-11-live-report.json",
+      "sha256": "8c34f76c320e42195a8163b5f1042e810261fa8f0b96dcd8f62501dd0d4aa43d"
+    },
+    {
+      "path": "docs/development/evidence/M1-11-live-recheck.json",
+      "sha256": "18a5f285b02591a6ee9f4d8efa27bfe47fafb4c88beb9f79a10e7e8ee14c6b79"
+    },
+    {
+      "path": "docs/development/evidence/M1-syntax.json",
+      "sha256": "f747d519ae06ec36bea29def13bb119d0360a3dc325899a7bbd476acd8b1f38f"
+    }
+  ]
+}

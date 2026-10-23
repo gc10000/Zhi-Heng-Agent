@@ -442,6 +442,8 @@ RAG 的直接参考：kotaemon 的证据格式化与内联引用实现，Dify �
 
 ### M1：文档注册、版本与解析管线
 
+2026-10-23实施对齐：M1-01至11按详细阶段任务落地，同步领域入口为app/ingestion/service.py，发布实际方法为RevisionPublisher.validate/publish/reconcile，见公共契约。旧资料无统一原件注册表，迁移采用人工核对source_id/原件key/hash/chunk_ids/旧图映射清单，当前仅隔离三资料备份恢复及迁移；生产全库自动发现/公开撤回API留后续授权。M2任务runner和API未提前创建。
+
 **依赖：**M0。**产物：**稳定资料 ID、可恢复产物与不会先删旧资料的发布路径。
 
 - 定义 products、documents、revisions、chunks/assets 模型与索引；建立旧 file_title/MinIO 对象映射。

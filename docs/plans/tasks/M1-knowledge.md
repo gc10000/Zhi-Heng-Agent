@@ -173,15 +173,17 @@
 <a id="m1-11"></a>
 ### M1-11：M1 阶段验收
 
+阶段接线调整：新增`app/ingestion/service.py`、`app/knowledge/originals.py`同步领域入口及原件/解析/原图快照，用于注册→解析→切片→索引→校验→发布→检索→回看的真实贯通；不建立M2任务/API。实际旧入口未整体替换。PDF标题传播、索引完整schema/主键身份、原图重试快照、用途传播与发布父关系等自查修复纳入本项回归，保留各红测证据，见ADR-021与任务记录。
+
 **依赖：**M1-10。
 **文件：**`docs/development/records/M1-11.md`; `docs/runbooks/index-migration.md`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M1-11.1** 实测同名/重试/失败发布/回滚。
-- [ ] **M1-11.2** 对 PDF/Excel/图片逐来源抽检。
-- [ ] **M1-11.3** 保存迁移清单和活动修订快照。
-- [ ] **M1-11.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit tests/integration -m 'not live_provider' -q。
-- [ ] **M1-11.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M1-11.1** 实测同名/重试/失败发布/回滚。
+- [x] **M1-11.2** 对 PDF/Excel/图片逐来源抽检。
+- [x] **M1-11.3** 保存迁移清单和活动修订快照。
+- [x] **M1-11.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit tests/integration -m 'not live_provider' -q。
+- [x] **M1-11.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**一份新资料贯通注册→解析→检索→回看；小样恢复演练通过后才考虑全量迁移。
 
