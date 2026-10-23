@@ -131,12 +131,12 @@ M0/M1均已通过总控审查；2026-10-23授权M2-01至M2-12按依赖连续执�
 **文件：**`app/knowledge/asset_api.py`; `app/knowledge/citation_api.py`; `app/clients/minio_utils.py`; `tests/contract/test_asset_access.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M2-08.1** 按 kb/revision 授权图片/PDF/引用。
-- [ ] **M2-08.2** PDF Range/206/416。
-- [ ] **M2-08.3** 先映射旧图片并验证，再单独管理桶策略。
-- [ ] **M2-08.4** 限制外部图片来源。
-- [ ] **M2-08.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_asset_access.py -q。
-- [ ] **M2-08.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M2-08.1** 按 kb/revision 授权图片/PDF/引用。
+- [x] **M2-08.2** PDF Range/206/416。
+- [x] **M2-08.3** 先映射旧图片并验证，再单独管理桶策略。
+- [x] **M2-08.4** 限制外部图片来源。
+- [x] **M2-08.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_asset_access.py -q。
+- [x] **M2-08.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**越权引用/原件均被拒绝；旧图映射可回看；服务 import 不改桶策略；只在测试桶验证收紧访问。
 

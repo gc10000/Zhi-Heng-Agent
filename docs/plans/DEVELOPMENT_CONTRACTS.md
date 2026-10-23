@@ -207,3 +207,7 @@ POST /runs/{id}/confirm-product要求expected_version/product_ids，校验当前
 取消意图存在但原执行租约失效时标interrupted（未获得执行器停止确认）；未开始执行/人工等待无租约的取消可由扫描直接收敛cancelled。
 
 M2-07知识数据使用显式M2_KNOWLEDGE_OWNER_ID的单组织归属，用户当前kb授权仍必须匹配；个人会话/运行不共享。产品需knowledge_product_kbs显式绑定kb。上传接收multipart file/kb_id/product_ids(JSON列表)/client_request_id，可指定document_id建立新修订；purpose默认unknown。请求绑定原件hash和元数据，先登记不可变修订/任务，再保存随机对象键，成功后202；实际导入/发布在后续执行任务或维护API完成。旧课程资料不自动接管。
+
+## M2-08实际资产契约
+
+上传响应新增original_asset_id。GET /assets/{id}先授权组织owner+当前kb+修订，原件/图片验SHA256；PDF返回Accept-Ranges及单段bytes 206，无效/多段416含Content-Range bytes */size，完整200。撤回不删历史原件。GET /runs/{rid}/citations/{cid}需个人run和该轮入选citation，复核资料/图片修订，返回原文与display_text/asset_urls（仅登记asset://）；不对任意外部图片发请求。旧图映射只接受维护者显式对象/hash清单，完整解码后登记稳定ID；旧桶策略不改。旧get_minio_client不再在import或首次调用建桶/设置公开策略，运维需事先准备桶。

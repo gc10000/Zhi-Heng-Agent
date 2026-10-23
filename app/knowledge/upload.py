@@ -70,13 +70,15 @@ class UploadService:
                    'state': 'preparing', 'request_id': request_id,
                    'expected_active': original['active_revision_id'] if original else None})
         if saved['state'] == 'accepted':
-            return {k: saved[k] for k in ('document_id', 'revision_id', 'job_id')}
+            return {k: saved[k] for k in ('document_id', 'revision_id', 'job_id', 'original_asset_id') if k in saved}
         document = repo.register_document(request_id, name=name, product_ids=product_ids, purpose=purpose) if original is None else None
         did = original['document_id'] if original else document.document_id
         revision = repo.create_revision(did, request_id, original_sha256=content_hash(data), object_key=saved['object_key'])
         self.gateway.originals.put(saved['object_key'], data, media_type=media_type)
+        from app.knowledge.asset_api import original_asset
+        aid = original_asset(self.gateway, repo.get_revision(revision.revision_id), media_type=media_type, name=name)
         job = self.gateway.jobs.register(user, repo.get_revision(revision.revision_id), original_name=name,
                                          original_format=kind, expected_active=saved['expected_active'])
-        result = {'document_id': did, 'revision_id': revision.revision_id, 'job_id': job['job_id']}
+        result = {'document_id': did, 'revision_id': revision.revision_id, 'job_id': job['job_id'], 'original_asset_id': aid}
         self.uploads.update_one(key | {'request_fingerprint': signature}, {'$set': result | {'state': 'accepted'}})
         return result

@@ -30,6 +30,8 @@ class KnowledgeGateway:
         self.products = ProductRepository(db, owner_id=owner_id)
         self.product_kbs = db.knowledge_product_kbs
         self.product_kbs.create_index([('owner_id', 1), ('kb_id', 1), ('product_id', 1)], unique=True)
+        db.knowledge_original_assets.create_index('asset_id', unique=True)
+        db.knowledge_legacy_assets.create_index('asset_id', unique=True)
 
     def repo(self, kb):
         return KnowledgeRepository(self.db, kb_id=kb, owner_id=self.owner_id)

@@ -173,3 +173,7 @@ RUN_LEASE_SECONDS默认60秒，执行器需定期续约；RUN_PENDING_SECONDS默
 M2_KNOWLEDGE_OWNER_ID指定当前单组织知识owner，用户的kb_ids仍限定读取范围；不默认接管旧资料owner。M2_OBJECT_BUCKET指定已存在桶，M2_OBJECT_PREFIX指定独立相对前缀（例如knowledge-api-v2/），新API不建桶/改策略；原件随机key，名称仅展示。M2_MILVUS_COLLECTION须为独立v2集合且不同于CHUNKS_COLLECTION，复用MILVUS_URL；上传不要求Milvus或模型在线，索引/发布时才连接。MINIO_ENDPOINT/MINIO_ACCESS_KEY/MINIO_SECRET_KEY及可选MINIO_SECURE沿用连接变量，但绝不打印值。缺配置仅相关端点503列变量名/用途/根目录.env，身份/会话等仍可用。UPLOAD_MAX_BYTES默认100000000字节，正整数；multipart元数据最多另64KiB，文件不支持路径名。
 
 POST /products为维护者注册产品及显式kb关联；GET目录限当前组织+kb。POST /documents接受file、kb_id、client_request_id、product_ids（JSON列表）、purpose及可选document_id（同资料新修订），成功202返回document_id/revision_id/job_id；job pending/uploaded不表示已索引或发布。GET import-jobs返回阶段/attempt/可重试标记，retry需维护者/版本及错误可重试。修订发布/回滚复用M1真实产物验证和CAS；withdraw只撤活动指针，历史不删。
+
+## M2受控原件和旧图映射
+
+GET /assets/{asset_id}先复核组织资料/当前kb/修订再取对象并验hash，PDF支持单段Range的200/206/416；无签名URL外传。POST documents返回original_asset_id，引用通过GET /runs/{run_id}/citations/{citation_id}读取该run实际持久入选快照，外部图片不自动抓取，登记asset://转换受控路径。旧图片用`.venv/Scripts/python.exe scripts/admin/map_legacy_asset.py --manifest <本地JSON> --kb <授权知识库>`显式核验并映射；清单为document_id/revision_id/bucket/object_key/expected_sha256五个字段，不上传内部清单。脚本只读源图/完整解码并写映射，不改对象或策略。旧get_minio_client首次使用才创建客户端，不再自动建桶/公开桶；需预先准备原有桶，现有策略保持原状。禁止提前收紧课程图片桶。
