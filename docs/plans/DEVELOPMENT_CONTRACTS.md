@@ -109,6 +109,8 @@ delta 约 50–100ms 合并，最终按压测调节；默认事件保留 24h，�
 
 ## 6. 验证、配置与可选范围
 
+M1-10迁移工具接受显式source_id/name/original_key/original_sha256/chunk_ids及images(url/object_key/sha256)清单。dry-run零服务写；无清单退出2、报告缺项。backup_selection只读选定源并保存完整本地快照；restore_sample要求独立空Mongo和新Milvus/对象前缀，读回一致才生成recovery-report。migrate_batch在任何注册前检查恢复报告/快照hash，只允许1–3份m1_test隔离小样，按快照hash＋源身份checkpoint恢复；同名不合并，旧绝对图URL映射asset://ID，源坐标缺失仍null。全库发现/全量迁移不在当前授权。
+
 M1-09的RevisionPublisher(repo,index,read_original,asset_store)以validate(revision_id,attempt)校验原件、完整索引及图资产并转validated；publish(revision_id,expected_active)重验并CAS单资料活动指针，首次expected_active=None。指针文档内outbox可由reconcile(document_id)修复发布状态；历史validated/published目标可通过同入口回滚，不删新版。索引前冻结index_identity，载荷变化必须新建修订。无跨集合事务，旧公开查询图保持兼容，M2再接任务协议。
 
 M1-08的V2Index使用显式新集合、INT32 ordinal、来源JSON和BGE dense/learned sparse；所有范围值严格字符串JSON转义。write_revision要求staged/attempt一致，同UID正文或元数据变化拒绝；索引清单含正文hash与完整业务载荷hash。search默认读取活动修订快照，空快照不编码；内部显式快照也须复核调用归属。旧集合不删不重建。

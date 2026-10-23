@@ -162,11 +162,11 @@
 **文件：**`scripts/migrations/register_v1_documents.py`; `scripts/migrations/build_v2_index.py`; `tests/integration/test_migration_dry_run.py`; `docs/runbooks/index-migration.md`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M1-10.1** 先 dry-run 输出映射/缺失/碰撞报告；任何真实迁移前保存 Mongo/MinIO/Milvus 与活动修订清单，在独立目标恢复一个样例并核对原件、向量和引用；失败则停止写入迁移。
-- [ ] **M1-10.2** 2–3 份小/长/表格样例迁移。
-- [ ] **M1-10.3** 支持批次、断点与回切，扩大范围前核验统计。
-- [ ] **M1-10.V** 验证：.venv/Scripts/python.exe scripts/migrations/register_v1_documents.py --dry-run；仅使用隔离测试源执行迁移测试。
-- [ ] **M1-10.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M1-10.1** 先 dry-run 输出映射/缺失/碰撞报告；任何真实迁移前保存 Mongo/MinIO/Milvus 与活动修订清单，在独立目标恢复一个样例并核对原件、向量和引用；失败则停止写入迁移。
+- [x] **M1-10.2** 2–3 份小/长/表格样例迁移。
+- [x] **M1-10.3** 支持批次、断点与回切，扩大范围前核验统计。
+- [x] **M1-10.V** 验证：.venv/Scripts/python.exe scripts/migrations/register_v1_documents.py --dry-run；仅使用隔离测试源执行迁移测试。
+- [x] **M1-10.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**dry-run 零写入；不按文件名删旧向量；旧绝对图链接有 asset 映射；无坐标资料不伪造 bbox。
 
