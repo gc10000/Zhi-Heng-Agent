@@ -132,11 +132,11 @@
 **文件：**`app/knowledge/index.py`; `app/retrieval/filters.py`; `tests/integration/test_v2_index.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M1-08.1** 新集合加入 kb/document/revision/chunk_uid 和来源。
-- [ ] **M1-08.2** 序号 INT32。
-- [ ] **M1-08.3** 复用现模型生成 dense/learned sparse，统一构造转义与授权过滤。
-- [ ] **M1-08.V** 验证：.venv/Scripts/python.exe -m pytest tests/integration/test_v2_index.py -m integration -q。
-- [ ] **M1-08.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M1-08.1** 新集合加入 kb/document/revision/chunk_uid 和来源。
+- [x] **M1-08.2** 序号 INT32。
+- [x] **M1-08.3** 复用现模型生成 dense/learned sparse，统一构造转义与授权过滤。
+- [x] **M1-08.V** 验证：.venv/Scripts/python.exe -m pytest tests/integration/test_v2_index.py -m integration -q。
+- [x] **M1-08.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**独立 v2 集合小样检索通过；引号/特殊字符安全过滤；旧集合不删不重建。
 
