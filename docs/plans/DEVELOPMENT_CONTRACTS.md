@@ -109,6 +109,8 @@ delta 约 50–100ms 合并，最终按压测调节；默认事件保留 24h，�
 
 ## 6. 验证、配置与可选范围
 
+M1-06的process_images返回新ParsedDocument及Asset列表，原文不写模型描述；派生块kind=image、description单独存，SourceRef.kind=image_description。稳定asset_id连接原图片及摘要，重试替换派生块。ImageSummaryService联合键包含原图/上下文hash、模型、prompt版本；MongoSummaryCache以owner/lease CAS，忙碌抛SummaryBusy，失败可再次领取。SharedRateLimiter通过同MongoRateStore/key预约全部导入的供应商slot，不是每线程限额。AssetStore要求注入已存在bucket客户端，只写指定前缀，不调用建桶或策略修改。租约是有界排重，不承诺外部计费跨硬崩溃exactly-once。
+
 M1-05的ExcelParser(purpose=None)不计算公式，Cell分别记录value/formula/cached_value，来源保留sheet/cell/row，未知坐标不补；工作簿用途默认unknown，项目计划标记project_plan，只有显式用途才能当technical。MarkdownParser(purpose='unknown')保留原文图片语法和行/章节路径，本地安全相对图片登记ParsedImage，远程/缺图标记质量并不联网下载。两解析器由ParserRouter注入，不改旧Excel导入图。
 
 M1-04提供MineruParser(provider,work_dir,max_pages,max_bytes,allow_native_fallback=False)。原件hash/修订/解析版本/限制/降级策略共同隔离检查点；保留segment_offset/hash/batch_id/result hash，成功段直接复用，超时恢复原batch。原始page_idx为0起，仅合法段内页码加offset+1；无页码时保持null和质量标记。缺content_list可用Markdown修复但显式structure_repaired/missing_page_refs；原生降级需显式选择并记录provider_timeout/provider_error。批次领取到上传之间进程中断不承诺供应商exactly-once，保留批次供核对，不伪造成功。

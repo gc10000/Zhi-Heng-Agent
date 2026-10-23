@@ -100,11 +100,11 @@
 **文件：**`app/ingestion/stages/images.py`; `app/knowledge/assets.py`; `app/infrastructure/rate_limits.py`; `tests/unit/test_image_cache.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M1-06.1** 缓存 key 组合原图/上下文 hash、模型、prompt 版本。
-- [ ] **M1-06.2** 保存原图与摘要关系。
-- [ ] **M1-06.3** 多个导入任务共享供应商限流，失败可恢复。
-- [ ] **M1-06.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_image_cache.py -q。
-- [ ] **M1-06.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M1-06.1** 缓存 key 组合原图/上下文 hash、模型、prompt 版本。
+- [x] **M1-06.2** 保存原图与摘要关系。
+- [x] **M1-06.3** 多个导入任务共享供应商限流，失败可恢复。
+- [x] **M1-06.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_image_cache.py -q。
+- [x] **M1-06.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**相同图不同上下文不串摘要；摘要去除嵌套图片标签；缺摘要有状态；重复任务不重复付费摘要。
 
