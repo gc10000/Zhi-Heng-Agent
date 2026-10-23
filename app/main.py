@@ -17,12 +17,16 @@ async def open_resources(settings):
         from app.runs.repository import RunRepository
         from app.runs.service import RunService
         from app.runs.events import EventLedger
+        from app.runs.commands import RunCommands
         db = client[settings.database]
         conversations = ConversationRepository(db)
         runs = RunRepository(db, conversations)
+        events = EventLedger(runs)
+        commands = RunCommands(runs, events, lease_seconds=settings.run_lease_seconds,
+                               input_wait_seconds=settings.input_wait_seconds, pending_seconds=settings.run_pending_seconds)
         yield {'db': db, 'identity': IdentityService(MongoIdentityStore(db), session_seconds=settings.session_seconds),
                'conversations': conversations, 'runs': runs, 'run_service': RunService(runs),
-               'events': EventLedger(runs)}
+               'events': events, 'commands': commands}
     finally:
         client.close()
 
@@ -34,12 +38,28 @@ def create_app(*, settings=None, resource_factory=open_resources):
         configured = settings if settings is not None else Settings.load()
         application.state.settings = configured
         async with resource_factory(configured) as resources:
+            import asyncio
+            import logging
+            async def recovery_loop():
+                while True:
+                    try:
+                        await asyncio.to_thread(resources['commands'].recover)
+                    except Exception as exc:
+                        logging.getLogger(__name__).error('运行恢复扫描失败，异常类型：%s', type(exc).__name__)
+                    await asyncio.sleep(10)
+            recovery = asyncio.create_task(recovery_loop()) if 'commands' in resources else None
             application.state.resources = resources
             application.state.ready = True
             try:
                 yield
             finally:
                 application.state.ready = False
+                if recovery:
+                    recovery.cancel()
+                    try:
+                        await recovery
+                    except asyncio.CancelledError:
+                        pass
 
     application = FastAPI(title='设备技术支持与知识工作台', version='1.0.0', lifespan=lifespan)
     install(application)

@@ -6,6 +6,7 @@ from app.api.errors import APIError
 from app.identity.api import principal
 from app.runs.models import RunInput, snapshot, TERMINAL
 from app.runs.events import frame
+from app.runs.commands import VersionInput, ConfirmInput
 
 router = APIRouter(prefix='/api/v1', tags=['运行'])
 
@@ -18,6 +19,16 @@ def create_run(cid: str, data: RunInput, request: Request, user=Depends(principa
 @router.get('/runs/{rid}')
 def get_run(rid: str, request: Request, user=Depends(principal)):
     return snapshot(request.app.state.resources['runs'].get(user, rid))
+
+
+@router.post('/runs/{rid}/confirm-product')
+def confirm(rid: str, data: ConfirmInput, request: Request, user=Depends(principal)):
+    return request.app.state.resources['commands'].confirm(user, rid, data)
+
+
+@router.post('/runs/{rid}/cancel')
+def cancel(rid: str, data: VersionInput, request: Request, user=Depends(principal)):
+    return request.app.state.resources['commands'].cancel(user, rid, data)
 
 
 @router.get('/runs/{rid}/events')

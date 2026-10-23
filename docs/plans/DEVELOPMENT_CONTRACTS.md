@@ -199,3 +199,9 @@ POST /conversations/{id}/runs接受question/client_request_id/kb_id/product_ids�
 ## M2-05实际事件与恢复契约
 
 GET /runs/{id}/events接受非负after_seq及Last-Event-ID（取较大值），返回text/event-stream，每条id为seq、event为type、data为完整信封；15秒注释心跳不分配seq，禁止代理缓冲。先验证身份/资源/游标再返回200，流中继续检查当前账号和kb；断流不取消后台运行。EventLedger.emit在run文档CAS增加版本/seq、状态/答案及outbox，再幂等投递run_events，保存失败向外传播、不伪成功；新实例read/flush补投。允许序号间隙，终态互斥。每条事件独立24h TTL，读取显式核对真实游标事件（初始0核对首事件），不依赖TTL即时清理；缺失/过期410，前端读GET快照。超出当前seq或格式错误422。DeltaBuffer约75ms/8Ki字符或显式终态前flush。
+
+## M2-06实际命令与租约契约
+
+POST /runs/{id}/confirm-product要求expected_version/product_ids，校验当前awaiting_input、owner/kb/候选/人工期限；保存新产品快照及恢复点后pending，重新领取执行token，旧token不能结束新执行。POST /runs/{id}/cancel按版本保存cancel_requested，同一expected_version重复取消幂等；运行边界收敛cancelled，取消后拒绝completed。终态不可复活。执行租约续约也增加version，扫描不能按旧版本中断已续约任务；人工等待独立超时。run.input_product_snapshot冻结创建时用户消息选择，run.product_snapshot可随确认变化，避免原请求重发篡改旧消息。默认执行60秒、排队300秒、人工86400秒，每10秒CAS扫描恢复；新run占用不会被旧run释放。
+
+取消意图存在但原执行租约失效时标interrupted（未获得执行器停止确认）；未开始执行/人工等待无租约的取消可由扫描直接收敛cancelled。

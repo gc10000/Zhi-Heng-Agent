@@ -97,3 +97,7 @@ R3选择快照version=2保存schema/索引元信息并纳入hash，而非恢复�
 ## ADR-026 · 独立Mongo运行领取补偿 · 2026-10-23
 
 M2-04选择先插入唯一幂等请求、再条件占用会话、最后补足稳定ID消息。崩溃窗口由同请求/显式reconcile重建，不要求replica set事务；竞争失败保留拒绝账本防止同键后来执行另一轮。牺牲序号连续性换幂等可恢复，序号允许间隙。公开快照隐藏内部fingerprint/outbox。执行租约和定时核对在M2-06；证据见records/M2-04.md。
+
+## ADR-027 · 执行租约与人工等待分离 · 2026-10-23
+
+M2-06将running的执行token/60秒租约、pending的300秒等待、awaiting_input的24小时人工期限分开。人工等待保存候选/恢复点并清除执行token；确认按owner/kb/候选/版本CAS后重新pending领取新token。取消先持久意图，执行边界确认cancelled，闲置取消由恢复扫描收敛。心跳增加version以阻止已读取旧租约的扫描误中断。每10秒扫描补偿不要求进程内状态；不同测试用例独立库避免扫描其他现场。保留input_product_snapshot解决确认后原请求重试误覆盖用户消息，当前产品快照单独演进；见records/M2-06.md。

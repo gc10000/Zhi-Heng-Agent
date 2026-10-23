@@ -31,6 +31,7 @@ def m2_client(mongo_db):
     from app.runs.repository import RunRepository
     from app.runs.service import RunService
     from app.runs.events import EventLedger
+    from app.runs.commands import RunCommands
     identity = IdentityService(MongoIdentityStore(mongo_db))
     username = uuid4().hex
     identity.add_user(username, 'isolated-password', role='viewer', kb_ids=['k'])
@@ -38,6 +39,7 @@ def m2_client(mongo_db):
     runs = RunRepository(mongo_db, conversations)
     resources = {'db': mongo_db, 'identity': identity, 'conversations': conversations,
                  'runs': runs, 'run_service': RunService(runs), 'events': EventLedger(runs)}
+    resources['commands'] = RunCommands(runs, resources['events'])
     @asynccontextmanager
     async def factory(settings):
         yield resources

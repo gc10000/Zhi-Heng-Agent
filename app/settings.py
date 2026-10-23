@@ -14,6 +14,9 @@ class Settings:
     origins: tuple[str, ...] = ('http://localhost:8000',)
     cookie_secure: bool = True
     session_seconds: int = 28800
+    run_lease_seconds: int = 60
+    input_wait_seconds: int = 86400
+    run_pending_seconds: int = 300
 
     @classmethod
     def load(cls):
@@ -28,4 +31,14 @@ class Settings:
         secure = os.getenv('API_COOKIE_SECURE', 'true').lower()
         if secure not in {'true', 'false'}:
             raise ConfigurationError('API_COOKIE_SECURE必须为true或false。')
-        return cls(os.environ['MONGO_URL'], os.environ['M2_DB_NAME'], origins, secure == 'true')
+        values = {}
+        for name, default, field in [('RUN_LEASE_SECONDS', 60, 'run_lease_seconds'),
+                                     ('RUN_INPUT_WAIT_SECONDS', 86400, 'input_wait_seconds'),
+                                     ('RUN_PENDING_SECONDS', 300, 'run_pending_seconds')]:
+            try:
+                values[field] = int(os.getenv(name, str(default)))
+                if values[field] < 1:
+                    raise ValueError()
+            except ValueError:
+                raise ConfigurationError(name + '必须为正整数秒。') from None
+        return cls(os.environ['MONGO_URL'], os.environ['M2_DB_NAME'], origins, secure == 'true', **values)

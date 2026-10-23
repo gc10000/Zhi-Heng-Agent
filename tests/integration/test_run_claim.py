@@ -15,8 +15,10 @@ pytestmark = pytest.mark.integration
 
 @pytest.fixture
 def run_context(mongo_db):
-    conv = ConversationRepository(mongo_db)
-    repo = RunRepository(mongo_db, conv)
+    # 恢复扫描针对整个账本，每用例独立后缀库，避免前例现场参与下一例的时钟推进。
+    db = mongo_db.client[mongo_db.name + '_' + uuid4().hex[:8]]
+    conv = ConversationRepository(db)
+    repo = RunRepository(db, conv)
     user = Principal(user_id=uuid4().hex, username='run-test', role='viewer', kb_ids=('k',))
     cid = conv.create(user, ConversationInput(kb_id='k', product_ids=['p']))['conversation_id']
     return user, cid, conv, repo, RunService(repo)

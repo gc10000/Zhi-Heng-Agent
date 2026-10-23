@@ -100,12 +100,12 @@ M0/M1均已通过总控审查；2026-10-23授权M2-01至M2-12按依赖连续执�
 **文件：**`app/runs/state_machine.py`; `app/runs/commands.py`; `app/conversations/context.py`; `tests/contract/test_run_transitions.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M2-06.1** awaiting_input 持久化候选与恢复点。
-- [ ] **M2-06.2** 确认校验候选/owner/run version。
-- [ ] **M2-06.3** 取消置 cancel_requested，阶段边界检查。
-- [ ] **M2-06.4** 租约失效标记 interrupted。
-- [ ] **M2-06.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_run_transitions.py -q。
-- [ ] **M2-06.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M2-06.1** awaiting_input 持久化候选与恢复点。
+- [x] **M2-06.2** 确认校验候选/owner/run version。
+- [x] **M2-06.3** 取消置 cancel_requested，阶段边界检查。
+- [x] **M2-06.4** 租约失效标记 interrupted。
+- [x] **M2-06.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_run_transitions.py -q。
+- [x] **M2-06.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**刷新后可继续确认；迟到确认不能复活已结束运行；取消后不 completed；completed/failed/cancelled/interrupted 互斥。
 

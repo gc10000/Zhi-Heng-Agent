@@ -163,3 +163,7 @@ M1-11真实新资料贯通测试`tests/integration/test_ingestion_live.py -m liv
 单组织角色viewer/maintainer/admin，账号创建不暴露HTTP注册口。配置M2_DB_NAME后运行`.venv/Scripts/python.exe scripts/admin/create_user.py --username <用户名> --role admin --kb <授权kb_id>`，密码通过getpass两次输入，至少12字符，不放命令行/环境日志。该操作只写显式M2数据库。不可把原课程库默认当账号库。
 
 登录POST /api/v1/auth/login必须携带允许的Origin，成功设置support_session（HttpOnly/SameSite=Strict，Path=/api/v1，默认Secure）；返回CSRF令牌，后续写请求携带Origin及X-CSRF-Token。GET /me可恢复身份和CSRF；POST /auth/logout撤销服务端会话。会话8小时，Mongo只存令牌SHA256且显式检查过期/撤销，TTL仅清理；账号禁用或移除kb立即按当前账号拒绝。固定5分钟窗口每来源最多10次登录，Mongo原子计数跨实例共享；不信任X-Forwarded-For，反向代理需单独配置可信代理。未提供公开密码重置/跨组织管理；维护操作需maintainer/admin，具体资源同时检查owner与kb。
+
+## M2运行超时与恢复
+
+RUN_LEASE_SECONDS默认60秒，执行器需定期续约；RUN_PENDING_SECONDS默认300秒，未领取运行超时中断；RUN_INPUT_WAIT_SECONDS默认86400秒，为等待型号确认的独立期限，不按执行心跳误判。均为正整数秒，填写根目录.env。新API生命周期每10秒核对超时和终态outbox/占用，多个进程通过版本CAS避免相互覆盖；重启可恢复候选、恢复点及取消意图。改动默认配置不写回历史消息/课程数据。

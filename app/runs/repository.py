@@ -39,6 +39,7 @@ class RunRepository:
                          'identity': identity, 'state': 'pending', 'claim_state': 'preparing', 'version': 0,
                          'seq': 0, 'outbox': [], 'answer': '', 'citations': [],
                          'created_at': datetime.now(timezone.utc).isoformat()}
+            row['input_product_snapshot'] = copy.deepcopy(row['product_snapshot'])
             try:
                 self.runs.insert_one(copy.deepcopy(row))
             except DuplicateKeyError:
@@ -62,13 +63,21 @@ class RunRepository:
                                               'active_run_id': {'$in': [None, rid]}},
             {'$set': {'active_run_id': rid}})
         if not claimed.matched_count:
+            current = self.get(user, rid)
+            if current['state'] in TERMINAL:
+                self.release(current)
+                return current
             self.runs.update_one({'run_id': rid, 'claim_state': 'preparing'},
                                  {'$set': {'claim_state': 'rejected', 'state': 'failed',
                                            'error': {'code': 'conversation_busy', 'stage': 'claim'}}})
             raise APIError(409, 'conversation_busy', '会话已有未结束的运行或已归档。')
         self.runs.update_one({'run_id': rid, 'claim_state': 'preparing'}, {'$set': {'claim_state': 'claimed'}})
+        current = self.get(user, rid)
+        if current['state'] in TERMINAL:
+            self.release(current)
+            return current
         self.conversations.append_message(user, cid, run_id=rid, role='user', text=row['question'],
-                                          product_snapshot=row['product_snapshot'])
+                                          product_snapshot=row.get('input_product_snapshot', row['product_snapshot']))
         return self.get(user, rid)
 
     def release(self, row):

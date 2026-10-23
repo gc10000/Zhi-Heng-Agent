@@ -22,7 +22,7 @@ class EventLedger:
         self.events.create_index([('run_id', 1), ('seq', 1)], unique=True)
         self.events.create_index('expires_at', expireAfterSeconds=0)
 
-    def emit(self, user, rid, kind, payload, *, state=None, fields=None, expected_version=None, expected_states=None):
+    def emit(self, user, rid, kind, payload, *, state=None, fields=None, expected_version=None, expected_states=None, expected_token=None):
         terminal = kind.removeprefix('run.') if kind.startswith('run.') else None
         if (terminal in TERMINAL or state in TERMINAL) and state != terminal:
             raise ValueError('终态事件必须与持久状态一致')
@@ -37,6 +37,9 @@ class EventLedger:
             if row['state'] == 'cancel_requested' and state == 'completed':
                 raise APIError(409, 'cancel_requested', '运行已请求取消，不能完成为成功。')
             now = self.clock()
+            if expected_token is not None and (row.get('execution_token') != expected_token or
+                    not row.get('execution_lease') or aware(row['execution_lease']) <= now):
+                raise APIError(409, 'lease_lost', '执行租约已失效。')
             deadline = now + timedelta(hours=24)
             event = {'run_id': rid, 'seq': row['seq'] + 1, 'type': kind, 'at': now.isoformat(),
                      'payload': copy.deepcopy(payload), 'expires_at': deadline}
@@ -47,7 +50,10 @@ class EventLedger:
                 updates['state'] = state
             if kind == 'answer.delta':
                 updates['answer'] = row['answer'] + payload['text']
-            result = self.repo.runs.update_one({'run_id': rid, 'version': row['version'], 'state': row['state']},
+            query = {'run_id': rid, 'version': row['version'], 'state': row['state']}
+            if expected_token is not None:
+                query.update({'execution_token': expected_token, 'execution_lease': {'$gt': now}})
+            result = self.repo.runs.update_one(query,
                 {'$set': updates, '$inc': {'version': 1, 'seq': 1}, '$push': {'outbox': event}})
             if result.matched_count:
                 if state in TERMINAL:
