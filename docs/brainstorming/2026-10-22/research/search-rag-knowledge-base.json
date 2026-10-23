@@ -1,0 +1,62 @@
+{
+  "query": "rag knowledge base",
+  "search_url": "https://api.github.com/search/repositories?q=rag+knowledge+base&sort=stars&per_page=8",
+  "results": [
+    {
+      "full_name": "chatchat-space/Langchain-Chatchat",
+      "html_url": "https://github.com/chatchat-space/Langchain-Chatchat",
+      "description": "Langchain-Chatchat（原Langchain-ChatGLM）基于 Langchain 与 ChatGLM, Qwen 与 Llama 等语言模型的 RAG 与 Agent 应用 | Langchain-Chatchat (formerly langchain-ChatGLM), local knowledge based LLM (like ChatGLM, Qwen and Llama) RAG and Agent app with langchain ",
+      "stargazers_count": 38704,
+      "archived": false
+    },
+    {
+      "full_name": "labring/FastGPT",
+      "html_url": "https://github.com/labring/FastGPT",
+      "description": "FastGPT is a knowledge-based platform built on the LLMs, offers a comprehensive suite of out-of-the-box capabilities such as data processing, RAG retrieval, and visual AI workflow orchestration, letting you easily develop and deploy complex question-answering systems without the need for extensive setup or configuration.",
+      "stargazers_count": 29892,
+      "archived": false
+    },
+    {
+      "full_name": "nashsu/llm_wiki",
+      "html_url": "https://github.com/nashsu/llm_wiki",
+      "description": "LLM Wiki is a cross-platform desktop application that turns your documents into an organized, interlinked knowledge base — automatically. Instead of traditional RAG (retrieve-and-answer from scratch every time), the LLM incrementally builds and maintains a persistent wiki from your sources。",
+      "stargazers_count": 20872,
+      "archived": false
+    },
+    {
+      "full_name": "OpenSPG/KAG",
+      "html_url": "https://github.com/OpenSPG/KAG",
+      "description": "KAG is a logical form-guided reasoning and retrieval framework based on OpenSPG engine and LLMs.  It is used to build logical reasoning and factual Q&A solutions for professional domain knowledge bases. It can effectively overcome the shortcomings of the traditional RAG vector similarity calculation model.",
+      "stargazers_count": 9118,
+      "archived": false
+    },
+    {
+      "full_name": "VectifyAI/OpenKB",
+      "html_url": "https://github.com/VectifyAI/OpenKB",
+      "description": "OpenKB: Open LLM Knowledge Base",
+      "stargazers_count": 4801,
+      "archived": false
+    },
+    {
+      "full_name": "53AI/53AIHub",
+      "html_url": "https://github.com/53AI/53AIHub",
+      "description": "53AI Hub is an open-source AI portal and knowledge base for managing enterprise knowledge, AI agents, prompts, and AI tools, seamlessly integrating with Coze, Dify, FastGPT, RAGFlow. 一个AI知识库与Agent门户",
+      "stargazers_count": 4334,
+      "archived": false
+    },
+    {
+      "full_name": "SamurAIGPT/llm-wiki-agent",
+      "html_url": "https://github.com/SamurAIGPT/llm-wiki-agent",
+      "description": "A personal knowledge base that builds and maintains itself. Drop in sources — Claude (or Codex/Gemini) reads them, extracts knowledge, and maintains a persistent interlinked wiki. Works with Claude Code, Codex, OpenCode, Gemini CLI. No API key needed.",
+      "stargazers_count": 3647,
+      "archived": false
+    },
+    {
+      "full_name": "pingcap/autoflow",
+      "html_url": "https://github.com/pingcap/autoflow",
+      "description": "pingcap/autoflow is a Graph RAG based and conversational knowledge base tool built with TiDB Serverless Vector Storage. Demo: https://tidb.ai",
+      "stargazers_count": 2979,
+      "archived": false
+    }
+  ]
+}

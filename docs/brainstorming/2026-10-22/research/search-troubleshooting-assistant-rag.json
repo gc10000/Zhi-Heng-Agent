@@ -1,0 +1,62 @@
+{
+  "query": "troubleshooting assistant rag",
+  "search_url": "https://api.github.com/search/repositories?q=troubleshooting+assistant+rag&sort=stars&per_page=8",
+  "results": [
+    {
+      "full_name": "NGAtoFDE/Telecom-Support-Agent",
+      "html_url": "https://github.com/NGAtoFDE/Telecom-Support-Agent",
+      "description": "An enterprise-grade Agentic Telecom Support Assistant using LangGraph, RAG, FastAPI, Streamlit, and Azure AI Foundry for automated issue triage, troubleshooting, ticketing, and escalation.",
+      "stargazers_count": 2,
+      "archived": false
+    },
+    {
+      "full_name": "MahammadRiyazShek/Maintenance-Wizard-Agentic-AI-for-Industrial-Equipment",
+      "html_url": "https://github.com/MahammadRiyazShek/Maintenance-Wizard-Agentic-AI-for-Industrial-Equipment",
+      "description": "An intelligent, context-aware decision-support agent for steel manufacturing assets. Integrates live cyber-physical telemetry, RAG-driven technical manual/SOP lookup, predictive RUL analytics, and automated root cause analysis (RCA). Features a multi-turn troubleshooting assistant with a human-in-the-loop engineering feedback system.",
+      "stargazers_count": 2,
+      "archived": false
+    },
+    {
+      "full_name": "usrname1git/GodBrain",
+      "html_url": "https://github.com/usrname1git/GodBrain",
+      "description": "End goal is something similar to Jarvis from Iron Man.  A complete assistant that can do anything.",
+      "stargazers_count": 2,
+      "archived": false
+    },
+    {
+      "full_name": "Dhanush-M555/DiagnoSys",
+      "html_url": "https://github.com/Dhanush-M555/DiagnoSys",
+      "description": "AI-powered assistant for diagnosing latency issues in storage systems using LLMs, RAG, and visual insights. Built to simplify troubleshooting in modern storage infrastructures.",
+      "stargazers_count": 1,
+      "archived": false
+    },
+    {
+      "full_name": "Kartikcoded/SPM-Technical-Failure-Knowledge-Assistant",
+      "html_url": "https://github.com/Kartikcoded/SPM-Technical-Failure-Knowledge-Assistant",
+      "description": "RAG-powered troubleshooting assistant for SPM Auto Packing Machine failures",
+      "stargazers_count": 1,
+      "archived": false
+    },
+    {
+      "full_name": "krishnan-ramesh/ai-it-troubleshooter",
+      "html_url": "https://github.com/krishnan-ramesh/ai-it-troubleshooter",
+      "description": "AI-powered IT troubleshooting assistant using RAG and local LLMs",
+      "stargazers_count": 1,
+      "archived": false
+    },
+    {
+      "full_name": "HemaPradhishaBalasubramanian/Network-Troubleshooting-Assistant-Using-LLM-",
+      "html_url": "https://github.com/HemaPradhishaBalasubramanian/Network-Troubleshooting-Assistant-Using-LLM-",
+      "description": "An intelligent Network Troubleshooting Assistant that leverages LLMs, Retrieval-Augmented Generation (RAG), and a fallback mechanism to provide accurate network diagnostics and solutions.",
+      "stargazers_count": 1,
+      "archived": false
+    },
+    {
+      "full_name": "shazabdullakc/network-guy",
+      "html_url": "https://github.com/shazabdullakc/network-guy",
+      "description": "AI-Powered Network Troubleshooting Assistant — multi-agent RAG system for telecom lab RCA",
+      "stargazers_count": 1,
+      "archived": false
+    }
+  ]
+}

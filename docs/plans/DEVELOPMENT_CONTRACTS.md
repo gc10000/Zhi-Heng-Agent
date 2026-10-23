@@ -1,0 +1,153 @@
+# 开发公共契约与任务交接边界
+
+日期：2026-10-22。状态：**待实现的 v1 设计契约**，不表示接口已经可调用。关联：[开发总清单](DEVELOPMENT_TODO.md)、[原始优化方案](2026-10-22-technical-support-optimization.md)。
+
+## 1. 稳定接口和文件归属
+
+以下约定让阶段间能对齐，而不是提前生成所有业务代码。实现发现不适配时，先更新此文档、影响任务与决策记录，再改消费者；不能只改函数名让后续计划失效。
+
+| 接口/对象 | 建立任务与文件 | 最小输入输出与不变量 | 主要消费者 |
+| --- | --- | --- | --- |
+| 历史窗口 | M0-03，`app/clients/mongo_history_utils.py` | 保留 `get_recent_messages(session_id: str, limit: int=10) -> list[dict]`；取最近 N 条后正序返回 | 旧图、M2/M4 会话适配 |
+| 字符预算 | M0-04，`app/answering/context_budget.py` | `pack_prompt_inputs(docs, history, max_chars=12000)` 返回 context/history/used_chars/used_chunk_ids；不访问 IO | 输出节点；M4 扩展 token 预算 |
+| 生成失败 | M0-07，`app/answering/errors.py` | `AnswerGenerationError` 包含 `partial_answer: str`；异常必须传播到外层任务终态 | 旧 API、M2 query_runner |
+| 型号匹配 | M0-05，原 `step_5_align_item_names` | 保留 confirmed_item_names/options 字典；非精确的多个高分返回候选 | 原图；M4 规范产品解析器 |
+| `SourceRef` | M1-01，`app/knowledge/models.py` | document_id/revision_id、kind、page/section_path/sheet/cell/bbox 可空；明确原件与描述来源 | 解析、切片、引用、PDF、评测标签 |
+| `ParsedDocument` | M1-03，`app/ingestion/models.py` | pages/blocks/tables/images、原件 hash、parser/version、质量标记、source_refs | 切片/图像/索引 |
+| 知识仓储 | M1-02，`app/knowledge/repository.py` | `register_document`、`create_revision`、`get_active_revisions`；显式接收 kb/owner 范围 | 上传、索引、发布、检索 |
+| 发布服务 | M1-09，`app/knowledge/publishing.py` | `validate_revision(document_id, revision_id)`、`publish_revision(document_id, revision_id, expected_active_revision_id)`；条件切换活动指针 | 维护者 API、迁移 |
+| 导入阶段 | M1-03/M2-10，`app/ingestion/runner.py` | `run_import(job_id, attempt)` 从对象键和检查点执行；过期 attempt 不可发布 | Linux Celery worker |
+| 问答运行 | M2-04/11，`app/runs/service.py`、`query_runner.py` | 创建、领取、恢复/中断、终态与幂等；旧图经适配器接入 | API、Vue SSE、观测 |
+| SSE 消费 | M3-05，`useRunStream.ts` | 输入 run_id 与最后 seq，消费事件/快照，关闭订阅；取消单独调用后端 | ChatPage、Pinia run store |
+| 检索候选 | M4-02，`app/retrieval/models.py` | `RetrievalHit`、`QueryPlan`、`EvidencePack`；保留范围、修订、分数来源与实际入选证据 | 检索各节点、引用、评测 |
+| 评测最小入口 | M4-01，`app/evaluation/validate_dataset.py`、`runner.py` | 校验 JSONL，按固定配置运行基线；输出可复核逐题结果 | M4 消融；M6 扩展指标/工作台 |
+
+函数参数与 Pydantic 类型在该任务实施时于单独规格中冻结；任务文件里未出现的内部方法不能被后续任务假定存在。对外 API/事件字段使用下述名称，变更需记录兼容方式。
+
+## 2. ID、归属与版本
+
+- 所有对外 ID 使用字符串；Mongo ObjectId/Milvus 64 位 ID 不直接作为 JavaScript number。
+- document_id 表示业务资料，revision_id 表示不可变修订，chunk_uid 表示稳定切片，asset_id 表示原件/图像。文件名与 hash 不替代业务 ID。
+- 每个 run 保存用户、kb、产品与知识修订快照；授权既检查 owner，也检查当前知识访问范围。历史引用的精确修订不能被新版悄悄替换。
+- Mongo standalone 不依赖多文档事务。跨集合一致性采用单文档条件更新、幂等键、派发账本和核对补偿；并发/崩溃窗口必须有测试。
+- active_revision_id 条件发布与检索过滤使用同一份活动修订清单；指针切换不保证已经开始的查询立刻换版本，已开始 run 按自己的修订快照回答。
+
+## 3. API 约定
+
+统一前缀 `/api/v1`。以下为最小契约；M2-12 输出真实 OpenAPI 后前端生成类型。列表统一返回 `items`、`next_cursor`；错误返回 `error.code`、`error.message`、`error.details`、`request_id`。details 不含密钥或私有完整文档。
+
+| 接口 | 请求要点 | 响应/约束 | 建立任务 |
+| --- | --- | --- | --- |
+| `POST /auth/login` | username/password；Origin 校验与限流 | 登录 cookie，用户/角色/CSRF 令牌；不返回密码散列 | M2-02 |
+| `POST /auth/logout`、`GET /me` | cookie，写请求 CSRF | 撤销登录；当前身份与允许范围 | M2-02 |
+| `GET/POST /conversations` | title/kb_id/product_ids | 目录/新会话，owner 由服务端设置 | M2-03 |
+| `PATCH /conversations/{id}` | title/archived，乐观版本 | 更新自身会话，禁止改 owner | M2-03 |
+| `GET /conversations/{id}/messages` | cursor/limit | 正序历史分页；逐轮产品/引用快照 | M2-03 |
+| `POST /conversations/{id}/runs` | client_request_id、question、product_ids、kb_id | 首次 201；同幂等请求返回同 run；同键不同内容 409 | M2-04 |
+| `GET /runs/{id}` | 已登录身份 | status、last_seq、partial/final answer、citations、awaiting_input | M2-05 |
+| `GET /runs/{id}/events` | `Last-Event-ID` 或 `after_seq` | text/event-stream；游标失效 410，再读快照 | M2-05 |
+| `POST /runs/{id}/confirm-product` | product_ids、expected_version | 只允许从持久候选中选，owner 与版本必须匹配 | M2-06 |
+| `POST /runs/{id}/cancel` | expected_version，可重复请求 | 记录取消意图；终态不复活 | M2-06 |
+| `GET /products`、`GET /products/{id}/documents` | 搜索/分页 | 返回授权目录和活动修订信息 | M2-07 |
+| `POST /documents` | multipart 原件、kb_id、product_ids、client_request_id | 202 + document_id/revision_id/job_id；名称仅展示 | M2-07 |
+| `GET /documents`、`GET /documents/{id}/revisions` | 过滤/分页 | 状态与解析质量，不将已上传视为已发布 | M2-07 |
+| `GET /documents/{id}/revisions/{rid}/chunks` | cursor/limit | 维护者切片、来源和图片预览 | M2-07 |
+| `POST /documents/{id}/revisions/{rid}/publish` | expected_active_revision_id | validated 修订才可发布；维护者权限与 CAS | M2-07/M1-09 |
+| `POST /documents/{id}/rollback` | target_revision_id、expected_active_revision_id | 目标需是可用已验证版本；不删除当前修订 | M2-07/M1-09 |
+| `POST /documents/{id}/withdraw` | expected_active_revision_id | 撤回活动指针；历史引用按授权仍可回看 | M2-07 |
+| `GET /import-jobs/{id}`、`POST /import-jobs/{id}/retry` | job 与权限 | 阶段、attempt、错误码、是否可重试 | M2-07/09/10 |
+| `GET /runs/{id}/citations/{cid}` | owner/kb 校验 | 原文、来源、定位、asset_ids、修订与解析质量 | M2-08 |
+| `GET /assets/{id}` | 授权、Range | 图像/原件；PDF 支持 200/206/416 | M2-08 |
+| `GET/POST /cases`、`PATCH /cases/{id}` | run_id、用户编辑、expected_version | draft→用户确认后 confirmed；只修改授权记录 | M5-03 |
+| `POST /cases/{id}/confirm`、`GET /cases/{id}/export` | 用户确认/导出格式 Markdown | 不将 AI 步骤当已执行事实；导出受控引用 | M5-03/07 |
+| `POST /feedback` | run_id、citation_ids、category、note | pending_review，不自动入库 | M5-07 |
+| `GET/POST /eval-sets`、`POST /experiments` | 数据/配置版本 | 有权限的评测任务，独立队列预算 | M6-01/03 |
+| `GET /experiments/{id}`、`POST /experiments/{id}/cancel` | 实验 ID | 逐题结果、统计、基线差异与真实状态 | M6-03 |
+| `POST /feedback/{id}/review` | 审核结论/回归题或修订链接 | 只有维护者审核，记录理由 | M6-05 |
+
+鉴权约定：未登录 401；已登录但无功能权限 403；访问不属于自己或无知识范围权限的具体资源返回不泄露存在性的 404；版本/占用/幂等内容冲突 409；游标过期 410；超限大小 413；不支持媒体 415；格式校验 422。前端显式处理，不将所有失败包装为“网络错误”。
+
+## 4. 运行状态机与事件
+
+状态：`pending`、`running`、`awaiting_input`、`cancel_requested`、`completed`、`failed`、`cancelled`、`interrupted`。前四者为非终态，同一会话只占用一个非终态 run。
+
+- 创建后 pending→running。需要型号/补充信息进入 awaiting_input，确认后恢复 running。
+- 取消先进入 cancel_requested；阶段或生成器检查取消，最终 cancelled。浏览器断开不自动取消。
+- 只有所有必要阶段成功且无取消意图才 completed。供应商在部分答案后失败为 failed，部分文本保留但不能当最终成功答案。
+- 执行进程异常退出且运行租约过期时 interrupted；awaiting_input 没有活动 worker 时不能仅因执行租约过期误判中断。等待超时策略在 M2-06 明确配置。
+- 终态互斥、不可复活；新请求创建新 run。释放会话占用采用条件匹配 run_id，旧 run 不能清除新占用。
+
+每个事件字段：`run_id: str`、`seq: int`、`type: str`、`at: ISO8601 UTC`、`payload: object`。SSE `id` 为 seq；comment 心跳不分配 seq。seq 严格递增，可有间隙，禁止依赖相邻整数连续性。
+
+| type | payload 关键字段 |
+| --- | --- |
+| `run.started` | conversation_id、message_id、策略/修订快照标识 |
+| `stage.changed` | stage、state、进度可空、降级说明 |
+| `product.candidates` | candidates、expected_version、澄清原因 |
+| `product.confirmed` | product_ids、上下文版本 |
+| `input.required` | 缺少的槽位、expected_version |
+| `answer.delta` | text；重连后按 run_id/seq 去重 |
+| `citations.ready` | 本次实际入选证据的 citation 列表 |
+| `artifact.ready` | 处理清单/草稿的 ID 与类型 |
+| `run.completed` | 最终答案/引用快照版本 |
+| `run.failed` | 可公开错误码、阶段、partial_answer 标识 |
+| `run.cancelled`、`run.interrupted` | 原因、是否有部分文本、可重试标识 |
+
+终态持久化成功后再发事件；同一 run 只允许一个终态事件类型。考虑“状态写入后进程退出、事件尚未写入”窗口：在同一个 run 文档持久化待发终态 outbox，再幂等写入事件日志；客户端始终可以读快照，不能只靠进程内队列。
+
+delta 约 50–100ms 合并，最终按压测调节；默认事件保留 24h，最终答案与引用按业务保留。服务端过期游标返回 410；Vue 关闭旧流，加载快照，再根据是否仍在运行决定订阅，不重放虚构增量。
+
+## 5. 前端状态与复用
+
+- Vue Query 管会话/资料/任务/实验等服务快照；query key 包含用户和知识范围。
+- Pinia 管当前设备/抽屉等界面状态及按 run_id 隔离的流式状态。不得把相同完整会话数据长期再维护一份。
+- run 结束后使对应 query 失效；退出登录清空查询缓存并关闭所有订阅。跨会话切换不复用 delta 缓冲。
+- 默认自有 Vue 聊天组件；shadcn-vue 复用基础 UI；PDF.js 自封装。第三方库没有实际构建验证前不能写成“已集成”。
+- M3-01 建立固定脚本：`typecheck`（vue-tsc）、`build`（Vite）、`test:unit`（Vitest）、`test:e2e`（Playwright）；测试名过滤语法随锁定版本实测并更新计划。
+
+## 6. 验证、配置与可选范围
+
+- M0 单元与契约测试不连接真实服务。集成/供应商验证必须显式标记，缺条件不能悄悄跳过后宣称全链路通过。
+- M0-02 定义 `unit`、`contract`、`integration`、`e2e`、`live_provider` 标记。integration 必须有独立库/集合/对象前缀；live_provider 明确会产生调用成本。
+- M4-01 同步建立最小题集校验器/基线运行器；M6 扩展并提供 UI，不能让 M4 的实验依赖尚未实现的 M6。
+- 最小运行器入口固定为 `python -m app.evaluation.runner --dataset <JSONL> --config <YAML> --output <结果目录>`；输出逐题 JSONL 和包含数据/模型/prompt/策略版本的 manifest。M4 的所有消融复用该入口，各次实际参数写入验收记录。
+- Redis/Celery、登录会话、测试隔离、任务超时等新配置在相关实施任务中命名并附中文解释；不在规划阶段猜测实际密钥是否可用。
+- 可选任务：M5-06 MCP 网页工具、M6-06 Ragas 评分。选择延期时记录原因、影响、重新评估条件，不虚构集成通过。
+- 文档是执行依据；任务路径、接口、依赖随真实实现变化时在同一项工作里同步。兼容性或范围取舍追加到[决策记录](../development/DECISIONS.md)。
+
+
+### M0-02 实施边界
+
+离线测试使用正常模块导入，网络与真实客户端默认拒绝；测试标记不隐式开放网络。旧 API 的 `query_app` 默认 None，经 `get_query_app()` 首次调用建立，允许测试注入 invoke 对象。Mongo 与模型 SDK 延迟初始化；保持原业务接口。CUDA 环境不执行通用锁全量 sync，证据见 M0-02。
+
+
+### M0-04 字符预算实施
+
+`pack_prompt_inputs` 额外返回 `used_doc_indices: list[int]`，用于 chunk_id 为空的联网证据映射。`used_chars == len(context)+len(history)`，空输入为空串；不插入额外占位文本。预算只包含证据/历史，不含模板、问题与输出 token。图状态增加 used_chunk_ids/prompt_used_docs/prompt_input_chars；图片仅来自 prompt_used_docs，避免落选证据配图。
+
+
+### M0-06 合并实施边界
+
+`_merge_short_sections` 新增可选 max_length=2000，调用者传入真实 max_len。返回副本，缺来源/父标识不合并，来源/产品/结构/表格不同不合并；新增 merged_titles/merged_parts 保存完整标题和片段号。长块拆分保留输入元数据，尚不等同于 M1 SourceRef 实现。
+
+
+### M0-07 旧接口兼容变化
+
+生成异常 `AnswerGenerationError(RuntimeError)` 携带 partial_answer，通过实际节点/图调用传播。输出节点不发终态；旧 API 的 run_query_graph 在整图成功后设置 completed 并发送唯一 final，失败设置 failed、保留 partial_answer 和公开 error，不保存成功助手消息。非流式 POST /query 失败由原 200 改为 502（status=failed/answer 为空），成功保留原字段并增加 status=completed。每轮清空上一轮进程内结果；没有实现 M2 的持久运行协议。
+
+
+### M0-09 外层补充
+
+旧 GET /history 的 limit 必须 >=1，无效值返回 422（访问仓储前）。多主体匹配只要还有候选歧义，step_6 优先返回澄清，不基于另一已确认主体继续查询。SDK FlagEmbedding 1.3.5 的设备构造参数 devices 正确接收 BGE_RERANKER_DEVICE。
+
+### M0 第 2 轮审查修复边界
+
+标题拆分为每轮调用生成随机运行前缀、每个章节实例分配 `section_instance_id`，包括同名标题的独立实例；长块通过副本传播。合并须具备非空且相同的实例 ID，或调用方显式可靠 section_id，并满足原来源/产品/父标题/结构/大小约束。heading_path/标题文字/part 相等不能单独作身份；本字段只在当前切片处理内使用，不是 M1 持久知识 ID，也不迁移既有 Milvus 数据。原有无分隔符长串/超长标题超预算边界交 M1-07，M0 不宣称所有长块严格限长。
+
+图片验收由 `scripts/verification/image_acceptance.py` 共享实现。准确对象清单以真实配置绑定 origin/bucket/key/复制时 SHA256，不从答案 URL 推断允许范围；未知 URL 在请求前拒绝，GET 禁止自动重定向。正文须包含人工确认的预期拓扑图、final 须含同图，final.answer 与实际答案一致，正文引用图均在 final 中；可额外携带其他已记录合法入选图。所有引用/final 图响应均须 HTTP 200、image/* Content-Type、SHA256 相符、可完整解码且实际格式与 MIME 一致。校验结果只记 key/hash/类型/尺寸/状态，不回显 URL 或异常正文。离线 fake 通过不代表真实图 HTTP 通过。
+
+每轮审查生成器必须使用 --spec 选择实际报告、测试结果与新输出前缀；测试数和状态从实际证据/清单读取，检查器不固定 73 或特定失败状态，不覆盖旧提交快照。原已知题/追问证据可保留；R3 须另有正常配置且无脚本专有预热/线程覆盖的全新进程冷启动证据。
+
+### M0 第3轮验收补充
+
+允许既有HTTP元数据image/jpg作为image/jpeg的限定别名，仍须实际JPEG、复制时精确SHA256、verify/load完整解码；PNG/其他类型不能借此通过。不修改对象元数据或桶策略。只读复核必须用原响应正文SHA256唯一匹配真实持久化助手消息，且原报告已证明唯一final、正文/final一致及图集合合法；再比对持久化图集合与原final并真实下载。复核退出码与源命令退出码分别记录，不把重新构造参数当新final事件。正常冷启动报告须说明隔离/日志/下载保护覆盖及实际线程环境，不把图片诊断预热结果当冷启动。第三轮自验见M0-submission-r3.md，总控已通过，授权与验证边界见M0-review-r3.md及REVIEW_STATUS.md；提交快照的待审查字段按原时点保留。

@@ -1,0 +1,149 @@
+# 配置核对与填写说明
+
+请编辑项目根目录的 `.env`。`.env.example` 仅提供无密钥模板，不能代替实际配置。系统中同名环境变量优先于 `.env`，这是原代码 `load_dotenv()` 的行为。
+
+当前本机 `.env` 已由用户填写两个个人凭据，并通过真实 PDF 导入、带图引用问答、多轮追问及浏览器验证；核心链路无需继续补必填配置，见 [完整链路验收记录](E2E_VALIDATION.md)。下文“需填写”也适用于在新机器从模板重新配置的情况。MCP 联网服务仍未配置。
+
+## 你当前选择的部署方式
+
+当前先在 Windows 本机调试：Python/FastAPI 和两个 BGE 模型直接在本机运行，Milvus、MinIO、MongoDB 使用本机 Docker Compose；百炼及 MinerU 使用你本人的云端 API。后期再迁移到服务器。
+
+本次已将 BGE-M3 与 reranker 下载到 `.env` 默认模型目录，并通过真实推理验证。当前 `.env` 已包含本机服务地址及自动生成的本地 MinIO 密码；本机调试先填写 `OPENAI_API_KEY` 和 `MINERU_API_TOKEN` 即可，联网检索另需配置 MCP 地址。修改 `.env` 后重启两个服务。
+
+本机数据库地址保持 `MILVUS_URL=http://127.0.0.1:19530`、`MINIO_ENDPOINT=127.0.0.1:19000`、`MONGO_URL=mongodb://127.0.0.1:27017`。MinIO 账号、密码由 `.env` 同时提供给应用和 Compose，当前保持一致即可。
+
+## 一次问答中，各配置分别做什么
+
+导入文档时：**PDF → MinerU 解析 Markdown 和图片 → 视觉模型解释图示 → MinIO 保存文件与图片 → 文本模型识别产品主体 → BGE-M3 生成双路向量 → Milvus 保存索引**。
+
+提问时：**MongoDB 读取历史 → 文本模型改写问题并识别产品 → BGE-M3 编码问题 → Milvus 检索，结合 HyDE 和可选 MCP 联网检索 → 本地 reranker 重排 → 文本模型基于证据流式回答 → MongoDB 保存会话**。
+
+因此，文本/视觉大模型、PDF 解析器、嵌入模型、重排模型承担不同工作，不能使用同一个“最新版模型名称”替换所有配置。
+
+## 模型与接口更新核对（2026-10-21）
+
+| 项目 | 官方当前信息 | 本项目处理 |
+| --- | --- | --- |
+| 文本模型 | 官方选型页列出 `qwen3.8-flash`、`qwen3.7-plus`、`qwen3.8-max`；分别面向低成本、均衡和较强推理需求 | 模板将 `LLM_DEFAULT_MODEL` 更新为 `qwen3.8-flash`；本地 `.env` 仅替换仍为课程默认值的字段 |
+| 视觉模型 | 官方视觉选型页同样列出上述多模态型号，支持图像理解 | 模板将 `VL_MODEL` 更新为 `qwen3.8-flash`；复杂图表可选 Plus/Max，不要求名称带 `vl` |
+| 百炼基础地址 | 共享 DashScope 域名仍可用，官方建议生产使用业务空间专属域名 | 本地保留北京共享地址；有专属地址时按控制台实际值替换，同时匹配 API Key 地域与业务空间 |
+| MinerU 精准解析 | 官方仍提供 `/api/v4/file-urls/batch` 和结果轮询接口，推荐 `model_version=vlm` | 保持当前基础地址及代码中的 `vlm`；`v4` 是接口版本，不表示解析模型已经过时 |
+| MinerU 轻量 Agent API | 新增 `/api/v1/agent/parse/*`，文件限制、输出与调用流程不同 | 不是仅改基础地址就能切换的替代品，当前保留精准解析流程 |
+| BGE-M3 与 BGE reranker | 本项目是已验证的本地模型链路，未宣称为最新模型 | 保留。切换其他嵌入模型需匹配稠密维度、稀疏表示和 Milvus Schema；更换后需重新生成索引 |
+
+新型号已按官方页面确认，但尚未使用你的 Key 验证账号权限、可用地域及真实效果。模板建议不是“已完成 API 联调”。客户端按 provider 能力配置思考开关，部分结构化调用要求 JSON Object；后续应分别验证文本 JSON 输出、答案流式增量和图片输入。
+
+`LLM_DEFAULT_MODEL` 同时影响多个文本节点。若要只提高最终回答模型、而让改写等节点保持低成本，需要后续拆分配置，当前不能单靠一个变量分别控制。
+
+## 必须填写或确认
+
+| 变量 | 填写方式 | 用途 / 说明 |
+| --- | --- | --- |
+| `OPENAI_API_KEY` | 本人的阿里云百炼 API Key | 主体识别、查询改写、HyDE、最终回答及图片理解共用。不要使用原课程文件中的密钥。 |
+| `OPENAI_BASE_URL` | 默认中国内地百炼兼容接口；账号区域不同需同步修改 | M0 按 LLM_PROVIDER 能力传参；百炼默认 `enable_thinking=false`，通用接口不带专属字段。 |
+| `LLM_DEFAULT_MODEL` | 默认 `qwen3.8-flash`，需账号可调用 | 产品主体识别、查询改写、指代解析、HyDE 和最终回答共用的文本模型。 |
+| `VL_MODEL` | 默认 `qwen3.8-flash`，需账号可调用 | 给文档中的图示生成文字摘要；应支持 `image_url` 输入，与 MinerU 整份 PDF 解析职责不同。 |
+| `MINERU_API_TOKEN` | 本人的 MinerU API Token | PDF 通过云端解析；纯文本 Markdown 可跳过 MinerU。 |
+| `MINERU_BASE_URL` | 默认 `https://mineru.net/api/v4` | 代码调用 `/file-urls/batch` 和 `/extract-results/batch/{batch_id}`。 |
+| `MILVUS_URL` | 本地 `http://127.0.0.1:19530` | 向量数据库连接地址，保存主体与切片索引。原实现未接入 Milvus 鉴权 token 配置。 |
+| `MINIO_ENDPOINT` | 本地 `127.0.0.1:19000` | 保存原文件和图片；**不带** `http://`，本机 19000 转发到容器 S3 API 9000，9001 为控制台。 |
+| `MINIO_ACCESS_KEY` | 本地默认 `raglocal` | Compose 与 Python 应用读取同一份 `.env`，保持一致即可。 |
+| `MINIO_SECRET_KEY` | 本地 `.env` 已生成随机密码 | 当前本机方案可保留；不要改成 `.env.example` 中的占位密码，也不需要创建 `.env.infra`。 |
+| `MINIO_BUCKET_NAME` | 建议使用专用测试桶 `product-knowledge` | 原代码启动时会检查/建桶并设置匿名读取策略。账号需要相应权限，请勿指向已有敏感业务桶。 |
+| `MONGO_URL` | 本地 `mongodb://127.0.0.1:27017` | 保存会话消息。后续有鉴权时可用 `mongodb://用户名:密码@服务器:27017/?authSource=admin`，凭据特殊字符需 URL 编码。 |
+| `MONGO_DB_NAME` | 建议 `product_knowledge_rag` | 会自动使用 `chat_message` 集合并创建会话索引。 |
+| `BGE_M3_PATH` | 本机 BGE-M3 模型目录 | 默认 `./models/bge-m3`；需要下载权重、配置、分词器等完整文件。原作者的 D 盘模型路径不存在。 |
+| `BGE_RERANKER_LARGE` | 本机 BGE reranker 模型目录 | 默认 `./models/bge-reranker-large`；原作者对应目录也不存在。 |
+
+## 可以保留模板默认值
+
+| 变量 | 默认值 | 说明 |
+| --- | --- | --- |
+| `LLM_DEFAULT_TEMPERATURE` | `0.1` | 原代码直接转为浮点数，不要留空。 |
+| `CHUNKS_COLLECTION` | `product_knowledge_chunks` | 切片集合，首次导入自动创建。避免填写已有业务集合，重新导入会删除同主体的旧数据。 |
+| `ITEM_NAME_COLLECTION` | `product_knowledge_items` | 主体集合，首次导入自动创建。 |
+| `BGE_DEVICE` / `BGE_RERANKER_DEVICE` | `cpu` | 先用 CPU 验证；CUDA PyTorch 就绪后再切换 `cuda:0`。 |
+| `BGE_FP16` / `BGE_RERANKER_FP16` | `0` | CPU 阶段关闭半精度。 |
+| `MINIO_IMG_DIR` | `images` | 图片对象前缀。 |
+| `MINIO_PDF_DIR` | `pdf_files` | 原文件对象前缀；原 `.env` 未填，但代码有默认值。 |
+| `MINIO_SECURE` | `False` | 原客户端建立连接时硬编码 HTTP，当前阶段先使用 HTTP 端点；HTTPS 端点需要修正客户端后再联调。 |
+| `LOG_*` | 见 `.env.example` | 日志输出和保留时间。 |
+
+## MCP 联网搜索
+
+`MCP_DASHSCOPE_BASE_URL` 是百炼 WebSearch MCP 的 **SSE 服务地址**，不是大模型 `OPENAI_BASE_URL`。需要在自己的百炼账号中开通对应服务，代码调用工具名为 `bailian_web_search`，共用 `OPENAI_API_KEY`。
+
+它属于问答中的补充检索。未配置时不能验证联网搜索能力；原节点会捕获搜索异常继续后续流程，并未提供显式的启用开关。先验证本地知识链路后，再用真实服务地址验证 MCP。
+
+当前实现是 Python 直接通过 `MCPServerSse` 连接工具服务，与官方文档中通过 Responses API 让模型调用 MCP 的方案不同。不要将 Responses API 地址或 Streamable HTTP 端点直接填入 SSE 配置。
+
+原节点发送 `Authorization: <Key>`，没有 Bearer 前缀；官方 MCP 示例使用 `Authorization: Bearer <Key>`。这是后续鉴权联调需核实的兼容性问题，不能通过把 `.env` 中的 Key 加上 Bearer 来处理，因为同一个 Key 还用于大模型客户端。本轮仅记录问题，未修改业务调用代码或宣称 WebSearch 已验证。
+
+## 原文件中出现但不需要照搬的配置
+
+- `NEO4J_*`：Neo4j 工具文件存在，但主流程的 `node_query_kg` 只有进度占位，没有真实图谱查询，不需要部署 Neo4j。
+- `ENTITY_NAME_COLLECTION`：配置类读取但当前主流程未实际使用，原 `.env` 本身缺此项，对运行主链路没有影响。
+- `EMBEDDING_DIM`：当前建集合代码根据实际向量长度计算维度；BGE-M3 为 1024，不依赖该环境变量。
+- `MINERU_MODEL_SOURCE`、`MODELSCOPE_OFFLINE`、`MODELSCOPE_CACHE`、`HF_HOME`：旧机器的下载/缓存配置，不是云端 MinerU API 的必需项。特别是不要照搬 `MODELSCOPE_OFFLINE=1` 阻止首次下载。
+- `MD_ROOT_DIR`、`ITEM_NAME_DIAG`：主链路未读取。
+- `BGE_M3`：配置类读取，但当前嵌入实现选择 `BGE_M3_PATH`，为空才回退 `BAAI/bge-m3`，并未使用这个变量选择模型。
+- `PROJECT_ROOT`：可选的项目根目录覆盖项；正常从当前项目根目录启动时无需设置。
+
+## 本地基础设施及后续服务器部署要求
+
+当前使用 [Windows 本机 Docker 调试说明](WINDOWS_DOCKER.md)，服务器部署暂不处理。
+
+1. 当前选择 Windows 本机 Python + Docker Desktop，连接地址用回环地址，无需 SSH 隧道。
+2. Milvus 支持 `SPARSE_FLOAT_VECTOR` / `SPARSE_INVERTED_INDEX`；Compose 选用 2.6.10，与原 SDK 主次版本对齐。MinIO 改为固定官方源码构建，首次启动前需执行构建命令。
+3. MinIO 使用独立测试桶；原代码会设置该桶匿名只读，浏览器配图也必须能访问其地址。
+4. MongoDB 账号有读写目标数据库、创建索引的权限。
+5. 如服务器 Milvus 必须鉴权，或 MinIO 仅提供 HTTPS，告知实际要求后再做对应的最小客户端适配。
+
+## 官方参考
+
+以下内容于 2026-10-21 直接读取官方页面核对，模型清单随服务更新；不据此推断账号权限或具体计费金额。
+
+- [百炼模型总览](https://help.aliyun.com/zh/model-studio/models)
+- [文本生成模型选择](https://help.aliyun.com/zh/model-studio/text-generation-model)
+- [视觉模型选择](https://help.aliyun.com/zh/model-studio/vision-model)
+- [百炼基础地址与地域](https://help.aliyun.com/zh/model-studio/base-url)
+- [结构化 JSON 输出](https://help.aliyun.com/zh/model-studio/json-mode)
+- [视觉理解与思考模式](https://help.aliyun.com/zh/model-studio/vision)
+- [百炼接入 MCP](https://help.aliyun.com/zh/model-studio/mcp)
+- [MinerU 官方 API 文档](https://mineru.net/apiManage/docs)
+
+
+## M0 离线测试与环境保护（2026-10-22）
+
+默认 `.venv/Scripts/python.exe -m pytest` 只收集 tests/unit、tests/contract；真实测试另用显式脚本。单元测试不读取真实 .env，禁止网络与真实客户端构造。`uv` 实际位于 `C:/Users/10426/.local/bin/uv.exe`。现有 CUDA torch 为 2.10.0+cu128，不直接全量 uv sync；仅安装锁定 pytest==8.4.2 及必要依赖。已验证原依赖锁版本不变。独立测试命名空间见 development/baseline.md。API 导入不会预加载查询图，首次请求编译；Mongo 首次调用才连接。
+
+
+## M0 型号分数阈值
+
+可选 `PRODUCT_MATCH_HIGH_SCORE` 默认 0.85（严格大于），`PRODUCT_MATCH_MIN_SCORE` 默认 0.6（大于等于）；根目录 .env 填写，重启生效。须满足 0 <= min <= high <= 1，不是概率。精确标准名在候选阈值以上优先；否则单一高分自动确认、多个高分返回候选、中分澄清、低分无匹配。默认只是延续已有分数基线，不代表经评测校准。
+
+
+## M0 大模型参数与日志基线
+
+`LLM_PROVIDER` 可选 auto（默认）、dashscope、openai_compatible。auto 仅匹配 dashscope.aliyuncs.com 或其子域的主机名，代理域名需显式指定 dashscope。`LLM_ENABLE_THINKING` 可选 true/false，默认 false；只有 dashscope 才传 enable_thinking，通用供应商不带此字段。根目录 .env 填写，修改后重启；未修改现有模型。LLM_DEFAULT_TEMPERATURE=0 保留，缺省/空值为 0.1。
+
+答案日志记录 session、阶段、字符数和图片数量，不写完整 prompt、知识正文、图片链接；MinerU 结果签名 URL 不记日志。文件日志关闭 Loguru diagnose，避免异常展开局部变量。历史日志未清理；其他旧节点仍需后续按阶段治理，M0 的合成标记检查覆盖本次变更路径。
+
+
+M0-09 实测 SDK 核对：FlagEmbedding 1.3.5 的重排设备参数是 devices，现已正确映射 BGE_RERANKER_DEVICE，配置 cpu 不会自动改选 GPU；没有变更模型或真实 .env。整图原生加载异常与续验方式见 M0-09 记录。
+
+## M0 第2轮验收运行说明
+
+本轮不新增配置或安装依赖；使用环境已有 Pillow/PyMuPDF 做图像解码和来源页渲染。图片验收运行时以 MINIO_SECURE、MINIO_ENDPOINT、MINIO_BUCKET_NAME 绑定准确origin/bucket，key/hash来自原复制清单；不会把前缀相同的任意站点当成允许对象。预期拓扑身份见 `evals/datasets/m0-image-expectation.json`。下载禁自动重定向；正文/final/MIME/hash/可解码全部满足才通过，真实HTTP尚待R3。
+
+阶段回归可运行 `.venv/Scripts/python.exe scripts/verification/run_m0_checks.py --prefix <本轮新M0前缀>`，保存实际退出码、数量及输出哈希；已有前缀拒绝覆盖。复审工具必须显式传 `--spec docs/development/reviews/M0-r2-artifacts.json`，分别运行 build_m0_review_artifacts.py 与 check_m0_submission.py；不再接受隐式旧报告/73项默认。新提交使用 baseline-manifest-r2.json、M0-r2-diff.patch和M0-r2-file-inventory.json，首轮文件保留为历史。
+
+resume_m0_live 的 --cpu-threads/--prewarm-reranker 仅为既有图片失败诊断路径，不等于正常冷启动配置。Docker恢复后仅复用原隔离小样和会话；正常冷启动必须另起默认配置进程，无脚本专有线程覆盖/预热。精确续验命令与当前阻塞见 development/records/M0-09.md。
+
+## M0 第3轮真实验收与审查运行说明
+
+2026-10-23用户恢复已有Docker后，原图片题续验及正常配置新进程冷启动已自验完成，105项单元/契约和3项既有回归通过。上节“真实HTTP尚待R3”是第2轮时点，当前见 `development/reviews/M0-submission-r3.md`。本轮没有新增环境变量、改写.env或安装/升级依赖，因此.env.example无新增项。
+
+共享图片验收仅兼容历史image/jpg→image/jpeg别名，继续以准确hash和实际JPEG格式解码验证，PNG伪装不能通过；既有对象元数据、桶访问策略不变。`recheck_m0_images.py --source <原真实报告> --output <新路径>`只读原隔离Mongo响应，以正文hash唯一匹配和原final证据核对，再真实HTTP获取准确对象；不调用模型，不写历史，旧图调用退出1与复核退出0分别保留。`verify_m0_cold_start.py --source <原真实报告> --output <新路径>`必须以新Python进程运行，读取根目录.env中的正常模型/设备配置，仅覆盖隔离集合/库、关闭日志和禁止模型下载；不设置线程或预热。该脚本会进行真实模型/云服务调用，并在原隔离Mongo库新会话新增两条消息，不作为离线测试运行。
+
+精确实测命令、退出码及设备见 `development/records/M0-09.md`。r3审查文件生成/检查分别运行 `.venv/Scripts/python.exe scripts/verification/build_m0_review_artifacts.py --spec docs/development/reviews/M0-r3-artifacts.json` 与同参数的 `check_m0_submission.py`。选用本轮105/3实测摘要、真实图片复核和正常冷启动报告，生成独立baseline-manifest-r3.json/M0-r3-diff.patch/M0-r3-file-inventory.json，不覆盖原或r2文件。脚本输出存在时不要重跑真实问答覆盖；需要重验应选新输出名并保留历史。

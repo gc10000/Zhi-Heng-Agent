@@ -1,0 +1,62 @@
+{
+  "query": "document chat citations",
+  "search_url": "https://api.github.com/search/repositories?q=document+chat+citations&sort=stars&per_page=8",
+  "results": [
+    {
+      "full_name": "IncarnaMind/IncarnaMind",
+      "html_url": "https://github.com/IncarnaMind/IncarnaMind",
+      "description": "Open-source, Notion-like AI editor for your local documents and meetings: chat with PDFs, Word, Excel and PowerPoint, write and fact-check with page citations, and take AI meeting notes transcribed on your computer. Compare documents in a table. Mac, Windows, Linux. Works with ChatGPT, Claude, Gemini or Ollama. A NotebookLM and Granola alternative.",
+      "stargazers_count": 843,
+      "archived": false
+    },
+    {
+      "full_name": "LeDat98/NexusRAG",
+      "html_url": "https://github.com/LeDat98/NexusRAG",
+      "description": "Hybrid RAG system combining vector search, knowledge graph (LightRAG), and cross-encoder reranking — with Docling document parsing, visual intelligence (image/table captioning), agentic streaming chat, and inline citations. Powered by Gemini or local Ollama models.",
+      "stargazers_count": 530,
+      "archived": false
+    },
+    {
+      "full_name": "VT777/pageindex-chat-studio",
+      "html_url": "https://github.com/VT777/pageindex-chat-studio",
+      "description": "Extends pageIndex into an AI document workspace with multi-format parsing, OCR, visual TOC, custom models, citations, and agentic QA.",
+      "stargazers_count": 41,
+      "archived": false
+    },
+    {
+      "full_name": "petertzy/markdown-reader",
+      "html_url": "https://github.com/petertzy/markdown-reader",
+      "description": "Local-first cross-platform Markdown editor with tabs, live preview, AI chat & translation, sentence comparison, slash commands, citations, document import, advanced tables, browser preview, export, and support for OpenAI, Anthropic, OpenRouter, LM Studio, Ollama & compatible APIs.",
+      "stargazers_count": 40,
+      "archived": false
+    },
+    {
+      "full_name": "janderswag/docuchat.app",
+      "html_url": "https://github.com/janderswag/docuchat.app",
+      "description": "Private, self-hosted document chat for attorneys: parse legal PDFs and query them with local open-source LLMs (Ollama) + verifiable page citations. One-click desktop app at docuchat.app.",
+      "stargazers_count": 35,
+      "archived": false
+    },
+    {
+      "full_name": "Clod/llmwiki-marimo",
+      "html_url": "https://github.com/Clod/llmwiki-marimo",
+      "description": "Local-first LLM wiki — ingests your documents into a curated, citation-backed knowledge base you can read and chat with. Marimo + SQLite/FTS5, any OpenAI-compatible model, no cloud required.",
+      "stargazers_count": 23,
+      "archived": false
+    },
+    {
+      "full_name": "LexStack-AI/LexReviewer",
+      "html_url": "https://github.com/LexStack-AI/LexReviewer",
+      "description": "LexReviewer is an AI legal document review engine that ingests PDFs, uses RAG for hybrid retrieval, and enables grounded chat with citations and bounding-box references, delivering verifiable answers directly from the source text.",
+      "stargazers_count": 21,
+      "archived": false
+    },
+    {
+      "full_name": "iamsaurabhc/picard-oss",
+      "html_url": "https://github.com/iamsaurabhc/picard-oss",
+      "description": "Local-first legal document assistant for legal engineers — upload PDFs, search with BM25/CARP, and chat with citation-grade answers and bbox-grounded highlights. Next.js + FastAPI + SQLite.",
+      "stargazers_count": 16,
+      "archived": false
+    }
+  ]
+}

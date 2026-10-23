@@ -1,0 +1,41 @@
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Environments, downloads and runtime data
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+models/
+data/
+doc/
+logs/
+output/
+temp-files/
+.cache/
+volumes/
+*.log
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# 本地原始验收证据及备份默认不上传；公开摘要单独审阅。
+docs/development/evidence/
+*.pdf
+*.xlsx
+*.xls
+*.safetensors
+*.bin
+node_modules/
+dist/
+.worktrees/
+

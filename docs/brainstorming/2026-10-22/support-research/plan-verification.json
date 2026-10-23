@@ -1,0 +1,25 @@
+{
+  "documents": [
+    {
+      "file": "docs\\plans\\2026-10-22-technical-support-code-audit.md",
+      "bytes": 10977,
+      "local_links_missing": [],
+      "placeholders": []
+    },
+    {
+      "file": "docs\\plans\\2026-10-22-technical-support-optimization.md",
+      "bytes": 45773,
+      "local_links_missing": [],
+      "placeholders": []
+    },
+    {
+      "file": "docs\\plans\\2026-10-22-technical-support-reuse.md",
+      "bytes": 9686,
+      "local_links_missing": [],
+      "placeholders": []
+    }
+  ],
+  "verified_source_files": 16,
+  "source_hash_errors": [],
+  "result": "passed"
+}

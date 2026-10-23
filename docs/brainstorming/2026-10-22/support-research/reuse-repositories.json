@@ -1,0 +1,95 @@
+{
+  "checked_on": "2026-10-22",
+  "projects": [
+    {
+      "repo": "shadcn-ui/ui",
+      "branch": "main",
+      "url": "https://github.com/shadcn-ui/ui",
+      "tree_status": 403,
+      "license_url": "https://raw.githubusercontent.com/shadcn-ui/ui/main/LICENSE.md",
+      "license_intro": "MIT License\n\nCopyright (c) 2023 shadcn\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom ",
+      "commit": "25af02b1b467fcd53b63e0c6d6d324c57c16ef18",
+      "page_status": 200
+    },
+    {
+      "repo": "assistant-ui/assistant-ui",
+      "branch": "main",
+      "url": "https://github.com/assistant-ui/assistant-ui",
+      "tree_status": 403,
+      "license_url": "https://raw.githubusercontent.com/assistant-ui/assistant-ui/main/LICENSE",
+      "license_intro": "MIT License\n\nCopyright (c) 2026 AgentbaseAI Inc.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit person",
+      "commit": "2e82ccddee8fd29e4e9476ddb8b5e9cd802cff64",
+      "page_status": 200
+    },
+    {
+      "repo": "bvaughn/react-resizable-panels",
+      "branch": "main",
+      "url": "https://github.com/bvaughn/react-resizable-panels",
+      "tree_status": 403,
+      "license_url": "https://raw.githubusercontent.com/bvaughn/react-resizable-panels/main/LICENSE.md",
+      "license_intro": "The MIT License (MIT)\n\nCopyright (c) 2018 Brian Vaughn\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit ",
+      "commit": "c19f0a93a96e4f214e9bd7b77eaec155f31f50d7",
+      "page_status": 200
+    },
+    {
+      "repo": "wojtekmaj/react-pdf",
+      "branch": "main",
+      "url": "https://github.com/wojtekmaj/react-pdf",
+      "tree_status": 403,
+      "license_url": "https://raw.githubusercontent.com/wojtekmaj/react-pdf/main/LICENSE",
+      "license_intro": "MIT License\n\nCopyright (c) 2017–2026 Wojciech Maj\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit perso",
+      "commit": "37d18208fef11ceaf366c83bc6bd76e82ee0a3cc",
+      "page_status": 200
+    },
+    {
+      "repo": "explodinggradients/ragas",
+      "branch": "main",
+      "url": "https://github.com/explodinggradients/ragas",
+      "tree_status": 403,
+      "license_url": "https://raw.githubusercontent.com/explodinggradients/ragas/main/LICENSE",
+      "license_intro": "                                 Apache License\n                           Version 2.0, January 2004\n                        http://www.apache.org/licenses/\n\n   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION\n\n   1. Definitions.\n\n      \"License\" shall mean the terms and conditions for use, reproduction,\n      and distribution as defined by Sections 1 through 9 of this document.\n\n     ",
+      "commit": "298b68274234c060deacab3cf5fb52aa3a20e885",
+      "page_status": 200
+    },
+    {
+      "repo": "TanStack/query",
+      "branch": "main",
+      "url": "https://github.com/TanStack/query",
+      "tree_status": 403,
+      "license_url": "https://raw.githubusercontent.com/TanStack/query/main/LICENSE",
+      "license_intro": "MIT License\n\nCopyright (c) 2021-present Tanner Linsley\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit ",
+      "commit": "84332ded752c6796fb3499a47c66f20c22bfbc43",
+      "page_status": 200
+    },
+    {
+      "repo": "langfuse/langfuse",
+      "branch": "main",
+      "url": "https://github.com/langfuse/langfuse",
+      "tree_status": 403,
+      "license_url": "https://raw.githubusercontent.com/langfuse/langfuse/main/LICENSE",
+      "license_intro": "Copyright (c) 2023-2026 ClickHouse, Inc.\n\nPortions of this software are licensed as follows:\n\n- All content that resides under the \"ee/\", \"web/src/ee/\", and/or \"worker/src/ee/\" directories of this repository, if these directories exist, is licensed under the license defined in \"ee/LICENSE\".\n- All third party components incorporated into the Langfuse Software are licensed under the original license",
+      "commit": "2ec7d561c10068bd6949191ffa653d230782531c",
+      "page_status": 200
+    },
+    {
+      "repo": "Cinnamon/kotaemon",
+      "branch": "main",
+      "url": "https://github.com/Cinnamon/kotaemon",
+      "tree_status": 403,
+      "license_url": "https://raw.githubusercontent.com/Cinnamon/kotaemon/main/LICENSE.txt",
+      "license_intro": "                                 Apache License\n                           Version 2.0, January 2004\n                        http://www.apache.org/licenses/\n\n   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION\n\n   1. Definitions.\n\n      \"License\" shall mean the terms and conditions for use, reproduction,\n      and distribution as defined by Sections 1 through 9 of this document.\n\n     ",
+      "commit": "9ad3e4e49aa35b8acddd235918a5d9753c1cfdf9",
+      "page_status": 200
+    },
+    {
+      "repo": "Mintplex-Labs/anything-llm",
+      "branch": "master",
+      "url": "https://github.com/Mintplex-Labs/anything-llm",
+      "tree_status": 403,
+      "license_url": "https://raw.githubusercontent.com/Mintplex-Labs/anything-llm/master/LICENSE",
+      "license_intro": "The MIT License\n\nCopyright (c) Mintplex Labs Inc.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit perso",
+      "commit": "0acf0e896721d214df6a8c50282a6d118666a735",
+      "page_status": 200
+    }
+  ]
+}

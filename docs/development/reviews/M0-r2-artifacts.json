@@ -1,0 +1,39 @@
+{
+  "revision": "r2",
+  "record_date": "2026-10-23",
+  "artifact_prefix": "M0-r2",
+  "submission": "docs/development/reviews/M0-submission-r2.md",
+  "live_report": "docs/development/evidence/M0-09-live-prewarm.json",
+  "validation_report": "docs/development/evidence/M0-r2-validation.json",
+  "cold_start_report": null,
+  "image_expectation": "evals/datasets/m0-image-expectation.json",
+  "manifest_output": "evals/datasets/baseline-manifest-r2.json",
+  "limitations": [
+    "真实报告明确选用前轮预热结果，本轮Docker未恢复，没有运行新真实查询",
+    "已知题与追问旧成功证据保留，原图片题失败根因仍未知",
+    "R2准确拓扑身份和离线检查已通过，真实HTTP、正文/final对应仍待R3验证",
+    "默认正常配置的全新进程冷启动未验收，历史有两次原生加载异常",
+    "Docker一次只读检查仍无Linux引擎管道，本轮不重复失败预检",
+    "真实图原经API runner调用，未启动HTTP服务作真实全流程验收",
+    "MCP缺配置、KG原占位不计通过；不宣称质量或性能提升",
+    "N1无分隔符长串与超长标题边界保留交M1-07，M1未授权"
+  ],
+  "evidence": [
+    "docs/development/evidence/M0-r2-R1-red.txt",
+    "docs/development/evidence/M0-r2-R1-green.txt",
+    "docs/development/evidence/M0-r2-R2-red.txt",
+    "docs/development/evidence/M0-r2-R2-green.txt",
+    "docs/development/evidence/M0-r2-validation.json",
+    "docs/development/evidence/M0-r2-pytest.txt",
+    "docs/development/evidence/M0-r2-reimport.txt",
+    "docs/development/evidence/M0-r2-R3-infrastructure.json",
+    "docs/development/evidence/M0-r2-topology-check.txt",
+    "docs/development/evidence/M0-r2-expected-topology.jpg",
+    "docs/development/evidence/M0-r2-topology-original-page.png",
+    "docs/development/evidence/M0-09-live-first.json",
+    "docs/development/evidence/M0-09-live-resume.json",
+    "docs/development/evidence/M0-09-live-prewarm.json",
+    "docs/development/evidence/M0-09-live-image-retry.json",
+    "docs/development/evidence/M0-09-infrastructure-blocker.json"
+  ]
+}

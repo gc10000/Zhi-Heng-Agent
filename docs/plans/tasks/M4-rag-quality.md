@@ -1,0 +1,180 @@
+# M4：RAG 质量与性能实验开发 ToDo
+
+> 执行方式：按任务逐项开发；使用 superpowers:executing-plans 技能。任务中的步骤采用勾选框跟踪；不自行派发子代理。
+
+**目标：**交付“RAG 质量与性能实验”阶段可独立验收的能力。
+**架构：**沿现有 Python/FastAPI/LangGraph 链路做小步适配；Vue 3 前端只消费统一 API 与事件契约。保留旧入口与数据直至本阶段验收通过。
+**技术栈：**Vue 3 / TypeScript / FastAPI / MongoDB / Milvus / MinIO；具体测试工具与依赖在对应任务中建立。
+**设计依据：**[优化方案](../2026-10-22-technical-support-optimization.md)、[接口与数据契约](../DEVELOPMENT_CONTRACTS.md)、[开发总清单](../DEVELOPMENT_TODO.md)。
+
+## 进入条件与执行约束
+
+真实实现依赖 M1-11/M2-12；固定题集和标注规则先于策略调参。
+
+- 以下文件均为**计划创建/修改**，不表示已经存在；执行前用 `rg` 核对真实接口与源码。
+- 本阶段遵守总清单中的 Vue 3、中文注释、数据隔离、配置脱敏和完成证据规则。
+- 每个代码任务先增加能揭示错误的用例，再做最小实现；文档、样式等低影响变更按实际结果检查，不写镜像测试。
+- 每完成一个任务，记录验证命令、输出摘要、涉及文件和遗留问题；验证通过后才勾选[总清单](../DEVELOPMENT_TODO.md)，并更新[进度](../../development/PROGRESS.md)与[变更记录](../../development/CHANGELOG.md)。
+- 命令均从项目根目录运行；`pnpm -C frontend` 命令需 M3-01 建立对应 scripts 后才存在。依赖安装和测试数据准备不表示任务验收通过。
+- 每个任务验证其直接影响的行为，阶段验收时再执行阶段回归；不要重复运行无关全量测试。
+
+<a id="m4-01"></a>
+### M4-01：首批 50 题与原链路基线
+
+**依赖：**M0-09,M1-11,M2-12。
+**文件：**`evals/datasets/support-v1.jsonl`; `evals/datasets/split-manifest.json`; `evals/configs/baseline.yaml`; `app/evaluation/validate_dataset.py`; `app/evaluation/runner.py`; `docs/evaluation/labeling-guide.md`。
+**接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
+
+- [ ] **M4-01.1** 覆盖参数/配置/故障/型号歧义/图示/跨型/无答案。
+- [ ] **M4-01.2** 人工标标准证据与适用型号。
+- [ ] **M4-01.3** 建立最小 JSONL 校验器和基线运行器，固定调参/评估划分再跑原链路。
+- [ ] **M4-01.V** 验证：.venv/Scripts/python.exe -m app.evaluation.validate_dataset evals/datasets/support-v1.jsonl。
+- [ ] **M4-01.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+
+**验收：**每题有来源/允许证据/期望行为；保留多个正确证据；没有捏造提升指标或提前用 heldout 调参；M4 不依赖 M6 尚未建立的运行器。
+
+首次基线实际执行入口（在本任务建立校验器/运行器后运行）：
+
+```powershell
+.venv/Scripts/python.exe -m app.evaluation.validate_dataset evals/datasets/support-v1.jsonl
+.venv/Scripts/python.exe -m app.evaluation.runner --dataset evals/datasets/support-v1.jsonl --config evals/configs/baseline.yaml --output output/evals/support-v1-baseline
+```
+
+运行器须遵循冻结划分，仅在允许的 split 上开展调参实验。把脱敏后的结果清单与参数记录到验收文件；`output/` 中的原始问题与回答不默认公开。
+
+<a id="m4-02"></a>
+### M4-02：统一候选与分阶段追踪
+
+**依赖：**M4-01。
+**文件：**`app/retrieval/models.py`; `app/retrieval/adapters.py`; `app/query_process/agent/nodes/node_rrf.py`; `app/query_process/agent/nodes/node_rerank.py`; `tests/unit/test_retrieval_provenance.py`。
+**接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
+
+- [ ] **M4-02.1** 定义 RetrievalHit/QueryPlan/EvidencePack。
+- [ ] **M4-02.2** 保留 dense/sparse rank、RRF、rerank、revision 和来源。
+- [ ] **M4-02.3** 融合去重稳定 ID。
+- [ ] **M4-02.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_retrieval_provenance.py -q。
+- [ ] **M4-02.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+
+**验收：**所有来源经过重排仍可回溯；不同阶段分数不混同；图片不再从未纳入上下文的候选提取。
+
+<a id="m4-03"></a>
+### M4-03：产品目录、改写与主体约束
+
+**依赖：**M4-02。
+**文件：**`app/products/resolver.py`; `app/conversations/context.py`; `app/retrieval/query_planner.py`; `tests/unit/test_query_plans.py`。
+**接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
+
+- [ ] **M4-03.1** 标准型号/系列/别名先精确后向量。
+- [ ] **M4-03.2** 原问题/结构槽位与改写分开。
+- [ ] **M4-03.3** 显式切换、泛化和双型号比较独立路由。
+- [ ] **M4-03.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_query_plans.py -q。
+- [ ] **M4-03.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+
+**验收：**不回写旧消息；改写不新增未确认事实；近型号必须澄清；跨型比较分范围取证。
+
+<a id="m4-04"></a>
+### M4-04：候选池、融合与重排消融
+
+**依赖：**M4-02。
+**文件：**`app/retrieval/search.py`; `app/retrieval/fusion.py`; `app/retrieval/rerank.py`; `evals/configs/retrieval-grid.yaml`; `tests/integration/test_scope_filters.py`。
+**接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
+
+- [ ] **M4-04.1** 分别配置 dense/sparse 初召回量、RRF 池、重排量、上下文数。
+- [ ] **M4-04.2** 同源产品/权限/活动修订过滤共用。
+- [ ] **M4-04.3** 保留原策略可回切。
+- [ ] **M4-04.V** 验证：.venv/Scripts/python.exe -m pytest tests/integration/test_scope_filters.py -m integration -q；固定题集运行配置网格。
+- [ ] **M4-04.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+
+**验收：**learned sparse 不标成 BM25；每组实验记录检索指标/延时/资源；没有实验支持不升默认候选数。
+
+<a id="m4-05"></a>
+### M4-05：条件 HyDE 与图汇合
+
+**依赖：**M4-03,M4-04。
+**文件：**`app/retrieval/routing.py`; `app/retrieval/graph.py`; `app/query_process/agent/nodes/node_query_kg.py`; `tests/unit/test_retrieval_graph.py`。
+**接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
+
+- [ ] **M4-05.1** 明确类型才触发 HyDE/有限分解。
+- [ ] **M4-05.2** 占位 KG 移出正式路径。
+- [ ] **M4-05.3** 不同分支延时/跳过/空/超时使用受控 reducer 与汇合。
+- [ ] **M4-05.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_retrieval_graph.py -q。
+- [ ] **M4-05.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+
+**验收：**每次请求只汇合一次；HyDE 文本只作查询不作证据；禁用增强仍可本地回答；分支故障可记录降级。
+
+<a id="m4-06"></a>
+### M4-06：父子相邻扩展与图表证据
+
+**依赖：**M4-02,M1-07。
+**文件：**`app/retrieval/expansion.py`; `app/answering/evidence.py`; `tests/unit/test_evidence_expansion.py`。
+**接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
+
+- [ ] **M4-06.1** 只扩展同修订/型号父子与相邻块。
+- [ ] **M4-06.2** 预算内保留必要前提、表头和原图。
+- [ ] **M4-06.3** 评估去重和多样性。
+- [ ] **M4-06.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_evidence_expansion.py -q。
+- [ ] **M4-06.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+
+**验收：**不把整章无差别塞入；扩展不会越权或跨版本；图片与当前引用证据对应。
+
+<a id="m4-07"></a>
+### M4-07：token 预算与引用校验
+
+**依赖：**M4-06。
+**文件：**`app/answering/context_budget.py`; `app/answering/citations.py`; `app/answering/service.py`; `tests/unit/test_answer_grounding.py`。
+**接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
+
+- [ ] **M4-07.1** 模型可用 token 减系统/问题/历史/输出预留。
+- [ ] **M4-07.2** 真实 tokenizer 或记录保守估计。
+- [ ] **M4-07.3** 编号白名单/asset/revision 校验，支持不足/部分/澄清。
+- [ ] **M4-07.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_answer_grounding.py -q。
+- [ ] **M4-07.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+
+**验收：**中英混合长输入不越预算；不存在的引用被拒绝或修正；无证据不自动留一条当可信；保留字符兜底。
+
+<a id="m4-08"></a>
+### M4-08：模型宿主、并发与缓存
+
+**依赖：**M4-04。
+**文件：**`app/infrastructure/models/host.py`; `app/lm/embedding_utils.py`; `app/lm/reranker_utils.py`; `app/retrieval/cache.py`; `tests/unit/test_model_lifecycle.py`。
+**接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
+
+- [ ] **M4-08.1** 核实 SDK query/document 编码。
+- [ ] **M4-08.2** 锁定模型加载、预热和小批推理。
+- [ ] **M4-08.3** 缓存含权限/产品/修订/模型/策略。
+- [ ] **M4-08.4** 测显存后再决定独立推理进程。
+- [ ] **M4-08.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_model_lifecycle.py -q；受控 1/2/4 会话资源测量。
+- [ ] **M4-08.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+
+**验收：**并发首次调用仅一份模型；退出/修订后缓存不串权限；记录 GPU/CPU 性能与显存，不预设吞吐。
+
+<a id="m4-09"></a>
+### M4-09：供应商能力与超时策略
+
+**依赖：**M0-08,M2-01。
+**文件：**`app/infrastructure/providers/`; `app/settings.py`; `.env.example`; `docs/CONFIGURATION.md`; `tests/contract/test_provider_capabilities.py`。
+**接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
+
+- [ ] **M4-09.1** 按文本/视觉/嵌入/重排能力配置 timeout/retry/JSON。
+- [ ] **M4-09.2** 验证格式并分类错误。
+- [ ] **M4-09.3** 能力检测与真实调用分离。
+- [ ] **M4-09.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_provider_capabilities.py -q。
+- [ ] **M4-09.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+
+**验收：**温度零保留；错误模型/鉴权失败明示；JSON 不合法可控重试；缺工具配置不阻断本地问答。
+
+<a id="m4-10"></a>
+### M4-10：M4 实验报告与默认策略选择
+
+**依赖：**M4-05,M4-07,M4-08,M4-09。
+**文件：**`docs/evaluation/retrieval-report.md`; `evals/results/manifest.json`; `docs/development/records/M4-10.md`。
+**接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
+
+- [ ] **M4-10.1** 同题集固定版本比较每个单因素、组合与基线。
+- [ ] **M4-10.2** 按题型列失败例、成本、p50/p95。
+- [ ] **M4-10.3** 保留无需增强的低成本路径。
+- [ ] **M4-10.V** 验证：运行实验记录的固定配置，并人工抽检标准引用与答案；无真实结果时任务不可勾选。
+- [ ] **M4-10.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+
+**验收：**heldout 只在策略选定后评价；没有稳定收益保留旧默认；报告给出可重复命令与回滚配置。
+

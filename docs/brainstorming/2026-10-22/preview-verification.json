@@ -1,0 +1,97 @@
+{
+  "checked_at": "2026-10-22T07:13:11.357Z",
+  "method": "Headless Chrome / CDP",
+  "checks": [
+    {
+      "view": "support",
+      "title": "知衡 · 设备技术支持工作台推荐方向",
+      "width": 1600,
+      "scroll": 1600,
+      "hasContent": true
+    },
+    {
+      "view": "reading",
+      "title": "页知 · 文档研究工作台",
+      "width": 1600,
+      "scroll": 1600,
+      "hasContent": true
+    },
+    {
+      "view": "portal",
+      "title": "知域 · 团队知识服务台",
+      "width": 1600,
+      "scroll": 1585,
+      "hasContent": true
+    },
+    {
+      "view": "compare",
+      "title": "先选产品定位，再决定页面和技术取舍。",
+      "width": 1600,
+      "scroll": 1600,
+      "hasContent": true
+    },
+    {
+      "view": "library",
+      "title": "让知识维护也有可见的过程。",
+      "width": 1600,
+      "scroll": 1585,
+      "hasContent": true
+    },
+    {
+      "view": "lab",
+      "title": "让“优化”有可以比较的证据。",
+      "width": 1600,
+      "scroll": 1585,
+      "hasContent": true
+    },
+    {
+      "view": "sources",
+      "title": "借鉴交互模式，保留自己的业务与实现。",
+      "width": 1600,
+      "scroll": 1600,
+      "hasContent": true
+    },
+    {
+      "view": "support",
+      "width": 390,
+      "scroll": 390
+    },
+    {
+      "view": "reading",
+      "width": 390,
+      "scroll": 390
+    },
+    {
+      "view": "portal",
+      "width": 390,
+      "scroll": 390
+    },
+    {
+      "view": "compare",
+      "width": 390,
+      "scroll": 390
+    },
+    {
+      "view": "library",
+      "width": 390,
+      "scroll": 390
+    },
+    {
+      "view": "lab",
+      "width": 390,
+      "scroll": 390
+    },
+    {
+      "view": "sources",
+      "width": 390,
+      "scroll": 390
+    }
+  ],
+  "browser_errors": [],
+  "failed_requests": [],
+  "request_urls": [
+    "http://127.0.0.1:8766/index.html",
+    "http://127.0.0.1:8766/favicon.ico"
+  ],
+  "result": "passed"
+}

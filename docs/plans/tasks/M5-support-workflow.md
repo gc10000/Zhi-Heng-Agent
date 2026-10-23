@@ -1,0 +1,139 @@
+# M5：技术支持流程与有限 Agent开发 ToDo
+
+> 执行方式：按任务逐项开发；使用 superpowers:executing-plans 技能。任务中的步骤采用勾选框跟踪；不自行派发子代理。
+
+**目标：**交付“技术支持流程与有限 Agent”阶段可独立验收的能力。
+**架构：**沿现有 Python/FastAPI/LangGraph 链路做小步适配；Vue 3 前端只消费统一 API 与事件契约。保留旧入口与数据直至本阶段验收通过。
+**技术栈：**Vue 3 / TypeScript / FastAPI / MongoDB / Milvus / MinIO；具体测试工具与依赖在对应任务中建立。
+**设计依据：**[优化方案](../2026-10-22-technical-support-optimization.md)、[接口与数据契约](../DEVELOPMENT_CONTRACTS.md)、[开发总清单](../DEVELOPMENT_TODO.md)。
+
+## 进入条件与执行约束
+
+依赖 M3-11 与 M4-10，先确定支持状态机，再加入工具调用。
+
+- 以下文件均为**计划创建/修改**，不表示已经存在；执行前用 `rg` 核对真实接口与源码。
+- 本阶段遵守总清单中的 Vue 3、中文注释、数据隔离、配置脱敏和完成证据规则。
+- 每个代码任务先增加能揭示错误的用例，再做最小实现；文档、样式等低影响变更按实际结果检查，不写镜像测试。
+- 每完成一个任务，记录验证命令、输出摘要、涉及文件和遗留问题；验证通过后才勾选[总清单](../DEVELOPMENT_TODO.md)，并更新[进度](../../development/PROGRESS.md)与[变更记录](../../development/CHANGELOG.md)。
+- 命令均从项目根目录运行；`pnpm -C frontend` 命令需 M3-01 建立对应 scripts 后才存在。依赖安装和测试数据准备不表示任务验收通过。
+- 每个任务验证其直接影响的行为，阶段验收时再执行阶段回归；不要重复运行无关全量测试。
+
+<a id="m5-01"></a>
+### M5-01：支持状态机与结构槽位
+
+**依赖：**M3-11,M4-10。
+**文件：**`app/support/models.py`; `app/support/workflow.py`; `tests/unit/test_support_workflow.py`。
+**接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
+
+- [ ] **M5-01.1** 问题/设备/现象/环境/错误码/已尝试步骤版本化。
+- [ ] **M5-01.2** 缺槽位询问、证据不足退出转交。
+- [ ] **M5-01.3** 一次只收集必要信息。
+- [ ] **M5-01.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_support_workflow.py -q。
+- [ ] **M5-01.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+
+**验收：**等待输入持久化且可恢复；无进展/缺证据有出口；不把用户未确认信息当事实。
+
+<a id="m5-02"></a>
+### M5-02：引用绑定操作清单
+
+**依赖：**M5-01。
+**文件：**`app/support/checklist.py`; `frontend/src/features/cases/components/OperationChecklist.vue`; `tests/unit/test_operation_checklist.py`。
+**接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
+
+- [ ] **M5-02.1** 步骤含前提、引用、风险提示和用户自报结果。
+- [ ] **M5-02.2** 允许标记未试/已试/无效。
+- [ ] **M5-02.3** 保留实际记录时间。
+- [ ] **M5-02.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_operation_checklist.py -q。
+- [ ] **M5-02.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+
+**验收：**AI 建议与执行事实分开；每个具体操作可追溯；后续追问不重复无效步骤。
+
+<a id="m5-03"></a>
+### M5-03：处理记录与转交草稿
+
+**依赖：**M5-02。
+**文件：**`app/support/cases.py`; `app/support/api.py`; `frontend/src/features/cases/CasesPage.vue`; `tests/contract/test_case_confirmation.py`。
+**接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
+
+- [ ] **M5-03.1** 从 run/操作结果生成草稿。
+- [ ] **M5-03.2** 用户修改/确认保存，未知字段显式未知。
+- [ ] **M5-03.3** 记录 owner/版本/引用快照。
+- [ ] **M5-03.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_case_confirmation.py -q。
+- [ ] **M5-03.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+
+**验收：**未经确认只为 draft；重新生成不覆盖用户编辑；转交草稿可追溯对应问题和实际结果。
+
+<a id="m5-04"></a>
+### M5-04：有限工具注册与执行预算
+
+**依赖：**M5-01。
+**文件：**`app/support/tools.py`; `app/support/budget.py`; `tests/unit/test_tool_budget.py`。
+**接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
+
+- [ ] **M5-04.1** 白名单工具、输入输出 schema、调用轮数/时长/token 上限。
+- [ ] **M5-04.2** 工具失败/重复结果退出。
+- [ ] **M5-04.3** 默认只读工具。
+- [ ] **M5-04.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_tool_budget.py -q。
+- [ ] **M5-04.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+
+**验收：**恶意文档不能触发越权工具；最多达到预算即停止并说明；不引入自主设备控制。
+
+<a id="m5-05"></a>
+### M5-05：澄清恢复与上下文纠正
+
+**依赖：**M5-03,M5-04。
+**文件：**`app/conversations/context.py`; `app/support/commands.py`; `frontend/src/features/cases/components/SupportContext.vue`; `tests/contract/test_support_resume.py`。
+**接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
+
+- [ ] **M5-05.1** 持久 awaiting_input 与上下文摘要版本。
+- [ ] **M5-05.2** 用户可纠正型号/步骤结果。
+- [ ] **M5-05.3** 迟到响应核对 run/context version。
+- [ ] **M5-05.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_support_resume.py -q。
+- [ ] **M5-05.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+
+**验收：**刷新可继续，取消后不复活；纠正只影响未来轮次；旧处理记录保留原快照。
+
+<a id="m5-06"></a>
+### M5-06：官方网页 MCP 工具（可选）
+
+**依赖：**M5-04,M4-09。
+**文件：**`app/support/web_tool.py`; `app/query_process/agent/nodes/node_web_search_mcp.py`; `tests/contract/test_web_tool.py`; `docs/runbooks/mcp-search.md`。
+**接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
+
+- [ ] **M5-06.1** 显式启用与用户允许，配置鉴权、域名白名单、短超时。
+- [ ] **M5-06.2** 保留网页时间/URL。
+- [ ] **M5-06.3** 引用区分外部与内部。
+- [ ] **M5-06.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_web_tool.py -q；无服务时登记延期理由，不标成已集成。
+- [ ] **M5-06.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+
+**验收：**未配置时跳过；官方页面冲突说明版本；超时降级不阻断本地；实际启用前真实凭据联调。
+
+<a id="m5-07"></a>
+### M5-07：反馈分类与草稿导出
+
+**依赖：**M5-03。
+**文件：**`app/support/feedback.py`; `app/support/export.py`; `frontend/src/features/cases/components/FeedbackForm.vue`; `tests/contract/test_feedback_export.py`。
+**接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
+
+- [ ] **M5-07.1** 反馈按型号/证据/缺资料/步骤/配图分类。
+- [ ] **M5-07.2** 关联 run/citation。
+- [ ] **M5-07.3** 导出 Markdown 时转义并含资料版本。
+- [ ] **M5-07.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_feedback_export.py -q。
+- [ ] **M5-07.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+
+**验收：**反馈不自动成为知识；导出只含授权资料；用户编辑和实际操作记录保留。
+
+<a id="m5-08"></a>
+### M5-08：M5 阶段验收
+
+**依赖：**M5-05,M5-07。
+**文件：**`frontend/tests/e2e/support-case.spec.ts`; `docs/development/records/M5-08.md`。
+**接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
+
+- [ ] **M5-08.1** 真实演示未解决追问→记录已试→新建议或转交→确认草稿→导出→反馈。
+- [ ] **M5-08.2** 检查循环上限与恢复。
+- [ ] **M5-08.V** 验证：pnpm -C frontend test:e2e -- support-case.spec.ts；.venv/Scripts/python.exe -m pytest tests/unit/test_support_workflow.py tests/unit/test_tool_budget.py -q。
+- [ ] **M5-08.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+
+**验收：**可选 MCP 即使延期也有明确范围决定；核心流程有真实引用与用户确认；无伪造已完成操作。
+

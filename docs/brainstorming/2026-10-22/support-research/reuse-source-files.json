@@ -1,0 +1,194 @@
+[
+  {
+    "repo": "shadcn-ui/ui",
+    "commit": "25af02b1b467fcd53b63e0c6d6d324c57c16ef18",
+    "path": "apps/v4/registry/new-york-v4/ui/sidebar.tsx",
+    "url": "https://raw.githubusercontent.com/shadcn-ui/ui/25af02b1b467fcd53b63e0c6d6d324c57c16ef18/apps/v4/registry/new-york-v4/ui/sidebar.tsx",
+    "github_url": "https://github.com/shadcn-ui/ui/blob/25af02b1b467fcd53b63e0c6d6d324c57c16ef18/apps/v4/registry/new-york-v4/ui/sidebar.tsx",
+    "status": 200,
+    "local_path": "Product-Knowledge-Rag\\docs\\brainstorming\\2026-10-22\\support-research\\source-snapshots\\shadcn-ui__ui\\apps\\v4\\registry\\new-york-v4\\ui\\sidebar.tsx",
+    "lines": 726,
+    "sha256": "4b474046db825fd20659f7d93759e71fd8016681dd715c1e7721842c3e4df4ee"
+  },
+  {
+    "repo": "shadcn-ui/ui",
+    "commit": "25af02b1b467fcd53b63e0c6d6d324c57c16ef18",
+    "path": "apps/v4/registry/new-york-v4/ui/resizable.tsx",
+    "url": "https://raw.githubusercontent.com/shadcn-ui/ui/25af02b1b467fcd53b63e0c6d6d324c57c16ef18/apps/v4/registry/new-york-v4/ui/resizable.tsx",
+    "github_url": "https://github.com/shadcn-ui/ui/blob/25af02b1b467fcd53b63e0c6d6d324c57c16ef18/apps/v4/registry/new-york-v4/ui/resizable.tsx",
+    "status": 200,
+    "local_path": "Product-Knowledge-Rag\\docs\\brainstorming\\2026-10-22\\support-research\\source-snapshots\\shadcn-ui__ui\\apps\\v4\\registry\\new-york-v4\\ui\\resizable.tsx",
+    "lines": 52,
+    "sha256": "7c50624df9d11185d41fa3d6cf28d8ab6e12ca552334af3ef29cb141c7d46ef2"
+  },
+  {
+    "repo": "shadcn-ui/ui",
+    "commit": "25af02b1b467fcd53b63e0c6d6d324c57c16ef18",
+    "path": "apps/v4/registry/new-york-v4/ui/dialog.tsx",
+    "url": "https://raw.githubusercontent.com/shadcn-ui/ui/25af02b1b467fcd53b63e0c6d6d324c57c16ef18/apps/v4/registry/new-york-v4/ui/dialog.tsx",
+    "github_url": "https://github.com/shadcn-ui/ui/blob/25af02b1b467fcd53b63e0c6d6d324c57c16ef18/apps/v4/registry/new-york-v4/ui/dialog.tsx",
+    "status": 200,
+    "local_path": "Product-Knowledge-Rag\\docs\\brainstorming\\2026-10-22\\support-research\\source-snapshots\\shadcn-ui__ui\\apps\\v4\\registry\\new-york-v4\\ui\\dialog.tsx",
+    "lines": 158,
+    "sha256": "6dab27ba10039648dfbc570ef878f4701ed77464581492e82eddca8af1153720"
+  },
+  {
+    "repo": "assistant-ui/assistant-ui",
+    "commit": "2e82ccddee8fd29e4e9476ddb8b5e9cd802cff64",
+    "path": "README.md",
+    "url": "https://raw.githubusercontent.com/assistant-ui/assistant-ui/2e82ccddee8fd29e4e9476ddb8b5e9cd802cff64/README.md",
+    "github_url": "https://github.com/assistant-ui/assistant-ui/blob/2e82ccddee8fd29e4e9476ddb8b5e9cd802cff64/README.md",
+    "status": 200,
+    "local_path": "Product-Knowledge-Rag\\docs\\brainstorming\\2026-10-22\\support-research\\source-snapshots\\assistant-ui__assistant-ui\\README.md",
+    "lines": 163,
+    "sha256": "4ac2ced71864fe8b8015475c37fc995001d368de0c29ce025016efb96f079ae8"
+  },
+  {
+    "repo": "wojtekmaj/react-pdf",
+    "commit": "37d18208fef11ceaf366c83bc6bd76e82ee0a3cc",
+    "path": "packages/react-pdf/src/Document.tsx",
+    "url": "https://raw.githubusercontent.com/wojtekmaj/react-pdf/37d18208fef11ceaf366c83bc6bd76e82ee0a3cc/packages/react-pdf/src/Document.tsx",
+    "github_url": "https://github.com/wojtekmaj/react-pdf/blob/37d18208fef11ceaf366c83bc6bd76e82ee0a3cc/packages/react-pdf/src/Document.tsx",
+    "status": 200,
+    "local_path": "Product-Knowledge-Rag\\docs\\brainstorming\\2026-10-22\\support-research\\source-snapshots\\wojtekmaj__react-pdf\\packages\\react-pdf\\src\\Document.tsx",
+    "lines": 646,
+    "sha256": "797235c7926ab48b64c12ae4fc85e91f279a6a264e731d3db3550445abf19387"
+  },
+  {
+    "repo": "wojtekmaj/react-pdf",
+    "commit": "37d18208fef11ceaf366c83bc6bd76e82ee0a3cc",
+    "path": "packages/react-pdf/src/Page.tsx",
+    "url": "https://raw.githubusercontent.com/wojtekmaj/react-pdf/37d18208fef11ceaf366c83bc6bd76e82ee0a3cc/packages/react-pdf/src/Page.tsx",
+    "github_url": "https://github.com/wojtekmaj/react-pdf/blob/37d18208fef11ceaf366c83bc6bd76e82ee0a3cc/packages/react-pdf/src/Page.tsx",
+    "status": 200,
+    "local_path": "Product-Knowledge-Rag\\docs\\brainstorming\\2026-10-22\\support-research\\source-snapshots\\wojtekmaj__react-pdf\\packages\\react-pdf\\src\\Page.tsx",
+    "lines": 685,
+    "sha256": "72273b48230266576c9586712e82041278f0858edd9d739bf68adf599f13d28b"
+  },
+  {
+    "repo": "Cinnamon/kotaemon",
+    "commit": "9ad3e4e49aa35b8acddd235918a5d9753c1cfdf9",
+    "path": "libs/ktem/ktem/reasoning/simple.py",
+    "url": "https://raw.githubusercontent.com/Cinnamon/kotaemon/9ad3e4e49aa35b8acddd235918a5d9753c1cfdf9/libs/ktem/ktem/reasoning/simple.py",
+    "github_url": "https://github.com/Cinnamon/kotaemon/blob/9ad3e4e49aa35b8acddd235918a5d9753c1cfdf9/libs/ktem/ktem/reasoning/simple.py",
+    "status": 200,
+    "local_path": "Product-Knowledge-Rag\\docs\\brainstorming\\2026-10-22\\support-research\\source-snapshots\\Cinnamon__kotaemon\\libs\\ktem\\ktem\\reasoning\\simple.py",
+    "lines": 609,
+    "sha256": "6899310b647d841ac3cca424784ba4acc3b82ce763c181ff7e62987605f814b9"
+  },
+  {
+    "repo": "Cinnamon/kotaemon",
+    "commit": "9ad3e4e49aa35b8acddd235918a5d9753c1cfdf9",
+    "path": "libs/ktem/ktem/components.py",
+    "url": "https://raw.githubusercontent.com/Cinnamon/kotaemon/9ad3e4e49aa35b8acddd235918a5d9753c1cfdf9/libs/ktem/ktem/components.py",
+    "github_url": "https://github.com/Cinnamon/kotaemon/blob/9ad3e4e49aa35b8acddd235918a5d9753c1cfdf9/libs/ktem/ktem/components.py",
+    "status": 200,
+    "local_path": "Product-Knowledge-Rag\\docs\\brainstorming\\2026-10-22\\support-research\\source-snapshots\\Cinnamon__kotaemon\\libs\\ktem\\ktem\\components.py",
+    "lines": 186,
+    "sha256": "6f95f14f9606da3d7f5bc0b30a18cdaba49ef13383f3162e957d62d337fbe23a"
+  },
+  {
+    "repo": "explodinggradients/ragas",
+    "commit": "298b68274234c060deacab3cf5fb52aa3a20e885",
+    "path": "src/ragas/metrics/_faithfulness.py",
+    "url": "https://raw.githubusercontent.com/explodinggradients/ragas/298b68274234c060deacab3cf5fb52aa3a20e885/src/ragas/metrics/_faithfulness.py",
+    "github_url": "https://github.com/explodinggradients/ragas/blob/298b68274234c060deacab3cf5fb52aa3a20e885/src/ragas/metrics/_faithfulness.py",
+    "status": 200,
+    "local_path": "Product-Knowledge-Rag\\docs\\brainstorming\\2026-10-22\\support-research\\source-snapshots\\explodinggradients__ragas\\src\\ragas\\metrics\\_faithfulness.py",
+    "lines": 276,
+    "sha256": "9041c38220c04b1b92e4145371b7c2bb6c83f68fea5aa1a15ef58789950875fd"
+  },
+  {
+    "repo": "explodinggradients/ragas",
+    "commit": "298b68274234c060deacab3cf5fb52aa3a20e885",
+    "path": "src/ragas/metrics/_context_precision.py",
+    "url": "https://raw.githubusercontent.com/explodinggradients/ragas/298b68274234c060deacab3cf5fb52aa3a20e885/src/ragas/metrics/_context_precision.py",
+    "github_url": "https://github.com/explodinggradients/ragas/blob/298b68274234c060deacab3cf5fb52aa3a20e885/src/ragas/metrics/_context_precision.py",
+    "status": 200,
+    "local_path": "Product-Knowledge-Rag\\docs\\brainstorming\\2026-10-22\\support-research\\source-snapshots\\explodinggradients__ragas\\src\\ragas\\metrics\\_context_precision.py",
+    "lines": 331,
+    "sha256": "a7df0342f863b42edadc711842496ae6f1179604df8d280ec678bbee7a3ae4eb"
+  },
+  {
+    "repo": "TanStack/query",
+    "commit": "84332ded752c6796fb3499a47c66f20c22bfbc43",
+    "path": "packages/react-query/src/useQuery.ts",
+    "url": "https://raw.githubusercontent.com/TanStack/query/84332ded752c6796fb3499a47c66f20c22bfbc43/packages/react-query/src/useQuery.ts",
+    "github_url": "https://github.com/TanStack/query/blob/84332ded752c6796fb3499a47c66f20c22bfbc43/packages/react-query/src/useQuery.ts",
+    "status": 200,
+    "local_path": "Product-Knowledge-Rag\\docs\\brainstorming\\2026-10-22\\support-research\\source-snapshots\\TanStack__query\\packages\\react-query\\src\\useQuery.ts",
+    "lines": 293,
+    "sha256": "82e5af6d8269345373f281bcfe96777f7e6c3369590f3addb87ddd6244acc3d4"
+  },
+  {
+    "repo": "Mintplex-Labs/anything-llm",
+    "commit": "0acf0e896721d214df6a8c50282a6d118666a735",
+    "path": "server/models/workspace.js",
+    "url": "https://raw.githubusercontent.com/Mintplex-Labs/anything-llm/0acf0e896721d214df6a8c50282a6d118666a735/server/models/workspace.js",
+    "github_url": "https://github.com/Mintplex-Labs/anything-llm/blob/0acf0e896721d214df6a8c50282a6d118666a735/server/models/workspace.js",
+    "status": 200,
+    "local_path": "Product-Knowledge-Rag\\docs\\brainstorming\\2026-10-22\\support-research\\source-snapshots\\Mintplex-Labs__anything-llm\\server\\models\\workspace.js",
+    "lines": 726,
+    "sha256": "304671636c354c78e80e1c6742f65766b18c05c8046f6de8b355e8e164cb542f"
+  },
+  {
+    "repo": "assistant-ui/assistant-ui",
+    "commit": "2e82ccddee8fd29e4e9476ddb8b5e9cd802cff64",
+    "path": "apps/docs/content/docs/runtimes/custom/external-store.mdx",
+    "status": 200,
+    "url": "https://raw.githubusercontent.com/assistant-ui/assistant-ui/2e82ccddee8fd29e4e9476ddb8b5e9cd802cff64/apps/docs/content/docs/runtimes/custom/external-store.mdx",
+    "github_url": "https://github.com/assistant-ui/assistant-ui/blob/2e82ccddee8fd29e4e9476ddb8b5e9cd802cff64/apps/docs/content/docs/runtimes/custom/external-store.mdx",
+    "local_path": "Product-Knowledge-Rag\\docs\\brainstorming\\2026-10-22\\support-research\\source-snapshots\\assistant-ui__assistant-ui\\apps\\docs\\content\\docs\\runtimes\\custom\\external-store.mdx",
+    "lines": 1121,
+    "sha256": "b397597fbd888c7972c150a445fa3e3f5075f19851b15821d19c6d93c9d544e9"
+  },
+  {
+    "repo": "assistant-ui/assistant-ui",
+    "commit": "2e82ccddee8fd29e4e9476ddb8b5e9cd802cff64",
+    "path": "apps/docs/content/docs/runtimes/custom/local-runtime.mdx",
+    "status": 200,
+    "url": "https://raw.githubusercontent.com/assistant-ui/assistant-ui/2e82ccddee8fd29e4e9476ddb8b5e9cd802cff64/apps/docs/content/docs/runtimes/custom/local-runtime.mdx",
+    "github_url": "https://github.com/assistant-ui/assistant-ui/blob/2e82ccddee8fd29e4e9476ddb8b5e9cd802cff64/apps/docs/content/docs/runtimes/custom/local-runtime.mdx",
+    "local_path": "Product-Knowledge-Rag\\docs\\brainstorming\\2026-10-22\\support-research\\source-snapshots\\assistant-ui__assistant-ui\\apps\\docs\\content\\docs\\runtimes\\custom\\local-runtime.mdx",
+    "lines": 908,
+    "sha256": "4201e9de84344a774cd201282739983e58e01f346b6ebe38cbce147c2435c7be"
+  },
+  {
+    "repo": "assistant-ui/assistant-ui",
+    "commit": "2e82ccddee8fd29e4e9476ddb8b5e9cd802cff64",
+    "path": "packages/react/src/legacy-runtime/runtime-cores/external-store/useExternalStoreRuntime.tsx",
+    "status": 404,
+    "url": "https://raw.githubusercontent.com/assistant-ui/assistant-ui/2e82ccddee8fd29e4e9476ddb8b5e9cd802cff64/packages/react/src/legacy-runtime/runtime-cores/external-store/useExternalStoreRuntime.tsx",
+    "github_url": "https://github.com/assistant-ui/assistant-ui/blob/2e82ccddee8fd29e4e9476ddb8b5e9cd802cff64/packages/react/src/legacy-runtime/runtime-cores/external-store/useExternalStoreRuntime.tsx"
+  },
+  {
+    "repo": "assistant-ui/assistant-ui",
+    "commit": "2e82ccddee8fd29e4e9476ddb8b5e9cd802cff64",
+    "path": "packages/react/src/legacy-runtime/runtime-cores/local/useLocalRuntime.tsx",
+    "status": 404,
+    "url": "https://raw.githubusercontent.com/assistant-ui/assistant-ui/2e82ccddee8fd29e4e9476ddb8b5e9cd802cff64/packages/react/src/legacy-runtime/runtime-cores/local/useLocalRuntime.tsx",
+    "github_url": "https://github.com/assistant-ui/assistant-ui/blob/2e82ccddee8fd29e4e9476ddb8b5e9cd802cff64/packages/react/src/legacy-runtime/runtime-cores/local/useLocalRuntime.tsx"
+  },
+  {
+    "repo": "Cinnamon/kotaemon",
+    "commit": "9ad3e4e49aa35b8acddd235918a5d9753c1cfdf9",
+    "path": "libs/kotaemon/kotaemon/indices/qa/format_context.py",
+    "status": 200,
+    "url": "https://raw.githubusercontent.com/Cinnamon/kotaemon/9ad3e4e49aa35b8acddd235918a5d9753c1cfdf9/libs/kotaemon/kotaemon/indices/qa/format_context.py",
+    "github_url": "https://github.com/Cinnamon/kotaemon/blob/9ad3e4e49aa35b8acddd235918a5d9753c1cfdf9/libs/kotaemon/kotaemon/indices/qa/format_context.py",
+    "local_path": "Product-Knowledge-Rag\\docs\\brainstorming\\2026-10-22\\support-research\\source-snapshots\\Cinnamon__kotaemon\\libs\\kotaemon\\kotaemon\\indices\\qa\\format_context.py",
+    "lines": 114,
+    "sha256": "97c97faf9e1148aaa1c1bbdf99b9b501bbbc74ae5605a4bbcaa4565573ebfee1"
+  },
+  {
+    "repo": "Cinnamon/kotaemon",
+    "commit": "9ad3e4e49aa35b8acddd235918a5d9753c1cfdf9",
+    "path": "libs/kotaemon/kotaemon/indices/qa/citation_qa_inline.py",
+    "status": 200,
+    "url": "https://raw.githubusercontent.com/Cinnamon/kotaemon/9ad3e4e49aa35b8acddd235918a5d9753c1cfdf9/libs/kotaemon/kotaemon/indices/qa/citation_qa_inline.py",
+    "github_url": "https://github.com/Cinnamon/kotaemon/blob/9ad3e4e49aa35b8acddd235918a5d9753c1cfdf9/libs/kotaemon/kotaemon/indices/qa/citation_qa_inline.py",
+    "local_path": "Product-Knowledge-Rag\\docs\\brainstorming\\2026-10-22\\support-research\\source-snapshots\\Cinnamon__kotaemon\\libs\\kotaemon\\kotaemon\\indices\\qa\\citation_qa_inline.py",
+    "lines": 361,
+    "sha256": "588b855802e3ac00cc022a0d7be536c8350e61eb4c6b54e925122c090ad29e5d"
+  }
+]

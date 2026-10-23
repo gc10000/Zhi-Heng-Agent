@@ -1,0 +1,90 @@
+{
+  "scope": "Only isolated existing pure functions and stubbed storage; no application services, keys, models or live databases accessed",
+  "results": [
+    {
+      "id": "context-leading-oversize",
+      "method": "AST isolated function; stub prompt renderer",
+      "observed_context": "无参考内容",
+      "short_evidence_omitted": true
+    },
+    {
+      "id": "history-budget",
+      "method": "AST isolated function; stub prompt renderer",
+      "history_chars": 13005,
+      "configured_chars": 12000,
+      "exceeds_budget": true
+    },
+    {
+      "id": "ambiguous-high-scores",
+      "method": "AST isolated function; fabricated scores, no model call",
+      "observed": {
+        "confirmed_item_names": [
+          "M3070DHF"
+        ],
+        "options": []
+      },
+      "auto_selected": true
+    },
+    {
+      "id": "recent-history-order",
+      "method": "AST isolated function; in-memory Mongo cursor stub",
+      "returned_timestamps": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "expected_latest_timestamps": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "oldest_returned": true
+    },
+    {
+      "id": "missing-parent-merges-chapters",
+      "method": "AST isolated function; two independent title sections missing parent_title",
+      "output_count": 1,
+      "output_titles": [
+        "# 第一章"
+      ],
+      "output_contents": [
+        "AAAAA\n\nBBBBB"
+      ]
+    },
+    {
+      "id": "streaming-error-swallowed",
+      "method": "AST isolated existing function with fake stream; injected TimeoutError after first delta",
+      "exception_propagated": false,
+      "returned_answer": "部分答案",
+      "events": [
+        {
+          "event": "delta",
+          "payload": {
+            "delta": "部分答案"
+          }
+        },
+        {
+          "event": "error",
+          "payload": {
+            "error": "injected timeout"
+          }
+        }
+      ],
+      "note": "Outer run_query_graph marks completed after normal return; outer graph not invoked in this check."
+    }
+  ]
+}

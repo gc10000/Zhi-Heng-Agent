@@ -1,0 +1,97 @@
+name: product-knowledge-rag
+
+# 当前用于 Windows 本机调试；端口仅绑定本机回环地址，无需 SSH 隧道。
+# 操作步骤见 docs/WINDOWS_DOCKER.md。
+services:
+  etcd:
+    # Milvus 的元数据存储，只在容器网络中使用，无需对外发布端口。
+    image: quay.io/coreos/etcd:v3.5.25
+    restart: unless-stopped
+    environment:
+      ETCD_AUTO_COMPACTION_MODE: revision
+      ETCD_AUTO_COMPACTION_RETENTION: "1000"
+      ETCD_QUOTA_BACKEND_BYTES: "4294967296"
+      ETCD_SNAPSHOT_COUNT: "50000"
+    command:
+      - etcd
+      - --advertise-client-urls=http://etcd:2379
+      - --listen-client-urls=http://0.0.0.0:2379
+      - --data-dir=/etcd
+    volumes:
+      - etcd-data:/etcd
+    healthcheck:
+      test: [CMD, etcdctl, endpoint, health]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  minio:
+    # 社区版已改为源码分发，从官方固定提交构建，避免依赖已无法拉取的旧镜像。
+    image: product-knowledge-minio:2025-10-15
+    build:
+      context: ./deploy/minio
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:?请在环境文件中填写 MINIO_ACCESS_KEY}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:?请在环境文件中填写 MINIO_SECRET_KEY}
+    command: [server, /data, --console-address, ":9001"]
+    ports:
+      # 本机 9000 已被其他项目占用，使用 .env 的 MINIO_API_PORT 调整发布端口。
+      - "127.0.0.1:${MINIO_API_PORT:-9000}:9000"
+      - "127.0.0.1:9001:9001"
+    volumes:
+      - minio-data:/data
+    healthcheck:
+      test: [CMD, curl, -f, http://localhost:9000/minio/health/live]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  milvus:
+    image: milvusdb/milvus:v2.6.10
+    restart: unless-stopped
+    command: [milvus, run, standalone]
+    security_opt:
+      - seccomp:unconfined
+    environment:
+      ETCD_ENDPOINTS: etcd:2379
+      MINIO_ADDRESS: minio:9000
+      MINIO_ACCESS_KEY_ID: ${MINIO_ACCESS_KEY:?请在环境文件中填写 MINIO_ACCESS_KEY}
+      MINIO_SECRET_ACCESS_KEY: ${MINIO_SECRET_KEY:?请在环境文件中填写 MINIO_SECRET_KEY}
+    depends_on:
+      etcd:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:19530:19530"
+      - "127.0.0.1:9091:9091"
+    volumes:
+      - milvus-data:/var/lib/milvus
+    healthcheck:
+      test: [CMD, curl, -f, http://localhost:9091/healthz]
+      interval: 10s
+      timeout: 5s
+      start_period: 90s
+      retries: 15
+
+  mongo:
+    image: mongo:7.0
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: [CMD, mongosh, --quiet, --eval, "quit(db.adminCommand('ping').ok ? 0 : 1)"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  # 命名卷保存持久化数据；不要执行 docker compose down -v，避免删除知识库和会话。
+  etcd-data:
+  minio-data:
+  milvus-data:
+  mongo-data:
+

@@ -1,0 +1,88 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>知衡 · 完整优化路线图</title><style>
+:root{--ink:#29263f;--muted:#858196;--accent:#6d56d5;--line:#e8e4f1}*{box-sizing:border-box}body{margin:0;background:#f6f5fa;font:14px/1.8 "Segoe UI","Microsoft YaHei",sans-serif;color:var(--ink)}button{font:inherit;cursor:pointer}a{color:#6d56d5;text-decoration:none}a:hover{text-decoration:underline}.wrap{max-width:1260px;margin:auto;padding:40px 35px}header{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}.eyebrow{font-size:11px;letter-spacing:2px;color:#8a76c0}h1{font-size:34px;letter-spacing:-1px;margin:8px 0}header p{margin:0;color:var(--muted)}.pill{font-size:11px;border:1px solid #ddd5ee;padding:8px 13px;border-radius:30px;color:#8d7fa5;white-space:nowrap}.tabs{display:flex;gap:9px;margin:28px 0 24px;flex-wrap:wrap}.tabs button{border:0;padding:10px 18px;border-radius:8px;color:#817a96;background:transparent}.tabs button.active{background:#332e4d;color:white}.hero{border:1px solid #ded5ee;background:linear-gradient(120deg,#f0eafb,#ffffff);border-radius:16px;padding:27px 30px;display:grid;grid-template-columns:1.2fr 1fr;gap:35px}.hero h2{font-size:26px;margin:3px 0 9px}.hero p{color:#82758f;margin:0;font-size:13px}.flow{display:flex;flex-wrap:wrap;align-items:center;align-content:center;gap:8px;color:#ad9fc1;font-size:12px}.flow span{background:white;border:1px solid #e3daee;padding:8px 11px;border-radius:8px;color:#79658e}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:21px 0}.metric{border:1px solid var(--line);padding:17px 20px;background:white;border-radius:10px}.metric b{font-size:28px;display:block;font-weight:600}.metric small{color:#9a91a9;font-size:11px}.twocol{display:grid;grid-template-columns:1fr 1fr;gap:20px}.panel{background:white;border:1px solid var(--line);border-radius:12px;padding:24px}.panel h3{font-size:16px;margin:0 0 13px}.panel p,.panel li{font-size:13px;color:#81788f}.panel ul{padding-left:18px;line-height:2.2}.callout{margin:22px 0;padding:19px 23px;border-left:3px solid #b7a3df;background:#f0ebf7;color:#897797;font-size:13px}.sectiontitle{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.sectiontitle h2{font-size:23px;margin:0}.sectiontitle span{font-size:11px;color:var(--muted)}.milestone{background:white;border:1px solid var(--line);border-radius:10px;margin-bottom:12px;overflow:hidden}.milestone summary{display:flex;align-items:center;gap:14px;cursor:pointer;list-style:none;padding:17px 22px;font-weight:600}.milestone summary::-webkit-details-marker{display:none}.step{background:#eeE8fa;color:#8065b0;border-radius:6px;font-size:11px;padding:3px 9px;font-weight:600}.plus{margin-left:auto;color:#b0a2c5}.content{border-top:1px solid #ede7f5;padding:20px 24px 24px;white-space:pre-wrap;font-size:12px;line-height:2;color:#857b91}.content b{color:#655675}code{background:#f6f3fa;border-radius:3px;padding:2px 4px;font-size:11px;overflow-wrap:anywhere}.repogrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.repo{border:1px solid var(--line);border-radius:11px;background:white;padding:22px}.repo small{font-size:10px;color:#9f8eb8}.repo h3{margin:7px 0 11px;font-size:21px}.repo b{font-size:12px;font-weight:500;color:#746380}.repo p{font-size:12px;color:#a094aa;min-height:44px}.repo a{font-size:11px}.findinggrid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.finding{display:flex;gap:17px;background:white;border:1px solid var(--line);border-radius:11px;padding:24px}.finding>span{color:#c1aedb;font-size:21px}.finding h3{margin:0 0 8px;font-size:16px}.finding p{font-size:12px;color:#8f819b;margin:0 0 9px}.finding small{font-size:11px;color:#b09dbc}footer{color:#a79cb3;font-size:11px;margin-top:24px;display:flex;justify-content:space-between;gap:15px}.muted{color:var(--muted);font-size:12px}.links{display:flex;gap:16px;margin:22px 0;font-size:12px}.dependency{padding:22px;background:#f0ebf7;border-radius:10px;color:#8d77a4;font-size:13px;line-height:2.3}.dependency b{color:#745c8d}[hidden]{display:none!important}@media(max-width:760px){.wrap{padding:25px 18px}h1{font-size:27px}header{display:block}.pill{display:inline-block;margin-top:15px}.hero,.twocol,.repogrid,.findinggrid{grid-template-columns:1fr}.metrics{grid-template-columns:1fr 1fr}.hero{padding:23px}.tabs button{padding:8px 11px;font-size:12px}.sectiontitle{align-items:flex-start;gap:15px}.milestone summary{padding:14px;font-size:13px}.content{padding:16px}footer{display:block}.links{flex-wrap:wrap}}
+</style></head><body><main class="wrap"><header><div><div class="eyebrow">ZHIHENG / TECHNICAL SUPPORT WORKSPACE</div><h1>从可运行 RAG，到可验证的技术支持产品。</h1><p>优化主计划 · 2026.10.22 · 已确定 A 定位，优先完整性与技术深度</p></div><div class="pill">规划交付 · 业务代码未改造</div></header><nav class="tabs"><button data-tab="overview" class="active">设计总览</button><button data-tab="roadmap">八阶段路线图</button><button data-tab="reuse">GitHub 源码复用</button><button data-tab="audit">六项复现发现</button></nav>
+<section id="overview"><div class="hero"><div><div class="eyebrow">ONE CLEAR USER JOURNEY</div><h2>给出指导，也留下依据和结果。</h2><p>面向设备售后与企业 IT 支持，把型号确认、图文检索、操作记录和知识反馈连接起来。保留现有 Python 核心，组件级复用前端。</p></div><div class="flow"><span>确认设备</span>→<span>查找证据</span>→<span>操作指引</span>→<span>记录结果</span>→<span>反馈回归</span></div></div><div class="metrics"><div class="metric"><b>8</b><small>有依赖与验收的里程碑</small></div><div class="metric"><b>6</b><small>已隔离复现的问题</small></div><div class="metric"><b>7</b><small>本轮补查的 Vue 相关仓库</small></div><div class="metric"><b>0</b><small>本轮修改的业务运行模块</small></div></div><div class="twocol"><article class="panel"><h3>产品层：用户能完成什么</h3><ul><li>型号歧义时点选确认</li><li>回答、原文、原图联动</li><li>清单、处理记录与转交草稿</li><li>资料版本、发布和审核反馈</li></ul></article><article class="panel"><h3>技术层：为什么能稳定做到</h3><ul><li>会话 / 消息 / 运行 ID 分离</li><li>不可变修订与验证后发布</li><li>持久任务、SSE 重放与终态规则</li><li>固定题集、受控策略与故障回归</li></ul></article></div><div class="callout">默认架构：Vue 3 + FastAPI + LangGraph，复用 MongoDB / Milvus / MinIO；导入目标态采用 Redis + Linux Celery worker。模型加载与 GPU 并发先测量再拆服务，避免多进程重复加载。</div><div class="links"><a href="index.html#support">查看技术支持交互原型 ↗</a><a href="index.html#library">知识管理预览 ↗</a><a href="index.html#lab">检索实验室预览 ↗</a></div></section>
+<section id="roadmap" hidden><div class="sectiontitle"><h2>每完成一阶段，都能独立验收。</h2><span>点击展开任务、代码位置与验收条件</span></div><details class="milestone" open><summary><span class="step">M0</span><span>基线、隔离与现有正确性修复</span><span class="plus">＋</span></summary><div class="content"><b>依赖：</b>无。<b>产物：</b>可重复的旧系统基线和不改变业务范围的缺陷修复。
+
+□ 保存当前配置模板、依赖/硬件信息和既有成功问答；敏感值不入记录。建立开发测试集合/桶，避免对现有全库试验。
+□ 将六项隔离复现转为正式回归：最近消息、上下文超长/预算、型号歧义、独立章节合并、流式失败传播。
+□ 修正 A01–A06，拆出可测试的纯函数，保持已有正确问答与图文输出。
+□ 增加终态一致性、错误/重试/降级记录；保留旧接口用于基线对比。
+
+<b>涉及已有文件：</b><code>app/clients/mongo_history_utils.py</code>、<code>node_answer_output.py</code>、<code>node_item_name_confirm.py</code>、<code>node_document_split.py</code>、<code>query_service.py</code>。新增 <code>tests/unit/test_history_window.py</code>、<code>test_context_budget.py</code>、<code>test_product_resolution.py</code>、<code>test_chunk_structure.py</code>、<code>test_generation_failure.py</code>。
+
+<b>验收：</b>六项原失败场景变为预期行为；已有 <code>test/test_document_reimport.py</code> 通过；1 个已知真实型号问题、一次追问、1 个图示问题回归。纯函数测试不访问云 API，真实验证单独标记。<b>停止条件：</b>真实行为不确定时先补证据，不混入模型升级。</div></details><details class="milestone" ><summary><span class="step">M1</span><span>文档注册、版本与解析管线</span><span class="plus">＋</span></summary><div class="content"><b>依赖：</b>M0。<b>产物：</b>稳定资料 ID、可恢复产物与不会先删旧资料的发布路径。
+
+□ 定义 products、documents、revisions、chunks/assets 模型与索引；建立旧 file_title/MinIO 对象映射。
+□ 将解析器、分页分段、Excel 转换、图像缓存从批脚本抽入 <code>app/ingestion/</code>，保留 parser 和质量来源。
+□ 建 v2 索引与注册表；小样验证后再分批迁移，旧集合持续服务。
+□ 实现 staged → validated → published 发布；基于活动 revision 的检索前过滤；支持撤回和回滚。
+□ 分层实现章节引用、页码、bbox，恢复不到坐标的旧资料明确标记。
+
+<b>新增位置：</b><code>app/knowledge/{models,repository,publishing}.py</code>、<code>app/ingestion/parsers/</code>、<code>app/ingestion/stages/</code>、<code>scripts/migrations/register_v1_documents.py</code>、<code>scripts/migrations/build_v2_index.py</code>。先适配旧 <code>node_pdf_to_md.py</code>、<code>node_md_img.py</code>、<code>node_import_milvus.py</code>，不整图同时替换。
+
+<b>验收：</b>同名不同文档互不覆盖；同文档重试幂等；插入失败旧版可检索；旧引用可回看；150 页分段合并页码正确；Excel 有 sheet/cell 溯源。迁移脚本有 dry-run、统计与可核对清单。</div></details><details class="milestone" ><summary><span class="step">M2</span><span>统一 API、任务与会话运行协议</span><span class="plus">＋</span></summary><div class="content"><b>依赖：</b>M0，使用 M1 的标识；协议设计可与 M1 同步。<b>产物：</b>稳定 API、持久运行和基础访问控制。
+
+□ 建 <code>app/main.py</code> 与统一 settings/lifespan，外部资源初始化移出模块导入副作用。
+□ 建 identity、conversations、runs；消息/运行 ID 分离、幂等请求、会话归属、同会话冲突控制。
+□ 实现事件序列、快照、SSE 重连与终态规则；完整贯通型号确认和协作取消。
+□ 导入任务进入 Redis/Celery 与 Mongo 账本；阶段恢复、租约、重复投递、故障核对。
+□ 授权文件/引用接口、CSRF/同源策略、上传名称/大小/类型检查；旧图片映射后再收紧访问策略。
+
+<b>新增位置：</b><code>app/identity/</code>、<code>app/conversations/</code>、<code>app/runs/</code>、<code>app/infrastructure/queue/</code>、<code>app/knowledge/api.py</code>；旧两 API 逐步缩为兼容路由。
+
+<b>验收：</b>两会话同时请求不串流；同一请求重发不重复消息；同会话并发有明确冲突；断流重连无重复；取消后不成功；用户 B 不能读 A 的历史/引用/文件；worker 被停止后导入可恢复。故障测试使用测试环境。</div></details><details class="milestone" ><summary><span class="step">M3</span><span>Vue 3 技术支持工作台</span><span class="plus">＋</span></summary><div class="content"><b>依赖：</b>M2 的事件/数据契约；静态页面可先做，但不替代契约确认。<b>产物：</b>完整真实前后端交互。
+
+□ 最小复用兼容性验证：Vue 3 + shadcn-vue + Pinia/Vue Query + 自有 SSE + PDF.js，贯通真实流式问题、取消与引用；冻结 Vue/Tailwind/Reka UI/组件版本及来源。
+□ 三栏布局、会话管理、型号卡片、流式答案、真实阶段、停止/重试与失败状态。
+□ 引用抽屉、原图预览、章节内容与逐步加入的 PDF 页码/区域高亮。
+□ 设备资料目录、上传任务/切片预览与版本发布界面。
+□ 错误、空状态、慢任务、登录过期、长文/大图、键盘与手机体验。
+
+<b>新增位置：</b>前述 <code>frontend/</code> 结构；核心边界 <code>features/chat/composables/useRunStream.ts</code>、<code>features/chat/stores/run.ts</code>、<code>features/chat/components/ChatThread.vue</code>、<code>features/evidence/components/PdfViewer.vue</code>、<code>features/evidence/components/CitationOverlay.vue</code>、<code>lib/api/client.ts</code>。跨页面状态放 <code>stores/</code>，领域运行状态留在 chat 内。
+
+<b>验收：</b>从浏览器登录、选设备、提问、确认候选、查看引用、追问、刷新恢复、导入小样一条链路走通；截图与端到端记录对应真实后端。Markdown 不执行未知 HTML，链接与图片来源受控；前端包和浏览器网络不含后端密钥。</div></details><details class="milestone" ><summary><span class="step">M4</span><span>RAG 质量与性能实验</span><span class="plus">＋</span></summary><div class="content"><b>依赖：</b>M1/M2；题集在 M0 后即可开始标注。<b>产物：</b>统一候选、可选择策略和真实对比报告。
+
+□ 建 <code>RetrievalHit/QueryPlan/EvidencePack</code> 模型，全链路保留来源、过滤和阶段分数。
+□ 规范产品别名与适用范围，改写/澄清/拒答独立决策；把硬阈值移到配置并校准。
+□ 分别比较候选池、混合权重、重排、父子/相邻扩展、条件 HyDE 与查询分解。
+□ token 预算、引文白名单、图片一致性与证据不足路径。
+□ 模型宿主预热、并发与显存预算；测需要后再拆推理进程，不双份重复加载。
+
+<b>新增位置：</b><code>app/retrieval/</code>、<code>app/answering/</code>、<code>app/infrastructure/models/</code>、<code>evals/configs/</code>；迁移旧各检索节点为薄适配。
+
+<b>验收：</b>固定基线与评估集，输出按题型指标、资源、时延和失败样例；新增策略只在证据支持时成为默认。不能以模型评分代替人工事实判断。</div></details><details class="milestone" ><summary><span class="step">M5</span><span>操作清单、处理记录与有限排障 Agent</span><span class="plus">＋</span></summary><div class="content"><b>依赖：</b>M3/M4。<b>产物：</b>技术支持业务闭环。
+
+□ 结构化步骤绑定引用与适用前提，支持用户记录已尝试与实际结果。
+□ 处理记录、转交草稿、用户确认、导出；所有未知字段明确未知。
+□ 持久补充信息/型号确认状态；有限工具、轮数、超时和无进展退出。
+□ 可选官方网页工具经过真实配置、域名/来源标识和故障降级验证。
+□ 反馈按运行/证据归类，维护者审核；知识草稿不自动发布。
+
+<b>新增位置：</b><code>app/support/{models,service,workflow,tools}.py</code>、<code>frontend/src/features/cases/</code>、<code>app/conversations/context.py</code>。
+
+<b>验收：</b>一次未解决追问能利用已尝试信息，一次缺证据能退出转交，一份草稿经确认保存；工具循环有上限；刷新后能继续补充；用户未确认不声称操作完成。</div></details><details class="milestone" ><summary><span class="step">M6</span><span>质量中心与反馈闭环</span><span class="plus">＋</span></summary><div class="content"><b>依赖：</b>最小题集在 M0 开始；完整界面依赖 M2/M4/M5。<b>产物：</b>可重复实验与反馈审核流程。
+
+□ 人工题集从 50 扩至约 150；固定评估划分、允许多个标准证据。
+□ 实验记录数据/模型/prompt/策略版本，检索指标与回答评价分别展示。
+□ 加 Ragas 可选适配与人工复核，控制评审成本和外发数据范围。
+□ 反馈转测试/资料修订，修订后跑受影响题集，再跑发布回归。
+□ 运行列表、阶段耗时、失败/降级、容量基线，敏感内容默认不收集。
+
+<b>新增位置：</b><code>app/evaluation/</code>、<code>evals/datasets/</code>、<code>frontend/src/features/evaluation/</code>、<code>scripts/verification/</code>。
+
+<b>验收：</b>同一版本可重复运行并查看差异；来源标签随切片变动可映射；报告明确人工/模型评价；不存在 mock 指标混入真实面板。</div></details><details class="milestone" ><summary><span class="step">M7</span><span>部署、恢复与个人项目交付</span><span class="plus">＋</span></summary><div class="content"><b>依赖：</b>主流程与访问控制通过。<b>产物：</b>别人能够按文档运行和审查的项目。
+
+□ Windows 本机路径与 Ubuntu Compose 部署分开验证；前端同源代理、内部 DNS、模型/worker 资源边界。
+□ 依赖/镜像固定版本、GPU/CPU 安装方式、配置中文注释、启动检查、无凭据样例。
+□ live/ready 探针、备份与恢复演练、索引回滚、worker 中断/模型限流/存储故障记录。
+□ 负载按单会话、2/4 会话、导入与查询混合逐级测量，先报告当前硬件容量再决定指标承诺。
+□ 清理旧课程调试文案，统一产品名、包名、README、架构、演示视频/截图；保留来源与实际贡献说明。
+□ 可再分发的少量示例手册/自制资料与演示数据；课程全量原件、缓存、密钥和模型权重不默认公开。
+
+<b>涉及位置：</b><code>compose.yaml</code>、<code>deploy/</code>、<code>pyproject.toml</code>、锁文件、<code>.env.example</code>、<code>docs/runbooks/</code>、<code>README.md</code>、<code>NOTICE.md</code>、<code>THIRD_PARTY_NOTICES.md</code>。
+
+<b>验收：</b>新环境按文档运行、备份能恢复、旧集合可回切、无真实密钥进入镜像/仓库/浏览器；GitHub 公开范围按授权核对。发布/推送在执行时另按用户指令进行，本轮不执行。</div></details><div class="dependency"><b>推荐顺序</b><br>M0 → M1 / M2 → M3 / M4 → M5 → M6 → M7<br>评测题集从 M0 开始；先让一份真实资料贯通新前后端，不等所有模块齐全。</div></section>
+<section id="reuse" hidden><div class="sectiontitle"><h2>优先复用可维护的组件。</h2><span>具体源文件与 commit 见源码复用附件</span></div><div class="repogrid"><article class="repo"><small>MIT</small><h3>shadcn-vue</h3><b>复制 Vue 侧栏、分栏、对话框</b><p>基于 Reka UI；同步完整依赖、工具函数与样式。</p><a href="https://github.com/unovue/shadcn-vue" target="_blank" rel="noopener noreferrer">GitHub ↗</a></article><article class="repo"><small>MIT · 备选</small><h3>assistant-ui Vue</h3><b>可选聊天 primitives</b><p>默认先用自有 Vue 聊天组件，免 React 接法需验证。</p><a href="https://github.com/assistant-ui/assistant-ui" target="_blank" rel="noopener noreferrer">GitHub ↗</a></article><article class="repo"><small>Apache-2.0</small><h3>PDF.js</h3><b>安装渲染库，封装 Vue 组件</b><p>页码和坐标来自解析数据，自写引用定位层。</p><a href="https://github.com/mozilla/pdf.js" target="_blank" rel="noopener noreferrer">GitHub ↗</a></article><article class="repo"><small>MIT</small><h3>TanStack Vue Query</h3><b>服务数据缓存 + Pinia 运行状态</b><p>管理资料、会话和任务；流式事件按 run ID 隔离。</p><a href="https://github.com/TanStack/query" target="_blank" rel="noopener noreferrer">GitHub ↗</a></article><article class="repo"><small>Apache-2.0</small><h3>kotaemon</h3><b>参考证据与引用源码</b><p>依赖另一套 Python 框架，选择可拆规则适配。</p><a href="https://github.com/Cinnamon/kotaemon" target="_blank" rel="noopener noreferrer">GitHub ↗</a></article><article class="repo"><small>Apache-2.0</small><h3>Ragas</h3><b>独立评测依赖</b><p>辅助评价，保留人工标签和复核。</p><a href="https://github.com/explodinggradients/ragas" target="_blank" rel="noopener noreferrer">GitHub ↗</a></article></div><div class="callout">先做组件兼容性小样，再冻结版本。复制源码保留必要版权与许可证，记录原路径、目标路径、修改摘要和上游版本。本轮为源码阅读与选型，尚未完成集成测试。</div><div class="panel"><h3>为什么不整套搬平台</h3><p>AnythingLLM 的 Node/Prisma、kotaemon 的框架数据类，与当前 FastAPI/Mongo/Milvus 不同。组件复用能减少界面工作，业务状态、文档版本和检索边界仍由本项目明确负责。</p></div></section>
+<section id="audit" hidden><div class="sectiontitle"><h2>优化从已确认的问题开始。</h2><span>自造输入 + 现有函数隔离，无真实模型与数据库调用</span></div><div class="findinggrid"><article class="finding"><span>01</span><div><h3>历史窗口</h3><p>20 条消息取最近 10 条，实际得到 1–10，预期 11–20。</p><small>查询排序与截断顺序错误。</small></div></article><article class="finding"><span>02</span><div><h3>证据装配</h3><p>首候选超预算，后面的短证据也没有进入上下文。</p><small>超长候选触发整体停止。</small></div></article><article class="finding"><span>03</span><div><h3>历史预算</h3><p>单条 13,000 字历史进入声明为 12,000 字的预算。</p><small>先加入再检查，并重复累计全文。</small></div></article><article class="finding"><span>04</span><div><h3>型号歧义</h3><p>两个近似高分候选被自动确定为第一个。</p><small>缺少近邻差距与用户确认。</small></div></article><article class="finding"><span>05</span><div><h3>章节合并</h3><p>两个独立短章节缺父标识时，被合成一块。</p><small>空父标识被当作相同结构。</small></div></article><article class="finding"><span>06</span><div><h3>流式故障</h3><p>输出部分文本后超时，节点仍正常返回部分答案。</p><small>错误未传播为运行失败状态。</small></div></article></div><div class="callout">复现不等于修复。先转正式回归并修正，再比较候选池、精排、条件 HyDE、父子片段与模型方案。质量提升必须来自固定数据与配置的真实实验。</div></section>
+<footer><span>完整主计划、代码审查、复用清单已保存到项目 docs/plans/。</span><span>候选品牌尚未核验商标与重名。</span></footer></main><script>document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('main>section').forEach(x=>x.hidden=x.id!==b.dataset.tab);location.hash=b.dataset.tab}));const initial=location.hash.slice(1);if(initial)document.querySelector('[data-tab="'+CSS.escape(initial)+'"]')?.click();</script></body></html>

@@ -1,0 +1,86 @@
+{
+  "checks": [
+    {
+      "tab": "overview",
+      "width": 1500,
+      "scroll": 1500,
+      "visible": [
+        "overview"
+      ],
+      "milestones": 8,
+      "findings": 6
+    },
+    {
+      "tab": "roadmap",
+      "width": 1500,
+      "scroll": 1485,
+      "visible": [
+        "roadmap"
+      ],
+      "milestones": 8,
+      "findings": 6
+    },
+    {
+      "tab": "reuse",
+      "width": 1500,
+      "scroll": 1485,
+      "visible": [
+        "reuse"
+      ],
+      "milestones": 8,
+      "findings": 6
+    },
+    {
+      "tab": "audit",
+      "width": 1500,
+      "scroll": 1500,
+      "visible": [
+        "audit"
+      ],
+      "milestones": 8,
+      "findings": 6
+    },
+    {
+      "tab": "overview",
+      "width": 390,
+      "scroll": 390,
+      "visible": [
+        "overview"
+      ],
+      "milestones": 8,
+      "findings": 6
+    },
+    {
+      "tab": "roadmap",
+      "width": 390,
+      "scroll": 390,
+      "visible": [
+        "roadmap"
+      ],
+      "milestones": 8,
+      "findings": 6
+    },
+    {
+      "tab": "reuse",
+      "width": 390,
+      "scroll": 390,
+      "visible": [
+        "reuse"
+      ],
+      "milestones": 8,
+      "findings": 6
+    },
+    {
+      "tab": "audit",
+      "width": 390,
+      "scroll": 390,
+      "visible": [
+        "audit"
+      ],
+      "milestones": 8,
+      "findings": 6
+    }
+  ],
+  "errors": [],
+  "result": "passed"
+}
