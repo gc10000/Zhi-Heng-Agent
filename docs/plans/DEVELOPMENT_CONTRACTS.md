@@ -26,6 +26,8 @@
 
 ## 2. ID、归属与版本
 
+M1-01已冻结Pydantic实体契约，具体字段及UUID/SourceRef规则见[知识schema](../architecture/knowledge-schema.md)。空活动指针/未知定位允许null；非空ID严格字符串，禁止以整数暗中转换。业务ID独立随机UUID；修订内结构ID由stable_id(kind, revision_id, parts)的规范JSON UUID5确定。
+
 - 所有对外 ID 使用字符串；Mongo ObjectId/Milvus 64 位 ID 不直接作为 JavaScript number。
 - document_id 表示业务资料，revision_id 表示不可变修订，chunk_uid 表示稳定切片，asset_id 表示原件/图像。文件名与 hash 不替代业务 ID。
 - 每个 run 保存用户、kb、产品与知识修订快照；授权既检查 owner，也检查当前知识访问范围。历史引用的精确修订不能被新版悄悄替换。

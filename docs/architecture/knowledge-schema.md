@@ -1,0 +1,9 @@
+# M1知识实体与身份
+
+M1-01实现于app/knowledge/models.py、app/products/models.py，Pydantic冻结实体、禁止未知字段。product/kb/document/revision业务ID为独立UUID字符串，同名/同hash不自动合并。hash仅代表原件字节，不能代替业务归属。修订关联owner/kb/document和原件object_key、原件SHA256；业务指针指向活动revision，历史修订保留。
+
+section_id/chunk_uid/asset_id由修订ID、种类及规范JSON组成UUID5；输入包含真实顺序、结构位置和内容指纹，重试稳定、跨修订隔离，不用文件名作主键。切片父子须在同修订，后续仓储/切片阶段校验关联。
+
+SourceRef明确kind：pdf/markdown/excel/image/image_description/legacy。物理页1起；无精确位置保持null。PDF不能填Excel单元格，Excel不能伪造PDF页码；bbox仅接受附物理页的normalized_top_left坐标。章节路径、行/表格行范围、sheet/cell和asset引用按可获精度填写，不补造未知坐标。原文与image_description描述分别存储。
+
+新增领域数据不修改旧Mongo消息或Milvus schema。无新增配置/依赖；JSON输出ID为字符串，允许尚未发布active_revision_id为null。后续M1-02在standalone Mongo中用唯一索引/CAS维护幂等，无跨集合事务假设。

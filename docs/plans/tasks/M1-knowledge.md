@@ -25,11 +25,11 @@
 **文件：**`app/knowledge/models.py`; `app/products/models.py`; `tests/unit/test_knowledge_ids.py`; `docs/architecture/knowledge-schema.md`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M1-01.1** 定义 product/kb/document/revision/section/chunk/asset。
-- [ ] **M1-01.2** 原件 hash 与业务 ID 分开。
-- [ ] **M1-01.3** source_refs 使用页码/章节/单元格可空联合类型。
-- [ ] **M1-01.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_knowledge_ids.py -q。
-- [ ] **M1-01.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M1-01.1** 定义 product/kb/document/revision/section/chunk/asset。
+- [x] **M1-01.2** 原件 hash 与业务 ID 分开。
+- [x] **M1-01.3** source_refs 使用页码/章节/单元格可空联合类型。
+- [x] **M1-01.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_knowledge_ids.py -q。
+- [x] **M1-01.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**同名不同文件不覆盖；同 hash 不擅自合并业务归属；所有对外 ID 为字符串；定位精度可显式缺失。
 
