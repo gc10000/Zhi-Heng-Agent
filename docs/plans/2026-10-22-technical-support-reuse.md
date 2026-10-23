@@ -90,3 +90,8 @@ Vue Query 缓存服务数据，Pinia 保存按 run ID 隔离的运行状态；�
 ## M0 实施补记（2026-10-23）
 
 本阶段未复制上游产品源码、未创建 Vue/React 组件，未将研究快照纳入应用。仅新增 pytest 8.4.2 开发测试依赖及 iniconfig/pluggy/pygments，固定版本见 pyproject/uv.lock；pytest 上游 https://github.com/pytest-dev/pytest，许可证 MIT，经包管理使用而非 vendoring。原环境 torch/CUDA/模型版本不变；安装差异见 M0-02 证据。本阶段不会把规划中的第三方 notices/源码复用清单当作已交付能力。后续实际复制时仍按上文追踪固定来源和许可证。
+
+
+## M2-09/10实际队列复用
+
+Celery固定5.5.3（BSD-3-Clause，上游https://github.com/celery/celery），redis-py固定6.4.0（MIT，上游https://github.com/redis/redis-py）；通过依赖引用，无源码vendoring。文件映射app/infrastructure/queue/celery_app.py、app/infrastructure/rate_limits.py、pyproject.toml/uv.lock，独立Linux镜像deploy/worker。Redis服务镜像7.4.6-alpine，Redis 7.4为RSALv2/SSPLv1双许可（https://github.com/redis/redis），不是历史BSD；仅本机开发部署定义，后续公开分发/商用部署需复核适用条款。独立requirements不升级宿主PyTorch/CUDA。

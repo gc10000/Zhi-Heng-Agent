@@ -62,8 +62,14 @@ def process_images(document,store,summary_service,*,model,prompt_version):
     for image in document.images:
         data=Path(image.local_path).read_bytes();description=None;key=summary_key(data,image.context,model,prompt_version)
         try:description,key=summary_service.summarize(data,image.context,model,prompt_version);status='completed'
-        except SummaryBusy:status='pending';flags.append('image_summary_pending')
-        except Exception:status='failed';flags.append('image_summary_failed')
+        except SummaryBusy:
+            if getattr(summary_service, 'strict_errors', False):
+                raise
+            status='pending';flags.append('image_summary_pending')
+        except Exception:
+            if getattr(summary_service, 'strict_errors', False):
+                raise
+            status='failed';flags.append('image_summary_failed')
         asset=store.put_image(image,document_id=document.document_id,revision_id=document.revision_id,data=data,description=description,status=status,cache_key=key)
         assets.append(asset)
         if description:

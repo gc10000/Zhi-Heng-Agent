@@ -1,0 +1,10 @@
+# 构建只需要处理源码，避免把课程原件/配置/证据送入Docker上下文。
+*
+!app/
+!app/**
+!deploy/
+!deploy/worker/
+!deploy/worker/**
+!deploy/minio/
+!deploy/minio/**
+**/__pycache__

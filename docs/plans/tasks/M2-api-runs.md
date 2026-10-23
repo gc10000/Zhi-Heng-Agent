@@ -147,11 +147,11 @@ M0/M1均已通过总控审查；2026-10-23授权M2-01至M2-12按依赖连续执�
 **文件：**`app/infrastructure/queue/celery_app.py`; `app/ingestion/jobs.py`; `app/ingestion/dispatcher.py`; `compose.yaml`; `tests/integration/test_job_leases.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M2-09.1** Mongo job 账本 dispatch_pending，Linux worker 至少一次投递。
-- [ ] **M2-09.2** 条件领取/续约/重试与 attempt fencing；将供应商速率预算接入 Redis 原子协调，避免多个 worker 各自限流却合计超额。
-- [ ] **M2-09.3** 对象键传递，禁止 Windows 绝对路径。
-- [ ] **M2-09.V** 验证：.venv/Scripts/python.exe -m pytest tests/integration/test_job_leases.py -m integration -q。
-- [ ] **M2-09.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M2-09.1** Mongo job 账本 dispatch_pending，Linux worker 至少一次投递。
+- [x] **M2-09.2** 条件领取/续约/重试与 attempt fencing；将供应商速率预算接入 Redis 原子协调，避免多个 worker 各自限流却合计超额。
+- [x] **M2-09.3** 对象键传递，禁止 Windows 绝对路径。
+- [x] **M2-09.V** 验证：.venv/Scripts/python.exe -m pytest tests/integration/test_job_leases.py -m integration -q。
+- [x] **M2-09.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**重复投递不重复发布；停止 worker 后可恢复；旧 attempt 无法覆盖新 attempt；容器能访问模型宿主。
 
@@ -162,11 +162,11 @@ M0/M1均已通过总控审查；2026-10-23授权M2-01至M2-12按依赖连续执�
 **文件：**`app/ingestion/runner.py`; `app/ingestion/checkpoints.py`; `tests/integration/test_import_resume.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M2-10.1** 将解析/图像/嵌入阶段接入持久任务。
-- [ ] **M2-10.2** 复用 batch_id/hash/完成批次。
-- [ ] **M2-10.3** 区分 429/超时可重试与格式/鉴权不可盲重试。
-- [ ] **M2-10.V** 验证：.venv/Scripts/python.exe -m pytest tests/integration/test_import_resume.py -m integration -q。
-- [ ] **M2-10.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M2-10.1** 将解析/图像/嵌入阶段接入持久任务。
+- [x] **M2-10.2** 复用 batch_id/hash/完成批次。
+- [x] **M2-10.3** 区分 429/超时可重试与格式/鉴权不可盲重试。
+- [x] **M2-10.V** 验证：.venv/Scripts/python.exe -m pytest tests/integration/test_import_resume.py -m integration -q。
+- [x] **M2-10.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**worker 中断后仅补失败段；不会重新消耗成功图像额度；阶段状态与真实产物一致。
 

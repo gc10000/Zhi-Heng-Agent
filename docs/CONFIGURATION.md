@@ -177,3 +177,12 @@ POST /products为维护者注册产品及显式kb关联；GET目录限当前组�
 ## M2受控原件和旧图映射
 
 GET /assets/{asset_id}先复核组织资料/当前kb/修订再取对象并验hash，PDF支持单段Range的200/206/416；无签名URL外传。POST documents返回original_asset_id，引用通过GET /runs/{run_id}/citations/{citation_id}读取该run实际持久入选快照，外部图片不自动抓取，登记asset://转换受控路径。旧图片用`.venv/Scripts/python.exe scripts/admin/map_legacy_asset.py --manifest <本地JSON> --kb <授权知识库>`显式核验并映射；清单为document_id/revision_id/bucket/object_key/expected_sha256五个字段，不上传内部清单。脚本只读源图/完整解码并写映射，不改对象或策略。旧get_minio_client首次使用才创建客户端，不再自动建桶/公开桶；需预先准备原有桶，现有策略保持原状。禁止提前收紧课程图片桶。
+
+
+## M2导入队列与宿主模型桥接
+
+REDIS_URL指定队列与全worker共享限流，宿主默认回环6379；REDIS_PORT为compose映射，M2_QUEUE_NAME默认knowledge-import。JOB_LEASE_SECONDS默认60，JOB_HEARTBEAT_SECONDS默认10且须小于租约。VISION_REQUESTS_PER_MINUTE默认30，按模型跨worker原子预约。均填写根目录.env，不打印连接值。
+
+MODEL_HOST_PORT默认8011，MODEL_HOST_URL为worker可达宿主地址，MODEL_HOST_TOKEN需自行生成且不可为空。宿主启动`.venv/Scripts/python.exe -m uvicorn app.infrastructure.model_host:app --host 0.0.0.0 --port 8011`，仅允许本机Docker访问，禁止公网。桥接复用现有CUDA模型，不自动下载；Linux worker不装PyTorch，不接收Windows模型路径。
+
+先运行`docker compose --profile tasks up -d --no-deps redis`，再按compose构建/启动worker，宿主运行`.venv/Scripts/python.exe scripts/admin/dispatch_jobs.py`扫描任务。容器覆盖Redis/模型地址，存储连接须容器可达。M2_WORK_DIR默认/var/lib/knowledge-worker，挂worker-cache保留MinerU分段batch。禁止down -v或清缓存重试，详见[恢复手册](runbooks/worker-recovery.md)。

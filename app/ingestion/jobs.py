@@ -1,7 +1,8 @@
 """导入任务持久账本；上传成功与执行完成是不同状态。"""
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from uuid import uuid4
 from pymongo.errors import DuplicateKeyError
+from pymongo import ReturnDocument
 from app.api.errors import APIError
 
 
@@ -46,3 +47,36 @@ class JobRepository:
         if not result.matched_count:
             raise APIError(409, 'version_conflict', '任务已改变，请刷新。')
         return job_view(self.get(user, jid))
+
+    def claim(self, jid, *, lease_seconds=60, now=None):
+        now = now or datetime.now(timezone.utc)
+        row = self.jobs.find_one_and_update({'job_id': jid, '$or': [
+            {'state': 'pending'}, {'state': 'running', 'lease_until': {'$lte': now}}]},
+            {'$set': {'state': 'running', 'lease_until': now + timedelta(seconds=lease_seconds),
+                      'lease_token': uuid4().hex, 'dispatch_pending': False}, '$inc': {'attempt': 1, 'version': 1}},
+            return_document=ReturnDocument.AFTER)
+        return row
+
+    def fence(self, jid, attempt, token, *, now=None):
+        now = now or datetime.now(timezone.utc)
+        row = self.jobs.find_one({'job_id': jid, 'attempt': attempt, 'lease_token': token,
+                                   'state': 'running', 'lease_until': {'$gt': now}})
+        if row is None:
+            raise APIError(409, 'job_lease_lost', '任务执行租约已失效。')
+        return row
+
+    def save(self, jid, attempt, token, fields, *, now=None):
+        now = now or datetime.now(timezone.utc)
+        result = self.jobs.update_one({'job_id': jid, 'attempt': attempt, 'lease_token': token,
+            'state': 'running', 'lease_until': {'$gt': now}}, {'$set': fields, '$inc': {'version': 1}})
+        if not result.matched_count:
+            raise APIError(409, 'job_lease_lost', '任务执行租约已失效。')
+
+    def renew(self, jid, attempt, token, *, lease_seconds=60, now=None):
+        now = now or datetime.now(timezone.utc)
+        self.save(jid, attempt, token, {'lease_until': now + timedelta(seconds=lease_seconds)}, now=now)
+
+    def requeue_expired(self, *, now=None):
+        now = now or datetime.now(timezone.utc)
+        return self.jobs.update_many({'state': 'running', 'lease_until': {'$lte': now}},
+            {'$set': {'state': 'pending', 'dispatch_pending': True}, '$inc': {'version': 1}}).modified_count

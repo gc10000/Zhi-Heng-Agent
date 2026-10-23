@@ -211,3 +211,10 @@ M2-07知识数据使用显式M2_KNOWLEDGE_OWNER_ID的单组织归属，用户当
 ## M2-08实际资产契约
 
 上传响应新增original_asset_id。GET /assets/{id}先授权组织owner+当前kb+修订，原件/图片验SHA256；PDF返回Accept-Ranges及单段bytes 206，无效/多段416含Content-Range bytes */size，完整200。撤回不删历史原件。GET /runs/{rid}/citations/{cid}需个人run和该轮入选citation，复核资料/图片修订，返回原文与display_text/asset_urls（仅登记asset://）；不对任意外部图片发请求。旧图映射只接受维护者显式对象/hash清单，完整解码后登记稳定ID；旧桶策略不改。旧get_minio_client不再在import或首次调用建桶/设置公开策略，运维需事先准备桶。
+
+
+## M2-09/10持久导入执行契约
+
+Mongo import_jobs为事实账本，先发broker再确认dispatch_pending，消息仅job_id。至少一次投递由pending/过期running条件领取及attempt/token/期限fencing收敛；completed重复投递不执行。心跳续任务和资料发布许可，旧attempt/过期许可不能保存或切换活动指针。对象仅相对key，禁止Windows路径、URL、穿越。Redis Lua跨worker原子预约供应商预算。
+
+原件验hash，parsed/原图对象、摘要缓存、分批嵌入检查点复用；MinerU分段batch挂持久卷。429/超时/5xx可重试，格式/鉴权/配置先处理，公开错误仅code/stage。验证来源/索引后才发布；已发布终态中断可核对修订收敛。供应商响应至检查点保存窗口不承诺付费exactly-once。Linux强停仅独立测试worker，生产灾备未验收。

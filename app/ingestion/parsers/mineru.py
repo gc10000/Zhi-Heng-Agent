@@ -11,7 +11,9 @@ from app.ingestion.stages.pdf_segments import split_pdf, save_json
 
 
 class ProviderError(RuntimeError):
-    pass
+    def __init__(self, message, *, status_code=None):
+        super().__init__(message)
+        self.status_code = status_code
 
 
 class ProviderTimeout(ProviderError):
@@ -56,7 +58,7 @@ class MinerUProvider:
     def _json(self,method,url,**kwargs):
         try:
             response=self.session.request(method,url,headers={'Authorization':'Bearer '+self.api_token},timeout=30,**kwargs)
-            if response.status_code!=200: raise ProviderError(f'MinerU HTTP状态{response.status_code}')
+            if response.status_code!=200: raise ProviderError('MinerU HTTP请求失败', status_code=response.status_code)
             value=response.json()
             if value.get('code')!=0: raise ProviderError('MinerU返回业务错误')
             return value['data']
