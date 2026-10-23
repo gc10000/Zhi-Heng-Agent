@@ -12,7 +12,9 @@ async def open_resources(settings):
     client = MongoClient(settings.mongo_url, serverSelectionTimeoutMS=5000, tz_aware=True)
     try:
         client.admin.command('ping')
-        yield {'db': client[settings.database]}
+        from app.identity.service import IdentityService, MongoIdentityStore
+        db = client[settings.database]
+        yield {'db': db, 'identity': IdentityService(MongoIdentityStore(db), session_seconds=settings.session_seconds)}
     finally:
         client.close()
 
@@ -33,6 +35,8 @@ def create_app(*, settings=None, resource_factory=open_resources):
 
     application = FastAPI(title='设备技术支持与知识工作台', version='1.0.0', lifespan=lifespan)
     install(application)
+    from app.identity.api import router as identity_router
+    application.include_router(identity_router)
 
     @application.middleware('http')
     async def request_identity(request: Request, call_next):

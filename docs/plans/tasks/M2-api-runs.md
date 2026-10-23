@@ -40,11 +40,11 @@ M0/M1均已通过总控审查；2026-10-23授权M2-01至M2-12按依赖连续执�
 **文件：**`app/identity/models.py`; `app/identity/service.py`; `app/identity/api.py`; `tests/contract/test_auth.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M2-02.1** 单组织 viewer/maintainer/admin。
-- [ ] **M2-02.2** 密码哈希、可撤销登录会话、HttpOnly cookie。
-- [ ] **M2-02.3** 写请求 CSRF/Origin 校验与登录限流。
-- [ ] **M2-02.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_auth.py -q。
-- [ ] **M2-02.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M2-02.1** 单组织 viewer/maintainer/admin。
+- [x] **M2-02.2** 密码哈希、可撤销登录会话、HttpOnly cookie。
+- [x] **M2-02.3** 写请求 CSRF/Origin 校验与登录限流。
+- [x] **M2-02.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_auth.py -q。
+- [x] **M2-02.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**登录/退出/过期均可测；普通用户不能发布资料或执行管理动作；接口不回传密码散列。
 

@@ -157,3 +157,9 @@ M1-11真实新资料贯通测试`tests/integration/test_ingestion_live.py -m liv
 ## M2统一API入口
 
 使用`.venv/Scripts/python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8000`。启动阶段读取根目录.env，必填MONGO_URL与M2_DB_NAME（独立新账本库，不默认沿用旧课程库）；缺配置只报告变量名。API_ALLOWED_ORIGINS默认http://localhost:8000，逗号分隔明确来源、不允许通配符；API_COOKIE_SECURE默认true，只有本机HTTP调试显式false。当前健康检查/api/v1/health，资源在lifespan创建/关闭，import不连接服务或加载模型。旧query_service/file_import_service独立入口保留，不挂载到新API，不承诺旧无鉴权接口有新鉴权保护。
+
+## M2账号管理与会话
+
+单组织角色viewer/maintainer/admin，账号创建不暴露HTTP注册口。配置M2_DB_NAME后运行`.venv/Scripts/python.exe scripts/admin/create_user.py --username <用户名> --role admin --kb <授权kb_id>`，密码通过getpass两次输入，至少12字符，不放命令行/环境日志。该操作只写显式M2数据库。不可把原课程库默认当账号库。
+
+登录POST /api/v1/auth/login必须携带允许的Origin，成功设置support_session（HttpOnly/SameSite=Strict，Path=/api/v1，默认Secure）；返回CSRF令牌，后续写请求携带Origin及X-CSRF-Token。GET /me可恢复身份和CSRF；POST /auth/logout撤销服务端会话。会话8小时，Mongo只存令牌SHA256且显式检查过期/撤销，TTL仅清理；账号禁用或移除kb立即按当前账号拒绝。固定5分钟窗口每来源最多10次登录，Mongo原子计数跨实例共享；不信任X-Forwarded-For，反向代理需单独配置可信代理。未提供公开密码重置/跨组织管理；维护操作需maintainer/admin，具体资源同时检查owner与kb。
