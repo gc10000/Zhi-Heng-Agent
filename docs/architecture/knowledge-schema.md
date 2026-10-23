@@ -9,3 +9,4 @@ SourceRef明确kind：pdf/markdown/excel/image/image_description/legacy。物理
 新增领域数据不修改旧Mongo消息或Milvus schema。无新增配置/依赖；JSON输出ID为字符串，允许尚未发布active_revision_id为null。后续M1-02在standalone Mongo中用唯一索引/CAS维护幂等，无跨集合事务假设。
 
 M1-02已实现knowledge_documents/knowledge_revisions/knowledge_products。构造显式db、kb_id、owner_id，不导入旧客户端。register_document(request_id,name,product_ids,purpose)、create_revision(document_id,request_id,original_sha256,object_key,parser_version)同键同内容返回原实体，不同内容ConflictError；同名新请求得到新业务资料。claim_attempt(expected_attempt)原子递增，save_stage要求当前attempt且staged，get_active_revisions返回范围内活动指针快照。get_document/get_revision越界抛ScopeError。reconcile只读，无硬删除接口，补偿由M1-09显式发布操作完成。
+审查修复补充：Block.row_numbers与表格rows一一映射物理行，Markdown解析阶段排除分隔语法，Excel不按文本内容删除数据；拆片SourceRef首项指正文，另附重复表头引用。没有物理行证据的PDF保持row/line为null。迁移快照version=2保存并哈希校验完整Milvus描述与索引信息，恢复不再依赖源在线，见迁移runbook。

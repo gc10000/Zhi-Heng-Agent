@@ -176,3 +176,6 @@ M1-03解析契约已实现：ParsedDocument含pages/blocks/images与tables视图
 ## M1审查修复：表格物理来源与处理版本
 
 Markdown解析器版本2按实际标题级别维护路径；表格rows不含分隔语法，row_numbers与每一数据行一一对应原文件物理行（含表头）。拆片SourceRef首项指正文范围，重复表头使用独立SourceRef。Excel短横线是数据，保留sheet/cell/实际row；PDF未知行/列不推算。切片版本2进入pipeline_identity，升级解析/切片需新请求修订，不回写已发布旧产物；历史回看使用已存载荷。
+## M1审查修复：自包含恢复与目标保护
+
+backup_selection输出version=2，milvus_schema/milvus_indexes纳入snapshot_sha256；restore_sample不得读取源服务，仅使用本地快照及目标客户端。旧v1缺元信息明确拒绝，保留旧快照并另建新版。恢复保留原主键、全部业务/动态字段、向量与对象引用。Mongo/Milvus/MinIO所有目标检查在任何写入前完成；拒绝源目录重叠、已有对象/非空前缀及非规范路径，默认不覆盖或续跑失败目标。测试使用新隔离目标，不删除真实源来模拟不可用。

@@ -162,11 +162,11 @@
 **文件：**`scripts/migrations/register_v1_documents.py`; `scripts/migrations/build_v2_index.py`; `tests/integration/test_migration_dry_run.py`; `docs/runbooks/index-migration.md`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M1-10.1** 先dry-run、备份与独立恢复；总控R3/R4重开，快照须含恢复schema且不依赖源在线，所有目标写入前预检，禁止重写源/已有对象。
+- [x] **M1-10.1** 先dry-run、备份与独立恢复；R3/R4自验通过，快照v2自包含schema/索引，目标写前预检，源不可读守卫下真实恢复通过。
 - [x] **M1-10.2** 2–3 份小/长/表格样例迁移。
 - [x] **M1-10.3** 支持批次、断点与回切，扩大范围前核验统计。
-- [ ] **M1-10.V** 补源不可用及目标冲突零写红绿回归；新隔离目标真实恢复/迁移小样复验，不删源或清现场。
-- [ ] **M1-10.D** 修复后保存新快照/恢复报告及任务记录，保留原证据，见M1-review.md。
+- [x] **M1-10.V** 补源不可用及目标冲突零写红绿回归；新隔离目标真实恢复/迁移小样复验，不删源或清现场。
+- [x] **M1-10.D** 修复后保存新快照/恢复报告及任务记录，保留原证据，见M1-review.md。
 
 **验收：**dry-run 零写入；不按文件名删旧向量；旧绝对图链接有 asset 映射；无坐标资料不伪造 bbox。
 

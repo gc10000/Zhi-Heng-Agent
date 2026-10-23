@@ -20,3 +20,10 @@ migrate_batch在任何注册前要求匹配的成功恢复报告并重新校验�
 回切：新资料替换旧活动版本前保留其指针，使用RevisionPublisher.publish(旧revision_id,expected_active=当前revision_id)回滚。迁移是新增业务资料时，旧入口仍读旧集合，停止使用新入口即可恢复原服务；不删除迁移记录。放大范围必须由后续总控授权，并先核对缺失、碰撞、统计、来源与恢复报告。
 
 验证：`$env:M1_TEST_DB='m1_test_20261023_migration'; .venv/Scripts/python.exe -m pytest tests/unit/test_migration_manifest.py tests/integration/test_migration_dry_run.py -q`。真实测试自动创建小PDF、150页PDF、跨sheet表格和一张PNG，原库不访问；产物在output/m1-migration/<本轮ID>/。付费模型调用为0，本地现有BGE不自动下载。
+## 第2轮恢复契约与失败处理
+
+新备份格式version=2，将milvus_schema及milvus_indexes纳入快照哈希，保存动态字段、字段参数和索引metric/类型。恢复不再调用在线源describe/get；仅需已验证的本地快照/blobs与目标服务。显式恢复旧主键，避免auto_id重新生成引用。旧v1缺schema应明确拒绝；保留旧目录，从可读源另建全新v2备份，不能手填schema后冒充原备份。超出当前恢复器的函数/结构数组schema明确拒绝写入。
+
+任何写入前同时要求：独立空Mongo目标、新Milvus集合、规范m1-test对象路径、与同桶源对象目录不重叠、对象目标前缀为空。拒绝同源key、父子前缀、点路径/重复斜杠和已有其他对象；失败不覆盖、不清现场，重新演练使用全新目标。默认不支持复用恢复前缀续跑。预检不是跨存储分布式事务，独立演练前缀须只由本次恢复器写入；管理员并发写入与生产灾备不在本次验收范围。
+
+实际命令与红绿、真实目标位置见records/M1-10.md（项目路径docs/development/records）。原始snapshot/recovery-report只留本机，不上传对象key或配置。

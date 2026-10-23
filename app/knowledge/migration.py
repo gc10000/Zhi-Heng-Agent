@@ -51,6 +51,9 @@ def normalized(value):
     """Milvus numpy标量转为可校验JSON，稀疏key统一字符串。"""
     if isinstance(value,dict):return {str(k):normalized(v) for k,v in value.items()}
     if isinstance(value,(list,tuple)):return [normalized(v) for v in value]
+    if hasattr(value,'WhichOneof'):
+        field=value.WhichOneof('data')
+        return normalized(getattr(value,field)) if field else None
     if hasattr(value,'item'):return normalized(value.item())
     if isinstance(value,float) and not math.isfinite(value):raise ValueError('快照含非有限向量')
     return value
@@ -59,8 +62,10 @@ def normalized(value):
 def backup_selection(records,*,mongo_collection,milvus,collection,objects,bucket,directory,active_snapshot):
     from bson import json_util
     directory=Path(directory);directory.mkdir(parents=True,exist_ok=True)
-    snapshot={'version':1,'records':records,'mongo':[],'vectors':[],'objects':[],'active_snapshot':active_snapshot,
+    snapshot={'version':2,'records':records,'mongo':[],'vectors':[],'objects':[],'active_snapshot':active_snapshot,
               'source':{'db':mongo_collection.database.name,'mongo_collection':mongo_collection.name,'milvus_collection':collection,'bucket':bucket}}
+    snapshot['milvus_schema']=normalized(milvus.describe_collection(collection))
+    snapshot['milvus_indexes']=[normalized(milvus.describe_index(collection,name)) for name in milvus.list_indexes(collection)]
     ids=[];keys={}
     for row in records:
         found=mongo_collection.find_one({'source_id':row['source_id']})
@@ -84,6 +89,8 @@ def backup_selection(records,*,mongo_collection,milvus,collection,objects,bucket
 
 def verify_snapshot(snapshot,directory):
     if fingerprint({k:v for k,v in snapshot.items() if k!='snapshot_sha256'})!=snapshot['snapshot_sha256']:raise ValueError('快照清单hash不符')
+    if snapshot.get('version')!=2 or not snapshot.get('milvus_schema') or 'milvus_indexes' not in snapshot:
+        raise ValueError('快照版本缺少恢复schema；保留旧快照并从源另建v2备份')
     for obj in snapshot['objects']:
         if content_hash(safe_blob(directory,obj['blob']).read_bytes())!=obj['sha256']:raise ValueError('备份文件hash不符')
 
@@ -101,22 +108,44 @@ def restore_sample(snapshot,*,directory,mongo_collection,milvus,index,objects,bu
     # 使用与旧schema兼容的显式主键恢复，所有字段/原向量原样保留。
     client=milvus
     if client.has_collection(index):raise ValueError('恢复集合已存在，拒绝覆盖')
-    description=client.describe_collection(source['milvus_collection'])
-    schema=client.create_schema(auto_id=False,enable_dynamic_field=True)
+    # 目标对象检查也必须先于Mongo/Milvus写入。MinIO键按字节区分，拒绝路径别名避免调用端归一化绕过。
+    target_prefix=prefix.rstrip('/')+'/'
+    segments=target_prefix[:-1].split('/')
+    if any(part in {'','.','..'} or '\\' in part for part in segments):
+        raise ValueError('恢复对象前缀必须为规范路径')
+    if bucket==source['bucket']:
+        for obj in snapshot['objects']:
+            source_key=obj['source_key']
+            source_parent=source_key.rsplit('/',1)[0]+'/' if '/' in source_key else ''
+            if source_key.startswith(target_prefix) or target_prefix.startswith(source_parent):
+                raise ValueError('恢复对象前缀与源对象目录重叠')
+    if next(iter(objects.list_objects(bucket,prefix=target_prefix,recursive=True)),None) is not None:
+        raise ValueError('恢复对象前缀非空，拒绝覆盖')
+    description=snapshot['milvus_schema']
+    if description.get('functions') or description.get('struct_array_fields'):
+        raise ValueError('当前恢复器不支持该schema扩展，拒绝写入')
+    # 恢复完整显式主键以保留引用，即使旧源为auto_id也不重新生成身份。
+    schema=client.create_schema(auto_id=False,enable_dynamic_field=description.get('enable_dynamic_field',False),
+                                description=description.get('description',''))
     for field in description['fields']:
+        if field.get('is_dynamic'):continue
         params=dict(field.get('params',{}));params.pop('auto_id',None)
+        for option in ('description','nullable','default_value','is_partition_key','is_clustering_key','element_type'):
+            if option in field:params[option]=field[option]
         schema.add_field(field['name'],DataType(field['type']),is_primary=field.get('is_primary',False),**params)
     indexes=client.prepare_index_params()
-    indexes.add_index(field_name='dense_vector',index_type='AUTOINDEX',metric_type='IP')
-    indexes.add_index(field_name='sparse_vector',index_type='SPARSE_INVERTED_INDEX',metric_type='IP')
-    client.create_collection(collection_name=index,schema=schema,index_params=indexes,consistency_level='Strong')
+    for saved in snapshot['milvus_indexes']:
+        params={k:v for k,v in saved.items() if k not in {'total_rows','indexed_rows','pending_index_rows','state','fail_reason'}}
+        indexes.add_index(**params)
+    # 在任何写入前完成本地数据反序列化，避免坏快照先产生半个目标。
     docs=[json_util.loads(value) for value in snapshot['mongo']]
-    mongo_collection.insert_many(docs)
     rows=[dict(row,sparse_vector={int(k):v for k,v in row['sparse_vector'].items()}) for row in snapshot['vectors']]
+    client.create_collection(collection_name=index,schema=schema,index_params=indexes,consistency_level='Strong')
+    mongo_collection.insert_many(docs)
     client.insert(collection_name=index,data=rows);client.flush(index)
     mapping={}
     for obj in snapshot['objects']:
-        data=safe_blob(directory,obj['blob']).read_bytes();key=prefix.rstrip('/')+'/'+obj['sha256']
+        data=safe_blob(directory,obj['blob']).read_bytes();key=target_prefix+obj['sha256']
         objects.put_object(bucket,key,BytesIO(data),len(data));mapping[obj['source_key']]=key
         if content_hash(read_object(objects,bucket,key))!=obj['sha256']:raise ValueError('恢复对象hash不符')
     restored=client.get(collection_name=index,ids=[int(r['chunk_id']) for r in rows],output_fields=['*'],consistency_level='Strong')

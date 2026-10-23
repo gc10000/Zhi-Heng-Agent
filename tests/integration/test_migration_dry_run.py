@@ -66,8 +66,31 @@ def test_isolated_backup_recovery_and_resumable_three_document_migration(mongo_d
     with pytest.raises(ValueError):migrate_batch(snapshot,None,**kwargs)
     assert repo.documents.count_documents(repo.scope)==0
     restore_db=mongo_db.client['m1_test_restore_'+run]
-    recovery=restore_sample(snapshot,directory=backup_dir,mongo_collection=restore_db['legacy'],milvus=client,index='m1_test_'+run+'_restore',objects=objects,bucket=bucket,prefix=prefix+'restore/')
+    class TargetMilvusOnly:
+        def __getattr__(self,name):
+            method=getattr(client,name)
+            def guarded(*args,**kwargs):
+                collection=kwargs.get('collection_name',args[0] if args else None)
+                if collection==legacy:raise AssertionError('恢复禁止读取在线源集合')
+                return method(*args,**kwargs)
+            return guarded
+    class TargetObjectsOnly:
+        def __getattr__(self,name):return getattr(objects,name)
+        def get_object(self,target_bucket,key):
+            if target_bucket==bucket and key.startswith(prefix+'source/'):
+                raise AssertionError('恢复禁止读取在线源对象')
+            return objects.get_object(target_bucket,key)
+    recovery=restore_sample(snapshot,directory=backup_dir,mongo_collection=restore_db['legacy'],milvus=TargetMilvusOnly(),index='m1_test_'+run+'_restore',objects=TargetObjectsOnly(),bucket=bucket,prefix=prefix+'restore/')
     assert recovery['verified'] and recovery['vectors']==3 and recovery['objects']==4
+    assert snapshot['version']==2 and snapshot['milvus_schema']['enable_dynamic_field'] is True
+    restored_schema=client.describe_collection('m1_test_'+run+'_restore')
+    assert restored_schema['enable_dynamic_field']==snapshot['milvus_schema']['enable_dynamic_field']
+    assert restored_schema['fields']==snapshot['milvus_schema']['fields']
+    for saved in snapshot['milvus_indexes']:
+        actual=client.describe_index('m1_test_'+run+'_restore',saved['index_name'])
+        assert all(actual[k]==saved[k] for k in ('field_name','index_type','metric_type'))
+    for obj in snapshot['objects']:
+        assert content_hash(read_object(objects,bucket,obj['source_key']))==obj['sha256']
     actual_publish=publisher.publish
     def publish_then_interrupt(*args,**kw):
         actual_publish(*args,**kw)
