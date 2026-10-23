@@ -70,11 +70,11 @@
 **文件：**`app/ingestion/parsers/mineru.py`; `app/ingestion/stages/pdf_segments.py`; `tests/unit/test_pdf_segments.py`; `tests/integration/test_mineru_parser.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M1-04.1** 阅读 output/course-import/run_import.py 等已验证脚本再抽取。
-- [ ] **M1-04.2** 供应商限制可配置，保留 segment_offset/batch_id/hash。
-- [ ] **M1-04.3** 复用成功段并合并原始页码。
-- [ ] **M1-04.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_pdf_segments.py -q；真实 MinerU 小样单独标记 integration。
-- [ ] **M1-04.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M1-04.1** 阅读 output/course-import/run_import.py 等已验证脚本再抽取。
+- [x] **M1-04.2** 供应商限制可配置，保留 segment_offset/batch_id/hash。
+- [x] **M1-04.3** 复用成功段并合并原始页码。
+- [x] **M1-04.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_pdf_segments.py -q；真实 MinerU 小样单独标记 integration。
+- [x] **M1-04.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**150 页拆分测试跨段页码无偏移；重试不重交成功段；超时/结构修复/原生降级可区分。
 

@@ -142,6 +142,8 @@ resume_m0_live 的 --cpu-threads/--prewarm-reranker 仅为既有图片失败诊�
 
 ## M0 第3轮真实验收与审查运行说明
 
+M1-04新增MINERU_SEGMENT_MAX_PAGES（默认50）、MINERU_SEGMENT_MAX_BYTES（默认100000000）、MINERU_POLL_TIMEOUT（默认600秒），填写根目录.env可调整供应商限制。按字节继续二分，单页超限报错；超时沿原batch恢复，供应商明确失败的下次调用可新批次，旧批次ID保留。allow_native_fallback默认false，仅由调用方显式开启，质量标记随结果传播，其缓存与严格模式隔离。M1_LIVE_PROVIDER=1仅在显式live_provider测试时启用付费调用，默认留空；只上传测试新建小样，不自动选择课程资料。输出/cache保持本地，不打印签名URL。
+
 M1真实集成测试显式设置M1_TEST_DB为m1_test_开头独立库，测试读取根目录.env的MONGO_URL，缺独立库报错不跳过。默认单元/契约测试仍隔离网络；integration标记本身不开放网络，测试不删除库/集合。示例：`$env:M1_TEST_DB='m1_test_20261023_repository'` 后执行指定integration文件。测试变量不应填原业务库；M1_TEST_DB默认留空不影响应用。
 
 2026-10-23用户恢复已有Docker后，原图片题续验及正常配置新进程冷启动已自验完成，105项单元/契约和3项既有回归通过。上节“真实HTTP尚待R3”是第2轮时点，当前见 `development/reviews/M0-submission-r3.md`。本轮没有新增环境变量、改写.env或安装/升级依赖，因此.env.example无新增项。
