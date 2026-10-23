@@ -94,6 +94,8 @@ class RunCommands:
         """可反复执行的补偿扫描；只操作本运行账本，不执行图或外部模型。"""
         recovered = []
         for row in self.repo.runs.find({'state': {'$in': ['pending', 'running', 'awaiting_input', 'cancel_requested']}}):
+            if not self._recoverable_scope(row):
+                continue
             user = Principal(user_id=row['owner_id'], username='运行恢复', role='viewer', kb_ids=(row['kb_id'],))
             if row['state'] == 'pending':
                 try:
@@ -120,6 +122,27 @@ class RunCommands:
                         raise
         # 终态保存后释放失败的占用，以及已保存但未投递的outbox均可补偿。
         for row in self.repo.runs.find({'state': {'$in': list(TERMINAL)}}):
+            if not self._recoverable_scope(row):
+                continue
             self.repo.release(row)
             self.events.flush(row['run_id'])
+            # 完成事件与消息写入分离时，重启后依据同一不可变快照幂等补偿。
+            if row['state'] == 'completed' and row.get('completion_snapshot'):
+                snap = row['completion_snapshot']
+                user = Principal(user_id=row['owner_id'], username='运行恢复', role='viewer', kb_ids=(row['kb_id'],))
+                self.repo.conversations.append_message(
+                    user, row['conversation_id'], run_id=row['run_id'], role='assistant',
+                    text=snap.get('text', row.get('answer', '')),
+                    product_snapshot=snap.get('product_snapshot', row.get('product_snapshot', {})),
+                    citations=snap.get('citations', row.get('citations', [])))
         return recovered
+
+    def _recoverable_scope(self, row):
+        conversation = self.repo.conversations.conversations.find_one({
+            'conversation_id': row['conversation_id'], 'owner_id': row['owner_id'], 'kb_id': row['kb_id']})
+        if conversation is not None:
+            return True
+        # 异常归属需人工核对，不接管、不删除，也不阻断其他账本条目。
+        self.repo.runs.update_one({'run_id': row['run_id'], 'version': row['version']},
+            {'$set': {'recovery_issue': {'code': 'conversation_scope_mismatch'}}})
+        return False

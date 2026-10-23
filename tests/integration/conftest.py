@@ -14,7 +14,9 @@ def mongo_db():
     from pymongo import MongoClient
     client=MongoClient(os.environ['MONGO_URL'], serverSelectionTimeoutMS=5000)
     client.admin.command('ping')
-    yield client[name]
+    from uuid import uuid4
+    # 扫描类用例必须独立账本，不能派发或恢复前例保留的现场。
+    yield client[name + '_' + uuid4().hex[:8]]
     client.close()
 
 

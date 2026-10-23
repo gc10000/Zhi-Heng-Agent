@@ -95,3 +95,8 @@ Vue Query 缓存服务数据，Pinia 保存按 run ID 隔离的运行状态；�
 ## M2-09/10实际队列复用
 
 Celery固定5.5.3（BSD-3-Clause，上游https://github.com/celery/celery），redis-py固定6.4.0（MIT，上游https://github.com/redis/redis-py）；通过依赖引用，无源码vendoring。文件映射app/infrastructure/queue/celery_app.py、app/infrastructure/rate_limits.py、pyproject.toml/uv.lock，独立Linux镜像deploy/worker。Redis服务镜像7.4.6-alpine，Redis 7.4为RSALv2/SSPLv1双许可（https://github.com/redis/redis），不是历史BSD；仅本机开发部署定义，后续公开分发/商用部署需复核适用条款。独立requirements不升级宿主PyTorch/CUDA。
+
+
+## M2-11实际旧能力复用
+
+复用现有课程node_answer_output.step_2_construct_prompt/step_3_generate_response及BGE模型工具，新增client注入保持默认旧调用兼容；ContextVar出口映射持久事件，旧整图保留。没有复制新上游源码或新增依赖，不将课程提示词/模型包装描述为原创。实际新授权检索与持久适配见ADR-031、records/M2-11.md。

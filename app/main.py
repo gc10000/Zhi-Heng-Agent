@@ -26,11 +26,14 @@ async def open_resources(settings):
         commands = RunCommands(runs, events, lease_seconds=settings.run_lease_seconds,
                                input_wait_seconds=settings.input_wait_seconds, pending_seconds=settings.run_pending_seconds)
         knowledge = KnowledgeResources(db, settings)
+        from app.runs.query_runner import QueryRunner
+        query_runner = QueryRunner(runs, commands, knowledge.get, identity_store=MongoIdentityStore(db))
         try:
             yield {'db': db, 'identity': IdentityService(MongoIdentityStore(db), session_seconds=settings.session_seconds),
                    'conversations': conversations, 'runs': runs, 'run_service': RunService(runs),
-                   'events': events, 'commands': commands, 'knowledge': knowledge.get}
+                   'events': events, 'commands': commands, 'knowledge': knowledge.get, 'query_runner': query_runner}
         finally:
+            query_runner.close()
             knowledge.close()
     finally:
         client.close()
@@ -53,12 +56,26 @@ def create_app(*, settings=None, resource_factory=open_resources):
                         logging.getLogger(__name__).error('运行恢复扫描失败，异常类型：%s', type(exc).__name__)
                     await asyncio.sleep(10)
             recovery = asyncio.create_task(recovery_loop()) if 'commands' in resources else None
+            async def query_loop():
+                while True:
+                    try:
+                        await asyncio.to_thread(resources['query_runner'].scan)
+                    except Exception as exc:
+                        logging.getLogger(__name__).error('问答派发失败，异常类型：%s', type(exc).__name__)
+                    await asyncio.sleep(.2)
+            query = asyncio.create_task(query_loop()) if 'query_runner' in resources else None
             application.state.resources = resources
             application.state.ready = True
             try:
                 yield
             finally:
                 application.state.ready = False
+                if query:
+                    query.cancel()
+                    try:
+                        await query
+                    except asyncio.CancelledError:
+                        pass
                 if recovery:
                     recovery.cancel()
                     try:

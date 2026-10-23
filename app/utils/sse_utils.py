@@ -1,6 +1,7 @@
 import json
 import queue
 import asyncio
+from contextvars import ContextVar
 from typing import Dict, Any, Optional, AsyncGenerator
 from fastapi import Request
 
@@ -17,6 +18,9 @@ class SSEEvent:
 # 全局 SSE 会话队列存储
 # Key: session_id, Value: queue.Queue
 _session_stream: Dict[str, queue.Queue] = {}
+
+# 新运行通过上下文注入持久事件出口；旧入口仍使用原队列。
+run_event_sink = ContextVar('run_event_sink', default=None)
 
 def get_sse_queue(session_id: str) -> Optional["queue.Queue"]:
     """获取指定 session 的队列"""
@@ -44,6 +48,10 @@ def push_to_session(session_id: str, event: str, data: Dict[str, Any]):
     """
     通过 session_id 推送事件
     """
+    sink = run_event_sink.get()
+    if sink is not None:
+        sink(session_id, event, data)
+        return
     stream_queue = get_sse_queue(session_id)
     if stream_queue:
         # print(f"[SSE] Pushing to session {session_id}: {event}")

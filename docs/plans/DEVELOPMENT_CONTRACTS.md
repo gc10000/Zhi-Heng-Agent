@@ -1,6 +1,6 @@
 # 开发公共契约与任务交接边界
 
-日期：2026-10-23。状态：M0/M1领域接口已按实际实现冻结；M2及以后API/事件仍为待实现v1契约，不表示已可调用。关联：[开发总清单](DEVELOPMENT_TODO.md)、[原始优化方案](2026-10-22-technical-support-optimization.md)。
+日期：2026-10-23。状态：M0/M1领域接口与M2 API/事件已按实际实现记录；M3及以后消费者仍待阶段授权，M2须总控审查。关联：[开发总清单](DEVELOPMENT_TODO.md)、[原始优化方案](2026-10-22-technical-support-optimization.md)。
 
 ## 1. 稳定接口和文件归属
 
@@ -17,7 +17,7 @@
 | 知识仓储 | M1-02，`app/knowledge/repository.py` | `register_document`、`create_revision`、`get_active_revisions`；显式接收 kb/owner 范围 | 上传、索引、发布、检索 |
 | 发布服务 | M1-09，`app/knowledge/publishing.py` | `RevisionPublisher.validate(revision_id, attempt=...)`、`publish(revision_id, expected_active=...)`、`reconcile(document_id)`；范围由注入repo固定 | 后续维护者API、迁移 |
 | 同步领域导入 | M1-11，`app/ingestion/service.py` | `IngestionService.import_file(path, request_id=..., expected_active=...)`；原件/切片/资产按修订回看 | 本机领域调用、M2后续适配 |
-| 任务导入阶段（待实现） | M2-10，`app/ingestion/runner.py` | 计划`run_import(job_id, attempt)`从对象键和检查点执行；过期attempt不可发布 | Linux Celery worker |
+| 任务导入阶段 | M2-10，`app/ingestion/runner.py` | `run_import(job_id)`从Mongo领取attempt/token，按对象键和检查点执行；过期attempt不可发布 | Linux Celery worker |
 | 问答运行 | M2-04/11，`app/runs/service.py`、`query_runner.py` | 创建、领取、恢复/中断、终态与幂等；旧图经适配器接入 | API、Vue SSE、观测 |
 | SSE 消费 | M3-05，`useRunStream.ts` | 输入 run_id 与最后 seq，消费事件/快照，关闭订阅；取消单独调用后端 | ChatPage、Pinia run store |
 | 检索候选 | M4-02，`app/retrieval/models.py` | `RetrievalHit`、`QueryPlan`、`EvidencePack`；保留范围、修订、分数来源与实际入选证据 | 检索各节点、引用、评测 |
@@ -47,7 +47,7 @@ M1-01已冻结Pydantic实体契约，具体字段及UUID/SourceRef规则见[知�
 | `PATCH /conversations/{id}` | title/archived，乐观版本 | 更新自身会话，禁止改 owner | M2-03 |
 | `GET /conversations/{id}/messages` | cursor/limit | 正序历史分页；逐轮产品/引用快照 | M2-03 |
 | `POST /conversations/{id}/runs` | client_request_id、question、product_ids、kb_id | 202持久快照；同幂等请求返回同 run；同键不同内容 409 | M2-04 |
-| `GET /runs/{id}` | 已登录身份 | status、last_seq、partial/final answer、citations、awaiting_input | M2-05 |
+| `GET /runs/{id}` | 已登录身份 | state、seq、answer（运行中为部分文本）、citations、candidates、resume_point | M2-05 |
 | `GET /runs/{id}/events` | `Last-Event-ID` 或 `after_seq` | text/event-stream；游标失效 410，再读快照 | M2-05 |
 | `POST /runs/{id}/confirm-product` | product_ids、expected_version | 只允许从持久候选中选，owner 与版本必须匹配 | M2-06 |
 | `POST /runs/{id}/cancel` | expected_version，可重复请求 | 记录取消意图；终态不复活 | M2-06 |
@@ -74,7 +74,7 @@ M1-01已冻结Pydantic实体契约，具体字段及UUID/SourceRef规则见[知�
 
 状态：`pending`、`running`、`awaiting_input`、`cancel_requested`、`completed`、`failed`、`cancelled`、`interrupted`。前四者为非终态，同一会话只占用一个非终态 run。
 
-- 创建后 pending→running。需要型号/补充信息进入 awaiting_input，确认后恢复 running。
+- 创建后 pending→running。需要型号/补充信息进入 awaiting_input，确认后pending重新领取，再恢复running。
 - 取消先进入 cancel_requested；阶段或生成器检查取消，最终 cancelled。浏览器断开不自动取消。
 - 只有所有必要阶段成功且无取消意图才 completed。供应商在部分答案后失败为 failed，部分文本保留但不能当最终成功答案。
 - 执行进程异常退出且运行租约过期时 interrupted；awaiting_input 没有活动 worker 时不能仅因执行租约过期误判中断。等待超时策略在 M2-06 明确配置。
@@ -90,7 +90,7 @@ M1-01已冻结Pydantic实体契约，具体字段及UUID/SourceRef规则见[知�
 | `product.confirmed` | product_ids、上下文版本 |
 | `input.required` | 缺少的槽位、expected_version |
 | `answer.delta` | text；重连后按 run_id/seq 去重 |
-| `citations.ready` | 本次实际入选证据的 citation 列表 |
+| `citation.selected` | 本次实际入选证据的 citation 列表 |
 | `artifact.ready` | 处理清单/草稿的 ID 与类型 |
 | `run.completed` | 最终答案/引用快照版本 |
 | `run.failed` | 可公开错误码、阶段、partial_answer 标识 |
@@ -126,7 +126,7 @@ M1-05的ExcelParser(purpose=None)不计算公式，Cell分别记录value/formula
 
 M1-04提供MineruParser(provider,work_dir,max_pages,max_bytes,allow_native_fallback=False)。原件hash/修订/解析版本/限制/降级策略共同隔离检查点；保留segment_offset/hash/batch_id/result hash，成功段直接复用，超时恢复原batch。原始page_idx为0起，仅合法段内页码加offset+1；无页码时保持null和质量标记。缺content_list可用Markdown修复但显式structure_repaired/missing_page_refs；原生降级需显式选择并记录provider_timeout/provider_error。批次领取到上传之间进程中断不承诺供应商exactly-once，保留批次供核对，不伪造成功。
 
-M1-03解析契约已实现：ParsedDocument含pages/blocks/images与tables视图、original_sha256/parser/parser_version/quality_flags/purpose；Block的text为原文、description为模型派生描述，source_refs/product_ids/asset_ids单独传播。ParserRouter注入按pdf/md/xlsx注册的Parser，先detect_format验证实际结构；缺适配器或格式不匹配明确失败。旧导入node_entry共用检测但不接Excel，不能宣称旧图完成XLSX；新流水线使用注入解析器。M2的runner尚未实现。
+M1-03解析契约已实现：ParsedDocument含pages/blocks/images与tables视图、original_sha256/parser/parser_version/quality_flags/purpose；Block的text为原文、description为模型派生描述，source_refs/product_ids/asset_ids单独传播。ParserRouter注入按pdf/md/xlsx注册的Parser，先detect_format验证实际结构；缺适配器或格式不匹配明确失败。旧导入node_entry共用检测但不接Excel，不能宣称旧图完成XLSX；新流水线使用注入解析器。M2持久runner接线见下方M2-09/10契约。
 
 - M0 单元与契约测试不连接真实服务。集成/供应商验证必须显式标记，缺条件不能悄悄跳过后宣称全链路通过。
 - M0-02 定义 `unit`、`contract`、`integration`、`e2e`、`live_provider` 标记。integration 必须有独立库/集合/对象前缀；live_provider 明确会产生调用成本。
@@ -218,3 +218,12 @@ M2-07知识数据使用显式M2_KNOWLEDGE_OWNER_ID的单组织归属，用户当
 Mongo import_jobs为事实账本，先发broker再确认dispatch_pending，消息仅job_id。至少一次投递由pending/过期running条件领取及attempt/token/期限fencing收敛；completed重复投递不执行。心跳续任务和资料发布许可，旧attempt/过期许可不能保存或切换活动指针。对象仅相对key，禁止Windows路径、URL、穿越。Redis Lua跨worker原子预约供应商预算。
 
 原件验hash，parsed/原图对象、摘要缓存、分批嵌入检查点复用；MinerU分段batch挂持久卷。429/超时/5xx可重试，格式/鉴权/配置先处理，公开错误仅code/stage。验证来源/索引后才发布；已发布终态中断可核对修订收敛。供应商响应至检查点保存窗口不承诺付费exactly-once。Linux强停仅独立测试worker，生产灾备未验收。
+
+
+## M2-11实际问答适配契约
+
+API生命周期每200ms扫描claimed/pending，进程最多4个运行，Mongo start CAS防多进程重复领取；每租约三分之一续约。SSE断连不影响执行。型号仅显式组织/kb产品；无选择且多候选时awaiting_input，最多50，确认后新token继续。当前用户启用/kb在执行边界复核，撤权停止输出并记脱敏失败。
+
+v2检索冻结活动修订，产品过滤，真实重排保留完整来源元数据，旧回答节点预算选出实际入选证据；无入选证据明确回答并不调LLM。ContextVar出口将旧delta转持久answer.delta，不创建session队列/旧history。引用为本run稳定citation_id及原文/来源/资产快照。输出仅允许本轮入选asset的受控图片路径，分段图片与HTML在写事件前过滤。
+
+completed CAS同时保存completion_snapshot，assistant消息稳定ID幂等落库，恢复扫描补偿CAS后消息丢失；错误保留部分答案/阶段且无成功assistant。取消/失联按M2-06收敛，旧执行不能迟到completed。旧整图仍独立保留，不将旧课程检索挂到新权限体系。

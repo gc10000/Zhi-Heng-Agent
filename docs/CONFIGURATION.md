@@ -186,3 +186,8 @@ REDIS_URL指定队列与全worker共享限流，宿主默认回环6379；REDIS_P
 MODEL_HOST_PORT默认8011，MODEL_HOST_URL为worker可达宿主地址，MODEL_HOST_TOKEN需自行生成且不可为空。宿主启动`.venv/Scripts/python.exe -m uvicorn app.infrastructure.model_host:app --host 0.0.0.0 --port 8011`，仅允许本机Docker访问，禁止公网。桥接复用现有CUDA模型，不自动下载；Linux worker不装PyTorch，不接收Windows模型路径。
 
 先运行`docker compose --profile tasks up -d --no-deps redis`，再按compose构建/启动worker，宿主运行`.venv/Scripts/python.exe scripts/admin/dispatch_jobs.py`扫描任务。容器覆盖Redis/模型地址，存储连接须容器可达。M2_WORK_DIR默认/var/lib/knowledge-worker，挂worker-cache保留MinerU分段batch。禁止down -v或清缓存重试，详见[恢复手册](runbooks/worker-recovery.md)。
+
+
+## M2持久问答运行
+
+`.venv/Scripts/python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8000`启动统一API，生命周期后台领取持久pending，与SSE订阅分离。默认使用现有Windows BGE/重排配置，MODEL_HOST_URL和MODEL_HOST_TOKEN同时存在时嵌入走同一受控桥接；重排仍使用已有宿主配置。不新增模型、不自动下载。多型号未选择时等待确认；超过50候选需先从目录选型号。缺配置按相关run失败阶段显示变量用途，不影响其他已配置端点。旧独立query_service继续作为兼容基线，新API不调用其无鉴权路由。

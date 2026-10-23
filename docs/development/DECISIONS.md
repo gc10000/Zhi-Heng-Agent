@@ -114,3 +114,8 @@ M2-08将原件/图片以asset_id连接授权修订，引用仅回本run持久快
 ## ADR-030 · Linux队列与Windows模型隔离 · 2026-10-23
 
 M2-09/10联合验收选择Mongo事实账本加Celery至少一次、条件租约和最终发布许可，Redis仅派发与预算协调。Linux镜像独立requirements避免改变Windows既有CUDA；宿主令牌桥接复用BGE，原件走对象键。解析/图摘要/嵌入持久检查点降低重试消耗，不承诺跨供应商响应的exactly-once。基础设施与真实导入互相依赖，因此一个内聚提交；真实15项联合验证与环境失败分别保留，见records/M2-09.md及M2-10.md。撤回时停止新worker/派发/桥接，保留卷和历史数据。
+
+
+## ADR-031 · 旧答案节点复用与新授权检索分离 · 2026-10-23
+
+旧main_graph整图依赖课程CHUNKS_COLLECTION、item_name和session全局队列，直接运行会绕过新kb/revision权限。M2-11实际复用node_answer_output的预算提示词/生成能力，以ContextVar注入持久出口；v2检索/型号确认/重排由新适配器接持久run。旧main_graph保持独立兼容，计划文件按实际调整；没有在M2引入联网/HyDE新策略或质量提升宣称。完成CAS附消息快照，消息另投递/恢复补偿，不引入Mongo事务；供应商阻塞期间只合作取消，不承诺立即终止计费。真实新API11检查与31定向测试见records/M2-11.md。

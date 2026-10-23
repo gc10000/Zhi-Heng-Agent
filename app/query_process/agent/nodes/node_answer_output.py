@@ -72,12 +72,12 @@ def step_2_construct_prompt(state: QueryGraphState) -> str:
   return prompt
 
 
-def step_3_generate_response(state: QueryGraphState, prompt: str) -> QueryGraphState:
+def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None) -> QueryGraphState:
   """生成失败统一抛出携带部分文本的异常，由外层处理任务终态。"""
   session_id = state.get('session_id')
   final_text = ''
   try:
-    llm = get_llm_client()
+    llm = client if client is not None else get_llm_client()
     if state.get('is_stream'):
       for chunk in llm.stream(prompt):
         delta = getattr(chunk, 'content', '') or ''

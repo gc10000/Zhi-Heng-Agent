@@ -174,16 +174,16 @@ M0/M1均已通过总控审查；2026-10-23授权M2-01至M2-12按依赖连续执�
 ### M2-11：旧问答图适配新运行
 
 **依赖：**M2-06,M2-08。
-**文件：**`app/runs/query_runner.py`; `app/query_process/agent/main_graph.py`; `tests/contract/test_query_run_adapter.py`。
+**文件：**`app/runs/query_runner.py`; `app/runs/answer_filter.py`; `app/query_process/agent/nodes/node_answer_output.py`; `app/utils/sse_utils.py`; `tests/contract/test_query_run_adapter.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M2-11.1** 用适配器把旧图事件转为新 run 协议。
-- [ ] **M2-11.2** 剥离按 session 的全局 SSE 队列依赖。
-- [ ] **M2-11.3** 引用和答案统一到消息快照。
-- [ ] **M2-11.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_query_run_adapter.py -q。
-- [ ] **M2-11.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M2-11.1** 用适配器把旧图事件转为新 run 协议。
+- [x] **M2-11.2** 剥离按 session 的全局 SSE 队列依赖。
+- [x] **M2-11.3** 引用和答案统一到消息快照。
+- [x] **M2-11.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_query_run_adapter.py -q。
+- [x] **M2-11.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
-**验收：**新 API 能真实问答；旧 API 基线仍可比；不同会话图并发不串流；外部错误有阶段与终态。
+**验收：**新 API 能真实问答；旧 API 基线仍可比；不同会话图并发不串流；外部错误有阶段与终态。实际复用旧回答提示词/生成节点，通过ContextVar注入持久事件出口；旧整图仍访问课程集合，不直接用于新API，v2授权检索/型号确认/重排由适配器完成，见ADR-031。
 
 <a id="m2-12"></a>
 ### M2-12：M2 阶段验收
