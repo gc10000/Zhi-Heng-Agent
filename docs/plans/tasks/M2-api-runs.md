@@ -85,11 +85,11 @@ M0/M1均已通过总控审查；2026-10-23授权M2-01至M2-12按依赖连续执�
 **文件：**`app/runs/events.py`; `app/runs/api.py`; `tests/contract/test_sse_replay.py`; `tests/integration/test_event_outbox.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M2-05.1** 持久 run_id/seq/type/at/payload，增量批量写。
-- [ ] **M2-05.2** 事件游标、心跳、24h TTL 和快照恢复。
-- [ ] **M2-05.3** 终态与待发事件在 run 文档条件更新后投递。
-- [ ] **M2-05.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_sse_replay.py tests/integration/test_event_outbox.py -q。
-- [ ] **M2-05.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M2-05.1** 持久 run_id/seq/type/at/payload，增量批量写。
+- [x] **M2-05.2** 事件游标、心跳、24h TTL 和快照恢复。
+- [x] **M2-05.3** 终态与待发事件在 run 文档条件更新后投递。
+- [x] **M2-05.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_sse_replay.py tests/integration/test_event_outbox.py -q。
+- [x] **M2-05.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**同 run seq 严格递增且允许间隙；断流重连不重复；游标过期返回 410 恢复信号；数据库写失败不伪造成功。
 

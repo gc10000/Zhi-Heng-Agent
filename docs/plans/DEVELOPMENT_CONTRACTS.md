@@ -195,3 +195,7 @@ GET/POST /api/v1/conversations、PATCH /conversations/{id}（expected_version）
 ## M2-04实际运行领取契约
 
 POST /conversations/{id}/runs接受question/client_request_id/kb_id/product_ids，返回202持久快照；GET /runs/{run_id}复核owner及当前kb。幂等键(owner,conversation,client_request_id)，同键不同输入409；消息ID由run/role稳定派生。先持久preparing运行再CAS会话active_run_id，之后标claimed并幂等写用户消息；请求重试或RunRepository.reconcile可核对补足任一步中断。竞争失败请求持久rejected且同键仍409；完成重试不会重新占用。终态释放仅匹配本run，不能清除新run。无Mongo多文档事务、无全局内存锁。执行/事件在后续任务接线。
+
+## M2-05实际事件与恢复契约
+
+GET /runs/{id}/events接受非负after_seq及Last-Event-ID（取较大值），返回text/event-stream，每条id为seq、event为type、data为完整信封；15秒注释心跳不分配seq，禁止代理缓冲。先验证身份/资源/游标再返回200，流中继续检查当前账号和kb；断流不取消后台运行。EventLedger.emit在run文档CAS增加版本/seq、状态/答案及outbox，再幂等投递run_events，保存失败向外传播、不伪成功；新实例read/flush补投。允许序号间隙，终态互斥。每条事件独立24h TTL，读取显式核对真实游标事件（初始0核对首事件），不依赖TTL即时清理；缺失/过期410，前端读GET快照。超出当前seq或格式错误422。DeltaBuffer约75ms/8Ki字符或显式终态前flush。

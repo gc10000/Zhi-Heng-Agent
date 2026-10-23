@@ -16,11 +16,13 @@ async def open_resources(settings):
         from app.conversations.repository import ConversationRepository
         from app.runs.repository import RunRepository
         from app.runs.service import RunService
+        from app.runs.events import EventLedger
         db = client[settings.database]
         conversations = ConversationRepository(db)
         runs = RunRepository(db, conversations)
         yield {'db': db, 'identity': IdentityService(MongoIdentityStore(db), session_seconds=settings.session_seconds),
-               'conversations': conversations, 'runs': runs, 'run_service': RunService(runs)}
+               'conversations': conversations, 'runs': runs, 'run_service': RunService(runs),
+               'events': EventLedger(runs)}
     finally:
         client.close()
 

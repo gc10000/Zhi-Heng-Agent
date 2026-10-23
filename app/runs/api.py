@@ -1,7 +1,11 @@
 """运行API只返回持久快照；执行与订阅不持有HTTP会话内存。"""
-from fastapi import APIRouter, Depends, Request
+import time
+from fastapi import APIRouter, Depends, Query, Request
+from fastapi.responses import StreamingResponse
+from app.api.errors import APIError
 from app.identity.api import principal
-from app.runs.models import RunInput, snapshot
+from app.runs.models import RunInput, snapshot, TERMINAL
+from app.runs.events import frame
 
 router = APIRouter(prefix='/api/v1', tags=['运行'])
 
@@ -14,3 +18,33 @@ def create_run(cid: str, data: RunInput, request: Request, user=Depends(principa
 @router.get('/runs/{rid}')
 def get_run(rid: str, request: Request, user=Depends(principal)):
     return snapshot(request.app.state.resources['runs'].get(user, rid))
+
+
+@router.get('/runs/{rid}/events')
+def events(rid: str, request: Request, after_seq: int = Query(0, ge=0), user=Depends(principal)):
+    last = request.headers.get('last-event-id')
+    if last is not None:
+        if not last.isascii() or not last.isdecimal():
+            raise APIError(422, 'invalid_cursor', 'Last-Event-ID必须是非负整数。')
+        after_seq = max(after_seq, int(last))
+    resources = request.app.state.resources
+    ledger, repo = resources['events'], resources['runs']
+    first = ledger.read(user, rid, after_seq)
+    def stream():
+        cursor, batch, heartbeat = after_seq, first, time.monotonic()
+        while True:
+            # 订阅期间仍检查账号和范围，避免已撤权的长连接继续读取。
+            current = resources['identity'].authenticate(request.cookies.get('support_session'))
+            row = repo.get(current, rid)
+            for event in batch:
+                yield frame(event)
+                cursor = event['seq']
+            if row['state'] in TERMINAL and cursor >= row['seq']:
+                return
+            if time.monotonic() - heartbeat >= 15:
+                yield ': 心跳\n\n'
+                heartbeat = time.monotonic()
+            time.sleep(.2)
+            batch = ledger.read(current, rid, cursor)
+    return StreamingResponse(stream(), media_type='text/event-stream',
+        headers={'Cache-Control': 'no-cache, no-transform', 'X-Accel-Buffering': 'no'})
