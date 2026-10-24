@@ -241,3 +241,13 @@ M2复审许可补充：跨job仅原子接管import_lease_until已过期的许可
 ### M2复审完成消息与下一轮顺序
 
 completed CAS持久保存completion_snapshot后，先幂等写assistant再释放会话。RunRepository.release从账本重读快照，各终态出口/事件flush/恢复复用；新轮reconcile先补偿active旧终态再CAS领取。写失败不释放旧占用，不插入下一轮user，可用相同client_request_id恢复。跨实例并发补偿只保留同一稳定消息，ordinal保持首次写入的值，不重排或改时间；释放仅匹配本run。正常QueryRunner每次completed均保存快照；历史低层无快照终态保留兼容，不推测生成答案。
+
+## M3工作台消费与恢复契约
+
+浏览器只请求同源/api/v1，Cookie身份与CSRF；不读供应商密钥，不把签名对象URL或内部对象键交给浏览器。输入类型来自版本化OpenAPI；无响应schema的动态字段按真实公开接口补充，不能声称完全自动响应生成。
+
+Vue Query按用户/kb隔离目录与历史；401/退出清Query、设备/证据UI并关流。Pinia只保存活动run与UI；历史以持久message_id/ordinal为准。EventSource按run/seq去重，断连/410先回快照再订阅；终态不重连。确认带展示version，冲突后重选；取消独立POST，失败保留部分答案而不显示完成。
+
+引用编号关联该run稳定citation_id，原图仅登记资产白名单；HTML和危险链接禁用。引用可空original由精确修订登记与授权产生；PDF.js本地固定版本、坐标换算、无bbox只定位页，取消旧渲染并拒绝迟到结果。
+
+上传接收、导入完成与活动发布是不同状态；client_request_id处理网络重试，维护操作带版本或活动指针CAS。前端隐藏按钮只改善体验，后端鉴权仍是边界。旧课程入口保留；生产部署、压力/长期与全库迁移不属M3验收。

@@ -180,10 +180,10 @@ M2已通过第2轮总控审查，授权从M3-01连续执行至M3-11，按依赖�
 **文件：**`frontend/tests/e2e/support-flow.spec.ts`; `docs/development/records/M3-11.md`; `docs/E2E_VALIDATION.md`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M3-11.1** 真实后端跑登录→选设备→提问→澄清→引用→追问→刷新恢复→小样导入。
-- [ ] **M3-11.2** 保存桌面/手机截图和录屏路径。
-- [ ] **M3-11.V** 验证：pnpm -C frontend test:unit；pnpm -C frontend test:e2e -- support-flow.spec.ts。
-- [ ] **M3-11.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M3-11.1** 真实后端跑登录→选设备→提问→澄清→引用→追问→刷新恢复→小样导入。
+- [x] **M3-11.2** 保存桌面/手机截图和录屏路径。
+- [x] **M3-11.V** 验证：pnpm -C frontend test:unit；pnpm -C frontend test:e2e -- support-flow.spec.ts。
+- [x] **M3-11.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**不是 mock 数据演示；测试证据列明数据/模型/浏览器；后端密钥不进入前端产物或请求。
 

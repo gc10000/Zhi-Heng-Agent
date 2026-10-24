@@ -1,0 +1,521 @@
+{
+  "notice": "M3执行自验脱敏摘要，非总控审查通过；原始报告、trace、临时凭据仅本机保留。",
+  "date": "2026-10-24",
+  "backend": {
+    "exit_code": 0,
+    "passed": 346,
+    "deselected": 2,
+    "skipped": 0,
+    "seconds": 365.054,
+    "junit": "docs/development/evidence/M3-stage.xml",
+    "test_directory_counts": {
+      "unit": 180,
+      "contract": 83,
+      "integration": 83
+    },
+    "command": "M1_TEST_DB=m1_test_20261024_m3_stage; .venv/Scripts/python.exe -m pytest tests/unit tests/contract tests/integration -m 'not live_provider' -q --junitxml=docs/development/evidence/M3-stage.xml",
+    "integration_notice": "集成目录含真实隔离存储/Linuxworker/本机模型与模型端口注入，不把全部集成称为付费全链路。"
+  },
+  "frontend_unit": {
+    "exit_code": 0,
+    "passed": 34,
+    "report": "docs/development/evidence/M3-unit.txt",
+    "command": "pnpm -C frontend test:unit"
+  },
+  "browser_offline": {
+    "exit_code": 0,
+    "passed": 14,
+    "skipped": 0,
+    "seconds": 23.87,
+    "report": "docs/development/evidence/M3-e2e-offline-final-artifacts/results.json",
+    "command": "pnpm -C frontend test:e2e（清除M3_LIVE_CONFIG）",
+    "mode": "明确离线API协议与合成PDF，2份真实测试文件按配置排除"
+  },
+  "browser_live": {
+    "exit_code": 0,
+    "passed": 1,
+    "skipped": 0,
+    "seconds": 6.461,
+    "report": "docs/development/evidence/M3-11-flow-final-artifacts/results.json",
+    "flow": "docs/development/evidence/M3-live-config-stage-ready.flow.json",
+    "command": "M3_LIVE_CONFIG=../docs/development/evidence/M3-live-config-stage-ready.json; pnpm -C frontend test:e2e -- support-flow.spec.ts",
+    "mode": "真实API/存储/Linux导入/本机BGE和真实供应商回答；最终命令续验复用完成两轮，不重复模型",
+    "trace": "docs/development/evidence/M3-11-flow-final-artifacts/support-flow-正式工作台真实设备、澄清、引用、追问、恢复与导入/trace.zip"
+  },
+  "browser_login": {
+    "exit_code": 0,
+    "passed": 1,
+    "skipped": 0,
+    "seconds": 3.41,
+    "report": "docs/development/evidence/M3-auth-live-final-artifacts/results.json"
+  },
+  "legacy_reimport": {
+    "exit_code": 0,
+    "passed": 3,
+    "report": "docs/development/evidence/M3-reimport.txt",
+    "command": ".venv/Scripts/python.exe -m unittest discover -s test -p test_document_reimport.py -v"
+  },
+  "live_readonly": {
+    "exit_code": 0,
+    "report": "docs/development/evidence/M3-live-recheck.json",
+    "checks": {
+      "two_completed_answers": true,
+      "ordered_persistent_history": true,
+      "grounded_parameters_and_followup": true,
+      "citations_exact_initial_revision": true,
+      "single_terminal_and_ordered_events": true,
+      "ui_import_published": true,
+      "ui_import_product_scope": true,
+      "originals_hash_match": true
+    },
+    "provider_calls": 0,
+    "command": ".venv/Scripts/python.exe scripts/verification/recheck_m3_live.py --config docs/development/evidence/M3-live-config-stage-ready.json --flow docs/development/evidence/M3-live-config-stage-ready.flow.json --output docs/development/evidence/M3-live-recheck.json"
+  },
+  "install": {
+    "exit_code": 0,
+    "report": "docs/development/evidence/M3-install-final.txt",
+    "command": "pnpm -C frontend install --frozen-lockfile"
+  },
+  "typecheck": {
+    "exit_code": 0,
+    "report": "docs/development/evidence/M3-typecheck-complete.txt",
+    "command": "pnpm -C frontend typecheck"
+  },
+  "build": {
+    "exit_code": 0,
+    "report": "docs/development/evidence/M3-build-final.txt",
+    "command": "pnpm -C frontend build"
+  },
+  "provider_calls": {
+    "stage_total": 4,
+    "M3_01": 2,
+    "M3_11": 2,
+    "note": "含脚本失败时已成功回答；录屏续验与只读复核未重调；不含本机嵌入/重排。"
+  },
+  "evidence_media": {
+    "desktop": "docs/development/evidence/M3-11-desktop.png",
+    "mobile": "docs/development/evidence/M3-11-mobile.png",
+    "import": "docs/development/evidence/M3-11-import.png",
+    "recordings": [
+      "docs/development/evidence/M3-11-flow-resume-artifacts/support-flow-正式工作台真实设备、澄清、引用、追问、恢复与导入/video.webm",
+      "docs/development/evidence/M3-11-flow-final-artifacts/support-flow-正式工作台真实设备、澄清、引用、追问、恢复与导入/video.webm"
+    ],
+    "notice": "录屏为持久两轮回放及真实上传/续验；初轮生成后的移动入口等待被终止，不宣称所有步骤在同一个无中断视频。原始trace含账号或Cookie，不上传。"
+  },
+  "script_and_environment_failures": [
+    "Vite启动未监听即ConnectionError，修正仅验收脚本就绪重试；未产生付费回答。",
+    "首次video缺ffmpeg，安装固定Playwright工具后运行，无业务执行。",
+    "初轮两答案完成后，桌面选择证据转手机自动模态，测试重复点击被遮罩顶栏，主动终止等待并按检查点续验；付费计2。",
+    "续验多切片严格locator断言错误，修正定位后复用job，无新增付费。",
+    "只读脚本括号SyntaxError和诊断GBK编码错误均是脚本问题，不当作业务红测。",
+    "第一次全浏览器与build并行，复制public触发Vite reload清证据，13通过1失败；保留输出和trace，顺序重跑14通过。",
+    "远程默认代理7890不可用；M3-10通过清命令代理推送成功，后续直连暂失败，最终同步状态以交接为准。"
+  ],
+  "raw_evidence": [
+    {
+      "path": "docs/development/evidence/M3-01-auth-green.txt",
+      "sha256": "7ce80fdeeb0597753764834b241b1f83fb3ef0ce1402915bf9c079ffa619140a",
+      "bytes": 351
+    },
+    {
+      "path": "docs/development/evidence/M3-01-auth-red.txt",
+      "sha256": "65ec009150e709e5a2d6eaeeed55c9e9ff0efb1b32137abfb4e638881f066e00",
+      "bytes": 4289
+    },
+    {
+      "path": "docs/development/evidence/M3-01-build.txt",
+      "sha256": "9d87af77d18fb52bf5ceb03a320c766a43deefd792e586c7b6d66c3982a843ca",
+      "bytes": 352
+    },
+    {
+      "path": "docs/development/evidence/M3-01-fetch-red.txt",
+      "sha256": "e02dc8fea3b02386053b94a02a31cc798760c511b0dd8be7d96ebdfcf899c125",
+      "bytes": 3406
+    },
+    {
+      "path": "docs/development/evidence/M3-01-install-final.txt",
+      "sha256": "947a805d41432085067b75fc02546f218c20b470006ca14902e741624e491c31",
+      "bytes": 1013
+    },
+    {
+      "path": "docs/development/evidence/M3-01-live-final.txt",
+      "sha256": "7b8785aa97c6a147ae11ab6aed0254440ecd6df9e70f23363908aee708e3a35f",
+      "bytes": 902
+    },
+    {
+      "path": "docs/development/evidence/M3-01-live-first.txt",
+      "sha256": "564ee06efca72bdf994c4b304f4fa5e9d04fcf94f37e7eb6647e03b884681045",
+      "bytes": 3870
+    },
+    {
+      "path": "docs/development/evidence/M3-01-live-ledger.json",
+      "sha256": "8408b117bc8dbf51a41e5acf3733540faa0f68ccd27cb7a31d538c1002258b4d",
+      "bytes": 296
+    },
+    {
+      "path": "docs/development/evidence/M3-01-live-second.txt",
+      "sha256": "a9dd79a17922c3bc9d7f1b58fcc40cbbd56beccf5566d89e733b54688bf271a2",
+      "bytes": 546
+    },
+    {
+      "path": "docs/development/evidence/M3-01-runtime.txt",
+      "sha256": "0ce56c877978d35b05fa7988e05c92e9de9e0f8cb37ec73fb519581f60ed6a0a",
+      "bytes": 3085
+    },
+    {
+      "path": "docs/development/evidence/M3-01-typecheck.txt",
+      "sha256": "241be48e89412fbf6fed0e7e10a0217d6a564c74e44cc6906baaac9d4715a40a",
+      "bytes": 20
+    },
+    {
+      "path": "docs/development/evidence/M3-02-browser.txt",
+      "sha256": "cc5a29586d11985f250cd82e9770eb3086561e15e398bb343b44df1b50c0f6fb",
+      "bytes": 541
+    },
+    {
+      "path": "docs/development/evidence/M3-02-green-final.txt",
+      "sha256": "a3141f3d14385fbfcb1c798006ba0a5d1d3d0a568005c13e1826442490d9146c",
+      "bytes": 608
+    },
+    {
+      "path": "docs/development/evidence/M3-02-green.txt",
+      "sha256": "e247ea43ab36ba1d9cb8ccadacf84b17c7534c18e00f5ac5d0c4b2b123b6bb71",
+      "bytes": 410
+    },
+    {
+      "path": "docs/development/evidence/M3-02-red.txt",
+      "sha256": "3a737a76b301c9c4e2f7868cf43a3c64cafd676d993654e61d5d3bd09d816fe7",
+      "bytes": 1374
+    },
+    {
+      "path": "docs/development/evidence/M3-03-green.txt",
+      "sha256": "f968520a284f8b36bd704c962943f595ccb3330d458c9f2b9e4758cbda752653",
+      "bytes": 635
+    },
+    {
+      "path": "docs/development/evidence/M3-03-red.txt",
+      "sha256": "863d023816efb1bcb31c3eb9e5943e51cf6385c16ffe4fd23ead489872f8c12f",
+      "bytes": 3668
+    },
+    {
+      "path": "docs/development/evidence/M3-04-green-browser.txt",
+      "sha256": "11412d156a0028e66d9bbf0f0f968e9326bbc081ebb1c17e0e9f064b166907c5",
+      "bytes": 532
+    },
+    {
+      "path": "docs/development/evidence/M3-04-green-final.txt",
+      "sha256": "9808e97bb995d29cbe942785ff3839e00c1f800dea03c96c36632e46a7b744aa",
+      "bytes": 530
+    },
+    {
+      "path": "docs/development/evidence/M3-04-red-browser.txt",
+      "sha256": "8e44a50e6fd05dfee21e77d9552325a2b4e390acc793116e73388ad83d9f8460",
+      "bytes": 3441
+    },
+    {
+      "path": "docs/development/evidence/M3-04-red-unit.txt",
+      "sha256": "a7568693ecee43e21d2c0c4e97aaf8baf5cf86437904caf53c26cb8f89bee869",
+      "bytes": 2479
+    },
+    {
+      "path": "docs/development/evidence/M3-05-controller-red.txt",
+      "sha256": "9580c97784e28fb887fbba5c9342012cfd25b0e139f796ea0c60c43e660af271",
+      "bytes": 1695
+    },
+    {
+      "path": "docs/development/evidence/M3-05-green-browser.txt",
+      "sha256": "dfbf8fdbc9c225a006e10988d62e058262d25590b1675026ce5de83903a61137",
+      "bytes": 660
+    },
+    {
+      "path": "docs/development/evidence/M3-05-green-unit.txt",
+      "sha256": "5023939ec3e787c5b8090a13ef2657cf924c06ab7c3b44a94898229ce71df41d",
+      "bytes": 424
+    },
+    {
+      "path": "docs/development/evidence/M3-05-red-browser.txt",
+      "sha256": "8701b90bc4e9dd8bf298622c22a38c97d20ba0d4dcca88adc32b6c33a124d4bc",
+      "bytes": 3543
+    },
+    {
+      "path": "docs/development/evidence/M3-05-red-unit.txt",
+      "sha256": "157dd590d8532f3f73addfef7a45881cf8b24f5411596593e982704b5c7572ee",
+      "bytes": 5244
+    },
+    {
+      "path": "docs/development/evidence/M3-06-green.txt",
+      "sha256": "9ed2b9fd0b177f31d56a4d13f287538d654b6985898f5d926dd3b84f95bda68d",
+      "bytes": 580
+    },
+    {
+      "path": "docs/development/evidence/M3-06-red.txt",
+      "sha256": "09da9906d5fdc128a10c822cf0a37e5e08272384fe5686bb65480cfabf3b0db2",
+      "bytes": 3753
+    },
+    {
+      "path": "docs/development/evidence/M3-07-green-browser.txt",
+      "sha256": "e3acfa69669f6827259f650f9fa3dd0ea7aa7c119932001ae5adc794b47cf45d",
+      "bytes": 779
+    },
+    {
+      "path": "docs/development/evidence/M3-07-red.txt",
+      "sha256": "6a1965245762954ee53c185a96d5bb772d273db3741453fb981c1f850cb0e11c",
+      "bytes": 4570
+    },
+    {
+      "path": "docs/development/evidence/M3-08-api-green.txt",
+      "sha256": "d35f6d0eb336755a9dab7d4720bc79f0a656ed30ce5307ce7700370ab650ef3d",
+      "bytes": 1193
+    },
+    {
+      "path": "docs/development/evidence/M3-08-api-red.txt",
+      "sha256": "f79bf0ecc1e182c56cedf29e0b09cf28814d2046c0e762c067bc9749734f4aaa",
+      "bytes": 3488
+    },
+    {
+      "path": "docs/development/evidence/M3-08-coordinates-first-green.txt",
+      "sha256": "3d1805aa18fa15aa8bcf407e0349dc69e5ddad7f17848200a194d6f705f5fff4",
+      "bytes": 5083
+    },
+    {
+      "path": "docs/development/evidence/M3-08-coordinates-green.txt",
+      "sha256": "bc5c137b616d5374295edf40e76786c6fd9b402663c8f2baed9a0ab295cbc9f3",
+      "bytes": 368
+    },
+    {
+      "path": "docs/development/evidence/M3-08-coordinates-red-corrected.txt",
+      "sha256": "a2888f0ae20fac48e946d6b1034580f8f7a0bb7d8f51a29d9aba27963b748417",
+      "bytes": 5811
+    },
+    {
+      "path": "docs/development/evidence/M3-08-coordinates-red.txt",
+      "sha256": "4c7123227aeb6d6d3a376cbd558ba932e7a471b832baeab7af2e8beb270e6632",
+      "bytes": 5086
+    },
+    {
+      "path": "docs/development/evidence/M3-08-pdf-browser-first.txt",
+      "sha256": "6341fa615defc5c199c9b0293caae287cdebc123a0cd773a386a357f181baf5d",
+      "bytes": 546
+    },
+    {
+      "path": "docs/development/evidence/M3-08-pdf-unit-final.txt",
+      "sha256": "bc19480f2706ebf7cc2da57f521c7602f10132884d532b1ef236e5e15aa2f872",
+      "bytes": 414
+    },
+    {
+      "path": "docs/development/evidence/M3-08-race-red.txt",
+      "sha256": "541526099429dc406adaef6487fd7a577c70836752749d77ccc7cc640fef52f5",
+      "bytes": 1395
+    },
+    {
+      "path": "docs/development/evidence/M3-09-green-final.txt",
+      "sha256": "1f8d7505bc56bcfc3ab0469b2084f98a96af31a4e421261bd13ea0547ab34d78",
+      "bytes": 649
+    },
+    {
+      "path": "docs/development/evidence/M3-09-green-first.txt",
+      "sha256": "d574d89e4a7f2a21f6a70484791c1e79c205658b16dffc65751fb90c1d01024a",
+      "bytes": 649
+    },
+    {
+      "path": "docs/development/evidence/M3-09-red.txt",
+      "sha256": "213162b218876456bb9a6100937bd25f6ce95c3b1b42d12745f9eaa7da92f871",
+      "bytes": 6771
+    },
+    {
+      "path": "docs/development/evidence/M3-10-auth-green.txt",
+      "sha256": "bc958db1e8c687dbc3e31d0c4030d32e7360e1d52085a1167a9561cfd62d87d8",
+      "bytes": 366
+    },
+    {
+      "path": "docs/development/evidence/M3-10-auth-red.txt",
+      "sha256": "1a0d1a31506b1c4078f16e1444d787133e4c7e99e892751df4877d8ef2af9447",
+      "bytes": 1358
+    },
+    {
+      "path": "docs/development/evidence/M3-10-build.txt",
+      "sha256": "01dfb607951d3513c4620520392ef4da2e955c39da212785b4b541afa3c77ac5",
+      "bytes": 2210
+    },
+    {
+      "path": "docs/development/evidence/M3-10-green-final.txt",
+      "sha256": "f87fb6b454491cb1853984875996ba368332d7f5927bdee0eda562449f4c89d8",
+      "bytes": 914
+    },
+    {
+      "path": "docs/development/evidence/M3-10-green.txt",
+      "sha256": "35cd2c04ab1a6c06f713e9f8a9b0b60706e878293232749e55ca7334a8479671",
+      "bytes": 668
+    },
+    {
+      "path": "docs/development/evidence/M3-10-red.txt",
+      "sha256": "f954456ddf26ad29ef7945440e026ab7b4d8cbd2f4096dc789bd8ef438081060",
+      "bytes": 3804
+    },
+    {
+      "path": "docs/development/evidence/M3-10-typecheck.txt",
+      "sha256": "241be48e89412fbf6fed0e7e10a0217d6a564c74e44cc6906baaac9d4715a40a",
+      "bytes": 20
+    },
+    {
+      "path": "docs/development/evidence/M3-11-desktop.png",
+      "sha256": "ed80a992d38cd8955d31a2cc1e6d40bd4e1166b74bd83e4627df83e446db7ca1",
+      "bytes": 93785
+    },
+    {
+      "path": "docs/development/evidence/M3-11-environment-ready.txt",
+      "sha256": "e5348b5d8a2a7aee9d7c438096e26fe3628ae509cfb11714896b27bde84b0348",
+      "bytes": 150
+    },
+    {
+      "path": "docs/development/evidence/M3-11-environment.txt",
+      "sha256": "43f39db5cc7bd15a8decb97b4f00d0f9ad8ceeffac173dfdd8b5409ba1e11c07",
+      "bytes": 5394
+    },
+    {
+      "path": "docs/development/evidence/M3-11-ffmpeg.txt",
+      "sha256": "3f92dbab792c645a8cf7e30989bd2b0e44054c68650a2b14b27325fd0b292dfa",
+      "bytes": 3948
+    },
+    {
+      "path": "docs/development/evidence/M3-11-flow-final-artifacts/results.json",
+      "sha256": "1ec1af7ff6ac3cd7a99b587b5158eb37e452b09b040a415dd89e6b87a8a270eb",
+      "bytes": 3534
+    },
+    {
+      "path": "docs/development/evidence/M3-11-flow-final-artifacts/support-flow-正式工作台真实设备、澄清、引用、追问、恢复与导入/video.webm",
+      "sha256": "f535b99f1a307a6949318652141a31d696ae2fbe9dce4e7e61beb886882902ec",
+      "bytes": 198376
+    },
+    {
+      "path": "docs/development/evidence/M3-11-flow-final.txt",
+      "sha256": "3d9aea2c9a68964b2af2c3a1a02a68fe86591e7060a8203f78d2369a8163a35b",
+      "bytes": 562
+    },
+    {
+      "path": "docs/development/evidence/M3-11-flow-first.txt",
+      "sha256": "397ab4383373a063e72e611b42c283464e04e3162486d3f4bc5efc35a62685cb",
+      "bytes": 2947
+    },
+    {
+      "path": "docs/development/evidence/M3-11-flow-ready.txt",
+      "sha256": "e4ad555432ca059d5ec9d9cbf10a248a053ae41a129ae5003dc49740375912a4",
+      "bytes": 414
+    },
+    {
+      "path": "docs/development/evidence/M3-11-flow-resume-artifacts/support-flow-正式工作台真实设备、澄清、引用、追问、恢复与导入/video.webm",
+      "sha256": "428da630663526b604841c650c163df96632aa91608742b724715a1f87463040",
+      "bytes": 404664
+    },
+    {
+      "path": "docs/development/evidence/M3-11-flow-resume.txt",
+      "sha256": "ad0eaa0044f82560f01526b19d997b5f642e6cda6b90de1b3ccd9e01e97cf355",
+      "bytes": 4775
+    },
+    {
+      "path": "docs/development/evidence/M3-11-import.png",
+      "sha256": "d4e6040a0e0df404fc1e4308820d75616259cae95e1fed9b3980eef18cb906b2",
+      "bytes": 74271
+    },
+    {
+      "path": "docs/development/evidence/M3-11-mobile.png",
+      "sha256": "fc298c20e3321139524829b9a7db320a1f240e7432ede15f711295ed6b16c609",
+      "bytes": 37793
+    },
+    {
+      "path": "docs/development/evidence/M3-auth-live-final-artifacts/results.json",
+      "sha256": "bbe1add96377db55366b72d9a18d125af9be36568484c7c2552d2cb07bfa873f",
+      "bytes": 2810
+    },
+    {
+      "path": "docs/development/evidence/M3-auth-live-final.txt",
+      "sha256": "7ffe0c8660f7ed8ee3ccb74b35552294936bd906605c6658a31c3f8787e17e88",
+      "bytes": 542
+    },
+    {
+      "path": "docs/development/evidence/M3-build-final.txt",
+      "sha256": "e09a2b727e292d798f98499ba4cf3277e7f202b4f8271970433d545bf01ea10c",
+      "bytes": 2210
+    },
+    {
+      "path": "docs/development/evidence/M3-e2e-offline-final-artifacts/results.json",
+      "sha256": "bc202c3fb27d3b0ac8d069d1a557b22f078a03db297bb8fc562d5ee81d453e9d",
+      "bytes": 17766
+    },
+    {
+      "path": "docs/development/evidence/M3-e2e-offline-final.txt",
+      "sha256": "4a409142449864cdc266643a4f32e9330ada15d037a2521de38a0db5851d9926",
+      "bytes": 2011
+    },
+    {
+      "path": "docs/development/evidence/M3-e2e-offline.txt",
+      "sha256": "620fb8cf4f8dab4b11ef5c9d39103ef308f9196a3e17cd21fb62d2dd11dea494",
+      "bytes": 5529
+    },
+    {
+      "path": "docs/development/evidence/M3-install-final.txt",
+      "sha256": "82c391181cb893c2e2c56955c3abf41c4a283b0ca46dd5f4c0a4f3f28f2aa32b",
+      "bytes": 1013
+    },
+    {
+      "path": "docs/development/evidence/M3-live-config-stage-ready.flow.json",
+      "sha256": "52cd0cbc3820e78c2b725d2b5df42b32c0ac6f834223b151626e742aa087d96e",
+      "bytes": 1403
+    },
+    {
+      "path": "docs/development/evidence/M3-live-recheck-final.txt",
+      "sha256": "33485ca4552313303d0bf8e6510f6b899244852985b24f4a54caf4c5262ca409",
+      "bytes": 494
+    },
+    {
+      "path": "docs/development/evidence/M3-live-recheck.json",
+      "sha256": "eb8c1feb127fe6bb0b071147b8aff55f3986ebf408be1a6fdeb55afdb2afa0e6",
+      "bytes": 558
+    },
+    {
+      "path": "docs/development/evidence/M3-live-recheck.txt",
+      "sha256": "701ccd264c5d68a2f374bad369fe66cb5e9f0bab5657b3f50345d7878932b41a",
+      "bytes": 386
+    },
+    {
+      "path": "docs/development/evidence/M3-pdfjs-license.txt",
+      "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+      "bytes": 10174
+    },
+    {
+      "path": "docs/development/evidence/M3-reimport.txt",
+      "sha256": "168862be7b4eb95c4e038b6e22270a9f9500dd4627794a110678d705b3c7cbbb",
+      "bytes": 546
+    },
+    {
+      "path": "docs/development/evidence/M3-stage.txt",
+      "sha256": "5cb13690f7ba892c78a66ebff69f3b0357036365cb668cd378fee853301b3b16",
+      "bytes": 1758
+    },
+    {
+      "path": "docs/development/evidence/M3-stage.xml",
+      "sha256": "64a4e1c08ce249937f6905f61618ea90aa29280fb608b9811ceb955570cb076d",
+      "bytes": 47233
+    },
+    {
+      "path": "docs/development/evidence/M3-typecheck-complete.txt",
+      "sha256": "241be48e89412fbf6fed0e7e10a0217d6a564c74e44cc6906baaac9d4715a40a",
+      "bytes": 20
+    },
+    {
+      "path": "docs/development/evidence/M3-typecheck-final.txt",
+      "sha256": "241be48e89412fbf6fed0e7e10a0217d6a564c74e44cc6906baaac9d4715a40a",
+      "bytes": 20
+    },
+    {
+      "path": "docs/development/evidence/M3-unit.txt",
+      "sha256": "22209fa7da234ebf2fd1d01725a9487330e0b287f484487569c7ac88efbd1f4c",
+      "bytes": 747
+    },
+    {
+      "path": "docs/development/evidence/M3-11-flow-final-artifacts/support-flow-正式工作台真实设备、澄清、引用、追问、恢复与导入/trace.zip",
+      "sha256": "a9d247b515d442c257684a4c3a33a3edc5b9f7c16ff7add8e96aa5fe697e72b7",
+      "bytes": 1124411
+    }
+  ]
+}

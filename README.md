@@ -1,6 +1,6 @@
 # Product Knowledge RAG
 
-> 正在将课程底座演进为“设备技术支持与知识工作台”。M0、M1、M2已通过总控审查：已建立知识注册与版本发布、统一API、持久问答、授权引用及Linux导入任务。当前授权M3 Vue 3工作台开发，尚未实现新前端。[完整优化计划](docs/plans/2026-10-22-technical-support-optimization.md)与[可视化路线图](docs/brainstorming/2026-10-22/support-plan.html)保留设计背景。
+> 正在将课程底座演进为“设备技术支持与知识工作台”。M0、M1、M2已通过总控审查。M3已实现Vue 3工作台：登录、设备/会话、持久流式问答、图文来源与PDF定位、资料导入及修订管理，执行自验完成，等待总控审查。[前端运行说明](frontend/README.md)、[阶段提交](docs/development/reviews/M3-submission.md)、[完整优化计划](docs/plans/2026-10-22-technical-support-optimization.md)与[可视化路线图](docs/brainstorming/2026-10-22/support-plan.html)。
 
 > 开发以[总清单](docs/plans/DEVELOPMENT_TODO.md)、[进度](docs/development/PROGRESS.md)和[阶段审查](docs/development/REVIEW_STATUS.md)为准。M2第2轮独立345项回归及既有3项通过，R1–R3关闭，授权M3-01至M3-11，见[总控结论](docs/development/reviews/M2-review-r2.md)。新接口见[API v1](docs/architecture/api-v1.md)，旧公开导入/查询入口仍保留原链路；M4及后续阶段未授权。
 

@@ -1,0 +1,1450 @@
+{
+  "notice": "M3执行提交快照，非总控通过；原证据仅本机保留。自身hash不循环记录。",
+  "baseline_commit": "ed18aebc0334accb4438a5e9f657920d83ff8274",
+  "pre_submission_head": "7691b5d7c0f2914d09b4cedb6419098541953fd8",
+  "summary": "docs/development/reviews/M3-validation-summary.json",
+  "file_count": 110,
+  "python_syntax_files": 5,
+  "typescript_vue_files": 65,
+  "checked_markdown_links": 221,
+  "bundle_secret_scan_files": 19,
+  "secret_scan": "未匹配本机敏感配置值；浏览器真实外部供应商请求为0",
+  "files": [
+    {
+      "path": ".env.example",
+      "sha256": "602d933ca55108d0c5483c0cd62eb4db56de1df00ba0200147faae42c97fd493",
+      "bytes": 11815
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "006c9f4e75fe5bd451504a114db1276691340c5adca07a4a127e8407e8de1a7c",
+      "bytes": 592
+    },
+    {
+      "path": "README.md",
+      "sha256": "bce72c8b899ef95512256fd89ceff8e8ca3a4f4e0cfbd0ed5230bb824ff3af76",
+      "bytes": 9145
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "sha256": "6639584e9d0a92f64fcd6b12327e0c45771c8ba1fad864909ad816ce49c80846",
+      "bytes": 2019
+    },
+    {
+      "path": "app/knowledge/citation_api.py",
+      "sha256": "3fe63c9598001b3e4b2e03ad3a17378bec2441fa904c197e9446f3672fe5e130",
+      "bytes": 2172
+    },
+    {
+      "path": "docs/CONFIGURATION.md",
+      "sha256": "31b676aaf11de3d290bf687eb2c938980143ab1fcf69f4cbcba8ce399fc61573",
+      "bytes": 25264
+    },
+    {
+      "path": "docs/E2E_VALIDATION.md",
+      "sha256": "f4c0fea28e93e6861ec3cfd5a4fd7e3e6950a5b47b3c72daa5c7e27c66fcf758",
+      "bytes": 9405
+    },
+    {
+      "path": "docs/architecture/api-v1.md",
+      "sha256": "b5c19e2cb6ced2004f8ad2f3604a16fa2a3cb83266f4d08f475ae618213caf1c",
+      "bytes": 6159
+    },
+    {
+      "path": "docs/development/CHANGELOG.md",
+      "sha256": "b0f2b92bb29a284e41a24a18e38d25e4ec373c17bcb2c56625617107d0e9da28",
+      "bytes": 39586
+    },
+    {
+      "path": "docs/development/DECISIONS.md",
+      "sha256": "d27b41b6dc8568b3ec789c6407d924524c909d5d47bc183c1174b62f6d662880",
+      "bytes": 21402
+    },
+    {
+      "path": "docs/development/PROGRESS.md",
+      "sha256": "f7bc94b1d36a7a3a1007431c0419e370334b15db4a9983c1162351430d69a5f4",
+      "bytes": 15656
+    },
+    {
+      "path": "docs/development/REVIEW_STATUS.md",
+      "sha256": "16865717bdddce349b7a6dd96e209b3360dec5f5f40e07f21126bea2a26e64e0",
+      "bytes": 8030
+    },
+    {
+      "path": "docs/development/records/M3-01.md",
+      "sha256": "16eab145ae5f5069f030d16c342d288e96ce03ee93d9c034a3de3bad2b1681f2",
+      "bytes": 2830
+    },
+    {
+      "path": "docs/development/records/M3-02.md",
+      "sha256": "b14bb511fb89c56054eb5ed99a0fa3686607c9ae2fcc9da0636c710708e54d84",
+      "bytes": 1508
+    },
+    {
+      "path": "docs/development/records/M3-03.md",
+      "sha256": "957c4aa699d27deeea7918f51542b2c5accb7988a635d3a9e6bc964247624948",
+      "bytes": 1241
+    },
+    {
+      "path": "docs/development/records/M3-04.md",
+      "sha256": "23039c6fc6efdd95df6f0fdc3380065414b79ac0d980ece0b7d511de53355373",
+      "bytes": 1352
+    },
+    {
+      "path": "docs/development/records/M3-05.md",
+      "sha256": "c0710126bd6917edff16c75974e18f23839406906eb4870e1d7f2ae0ff5a186c",
+      "bytes": 1570
+    },
+    {
+      "path": "docs/development/records/M3-06.md",
+      "sha256": "b4b5969190017fd4f7b06bad75f777a050c08851520d4ebde98a54624f52e718",
+      "bytes": 1001
+    },
+    {
+      "path": "docs/development/records/M3-07.md",
+      "sha256": "f8432de681cb121c6ec2e486a9cfdc25bff7ac13242e3edcefe9504fad110e19",
+      "bytes": 1462
+    },
+    {
+      "path": "docs/development/records/M3-08.md",
+      "sha256": "680c05728057ffc377a7d50ffe2ebaefa417c27cc338354afa0a370c307027d1",
+      "bytes": 1838
+    },
+    {
+      "path": "docs/development/records/M3-09.md",
+      "sha256": "7dd796fcbd210c69a538425c988f6262fcf7dc43d3dda4af8a971d601afcf941",
+      "bytes": 1664
+    },
+    {
+      "path": "docs/development/records/M3-10.md",
+      "sha256": "d21c5e4a3709e74334ad9a3582a3aec9dd0ef0d2ff23f35910c53cf618f2b5bf",
+      "bytes": 1468
+    },
+    {
+      "path": "docs/development/records/M3-11.md",
+      "sha256": "206c43ce199577a18f0b46a851590d9455c5b135f046ea74243fed73e62ab961",
+      "bytes": 6357
+    },
+    {
+      "path": "docs/development/reviews/M3-submission.md",
+      "sha256": "dd4d1d79e771f5a1a45a4fe00238a563b791cbaa97df1bda9a0008caed94650d",
+      "bytes": 7267
+    },
+    {
+      "path": "docs/development/reviews/M3-validation-summary.json",
+      "sha256": "e54a3924386e4ca186c1a1e4b96fbc451f1313e09f31b198014d3ed3f4eea20d",
+      "bytes": 21046
+    },
+    {
+      "path": "docs/plans/DEVELOPMENT_CONTRACTS.md",
+      "sha256": "cc5f450542c4e350088b3da86c1325b18b2aac0fe340d7ad5c4854b829f9dc0c",
+      "bytes": 35686
+    },
+    {
+      "path": "docs/plans/DEVELOPMENT_TODO.md",
+      "sha256": "884a6125ac987cb870e87708db71fbe82f0075079942db8086991525dd78a90e",
+      "bytes": 18188
+    },
+    {
+      "path": "docs/plans/tasks/M3-vue-workbench.md",
+      "sha256": "91ad49ef711b891fca7e09d9d78100ee06a14ed199ecfc73ebc2d2fff173161b",
+      "bytes": 13366
+    },
+    {
+      "path": "docs/reuse/manifest.json",
+      "sha256": "39898ece2fbd97424e5cf4da8647ab32adbe8d0e6b7df02c99260b573583fa76",
+      "bytes": 3643
+    },
+    {
+      "path": "frontend/.node-version",
+      "sha256": "92f4e539bea947de4583c229e503896149ecf52c67e837e3dbe895a50daa4d0c",
+      "bytes": 8
+    },
+    {
+      "path": "frontend/.npmrc",
+      "sha256": "cde76ca04e048c3eba070a2c0dfcf5b723cf6014eab177157096b924f24ec4ca",
+      "bytes": 35
+    },
+    {
+      "path": "frontend/README.md",
+      "sha256": "efcb18e19a46387cfde4295a61a671f295fb19439bf31c8771b59897b1fca020",
+      "bytes": 2753
+    },
+    {
+      "path": "frontend/index.html",
+      "sha256": "82366c20448de05ef73545b028226708e7603debb648449105209899534bdf69",
+      "bytes": 317
+    },
+    {
+      "path": "frontend/package.json",
+      "sha256": "dd78d4e4aa8b12d3aee2cc62bc7a1c5535cea83d0d89c689af785d99ac21cd35",
+      "bytes": 1229
+    },
+    {
+      "path": "frontend/playwright.config.ts",
+      "sha256": "bc5fd78c854465fb5f6170cd2fae498da6a4b8264fccbf3d8f16e236aa220fc6",
+      "bytes": 727
+    },
+    {
+      "path": "frontend/pnpm-lock.yaml",
+      "sha256": "0f6d7f528b2667b5ecf871aa56838b4d81664ff790c01b2ba6fec8ea02270ba9",
+      "bytes": 103441
+    },
+    {
+      "path": "frontend/pnpm-workspace.yaml",
+      "sha256": "380928313818213507b30e41ecb7c03aa4d369731e4577494c86d509125d0b0e",
+      "bytes": 144
+    },
+    {
+      "path": "frontend/scripts/pdf-assets.mjs",
+      "sha256": "06f3ca85a1aaba4f405b611bc2805577029656d995ef32ddc169125078b9e63f",
+      "bytes": 226
+    },
+    {
+      "path": "frontend/scripts/unit.mjs",
+      "sha256": "cacbf3916e0d7275540a02acdcfaed79078ee870dfa0ef2ce052dbc3f8df26b8",
+      "bytes": 238
+    },
+    {
+      "path": "frontend/src/App.vue",
+      "sha256": "31203cd4aef1aaedf354a479a732848861a4fd9ddede524d40d6fbef6e29b63c",
+      "bytes": 1110
+    },
+    {
+      "path": "frontend/src/app/DeferredPage.vue",
+      "sha256": "4b73b116061ce6a75006470b0543f9b0e6ba4ae9b922ad52cf99c4a0d29b0e6e",
+      "bytes": 272
+    },
+    {
+      "path": "frontend/src/app/WorkbenchLayout.vue",
+      "sha256": "fcd149e4210adab1d5df1f6bfe7497045edf4248efd85007aae6ee13cd81f4eb",
+      "bytes": 2931
+    },
+    {
+      "path": "frontend/src/app/router.ts",
+      "sha256": "ba8bd00cd24960121a99ee75fea596dc9e48e8ada4ca3c9db801233f3b276464",
+      "bytes": 1393
+    },
+    {
+      "path": "frontend/src/components/ui/dialog/Dialog.vue",
+      "sha256": "289d9c7bfece3f0f7519e1b69443f02a3be866bd2bf272f3016b3818aafb77c2",
+      "bytes": 524
+    },
+    {
+      "path": "frontend/src/components/ui/dialog/Modal.vue",
+      "sha256": "1435846dd8ebb8f70d4808884ed84947fe4a6af69671214e74fc3802b5ca9f3c",
+      "bytes": 769
+    },
+    {
+      "path": "frontend/src/components/ui/resizable/ResizablePanelGroup.vue",
+      "sha256": "a026410407874dfd8057a3bc2f3e6815d0b82feb251ceac6d8446edcf0a64051",
+      "bytes": 858
+    },
+    {
+      "path": "frontend/src/components/ui/sidebar/Sidebar.vue",
+      "sha256": "55119d6117a9b7a5809b9c94bda6aaeef0dda6ffd9fab79e3d9a33d87070618e",
+      "bytes": 641
+    },
+    {
+      "path": "frontend/src/features/auth/LoginPage.vue",
+      "sha256": "8f4a8504709d9e32a7fe36088ed35a1f5cbd4463133eef5405995055680d7c41",
+      "bytes": 1245
+    },
+    {
+      "path": "frontend/src/features/chat/ChatPage.vue",
+      "sha256": "388c32986338306da58e75e4d5c5324db932b03216a349b9b902c39419d67552",
+      "bytes": 6281
+    },
+    {
+      "path": "frontend/src/features/chat/components/ChatComposer.vue",
+      "sha256": "ba82eb4fdb7da6f5cadd3d21f51932dbcbf366ac70cbf0dc0552b07d7f402d19",
+      "bytes": 1110
+    },
+    {
+      "path": "frontend/src/features/chat/components/ChatThread.vue",
+      "sha256": "5fe531860094c601bbf78a014e1f5a61093cf1709e54f11c81c694bdef9e25be",
+      "bytes": 1535
+    },
+    {
+      "path": "frontend/src/features/chat/components/ConversationList.vue",
+      "sha256": "8a3f6e5750cf482d0aafaada96ff7893ba20996732de1478b9ef4bdd38cb83f5",
+      "bytes": 2856
+    },
+    {
+      "path": "frontend/src/features/chat/components/ProductClarification.vue",
+      "sha256": "e336c172351bdefe42a03543ab12764ff87e7e517c4a597f647ba46d0090001b",
+      "bytes": 849
+    },
+    {
+      "path": "frontend/src/features/chat/components/ProductSelector.vue",
+      "sha256": "ca67267e217a61cc7d0cf4bbc7d55e710fe56feb387bd065a078337c6d6defdc",
+      "bytes": 1239
+    },
+    {
+      "path": "frontend/src/features/chat/components/RunProgress.vue",
+      "sha256": "f0c7c587ac8633f45e1848efcabe5db4b06186bbccfca50aa0311f4f3184ccfd",
+      "bytes": 1086
+    },
+    {
+      "path": "frontend/src/features/chat/composables/run-events.ts",
+      "sha256": "022fb5570c5d3f136eeb7d0d093ffd2fc9745fbf19de78f24109553d5ccc0bad",
+      "bytes": 1445
+    },
+    {
+      "path": "frontend/src/features/chat/composables/useRunStream.ts",
+      "sha256": "7582a72419f8b37e0619bc87e1dd6d54b591ae76de5547cbfc911e00db65bec0",
+      "bytes": 4194
+    },
+    {
+      "path": "frontend/src/features/chat/queries/conversations.ts",
+      "sha256": "b2be5aeb87245191454d541510356c4859bce6dd3707a7e7d57bef5cccd7b952",
+      "bytes": 2577
+    },
+    {
+      "path": "frontend/src/features/chat/queries/history.ts",
+      "sha256": "3fba572410b3a47a06af5b44b44e82705462d0e9e321a031283d023216cee0c9",
+      "bytes": 359
+    },
+    {
+      "path": "frontend/src/features/chat/stores/run.ts",
+      "sha256": "269b7288912d2814e831799613f9d4454d443591a02411cff92b7a8300070dbf",
+      "bytes": 698
+    },
+    {
+      "path": "frontend/src/features/documents/DocumentsPage.vue",
+      "sha256": "37cf381603c38dfcc1dd5b2693d6e14b206aa686ff064cd7b72036ba7ec8aedd",
+      "bytes": 5559
+    },
+    {
+      "path": "frontend/src/features/documents/ImportJobPanel.vue",
+      "sha256": "9edf6cddb32b7ec4e3ffd84aed0ceedaac6a721137b4c5425b1bae7a2ceee3fc",
+      "bytes": 2660
+    },
+    {
+      "path": "frontend/src/features/documents/RevisionPanel.vue",
+      "sha256": "8bd6dd6da609d71ea5ebd079abcf142b7a310e179160d68f3652485d037a1faa",
+      "bytes": 5220
+    },
+    {
+      "path": "frontend/src/features/documents/queries.ts",
+      "sha256": "d59e4f821c9d3b9b8cc22d6f7622190109a6b4733ab79df23d3b89a66824bf63",
+      "bytes": 843
+    },
+    {
+      "path": "frontend/src/features/evidence/components/CitationOverlay.vue",
+      "sha256": "38041d5a796752fe2c59531626470e4d6628b788a81e2c33d297e317720d2e6e",
+      "bytes": 547
+    },
+    {
+      "path": "frontend/src/features/evidence/components/EvidenceCard.vue",
+      "sha256": "7550c756ca8ae8bce2c04cc8c4bbb94535905078d6ec01c251890ee55413ed77",
+      "bytes": 2904
+    },
+    {
+      "path": "frontend/src/features/evidence/components/EvidenceDrawer.vue",
+      "sha256": "2318bab8da0b92aa5513b7b6972001446633a015dae0004863ed6af2adb8eb25",
+      "bytes": 1080
+    },
+    {
+      "path": "frontend/src/features/evidence/components/PdfViewer.vue",
+      "sha256": "fc18873e31d02d8ef57ef0806f62573aabb46308a1312ebb4d079383856c4ae3",
+      "bytes": 2540
+    },
+    {
+      "path": "frontend/src/features/evidence/components/SafeMarkdown.vue",
+      "sha256": "764d9ba8fb2d491ef68e3bfe175ed081c659736a0a692aed3734c37de59abbcc",
+      "bytes": 1072
+    },
+    {
+      "path": "frontend/src/features/evidence/composables/pdf-coordinates.ts",
+      "sha256": "d874e8e5f6346c0ffc2f8e05891fd858b1009efae8b5a79cd4e2b7ff70198b89",
+      "bytes": 726
+    },
+    {
+      "path": "frontend/src/features/evidence/composables/usePdfDocument.ts",
+      "sha256": "f44556c559bc2805049c8a154731980f6cb5c7078529a34d5d0025f821d3903b",
+      "bytes": 3206
+    },
+    {
+      "path": "frontend/src/features/evidence/markdown.ts",
+      "sha256": "1737fa71123fcee4ed3b9271da739c42740d55a0fccb6c455921ec5cf9e746b7",
+      "bytes": 1961
+    },
+    {
+      "path": "frontend/src/features/evidence/queries/citations.ts",
+      "sha256": "7d3fcd37e2a4c9b14716169a54428c21c52193fca13d037d58eea20f2ad57564",
+      "bytes": 819
+    },
+    {
+      "path": "frontend/src/features/products/ProductsPage.vue",
+      "sha256": "25be15e43899d9269e2064ca4034cc76e48e7321d95910b6a74d1480eb107aa0",
+      "bytes": 2458
+    },
+    {
+      "path": "frontend/src/lib/api/client.ts",
+      "sha256": "b65bfc50a3a64ef47fed775673844aa091a69fd1b38e346f3a2fd7132114715f",
+      "bytes": 1711
+    },
+    {
+      "path": "frontend/src/lib/api/schema.d.ts",
+      "sha256": "ffe3fdc324e5b918144b4520e3466bbf44352e5e0e6c4b2ffea02c1847e0b337",
+      "bytes": 37843
+    },
+    {
+      "path": "frontend/src/lib/api/types.ts",
+      "sha256": "fc9760471f6a0c58029517719fde0d2f498924df371df72bb207deae65df6f60",
+      "bytes": 2457
+    },
+    {
+      "path": "frontend/src/lib/pdf.ts",
+      "sha256": "49e47cde455fb050963bb556714940092af1ac790670f72b6ac21cae7657ffb6",
+      "bytes": 298
+    },
+    {
+      "path": "frontend/src/lib/utils.ts",
+      "sha256": "00708463d307471ed1a3ac36642e9c00a766730d7be61e2351f283a580017ea6",
+      "bytes": 163
+    },
+    {
+      "path": "frontend/src/main.ts",
+      "sha256": "f9f590ed38e35a1a5818fcfbe72d86c108e923e20d71acc06f30d9479661366d",
+      "bytes": 289
+    },
+    {
+      "path": "frontend/src/stores/auth.ts",
+      "sha256": "64a797f80933e71592a3f4fcc5e4aa1abfef74898614517f41619d9097b01449",
+      "bytes": 1141
+    },
+    {
+      "path": "frontend/src/stores/ui.ts",
+      "sha256": "f729d0d81093d983b022e5ae0044b62107b5e8583fc5a27bb2dc017135f779d2",
+      "bytes": 467
+    },
+    {
+      "path": "frontend/src/style.css",
+      "sha256": "6d08e2db2bfabcc50cd73bf39ed46d48c803936a43a7b6d654a4fd63d15620cc",
+      "bytes": 9418
+    },
+    {
+      "path": "frontend/tests/e2e/auth-client.spec.ts",
+      "sha256": "0e8630b84ff326f8e4d75220acb96b0b438af605f3f27fdd93a888cdf921e8e8",
+      "bytes": 647
+    },
+    {
+      "path": "frontend/tests/e2e/citations.spec.ts",
+      "sha256": "1d7aeee1dc0d381d56bd3bf8abf8e696e7e0498e31633d4ebe9c875a0ed00b82",
+      "bytes": 1603
+    },
+    {
+      "path": "frontend/tests/e2e/clarification.spec.ts",
+      "sha256": "72c42f51abd31a544300f6eacba6f65c1a1391c88f22066db2b2dfcf75b3d8c1",
+      "bytes": 2154
+    },
+    {
+      "path": "frontend/tests/e2e/documents.spec.ts",
+      "sha256": "bedce7dd337bb7f55794528cdb82eaa6e116e987a0d46edcca600b98bbe0683c",
+      "bytes": 3480
+    },
+    {
+      "path": "frontend/tests/e2e/edge-states.spec.ts",
+      "sha256": "fb1d0600ce5285e675f436d14ec19edb6e3cf268a1130d6d0bc89e1c1abd80a0",
+      "bytes": 6536
+    },
+    {
+      "path": "frontend/tests/e2e/helpers.ts",
+      "sha256": "508c2e37ab578521d301eaf5a6b6180d6891b90f1af99a15e35349e441d97a80",
+      "bytes": 1656
+    },
+    {
+      "path": "frontend/tests/e2e/history.spec.ts",
+      "sha256": "5d6a85fd3a8dc7a2387dc5338e10be5891e685f53ec7ff02596088b4f850b99e",
+      "bytes": 1488
+    },
+    {
+      "path": "frontend/tests/e2e/layout.spec.ts",
+      "sha256": "5660181afbfc370591567eb61b18413e6a31607e038f3ff59d916ffb09656c99",
+      "bytes": 2047
+    },
+    {
+      "path": "frontend/tests/e2e/pdf-runtime.spec.ts",
+      "sha256": "741bca39b683bd2cb3a577c591b64438a0fafec80eb1dd9fcd039dcb4fa926c9",
+      "bytes": 1003
+    },
+    {
+      "path": "frontend/tests/e2e/pdf-viewer.spec.ts",
+      "sha256": "a46b2c5b8fe3c991cea83b5e79b241ede020a2479c0bb59604ad8494556acd78",
+      "bytes": 2218
+    },
+    {
+      "path": "frontend/tests/e2e/stream.spec.ts",
+      "sha256": "0e4f6e4669102c1d3d3d0a9d3beb8cab5cfff6996cc80b87f8787659a353ee07",
+      "bytes": 1701
+    },
+    {
+      "path": "frontend/tests/e2e/support-flow.spec.ts",
+      "sha256": "2fb44620a657a0a6355c22291e686736fc703d1187ca2b7af80c66ced66b038c",
+      "bytes": 6876
+    },
+    {
+      "path": "frontend/tests/fixtures/one-page.base64.txt",
+      "sha256": "00827d3de466f91490c0256ef2455b11cd6b902bf1333dbb321dfc99c4ed4494",
+      "bytes": 1056
+    },
+    {
+      "path": "frontend/tests/unit/auth-client.test.ts",
+      "sha256": "0cbcf5dfcd67dc326257b3f15d77c6de56228cc672993e9db2718c0390bbd39d",
+      "bytes": 1555
+    },
+    {
+      "path": "frontend/tests/unit/auth-session.test.ts",
+      "sha256": "f39aedca3e2cff5f73ad82a5d3f6b23bf5aa8df0dc5611f830d8935c175be11e",
+      "bytes": 2177
+    },
+    {
+      "path": "frontend/tests/unit/conversation-history.test.ts",
+      "sha256": "5c07b7405cbfa87a76859da1a4f1d35a1862d99fc04e0101c52e68c7527d84d9",
+      "bytes": 870
+    },
+    {
+      "path": "frontend/tests/unit/evidence-security.test.ts",
+      "sha256": "b06de59895a6571cfbc64b83af3cb53901eadc37f282d6dee9197134daeaad5d",
+      "bytes": 1876
+    },
+    {
+      "path": "frontend/tests/unit/pdf-coordinates.test.ts",
+      "sha256": "d45118f42879a68bb8f868a767232a7ef106b783eb9a270c723f595d2c3deb39",
+      "bytes": 879
+    },
+    {
+      "path": "frontend/tests/unit/pdf-document.test.ts",
+      "sha256": "49f40074e9a127885dad362463a2b30d8156ed82092b202c906f418bb0083728",
+      "bytes": 1334
+    },
+    {
+      "path": "frontend/tests/unit/run-stream-controller.test.ts",
+      "sha256": "d384975b20f33ff585cfcd1406d1a1048358b3f37e93fab006023a8c2ccdce78",
+      "bytes": 3956
+    },
+    {
+      "path": "frontend/tests/unit/run-stream.test.ts",
+      "sha256": "5ee35fbc182e3f58eb6299c2b0ebf22fb2158be29f3dbd1fa89da9019f6e664c",
+      "bytes": 1975
+    },
+    {
+      "path": "frontend/tsconfig.json",
+      "sha256": "02ebf2551f7047f006e04382dc329e837be896fd39fc9c274bae1949131176d8",
+      "bytes": 442
+    },
+    {
+      "path": "frontend/vite.config.ts",
+      "sha256": "f94a878064ecfa371266f86b65925610840abc2f2db5540c37e55cbed1707ef5",
+      "bytes": 580
+    },
+    {
+      "path": "scripts/verification/build_m3_artifacts.py",
+      "sha256": "276b70511939711079d997fefb20dbfb92c707a854719294c15085e2b1ab4363",
+      "bytes": 6548
+    },
+    {
+      "path": "scripts/verification/m3_environment.py",
+      "sha256": "c212640c0d128d8bc36782d872fed99be30f00a8c8140e2160dc46278126b703",
+      "bytes": 5805
+    },
+    {
+      "path": "scripts/verification/recheck_m3_live.py",
+      "sha256": "d369bc58230f62b1db7aa450cdb66c2ec2aac531b46bd9bd35ce78092ed1428d",
+      "bytes": 4355
+    },
+    {
+      "path": "tests/integration/test_m3_citation_original.py",
+      "sha256": "af647e56091c49fb84d6cd4668fbf6f274adf5d72e62580c16656a51b57502c8",
+      "bytes": 2234
+    }
+  ],
+  "links": [
+    {
+      "source": "README.md",
+      "target": "frontend/README.md"
+    },
+    {
+      "source": "README.md",
+      "target": "docs/development/reviews/M3-submission.md"
+    },
+    {
+      "source": "README.md",
+      "target": "docs/plans/2026-10-22-technical-support-optimization.md"
+    },
+    {
+      "source": "README.md",
+      "target": "docs/brainstorming/2026-10-22/support-plan.html"
+    },
+    {
+      "source": "README.md",
+      "target": "docs/plans/DEVELOPMENT_TODO.md"
+    },
+    {
+      "source": "README.md",
+      "target": "docs/development/PROGRESS.md"
+    },
+    {
+      "source": "README.md",
+      "target": "docs/development/REVIEW_STATUS.md"
+    },
+    {
+      "source": "README.md",
+      "target": "docs/development/reviews/M2-review-r2.md"
+    },
+    {
+      "source": "README.md",
+      "target": "docs/architecture/api-v1.md"
+    },
+    {
+      "source": "README.md",
+      "target": "docs/COURSE_IMPORT.md"
+    },
+    {
+      "source": "README.md",
+      "target": "NOTICE.md"
+    },
+    {
+      "source": "README.md",
+      "target": "docs/COURSE_IMPORT.md"
+    },
+    {
+      "source": "README.md",
+      "target": "docs/STARTUP_STATUS.md"
+    },
+    {
+      "source": "README.md",
+      "target": "docs/CONFIGURATION.md"
+    },
+    {
+      "source": "README.md",
+      "target": "docs/WINDOWS_DOCKER.md"
+    },
+    {
+      "source": "README.md",
+      "target": "docs/E2E_VALIDATION.md"
+    },
+    {
+      "source": "README.md",
+      "target": "docs/WINDOWS_DOCKER.md"
+    },
+    {
+      "source": "README.md",
+      "target": "docs/CONFIGURATION.md"
+    },
+    {
+      "source": "README.md",
+      "target": "docs/development/reviews/M0-review-r3.md"
+    },
+    {
+      "source": "README.md",
+      "target": "docs/development/reviews/M0-submission.md"
+    },
+    {
+      "source": "README.md",
+      "target": "docs/development/records/M0-09.md"
+    },
+    {
+      "source": "README.md",
+      "target": "docs/development/reviews/M0-submission-r2.md"
+    },
+    {
+      "source": "README.md",
+      "target": "docs/development/reviews/M0-review-r3.md"
+    },
+    {
+      "source": "README.md",
+      "target": "docs/CONFIGURATION.md"
+    },
+    {
+      "source": "THIRD_PARTY_NOTICES.md",
+      "target": "NOTICE.md"
+    },
+    {
+      "source": "THIRD_PARTY_NOTICES.md",
+      "target": "docs/reuse/manifest.json"
+    },
+    {
+      "source": "THIRD_PARTY_NOTICES.md",
+      "target": "frontend/pnpm-lock.yaml"
+    },
+    {
+      "source": "docs/CONFIGURATION.md",
+      "target": "E2E_VALIDATION.md"
+    },
+    {
+      "source": "docs/CONFIGURATION.md",
+      "target": "WINDOWS_DOCKER.md"
+    },
+    {
+      "source": "docs/CONFIGURATION.md",
+      "target": "runbooks/worker-recovery.md"
+    },
+    {
+      "source": "docs/CONFIGURATION.md",
+      "target": "../frontend/README.md"
+    },
+    {
+      "source": "docs/E2E_VALIDATION.md",
+      "target": "development/reviews/M3-submission.md"
+    },
+    {
+      "source": "docs/E2E_VALIDATION.md",
+      "target": "development/reviews/M3-validation-summary.json"
+    },
+    {
+      "source": "docs/E2E_VALIDATION.md",
+      "target": "../frontend/README.md"
+    },
+    {
+      "source": "docs/E2E_VALIDATION.md",
+      "target": "COURSE_IMPORT.md"
+    },
+    {
+      "source": "docs/architecture/api-v1.md",
+      "target": "openapi-v1.json"
+    },
+    {
+      "source": "docs/architecture/api-v1.md",
+      "target": "run-events-example.json"
+    },
+    {
+      "source": "docs/architecture/api-v1.md",
+      "target": "../plans/DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/architecture/api-v1.md",
+      "target": "../development/reviews/M2-submission.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M3-09.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M3-08.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M3-07.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M3-06.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M3-05.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M3-04.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M3-03.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M3-02.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M3-01.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M2-review-r2.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M2-review.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M2-08.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M2-07.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M2-06.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M2-05.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M2-04.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M2-03.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M1-review-r2.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M1-review.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "GIT_WORKFLOW.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M0-review-r3.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M0-submission-r3.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M0-review-r2.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M0-review.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "evidence/M0-review-probes.json"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M0-submission.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M0-09.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/PLAN-01.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M1-review-r2.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M1-review.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "GIT_WORKFLOW.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M0-review-r3.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M0-review-r2.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "REVIEW_STATUS.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "GIT_WORKFLOW.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M0-review-r3.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M0-submission-r3.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M0-review-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M0-review.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M1-review-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M1-submission-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M1-validation-summary-r2.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M1-review.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M2-review-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M2-submission-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M2-validation-summary-r2.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M2-review.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M3-submission.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M3-validation-summary.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M3-artifact-manifest.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M2-review-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M2-submission-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M2-review.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M1-review-r2.md"
+    },
+    {
+      "source": "docs/development/records/M3-01.md",
+      "target": "../../plans/tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/development/records/M3-01.md",
+      "target": "../../reuse/manifest.json"
+    },
+    {
+      "source": "docs/development/records/M3-02.md",
+      "target": "../../plans/tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/development/records/M3-11.md",
+      "target": "../../plans/tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/development/records/M3-11.md",
+      "target": "../reviews/M3-validation-summary.json"
+    },
+    {
+      "source": "docs/development/records/M3-11.md",
+      "target": "../reviews/M3-submission.md"
+    },
+    {
+      "source": "docs/development/reviews/M3-submission.md",
+      "target": "M3-artifact-manifest.json"
+    },
+    {
+      "source": "docs/development/reviews/M3-submission.md",
+      "target": "../../plans/tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/development/reviews/M3-submission.md",
+      "target": "M3-validation-summary.json"
+    },
+    {
+      "source": "docs/development/reviews/M3-submission.md",
+      "target": "../../CONFIGURATION.md"
+    },
+    {
+      "source": "docs/development/reviews/M3-submission.md",
+      "target": "../../../frontend/README.md"
+    },
+    {
+      "source": "docs/development/reviews/M3-submission.md",
+      "target": "../../reuse/manifest.json"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_CONTRACTS.md",
+      "target": "DEVELOPMENT_TODO.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_CONTRACTS.md",
+      "target": "2026-10-22-technical-support-optimization.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_CONTRACTS.md",
+      "target": "../architecture/knowledge-schema.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_CONTRACTS.md",
+      "target": "../development/DECISIONS.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "2026-10-22-technical-support-optimization.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "2026-10-22-technical-support-code-audit.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "2026-10-22-technical-support-reuse.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "../development/PROGRESS.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "../development/REVIEW_STATUS.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "../development/reviews/M2-review-r2.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "../development/GIT_WORKFLOW.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M5-support-workflow.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M6-evaluation.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M5-support-workflow.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M5-support-workflow.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M5-support-workflow.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M5-support-workflow.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M5-support-workflow.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M5-support-workflow.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M5-support-workflow.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M5-support-workflow.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M6-evaluation.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M6-evaluation.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M6-evaluation.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M6-evaluation.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M6-evaluation.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M6-evaluation.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M6-evaluation.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M6-evaluation.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/tasks/M3-vue-workbench.md",
+      "target": "../2026-10-22-technical-support-optimization.md"
+    },
+    {
+      "source": "docs/plans/tasks/M3-vue-workbench.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M3-vue-workbench.md",
+      "target": "../DEVELOPMENT_TODO.md"
+    },
+    {
+      "source": "docs/plans/tasks/M3-vue-workbench.md",
+      "target": "../../development/reviews/M2-review-r2.md"
+    },
+    {
+      "source": "docs/plans/tasks/M3-vue-workbench.md",
+      "target": "../DEVELOPMENT_TODO.md"
+    },
+    {
+      "source": "docs/plans/tasks/M3-vue-workbench.md",
+      "target": "../../development/PROGRESS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M3-vue-workbench.md",
+      "target": "../../development/CHANGELOG.md"
+    },
+    {
+      "source": "docs/plans/tasks/M3-vue-workbench.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M3-vue-workbench.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M3-vue-workbench.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M3-vue-workbench.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M3-vue-workbench.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M3-vue-workbench.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M3-vue-workbench.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M3-vue-workbench.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M3-vue-workbench.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M3-vue-workbench.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M3-vue-workbench.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    }
+  ]
+}

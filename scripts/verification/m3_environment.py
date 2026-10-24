@@ -71,7 +71,16 @@ def main():
                 vite = subprocess.Popen([pnpm, '-C', 'frontend', 'dev', '--port', '5173', '--strictPort'], cwd=ROOT, env=env,
                     stdout=log, stderr=subprocess.STDOUT, creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
                 try:
-                    wait_for(lambda: http.get('http://127.0.0.1:5173', timeout=5).status_code == 200, bool, timeout=45)
+                    # Vite尚未监听时的拒绝连接只是启动中，不能终止整个验收环境。
+                    import requests
+                    def vite_ready():
+                        if vite.poll() is not None:
+                            raise RuntimeError('Vite进程已退出，请查看本地vite.log')
+                        try:
+                            return http.get('http://127.0.0.1:5173', timeout=5).status_code == 200
+                        except requests.ConnectionError:
+                            return False
+                    wait_for(vite_ready, bool, timeout=45)
                     config['base_url'] = base
                     args.config.write_text(json.dumps(config, ensure_ascii=False, indent=2), encoding='utf-8')
                     print(json.dumps({'ready': True, 'database': database, 'config': str(args.config)}), flush=True)
