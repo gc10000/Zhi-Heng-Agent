@@ -30,6 +30,14 @@ class Resolution:
     unknown_tokens: tuple[str, ...]
 
 
+def interface_identifier(question,start,end):
+    """只有明确接口语境识别端口编号；不能借此确认陌生设备型号。"""
+    token=question[start:end].rstrip('.-_')
+    if not re.fullmatch(r'(?:ethernet|gigabitethernet|fastethernet|tengigabitethernet|serial|loopback|vlan|bridge)\d+',token,re.I):return False
+    if re.search(r'型号\s*[:：]?\s*$',question[:start]):return False
+    return bool(re.match(r'(?:/\d+){0,3}(?:接口|端口)',question[end:]))
+
+
 def resolve_catalog(question, products):
     question = unicodedata.normalize('NFKC', question)
     found = []
@@ -49,6 +57,7 @@ def resolve_catalog(question, products):
     unknown = []
     for match in tokens:
         token = match[0].rstrip('.-_')
+        if interface_identifier(question,match.start(),match.end()):continue
         if re.search(r'(?:错误码|报错|故障码|端口|寄存器)\s*[:：]?\s*$', question[:match.start()]):
             continue
         name = normalized(token); prefix = re.match(r'[a-z]+', name).group()

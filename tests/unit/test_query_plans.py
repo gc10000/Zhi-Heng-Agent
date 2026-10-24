@@ -131,3 +131,15 @@ def test_explicit_unknown_model_intent_cannot_inherit_old_selection(directory, q
 def test_operating_system_version_is_environment_not_a_second_device(directory):
     plan = plan_query('AX-24环境：Ubuntu22.04，现象：网卡失败', directory)
     assert plan.route == 'answer' and plan.slots['environment'] == 'Ubuntu22.04'
+
+
+@pytest.mark.parametrize('interface',['Cellular-Ethernet2/0接口','GigabitEthernet1/0/1端口','Serial1/0接口','LoopBack0接口'])
+def test_physical_interface_identifier_is_not_an_unconfirmed_device(directory,interface):
+    result=plan_query('AX-24的'+interface+'无法获取IP地址',directory)
+    assert result.route=='answer' and result.product_ids==('a',)
+    assert not result.unconfirmed_tokens
+
+
+def test_interface_rule_never_confirms_a_foreign_model_or_unknown_ax_device(directory):
+    assert plan_query('型号Ethernet2/0接口的供电',directory,selected_ids=['a']).route=='clarify'
+    assert plan_query('AX-42接口无法获取IP',directory,selected_ids=['a']).route=='clarify'
