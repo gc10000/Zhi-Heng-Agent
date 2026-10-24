@@ -7,18 +7,23 @@ import { api } from '@/lib/api/client'
 import { useAuthStore } from '@/stores/auth'
 import { setActivePinia } from 'pinia'
 import { routerKey } from 'vue-router'
+import { useUiStore } from '@/stores/ui'
 
 afterEach(() => vi.restoreAllMocks())
 it('401清空上位用户的Query缓存及身份页', async () => {
   vi.spyOn(api, 'request').mockResolvedValue({ user: { user_id: 'owner-a', username: '甲', role: 'viewer', kb_ids: ['k'] }, csrf_token: 'csrf' })
   const cache = new QueryClient()
   cache.setQueryData(['owner-a', 'private'], { answer: '前用户的私有答案' })
-  const wrapper = mount(App, { global: { provide: { [routerKey as symbol]: { replace: vi.fn() } }, plugins: [createPinia(), [VueQueryPlugin, { queryClient: cache }]] } })
+  const pinia = createPinia()
+  const wrapper = mount(App, { global: { stubs: { RouterView: true }, provide: { [routerKey as symbol]: { replace: vi.fn() } }, plugins: [pinia, [VueQueryPlugin, { queryClient: cache }]] } })
   await flushPromises()
+  const ui = useUiStore(pinia)
+  ui.productIds = ['private-device']; ui.selectedCitation = { runId: 'private-run', citationId: 'private-citation' }; ui.evidence = true
   window.dispatchEvent(new Event('session-expired'))
   await flushPromises()
   expect(cache.getQueryCache().getAll()).toHaveLength(0)
   expect(wrapper.text()).toContain('登录工作台')
+  expect(ui.productIds).toEqual([]); expect(ui.selectedCitation).toBeUndefined(); expect(ui.evidence).toBe(false)
   wrapper.unmount()
 })
 it('退出后迟到身份恢复不能复活旧用户，清理订阅只执行一次', async () => {

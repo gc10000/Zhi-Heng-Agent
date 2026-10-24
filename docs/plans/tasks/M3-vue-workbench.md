@@ -165,11 +165,11 @@ M2已通过第2轮总控审查，授权从M3-01连续执行至M3-11，按依赖�
 **文件：**`frontend/src/components/`; `frontend/tests/e2e/edge-states.spec.ts`; `docs/development/records/M3-10.md`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M3-10.1** 核对空/慢/错误/超长回答/断图/过期登录。
-- [ ] **M3-10.2** 按需加载 PDF 和页面。
-- [ ] **M3-10.3** 键盘焦点、输入法回车与 reduced-motion。
-- [ ] **M3-10.V** 验证：pnpm -C frontend typecheck；pnpm -C frontend build；pnpm -C frontend test:e2e -- edge-states.spec.ts。
-- [ ] **M3-10.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M3-10.1** 核对空/慢/错误/超长回答/断图/过期登录。
+- [x] **M3-10.2** 按需加载 PDF 和页面。
+- [x] **M3-10.3** 键盘焦点、输入法回车与 reduced-motion。
+- [x] **M3-10.V** 验证：pnpm -C frontend typecheck；pnpm -C frontend build；pnpm -C frontend test:e2e -- edge-states.spec.ts。
+- [x] **M3-10.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**390/1500px 可使用；中文输入法选词不误发送；图示、等待与失败均有可读说明；无控制台异常。
 
