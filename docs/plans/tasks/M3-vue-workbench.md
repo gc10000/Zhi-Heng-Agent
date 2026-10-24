@@ -40,11 +40,11 @@ M2已通过第2轮总控审查，授权从M3-01连续执行至M3-11，按依赖�
 **文件：**`frontend/src/lib/api/client.ts`; `frontend/src/lib/api/schema.d.ts`; `frontend/src/app/router.ts`; `frontend/src/stores/auth.ts`; `frontend/src/features/auth/LoginPage.vue`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M3-02.1** 从版本化 OpenAPI 生成类型并封装 cookie/CSRF/错误。
-- [ ] **M3-02.2** 登录过期清缓存、断开流。
-- [ ] **M3-02.3** 导航守卫提供体验，权限仍由后端校验。
-- [ ] **M3-02.V** 验证：pnpm -C frontend test:unit -- auth-client；pnpm -C frontend typecheck。
-- [ ] **M3-02.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M3-02.1** 从版本化 OpenAPI 生成类型并封装 cookie/CSRF/错误。
+- [x] **M3-02.2** 登录过期清缓存、断开流。
+- [x] **M3-02.3** 导航守卫提供体验，权限仍由后端校验。
+- [x] **M3-02.V** 验证：pnpm -C frontend test:unit -- auth-client；pnpm -C frontend typecheck。
+- [x] **M3-02.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**浏览器无供应商密钥；401/403/409/410 显示正确；退出后无上个用户缓存。
 

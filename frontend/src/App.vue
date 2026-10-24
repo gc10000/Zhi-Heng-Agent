@@ -1,13 +1,17 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { api } from './lib/api/client'
-import type { Login, User } from './lib/api/types'
+import { onMounted, onBeforeUnmount } from 'vue'
+import { useQueryClient } from '@tanstack/vue-query'
+import { useAuthStore } from '@/stores/auth'
+import { useRouter } from 'vue-router'
+import type { Login } from './lib/api/types'
 import LoginPage from './features/auth/LoginPage.vue'
 import CompatibilityPage from './features/chat/CompatibilityPage.vue'
-const user = ref<User>(), restoring = ref(true)
-function login(value: Login) { api.csrf = value.csrf_token; user.value = value.user }
-function expired() { user.value = undefined }
-onMounted(async () => { window.addEventListener('session-expired', expired); try { login(await api.request<Login>('/me')) } catch { /* 未登录显示登录页 */ } finally { restoring.value = false } })
-onBeforeUnmount(() => window.removeEventListener('session-expired', expired))
+const auth = useAuthStore(), cache = useQueryClient()
+const navigation = useRouter()
+const detach = auth.onClear(() => { void cache.cancelQueries(); cache.clear(); window.dispatchEvent(new Event('close-run-streams')) })
+function login(value: Login) { auth.accept(value); void navigation?.replace('/chat') }
+function expired() { auth.clear() }
+onMounted(async () => { window.addEventListener('session-expired', expired); if (!auth.restored) await auth.restore() })
+onBeforeUnmount(() => { detach(); window.removeEventListener('session-expired', expired) })
 </script>
-<template><p v-if="restoring" role="status">正在恢复身份…</p><CompatibilityPage v-else-if="user" :user="user" /><LoginPage v-else @login="login" /></template>
+<template><p v-if="!auth.restored" role="status">正在恢复身份…</p><template v-else-if="auth.user"><button class="logout" @click="auth.logout">退出登录 · {{ auth.user.username }}</button><CompatibilityPage :user="auth.user" /></template><LoginPage v-else @login="login" /></template>
