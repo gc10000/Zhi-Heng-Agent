@@ -1,0 +1,140 @@
+{
+  "notice": "M3首轮独立总控审查脱敏汇总；业务反例阻塞阶段通过，原始evidence仅本机。",
+  "date": "2026-10-24",
+  "verdict": "需修复",
+  "reviewed_delivery": "d1fa5e106aa76b4cdf0d6c6c6484344a69c2478f",
+  "reviewed_handoff": "a259703d23f8315b7d6e05d6875777881091a172",
+  "backend": {
+    "exit_code": 0,
+    "passed": 346,
+    "deselected": 2,
+    "skipped": 0,
+    "console_seconds": 300.56,
+    "junit_seconds": 300.537,
+    "directory_counts": {
+      "unit": 180,
+      "contract": 83,
+      "integration": 83
+    }
+  },
+  "frontend": {
+    "install_frozen_exit_code": 0,
+    "typecheck_exit_code": 0,
+    "build_exit_code": 0,
+    "unit_passed": 34,
+    "unit_files": 8,
+    "unit_exit_code": 0,
+    "generated_schema_hash_equal": true
+  },
+  "offline_browser": {
+    "passed": 14,
+    "failed": 0,
+    "skipped": 0,
+    "exit_code": 0,
+    "mode": "API协议模拟与合成PDF"
+  },
+  "legacy_reimport": {
+    "passed": 3,
+    "seconds": 0.007,
+    "exit_code": 0
+  },
+  "original_submission_snapshot_before_document_edits": {
+    "passed": true,
+    "files": 110,
+    "python_syntax": 5,
+    "local_links": 221,
+    "bundle_texts": 19,
+    "secret_scan_passed": true
+  },
+  "live_readonly": {
+    "passed": true,
+    "provider_calls": 0,
+    "checks": {
+      "two_completed_answers": true,
+      "ordered_persistent_history": true,
+      "grounded_parameters_and_followup": true,
+      "citations_exact_initial_revision": true,
+      "single_terminal_and_ordered_events": true,
+      "ui_import_published": true,
+      "ui_import_product_scope": true,
+      "originals_hash_match": true
+    },
+    "source_flow_sha256": "52cd0cbc3820e78c2b725d2b5df42b32c0ac6f834223b151626e742aa087d96e",
+    "message_count": 4
+  },
+  "paid_provider_calls_this_review": 0,
+  "paid_answers_stage_total_unchanged": 4,
+  "live_browser_rerun_this_review": false,
+  "visual_review": [
+    "M3-11-desktop.png",
+    "M3-11-mobile.png",
+    "M3-11-import.png"
+  ],
+  "supplementary_probes": {
+    "mode": "offline protocol probes against actual Vue app",
+    "exit_code": 1,
+    "expected_behaviour_assertions": {
+      "restore_current_active_run": false,
+      "visible_selected_device": false
+    },
+    "page_errors": [],
+    "R1": {
+      "new_user_message_visible": true,
+      "fresh_active_run_id": "new-active",
+      "run_reads": [
+        "old-done"
+      ],
+      "stop_buttons": 0,
+      "send_enabled": true
+    },
+    "R2": {
+      "value": "",
+      "selectedIndex": -1,
+      "display": null,
+      "options": 101,
+      "posted_product_ids": [
+        "p-101"
+      ]
+    }
+  },
+  "reopened_tasks": [
+    "M3-04",
+    "M3-06",
+    "M3-09",
+    "M3-11"
+  ],
+  "M3_accepted": "7/11",
+  "core_accepted": "39/76",
+  "M4_authorized": false,
+  "raw_evidence": [
+    {
+      "path": "docs/development/evidence/M3-review-stage.xml",
+      "sha256": "e43040abe627cde75640d9051dd4eed2263b93449b998477b57e9024d34ee2e1"
+    },
+    {
+      "path": "docs/development/evidence/M3-review-stage.txt",
+      "sha256": "ff96ac43779a17b3f72b12b67917d5391bf4382d17e0367d2fccd0f8ec44c930"
+    },
+    {
+      "path": "docs/development/evidence/M3-review-offline-results.json",
+      "sha256": "93b6ee1012e53b23aef6ba212cb87e91587c3821a078e0c57ba248bcd949c693"
+    },
+    {
+      "path": "docs/development/evidence/M3-review-live-recheck.json",
+      "sha256": "eb8c1feb127fe6bb0b071147b8aff55f3986ebf408be1a6fdeb55afdb2afa0e6"
+    },
+    {
+      "path": "docs/development/evidence/M3-review-ui-probes.mjs",
+      "sha256": "a9ac4ea8c7047ec87ec436d479daded3ab36821f35d3985538ace734289f97ec"
+    },
+    {
+      "path": "docs/development/evidence/M3-review-ui-probes-confirmed.json",
+      "sha256": "3f98806e4dcdb88464694483644b6b0b590d05cff967f468494392b47dbc308d"
+    },
+    {
+      "path": "docs/development/evidence/M3-review-ui-probes-final.txt",
+      "sha256": "a3177f04581e335ecdf63819a99db8e89f7740f1f9d49adf6e4286f24784db19"
+    }
+  ],
+  "preservation": "原提交/manifest/真实证据不回写，原始evidence/evals不上传；仅独立回归小样写入，原课程数据/桶策略/配置/依赖未改。"
+}
