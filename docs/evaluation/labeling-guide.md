@@ -1,10 +1,12 @@
 # M4题集标注与冻结规则
 
-M4-01目前是未验收接续点。用户明确选择先等待人工复核；复核前不运行dev原链路查询、heldout或调参。原始题目、手册、问答和evals只留本机。
+M4-01目前是未验收接续点。用户后来已委托总控助手审核50题，独立原件核查已完成，43题可保留、4题建议补充、3题需修改，见[审阅结论](../development/reviews/M4-01-dataset-review.md)。不再要求用户自行逐题核读。本次未运行dev原链路查询、heldout或调参；先新增修订冻结版本、回应审阅问题，再续基线准备。原始题目、手册、问答和evals只留本机。
 
 ## 当前审阅材料
 
-本机`output/evals/support-v1-review.md`包含50题、期望关键点/禁止结论与原件物理页；`evals/datasets/support-v1.jsonl`保存结构化标注，`split-manifest.json`保存来源、逐题及划分指纹。题集SHA256：`041c2a4c27929bf82879e8682acd7b4d0074e2476396acd5bf97507c9f33d975`。dev35、heldout15；50题均为执行助手对照原件的辅助草稿，人工复核0题，不伪填reviewer。
+本机`output/evals/support-v1-review.md`包含50题、期望关键点与原件物理页；`evals/datasets/support-v1.jsonl`保存包含禁止结论等字段的完整结构化标注，`split-manifest.json`保存来源、逐题及划分指纹。题集SHA256：`041c2a4c27929bf82879e8682acd7b4d0074e2476396acd5bf97507c9f33d975`。dev35、heldout15；50题均为执行助手对照原件的辅助草稿，人工复核0题，不伪填reviewer。
+
+独立逐题意见保存在本机`output/evals/support-v1-assistant-audit.md`与`output/evals/assistant-review-r1/audit.json`，三项必改的字段建议在同目录`proposed-changes.json`。原可读稿实际上省略了forbidden_claims、history、source_scope和证据组层级；新审阅报告已补齐，后续生成审阅稿须完整展示。助手独立审核与真实人工是不同身份，当前schema没有前者的正式已审状态；需扩展协议时另作实现及验证，不得把助手写成human_reviewed。本次报告不改原50条annotation。
 
 ## 逐题复核
 
