@@ -117,12 +117,12 @@ M2已通过第2轮总控审查，授权从M3-01连续执行至M3-11，按依赖�
 **文件：**`frontend/src/features/evidence/components/EvidenceDrawer.vue`; `frontend/src/features/evidence/components/EvidenceCard.vue`; `frontend/src/features/evidence/queries/citations.ts`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M3-07.1** 答案编号定位 citation_id。
-- [ ] **M3-07.2** 加载授权来源、章节、页码、原图。
-- [ ] **M3-07.3** 区分原文与 VL 描述。
-- [ ] **M3-07.4** Markdown 禁止未知 HTML 与危险链接。
-- [ ] **M3-07.V** 验证：pnpm -C frontend test:unit -- evidence-security；pnpm -C frontend test:e2e -- citations.spec.ts。
-- [ ] **M3-07.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M3-07.1** 答案编号定位 citation_id。
+- [x] **M3-07.2** 加载授权来源、章节、页码、原图。
+- [x] **M3-07.3** 区分原文与 VL 描述。
+- [x] **M3-07.4** Markdown 禁止未知 HTML 与危险链接。
+- [x] **M3-07.V** 验证：pnpm -C frontend test:unit -- evidence-security；pnpm -C frontend test:e2e -- citations.spec.ts。
+- [x] **M3-07.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**引用落到本次实际使用证据；坏图/无页码有清楚状态；越权资料不加载；XSS 输入不执行。
 

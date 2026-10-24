@@ -8,6 +8,7 @@ import ResizablePanelGroup from '@/components/ui/resizable/ResizablePanelGroup.v
 import { useAuthStore } from '@/stores/auth'
 import { useUiStore } from '@/stores/ui'
 import ConversationList from '@/features/chat/components/ConversationList.vue'
+import EvidenceDrawer from '@/features/evidence/components/EvidenceDrawer.vue'
 const auth = useAuthStore(), ui = useUiStore(), router = useRouter()
 const mobile = useMediaQuery('(max-width: 767px)')
 function scopeChanged() { ui.clear(); window.dispatchEvent(new Event('close-run-streams')); void router.push('/chat') }
@@ -22,7 +23,7 @@ async function logout() { try { await auth.logout() } finally { ui.clear(); void
 </Sidebar>
 <div class="workspace"><header class="topbar"><div><button v-if="mobile" aria-label="打开会话导航" @click="ui.menu = true">目录</button><span class="eyebrow">知识支持 / 工作台</span></div><button v-if="mobile" aria-label="打开证据" @click="ui.evidence = true">证据</button><span v-else class="muted">依据可查 · 适用范围明确</span></header>
 <ResizablePanelGroup direction="horizontal" class="workspace-panels"><SplitterPanel :default-size="68" :min-size="mobile ? 100 : 38" data-testid="question-panel"><main id="main-content" class="page-content"><RouterView /></main></SplitterPanel>
-<template v-if="!mobile"><SplitterResizeHandle aria-label="调整问答与证据宽度" class="resize-handle" /><SplitterPanel :default-size="32" :min-size="23"><aside class="evidence-panel"><h2>证据与来源</h2><p class="muted">点击回答中的引用，查看本次使用的原文、图像和资料修订。</p></aside></SplitterPanel></template>
+<template v-if="!mobile"><SplitterResizeHandle aria-label="调整问答与证据宽度" class="resize-handle" /><SplitterPanel :default-size="32" :min-size="23"><EvidenceDrawer /></SplitterPanel></template>
 </ResizablePanelGroup></div>
-<Modal v-if="mobile" v-model:open="ui.evidence" title="证据与来源"><p>点击回答中的引用，查看本次使用的原文、图像和资料修订。</p></Modal>
+<EvidenceDrawer v-if="mobile" />
 </div></template>
