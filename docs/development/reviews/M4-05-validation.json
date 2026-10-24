@@ -1,0 +1,71 @@
+{
+  "notice": "M4-05执行自验；正式入口真实Mongo+模型/检索端口注入，旧编译图端口注入；无新真实HyDE供应商调用或质量结论。",
+  "tests": [
+    {
+      "junit": "docs/development/evidence/M4-05-graph-delivered.xml",
+      "passed": 62,
+      "exit_code": 0,
+      "seconds": 22.86,
+      "deselected": 0,
+      "skipped": 0
+    }
+  ],
+  "test_directory_counts": {
+    "unit": 32,
+    "integration": 22,
+    "contract": 8
+  },
+  "real_baseline": {
+    "report": "docs/development/reviews/M4-01-baseline-readonly.json",
+    "reused_historical_report": true,
+    "new_baseline_run": false
+  },
+  "new_paid_calls": 0,
+  "heldout_executed": 0,
+  "raw_evidence": [
+    {
+      "path": "docs/development/evidence/M4-05-graph-complete.txt",
+      "sha256": "a5245727f6617b884d85718ad9384275fda7587412790bdd40e6baf3d14ef302"
+    },
+    {
+      "path": "docs/development/evidence/M4-05-graph-complete.xml",
+      "sha256": "5610bd82f468a1ee0cd37bdd1c621b655f3cbf81fd86cff47bcce7d4d0df6957"
+    },
+    {
+      "path": "docs/development/evidence/M4-05-graph-delivered.txt",
+      "sha256": "c829873745440c38fcf6171eb3ca3b34d28b020c89d302cda61564f5e3a5d429"
+    },
+    {
+      "path": "docs/development/evidence/M4-05-graph-delivered.xml",
+      "sha256": "9ac3c1faa5bd70c1ca4fb3ac9dcb48be460e16b8f075e5f095c3435b45c707e9"
+    },
+    {
+      "path": "docs/development/evidence/M4-05-graph-green.txt",
+      "sha256": "dbaddb21778feea26dad6d178fe64dd3b680086ae0ff3a621940f1753d0c9800"
+    },
+    {
+      "path": "docs/development/evidence/M4-05-graph-green.xml",
+      "sha256": "68ad7be68cf0d32fd900bbd18a82fd1c9102bb7a115e2844afc8a98b8339393e"
+    },
+    {
+      "path": "docs/development/evidence/M4-05-legacy-topology-red.txt",
+      "sha256": "052c97189d27f94d66c5f0a9815a8ef91646e1cdc19f4ecf77b33c188e3618c2"
+    },
+    {
+      "path": "docs/development/evidence/M4-05-legacy-topology-red.xml",
+      "sha256": "e3acf13284e00cb6fe227a8748fcf6537a5ac2c6e91462e403e89c743b4cd6ff"
+    },
+    {
+      "path": "docs/development/evidence/M4-05-run-hyde-red.txt",
+      "sha256": "d178410bfefd984bda071c31b04649f0b3afed3fce40bd5617217aabc42a8538"
+    },
+    {
+      "path": "docs/development/evidence/M4-05-run-hyde-red.xml",
+      "sha256": "8989095bb957e92d8ab37052d9e6b78025911a1add340e65196feff38d2f3ec7"
+    },
+    {
+      "path": "docs/development/reviews/M4-01-baseline-readonly.json",
+      "sha256": "86b9aeb9ab2a34ddde0df66ad5b080ad18c8e49e02c29f4fa7fad090d6780598"
+    }
+  ]
+}

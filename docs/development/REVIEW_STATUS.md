@@ -16,7 +16,7 @@ M4-01/02/03/06/09执行自验，M4 5/10、核心48/76；M4-04固定dev检索网�
 | M1 | 通过 | 第2轮总控接受R1–R4，独立205+3通过；自包含恢复与零写拒绝验收，11/11 | [第2轮审查](reviews/M1-review-r2.md) · [第2轮提交](reviews/M1-submission-r2.md) · [第2轮摘要](reviews/M1-validation-summary-r2.json) · [第1轮审查](reviews/M1-review.md) |
 | M2 | 通过 | 第2轮总控接受R1–R3；独立345 passed/2 deselected/0 skipped、既有3项、原产物11检查及补充9检查通过；12/12、核心32/76 | [第二轮总控审查](reviews/M2-review-r2.md) · [第二轮提交](reviews/M2-submission-r2.md) · [第二轮摘要](reviews/M2-validation-summary-r2.json) · [首轮审查](reviews/M2-review.md) |
 | M3 | 通过 | 第2轮总控关闭R1/R2；独立346后端/37单元/24离线浏览器/既有3/只读8及原反例2项、新交错通过；11/11、核心43/76，本轮付费0 | [第二轮总控结论](reviews/M3-review-r2.md) · [独立摘要](reviews/M3-review-validation-r2.json) · [第二轮提交](reviews/M3-submission-r2.md) · [本轮快照](reviews/M3-artifact-manifest-r2.json) · [首轮审查](reviews/M3-review.md) |
-| M4 | 执行中，未阶段提交 | M4-01/M4-02/M4-03/M4-04/M4-06/M4-07/M4-09执行自验完成，7/10、核心50/76；题集审核50题/人工0，35dev真实基线及只读复核通过，34逻辑生成/1澄清，heldout0，M4-02定向30通过/新增调用0，M4-03定向63通过/付费0，M4-06定向45通过，M4-07定向135通过，M4-04九组真实网格与修正分析完成，05/08接续。M5未授权 | [定向复核](reviews/M4-01-dataset-review-r2.md) · [修订回交](reviews/M4-01-dataset-revision-r2.md) · [M4计划](../plans/tasks/M4-rag-quality.md) |
+| M4 | 执行中，未阶段提交 | M4-01/M4-02/M4-03/M4-04/M4-05/M4-06/M4-07/M4-09执行自验完成，8/10、核心51/76；题集审核50题/人工0，35dev真实基线及只读复核通过，34逻辑生成/1澄清，heldout0，M4-02定向30通过/新增调用0，M4-03定向63通过/付费0，M4-06定向45通过，M4-07定向135通过，M4-04九组真实网格与修正分析完成，05定向62通过，08/10接续。M5未授权 | [定向复核](reviews/M4-01-dataset-review-r2.md) · [修订回交](reviews/M4-01-dataset-revision-r2.md) · [M4计划](../plans/tasks/M4-rag-quality.md) |
 | M5 | 未提交 | 等待前置阶段与总控授权 | 尚无 |
 | M6 | 未提交 | 等待前置阶段与总控授权 | 尚无 |
 | M7 | 未提交 | 等待前置阶段与总控授权；不包含自动公开发布 | 尚无 |
