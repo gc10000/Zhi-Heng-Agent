@@ -1,6 +1,8 @@
 # 统一API v1 · M2交付
 
-日期：2026-10-24。实际实现见[OpenAPI](openapi-v1.json)、[事件示例](run-events-example.json)和[公共契约](../plans/DEVELOPMENT_CONTRACTS.md)。OpenAPI从create_app().openapi()离线导出，24个路径/27个操作；事件文件为明确标注的合成协议示例，不是执行证据。M3尚未授权。
+日期：2026-10-24。实际实现见[OpenAPI](openapi-v1.json)、[事件示例](run-events-example.json)和[公共契约](../plans/DEVELOPMENT_CONTRACTS.md)。OpenAPI从create_app().openapi()离线导出，24个路径/27个操作；事件文件为明确标注的合成协议示例，不是执行证据。M3已授权实施，未进入M4。
+
+M3-08兼容补充：引用返回可空`original`，包含精确修订已登记原件的asset_id/media_type/name/url；与引用同权限复核，不公开对象键或签名URL，旧未登记原件返回null。PDF前端按物理页与已知normalized_top_left坐标定位，无bbox只跳页。
 
 统一入口为`app.main:app`，前缀`/api/v1`。导入模块不连服务或加载模型；lifespan建立资源，后台领取持久问答并恢复超时运行。旧查询/导入服务独立保留，不能把旧无鉴权入口暴露为新API。新运行查询仅用显式组织owner、当前kb、产品和冻结活动修订的v2索引；旧整图课程检索不挂到此入口。
 

@@ -2,7 +2,7 @@
   "name": "zhi-heng-workbench", "private": true, "version": "0.1.0", "type": "module",
   "packageManager": "pnpm@11.25.0", "engines": { "node": ">=22.17.1 <25" },
   "scripts": {
-    "dev": "vite --host 127.0.0.1", "typecheck": "vue-tsc --noEmit", "build": "vite build",
+    "dev": "node scripts/pdf-assets.mjs && vite --host 127.0.0.1", "typecheck": "vue-tsc --noEmit", "build": "node scripts/pdf-assets.mjs && vite build",
     "test:unit": "node scripts/unit.mjs", "test:e2e": "playwright test", "generate:api": "openapi-typescript ../docs/architecture/openapi-v1.json -o src/lib/api/schema.d.ts"
   },
   "dependencies": {

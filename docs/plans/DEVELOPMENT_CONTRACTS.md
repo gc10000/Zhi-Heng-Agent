@@ -102,6 +102,8 @@ delta 约 50–100ms 合并，最终按压测调节；默认事件保留 24h，�
 
 ## 5. 前端状态与复用
 
+M3-08兼容补充：授权引用响应可空`original: {asset_id,media_type,name,url}`，从精确document/revision登记读取并重新授权；url仅`/api/v1/assets/{asset_id}`，无object_key/bucket/签名URL。历史未登记原件返回null，禁止前端推导原件ID或补造页码/bbox。PDF坐标采用SourceRef.normalized_top_left，叠加原页面旋转与用户旋转，未给bbox不绘制高亮。
+
 M3实际消费说明：原生EventSource不暴露HTTP错误状态，onerror（含410）关闭旧流后GET持久快照，按新seq/非终态再订阅；401/403/404停止，暂态网络/5xx退避。终态事件、快照和命令响应按同run/seq折叠，旧回调epoch失效；取消是独立命令，断流不取消。输入schema由OpenAPI生成，当前动态响应未声明schema，响应TS类型按实际公开字段维护，不能声称完整响应全自动生成。
 
 - Vue Query 管会话/资料/任务/实验等服务快照；query key 包含用户和知识范围。

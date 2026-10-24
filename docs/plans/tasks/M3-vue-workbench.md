@@ -133,13 +133,15 @@ M2已通过第2轮总控审查，授权从M3-01连续执行至M3-11，按依赖�
 **文件：**`frontend/src/features/evidence/components/PdfViewer.vue`; `frontend/src/features/evidence/components/CitationOverlay.vue`; `frontend/src/features/evidence/composables/usePdfDocument.ts`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M3-08.1** PDF.js worker/字体本地固定版本。
-- [ ] **M3-08.2** 支持 Range、按需页渲染、缩放旋转及文本层。
-- [ ] **M3-08.3** bbox 坐标变换与取消旧渲染任务。
-- [ ] **M3-08.V** 验证：pnpm -C frontend test:unit -- pdf-coordinates；pnpm -C frontend test:e2e -- pdf-viewer.spec.ts。
-- [ ] **M3-08.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M3-08.1** PDF.js worker/字体本地固定版本。
+- [x] **M3-08.2** 支持 Range、按需页渲染、缩放旋转及文本层。
+- [x] **M3-08.3** bbox 坐标变换与取消旧渲染任务。
+- [x] **M3-08.V** 验证：pnpm -C frontend test:unit -- pdf-coordinates；pnpm -C frontend test:e2e -- pdf-viewer.spec.ts。
+- [x] **M3-08.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**不同缩放/旋转下高亮落点正确；无 bbox 仅跳页/章节；切换文档无旧渲染覆盖新文档。
+
+实际接线调整：v1引用原响应不含原件描述，M3-08以兼容可空`original`字段返回精确修订登记的asset_id/media_type/name/url，经相同授权复核，不暴露对象键或签名URL。前端不自行推导ID；旧未登记原件保留null并仍可按原文溯源。
 
 <a id="m3-09"></a>
 ### M3-09：产品资料与导入发布界面
