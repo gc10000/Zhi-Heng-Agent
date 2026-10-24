@@ -70,12 +70,12 @@ M2已通过第2轮总控审查，授权从M3-01连续执行至M3-11，按依赖�
 **文件：**`frontend/src/features/chat/queries/conversations.ts`; `frontend/src/features/chat/components/ConversationList.vue`; `frontend/src/features/chat/ChatPage.vue`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M3-04.1** Vue Query 管列表/历史分页。
-- [ ] **M3-04.2** URL 关联 conversation_id。
-- [ ] **M3-04.3** 按用户与知识范围分 query key。
-- [ ] **M3-04.4** 切会话先恢复快照。
-- [ ] **M3-04.V** 验证：pnpm -C frontend test:unit -- conversation-history。
-- [ ] **M3-04.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M3-04.1** Vue Query 管列表/历史分页。
+- [x] **M3-04.2** URL 关联 conversation_id。
+- [x] **M3-04.3** 按用户与知识范围分 query key。
+- [x] **M3-04.4** 切会话先恢复快照。
+- [x] **M3-04.V** 验证：pnpm -C frontend test:unit -- conversation-history。
+- [x] **M3-04.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**刷新恢复已有答案与引用；跨会话不显示旧增量；新建/重命名/归档按 API 能力提供。
 
