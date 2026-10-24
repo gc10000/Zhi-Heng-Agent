@@ -1,8 +1,10 @@
 # 统一API v1 · M2交付
 
-日期：2026-10-24。实际实现见[OpenAPI](openapi-v1.json)、[事件示例](run-events-example.json)和[公共契约](../plans/DEVELOPMENT_CONTRACTS.md)。OpenAPI从create_app().openapi()离线导出，24个路径/27个操作；事件文件为明确标注的合成协议示例，不是执行证据。M3已授权实施，未进入M4。
+日期：2026-10-24。实际实现见[OpenAPI](openapi-v1.json)、[事件示例](run-events-example.json)和[公共契约](../plans/DEVELOPMENT_CONTRACTS.md)。OpenAPI从create_app().openapi()离线导出，24个路径/27个操作；事件文件为明确标注的合成协议示例，不是执行证据。M3已通过，当前M4获准实施、M5未授权。
 
 M3-08兼容补充：引用返回可空`original`，包含精确修订已登记原件的asset_id/media_type/name/url；与引用同权限复核，不公开对象键或签名URL，旧未登记原件返回null。PDF前端按物理页与已知normalized_top_left坐标定位，无bbox只跳页。
+
+M4-09兼容补充：run.failed及运行快照error可增`retryable`布尔。供应商超时/连接失败/429/5xx分别为upstream_timeout/upstream_connection_failed/provider_rate_limited/provider_unavailable；鉴权、错误模型、请求及格式错误分别为provider_authentication_failed/provider_model_not_found/provider_invalid_request/provider_invalid_response，不统一标可重试。部分答案保留但仍failed，无成功助手消息；客户端不能据retryable直接复活终态。未改变路由或鉴权/版本门禁，错误不回显上游正文。timeout/retry/JSON策略显式开启，默认保留既有SDK参数，见[配置](../CONFIGURATION.md)。
 
 统一入口为`app.main:app`，前缀`/api/v1`。导入模块不连服务或加载模型；lifespan建立资源，后台领取持久问答并恢复超时运行。旧查询/导入服务独立保留，不能把旧无鉴权入口暴露为新API。新运行查询仅用显式组织owner、当前kb、产品和冻结活动修订的v2索引；旧整图课程检索不挂到此入口。
 

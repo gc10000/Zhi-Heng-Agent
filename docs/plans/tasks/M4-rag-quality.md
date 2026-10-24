@@ -9,7 +9,7 @@
 
 ## 进入条件与执行约束
 
-M3第2轮已通过总控审查，授权M4-01至M4-10按依赖连续执行，从M4-01开始，阶段末提交总控审查；M5及后续未授权，见[M3第二轮授权](../../development/reviews/M3-review-r2.md)。本次仅授权，M4仍0/10。实施前核对并保留现有未跟踪evals/，不覆盖或自动上传；先标注、冻结题集/划分和原链路基线，再做调参实验，heldout在策略选定后才最终评价。无稳定收益保留旧默认，不预设收益或覆盖课程数据。
+M3第2轮已通过总控审查，授权M4-01至M4-10按依赖连续执行，从M4-01开始，阶段末提交总控审查；M5及后续未授权，见[M3第二轮授权](../../development/reviews/M3-review-r2.md)。当前M4-09执行自验完成，M4为1/10，尚未阶段提交。实施前核对并保留现有未跟踪evals/，不覆盖或自动上传；先标注、冻结题集/划分和原链路基线，再做调参实验，heldout在策略选定后才最终评价。无稳定收益保留旧默认，不预设收益或覆盖课程数据。
 
 真实实现依赖 M1-11/M2-12；固定题集和标注规则先于策略调参。
 
@@ -20,7 +20,7 @@ M3第2轮已通过总控审查，授权M4-01至M4-10按依赖连续执行，从M
 - 命令均从项目根目录运行；`pnpm -C frontend` 命令需 M3-01 建立对应 scripts 后才存在。依赖安装和测试数据准备不表示任务验收通过。
 - 每个任务验证其直接影响的行为，阶段验收时再执行阶段回归；不要重复运行无关全量测试。
 
-2026-10-24核对：正式工作台是`app/runs/query_runner.py`和`app/knowledge/index.py`，旧LangGraph仅兼容；M4-02起须接正式入口，不能只改旧节点。模型宿主复用实际`app/infrastructure/model_host.py`，不重复建计划目录。M4-01已有50题辅助草稿/35与15划分，人工复核0；用户选择先等人工复核，不运行真实基线或依赖实验，独立M4-09可继续。未验收保持未勾选。
+2026-10-24核对：正式工作台是`app/runs/query_runner.py`和`app/knowledge/index.py`，旧LangGraph仅兼容；M4-02起须接正式入口，不能只改旧节点。模型宿主复用实际`app/infrastructure/model_host.py`，不重复建计划目录。M4-01已有50题辅助草稿/35与15划分，人工复核0；用户选择先等人工复核，不运行真实基线或依赖实验，独立M4-09已完成执行自验，32项能力契约含SDK格式验证；最终回归437通过/2排除/0跳过、既有3、类型检查及只读8通过、付费0。M4-01整体及后续依赖仍未验收。
 
 <a id="m4-01"></a>
 ### M4-01：首批 50 题与原链路基线
@@ -29,11 +29,11 @@ M3第2轮已通过总控审查，授权M4-01至M4-10按依赖连续执行，从M
 **文件：**`evals/datasets/support-v1.jsonl`; `evals/datasets/split-manifest.json`; `evals/configs/baseline.yaml`; `app/evaluation/validate_dataset.py`; `app/evaluation/runner.py`; `docs/evaluation/labeling-guide.md`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M4-01.1** 覆盖参数/配置/故障/型号歧义/图示/跨型/无答案。
+- [x] **M4-01.1** 覆盖参数/配置/故障/型号歧义/图示/跨型/无答案。
 - [ ] **M4-01.2** 人工标标准证据与适用型号。
 - [ ] **M4-01.3** 建立最小 JSONL 校验器和基线运行器，固定调参/评估划分再跑原链路。
-- [ ] **M4-01.V** 验证：.venv/Scripts/python.exe -m app.evaluation.validate_dataset evals/datasets/support-v1.jsonl。
-- [ ] **M4-01.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M4-01.V** 验证：.venv/Scripts/python.exe -m app.evaluation.validate_dataset evals/datasets/support-v1.jsonl。
+- [x] **M4-01.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**每题有来源/允许证据/期望行为；保留多个正确证据；没有捏造提升指标或提前用 heldout 调参；M4 不依赖 M6 尚未建立的运行器。
 
@@ -159,11 +159,11 @@ M3第2轮已通过总控审查，授权M4-01至M4-10按依赖连续执行，从M
 **文件：**`app/infrastructure/providers/`; `app/settings.py`; `.env.example`; `docs/CONFIGURATION.md`; `tests/contract/test_provider_capabilities.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M4-09.1** 按文本/视觉/嵌入/重排能力配置 timeout/retry/JSON。
-- [ ] **M4-09.2** 验证格式并分类错误。
-- [ ] **M4-09.3** 能力检测与真实调用分离。
-- [ ] **M4-09.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_provider_capabilities.py -q。
-- [ ] **M4-09.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M4-09.1** 按文本/视觉/嵌入/重排能力配置 timeout/retry/JSON。
+- [x] **M4-09.2** 验证格式并分类错误。
+- [x] **M4-09.3** 能力检测与真实调用分离。
+- [x] **M4-09.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_provider_capabilities.py -q。
+- [x] **M4-09.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**温度零保留；错误模型/鉴权失败明示；JSON 不合法可控重试；缺工具配置不阻断本地问答。
 

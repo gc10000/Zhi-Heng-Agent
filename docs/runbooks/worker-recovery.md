@@ -17,3 +17,11 @@ Mongo是事实账本，Dispatcher发后确认，broker仅job_id；重复投递�
 旧job已completed但finally前退出时，资料import_permit仍可能存在。等待import_lease_until过期后，新修订job通过原子CAS自动接管，无需手动清字段；有效其他job和同job更高attempt仍拒绝。同attempt异token不能覆盖。迟到heartbeat仅匹配完整job/attempt/token且许可未过期；finally只清自己的完整许可，最终指针仍核对permit和期限。多worker竞争只一方领取；不要直接修改许可来恢复。无期限的异常遗留需保留现场并人工核对，不自动猜测过期。
 
 M2复审顺序保证：completed及completion_snapshot已落库、assistant未持久时保留active_run_id。恢复、事件flush及新轮创建先幂等补齐上一轮assistant，再条件释放；写失败保持旧占用，可原请求重试，不重跑模型。消息ordinal不改写。旧run释放只匹配自身，不能释放新占用。
+
+### M4按能力策略与供应商故障
+
+`PROVIDER_POLICIES_ENABLED`默认false保留原请求参数；显式true后文本/视觉/嵌入/重排独立timeout和retry配置，见[配置](../CONFIGURATION.md)。能力描述configured只表示本机配置存在，verified=false，不证明账号可调用该模型。不要为检查能力重复付费问答或主动触发真实鉴权失败。
+
+upstream_timeout、upstream_connection_failed、provider_rate_limited、provider_unavailable可以在原权限/版本门禁下重试；鉴权、model_not_found、请求、格式及未知故障先处理原因，不盲重试。JSON格式额外调用有上限，流式输出已开始后不自动重新打开。导入摘要失败保持原检查点与重试协议，修复配置后仅重试未完成阶段；不手动删除permit、解析缓存或成功摘要制造通过。
+
+本机同步CPU/CUDA超时只能在返回边界发现，HTTP断开也不保证宿主推理立即停止。迟到完成仍受原租约/attempt/fencing保护；不为减少等待而重启数据库/清卷。问答终态不可复活，新请求沿原协议创建，已计费但未知结果保持现场，不声称exactly-once。评测输出锁/持久run恢复另见[标注手册](../evaluation/labeling-guide.md)，用户选择人工复核前不跑真实题集。

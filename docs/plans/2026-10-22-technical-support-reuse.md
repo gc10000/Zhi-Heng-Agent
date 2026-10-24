@@ -100,3 +100,8 @@ Celery固定5.5.3（BSD-3-Clause，上游https://github.com/celery/celery），r
 ## M2-11实际旧能力复用
 
 复用现有课程node_answer_output.step_2_construct_prompt/step_3_generate_response及BGE模型工具，新增client注入保持默认旧调用兼容；ContextVar出口映射持久事件，旧整图保留。没有复制新上游源码或新增依赖，不将课程提示词/模型包装描述为原创。实际新授权检索与持久适配见ADR-031、records/M2-11.md。
+
+
+## M4-01/09实际接续复用（2026-10-24）
+
+最小评测复用正式RunService/QueryRunner/V2Index，不以旧四分支图替代工作台基线。供应商策略通过既有OpenAI SDK、httpx、LangChain包接口适配，实际SDK异常与MockTransport分别验证分类/重试；没有复制上游源码、没有新增依赖或升级现有模型/CUDA，沿既有锁版本和许可证。部分流失败与原生成节点/账本复用，新增安全错误码；能力声明不等于真实账号可调用性，付费0。原课程来源仍见NOTICE.md，50题本机辅助草稿不上传、不冒充人工标注。

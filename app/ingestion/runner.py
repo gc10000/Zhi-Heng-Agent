@@ -24,6 +24,8 @@ from app.infrastructure.queue.model_client import HostEmbedder
 
 
 def classify_error(exc):
+    from app.infrastructure.providers.policy import ProviderFailure
+    if isinstance(exc, ProviderFailure): return exc.code, exc.retryable
     status = getattr(exc, 'status_code', None) or getattr(getattr(exc, 'response', None), 'status_code', None)
     if isinstance(exc, APIError) and exc.code == 'job_lease_lost':
         return 'lease_lost', False
@@ -175,23 +177,13 @@ class ImportRunner:
 
 def configured_runner(jobs, gateway):
     from redis import Redis
-    from openai import OpenAI
     from app.infrastructure.rate_limits import RedisRateStore, SharedRateLimiter
-    from urllib.parse import urlparse
     work = Path(os.getenv('M2_WORK_DIR', '/var/lib/knowledge-worker'))
     model = os.getenv('VL_MODEL', '')
     # 无图片的资料不要求视觉供应商配置，真正调用时SDK再明确报缺配置。
     def describe(data, context):
-        if not os.getenv('OPENAI_API_KEY') or not os.getenv('OPENAI_BASE_URL') or not model:
-            raise ValueError('缺OPENAI_API_KEY/OPENAI_BASE_URL/VL_MODEL，填写根目录.env用于图片摘要')
-        client = OpenAI(api_key=os.environ['OPENAI_API_KEY'], base_url=os.environ['OPENAI_BASE_URL'])
-        host = urlparse(os.environ['OPENAI_BASE_URL']).hostname or ''
-        provider = os.getenv('LLM_PROVIDER', 'auto')
-        dashscope = provider == 'dashscope' or (provider == 'auto' and (host == 'dashscope.aliyuncs.com' or host.endswith('.dashscope.aliyuncs.com')))
-        if provider not in {'auto', 'dashscope', 'openai_compatible'}:
-            raise ValueError('LLM_PROVIDER配置不支持')
-        options = {'extra_body': {'enable_thinking': os.getenv('LLM_ENABLE_THINKING', 'false').lower() == 'true'}} if dashscope else {}
-        return VisionDescriber(client, model, '请用中文准确描述设备技术图示，保留端口、型号与连接关系。', request_options=options)(data, context)
+        from app.infrastructure.providers.clients import vision_call
+        return vision_call(data, context, model)
     summary = ImageSummaryService(MongoSummaryCache(jobs.db),
         SharedRateLimiter(RedisRateStore(Redis.from_url(os.environ['REDIS_URL'])), 'vision:' + model,
                           requests_per_minute=float(os.getenv('VISION_REQUESTS_PER_MINUTE', '30'))), describe)

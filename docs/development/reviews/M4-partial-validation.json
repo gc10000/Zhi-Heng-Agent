@@ -1,0 +1,556 @@
+{
+  "kind": "M4_partial_development_checkpoint_not_stage_submission",
+  "date": "2026-10-24",
+  "base_commit": "83dd1b11c2873d11b0795099abc81260097b1638",
+  "branch": "main",
+  "tasks": {
+    "M4-01": "待真实人工复核和基线，未验收",
+    "M4-09": "执行自验完成，阶段未提交"
+  },
+  "phase_completed": false,
+  "provider_calls": 0,
+  "dataset": {
+    "questions": 50,
+    "dev": 35,
+    "heldout": 15,
+    "human_reviewed": 0,
+    "sha256": "041c2a4c27929bf82879e8682acd7b4d0074e2476396acd5bf97507c9f33d975",
+    "real_baseline_executed": false,
+    "heldout_executed": false,
+    "user_choice": "先等待人工复核题集"
+  },
+  "backend": {
+    "passed": 437,
+    "deselected": 2,
+    "skipped": 0,
+    "exit_code": 0,
+    "seconds": 297.29,
+    "composition_by_directory": {
+      "unit": 222,
+      "contract": 115,
+      "integration": 100
+    },
+    "command": "$env:PYTHONUTF8='1'; $env:LOG_CONSOLE_ENABLE='False'; $env:LOG_FILE_ENABLE='False'; $env:M1_TEST_DB='m1_test_m4_provider_verified'; .venv/Scripts/python.exe -m pytest tests/unit tests/contract tests/integration -m 'not live_provider' -q --junitxml=docs/development/evidence/M4-partial-stage-verified.xml"
+  },
+  "reimport": {
+    "passed": 3,
+    "exit_code": 0,
+    "seconds": 0.155,
+    "command": ".venv/Scripts/python.exe -m unittest discover -s test -p test_document_reimport.py -v"
+  },
+  "frontend": {
+    "typecheck_exit_code": 0,
+    "command": "pnpm -C frontend typecheck",
+    "unit_browser_build_rerun": false,
+    "reason": "仅新增可选error.retryable类型，无UI逻辑变更"
+  },
+  "unverified": [
+    "真实题集基线",
+    "人工标注/答案复核",
+    "新策略供应商HTTP",
+    "候选池/资源消融",
+    "heldout",
+    "M4阶段验收"
+  ],
+  "notice": "集成目录含真实独立存储及端口注入，不能统称真实供应商全链路；MockTransport无真实HTTP；本机timeout不抢占CPU/CUDA；原始evidence/evals不上传。",
+  "existing_live_readonly": {
+    "checks_passed": 8,
+    "message_count": 4,
+    "exit_code": 0,
+    "provider_calls": 0,
+    "source_flow_sha256": "52cd0cbc3820e78c2b725d2b5df42b32c0ac6f834223b151626e742aa087d96e",
+    "command": ".venv/Scripts/python.exe -m scripts.verification.recheck_m3_live --config docs/development/evidence/M3-live-config-stage-ready.json --flow docs/development/evidence/M3-live-config-stage-ready.flow.json --output docs/development/evidence/M4-partial-live-readonly.json"
+  },
+  "pytest_runs": [
+    {
+      "path": "docs/development/evidence/M4-01-adapter-green.xml",
+      "sha256": "93a2625cc74cb1f46f6fbea5e64890d1e8eefe6f66e6dd13d7406d58d6b8a14f",
+      "tests": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0
+    },
+    {
+      "path": "docs/development/evidence/M4-01-adapter-integration.xml",
+      "sha256": "58a5348a144f944bbbbb59d7fd0a41499f9fc88c903e3c88fe193dbbce45089d",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0
+    },
+    {
+      "path": "docs/development/evidence/M4-01-adapter-red.xml",
+      "sha256": "15dc5e0770ff78b4d9e769d443155891d5d9c2cae2903af72d93ecfda9dbeca9",
+      "tests": 26,
+      "failures": 3,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 1
+    },
+    {
+      "path": "docs/development/evidence/M4-01-boundary-red.xml",
+      "sha256": "ad9f65df503ace78ac44d6d443a88db5f702ea5dd2799ae194bbdef4e9faa4de",
+      "tests": 17,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 1
+    },
+    {
+      "path": "docs/development/evidence/M4-01-green-final.xml",
+      "sha256": "c1d505e87defdee79fd61a6ab8ab022b05ed825fa09bf193b4cbb727070d7439",
+      "tests": 17,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0
+    },
+    {
+      "path": "docs/development/evidence/M4-01-green-first.xml",
+      "sha256": "a4555f6396e1c4926ad15fa013e25f706d366731e8d8b79a0bde0c694237de69",
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0
+    },
+    {
+      "path": "docs/development/evidence/M4-01-offline-final.xml",
+      "sha256": "79f935ecc9e612f3e6e9911769a70c009e4607e375b7b6e39170328548f262fa",
+      "tests": 28,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0
+    },
+    {
+      "path": "docs/development/evidence/M4-01-red.xml",
+      "sha256": "b94a4dd89cba282695d771fbb8a7d21765146a4bfa23eece19a8a9640b555daa",
+      "tests": 14,
+      "failures": 13,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 1
+    },
+    {
+      "path": "docs/development/evidence/M4-01-versions-red.xml",
+      "sha256": "d36fe59f7c7c2b66ba3154392a8951802f639f6b5f8c1d27513ac24cde56e849",
+      "tests": 2,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 1
+    },
+    {
+      "path": "docs/development/evidence/M4-09-clients-green.xml",
+      "sha256": "7f43eacf5504fbb5a01e11c5f1a464fc90f4e9dc5aa4dee3dd0e908b132218c3",
+      "tests": 42,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0
+    },
+    {
+      "path": "docs/development/evidence/M4-09-clients-red.xml",
+      "sha256": "d784f91670c0eba64f40e3dcc11b27d33fa4509694848f32538af7fe6f2bc058",
+      "tests": 7,
+      "failures": 6,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 1
+    },
+    {
+      "path": "docs/development/evidence/M4-09-offline-final.xml",
+      "sha256": "dd681619fce7005c1e6594687789e9aeca176cf103f7fed2e3aae49a40b7765c",
+      "tests": 45,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0
+    },
+    {
+      "path": "docs/development/evidence/M4-09-outer-red.xml",
+      "sha256": "40cff00e810e401c874a51c32fa173264c1024308dfc9efd896627687f9d1ac6",
+      "tests": 23,
+      "failures": 15,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 1
+    },
+    {
+      "path": "docs/development/evidence/M4-09-policy-green.xml",
+      "sha256": "b4489f75c87506818e979f9df1d5fe4c0e0171fac6972d3897b47475cf1fa018",
+      "tests": 27,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0
+    },
+    {
+      "path": "docs/development/evidence/M4-09-policy-red.xml",
+      "sha256": "967bc78b248dc61a9a9418744fe89b2d9250086f644969a2be691c4f9177fa7e",
+      "tests": 27,
+      "failures": 25,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 1
+    },
+    {
+      "path": "docs/development/evidence/M4-09-rerank-red.xml",
+      "sha256": "8e1b8d9044f495bb54f36dc4760bb8911753754f50227656427b028471bc8e53",
+      "tests": 14,
+      "failures": 3,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 1
+    },
+    {
+      "path": "docs/development/evidence/M4-09-sdk-format-red.xml",
+      "sha256": "04d6179ba8fcf59554db31a34ba9cff2dc468a9a4a3b6a4d709e60c1dc183612",
+      "tests": 32,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 1
+    },
+    {
+      "path": "docs/development/evidence/M4-09-targeted.xml",
+      "sha256": "dcf3876779a2e2efea9e2ae8099b3b2421d3eb26fcf5793fdcf2f0a4cb5f0954",
+      "tests": 64,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0
+    },
+    {
+      "path": "docs/development/evidence/M4-09-vision-red.xml",
+      "sha256": "f8b55db568a84c119c1587e0b1ecde8bf0620adac1c0d356977b7ad7993b151c",
+      "tests": 11,
+      "failures": 3,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 1
+    },
+    {
+      "path": "docs/development/evidence/M4-partial-stage-final.xml",
+      "sha256": "381115050ab5975b7fc8dc0d21bf38df12c3e55c5cacb5110875f29500dd6351",
+      "tests": 432,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 1
+    },
+    {
+      "path": "docs/development/evidence/M4-partial-stage-verified.xml",
+      "sha256": "006516a5fa5bcd2cd0f4be016428d0e05c392f656673f9ed17977ec79e15289b",
+      "tests": 437,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0
+    },
+    {
+      "path": "docs/development/evidence/M4-partial-stage.xml",
+      "sha256": "e281778db2b039d2ddbf93dbcf3f0c841262b0c8585b27362188d5f65ca1f7f2",
+      "tests": 1,
+      "failures": 0,
+      "errors": 1,
+      "skipped": 0,
+      "exit_code": 2
+    }
+  ],
+  "local_raw_evidence_hashes": [
+    {
+      "path": "docs/development/evidence/M4-01-adapter-green.txt",
+      "sha256": "58120dd1112f380ea79c055ebd5a6d78d03c7ad83dd5b5e5db95a500e13e442d",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-01-adapter-green.xml",
+      "sha256": "93a2625cc74cb1f46f6fbea5e64890d1e8eefe6f66e6dd13d7406d58d6b8a14f",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-01-adapter-integration.txt",
+      "sha256": "60499a4ced201748c43579d25da5e52fc5b265d3c0a4a71a83f43bdcf3752a02",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-01-adapter-integration.xml",
+      "sha256": "58a5348a144f944bbbbb59d7fd0a41499f9fc88c903e3c88fe193dbbce45089d",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-01-adapter-red.txt",
+      "sha256": "86e09180c07b91d152975cbfa5de197a32850c729b1424122dac95cb7de0ffbf",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-01-adapter-red.xml",
+      "sha256": "15dc5e0770ff78b4d9e769d443155891d5d9c2cae2903af72d93ecfda9dbeca9",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-01-boundary-red.txt",
+      "sha256": "b88bbc8024410ab4a8f6cfe5c01c478c05c0f4998c22782ab97ea2d5cb047f18",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-01-boundary-red.xml",
+      "sha256": "ad9f65df503ace78ac44d6d443a88db5f702ea5dd2799ae194bbdef4e9faa4de",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-01-build-dataset.py",
+      "sha256": "32e3c2ea9846faa5b7f4ec12f33785ee125a7a398a0dcfab8b5c5eaf1b5cfede",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-01-dataset-build-retry.txt",
+      "sha256": "144a467e5f0a670d39b2781a7e6bf99bf3809183036d77131530a4eaadd81438",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-01-dataset-build.txt",
+      "sha256": "113e5c25c0585f72434c9757346f59cc0869e1e4c05954e4fb37082cf2d6b281",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-01-dataset-validate.txt",
+      "sha256": "3b3058636286272aaf332ae91b14b2df31faaf17838fe6aab4f5da9977b86c98",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-01-evals-before.json",
+      "sha256": "92958b4d9d51523d7a8087b5ac4a54050046cc9dcc87d0835e2ea8fad36c1aa5",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-01-green-final.txt",
+      "sha256": "09cc9cdbc9155e3e07ac8f206c516b7f4d580854e5f8039b3fef86206e1c5340",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-01-green-final.xml",
+      "sha256": "c1d505e87defdee79fd61a6ab8ab022b05ed825fa09bf193b4cbb727070d7439",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-01-green-first.txt",
+      "sha256": "7047e42908c6f00c6e976943dcece3abe6ff8a4cd1d62d5a1f29f4f56ffb020e",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-01-green-first.xml",
+      "sha256": "a4555f6396e1c4926ad15fa013e25f706d366731e8d8b79a0bde0c694237de69",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-01-offline-final.txt",
+      "sha256": "3d06434021e46f51844d341eda0213a5a99d8635c9aa1b0211804d341dc1d577",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-01-offline-final.xml",
+      "sha256": "79f935ecc9e612f3e6e9911769a70c009e4607e375b7b6e39170328548f262fa",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-01-page-12-迅饶网关与小米产品通讯配置说明.png",
+      "sha256": "12ab45cf24b7ee6d372ad4d9bb98bc15dedf9f985761bcc714ad73a8c40bf9bd",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-01-page-13-Aolynk.png",
+      "sha256": "e7920b2d59186d0171d8cd6528b16103d255459ae87ba155f2911a3d35ecb814",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-01-page-4-H3C.png",
+      "sha256": "6933999807282c33f7fc2f479c91e72519aadb5500aca1ff9be41fc20c524c3f",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-01-red.txt",
+      "sha256": "f661d826d6f5484f8b973328ff34f4c44d7c1d8c2cfcf738f286026cbe830482",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-01-red.xml",
+      "sha256": "b94a4dd89cba282695d771fbb8a7d21765146a4bfa23eece19a8a9640b555daa",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-01-versions-red.txt",
+      "sha256": "71e685d7ce7665cefebd54c8a4ad573f7d466a710eeacbddce4e42a3868054b9",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-01-versions-red.xml",
+      "sha256": "d36fe59f7c7c2b66ba3154392a8951802f639f6b5f8c1d27513ac24cde56e849",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-09-clients-green.txt",
+      "sha256": "ccd6099f5fa727136688ed44802bea152ea75c1dfb370d1904a8d4bb8023e8b1",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-09-clients-green.xml",
+      "sha256": "7f43eacf5504fbb5a01e11c5f1a464fc90f4e9dc5aa4dee3dd0e908b132218c3",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-09-clients-red.txt",
+      "sha256": "187e19080bc1921a13cad8e8ebe684f1dc3d9d21c614afe7f66948595bbb5953",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-09-clients-red.xml",
+      "sha256": "d784f91670c0eba64f40e3dcc11b27d33fa4509694848f32538af7fe6f2bc058",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-09-offline-final.txt",
+      "sha256": "8dd49be5af671d863a3318da743617dc4d7a29acbb7de24f83bce50789c1c243",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-09-offline-final.xml",
+      "sha256": "dd681619fce7005c1e6594687789e9aeca176cf103f7fed2e3aae49a40b7765c",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-09-outer-red.txt",
+      "sha256": "32097365dafa8a9da1970dbd5baca9aebe31a82458eac27f1f754c650334090a",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-09-outer-red.xml",
+      "sha256": "40cff00e810e401c874a51c32fa173264c1024308dfc9efd896627687f9d1ac6",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-09-policy-green.txt",
+      "sha256": "963db49361b0006a5b5f5ac986320f653528c32bdfdfde0b34a3f062091cb860",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-09-policy-green.xml",
+      "sha256": "b4489f75c87506818e979f9df1d5fe4c0e0171fac6972d3897b47475cf1fa018",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-09-policy-red.txt",
+      "sha256": "3cfdebd80f3e6057aecd1d11c74d5bf75015680dbc04bf30c8365fb432b348d9",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-09-policy-red.xml",
+      "sha256": "967bc78b248dc61a9a9418744fe89b2d9250086f644969a2be691c4f9177fa7e",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-09-rerank-red.txt",
+      "sha256": "beab7304385bc799fc696efb700c4edbc56350c92c41fd4ddd20510987708c08",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-09-rerank-red.xml",
+      "sha256": "8e1b8d9044f495bb54f36dc4760bb8911753754f50227656427b028471bc8e53",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-09-sdk-format-red.txt",
+      "sha256": "26dead8a91ba5074c3866802065739015c632fe4d920c5187614d4468aac14c8",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-09-sdk-format-red.xml",
+      "sha256": "04d6179ba8fcf59554db31a34ba9cff2dc468a9a4a3b6a4d709e60c1dc183612",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-09-targeted.txt",
+      "sha256": "77730565f5c8f54a57bae276ae0b7b9be8ec0bea1f0cc9d5042dd55f1e22547e",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-09-targeted.xml",
+      "sha256": "dcf3876779a2e2efea9e2ae8099b3b2421d3eb26fcf5793fdcf2f0a4cb5f0954",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-09-vision-red.txt",
+      "sha256": "5cdd70e7a0f2992603c41f5dadbad881a4c43adfe0033653e3c797ec0dacb9dc",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-09-vision-red.xml",
+      "sha256": "f8b55db568a84c119c1587e0b1ecde8bf0620adac1c0d356977b7ad7993b151c",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-partial-artifact-attempt-summary.json",
+      "sha256": "770c42e8b36847e7effaa8ae1ba459d31c6469f9e65bbc99601d389e0486937d",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-partial-build-artifacts.py",
+      "sha256": "c9bddf7361ce38b5c56feb186e80aeb271278d4945b87df7eaf746c144dfc14a",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-partial-live-readonly.json",
+      "sha256": "eb8c1feb127fe6bb0b071147b8aff55f3986ebf408be1a6fdeb55afdb2afa0e6",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-partial-live-readonly.txt",
+      "sha256": "33485ca4552313303d0bf8e6510f6b899244852985b24f4a54caf4c5262ca409",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-partial-reimport.txt",
+      "sha256": "99905e99439dfaa927d4389e27d8f2e971624dbb1da4630f30b2e2812f607b39",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-partial-stage-final.txt",
+      "sha256": "c7f0120cc7961d3ddf75e26cdc638ee4566baf10e383ff80b06706883257a24d",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-partial-stage-final.xml",
+      "sha256": "381115050ab5975b7fc8dc0d21bf38df12c3e55c5cacb5110875f29500dd6351",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-partial-stage-verified.txt",
+      "sha256": "56f7965d198769d569e0bce7015194c410f9f9434a896352a3666a2a07bbf8bf",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-partial-stage-verified.xml",
+      "sha256": "006516a5fa5bcd2cd0f4be016428d0e05c392f656673f9ed17977ec79e15289b",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-partial-stage.txt",
+      "sha256": "e4b452ed35b01e0c15617f322399dadc09e6473feaaaeb53b079d05de5535998",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-partial-stage.xml",
+      "sha256": "e281778db2b039d2ddbf93dbcf3f0c841262b0c8585b27362188d5f65ca1f7f2",
+      "public_copy": false
+    },
+    {
+      "path": "docs/development/evidence/M4-partial-typecheck.txt",
+      "sha256": "241be48e89412fbf6fed0e7e10a0217d6a564c74e44cc6906baaac9d4715a40a",
+      "public_copy": false
+    }
+  ]
+}

@@ -262,3 +262,9 @@ Vue Query按用户/kb隔离目录与历史；401/退出清Query、设备/证据U
 ## M4评测接续约定（未验收）
 
 JSONL逐题固定id/group/split、问题/产品/历史、期望行为、必需证据组及替代原文页/资产。辅助草稿与真实人工复核分开；用户选择先等待人工复核，当前不执行真实基线或heldout。运行器不依赖M6，输出尝试日志/结果/参数manifest，按相同配置恢复；heldout需最终阶段与精确策略列表、题集/开发报告hash。真实适配器只传输入字段，标准答案不进上下文；范围限定m1_test_m4数据库/集合和m4-test归属/对象前缀，以冻结原件与活动修订拒绝串库。正式工作台基线为QueryRunner/V2Index，旧图保留兼容。尚未建立实际baseline.yaml和三资料语料，不把单元注入当真实基线。见[evaluation手册](../evaluation/labeling-guide.md)。
+
+## M4供应商能力与失败传播
+
+`app/infrastructure/providers/policy.py`提供ProviderPolicy.load/capabilities/classify/invoke_json；clients.py接文本invoke/stream、视觉摘要、本机推理边界。`PROVIDER_POLICIES_ENABLED=false`默认保留旧SDK请求参数，显式启用才加载对应策略；不因可选工具或视觉缺配置阻断文本问答。能力描述与真实探针分离，配置存在不标verified。JSON同步对象有限格式重试，JSON流拒绝；部分文本流失败不重新打开流，完整外层失败/无助手成功消息。
+
+问答error保留code/stage并可新增retryable布尔；上游超时/连接/429/5xx可重试，鉴权/模型/格式/未知不统一改可重试。只传播安全码，不回显供应商正文/地址。旧APIError原因链与撤权安全逻辑优先保留。导入既有错误码与许可/维护权限/版本门禁不弱化，ProviderFailure可沿现有分类入口传播。配置见[说明](../CONFIGURATION.md)，本机timeout只在同步推理返回边界检测，不承诺抢占CUDA。

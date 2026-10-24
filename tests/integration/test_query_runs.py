@@ -73,7 +73,7 @@ def test_generation_failure_keeps_partial_and_stage_without_success_message(quer
     runner.execute(rid)
     row = repo.get(user, rid)
     assert row['state'] == 'failed' and row['answer'] == '部分回答'
-    assert row['error'] == {'code': 'query_execution_failed', 'stage': 'answer'}
+    assert row['error'] == {'code': 'upstream_timeout', 'stage': 'answer', 'retryable': True}
     assert conv.messages.count_documents({'run_id': rid, 'role': 'assistant'}) == 0
     assert 'synthetic-private' not in str(runner.events.read(user, rid))
 

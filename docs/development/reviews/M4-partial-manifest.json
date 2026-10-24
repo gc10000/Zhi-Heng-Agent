@@ -1,0 +1,161 @@
+{
+  "kind": "M4_partial_snapshot_not_stage_acceptance",
+  "summary_sha256": "169d0240d275f23644e8aa80a5c43dbeea95d8359e29677e42cc7c1bc4dc35bd",
+  "base_commit": "83dd1b11c2873d11b0795099abc81260097b1638",
+  "files": [
+    {
+      "path": ".env.example",
+      "sha256": "d14eadd72a9486b09f6d771e1355683684d780382d35d568ef1bd9b0669c3ae7"
+    },
+    {
+      "path": "app/evaluation/query_adapter.py",
+      "sha256": "17f7030bac4848824b6c03a067f708f4a87830664b6cec6ae4af6f3c6ff03a1e"
+    },
+    {
+      "path": "app/evaluation/runner.py",
+      "sha256": "dc1e6f62d0a06c8ae6b053d2d7de599c201a410a5d0e50c29a59628aa338ccca"
+    },
+    {
+      "path": "app/evaluation/validate_dataset.py",
+      "sha256": "fbfdaea717dcc4327ad1fcaceede2e985bf5a4eb753ec610ce92cf20c3440552"
+    },
+    {
+      "path": "app/evaluation/versions.py",
+      "sha256": "f2b92ccecec4d0295d9e271c3e0da093517276689af470d9fd535556e7923d1c"
+    },
+    {
+      "path": "app/infrastructure/providers/clients.py",
+      "sha256": "01d80d5dbb3e18745ced44c106b2b9daa0750564f2e61a2e7f369865ee7f3b78"
+    },
+    {
+      "path": "app/infrastructure/providers/policy.py",
+      "sha256": "5d3dde1516a19688e8a7fe77f36486e8c7e5da1e34a32f5f28c6bd27824a3f4d"
+    },
+    {
+      "path": "app/infrastructure/queue/model_client.py",
+      "sha256": "7c8e95b68d47763c36be5f23188bc023cdde31d921e01eb4afcd7dc6ec8ad8f4"
+    },
+    {
+      "path": "app/ingestion/runner.py",
+      "sha256": "030c21b29d5f36bdbc567ab718645f6a24c5349e60a6bcb6e939537589b0bcee"
+    },
+    {
+      "path": "app/lm/lm_utils.py",
+      "sha256": "9b3a7da1865c094532a36b3d69267a826e4977a4c157d0ae260e8a3e0de7d659"
+    },
+    {
+      "path": "app/runs/query_runner.py",
+      "sha256": "72b5e910d29df996434e33854fa4a9ef966b6976e7ddc4499c2ffc2892cd63b5"
+    },
+    {
+      "path": "app/settings.py",
+      "sha256": "ec635434b89687678be8a623ac97027b9d68b139dca2b967f7ba077c7ff69e8c"
+    },
+    {
+      "path": "docs/CONFIGURATION.md",
+      "sha256": "38ce487360c18cd118dcaddae4fc5877270121764a5d21dce1c15428c96d6854"
+    },
+    {
+      "path": "docs/architecture/api-v1.md",
+      "sha256": "ec5e6d55d2182b575dca65903c2ecec1e363a8a5bd484fe0dcfa77ac1ede7f4d"
+    },
+    {
+      "path": "docs/development/CHANGELOG.md",
+      "sha256": "cf4ffb29c0392974fe64724d909b5448883a15843054f9cb3e27b5b98a39567d"
+    },
+    {
+      "path": "docs/development/DECISIONS.md",
+      "sha256": "f9605bc6242be1ada4c3ac316144a315b8d24d38d79813c659c571673cab1877"
+    },
+    {
+      "path": "docs/development/PROGRESS.md",
+      "sha256": "b20cbc382d5a88b46ca2c226766916daadff30e3a9df1dd19a5cb4821461eeb0"
+    },
+    {
+      "path": "docs/development/REVIEW_STATUS.md",
+      "sha256": "3826d73bd100c792361186abd339ccdb84bb381816615f9ceef8d555be3c92cd"
+    },
+    {
+      "path": "docs/development/records/M4-01.md",
+      "sha256": "c7b8f3edba3121fbb88695d4d3d09641f886b7ab68cbe7de474c15fb5556f74f"
+    },
+    {
+      "path": "docs/development/records/M4-09.md",
+      "sha256": "3988d7999c47a76c237ef59bcd522801daf7aeeca48128e89610ca92d9761460"
+    },
+    {
+      "path": "docs/development/reviews/M4-partial-validation.json",
+      "sha256": "169d0240d275f23644e8aa80a5c43dbeea95d8359e29677e42cc7c1bc4dc35bd"
+    },
+    {
+      "path": "docs/evaluation/labeling-guide.md",
+      "sha256": "56fcadc22c0d12f4863929636c881ee2aa15db82080e46fe25f05aa8793552ce"
+    },
+    {
+      "path": "docs/plans/2026-10-22-technical-support-reuse.md",
+      "sha256": "2270be01334491ab9f93a9d907e023053b1806bfc3d50734645db068101f2e27"
+    },
+    {
+      "path": "docs/plans/DEVELOPMENT_CONTRACTS.md",
+      "sha256": "30c0d5911ebcae1cad2a5b248526fef6336902113e194ebf33e62122a8621fb3"
+    },
+    {
+      "path": "docs/plans/DEVELOPMENT_TODO.md",
+      "sha256": "8954534025e466c4caf550541a9704b788cb4eafb5a239ab401ec5875af063f3"
+    },
+    {
+      "path": "docs/plans/tasks/M4-rag-quality.md",
+      "sha256": "7975c6ea15f8960db2f2eea5884b6168dc1e8c720c63c71213e5cb768d7dce2f"
+    },
+    {
+      "path": "docs/runbooks/worker-recovery.md",
+      "sha256": "2aff73edbdf9c211ec77dda4cb996ae4476f98a3aa862aa92003d85ff99f7461"
+    },
+    {
+      "path": "frontend/src/lib/api/types.ts",
+      "sha256": "fa83061e40d101dede711338d66798cf22bd9f997b8745910deeb08e6f04f98d"
+    },
+    {
+      "path": "tests/contract/test_provider_capabilities.py",
+      "sha256": "9b3c322ec656ba074046d34b568260ce26f7aa1545926d0fa4e40fc7f73a11dd"
+    },
+    {
+      "path": "tests/integration/test_evaluation_run_adapter.py",
+      "sha256": "c419ef6c353ce98c76c660a3c736a88e08c22d02669d953be0df62751f52bfad"
+    },
+    {
+      "path": "tests/integration/test_provider_query_failures.py",
+      "sha256": "98e62bedaa6c9820e9ad8d092dded71825651970ee1146fabfaab0d34b319dad"
+    },
+    {
+      "path": "tests/integration/test_query_runs.py",
+      "sha256": "8913d1db9c2c19b0e2bfca207cb2ddb9afc483af67380b08b31261ceb3199a4a"
+    },
+    {
+      "path": "tests/unit/test_evaluation_dataset.py",
+      "sha256": "9a1c9bafedc1796f99c48b3fd69a52d945c10c3082d197ad503c7b49848512cd"
+    },
+    {
+      "path": "tests/unit/test_evaluation_query_adapter.py",
+      "sha256": "7594654fdebda634d4f112dc6a4ed324b4235c0656fc62c8ef18a30f3c11e4f6"
+    },
+    {
+      "path": "tests/unit/test_evaluation_versions.py",
+      "sha256": "66630a06239b69da5b177cfef9086100682f8366e0ae5a5aeb7a9e335c78adee"
+    },
+    {
+      "path": "tests/unit/test_provider_clients.py",
+      "sha256": "156b1235dbc0dde96845cd55ed3c4c31acb22cf281f9926ebeffac42d50fbdba"
+    }
+  ],
+  "python_syntax_files": 19,
+  "local_links_checked": 214,
+  "excluded": [
+    "evals/",
+    "output/",
+    "doc/",
+    ".env",
+    "docs/development/evidence/"
+  ],
+  "notice": "本轮独立快照，不覆盖M0-M3或原证据；快照生成后的Git自身SHA在交接补记。"
+}

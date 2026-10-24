@@ -23,6 +23,11 @@ class Settings:
     milvus_collection: str | None = None
     upload_max_bytes: int = 100_000_000
 
+    def provider_capabilities(self):
+        """仅说明本机配置，既不请求模型列表也不做付费探针。"""
+        from app.infrastructure.providers.policy import capabilities
+        return capabilities()
+
     @classmethod
     def load(cls):
         from dotenv import load_dotenv

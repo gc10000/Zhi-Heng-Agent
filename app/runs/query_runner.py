@@ -22,7 +22,8 @@ def encode(texts):
         return HostEmbedder()(texts)
     with model_lock:
         from app.lm.embedding_utils import generate_embeddings
-        return generate_embeddings(texts)
+        from app.infrastructure.providers.clients import local_call
+        return local_call('embedding', lambda: generate_embeddings(texts))
 
 
 def rerank(question, docs):
@@ -30,12 +31,18 @@ def rerank(question, docs):
         return []
     with model_lock:
         from app.lm.reranker_utils import get_reranker_model
-        scores = get_reranker_model().compute_score([[question, d['text']] for d in docs], normalize=True)
+        from app.infrastructure.providers.clients import local_call
+        scores = local_call('rerank', lambda: get_reranker_model().compute_score([[question, d['text']] for d in docs], normalize=True))
+    from app.infrastructure.providers.policy import ProviderFailure
+    import math
     if isinstance(scores, (int, float)):
         scores = [scores]
-    if len(scores) != len(docs):
-        raise ValueError('重排数量与证据不一致')
-    return sorted([d | {'score': float(s)} for d, s in zip(docs, scores)], key=lambda d: d['score'], reverse=True)[:10]
+    try:
+        if len(scores) != len(docs) or not all(math.isfinite(float(s)) for s in scores):
+            raise ValueError()
+        return sorted([d | {'score': float(s)} for d, s in zip(docs, scores)], key=lambda d: d['score'], reverse=True)[:10]
+    except (ValueError, TypeError):
+        raise ProviderFailure('provider_invalid_response') from None
 
 
 class QueryRunner:
@@ -194,9 +201,16 @@ class QueryRunner:
                     while not isinstance(cause, APIError) and cause.__cause__ is not None:
                         cause = cause.__cause__
                     code = cause.code if isinstance(cause, APIError) else 'query_execution_failed'
+                    retryable = None
+                    if not isinstance(cause, APIError):
+                        from app.infrastructure.providers.policy import classify
+                        classified, retryable = classify(cause)
+                        if classified != 'provider_unknown_error': code = classified
                     if code != 'authorization_revoked':
                         buffer.flush()
                     error = {'code': code, 'stage': stage}
+                    if retryable is not None and code != 'query_execution_failed':
+                        error['retryable'] = retryable
                     self.commands.finish(user, rid, token, 'failed', {'error': error}, fields={'error': error, 'stage': stage})
             except Exception:
                 # 存储/租约失败不伪造终态，保留账本供恢复扫描。

@@ -9,6 +9,8 @@ from typing import Optional
 # 项目内部依赖
 from app.conf.lm_config import lm_config
 from app.core.logger import logger
+from app.infrastructure.providers.policy import ProviderPolicy, ProviderFailure, policies_enabled
+from app.infrastructure.providers.clients import PolicyChatClient
 
 # 全局缓存：键为(模型名, JSON输出模式)元组，值为ChatOpenAI实例
 # 作用：避免重复初始化客户端，提升性能，统一实例管理
@@ -29,6 +31,9 @@ def get_llm_client(model: Optional[str] = None, json_mode: bool = False) -> Chat
     """
     # 1. 确定目标模型（优先级递减，保证模型名非空）
     target_model = model or lm_config.llm_model or "qwen3-32b"
+    policy = ProviderPolicy.load('text') if policies_enabled() else None
+    if policy and json_mode and not policy.json_supported:
+        raise ProviderFailure('provider_capability_unsupported')
     # 缓存键：模型名+JSON模式，唯一标识不同配置的客户端
     provider = lm_config.provider
     host = urlparse(lm_config.base_url or '').hostname or ''
@@ -37,7 +42,7 @@ def get_llm_client(model: Optional[str] = None, json_mode: bool = False) -> Chat
     if provider not in ('dashscope', 'openai_compatible'):
         raise ValueError('LLM_PROVIDER 仅支持 auto、dashscope、openai_compatible')
     cache_key = (target_model, json_mode, provider, lm_config.enable_thinking,
-                 lm_config.llm_temperature, lm_config.base_url, lm_config.api_key)
+                 lm_config.llm_temperature, lm_config.base_url, lm_config.api_key, policy)
 
     # 2. 缓存命中：直接返回已初始化的实例，避免重复创建
     if cache_key in _llm_client_cache:
@@ -70,11 +75,14 @@ def get_llm_client(model: Optional[str] = None, json_mode: bool = False) -> Chat
             base_url=lm_config.base_url,  # API基础地址（适配国产模型代理地址）
             extra_body=extra_body,  # 国产模型私有参数透传
             model_kwargs=model_kwargs,  # OpenAI通用参数
+            **(policy.sdk_options() if policy else {}),
         )
     except LangChainException as e:
         raise Exception(f"[LLM客户端] 模型【{target_model}】初始化失败（LangChain层）：{str(e)}") from e
 
     # 6. 新实例存入全局缓存，供后续调用复用
+    if policy:
+        llm_client = PolicyChatClient(llm_client, policy, json_mode=json_mode)
     _llm_client_cache[cache_key] = llm_client
     logger.info(f"[LLM客户端] 实例初始化成功并缓存：模型={target_model}，JSON模式={json_mode}")
 

@@ -194,3 +194,22 @@ MODEL_HOST_PORT默认8011，MODEL_HOST_URL为worker可达宿主地址，MODEL_HO
 # M3 前端本机配置
 
 `API_PROXY_TARGET`仅Vite开发代理使用，默认`http://127.0.0.1:8000`；通过进程环境设置，不进入浏览器bundle。后端`API_ALLOWED_ORIGINS`须明确加入`http://127.0.0.1:5173`，本机HTTP用`API_COOKIE_SECURE=false`，HTTPS保持true。前端不读取根.env、不向VITE_变量复制任何供应商密钥。依赖、启动和隔离浏览器验证见[前端说明](../frontend/README.md)。
+
+## M4按能力供应商策略
+
+在根目录.env配置`PROVIDER_POLICIES_ENABLED`，默认false保留原SDK参数，不提前改变原链路基线。true后按下表独立加载，仅所用能力缺配置/配置错误时失败；不因缺VL_MODEL或MCP工具阻断本地文本问答。SDK内部重试只处理其可重试网络/HTTP状态；流已开始后不重新打开流。修改后重启API/worker；不自动改写.env，不升级模型或依赖。
+
+|变量前缀|TIMEOUT_SECONDS默认|MAX_RETRIES默认|JSON_SUPPORTED默认|JSON_RETRIES默认|
+|---|---|---|---|---|
+|PROVIDER_TEXT_|60|2|true|1|
+|PROVIDER_VISION_|120|2|false|1|
+|PROVIDER_EMBEDDING_|300|0|false|0|
+|PROVIDER_RERANK_|300|0|false|0|
+
+完整变量名由前缀加列名组成，均同步.env.example。秒数为有限正数且不超过3600；额外重试/JSON格式额外调用均0..3；布尔只接受true/false。本机嵌入/重排不生成JSON，禁止启用JSON或设置非零JSON重试。temperature沿用LLM_DEFAULT_TEMPERATURE，合法零值保留。视觉摘要是纯文本，不启用JSON；视觉JSON声明供能力描述，当前未提供JSON视觉调用口，不能称该能力已验证。JSON模式仅同步invoke返回合法对象，拒绝数组/null/NaN/代码围栏，格式错误有限重试；JSON流式明确拒绝，避免将未验证片段交给调用方。
+
+文本/视觉SDKtimeout限制网络请求；MODEL_HOST桥接使用embedding超时和受限重试。本机同步嵌入/重排仅在调用返回边界检测超时，**不能强制中断CPU/CUDA推理**，返回超时后不再自动发起第二次推理；仍需M4-08资源实验决定进程隔离。默认0重试，显式本机重试只针对已分类可重试异常，未知GPU故障不盲重试。嵌入数量/有限向量、重排数量/有限分数错误拒绝为provider_invalid_response，不能写成功结果。
+
+`Settings.provider_capabilities()`仅本机配置检查，不访问模型列表、不发付费探针；configured不等于verified，verified始终false。返回变量名、策略和布尔状态，不返回密钥/端点/本地模型路径。默认不开新公开HTTP端点。真实调用的错误模型、鉴权、限流、5xx、连接和超时明确分类；问答外层保存安全code/stage/retryable，仍保持failed且保留部分答案，不自动复活run。
+
+公共错误码：upstream_timeout、upstream_connection_failed、provider_rate_limited、provider_unavailable可重试；provider_authentication_failed、provider_model_not_found、provider_invalid_request、provider_invalid_response、provider_capability_unsupported、provider_json_stream_unsupported与未知错误不可盲重试。任务重试仍需原维护权限、版本与新运行请求协议，不代表SDK或本地推理可无限重试。该策略实验需在M4冻结开发集验证后才决定是否启用默认；当前.env不变、付费调用0。
