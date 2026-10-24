@@ -1,8 +1,8 @@
 # Product Knowledge RAG
 
-> 正在将课程底座演进为“设备技术支持与知识工作台”。M0正确性修复已通过总控审查；M1已实现知识身份、可恢复解析、图资产与摘要缓存、结构化切片、v2双路索引、验证发布/回滚和隔离迁移，已通过第二轮总控审查，授权开始M2统一API与持久任务阶段。[完整优化计划](docs/plans/2026-10-22-technical-support-optimization.md)与[可视化路线图](docs/brainstorming/2026-10-22/support-plan.html)保留设计背景。
+> 正在将课程底座演进为“设备技术支持与知识工作台”。M0、M1、M2已通过总控审查：已建立知识注册与版本发布、统一API、持久问答、授权引用及Linux导入任务。当前授权M3 Vue 3工作台开发，尚未实现新前端。[完整优化计划](docs/plans/2026-10-22-technical-support-optimization.md)与[可视化路线图](docs/brainstorming/2026-10-22/support-plan.html)保留设计背景。
 
-> 开发以[总清单](docs/plans/DEVELOPMENT_TODO.md)、[进度](docs/development/PROGRESS.md)和[阶段审查](docs/development/REVIEW_STATUS.md)为准。M1通过同步领域服务贯通注册到回看，见[导入架构](docs/architecture/ingestion-pipeline.md)与[迁移运行手册](docs/runbooks/index-migration.md)。旧公开导入/查询入口保持原链路；M2任务API和Vue 3前端尚未实现；M2-01至M2-12已获实现授权，M3待M2阶段验收，详见[M1第二轮总控结论](docs/development/reviews/M1-review-r2.md)。
+> 开发以[总清单](docs/plans/DEVELOPMENT_TODO.md)、[进度](docs/development/PROGRESS.md)和[阶段审查](docs/development/REVIEW_STATUS.md)为准。M2第2轮独立345项回归及既有3项通过，R1–R3关闭，授权M3-01至M3-11，见[总控结论](docs/development/reviews/M2-review-r2.md)。新接口见[API v1](docs/architecture/api-v1.md)，旧公开导入/查询入口仍保留原链路；M4及后续阶段未授权。
 
 > 原课程全部产品资料已完成入库：85 份 PDF + 1 份 Excel，6,612 个切片。范围、验证与续传记录见 [全量导入记录](docs/COURSE_IMPORT.md)。
 
@@ -130,6 +130,6 @@ docker compose ps
 
 旧问答非流式失败现在返回 HTTP 502、`status=failed` 与 `partial_answer`；流式生成失败仅发送 error，成功在整图返回后发送唯一 final。历史 limit 小于 1 返回 422。旧进程内单 worker 限制仍适用。
 
-上文完整链路记录属于历史验证。M0当前01–09已通过[第三轮总控审查](docs/development/reviews/M0-review-r3.md)，授权进入M1，尚未实现M1能力；原部分交付保留于[M0原提交](docs/development/reviews/M0-submission.md)。实际命令、证据与验证边界见[M0-09](docs/development/records/M0-09.md)。
+以下M0状态为历史时点，当前状态以上方进度与阶段审查为准。上文完整链路记录属于历史验证。M0当时01–09已通过[第三轮总控审查](docs/development/reviews/M0-review-r3.md)，授权进入M1，尚未实现M1能力；原部分交付保留于[M0原提交](docs/development/reviews/M0-submission.md)。实际命令、证据与验证边界见[M0-09](docs/development/records/M0-09.md)。
 
 总控已在第2轮接受同名章节身份与图片验收的离线修复，[第2轮提交](docs/development/reviews/M0-submission-r2.md)保留。Docker恢复后仅续验R3，准确拓扑真实HTTP/hash/完整解码/正文final关联、正常配置新进程冷启动均通过；原图片业务失败本次未复现，原因仍未知。总控独立105项、既有3项回归及真实图片只读复核通过，接受冷启动证据，见[第3轮审查结论](docs/development/reviews/M0-review-r3.md)。审查工具需显式--spec选取提交证据，使用方法见[配置与运行说明](docs/CONFIGURATION.md)。M1已授权，阶段末另审，不代表全量迁移或公开发布获准。

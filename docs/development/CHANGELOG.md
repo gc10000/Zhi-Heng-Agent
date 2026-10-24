@@ -1,5 +1,9 @@
 # 开发变更记录
 
+## 2026-10-24 · M2-REVIEW-02 · 总控通过
+
+独立345 passed（275.26秒、2 deselected、0 skipped）、既有3 tests OK；112文件hash/74Python/205链接及敏感值扫描、原API产物11检查/18事件、额外Mongo9检查和Linux镜像4关键源码hash通过，付费0。接受R1真实SDK分类/重试、R2过期许可原子接管及旧worker保护、R3完成消息先物化再释放和跨轮上下文顺序。M2 12/12、核心32/76，授权M3-01至M3-11按依赖连续执行；本轮仅审查与文档，M3尚未实现，M4及后续阶段未授权。原提交/manifest/失败证据与evals/保留，原始evidence不上传，见[第二轮总控审查](reviews/M2-review-r2.md)。
+
 ## 2026-10-24 · M2-REVIEW-01 · 总控需修复
 
 独立复核阶段回归326 passed、2 deselected、0 skipped，既有重导入3项通过，真实API既有产物只读复核通过且本轮付费调用0；但发现三项阻塞：OpenAI SDK超时/连接异常被错误标为不可重试，completed旧job遗留过期import_permit阻塞同资料新修订，完成CAS后助手消息补偿造成跨轮历史错序。重开M2-09、M2-10、M2-11、M2-12，当前核心28/76，M3不授权。详见[总控审查](reviews/M2-review.md)。
