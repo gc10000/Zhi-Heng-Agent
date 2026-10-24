@@ -102,11 +102,11 @@ M2已通过第2轮总控审查，授权从M3-01连续执行至M3-11，按依赖�
 **文件：**`frontend/src/features/chat/components/ProductClarification.vue`; `frontend/src/features/chat/components/RunProgress.vue`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M3-06.1** 候选型号卡片提交 run version。
-- [ ] **M3-06.2** 显示真实 stage.changed 与 awaiting_input。
-- [ ] **M3-06.3** 切设备可显式确认，模型输出不冒充真实执行记录。
-- [ ] **M3-06.V** 验证：pnpm -C frontend test:e2e -- clarification.spec.ts。
-- [ ] **M3-06.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M3-06.1** 候选型号卡片提交 run version。
+- [x] **M3-06.2** 显示真实 stage.changed 与 awaiting_input。
+- [x] **M3-06.3** 切设备可显式确认，模型输出不冒充真实执行记录。
+- [x] **M3-06.V** 验证：pnpm -C frontend test:e2e -- clarification.spec.ts。
+- [x] **M3-06.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**刷新后候选可恢复；已结束 run 禁止再次提交；进度来自事件，非计时假进度。
 

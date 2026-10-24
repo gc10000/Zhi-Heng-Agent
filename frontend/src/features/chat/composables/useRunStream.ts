@@ -60,9 +60,11 @@ export function useRunStream(onTerminal: () => void) {
   function start(value: Run) { close(); runId = value.run_id; store.snapshot(value); error.value = ''; backoff = 1000; connect(generation) }
   async function command(name: 'cancel' | 'confirm-product', fields = {}) {
     const version = generation, rid = runId
-    const fresh = await refresh(version)
+    const fresh = name === 'confirm-product' ? store.runs[rid] : await refresh(version)
     if (!fresh || version !== generation) return
-    const value = await api.post<Run>(`/runs/${encodeURIComponent(rid)}/${name}`, { expected_version: fresh.version, ...fields })
+    let value: Run
+    try { value = await api.post<Run>(`/runs/${encodeURIComponent(rid)}/${name}`, { expected_version: fresh.version, ...fields }) }
+    catch (e) { if (e instanceof ApiError && e.status === 409) await refresh(version); throw e }
     if (version !== generation) return
     store.snapshot(value)
     if (terminal(value.state)) onTerminal()
