@@ -57,6 +57,7 @@ class EvidencePack(BaseModel):
     plan: QueryPlan
     candidates: list[RetrievalHit] = Field(default_factory=list)
     reranked: list[RetrievalHit] = Field(default_factory=list)
+    expanded: list[RetrievalHit] = Field(default_factory=list)
     selected: list[RetrievalHit] = Field(default_factory=list)
     strategy: str = 'm3-baseline'
     degraded: list[str] = Field(default_factory=list)
@@ -69,12 +70,15 @@ class EvidencePack(BaseModel):
         ranked = {h.identity: h for h in self.reranked}
         if len(ranked) != len(self.reranked) or not ranked.keys() <= candidates.keys():
             raise ValueError('重排结果包含重复或未知证据')
+        expanded = {h.identity: h for h in self.expanded}
+        if len(expanded) != len(self.expanded) or not expanded.keys() <= candidates.keys():
+            raise ValueError('扩展包含重复或未知来源')
         if len({h.identity for h in self.selected}) != len(self.selected):
             raise ValueError('上下文证据身份重复')
         for hit in self.selected:
-            if hit.identity not in ranked:
+            if hit.identity not in ranked and hit.identity not in expanded:
                 raise ValueError('上下文证据不在实际重排结果中')
-        for hit in self.reranked + self.selected:
+        for hit in self.reranked + self.expanded + self.selected:
             original = candidates[hit.identity]
             if hit.text != original.text or hit.metadata != original.metadata:
                 raise ValueError('后续阶段不能改写原证据正文或来源')
@@ -82,6 +86,7 @@ class EvidencePack(BaseModel):
 
     def trace(self):
         ranked = {h.identity: h for h in self.reranked}
+        ranked.update({h.identity:h for h in self.expanded})
         chosen = {h.identity for h in self.selected}
         return [{'chunk_uid': h.chunk_uid, 'document_id': h.document_id, 'revision_id': h.revision_id,
                  'stages': [s.model_dump() for s in ranked.get(h.identity, h).stages],

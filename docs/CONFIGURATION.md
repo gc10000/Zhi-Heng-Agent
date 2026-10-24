@@ -232,3 +232,10 @@ MODEL_HOST_PORT默认8011，MODEL_HOST_URL为worker可达宿主地址，MODEL_HO
 数量均1..1000，context_limit≤rerank_limit≤fusion_limit，融合池不超过所用初召回总量。所有分路共用组织/知识库/产品/冻结修订过滤，不从客户端接收过滤表达式。weighted保留Milvus原分数，rrf明确标为倒数排名分，不混成重排相关度。默认不提高候选量；清空配置可回切原加权策略。
 
 固定dev检索网格入口为`.venv/Scripts/python.exe -m app.evaluation.retrieval_grid --dataset evals/datasets/support-v1-r2.jsonl --manifest evals/datasets/support-v1-r2-manifest.json --config evals/configs/retrieval-grid.yaml --output output/evals/support-v1-r2-retrieval-grid`。本机配置绑定实际源码/权重/prompt、题集接受结论和完整独立语料，源码变化必须另建新配置/输出，不改旧报告。网格只允许dev，答案供应商调用0，图/页来源命中不等同答案正确。查询嵌入按问题在同一进程共享，独立保存原编码时间；汇报检索/重排时间及含共享编码的估算时间，冷加载单列，非隔离性能结论。只读客户端不create_index或写run/消息；退出前再核完整语料。输出原始问题/检索正文留本机，不上传。
+
+
+## M4证据扩展
+
+`EVIDENCE_EXPANSION_JSON`在根目录.env可选，默认空/禁用，未确认dev收益前保持此值。可选enabled（严格布尔）、max_chars（1..12000，默认6000完整证据渲染字符）、max_added（0..20，默认4）、radius（0..2，默认1）、max_seeds（1..20，默认10）。修改后重启API；原基线评测显式禁用。非法值仅报变量名与用途，不打印JSON内容；不改实际.env。
+
+启用后仅按同组织/kb/资料/修订/型号的明确父块与有限邻居读取，不递归整章。父块缺失/完整组越预算则省略后半块，避免丢前提；不同资料种子优先获得预算，随后才补可选邻居。元数据/原文/asset来源均保留；查询关系单独记expansion，不能称实际模型相关分。正式run内部保存expansion_policy/expansion_excluded/evidence_groups，公开API不新增任意范围参数。清空变量即可回切；字符预算沿用原兜底，最终token预算由M4-07接入，不把本项称完整token约束。

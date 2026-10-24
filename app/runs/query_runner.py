@@ -46,11 +46,13 @@ def rerank(question, docs):
 
 
 class QueryRunner:
-    def __init__(self, repo, commands, knowledge, *, identity_store=None, embedder=encode, ranker=rerank, llm_factory=None, retrieval_policy=None):
+    def __init__(self, repo, commands, knowledge, *, identity_store=None, embedder=encode, ranker=rerank, llm_factory=None, retrieval_policy=None, expansion_policy=None):
         self.repo, self.commands, self.events, self.knowledge = repo, commands, commands.events, knowledge
         self.identity_store, self.embedder, self.ranker, self.llm_factory = identity_store, embedder, ranker, llm_factory
         from app.retrieval.search import RetrievalPolicy
         self.retrieval_policy = RetrievalPolicy.load() if retrieval_policy is None else RetrievalPolicy.model_validate(retrieval_policy)
+        from app.retrieval.expansion import ExpansionPolicy
+        self.expansion_policy = ExpansionPolicy.load() if expansion_policy is None else ExpansionPolicy.model_validate(expansion_policy)
         self.pool = ThreadPoolExecutor(max_workers=4, thread_name_prefix='持久问答')
         self.futures, self.lock, self.stopping = {}, threading.Lock(), threading.Event()
 
@@ -166,7 +168,15 @@ class QueryRunner:
             from app.retrieval.rerank import rank_hits
             ranked = rank_hits(row['question'], candidates, ranker=self.ranker, policy=policy)
             pack = EvidencePack(plan=plan, candidates=candidates, reranked=ranked)
-            docs = [h.document() for h in ranked[:policy.context_limit]]
+            from app.retrieval.expansion import ExpansionPolicy, expand_evidence
+            expansion_policy = ExpansionPolicy.model_validate(self.expansion_policy)
+            expansion = expand_evidence(ranked[:policy.context_limit],
+                loader=lambda seeds, **kw: g.index().related_rows(repo,seeds,**kw),
+                owner_id=repo.owner_id, kb_id=repo.kb_id, policy=expansion_policy)
+            for hit in expansion.expanded:
+                g.revision(user,hit.document_id,hit.revision_id)
+                if hit.identity not in {h.identity for h in candidates}:candidates.append(hit)
+            docs = [h.document() for h in expansion.selected]
             stage = 'answer'
             from app.query_process.agent.nodes.node_answer_output import step_2_construct_prompt, step_3_generate_response
             from app.knowledge.citation_api import controlled_markdown
@@ -178,14 +188,15 @@ class QueryRunner:
             used = {d['chunk_id'] for d in state['prompt_used_docs']}
             used_keys = {stable_key(d) for d in state['prompt_used_docs']}
             pack = EvidencePack(plan=plan, candidates=candidates, reranked=ranked,
-                selected=[h for h in ranked if h.identity in used_keys])
+                expanded=expansion.expanded, selected=[h for h in expansion.selected if h.identity in used_keys])
             citations = []
             for d in docs:
                 if d['chunk_id'] in used:
                     citations.append({k: copy.deepcopy(d[k]) for k in ('chunk_uid', 'document_id', 'revision_id', 'text', 'asset_ids', 'source_refs')} |
                         {'citation_id': stable_id('citation', rid, [d['chunk_uid']])})
             emit('citation.selected', {'citations': citations}, fields={'citations': citations, 'stage': stage,
-                'retrieval_trace': pack.trace()})
+                'retrieval_trace': pack.trace(), 'expansion_policy': expansion_policy.model_dump(),
+                'expansion_excluded': expansion.excluded, 'evidence_groups': expansion.groups})
             from app.utils.sse_utils import run_event_sink
             from app.runs.answer_filter import AnswerFilter
             safe_answer = AnswerFilter({aid for c in citations for aid in c['asset_ids']}, buffer.add)

@@ -296,3 +296,8 @@ QueryPlan增加rewritten_query/slots/scope_groups/candidates/unconfirmed_tokens/
 正式入口复用`app/retrieval/search.py`的RetrievalPolicy/retrieve、`rerank.py`的rank_hits及实际V2Index；融合复用已安装pymilvus的WeightedRanker/RRFRanker，不重复实现同名fusion.py以免与服务端分数失配。dense/sparse初召回、融合池、重排输入和上下文候选独立有界；默认20/20/20/20/10与原加权保持。独立参数在run内部retrieval_policy留存；公开API字段不变。各分路共用后端scoped_filter，重排只接受本次真正送入的候选身份，保留复合身份/阶段分数/原文来源。
 
 `real_retrieval_grid`仅表示真实本机模型/索引检索实验，不表示答案生成或人工质量通过。固定grid只允许冻结dev；完整语料/接受结论/运行指纹在写报告前核验，使用独立输出和可恢复attempts，结束再核语料。原m3-baseline适配器显式使用RetrievalPolicy原默认，不受宿主实验环境覆盖；运行版本变化不能续写旧基线。保留课程数据和全部旧证据，不运行heldout调参。
+
+
+### M4-06 有界证据扩展
+
+V2Index.related_rows按后端owner/kb/document/revision/product范围与种子ordinal窗口/parent_uid定点读取，不递归或整章追加。ExpansionPolicy默认禁用；expanded在EvidencePack中显式区分，必须可溯源候选并保持正文/metadata；不能伪造rerank分。完整父块+种子组在字符预算内原子加入，缺父/超预算省略后半块；相邻证据同样不能绕前提。先按资料轮流给种子预算，再有界补邻居，按复合身份去重，不按相同文本删合法位置。run内部新增expansion_policy/expansion_excluded/evidence_groups用于复核，公开snapshot不增加底层调试正文。所有引用/图像仍来自实际prompt_used_docs，基线适配器显式禁扩展；默认策略须等真实dev实验后决定。

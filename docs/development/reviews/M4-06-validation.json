@@ -1,0 +1,86 @@
+{
+  "notice": "M4-06执行自验；原付费基线历史复用，本项无新dev/heldout/付费调用；M4-04冻结网格仍在独立进程运行。",
+  "tests": [
+    {
+      "junit": "docs/development/evidence/M4-06-expansion-complete.xml",
+      "passed": 45,
+      "exit_code": 0,
+      "seconds": 48.348,
+      "deselected": 0,
+      "skipped": 0
+    }
+  ],
+  "test_directory_counts": {
+    "unit": 25,
+    "integration": 20
+  },
+  "real_baseline": {
+    "report": "docs/development/reviews/M4-01-baseline-readonly.json",
+    "reused_historical_report": true,
+    "new_baseline_run": false
+  },
+  "new_paid_calls": 0,
+  "heldout_executed": 0,
+  "raw_evidence": [
+    {
+      "path": "docs/development/evidence/M4-06-adjacent-parent-red-final.txt",
+      "sha256": "90beb4253cbfc26a138be68d9b388c310ed9ed80cfb42034eb97736c90fbe41f"
+    },
+    {
+      "path": "docs/development/evidence/M4-06-adjacent-parent-red-final.xml",
+      "sha256": "125170a5faa96d704e9dfc5dd9d2ca47c736a1663fe0e657f1889c776cc04d1c"
+    },
+    {
+      "path": "docs/development/evidence/M4-06-adjacent-parent-red.txt",
+      "sha256": "4ba71825e09d6dae19d60c2d26b1a47e15e8859fe7c1596e1ff0b99c3c559a28"
+    },
+    {
+      "path": "docs/development/evidence/M4-06-adjacent-parent-red.xml",
+      "sha256": "d2d6c75d03ab7eff67ebb9dedbd62655d842e23d75f8a37d0b44112686f0bb99"
+    },
+    {
+      "path": "docs/development/evidence/M4-06-expansion-complete.txt",
+      "sha256": "950c6ea0e0a28cb55fa121cc9d7351d871f537a8e74712076c24a7c7e1cb61dd"
+    },
+    {
+      "path": "docs/development/evidence/M4-06-expansion-complete.xml",
+      "sha256": "98690deee5b9296cc13fd8b2f670b0c413f8202141fda5ffeaf5accb78c0f4f7"
+    },
+    {
+      "path": "docs/development/evidence/M4-06-expansion-verified-r2.txt",
+      "sha256": "5f8cc49272ba89bc912055f8107af07bd362d267a9d5f597a7027db1ab207d63"
+    },
+    {
+      "path": "docs/development/evidence/M4-06-expansion-verified-r2.xml",
+      "sha256": "54ac62aee2e128724bf37d7f019e970236312d880dbdbb715f13bef65660c74e"
+    },
+    {
+      "path": "docs/development/evidence/M4-06-expansion-verified.txt",
+      "sha256": "dd6e324dda68af9fd71744b8909a0161db3055df081600eed1f1c8305d94a77c"
+    },
+    {
+      "path": "docs/development/evidence/M4-06-expansion-verified.xml",
+      "sha256": "b14eb31159450ca1ac4b1112ea38a66723c010a0bf126e7f62a8fafeea83fa7b"
+    },
+    {
+      "path": "docs/development/evidence/M4-06-parent-green.txt",
+      "sha256": "e736994da639c6243df5b26d9978fe4413014ab8ce503eaa6caf8c733623c4ec"
+    },
+    {
+      "path": "docs/development/evidence/M4-06-parent-green.xml",
+      "sha256": "be60174eed8b9f4ddfba9026f3a9267de56d57e054f472ea7449f74177674a6a"
+    },
+    {
+      "path": "docs/development/evidence/M4-06-parent-red.txt",
+      "sha256": "ad566ca0146db8e4a6759e98009c34a999a3fe053e401a7481a844a0ad5e4e34"
+    },
+    {
+      "path": "docs/development/evidence/M4-06-parent-red.xml",
+      "sha256": "68759130c23e6e193ff8e7c7f6ddcc9f649b6c000d4fc386590c7d916cbe2168"
+    },
+    {
+      "path": "docs/development/reviews/M4-01-baseline-readonly.json",
+      "sha256": "86b9aeb9ab2a34ddde0df66ad5b080ad18c8e49e02c29f4fa7fad090d6780598"
+    }
+  ]
+}

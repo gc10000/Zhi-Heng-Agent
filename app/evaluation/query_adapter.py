@@ -50,7 +50,7 @@ def open_evaluation_resources(config):
         knowledge = KnowledgeResources(db, settings)
         # 已冻结原链路显式使用原默认，不能被宿主实验环境变量悄悄覆盖。
         from app.retrieval.search import RetrievalPolicy
-        runner = QueryRunner(repo, commands, knowledge.get, retrieval_policy=RetrievalPolicy())
+        runner = QueryRunner(repo, commands, knowledge.get, retrieval_policy=RetrievalPolicy(), expansion_policy={})
         yield {'db': db, 'conversations': conv, 'runs': repo, 'run_service': RunService(repo),
                'commands': commands, 'query_runner': runner, 'knowledge': knowledge.get}
     finally:

@@ -116,6 +116,28 @@ class V2Index:
         repo.save_stage(revision_id,attempt=attempt,stage='indexed',manifest=manifest)
         return manifest
 
+    def related_rows(self,repo,seeds,*,radius=1):
+        from app.retrieval.filters import literal
+        if type(radius) is not int or not 0<=radius<=2 or len(seeds)>20:
+            raise ValueError('扩展种子/相邻窗口超出上限')
+        rows={}
+        for seed in seeds:
+            revision=repo.get_revision(seed.revision_id)
+            if revision['document_id']!=seed.document_id:raise ValueError('扩展种子资料身份错误')
+            positions=list(range(max(0,seed.ordinal-radius),seed.ordinal+radius+1)) if seed.ordinal is not None else []
+            parents=[seed.metadata['parent_chunk_uid']] if seed.metadata.get('parent_chunk_uid') else []
+            if not positions and not parents:continue
+            expr=scoped_filter(owner_id=repo.owner_id,kb_id=repo.kb_id,revision_ids=[seed.revision_id],
+                document_id=seed.document_id,product_ids=seed.metadata.get('product_ids',[]))
+            terms=[]
+            if positions:terms.append('ordinal in '+str(positions))
+            if parents:terms.append('chunk_uid in ['+', '.join(literal(p) for p in parents)+']')
+            expr+=' and ('+' or '.join(terms)+')'
+            found=self.client.query(collection_name=self.collection,filter=expr,limit=len(positions)+len(parents),
+                output_fields=['chunk_uid','owner_id','kb_id','document_id','revision_id','ordinal','text','metadata'],consistency_level='Strong')
+            for row in found:rows[(row['document_id'],row['revision_id'],row['chunk_uid'])]=row
+        return list(rows.values())
+
     def search(self,repo,text,*,embedder,revision_snapshot=None,product_ids=(),limit=5,trace=True,policy=None):
         from pymilvus import AnnSearchRequest,WeightedRanker,RRFRanker
         from app.retrieval.search import RetrievalPolicy
