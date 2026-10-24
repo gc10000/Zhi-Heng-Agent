@@ -191,3 +191,6 @@ MODEL_HOST_PORT默认8011，MODEL_HOST_URL为worker可达宿主地址，MODEL_HO
 ## M2持久问答运行
 
 `.venv/Scripts/python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8000`启动统一API，生命周期后台领取持久pending，与SSE订阅分离。默认使用现有Windows BGE/重排配置，MODEL_HOST_URL和MODEL_HOST_TOKEN同时存在时嵌入走同一受控桥接；重排仍使用已有宿主配置。不新增模型、不自动下载。多型号未选择时等待确认；超过50候选需先从目录选型号。缺配置按相关run失败阶段显示变量用途，不影响其他已配置端点。旧独立query_service继续作为兼容基线，新API不调用其无鉴权路由。
+# M3 前端本机配置
+
+`API_PROXY_TARGET`仅Vite开发代理使用，默认`http://127.0.0.1:8000`；通过进程环境设置，不进入浏览器bundle。后端`API_ALLOWED_ORIGINS`须明确加入`http://127.0.0.1:5173`，本机HTTP用`API_COOKIE_SECURE=false`，HTTPS保持true。前端不读取根.env、不向VITE_变量复制任何供应商密钥。依赖、启动和隔离浏览器验证见[前端说明](../frontend/README.md)。

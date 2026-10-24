@@ -1,6 +1,6 @@
 # 开发公共契约与任务交接边界
 
-日期：2026-10-23。状态：M0/M1领域接口与M2 API/事件已按实际实现记录；M3及以后消费者仍待阶段授权，M2须总控审查。关联：[开发总清单](DEVELOPMENT_TODO.md)、[原始优化方案](2026-10-22-technical-support-optimization.md)。
+日期：2026-10-24。状态：M0/M1/M2总控通过，M3已授权并实施；M4及以后等待授权。关联：[开发总清单](DEVELOPMENT_TODO.md)、[原始优化方案](2026-10-22-technical-support-optimization.md)。
 
 ## 1. 稳定接口和文件归属
 

@@ -1,0 +1,5 @@
+# 仅允许运行已核对的构建工具及Vue适配安装脚本。
+allowBuilds:
+  '@tailwindcss/oxide': true
+  esbuild: true
+  vue-demi: true

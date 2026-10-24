@@ -1,0 +1,32 @@
+import { test, expect } from '@playwright/test'
+import { readFileSync } from 'node:fs'
+
+test('真实登录、流式回答、引用和独立取消', async ({ page }) => {
+  test.skip(!process.env.M3_LIVE_CONFIG, '显式独立后端小样环境才运行，mock不代替此验收')
+  const config = JSON.parse(readFileSync(process.env.M3_LIVE_CONFIG!, 'utf8'))
+  test.setTimeout(300000)
+  await page.goto('/')
+  await page.getByLabel('用户名', { exact: true }).fill(config.username)
+  await page.getByLabel('密码', { exact: true }).fill(config.password)
+  await page.getByRole('button', { name: '登录', exact: true }).click()
+  await page.getByRole('button', { name: '新建会话', exact: true }).click()
+  const received: string[] = []
+  page.on('response', r => { if (r.headers()['content-type']?.includes('text/event-stream')) received.push(r.url()) })
+  await page.getByLabel('问题', { exact: true }).fill('请查询设备输入电压、额定电流及接线注意事项。')
+  await page.getByRole('button', { name: '发送', exact: true }).click()
+  await page.getByRole('button', { name: '隔离设备AX24', exact: true }).click()
+  await expect(page.getByText('回答完成', { exact: true })).toBeVisible({ timeout: 240000 })
+  await expect(page.getByTestId('live-answer')).toContainText('24')
+  expect(received.length).toBeGreaterThan(0)
+  await page.getByRole('button', { name: '查看引用 1', exact: true }).first().click()
+  await expect(page.getByTestId('citation-text')).toContainText('24V')
+  await page.getByRole('button', { name: '关闭', exact: true }).click()
+  await page.getByLabel('问题', { exact: true }).fill('再查询一次参数。')
+  await page.getByRole('button', { name: '发送', exact: true }).click()
+  await expect(page.getByText('请选择适用型号', { exact: true })).toBeVisible()
+  const cancel = page.waitForResponse(r => r.url().endsWith('/cancel') && r.request().method() === 'POST')
+  await page.getByRole('button', { name: '停止', exact: true }).click()
+  expect((await cancel).status()).toBe(200)
+  await expect(page.getByText('已取消', { exact: true })).toBeVisible()
+  await page.screenshot({ path: '../docs/development/evidence/M3-01-desktop.png' })
+})

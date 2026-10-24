@@ -1,0 +1,9 @@
+# 知衡 Vue 工作台
+
+Windows运行Node 22.17.1（`.node-version`）、pnpm 11.25.0；本机独立pnpm安装器内置Node 24.22.1，实际脚本经`pnpm exec node --version`为22.17.1，engine兼容22–24。依赖锁定，不执行Python全量同步。
+
+从项目根目录：`pnpm -C frontend install --frozen-lockfile`，`pnpm -C frontend dev --port 5173 --strictPort`。根目录`.env`配置后端的`API_ALLOWED_ORIGINS=http://127.0.0.1:5173`及本机HTTP专用`API_COOKIE_SECURE=false`。前端代理默认127.0.0.1:8000；改地址用进程环境`API_PROXY_TARGET`，仅Vite服务端使用，禁止填供应商密钥或添加`VITE_*`密钥。
+
+验证：`pnpm -C frontend typecheck`、`build`、`test:unit`、`test:e2e`。Playwright当前使用本机Edge通道（本轮155.0.4283.62），默认测试是明确标注的离线协议模拟；真实测试须显式`M3_LIVE_CONFIG`指向本地忽略的隔离环境账号文件。不要把该文件上传或打印。OpenAPI输入类型由`generate:api`生成；响应目前无schema，`src/lib/api/types.ts`按实际后端公开字段补充，不将unknown假称全自动生成响应类型。
+
+独立真实小样：`.venv/Scripts/python.exe scripts/verification/m3_environment.py --config docs/development/evidence/<新名字>.json`。建立随机m1_test库、集合和对象前缀，运行真实模型桥接/Linux worker/API/Vite；保留数据，结束时创建同名`.stop`文件，仅停止自己的进程。真实问答产生费用。原课程数据、原桶策略与旧入口不改。复用许可见根目录THIRD_PARTY_NOTICES.md。

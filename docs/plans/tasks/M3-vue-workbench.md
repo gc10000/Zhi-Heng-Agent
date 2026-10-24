@@ -25,11 +25,11 @@ M2已通过第2轮总控审查，授权从M3-01连续执行至M3-11，按依赖�
 **文件：**`frontend/package.json`; `frontend/pnpm-lock.yaml`; `frontend/vite.config.ts`; `frontend/src/main.ts`; `docs/reuse/manifest.json`; `THIRD_PARTY_NOTICES.md`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M3-01.1** Vue 3.5+/TS/Vite/Router/Pinia/Vue Query。
-- [ ] **M3-01.2** 接 shadcn-vue 侧栏/分栏/对话框与 PDF.js。
-- [ ] **M3-01.3** 固定 Node/包管理器及通过构建的依赖。
-- [ ] **M3-01.V** 验证：pnpm -C frontend install --frozen-lockfile；pnpm -C frontend typecheck；pnpm -C frontend build。
-- [ ] **M3-01.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M3-01.1** Vue 3.5+/TS/Vite/Router/Pinia/Vue Query。
+- [x] **M3-01.2** 接 shadcn-vue 侧栏/分栏/对话框与 PDF.js。
+- [x] **M3-01.3** 固定 Node/包管理器及通过构建的依赖。
+- [x] **M3-01.V** 验证：pnpm -C frontend install --frozen-lockfile；pnpm -C frontend typecheck；pnpm -C frontend build。
+- [x] **M3-01.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**一个真实流式问题、一条引用和取消可用；记录复用路径/commit/license；默认不安装 React 或 assistant-ui。
 

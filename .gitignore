@@ -38,4 +38,7 @@ docs/development/evidence/
 node_modules/
 dist/
 .worktrees/
+frontend/test-results/
+frontend/playwright-report/
+frontend/.vite/
 

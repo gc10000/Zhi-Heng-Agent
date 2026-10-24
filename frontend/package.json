@@ -1,0 +1,20 @@
+{
+  "name": "zhi-heng-workbench", "private": true, "version": "0.1.0", "type": "module",
+  "packageManager": "pnpm@11.25.0", "engines": { "node": ">=22.17.1 <25" },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1", "typecheck": "vue-tsc --noEmit", "build": "vite build",
+    "test:unit": "vitest run", "test:e2e": "playwright test", "generate:api": "openapi-typescript ../docs/architecture/openapi-v1.json -o src/lib/api/schema.d.ts"
+  },
+  "dependencies": {
+    "vue": "3.5.22", "vue-router": "4.5.1", "pinia": "3.0.3", "@tanstack/vue-query": "5.90.5",
+    "reka-ui": "2.5.1", "@vueuse/core": "13.9.0", "class-variance-authority": "0.7.1",
+    "clsx": "2.1.1", "tailwind-merge": "3.3.1", "lucide-vue-next": "0.468.0", "pdfjs-dist": "5.4.296",
+    "markdown-it": "14.1.0"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3", "vite": "6.4.5", "@vitejs/plugin-vue": "5.2.4", "vue-tsc": "3.1.1",
+    "vitest": "3.2.4", "@vue/test-utils": "2.4.6", "jsdom": "26.1.0", "@playwright/test": "1.56.1",
+    "openapi-typescript": "7.10.1", "@types/markdown-it": "14.1.2", "@types/node": "22.18.10",
+    "tailwindcss": "4.1.14", "@tailwindcss/vite": "4.1.14"
+  }
+}
