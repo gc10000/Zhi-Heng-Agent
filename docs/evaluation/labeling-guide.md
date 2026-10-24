@@ -1,6 +1,6 @@
 # M4题集标注与冻结规则
 
-M4-01目前是未验收接续点。用户后来已委托总控助手审核50题，独立原件核查已完成，43题可保留、4题建议补充、3题需修改，见[审阅结论](../development/reviews/M4-01-dataset-review.md)。不再要求用户自行逐题核读。本次未运行dev原链路查询、heldout或调参；先新增修订冻结版本、回应审阅问题，再续基线准备。原始题目、手册、问答和evals只留本机。
+M4-01目前是未验收接续点。用户委托的独立原件审核及r2七题定向复核均已完成，三项必改/四项补充关闭，见[第二轮结论](../development/reviews/M4-01-dataset-review-r2.md)。可以继续独立语料、资产映射、配置及dev原链路基线；不再等待用户逐题核读。本次未运行dev查询、heldout或调参，原始题目、手册、问答和evals只留本机。
 
 ## 当前审阅材料
 
@@ -9,6 +9,10 @@ M4-01目前是未验收接续点。用户后来已委托总控助手审核50题�
 独立逐题意见保存在本机`output/evals/support-v1-assistant-audit.md`与`output/evals/assistant-review-r1/audit.json`，三项必改的字段建议在同目录`proposed-changes.json`。原可读稿实际上省略了forbidden_claims、history、source_scope和证据组层级；新审阅报告已补齐，后续生成审阅稿须完整展示。助手独立审核与真实人工是不同身份，审阅时schema尚无前者的正式已审状态；r2已按下文扩展协议并验证，不把助手写成human_reviewed，也不改原50条annotation。
 
 ## 逐题复核
+
+### support-v1-r2 定向复核接受（2026-10-24，当前）
+
+总控接受001/023/037/038/042/043/047七题新内容与审阅溯源，连同不变的43题累计50题来源审核完成。冻结r2仍保持回交时43 reviewed/7 draft、人工0，不回写manifest；[本轮结论](../development/reviews/M4-01-dataset-review-r2.md)与[独立摘要](../development/reviews/M4-01-dataset-review-validation-r2.json)绑定r2完整SHA及七题当前subject指纹，可以按既有授权继续独立语料、资产映射、真实配置及dev基线，无需等待用户逐题核读。实验记录应引用本次接受结论及其hash。若未来需要内嵌更新annotation，另建版本并绑定本次结论，不修改原冻结文件、不要求重复审核不变内容。下节待复核计数是执行回交时历史状态，M4-01整体仍未验收。
 
 ### support-v1-r2 修订与审阅身份（2026-10-24）
 

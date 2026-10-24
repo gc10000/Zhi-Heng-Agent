@@ -30,7 +30,7 @@ M3第2轮已通过总控审查，授权M4-01至M4-10按依赖连续执行，从M
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
 - [x] **M4-01.1** 覆盖参数/配置/故障/型号歧义/图示/跨型/无答案。
-- [ ] **M4-01.2** 标标准证据与适用型号，按真实身份区分用户委托的独立助手审阅与人工；原50题审核后新增r2，43题沿用已审内容、7题修订待定向复核，人工0（ADR-040）。
+- [x] **M4-01.2** 标标准证据与适用型号，按真实身份区分用户委托的独立助手审阅与人工；r2七题修订总控定向复核通过，结合原43题累计50题审核完成，人工0（ADR-040）。七题新内容由独立结论与指纹另存绑定，不覆盖冻结r2。
 - [ ] **M4-01.3** 建立最小 JSONL 校验器和基线运行器，固定调参/评估划分再跑原链路。
 - [x] **M4-01.V** 验证：.venv/Scripts/python.exe -m app.evaluation.validate_dataset evals/datasets/support-v1.jsonl。
 - [x] **M4-01.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
@@ -39,7 +39,9 @@ M3第2轮已通过总控审查，授权M4-01至M4-10按依赖连续执行，从M
 
 2026-10-24修订接续：新增`evals/datasets/support-v1-r2.jsonl`与`support-v1-r2-manifest.json`，不覆盖原版，三项必改及四项建议均落实；完整可读稿本机`output/evals/support-v1-r2-review.md`。新CLI需显式`--manifest evals/datasets/support-v1-r2-manifest.json`，未来基线也须传新manifest与新的独立输出目录，不能默认读取旧split-manifest。当前只回交修订，未执行模型、基线或heldout；M4-01依然未验收。见[回交与验证](../../development/reviews/M4-01-dataset-revision-r2.md)。
 
-首次基线执行入口（须七题修订复核、独立语料和真实配置建立后运行；当前未执行）：
+2026-10-24总控定向复核：关闭三项必改及四项补充，M4-01.2通过。独立39项离线测试、八种内容变更拒绝、原件/裁图/冻结及溯源检查通过；见[复核结论](../../development/reviews/M4-01-dataset-review-r2.md)。r2保留原字节及回交标注计数，本次结论补足七题新内容的独立审核；无需为更新计数改写冻结文件。M4-01.3与整体任务仍未完成，可继续以下基线准备。
+
+首次基线执行入口（七题复核已通过，仍须建立独立语料和真实配置；当前未执行）：
 
 ```powershell
 .venv/Scripts/python.exe -m app.evaluation.validate_dataset evals/datasets/support-v1-r2.jsonl --manifest evals/datasets/support-v1-r2-manifest.json
