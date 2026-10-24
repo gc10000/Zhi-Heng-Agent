@@ -1,0 +1,102 @@
+{
+  "passed": true,
+  "selected_dev": 35,
+  "heldout_executed": 0,
+  "states": {
+    "completed": 34,
+    "awaiting_input": 1
+  },
+  "persisted_message_count": 69,
+  "logical_answer_generations": 34,
+  "exact_sdk_http_count": null,
+  "exact_cost": null,
+  "new_parse_calls": 0,
+  "new_vision_calls": 0,
+  "documents": 3,
+  "chunks": 595,
+  "assets": 53,
+  "asset_equivalences": 3,
+  "config_file_sha256": "4e7a33e52dab05cfda894db43efd936ef7f33f5ba17853f83d2b795d93f1e612",
+  "config_fingerprint": "7b9b3a9366aebf9925ee14c0c53235525bdedb003e3ae9937696be14b1a81225",
+  "versions": {
+    "code": "2f16fa35f2dd4933cc26fda81df1ba25e872103d3645954639a372d8b10388d5",
+    "prompt": "26534c884d5f9b222cd73bed840325532abff238157108d16e8d44f80ee736f8",
+    "model": "900983ca8c5d1f16281950b08feb0fbfc2bc1d220f7dee8e673e14af6746134d"
+  },
+  "corpus_sha256": "dd01944db688807c158923c0d21d272f1f45aa4304aa9012efada71c2c18b810",
+  "categories": {
+    "ambiguity": {
+      "count": 1,
+      "source_group_recall_mean": null,
+      "behavior_matches": 1,
+      "human_answer_correctness": null
+    },
+    "configuration": {
+      "count": 16,
+      "source_group_recall_mean": 0.75,
+      "behavior_matches": 16,
+      "human_answer_correctness": null
+    },
+    "cross_model": {
+      "count": 1,
+      "source_group_recall_mean": 1.0,
+      "behavior_matches": 0,
+      "human_answer_correctness": null
+    },
+    "diagram": {
+      "count": 2,
+      "source_group_recall_mean": 1.0,
+      "behavior_matches": 2,
+      "human_answer_correctness": null
+    },
+    "parameter": {
+      "count": 10,
+      "source_group_recall_mean": 0.9,
+      "behavior_matches": 10,
+      "human_answer_correctness": null
+    },
+    "troubleshooting": {
+      "count": 5,
+      "source_group_recall_mean": 1.0,
+      "behavior_matches": 5,
+      "human_answer_correctness": null
+    }
+  },
+  "p50_seconds": 52.77373380000063,
+  "p95_seconds": 129.08077796999123,
+  "notice": "来源辅助命中/行为保守判断不是答案正确率；耗时含冷加载及同机测试干扰，非隔离性能基准。",
+  "raw_evidence": [
+    {
+      "path": "docs/development/evidence/M4-01-dev-baseline-first.txt",
+      "sha256": "8c8d8788a684a96935b2c1ac6d4a5e7422b990a119bf5ba995604b4ac1eed504"
+    },
+    {
+      "path": "evals/configs/baseline-r2.yaml",
+      "sha256": "4e7a33e52dab05cfda894db43efd936ef7f33f5ba17853f83d2b795d93f1e612"
+    },
+    {
+      "path": "evals/datasets/support-v1-r2-manifest.json",
+      "sha256": "e91f599e1b180f3ad8651ebe70e987c347d78dc9c2d9b44cdf9872977635a3ae"
+    },
+    {
+      "path": "evals/datasets/support-v1-r2.jsonl",
+      "sha256": "4a35321fc21a28f5b2986a84d8c8c77cf7c43b9da258cfe6ed3d5ebbf5e0a98c"
+    },
+    {
+      "path": "output/evals/M4-01-baseline-preparation/receipt.json",
+      "sha256": "158aba22f76b3180d978151288d9e1df3c38d77432f57d487016d1a9a38a6d8a"
+    },
+    {
+      "path": "output/evals/support-v1-r2-baseline/attempts.jsonl",
+      "sha256": "57f99eb7ac5daca4103ee863073c6e6b4bd63be13f9bc3aac3aaf6af704708ad"
+    },
+    {
+      "path": "output/evals/support-v1-r2-baseline/manifest.json",
+      "sha256": "85e599f869e0d910374a1dfe3d1603399d4b865ea0e143fd6b0e059d275c8d44"
+    },
+    {
+      "path": "output/evals/support-v1-r2-baseline/results.jsonl",
+      "sha256": "57f99eb7ac5daca4103ee863073c6e6b4bd63be13f9bc3aac3aaf6af704708ad"
+    }
+  ]
+}

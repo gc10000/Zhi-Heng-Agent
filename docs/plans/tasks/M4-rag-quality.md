@@ -9,7 +9,7 @@
 
 ## 进入条件与执行约束
 
-M3第2轮已通过总控审查，授权M4-01至M4-10按依赖连续执行，从M4-01开始，阶段末提交总控审查；M5及后续未授权，见[M3第二轮授权](../../development/reviews/M3-review-r2.md)。当前M4-09执行自验完成，M4为1/10，尚未阶段提交。实施前核对并保留现有未跟踪evals/，不覆盖或自动上传；先标注、冻结题集/划分和原链路基线，再做调参实验，heldout在策略选定后才最终评价。无稳定收益保留旧默认，不预设收益或覆盖课程数据。
+M3第2轮已通过总控审查，授权M4-01至M4-10按依赖连续执行，从M4-01开始，阶段末提交总控审查；M5及后续未授权，见[M3第二轮授权](../../development/reviews/M3-review-r2.md)。当前M4-01/M4-09执行自验完成，M4为2/10，尚未阶段提交。实施前核对并保留现有未跟踪evals/，不覆盖或自动上传；先标注、冻结题集/划分和原链路基线，再做调参实验，heldout在策略选定后才最终评价。无稳定收益保留旧默认，不预设收益或覆盖课程数据。
 
 真实实现依赖 M1-11/M2-12；固定题集和标注规则先于策略调参。
 
@@ -26,12 +26,12 @@ M3第2轮已通过总控审查，授权M4-01至M4-10按依赖连续执行，从M
 ### M4-01：首批 50 题与原链路基线
 
 **依赖：**M0-09,M1-11,M2-12。
-**文件：**原`evals/datasets/support-v1.jsonl`及`split-manifest.json`保留；新增`evals/datasets/support-v1-r2.jsonl`及`support-v1-r2-manifest.json`；基线配置`evals/configs/baseline-r2.yaml`（本机已冻结，dev执行中）；`app/evaluation/validate_dataset.py`; `app/evaluation/runner.py`; `docs/evaluation/labeling-guide.md`。
+**文件：**原`evals/datasets/support-v1.jsonl`及`split-manifest.json`保留；新增`evals/datasets/support-v1-r2.jsonl`及`support-v1-r2-manifest.json`；基线配置`evals/configs/baseline-r2.yaml`（本机已冻结，35dev执行及只读复核通过）；`app/evaluation/validate_dataset.py`; `app/evaluation/runner.py`; `docs/evaluation/labeling-guide.md`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
 - [x] **M4-01.1** 覆盖参数/配置/故障/型号歧义/图示/跨型/无答案。
 - [x] **M4-01.2** 标标准证据与适用型号，按真实身份区分用户委托的独立助手审阅与人工；r2七题修订总控定向复核通过，结合原43题累计50题审核完成，人工0（ADR-040）。七题新内容由独立结论与指纹另存绑定，不覆盖冻结r2。
-- [ ] **M4-01.3** 建立最小 JSONL 校验器和基线运行器，固定调参/评估划分再跑原链路。
+- [x] **M4-01.3** 建立最小 JSONL 校验器和基线运行器，固定调参/评估划分再跑原链路。
 - [x] **M4-01.V** 验证：.venv/Scripts/python.exe -m app.evaluation.validate_dataset evals/datasets/support-v1.jsonl。
 - [x] **M4-01.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
@@ -186,3 +186,6 @@ M3第2轮已通过总控审查，授权M4-01至M4-10按依赖连续执行，从M
 
 **验收：**heldout 只在策略选定后评价；没有稳定收益保留旧默认；报告给出可重复命令与回滚配置。
 
+
+
+2026-10-24 M4-01执行自验完成：三资料595切片/53图，完整语料指纹/精确图对应/实际代码版本冻结；35dev真实一次执行成功，34逻辑生成/1澄清、69消息，heldout0；72离线+3真实Mongo端口注入通过。真实只读复核通过，未知HTTP次数/金额与原解析/摘要元数据限制保留，不宣称答案正确率或收益。见[基线交付](../../development/reviews/M4-01-baseline-delivery.md)。此前“尚未执行/未验收”段落为历史时点，当前按本段与进度接续M4-02。
