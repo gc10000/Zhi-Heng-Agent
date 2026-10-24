@@ -21,3 +21,5 @@ GET /runs/{rid}/citations/{citation_id}仅回本轮入选快照并重新授权�
 生产代理必须透传Cookie、Origin、X-CSRF-Token、Last-Event-ID，保持浏览器同源；不得对鉴权API做公共缓存。SSE配置`proxy_buffering off`、`proxy_cache off`，读取超时大于心跳周期（建议75秒），禁止压缩聚合；服务端已发送Cache-Control: no-cache,no-transform及X-Accel-Buffering:no。HTTPS终结后仍使用Secure Cookie。若代理改写来源/路径，须单独复核显式允许Origin与Cookie Path，不信任任意X-Forwarded-For。M2没有部署服务器或实施生产代理变更。
 
 本次真实链路以新API独立进程、隔离Linux worker、真实BGE/重排/LLM完成登录→上传/发布→澄清确认→回答→引用；51.593秒，回答调用1次，11检查通过。默认回归排除2项付费测试，模型注入集成与真实供应商区分见[阶段提交](../development/reviews/M2-submission.md)。无前端/生产灾备/全库迁移验收结论。
+
+导入错误补充：upstream_timeout表示供应商超时，upstream_connection_failed表示连接失败，均可重试；429/5xx可重试，401/403及格式/配置错误不可自动重试。重试仍需维护者权限与expected_version。

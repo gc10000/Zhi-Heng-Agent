@@ -227,3 +227,7 @@ API生命周期每200ms扫描claimed/pending，进程最多4个运行，Mongo st
 v2检索冻结活动修订，产品过滤，真实重排保留完整来源元数据，旧回答节点预算选出实际入选证据；无入选证据明确回答并不调LLM。ContextVar出口将旧delta转持久answer.delta，不创建session队列/旧history。引用为本run稳定citation_id及原文/来源/资产快照。输出仅允许本轮入选asset的受控图片路径，分段图片与HTML在写事件前过滤。
 
 completed CAS同时保存completion_snapshot，assistant消息稳定ID幂等落库，恢复扫描补偿CAS后消息丢失；错误保留部分答案/阶段且无成功assistant。取消/失联按M2-06收敛，旧执行不能迟到completed。旧整图仍独立保留，不将旧课程检索挂到新权限体系。
+
+### M2复审错误分类
+
+导入供应商超时（含OpenAI APITimeoutError/httpx.TimeoutException）公开upstream_timeout；连接失败（含OpenAI APIConnectionError/httpx.NetworkError）公开upstream_connection_failed，均retryable=true。429/5xx可重试，401/403及400/格式错误不可自动重试。普通文件OSError不作为网络超时；维护者与expected_version门禁不变。
