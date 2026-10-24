@@ -49,10 +49,18 @@ def open_evaluation_resources(config):
             object_bucket=t['bucket'], object_prefix=t['object_prefix'], milvus_collection=t['collection'])
         knowledge = KnowledgeResources(db, settings)
         # 已冻结原链路显式使用原默认，不能被宿主实验环境变量悄悄覆盖。
-        from app.retrieval.search import RetrievalPolicy
-        runner = QueryRunner(repo, commands, knowledge.get, retrieval_policy=RetrievalPolicy(), expansion_policy={})
+        from .strategy import strategy_policies
+        from app.lm.runtime import ModelRuntimePolicy
+        from .provider_counts import LogicalProviderCounts
+        from app.lm.lm_utils import get_llm_client
+        policies=strategy_policies(config)
+        if policies.runtime!=ModelRuntimePolicy.load():raise ValueError('本机模型运行策略与冻结实验不一致')
+        provider_counts=LogicalProviderCounts()
+        runner = QueryRunner(repo, commands, knowledge.get, retrieval_policy=policies.retrieval,
+            expansion_policy=policies.expansion,answer_budget=policies.answer_budget,enhancement_policy=policies.enhancement,
+            llm_factory=lambda:provider_counts.wrap(get_llm_client()))
         yield {'db': db, 'conversations': conv, 'runs': repo, 'run_service': RunService(repo),
-               'commands': commands, 'query_runner': runner, 'knowledge': knowledge.get}
+               'commands': commands, 'query_runner': runner, 'knowledge': knowledge.get, 'provider_counts':provider_counts}
     finally:
         if runner: runner.close()
         if knowledge: knowledge.close()
@@ -68,10 +76,8 @@ class RealQueryExecutor:
             acceptance = config.get('dataset_acceptance', [])
             if not acceptance or any(file_sha(a['path']) != a['sha256'] for a in acceptance):
                 raise ValueError('须绑定真实题集接受结论，拒绝缺失或被改动的审阅材料')
-        if config['strategy'] != 'm3-baseline':
-            raise ValueError('基线适配器仅支持既有正式策略，不能静默忽略实验参数')
-        if config.get('parameters'):
-            raise ValueError('原链路基线不接受未实现的检索参数覆盖')
+        from .strategy import strategy_policies
+        strategy_policies(config)
         self.config = copy.deepcopy(config)
         self.factory = resource_factory or open_evaluation_resources
 
@@ -79,6 +85,12 @@ class RealQueryExecutor:
         self.stack = ExitStack()
         try:
             self.resources = self.stack.enter_context(self.factory(self.config))
+            from .strategy import strategy_policies
+            policies=strategy_policies(self.config)
+            runner=self.resources.get('query_runner')
+            if runner is not None:
+                runner.retrieval_policy=policies.retrieval;runner.expansion_policy=policies.expansion
+                runner.answer_budget=policies.answer_budget;runner.enhancement_policy=policies.enhancement
             self.check_corpus()
             from app.identity.models import Principal
             t = self.config['target']
@@ -117,6 +129,8 @@ class RealQueryExecutor:
 
     def __call__(self, question):
         self.check_corpus()
+        counts=self.resources.get('provider_counts')
+        counts_before=counts.snapshot() if counts else {}
         # 只传输入字段；标准答案、证据和评审关键点不进入真实执行上下文。
         inputs = {k: question[k] for k in ('id', 'question', 'product_names', 'history')}
         key = fingerprint([self.config, question['id']])
@@ -144,7 +158,7 @@ class RealQueryExecutor:
         row = self.resources['runs'].get(self.user, rid)
         if row['state'] == 'awaiting_input':
             return {'run_id': rid, 'state': row['state'], 'behavior': 'clarify', 'answer': '', 'citations': [],
-                    'candidates': row.get('candidates', [])}
+                    'candidates': row.get('candidates', []), 'logical_provider_calls':{k:v-counts_before[k] for k,v in counts.snapshot().items()} if counts else {}}
         if row['state'] != 'completed':
             # 不自动新建run重付费，保留持久账本供恢复/明确重试。
             raise ValueError('真实运行未完成；请按本机检查点核对运行状态')
@@ -166,4 +180,7 @@ class RealQueryExecutor:
                             citations.append({'document_sha256': source['original_sha256'], 'page': ref['page'], 'asset_sha256': asset['sha256']})
         return {'run_id': rid, 'state': row['state'], 'behavior': 'answer' if citations else 'insufficient',
                 'answer': row['answer'], 'citations': citations,
-                'behavior_notice': '行为为协议与证据的保守辅助判定；部分回答/比较须人工复核'}
+                'behavior_notice': '行为为协议与证据的保守辅助判定；部分回答/比较须人工复核',
+                'answer_support':row.get('answer_support'), 'prompt_budget':row.get('prompt_budget'),
+                'output_truncated':row.get('output_truncated'), 'retrieval_branches':row.get('retrieval_branches',[]),
+                'logical_provider_calls':{k:v-counts_before[k] for k,v in counts.snapshot().items()} if counts else {}}

@@ -189,7 +189,14 @@ def main():
             raise ValueError('CLI仅执行真实链路，单元注入不能作为真实基线')
         from .query_adapter import RealQueryExecutor
         with RealQueryExecutor(config) as execute:
-            report = run_experiment(args.dataset, args.manifest or args.dataset.with_name('split-manifest.json'), config, args.output, execute)
+            try:
+                report = run_experiment(args.dataset, args.manifest or args.dataset.with_name('split-manifest.json'), config, args.output, execute)
+            finally:
+                counts=execute.resources.get('provider_counts')
+                if counts is not None:
+                    args.output.mkdir(parents=True,exist_ok=True)
+                    with (args.output/('provider-counts-'+uuid4().hex+'.json')).open('x',encoding='utf-8') as stream:
+                        json.dump(dict(config_sha256=fingerprint(config),logical_calls=counts.snapshot(),exact_sdk_http_calls=None,exact_cost=None),stream,indent=2)
     except (ValueError, KeyError, OSError):
         parser.exit(1, '实验未完成：请检查本机报告、冻结划分和环境配置；不输出私有问题、路径或异常内容。\n')
     print(json.dumps({k: report[k] for k in ('experiment_id', 'status', 'completed', 'failed', 'p50_seconds', 'p95_seconds')}, ensure_ascii=False))

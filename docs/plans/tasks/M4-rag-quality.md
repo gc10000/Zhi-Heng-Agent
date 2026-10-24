@@ -176,6 +176,8 @@ M3第2轮已通过总控审查，授权M4-01至M4-10按依赖连续执行，从M
 
 **依赖：**M4-05,M4-07,M4-08,M4-09。
 **文件：**`docs/evaluation/retrieval-report.md`; `evals/results/manifest.json`; `docs/development/records/M4-10.md`。
+
+实际接线补充：新增app/evaluation/strategy.py、provider_counts.py、quality_grid.py并复用runner/query_adapter；真实冻结配置evals/configs/m4-10-quality.yaml及m4-10-dev-control.yaml只存本机，执行字节另存output/evals/M4-10-executed-code。七组dev先比较当前控制、宽窗口字符兜底、扩展、HyDE、分解、组合与RRF；明确记录复用及原耗时、逻辑调用，随后才选定策略/最终heldout，不回写旧九组。新增99项定向通过不等于实验或阶段验收。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
 - [ ] **M4-10.1** 同题集固定版本比较每个单因素、组合与基线。

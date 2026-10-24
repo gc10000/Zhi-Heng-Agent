@@ -323,3 +323,7 @@ ScopedEmbeddingCache仅存查询向量，cache_enabled默认false；范围必须
 M4-04阶段召回汇总以冻结dev中所有要求证据的题为分母，错误澄清、失败或缺阶段结果计0；仅allowed_evidence为空题不适用。历史冻结输出不得回写修正，analyze_grid独立校验配置/完整题ID/attempts与results一致后生成新报告，拒绝未结束/污染/覆盖。来源组覆盖仍不等于答案正确率。
 
 M4-03接口数字边界补充：仅有限已知接口前缀且紧随接口/端口语境时，Ethernet2/0等不当陌生型号；显式“型号”声明及未知AX近型号仍走确认，不能用端口规则补事实或绕产品授权。由dev失败发现、合成正式红/绿证明，原冻结结果不回写。
+
+### M4-10 当前策略评价与真实阶段复用
+
+`m4-configured`参数严格解析retrieval/expansion/enhancement/answer_budget/runtime并显式接入正式QueryRunner；m3-baseline拒绝策略覆盖。quality_grid只允许冻结dev；生产共享检索图/重排/扩展/完整预算，标准标签只在末端评分使用。阶段缓存按完整代码/模型/prompt版本、目标/完整语料及实际输入和策略绑定，key/value/原耗时共同校验，复用记录和原耗时不冒充新推理或生产时延。可选分支复用后，原生成及检索阶段耗时之和超期限仍拒绝该分支，保留本地同身份结果。计数包装仅数逻辑invoke/stream（含失败），各进程另存独立计数文件；精确SDK HTTP重试数和金额未知。源码变动后不续写旧实验；先dev选定策略及报告指纹，再最终heldout，不用heldout调参。

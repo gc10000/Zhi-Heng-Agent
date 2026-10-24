@@ -32,3 +32,17 @@ def test_resource_factory_receives_validated_isolation_target():
     with pytest.raises(RuntimeError):
         with RealQueryExecutor(config(), resource_factory=resources): pass
     assert calls == ['m1_test_m4_adapter']
+
+
+
+def test_configured_m4_strategy_is_validated_then_reaches_resource_boundary():
+    cfg=config();cfg.update(strategy='m4-configured',parameters=dict(retrieval=dict(fusion='rrf')))
+    seen=[]
+    @contextmanager
+    def resources(actual):
+        seen.append(actual)
+        raise RuntimeError('validated-resource-boundary')
+        yield
+    with pytest.raises(RuntimeError,match='validated-resource-boundary'):
+        with RealQueryExecutor(cfg,resource_factory=resources):pass
+    assert seen[0]['parameters']['retrieval']['fusion']=='rrf'
