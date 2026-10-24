@@ -90,3 +90,7 @@ M0-01 至 M0-08 已有定向红绿回归与记录。M0-09 最新阶段回归 73 
 各任务完整命令/失败历史/数据范围/回滚见 records/M0-*.md；环境见 baseline.md 和 evidence/M0-01-environment.json。
 
 阶段首轮：67 passed（退出0）；最终完整复跑 73 passed（退出0）；既有 unittest 最终 3 passed（退出0）。旧不完整输出不计通过。等待总控审查 M0；详细命令、环境阻塞、尚需验证与回滚见 records/M0-09.md。
+
+## M2第2轮执行接续
+
+R1代码cd723c9、记录f2d5631已推送；R2定向11 passed/1 deselected退出0，R3正式红测2 failed/8.93秒（M2-r2-R3-red.xml）。当前任务M2-11/R3：在持久完成消息前保留占用，新轮创建先补偿旧终态，再做条件领取；完成后跑完整回归。原evals及全部evidence保留。

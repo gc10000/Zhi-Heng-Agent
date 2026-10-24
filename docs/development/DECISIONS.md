@@ -119,3 +119,7 @@ M2-09/10联合验收选择Mongo事实账本加Celery至少一次、条件租约�
 ## ADR-031 · 旧答案节点复用与新授权检索分离 · 2026-10-23
 
 旧main_graph整图依赖课程CHUNKS_COLLECTION、item_name和session全局队列，直接运行会绕过新kb/revision权限。M2-11实际复用node_answer_output的预算提示词/生成能力，以ContextVar注入持久出口；v2检索/型号确认/重排由新适配器接持久run。旧main_graph保持独立兼容，计划文件按实际调整；没有在M2引入联网/HyDE新策略或质量提升宣称。完成CAS附消息快照，消息另投递/恢复补偿，不引入Mongo事务；供应商阻塞期间只合作取消，不承诺立即终止计费。真实新API11检查与31定向测试见records/M2-11.md。
+
+## ADR-032 · M2过期资料许可接管
+
+选择资料单文档原子过期接管，job租约仍由账本验证；不同job的attempt不可比较，跨job以资料期限为准，同job按attempt/token保护。心跳不能复活过期许可，最终指针同时匹配完整permit及期限。无期限异常不自动接管，避免猜测；已完成任务无需重新排队，仅后续新job接管。没有删除现场或调整生产数据。

@@ -55,6 +55,37 @@ class FencedDocuments:
         return self.collection.update_one(query, update, *args, **kwargs)
 
 
+def import_permit(row):
+    return {'job_id': row['job_id'], 'attempt': row['attempt'], 'token': row['lease_token']}
+
+
+def claim_import_permit(repo, row):
+    now = datetime.now(timezone.utc)
+    permit = import_permit(row)
+    # 单资料原子接管：跨任务仅接受过期许可；同任务不倒退attempt或替换同代token。
+    result = repo.documents.update_one(repo.scope | {'document_id': row['document_id'], '$or': [
+        {'import_permit': {'$exists': False}},
+        {'import_permit': permit},
+        {'import_permit.job_id': row['job_id'], 'import_permit.attempt': {'$lt': row['attempt']}},
+        {'import_permit.job_id': {'$ne': row['job_id']}, 'import_lease_until': {'$lte': now}}]},
+        {'$set': {'import_permit': permit, 'import_lease_until': row['lease_until']}})
+    if not result.matched_count:
+        raise ConflictError('资料正在由其他任务或新attempt处理')
+    return permit
+
+
+def renew_import_permit(db, row, lease_until):
+    # 迟到心跳不复活已过期许可，更不能续约接管者的许可。
+    return db.knowledge_documents.update_one({'document_id': row['document_id'],
+        'import_permit': import_permit(row), 'import_lease_until': {'$gt': datetime.now(timezone.utc)}},
+        {'$set': {'import_lease_until': lease_until}})
+
+
+def release_import_permit(db, row):
+    return db.knowledge_documents.update_one({'document_id': row['document_id'], 'import_permit': import_permit(row)},
+        {'$unset': {'import_permit': '', 'import_lease_until': ''}})
+
+
 class ImportRunner:
     def __init__(self, jobs, gateway, *, router, embedder, summary, model, prompt_version, work_dir):
         self.jobs, self.gateway, self.router, self.encode, self.summary = jobs, gateway, router, embedder, summary
@@ -69,12 +100,7 @@ class ImportRunner:
         cp.fence()
         repo = self.gateway.repo(row['kb_id'])
         revision = repo.get_revision(row['revision_id'])
-        permit = {'job_id': row['job_id'], 'attempt': row['attempt'], 'token': row['lease_token']}
-        result = repo.documents.update_one(repo.scope | {'document_id': row['document_id'], '$or': [
-            {'import_permit': {'$exists': False}}, {'import_permit.job_id': row['job_id'], 'import_permit.attempt': {'$lte': row['attempt']}}]},
-            {'$set': {'import_permit': permit, 'import_lease_until': row['lease_until']}})
-        if not result.matched_count:
-            raise ConflictError('资料正在由其他任务或新attempt处理')
+        permit = claim_import_permit(repo, cp.fence())
         repo.documents = FencedDocuments(repo.documents, permit)
         originals = self.gateway.originals
         index = self.gateway.index()
@@ -195,9 +221,7 @@ def run_import(job_id):
                 try:
                     jobs.renew(job_id, row['attempt'], row['lease_token'], lease_seconds=lease)
                     current = jobs.fence(job_id, row['attempt'], row['lease_token'])
-                    jobs.db.knowledge_documents.update_one({'document_id': row['document_id'],
-                        'import_permit': {'job_id': job_id, 'attempt': row['attempt'], 'token': row['lease_token']}},
-                        {'$set': {'import_lease_until': current['lease_until']}})
+                    renew_import_permit(jobs.db, row, current['lease_until'])
                 except Exception:
                     return
         thread = threading.Thread(target=heartbeat, daemon=True)
@@ -215,7 +239,5 @@ def run_import(job_id):
         finally:
             stop.set()
             thread.join(timeout=interval+1)
-            jobs.db.knowledge_documents.update_one({'document_id': row['document_id'],
-                'import_permit': {'job_id': job_id, 'attempt': row['attempt'], 'token': row['lease_token']}},
-                {'$unset': {'import_permit': '', 'import_lease_until': ''}})
+            release_import_permit(jobs.db, row)
             resources.close()

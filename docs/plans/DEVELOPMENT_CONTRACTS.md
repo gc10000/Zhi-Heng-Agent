@@ -231,3 +231,5 @@ completed CAS同时保存completion_snapshot，assistant消息稳定ID幂等落�
 ### M2复审错误分类
 
 导入供应商超时（含OpenAI APITimeoutError/httpx.TimeoutException）公开upstream_timeout；连接失败（含OpenAI APIConnectionError/httpx.NetworkError）公开upstream_connection_failed，均retryable=true。429/5xx可重试，401/403及400/格式错误不可自动重试。普通文件OSError不作为网络超时；维护者与expected_version门禁不变。
+
+M2复审许可补充：跨job仅原子接管import_lease_until已过期的许可；同job更高attempt/同代异token保护，旧heartbeat/finally完整permit匹配，不影响接管者。最终发布fencing不变。

@@ -11,3 +11,7 @@ Mongo是事实账本，Dispatcher发后确认，broker仅job_id；重复投递�
 解析/原图存MinIO，图摘要按hash/上下文/模型/prompt复用，嵌入按批次hash持久。MinerU分段batch挂worker-cache，恢复原卷，不删除成功段付费重跑。最终指针CAS附资料attempt/token/期限，验证原件/来源/索引后才发布。completed重复投递不再发布；已发布但任务终态保存中断会核对修订后结束。
 
 真实隔离结果与限制见[09](../development/records/M2-09.md)/[10](../development/records/M2-10.md)。只强停新测试worker，未故障注入源数据库；供应商响应至缓存落盘有计费窗口，不承诺exactly-once。生产灾备与全库迁移未验收。
+
+### 过期资料许可接管
+
+旧job已completed但finally前退出时，资料import_permit仍可能存在。等待import_lease_until过期后，新修订job通过原子CAS自动接管，无需手动清字段；有效其他job和同job更高attempt仍拒绝。同attempt异token不能覆盖。迟到heartbeat仅匹配完整job/attempt/token且许可未过期；finally只清自己的完整许可，最终指针仍核对permit和期限。多worker竞争只一方领取；不要直接修改许可来恢复。无期限的异常遗留需保留现场并人工核对，不自动猜测过期。
