@@ -32,3 +32,4 @@ class QueryGraphState(TypedDict):
     rewritten_query: str  # 改写后的问题
     history: list  # 历史对话记录
     is_stream: bool  # 是否流式输出标记
+    allow_web: bool  # 旧兼容图显式外网许可，缺省false

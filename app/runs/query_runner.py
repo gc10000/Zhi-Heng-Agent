@@ -46,7 +46,7 @@ def rerank(question, docs):
 
 
 class QueryRunner:
-    def __init__(self, repo, commands, knowledge, *, identity_store=None, embedder=encode, ranker=rerank, llm_factory=None, retrieval_policy=None, expansion_policy=None, answer_budget=None):
+    def __init__(self, repo, commands, knowledge, *, identity_store=None, embedder=encode, ranker=rerank, llm_factory=None, retrieval_policy=None, expansion_policy=None, answer_budget=None, enhancement_policy=None):
         self.repo, self.commands, self.events, self.knowledge = repo, commands, commands.events, knowledge
         self.identity_store, self.embedder, self.ranker, self.llm_factory = identity_store, embedder, ranker, llm_factory
         from app.retrieval.search import RetrievalPolicy
@@ -55,6 +55,8 @@ class QueryRunner:
         self.expansion_policy = ExpansionPolicy.load() if expansion_policy is None else ExpansionPolicy.model_validate(expansion_policy)
         from app.answering.service import AnswerBudget
         self.answer_budget=AnswerBudget.load() if answer_budget is None else AnswerBudget.model_validate(answer_budget)
+        from app.retrieval.routing import EnhancementPolicy
+        self.enhancement_policy=EnhancementPolicy.load() if enhancement_policy is None else EnhancementPolicy.model_validate(enhancement_policy)
         self.pool = ThreadPoolExecutor(max_workers=4, thread_name_prefix='持久问答')
         self.futures, self.lock, self.stopping = {}, threading.Lock(), threading.Event()
 
@@ -159,7 +161,23 @@ class QueryRunner:
                 revisions=sorted((r['document_id'],r['active_revision_id']) for r in revisions),
                 model=configured_model_identity(),strategy=dict(retrieval=policy.model_dump(),plan=plan.model_dump(mode='json')))
             scoped_embedder=lambda texts:QUERY_EMBEDDINGS.get_or_compute(cache_scope,texts,self.embedder,runtime_policy)
-            hits = retrieve(g.index(), repo, plan, embedder=scoped_embedder, revision_snapshot=revisions, policy=policy)
+            from app.retrieval.graph import run_retrieval_graph
+            from app.retrieval.routing import EnhancementPolicy
+            enhancement_policy=EnhancementPolicy.model_validate(self.enhancement_policy)
+            def hyde(query,enhancement):
+                from app.core.load_prompt import load_prompt
+                from app.lm.lm_utils import get_llm_client
+                from app.infrastructure.providers.clients import output_limit_options
+                client=self.llm_factory() if self.llm_factory else get_llm_client()
+                result=client.invoke(load_prompt('hyde_prompt',rewritten_query=query),
+                    timeout=enhancement.timeout_seconds,**output_limit_options(client,enhancement.hyde_output_tokens,self.answer_budget.output_token_field))
+                return result.content
+            graph_result=run_retrieval_graph(plan,lambda branch:retrieve(g.index(),repo,branch,
+                embedder=scoped_embedder,revision_snapshot=revisions,policy=policy),
+                policy=enhancement_policy,hyde=hyde,boundary=boundary)
+            hits=graph_result.hits
+            emit('stage.changed',{'stage':stage},fields={'retrieval_branches':graph_result.branches,
+                'enhancement_policy':enhancement_policy.model_dump(),'retrieval_merge_count':graph_result.merge_count})
             candidates = from_index_hits(hits)
             pack = EvidencePack(plan=plan, candidates=candidates)
             docs = []

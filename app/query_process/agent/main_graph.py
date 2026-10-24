@@ -2,7 +2,6 @@ from langgraph.graph import StateGraph, END
 from app.query_process.agent.state import QueryGraphState
 # 导入所有节点函数
 from app.query_process.agent.nodes.node_item_name_confirm import node_item_name_confirm
-from app.query_process.agent.nodes.node_query_kg import node_query_kg
 from app.query_process.agent.nodes.node_answer_output import node_answer_output
 from app.query_process.agent.nodes.node_rerank import node_rerank
 from app.query_process.agent.nodes.node_rrf import node_rrf
@@ -13,17 +12,29 @@ from app.query_process.agent.nodes.node_web_search_mcp import node_web_search_mc
 # 初始化状态图
 builder = StateGraph(QueryGraphState)
 
-# 注册所有节点
-builder.add_node("node_item_name_confirm", node_item_name_confirm)  # 确认商品
+# 注册本地与受控可选节点
+builder.add_node("node_item_name_confirm", lambda state: node_item_name_confirm(state))  # 确认商品
 builder.add_node("node_multi_search", lambda x: x)  # 虚拟节点：多路搜索分叉点
-builder.add_node("node_search_embedding", node_search_embedding)  # 向量搜索
-builder.add_node("node_search_embedding_hyde", node_search_embedding_hyde)
-builder.add_node("node_query_kg", node_query_kg)
-builder.add_node("node_web_search_mcp", node_web_search_mcp)
+builder.add_node("node_search_embedding", lambda state: node_search_embedding(state))  # 向量搜索
+def optional_hyde(state):
+    from app.retrieval.routing import EnhancementPolicy,diagnostic_intent
+    if not EnhancementPolicy.load().hyde_enabled or not state.get('item_names') or not diagnostic_intent(state.get('original_query','')):
+        return {'hyde_embedding_chunks':[]}
+    return node_search_embedding_hyde(state)
+
+
+def optional_web(state):
+    # 兼容工具只在请求明确允许时访问；正式工作台尚无外网工具入口。
+    if not state.get('allow_web',False):return {'web_search_docs':[]}
+    return node_web_search_mcp(state)
+
+
+builder.add_node("node_search_embedding_hyde", optional_hyde)
+builder.add_node("node_web_search_mcp", optional_web)
 builder.add_node("node_join", lambda x: {})  # 虚拟节点：多路搜索合并点
-builder.add_node("node_rrf", node_rrf)  # 排序
-builder.add_node("node_rerank", node_rerank)  # 重排
-builder.add_node("node_answer_output", node_answer_output)  # 生成
+builder.add_node("node_rrf", lambda state: node_rrf(state))  # 排序
+builder.add_node("node_rerank", lambda state: node_rerank(state))  # 重排
+builder.add_node("node_answer_output", lambda state: node_answer_output(state))  # 生成
 
 # 虚拟节点的作用：作为流程的「分叉 / 合并中转站」，解决多分支流程的组织问题，本身无业务逻辑；
 # lambda x:x 含义：接收 state 并原样返回，是最轻便的 “无逻辑传递” 方式；
@@ -60,17 +71,13 @@ builder.add_conditional_edges(
     route_after_item_confirm
 )
 
-# 2. 并发执行四路搜索
+# 2. 本地与两个可跳过分支
 builder.add_edge("node_multi_search", "node_search_embedding")
 builder.add_edge("node_multi_search", "node_search_embedding_hyde")
 builder.add_edge("node_multi_search", "node_web_search_mcp")
-builder.add_edge("node_multi_search", "node_query_kg")
 
-# 3. 四路搜索 -> 结果合并
-builder.add_edge("node_search_embedding", "node_join")
-builder.add_edge("node_search_embedding_hyde", "node_join")
-builder.add_edge("node_web_search_mcp", "node_join")
-builder.add_edge("node_query_kg", "node_join")
+# 3. 等待全部已登记分支各自完成，仅汇合一次；占位KG源码保留但不执行。
+builder.add_edge(["node_search_embedding","node_search_embedding_hyde","node_web_search_mcp"],"node_join")
 
 # 4. 合并 -> 排序 -> 重排 -> 生成 -> 结束
 builder.add_edge("node_join", "node_rrf")

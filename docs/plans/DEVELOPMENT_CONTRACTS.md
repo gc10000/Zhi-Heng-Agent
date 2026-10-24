@@ -313,3 +313,9 @@ answer_support区分insufficient、partial_scope、partial_context、evidence_av
 复用实际app/infrastructure/model_host.py和原BGE/精排包装，不创建重复models/host.py。首次加载双重检查锁，失败不污染单例；公共推理锁及有界小批涵盖正式/兼容调用。generate_embeddings默认document，正式QueryRunner.encode显式query；HostEmbedder默认旧document协议，query发送input_type，需新版宿主。默认模型/设备/权重不变，安装SDK两接口实际同_encode。
 
 ScopedEmbeddingCache仅存查询向量，cache_enabled默认false；范围必须完整绑定用户、权限、owner/kb、产品、活动资料/修订、模型和检索/查询策略，文本另入键。值深拷贝、异常不缓存、并发miss一次计算，TTL/LRU有界。退出递增用户代际且清现值，旧计算不能重新填新代；修订/权限变化换键，检索和run依旧授权。内部model_runtime记录实际小批/缓存配置，公开API不增加底层参数。单进程锁不宣称跨进程共享模型；真实1/2/4测量后再决定是否单独托管，不先增进程。
+
+### M4-05 条件增强与受控降级
+
+正式QueryRunner复用run_retrieval_graph/EnhancementPolicy，默认只跑必需本地检索；两个可选分支受已确认单型号/模糊症状和显式开关控制，参数/错误码跳过。HyDE只改派生search_queries，product_ids/revision_ids/scope_groups保持原授权事实，假设绝不转为证据。有限分解最多总3查询，仅拆用户症状。分支trace保留名称/原分数和实际资料身份，随后统一去重和重排一次。
+
+分支内部只回结果，不写run；主路径错误由外层保存failed，可选empty/failed/timeout/busy保留本地结果。共享两个执行槽有界，晚到结果不能改已汇合包或终态；retrieval_branches/enhancement_policy/retrieval_merge_count为内部元数据，公开API不新增底层参数。timeout是结果接纳门禁，不是GPU硬抢占或供应商撤单保证。旧图不注册占位KG，真实LangGraph等待屏障汇合一次；兼容web须显式allow_web，未向正式产品暴露工具。
