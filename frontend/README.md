@@ -13,3 +13,8 @@ Windows运行Node 22.17.1（`.node-version`）、pnpm 11.25.0；本机独立pnpm
 默认test:e2e仅选择离线/合成PDF用例，真实登录和阶段链路以配置选择，选择排除不是测试通过。在项目根设置`$env:M3_LIVE_CONFIG='../docs/development/evidence/<新名字>.json'`后运行`pnpm -C frontend test:e2e -- support-flow.spec.ts`。配置路径相对frontend，含临时凭据，严禁输出/上传。录屏工具用`pnpm -C frontend exec playwright install ffmpeg`安装，仅工具二进制，未改Python环境。
 
 真实脚本将run/job与完成步骤写入配置同名.flow.json，失败后优先续验，不新建会话重复计费。截图/录屏/trace留本机evidence；原始trace可能含Cookie或登录表单，禁止上传。浏览器测试、构建与另一个Playwright必须顺序执行：build复制public PDF资源会触发Vite重载。静态产物发布和生产代理未在M3部署验收。
+
+
+缓存会话切回后，界面先显示历史并等待目录/历史本轮刷新；再按当前活动运行恢复，快照请求按会话与请求代次隔离。未读完历史且无活动指针时先加载后续页，发送保持禁用。
+
+目录搜索/分页所选设备会保留当前用户和知识范围下的描述。首100项以外的设备使用现有授权目录按型号有界核对（最多100项）并精确匹配ID；核对通过才显示型号并允许提交。等待、失效或目录错误会明确禁发，可主动清空选择或重新选择；极端同名超过100项时不无限遍历。切知识范围、退出或401同时清除ID与描述。旧描述不能代替授权核对。

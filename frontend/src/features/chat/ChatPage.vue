@@ -8,6 +8,7 @@ import type { Citation, Run } from '@/lib/api/types'
 import { terminal } from '@/lib/api/types'
 import { useHistory, useConversation } from './queries/conversations'
 import { scopeKey } from './queries/history'
+import { useProductSelection } from './queries/product-selection'
 import { useRunStore } from './stores/run'
 import { useRunStream } from './composables/useRunStream'
 import ChatComposer from './components/ChatComposer.vue'
@@ -17,6 +18,7 @@ import { useUiStore } from '@/stores/ui'
 const ui = useUiStore()
 const commandBusy = ref(false)
 const route = useRoute(), auth = useAuthStore(), cache = useQueryClient()
+const productSelection = useProductSelection()
 const cid = computed(() => String(route.params.conversationId || ''))
 const conversation = useConversation(cid)
 const historyId = computed(() => conversation.data.value?.conversation_id || '')
@@ -58,7 +60,7 @@ function subscribe() {
 }
 let pendingRequest: { question: string; products: string; key: string } | undefined
 async function send() {
-  if (!cid.value || !question.value.trim() || busy.value || !restored.value || run.value && !terminal(run.value.state)) return
+  if (!cid.value || !question.value.trim() || busy.value || !restored.value || !productSelection.ready.value || run.value && !terminal(run.value.state)) return
   busy.value = true; error.value = ''; const version = epoch
   try {
     const products = JSON.stringify(ui.productIds)
@@ -92,6 +94,6 @@ const showLive = computed(() => run.value && !messages.value.some(m => m.role ==
 <button v-if="history.hasNextPage.value" :disabled="history.isFetchingNextPage.value" @click="history.fetchNextPage()">加载更多历史</button>
 <p v-if="run && !showLive && terminal(run.state)" role="status">{{ run.state === 'completed' ? '回答完成' : run.state === 'cancelled' ? '已取消' : '回答未完成' }}</p>
 <button v-if="run && ['failed','interrupted','cancelled'].includes(run.state)" @click="question = run.question">重新提问</button>
-<ProductSelector />
-<ChatComposer v-model="question" :busy="busy" :active="!!run && !terminal(run.state)" :disabled="!restored || history.isPending.value" @send="send" @cancel="command('cancel')" /></template>
+<ProductSelector :model-value="productSelection.selectedId.value" :products="productSelection.options.value" :pending="productSelection.pending.value" :error="productSelection.error.value" :has-more="productSelection.hasMore.value" @update:model-value="productSelection.choose" />
+<ChatComposer v-model="question" :busy="busy" :active="!!run && !terminal(run.state)" :disabled="!restored || history.isPending.value || !productSelection.ready.value" @send="send" @cancel="command('cancel')" /></template>
 </section></template>

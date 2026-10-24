@@ -1,12 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useQuery } from '@tanstack/vue-query'
-import { api } from '@/lib/api/client'
-import { useAuthStore } from '@/stores/auth'
-import { useUiStore } from '@/stores/ui'
-import type { Product, Page } from '@/lib/api/types'
-import { scopeKey } from '../queries/history'
-const auth=useAuthStore(), ui=useUiStore()
-const query=useQuery({queryKey:computed(()=>scopeKey(auth.user?.user_id||'',auth.kb,'products-selector')),queryFn:({signal})=>api.request<Page<Product>>(`/products?kb_id=${encodeURIComponent(auth.kb)}&limit=100`,{signal}),enabled:computed(()=>!!auth.kb),retry:false})
+import type { Product } from '@/lib/api/types'
+defineProps<{ modelValue: string; products: Product[]; pending: boolean; error: string; hasMore: boolean }>()
+const emit = defineEmits<{ 'update:modelValue': [value: string] }>()
 </script>
-<template><label class="product-selector">本轮适用设备<select :value="ui.productIds[0] || ''" @change="ui.productIds = ($event.target as HTMLSelectElement).value ? [($event.target as HTMLSelectElement).value] : []"><option value="">未指定，必要时询问型号</option><option v-for="p in query.data.value?.items" :key="p.product_id" :value="p.product_id">{{ p.model }}</option></select></label><p v-if="query.error.value" role="alert">{{ query.error.value.message }}</p><p v-if="query.data.value?.next_cursor" class="muted">更多设备请从设备目录选择。</p></template>
+<template><label class="product-selector">本轮适用设备<select :value="modelValue" @change="emit('update:modelValue',($event.target as HTMLSelectElement).value)"><option value="">未指定，必要时询问型号</option><option v-if="modelValue && !products.some(p=>p.product_id===modelValue)" :value="modelValue" disabled>设备待核对（{{modelValue}}）</option><option v-for="p in products" :key="p.product_id" :value="p.product_id">{{p.model}}</option></select></label><p v-if="pending" role="status">正在核对所选设备，核对完成前不能发送。</p><p v-if="error" role="alert">{{error}}</p><p v-if="hasMore" class="muted">更多设备请从设备目录选择。</p></template>

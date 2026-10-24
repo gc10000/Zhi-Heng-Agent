@@ -9,7 +9,7 @@
 
 ## 进入条件与执行约束
 
-当前总控结论：首轮需修复，M3-04/06/09/11重开，阶段7/11、核心39/76。仅授权在M3内处理R1缓存会话新活动run恢复、R2目录首100项外设备可见选择，先正式红测再实现，重提新摘要与manifest；M4未授权。完整触发与验证见[M3首轮审查](../../development/reviews/M3-review.md)。下文原执行勾选中，未受影响的已验收步骤保留。
+当前总控结论：首轮需修复，M3-04/06/09/11重开，修复自验10/11、核心42/76。仅授权在M3内处理R1缓存会话新活动run恢复、R2目录首100项外设备可见选择，先正式红测再实现，重提新摘要与manifest；M4未授权。完整触发与验证见[M3首轮审查](../../development/reviews/M3-review.md)。下文原执行勾选中，未受影响的已验收步骤保留。
 
 M2已通过第2轮总控审查，授权从M3-01连续执行至M3-11，按依赖逐项验收；阶段末提交总控，M4未授权。真实API与SSE契约来自M2-12，范围见[M2授权结论](../../development/reviews/M2-review-r2.md)。M3-01可先做最小登录/API/SSE纵向小样验证兼容性，后续任务完善对应模块；预备接线不等于后续任务已验收。
 
@@ -106,7 +106,7 @@ M2已通过第2轮总控审查，授权从M3-01连续执行至M3-11，按依赖�
 
 - [x] **M3-06.1** 候选型号卡片提交 run version。
 - [x] **M3-06.2** 显示真实 stage.changed 与 awaiting_input。
-- [ ] **M3-06.3** 切设备可显式确认，模型输出不冒充真实执行记录；R2需显示并核对目录跨页所选设备。
+- [x] **M3-06.3** 切设备可显式确认，模型输出不冒充真实执行记录；R2需显示并核对目录跨页所选设备。
 - [x] **M3-06.V** 验证：pnpm -C frontend test:e2e -- clarification.spec.ts。
 - [x] **M3-06.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
@@ -152,7 +152,7 @@ M2已通过第2轮总控审查，授权从M3-01连续执行至M3-11，按依赖�
 **文件：**`frontend/src/features/products/ProductsPage.vue`; `frontend/src/features/documents/DocumentsPage.vue`; `frontend/src/features/documents/ImportJobPanel.vue`; `frontend/src/features/documents/RevisionPanel.vue`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M3-09.1** 产品/资料筛选、上传、任务阶段与错误重试；R2需修复目录所选设备回问答显示一致性，其余证据保留。
+- [x] **M3-09.1** 产品/资料筛选、上传、任务阶段与错误重试；R2需修复目录所选设备回问答显示一致性，其余证据保留。
 - [x] **M3-09.2** 切片/图像预览、版本比较和维护者发布/撤回。
 - [x] **M3-09.3** 显示解析降级质量。
 - [x] **M3-09.V** 验证：pnpm -C frontend test:e2e -- documents.spec.ts。

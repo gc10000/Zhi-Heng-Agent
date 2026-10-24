@@ -18,12 +18,12 @@ it('401清空上位用户的Query缓存及身份页', async () => {
   const wrapper = mount(App, { global: { stubs: { RouterView: true }, provide: { [routerKey as symbol]: { replace: vi.fn() } }, plugins: [pinia, [VueQueryPlugin, { queryClient: cache }]] } })
   await flushPromises()
   const ui = useUiStore(pinia)
-  ui.productIds = ['private-device']; ui.selectedCitation = { runId: 'private-run', citationId: 'private-citation' }; ui.evidence = true
+  ui.selectProduct({ product_id: 'private-device', model: '旧身份设备' }, 'owner-a', 'k'); ui.selectedCitation = { runId: 'private-run', citationId: 'private-citation' }; ui.evidence = true
   window.dispatchEvent(new Event('session-expired'))
   await flushPromises()
   expect(cache.getQueryCache().getAll()).toHaveLength(0)
   expect(wrapper.text()).toContain('登录工作台')
-  expect(ui.productIds).toEqual([]); expect(ui.selectedCitation).toBeUndefined(); expect(ui.evidence).toBe(false)
+  expect(ui.productIds).toEqual([]); expect(ui.selectedProduct).toBeUndefined(); expect(ui.selectedCitation).toBeUndefined(); expect(ui.evidence).toBe(false)
   wrapper.unmount()
 })
 it('退出后迟到身份恢复不能复活旧用户，清理订阅只执行一次', async () => {
