@@ -1,0 +1,285 @@
+{
+  "notice": "M4-04真实检索网格完成与独立分母修正，非答案质量或总控通过；已冻结旧执行源码，后续05/08代码不回写该实验。",
+  "tests": [
+    {
+      "junit": "docs/development/evidence/M4-04-grid-delivered.xml",
+      "passed": 45,
+      "exit_code": 0,
+      "seconds": 225.772,
+      "deselected": 0,
+      "skipped": 0
+    }
+  ],
+  "test_directory_counts": {
+    "unit": 39,
+    "integration": 6
+  },
+  "real_baseline": {
+    "report": "docs/development/reviews/M4-01-baseline-readonly.json",
+    "reused_historical_report": true,
+    "new_baseline_run": false
+  },
+  "real_retrieval_grid": {
+    "exit_code": 0,
+    "variants": 9,
+    "completed_per_variant": 35,
+    "question_executions": 315,
+    "failed": 0,
+    "config_sha256": "13633b78d72a865d8c45f0ad5018c29722a0d234c1a61417d9d7651747e75b8f",
+    "versions": {
+      "code": "ebd39669bf52647770aea9f424e93279b467e91241bd7a4397a3ebb003577325",
+      "prompt": "26534c884d5f9b222cd73bed840325532abff238157108d16e8d44f80ee736f8",
+      "model": "900983ca8c5d1f16281950b08feb0fbfc2bc1d220f7dee8e673e14af6746134d"
+    },
+    "analysis": "output/evals/support-v1-r2-retrieval-grid-analysis-r2.json",
+    "all_evidence_questions_denominator": 34
+  },
+  "new_paid_calls": 0,
+  "heldout_executed": 0,
+  "raw_evidence": [
+    {
+      "path": "docs/development/evidence/M4-04-analysis-red.txt",
+      "sha256": "7a58fbb55ce913e6ad182cf206a67d9a359d1a6cec88e0baf1e51956e22d51a5"
+    },
+    {
+      "path": "docs/development/evidence/M4-04-analysis-red.xml",
+      "sha256": "e2642a04cc5c49aa77599d17203639d5d57bb119595a62e1704ae9fd24637247"
+    },
+    {
+      "path": "docs/development/evidence/M4-04-denominator-green.txt",
+      "sha256": "86ffe6921576cd9ff336f93c82e56a67e733e0690119a091e2ff8fc86bdf2081"
+    },
+    {
+      "path": "docs/development/evidence/M4-04-denominator-green.xml",
+      "sha256": "490eeb27e3f010017b799d3a8d1f64142c5a4d348d384b1002a0a3a28906b9ec"
+    },
+    {
+      "path": "docs/development/evidence/M4-04-denominator-red.txt",
+      "sha256": "ad5110a7ac988323ff76c937b60c2d300825fa071a27da354a42ca054e909074"
+    },
+    {
+      "path": "docs/development/evidence/M4-04-denominator-red.xml",
+      "sha256": "e74d9667c33ffb804032e154ef85174190c244ec91301e14be76c0b6be28e2cb"
+    },
+    {
+      "path": "docs/development/evidence/M4-04-freeze-grid.py",
+      "sha256": "e1b6e8e3c868335841c6f05ddbb5aefd8e9f51f16e025bd4f8ea17b240ffef16"
+    },
+    {
+      "path": "docs/development/evidence/M4-04-freeze-grid.txt",
+      "sha256": "ece7fa77fedb4453b89060f19353500ea88c872189e86a9ea739d8aff4087c7f"
+    },
+    {
+      "path": "docs/development/evidence/M4-04-grid-checkpoint.txt",
+      "sha256": "0a2fcd6b22f335648011887d6fb5f84ea68a1cba91643911273ce9a046fbcdc1"
+    },
+    {
+      "path": "docs/development/evidence/M4-04-grid-checkpoint.xml",
+      "sha256": "bc25daab3b8ba9e52457c858de71d68d3d7553e4acd653be4ab5af735851eea4"
+    },
+    {
+      "path": "docs/development/evidence/M4-04-grid-delivered.txt",
+      "sha256": "41d9bcbdb4fbcf30d7fb4f810a2ec21aa25f49b2c289fdc1702c81cefcdd121b"
+    },
+    {
+      "path": "docs/development/evidence/M4-04-grid-delivered.xml",
+      "sha256": "d1594de8c5139fed4b36e9f53eaf205b0eda6a09532bd2ce25c92724ea759de1"
+    },
+    {
+      "path": "docs/development/evidence/M4-04-grid-first-exit.txt",
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354"
+    },
+    {
+      "path": "docs/development/evidence/M4-04-grid-first.txt",
+      "sha256": "b8832025cb3b4faa78edec410c6a9230ae0d30c7f76b3c1ac833ad07795892f7"
+    },
+    {
+      "path": "docs/development/evidence/M4-04-grid-trace-red.txt",
+      "sha256": "3c0d80ff55ae7d2e6d9f14f35c2fce6a0fa05374a2ecf1797ecb76dfdd02438f"
+    },
+    {
+      "path": "docs/development/evidence/M4-04-grid-trace-red.xml",
+      "sha256": "f89dd5ad57df5e3b985540d07049efa474a9e5db13b33599f04a1572e013b11e"
+    },
+    {
+      "path": "docs/development/evidence/M4-04-offline-grid.txt",
+      "sha256": "94a7d3d0e5b0a46c0568be063cf4e6a43f3f4d572416500ba5a25b3209151917"
+    },
+    {
+      "path": "docs/development/evidence/M4-04-offline-grid.xml",
+      "sha256": "60b155d40b4894ac001f245f3a17046b1d872118244d277d62fb7dfec83ed0db"
+    },
+    {
+      "path": "docs/development/evidence/M4-04-policy-scopes.txt",
+      "sha256": "646ad48943c7cf9137686f744ca2a6b68e2a4ec9c48c189bf95d7c4d37cbf880"
+    },
+    {
+      "path": "docs/development/evidence/M4-04-policy-scopes.xml",
+      "sha256": "e2811feed099d5f9624217e99dfb2f4d468b53c14eeefb3793f0c2f0d1bdcf66"
+    },
+    {
+      "path": "docs/development/evidence/M4-04-stage-limits-green.txt",
+      "sha256": "cdd1ce1561a796dfa5d52becaa91c4be3d5898dafe7fd17bf79521e1263e7965"
+    },
+    {
+      "path": "docs/development/evidence/M4-04-stage-limits-green.xml",
+      "sha256": "423e82678f76d0599b3eeedeff1b021027d0727e71cb706c2a433ab02f638179"
+    },
+    {
+      "path": "docs/development/evidence/M4-04-stage-limits-red.txt",
+      "sha256": "79e8d517fc6756e56c4d83c3d9c20681a76cf19ea6278e1618dae9e137ebb8e8"
+    },
+    {
+      "path": "docs/development/evidence/M4-04-stage-limits-red.xml",
+      "sha256": "4402a80185a17b90595227800150a3b1233ee4d6007026609e2edac56f622cda"
+    },
+    {
+      "path": "docs/development/reviews/M4-01-baseline-readonly.json",
+      "sha256": "86b9aeb9ab2a34ddde0df66ad5b080ad18c8e49e02c29f4fa7fad090d6780598"
+    },
+    {
+      "path": "evals/configs/retrieval-grid.yaml",
+      "sha256": "c9b0f1ca8828024cf904e6620f962e0ad55af10a2c866ac2205d68a2e965fc6b"
+    },
+    {
+      "path": "evals/datasets/support-v1-r2-manifest.json",
+      "sha256": "e91f599e1b180f3ad8651ebe70e987c347d78dc9c2d9b44cdf9872977635a3ae"
+    },
+    {
+      "path": "evals/datasets/support-v1-r2.jsonl",
+      "sha256": "4a35321fc21a28f5b2986a84d8c8c77cf7c43b9da258cfe6ed3d5ebbf5e0a98c"
+    },
+    {
+      "path": "output/evals/M4-04-executed-code/manifest.json",
+      "sha256": "9765c0b7a1b1bd67ca67708187fc11f63ff699e1b946fcda83e69a72b26f5f34"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/dense-only/attempts.jsonl",
+      "sha256": "f57fbd22f226cf012b6cc9a13d79a54749d667fe694d4412234fdadc544fa508"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/dense-only/manifest.json",
+      "sha256": "914e4826473a5d4da2ac8678b761c12dd51b1afa0be15838248f9a17a7fdf2cc"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/dense-only/results.jsonl",
+      "sha256": "f57fbd22f226cf012b6cc9a13d79a54749d667fe694d4412234fdadc544fa508"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/grid-config.json",
+      "sha256": "c9b0f1ca8828024cf904e6620f962e0ad55af10a2c866ac2205d68a2e965fc6b"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/grid-summary.json",
+      "sha256": "c661a6c0b87700640d85a6cf645670b87fd0e690f3cb70496c9a91da11ebd044"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/learned-sparse-only/attempts.jsonl",
+      "sha256": "8f14dc60cd3922586cea0790308a0b63d120383a788cfa82fdc1ab3112678840"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/learned-sparse-only/manifest.json",
+      "sha256": "3874ca8ba0d76990045afcff7b5cbc24a1ab506558abee9a136d7ac1ae7b4ada"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/learned-sparse-only/results.jsonl",
+      "sha256": "8f14dc60cd3922586cea0790308a0b63d120383a788cfa82fdc1ab3112678840"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/rrf-control/attempts.jsonl",
+      "sha256": "c385f66d223a9ddf961def70db74ee4def09a2090a57775ee0beb9216d428bed"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/rrf-control/manifest.json",
+      "sha256": "9377a0108511c08b05a5b7f271ef55723ef93d2de5714666079089c20f77b340"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/rrf-control/results.jsonl",
+      "sha256": "c385f66d223a9ddf961def70db74ee4def09a2090a57775ee0beb9216d428bed"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/warmup-8a2f0991836c4a0b9d15753c43b0043e.json",
+      "sha256": "170fa227960f5ee9358819c8208707beba48b99b8a3068b6e2c647fcf422607a"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/weighted-context5/attempts.jsonl",
+      "sha256": "40fc396f324cdb4c6450b6bf49b940f267a565491c1c60edaa3b52706705b5d1"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/weighted-context5/manifest.json",
+      "sha256": "9ed6f3e59087b9acc284006c1979f0489f1783154a402581684e8678d461003d"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/weighted-context5/results.jsonl",
+      "sha256": "40fc396f324cdb4c6450b6bf49b940f267a565491c1c60edaa3b52706705b5d1"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/weighted-control/attempts.jsonl",
+      "sha256": "416cdadf427ffac45927acff8b4f35cc6efe0f7a55d6e4989e4a06049d2358c5"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/weighted-control/manifest.json",
+      "sha256": "33ef459bfb3f6affc6d4b67181cf04b21c0c6dc93215219fda3ff2c206afe796"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/weighted-control/results.jsonl",
+      "sha256": "416cdadf427ffac45927acff8b4f35cc6efe0f7a55d6e4989e4a06049d2358c5"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/weighted-dense40/attempts.jsonl",
+      "sha256": "8ac302433873a5dd766234f809e2ab1ddb45b8d9de4543f30e0427895ae292cc"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/weighted-dense40/manifest.json",
+      "sha256": "90b53b9c7ecf88f080e16b388bc4afb10b9f9fb6f8fbae605a004d1018191ea4"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/weighted-dense40/results.jsonl",
+      "sha256": "8ac302433873a5dd766234f809e2ab1ddb45b8d9de4543f30e0427895ae292cc"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/weighted-pool40/attempts.jsonl",
+      "sha256": "502b08fb12c9ad11a9bdbb416f93ca69d8b0b9bcc741a79643247af16539378b"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/weighted-pool40/manifest.json",
+      "sha256": "5d76412a3ce85b8a389f76b4cfaab222f431d7d16b29730858978058f4da40d2"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/weighted-pool40/results.jsonl",
+      "sha256": "502b08fb12c9ad11a9bdbb416f93ca69d8b0b9bcc741a79643247af16539378b"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/weighted-rerank40/attempts.jsonl",
+      "sha256": "fe1f8f29bd27af6fea109239507d1fe69fe804da39ecdc576f98734ae5ed47f0"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/weighted-rerank40/manifest.json",
+      "sha256": "49a036f05291f37eb8c996eba1c517ea9dddd6dfa8790077920b6a46a730e8dd"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/weighted-rerank40/results.jsonl",
+      "sha256": "fe1f8f29bd27af6fea109239507d1fe69fe804da39ecdc576f98734ae5ed47f0"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/weighted-sparse40/attempts.jsonl",
+      "sha256": "3db7c27550d66942ae95499a0ff5553a88ca103690878b76e29782b969a0323e"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/weighted-sparse40/manifest.json",
+      "sha256": "95632c8c33c7ce1c9a2425c5eaddaf6a59a722e16da1f52e34a45ebc30c70485"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid/weighted-sparse40/results.jsonl",
+      "sha256": "3db7c27550d66942ae95499a0ff5553a88ca103690878b76e29782b969a0323e"
+    },
+    {
+      "path": "output/evals/support-v1-r2-retrieval-grid-analysis-r2.json",
+      "sha256": "3e546b5c6397739fe4078b731883ee489e926e380d6dddc0f6bf6eaf24d97689"
+    },
+    {
+      "path": "docs/development/evidence/M4-04-initial-manifest.json",
+      "sha256": "fc161b0d3d37baa086ea8edb28e7782b285cce59333c8331b105b7eb6dcb9164"
+    }
+  ]
+}

@@ -319,3 +319,5 @@ ScopedEmbeddingCache仅存查询向量，cache_enabled默认false；范围必须
 正式QueryRunner复用run_retrieval_graph/EnhancementPolicy，默认只跑必需本地检索；两个可选分支受已确认单型号/模糊症状和显式开关控制，参数/错误码跳过。HyDE只改派生search_queries，product_ids/revision_ids/scope_groups保持原授权事实，假设绝不转为证据。有限分解最多总3查询，仅拆用户症状。分支trace保留名称/原分数和实际资料身份，随后统一去重和重排一次。
 
 分支内部只回结果，不写run；主路径错误由外层保存failed，可选empty/failed/timeout/busy保留本地结果。共享两个执行槽有界，晚到结果不能改已汇合包或终态；retrieval_branches/enhancement_policy/retrieval_merge_count为内部元数据，公开API不新增底层参数。timeout是结果接纳门禁，不是GPU硬抢占或供应商撤单保证。旧图不注册占位KG，真实LangGraph等待屏障汇合一次；兼容web须显式allow_web，未向正式产品暴露工具。
+
+M4-04阶段召回汇总以冻结dev中所有要求证据的题为分母，错误澄清、失败或缺阶段结果计0；仅allowed_evidence为空题不适用。历史冻结输出不得回写修正，analyze_grid独立校验配置/完整题ID/attempts与results一致后生成新报告，拒绝未结束/污染/覆盖。来源组覆盖仍不等于答案正确率。

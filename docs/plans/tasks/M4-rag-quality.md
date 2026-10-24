@@ -9,7 +9,7 @@
 
 ## 进入条件与执行约束
 
-M3第2轮已通过总控审查，授权M4-01至M4-10按依赖连续执行，从M4-01开始，阶段末提交总控审查；M5及后续未授权，见[M3第二轮授权](../../development/reviews/M3-review-r2.md)。当前M4-01/M4-02/M4-03/M4-06/M4-07/M4-09执行自验完成，M4为6/10，尚未阶段提交。实施前核对并保留现有未跟踪evals/，不覆盖或自动上传；先标注、冻结题集/划分和原链路基线，再做调参实验，heldout在策略选定后才最终评价。无稳定收益保留旧默认，不预设收益或覆盖课程数据。
+M3第2轮已通过总控审查，授权M4-01至M4-10按依赖连续执行，从M4-01开始，阶段末提交总控审查；M5及后续未授权，见[M3第二轮授权](../../development/reviews/M3-review-r2.md)。当前M4-01/M4-02/M4-03/M4-04/M4-06/M4-07/M4-09执行自验完成，M4为7/10，尚未阶段提交。实施前核对并保留现有未跟踪evals/，不覆盖或自动上传；先标注、冻结题集/划分和原链路基线，再做调参实验，heldout在策略选定后才最终评价。无稳定收益保留旧默认，不预设收益或覆盖课程数据。
 
 真实实现依赖 M1-11/M2-12；固定题集和标注规则先于策略调参。
 
@@ -87,11 +87,11 @@ M3第2轮已通过总控审查，授权M4-01至M4-10按依赖连续执行，从M
 **文件：**`app/retrieval/search.py`; `app/retrieval/rerank.py`; `app/knowledge/index.py`（直接复用Milvus的WeightedRanker/RRFRanker，不重复实现fusion.py）；`app/evaluation/retrieval_grid.py`/`readonly.py`; `evals/configs/retrieval-grid.yaml`; `tests/integration/test_scope_filters.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M4-04.1** 分别配置 dense/sparse 初召回量、RRF 池、重排量、上下文数。
-- [ ] **M4-04.2** 同源产品/权限/活动修订过滤共用。
-- [ ] **M4-04.3** 保留原策略可回切。
-- [ ] **M4-04.V** 验证：.venv/Scripts/python.exe -m pytest tests/integration/test_scope_filters.py -m integration -q；固定题集运行配置网格。
-- [ ] **M4-04.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M4-04.1** 分别配置 dense/sparse 初召回量、RRF 池、重排量、上下文数。
+- [x] **M4-04.2** 同源产品/权限/活动修订过滤共用。
+- [x] **M4-04.3** 保留原策略可回切。
+- [x] **M4-04.V** 验证：.venv/Scripts/python.exe -m pytest tests/integration/test_scope_filters.py -m integration -q；固定题集运行配置网格。
+- [x] **M4-04.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**learned sparse 不标成 BM25；每组实验记录检索指标/延时/资源；没有实验支持不升默认候选数。
 
@@ -197,3 +197,5 @@ M4-02已接正式QueryRunner/V2Index，30项定向通过、付费0；原加权�
 2026-10-25 M4-06独立依赖自验45项通过；正式入口扩展默认关闭，来源/预算/父块前提及真实Milvus窗口通过，实际dev收益仍由M4-10验证。04冻结网格不切新实现，继续等9组结果。见[记录](../../development/records/M4-06.md)。
 
 2026-10-25 M4-07自验135项通过，完整token预算/原字符兜底、实际SDK输出字段、父子组/引用顺序、错误传播及流/历史/final部分回答通过；无新付费/dev/heldout。M4为6/10，04原冻结9组仍执行中，05/08待04验收。见[记录](../../development/records/M4-07.md)。
+
+2026-10-25 M4-04九组真实dev检索完成、每组35成功/0失败，付费/heldout0；独立分析修正错误澄清分母，34题适用，原件不改。最终45定向通过，保留原加权默认；来源覆盖不作答案正确率。见[报告](../../evaluation/retrieval-report.md)。
