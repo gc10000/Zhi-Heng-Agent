@@ -1,0 +1,208 @@
+{
+  "notice": "M3第二轮独立总控复审脱敏汇总；与开发摘要分别保存，原始证据仅本机。",
+  "date": "2026-10-24",
+  "verdict": "通过",
+  "reviewed_commit": "522b16863295309e52e780e7bb25aa863a0e9860",
+  "implementation_commits": {
+    "R1": "e751ff80b0fc39dcecd0ea0b36e65a10c6f58b23",
+    "R2": "0e75640a6bb5cfe6cd413670d70083b050df4227"
+  },
+  "closed_review_items": [
+    "R1",
+    "R2"
+  ],
+  "backend": {
+    "passed": 346,
+    "deselected": 2,
+    "skipped": 0,
+    "warnings": 7,
+    "exit_code": 0,
+    "console_seconds": 261.84,
+    "junit_seconds": 261.825,
+    "directory_counts": {
+      "unit": 180,
+      "contract": 83,
+      "integration": 83
+    },
+    "isolated_test_database_prefix": "m1_test_20261024_m3_r2_controller",
+    "notice": "不将全部集成目录用例称为供应商端到端。"
+  },
+  "frontend_unit": {
+    "passed": 37,
+    "files": 9,
+    "seconds": 4.37,
+    "exit_code": 0
+  },
+  "offline_browser": {
+    "passed": 24,
+    "failed": 0,
+    "skipped": 0,
+    "flaky": 0,
+    "seconds": 34.13542699999999,
+    "exit_code": 0,
+    "mode": "实际Vue/Query与API协议模拟/合成PDF，不是本轮真实API或供应商端到端。"
+  },
+  "frontend_build": {
+    "install_frozen_exit_code": 0,
+    "typecheck_exit_code": 0,
+    "build_exit_code": 0,
+    "modules": 728,
+    "seconds": 5.2
+  },
+  "legacy_reimport": {
+    "passed": 3,
+    "seconds": 0.207,
+    "exit_code": 0
+  },
+  "submission_snapshot_before_review_document_edits": {
+    "files": 24,
+    "python_syntax": 0,
+    "local_links": 216,
+    "bundle_texts_secret_scan": 19,
+    "passed": true
+  },
+  "live_readonly": {
+    "passed": true,
+    "provider_calls": 0,
+    "checks": {
+      "two_completed_answers": true,
+      "ordered_persistent_history": true,
+      "grounded_parameters_and_followup": true,
+      "citations_exact_initial_revision": true,
+      "single_terminal_and_ordered_events": true,
+      "ui_import_published": true,
+      "ui_import_product_scope": true,
+      "originals_hash_match": true
+    },
+    "source_flow_sha256": "52cd0cbc3820e78c2b725d2b5df42b32c0ac6f834223b151626e742aa087d96e",
+    "message_count": 4
+  },
+  "original_counterexample_reuse": {
+    "exit_code": 0,
+    "assertions": {
+      "restore_current_active_run": true,
+      "visible_selected_device": true
+    },
+    "page_errors": [],
+    "script_only_output_paths_changed": true,
+    "R1": {
+      "run_reads": [
+        "new-active",
+        "new-active",
+        "new-active"
+      ],
+      "stop_buttons": 1,
+      "send_enabled": false
+    },
+    "R2": {
+      "value": "p-101",
+      "selectedIndex": 101,
+      "display": "BEYOND-100",
+      "options": 102,
+      "posted_product_ids": [
+        "p-101"
+      ]
+    }
+  },
+  "supplementary_inflight_old_snapshot": {
+    "mode": "actual Vue with offline protocol; force old snapshot already in flight",
+    "provider_calls": 0,
+    "page_errors": [],
+    "run_reads": [
+      "old",
+      "new",
+      "new"
+    ],
+    "stream_requests": [
+      "/runs/new/events"
+    ],
+    "old_snapshot_started": true,
+    "new_run_visible_before_release": true,
+    "old_response_rejected": true,
+    "passed": true,
+    "exit_code": 0
+  },
+  "original_review_evidence_hashes_unchanged": true,
+  "paid_provider_calls_this_review": 0,
+  "current_round_real_api_browser_runs": 0,
+  "prior_live_browser_evidence_accepted": 2,
+  "historical_stage_paid_answers_unchanged": 4,
+  "accepted_limits": [
+    "极端同名授权搜索超过100项可能明确拒绝核对，不静默提交。",
+    "真实大PDF浏览器Range/性能及解析bbox全链路未验收。",
+    "生产部署/长期压力未验收。"
+  ],
+  "M3_accepted": "11/11",
+  "core_accepted": "43/76",
+  "M4_accepted": "0/10",
+  "authorized_next_stage": "M4-01至M4-10按依赖连续执行，从固定题集/标注/划分和原链路基线开始；heldout不用于调参，无稳定收益保留旧默认。",
+  "M5_and_later_authorized": false,
+  "no_business_code_changes_by_controller": true,
+  "existing_untracked_evals_preserved": true,
+  "raw_evidence": [
+    {
+      "path": "docs/development/evidence/M3-review-r2-stage.txt",
+      "sha256": "7f0915ac84e9addd6889c2b26d44571b5345571f15e339540f9cf1a925544318"
+    },
+    {
+      "path": "docs/development/evidence/M3-review-r2-stage.xml",
+      "sha256": "2de6c0d5cb6571de2f81ff0436c39c04f28111fc5e4f1bb23a922f580fdc7d02"
+    },
+    {
+      "path": "docs/development/evidence/M3-review-r2-install.txt",
+      "sha256": "a1086ae3ddb32acf1cb9bc9f3d1e156a706e2d29fc903579452d21ef1aa506a9"
+    },
+    {
+      "path": "docs/development/evidence/M3-review-r2-typecheck.txt",
+      "sha256": "241be48e89412fbf6fed0e7e10a0217d6a564c74e44cc6906baaac9d4715a40a"
+    },
+    {
+      "path": "docs/development/evidence/M3-review-r2-build.txt",
+      "sha256": "e47e2ed8d453ae0b560c395c0855a16d16d92728af5d6ff31657ebfe5322f576"
+    },
+    {
+      "path": "docs/development/evidence/M3-review-r2-unit.txt",
+      "sha256": "b8fb728d4e3c5aaa98970448ff2952a15cc49832a4881f1ac04204a94c9fa898"
+    },
+    {
+      "path": "docs/development/evidence/M3-review-r2-reimport.txt",
+      "sha256": "087268e8851dbc3873fe4f723cb8d7a08bccb6d136154dce711ddf5b07188929"
+    },
+    {
+      "path": "docs/development/evidence/M3-review-r2-offline.txt",
+      "sha256": "a8190e4e1a15a83fefe3e9cc85378e6e23724088b852a0d7e53d1109f2e0a321"
+    },
+    {
+      "path": "docs/development/evidence/M3-review-r2-offline-results.json",
+      "sha256": "ee01b82a09b9e2aea230752dda8e261124ac1e28fb472340bb69375a1a020dfb"
+    },
+    {
+      "path": "docs/development/evidence/M3-review-r2-live-recheck.json",
+      "sha256": "eb8c1feb127fe6bb0b071147b8aff55f3986ebf408be1a6fdeb55afdb2afa0e6"
+    },
+    {
+      "path": "docs/development/evidence/M3-review-r2-original-probes.mjs",
+      "sha256": "504914dea32a14602ee14dae2ed847e281b0353d9f9f628c2668796d6da1258f"
+    },
+    {
+      "path": "docs/development/evidence/M3-review-r2-original-probes.json",
+      "sha256": "daf5bb772829c070f339b1c277cebdd8ece7e3b13b412877d8e279a7a8858abd"
+    },
+    {
+      "path": "docs/development/evidence/M3-review-r2-original-probes.txt",
+      "sha256": "12b9346198c7f0172170098a40c1c6a07b703f817084cc0278cf0c2231178678"
+    },
+    {
+      "path": "docs/development/evidence/M3-review-r2-late-snapshot.mjs",
+      "sha256": "a82553cf901658296d07a061c98123d895709e816a86def8a260a25bf85715db"
+    },
+    {
+      "path": "docs/development/evidence/M3-review-r2-late-snapshot.json",
+      "sha256": "24b152c31165964a3f287b5e32f304bc8247552cbfab822874903baba352bc8a"
+    },
+    {
+      "path": "docs/development/evidence/M3-review-r2-late-snapshot.txt",
+      "sha256": "edf3400ff38ff85bbb3d0e3fec0d8183794ef49cdbde8fd9653ee91e5d90ae52"
+    }
+  ]
+}
