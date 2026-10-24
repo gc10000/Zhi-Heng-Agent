@@ -121,6 +121,24 @@ class RetrievalExecutor:
         return result
 
 
+def summarize_recall(records, questions):
+    """所有要求证据的题都入分母；错误澄清、执行失败和缺结果均计0。"""
+    by_id = {row['id']: row for row in records}
+    if len(by_id) != len(records): raise ValueError('逐题结果身份重复')
+    applicable = [q for q in questions if q['allowed_evidence']]
+    summary = {}
+    for stage in ('candidates', 'reranked', 'context'):
+        values = []
+        for question in applicable:
+            row = by_id.get(question['id'], {})
+            value = row.get('result', {}).get('stage_metrics', {}).get(stage) if row.get('status') == 'completed' else None
+            if value is not None and (isinstance(value, bool) or not isinstance(value, (int, float)) or not 0 <= value <= 1):
+                raise ValueError('阶段召回须为有限0..1值')
+            values.append(0. if value is None else value)
+        summary[stage] = dict(mean=sum(values)/len(values) if values else None, applicable_questions=len(values))
+    return summary
+
+
 def run_grid(config, dataset, manifest, output, gateway, *, embedder, ranker):
     # 网格整体也有占用，避免不同进程在不同子配置之间交错写总报告。
     validate_grid(config, dataset, manifest)
@@ -155,11 +173,7 @@ def _run_grid(config, dataset, manifest, output, gateway, *, embedder, ranker):
         records = [json.loads(line) for line in (output/variant['id']/'results.jsonl').read_text('utf-8').splitlines()]
         completed = [r for r in records if r['status'] == 'completed']
         row = dict(id=variant['id'], policy=variant['policy'], completed=report['completed'], failed=report['failed'])
-        row['recall'] = {}
-        for stage in ('candidates', 'reranked', 'context'):
-            values = [r['result']['stage_metrics'].get(stage) for r in completed]
-            values = [v for v in values if v is not None]
-            row['recall'][stage] = dict(mean=sum(values)/len(values) if values else None, applicable_questions=len(values))
+        row['recall'] = summarize_recall(records, selected)
         timings = [r['result']['stage_timings']['estimated_pipeline_seconds'] for r in completed if r['result']['stage_timings']]
         row.update(p50_pipeline_seconds=percentile(timings,.5), p95_pipeline_seconds=percentile(timings,.95))
         row['max_observed_rss_bytes'] = max((r['result']['resources']['rss_after_bytes'] for r in completed if 'resources' in r['result']), default=None)
