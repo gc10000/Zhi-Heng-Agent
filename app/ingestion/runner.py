@@ -34,8 +34,13 @@ def classify_error(exc):
     if status and status >= 500:
         return 'provider_unavailable', True
     import requests
-    if isinstance(exc, (TimeoutError, ConnectionError, OSError, requests.Timeout, requests.ConnectionError, ProviderTimeout, SummaryBusy)):
+    import httpx
+    from openai import APITimeoutError, APIConnectionError
+    # SDK 超时继承连接异常，须先分类；公开信息仅保留错误码。
+    if isinstance(exc, (TimeoutError, requests.Timeout, httpx.TimeoutException, APITimeoutError, ProviderTimeout, SummaryBusy)):
         return 'upstream_timeout', True
+    if isinstance(exc, (ConnectionError, requests.ConnectionError, httpx.NetworkError, APIConnectionError)):
+        return 'upstream_connection_failed', True
     return ('version_conflict', False) if isinstance(exc, ConflictError) else ('invalid_document_or_configuration', False)
 
 
