@@ -61,6 +61,49 @@ def test_success_persists_exact_answer_citations_and_single_terminal(query_conte
     assert conv.get(user, cid)['active_run_id'] is None
 
 
+def test_real_run_persists_separate_stage_trace_only_selected_context(query_context):
+    from copy import deepcopy
+    user, cid, conv, repo, service, g, runner, entity, product = query_context
+    trace = [{'stage': 'dense', 'rank': 1, 'score': .8, 'score_kind': 'inner_product', 'query_id': 'original'},
+             {'stage': 'learned_sparse', 'rank': 2, 'score': 2., 'score_kind': 'inner_product', 'query_id': 'original'},
+             {'stage': 'weighted_fusion', 'rank': 1, 'score': 1.4, 'score_kind': 'milvus_weighted_ip', 'query_id': 'original'}]
+    excluded = deepcopy(entity) | {'chunk_uid': 'too-large', 'text': '超预算正文' * 4000}
+    excluded['metadata']['asset_ids'] = ['not-selected-image']
+    class Index:
+        def search(self, *args, **kwargs):
+            return [{'entity': excluded, 'retrieval_trace': trace}, {'entity': entity, 'retrieval_trace': trace}]
+    g.index_factory = Index
+    runner.ranker = lambda q, docs: [d | {'score': .9-i*.1} for i, d in enumerate(docs)]
+    rid = service.create(user, cid, request())['run_id']; runner.execute(rid)
+    row = repo.get(user, rid)
+    assert row['state'] == 'completed'
+    assert [c['chunk_uid'] for c in row['citations']] == ['chunk-one']
+    assert row.get('retrieval_trace') is not None
+    assert [t['selected'] for t in row['retrieval_trace']] == [False, True]
+    assert row['retrieval_trace'][1]['stages'][:3] == trace
+    assert row['retrieval_trace'][1]['stages'][-1]['stage'] == 'rerank'
+    assert 'not-selected-image' not in str(row['citations'])
+
+
+def test_reranker_cannot_insert_unknown_candidate_into_generation(query_context):
+    user, cid, conv, repo, service, g, runner, entity, product = query_context
+    runner.ranker = lambda q, docs: [docs[0] | {'chunk_uid': 'unknown', 'chunk_id': 'unknown'}]
+    rid = service.create(user, cid, request())['run_id']; runner.execute(rid)
+    row = repo.get(user, rid)
+    assert row['state'] == 'failed' and row['error']['stage'] == 'rerank'
+    assert conv.messages.count_documents({'run_id': rid, 'role': 'assistant'}) == 0
+
+
+def test_duplicate_backend_hit_has_one_context_identity_and_citation(query_context):
+    user, cid, conv, repo, service, g, runner, entity, product = query_context
+    class Index:
+        def search(self, *args, **kwargs): return [{'entity': entity}, {'entity': entity}]
+    g.index_factory = Index
+    rid = service.create(user, cid, request())['run_id']; runner.execute(rid)
+    row = repo.get(user, rid)
+    assert row['state'] == 'completed' and len(row['citations']) == 1
+
+
 def test_generation_failure_keeps_partial_and_stage_without_success_message(query_context):
     from types import SimpleNamespace
     user, cid, conv, repo, service, g, runner, entity, product = query_context

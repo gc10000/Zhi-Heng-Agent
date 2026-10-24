@@ -133,9 +133,15 @@ class QueryRunner:
             revisions = repo.get_active_revisions()
             emit('stage.changed', {'stage': stage, 'revision_count': len(revisions)}, fields={'revision_snapshot': revisions})
             hits = g.index().search(repo, row['question'], embedder=self.embedder, revision_snapshot=revisions, product_ids=selected, limit=20)
+            from app.retrieval.adapters import from_index_hits, after_rerank, stable_key
+            from app.retrieval.models import QueryPlan, EvidencePack
+            candidates = from_index_hits(hits)
+            plan = QueryPlan(original_query=row['question'], search_queries=(row['question'],),
+                product_ids=tuple(selected), revision_ids=tuple(r['active_revision_id'] for r in revisions))
+            pack = EvidencePack(plan=plan, candidates=candidates)
             docs = []
-            for hit in hits:
-                entity = dict(hit.get('entity', hit))
+            for hit in candidates:
+                entity = hit.document()
                 if entity['revision_id'] not in {r['active_revision_id'] for r in revisions}:
                     raise ValueError('检索结果超出冻结修订范围')
                 g.revision(user, entity['document_id'], entity['revision_id'])
@@ -144,8 +150,12 @@ class QueryRunner:
                     'title': '/'.join(metadata.get('heading_path', [])), 'asset_ids': metadata.get('asset_ids', []),
                     'source_refs': metadata.get('source_refs', [])})
             stage = 'rerank'
-            emit('stage.changed', {'stage': stage}, fields={'stage': stage})
+            emit('stage.changed', {'stage': stage}, fields={'stage': stage, 'retrieval_trace': pack.trace(),
+                'query_plan': plan.model_dump(mode='json')})
             docs = self.ranker(row['question'], docs)
+            ranked = after_rerank(candidates, docs)
+            pack = EvidencePack(plan=plan, candidates=candidates, reranked=ranked)
+            docs = [h.document() for h in ranked]
             stage = 'answer'
             from app.query_process.agent.nodes.node_answer_output import step_2_construct_prompt, step_3_generate_response
             from app.knowledge.citation_api import controlled_markdown
@@ -155,12 +165,16 @@ class QueryRunner:
                      'history': self._history(user, current)}
             prompt = step_2_construct_prompt(state)
             used = {d['chunk_id'] for d in state['prompt_used_docs']}
+            used_keys = {stable_key(d) for d in state['prompt_used_docs']}
+            pack = EvidencePack(plan=plan, candidates=candidates, reranked=ranked,
+                selected=[h for h in ranked if h.identity in used_keys])
             citations = []
             for d in docs:
                 if d['chunk_id'] in used:
                     citations.append({k: copy.deepcopy(d[k]) for k in ('chunk_uid', 'document_id', 'revision_id', 'text', 'asset_ids', 'source_refs')} |
                         {'citation_id': stable_id('citation', rid, [d['chunk_uid']])})
-            emit('citation.selected', {'citations': citations}, fields={'citations': citations, 'stage': stage})
+            emit('citation.selected', {'citations': citations}, fields={'citations': citations, 'stage': stage,
+                'retrieval_trace': pack.trace()})
             from app.utils.sse_utils import run_event_sink
             from app.runs.answer_filter import AnswerFilter
             safe_answer = AnswerFilter({aid for c in citations for aid in c['asset_ids']}, buffer.add)

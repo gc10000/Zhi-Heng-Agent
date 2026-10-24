@@ -29,3 +29,5 @@ GET /runs/{rid}/citations/{citation_id}仅回本轮入选快照并重新授权�
 导入错误补充：upstream_timeout表示供应商超时，upstream_connection_failed表示连接失败，均可重试；429/5xx可重试，401/403及格式/配置错误不可自动重试。重试仍需维护者权限与expected_version。
 
 完成消息顺序：终态快照保存后先持久assistant再释放会话；新轮创建会补偿旧终态，写入失败保留原占用并允许相同请求重试。历史按首次ordinal顺序，跨轮消息与下一轮生成上下文均保持上一轮答案在下一轮问题之前。终态事件可先保存，不能仅据它假定会话占用已释放。
+
+M4-02内部run新增query_plan/retrieval_trace用于受控评测和追踪，不在GET /runs公开快照中增加字段；citation.selected仍只包含实际入选引用。候选去重和重排身份校验不改变现有终态、版本、租约及权限协议。

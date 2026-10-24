@@ -1,4 +1,5 @@
 import sys
+import copy
 from typing import List, Dict, Any
 from app.utils.task_utils import add_running_task, add_done_task
 from app.core.logger import logger
@@ -59,6 +60,8 @@ def _as_entity_list(state_list) -> List[Dict[str, Any]]:
                      final_ent["id"] = doc["id"]
                  if "distance" in doc:
                      final_ent["score"] = doc["distance"]
+                 if 'retrieval_trace' in doc:
+                     final_ent['retrieval_trace'] = copy.deepcopy(doc['retrieval_trace'])
              else:
                  # 扁平结构，直接使用
                  final_ent = doc
@@ -96,14 +99,19 @@ def reciprocal_rank_fusion(
 
     # 1. 遍历所有来源，计算每个文档的 RRF 分数
     # source_weights 结构: [(doc_list, weight), ...]
-    for docs, weight in source_weights:
+    from app.retrieval.adapters import stable_key, score_record
+    for source_index, (docs, weight) in enumerate(source_weights):
+        seen = set()
         # enumerate(docs, start=1): 获取排名 (rank)，从 1 开始
         for rank, item in enumerate(docs, start=1):
             # 获取文档唯一标识 ID
             # Milvus 设计上把主键字段在 API 层面统一叫 id，不管你在 schema 里定义的字段名是 pk、id 还是其他
             # 这是为了保持 API 兼容性：无论用户怎么命名主键，SDK 都用 id 来指代 “这条数据的唯一标识”
             # 你在向量数据库 UI 里看到的 pk 是表结构定义名，而代码里拿到的 id 是API 返回的统一主键别名
-            chunk_id = item.get("chunk_id") or item.get("id")
+            try:
+                chunk_id = stable_key(item)
+            except ValueError:
+                continue
             
             if not chunk_id:
                 # 如果找不到 ID，记录警告并跳过，避免程序崩溃
@@ -111,11 +119,23 @@ def reciprocal_rank_fusion(
                     f"RRF Warning: item missing chunk_id/id: {list(item.keys()) if isinstance(item, dict) else item}")
                 continue
 
+            if chunk_id in seen:
+                continue
+            seen.add(chunk_id)
             # RRF 核心公式: score += weight * (1 / (k + rank))
             score_map[chunk_id] = score_map.get(chunk_id, 0.0) + weight * (1.0 / (k + rank))
             
             # 只记录第一次遇到的文档实体对象
-            chunk_map.setdefault(chunk_id, item)
+            if chunk_id not in chunk_map:
+                chunk_map[chunk_id] = copy.deepcopy(item)
+                chunk_map[chunk_id]['retrieval_trace'] = []
+            target = chunk_map[chunk_id]
+            for field in ('text', 'content', 'metadata'):
+                if target.get(field) != item.get(field):
+                    raise ValueError('同证据身份对应不同原文或来源')
+            target['retrieval_trace'].extend(copy.deepcopy(item.get('retrieval_trace', [])))
+            target['retrieval_trace'].append(score_record('rrf_input', rank, item.get('score'),
+                'backend_unspecified', query_id=f'rrf_input_{source_index}'))
 
     # 2. 将结果转换为列表并排序
     merged = []
@@ -124,7 +144,7 @@ def reciprocal_rank_fusion(
         merged.append((doc_item, score))
     
     # 按分数降序排序 (得分越高越靠前)
-    merged.sort(key=lambda x: x[1], reverse=True)
+    merged.sort(key=lambda x: (-x[1], stable_key(x[0])))
     
     # 3. 截断结果
     if max_results is not None:
@@ -179,7 +199,9 @@ def node_rrf(state):
     rrf_res = reciprocal_rank_fusion(source_weights, k=60, max_results=10)
 
     # 第四步：解包结果，提取文档和分数
-    rrf_chunks = [doc for doc, score in rrf_res]
+    from app.retrieval.adapters import score_record
+    rrf_chunks = [dict(doc) | {'rrf_score': score, 'retrieval_trace': list(doc.get('retrieval_trace', [])) +
+        [score_record('rrf', rank, score, 'reciprocal_rank')]} for rank, (doc, score) in enumerate(rrf_res, 1)]
     # 记录任务结束
     add_done_task(state['session_id'], sys._getframe().f_code.co_name, state.get("is_stream"))
 

@@ -1,0 +1,70 @@
+{
+  "notice": "M4-02执行自验，旧dev基线只读报告按原时点复用，不是新策略质量验收。",
+  "tests": [
+    {
+      "junit": "docs/development/evidence/M4-02-provenance-final.xml",
+      "passed": 30,
+      "exit_code": 0,
+      "seconds": 20.999,
+      "deselected": 0,
+      "skipped": 0
+    }
+  ],
+  "test_directory_counts": {
+    "unit": 12,
+    "integration": 18
+  },
+  "real_baseline": {
+    "report": "docs/development/reviews/M4-01-baseline-readonly.json",
+    "reused_historical_report": true,
+    "new_baseline_run": false
+  },
+  "new_model_calls": 0,
+  "heldout_executed": 0,
+  "raw_evidence": [
+    {
+      "path": "docs/development/evidence/M4-02-provenance-final.txt",
+      "sha256": "e06a5ef47161f0a42030edfbb52a53731009c82bd28b0bf045e01dc568b7841a"
+    },
+    {
+      "path": "docs/development/evidence/M4-02-provenance-final.xml",
+      "sha256": "72c6a21da4579fcc284818524a3c7d03620dcfdbfec73bde50927a676329f83f"
+    },
+    {
+      "path": "docs/development/evidence/M4-02-provenance-green.txt",
+      "sha256": "b848fe38ee65f90181f9d97b03293868fca81a263b5a0f27449d09d0087adee8"
+    },
+    {
+      "path": "docs/development/evidence/M4-02-provenance-green.xml",
+      "sha256": "17822fad9441c3604d96308eb7ed6067f2448cafe1e655e766310354324f8e01"
+    },
+    {
+      "path": "docs/development/evidence/M4-02-provenance-red.txt",
+      "sha256": "6d006a27c53627f32d74cb067fffa4a22a75763bd4ed3daa3a0a30c6a81a36f0"
+    },
+    {
+      "path": "docs/development/evidence/M4-02-provenance-red.xml",
+      "sha256": "ac6250d0b60c396f1d34c76bf37e3586970112e9b4bb1fa4c043b1789d839a6d"
+    },
+    {
+      "path": "docs/development/evidence/M4-02-query-trace-green.txt",
+      "sha256": "b597087cd9905cbf1bf78a9bfed7a623ca9f58567a21970ce81ede3d41e03efe"
+    },
+    {
+      "path": "docs/development/evidence/M4-02-query-trace-green.xml",
+      "sha256": "5bb647f79b248de276b51c1502c7336f1e04a59b2f9f8a6d9f1d7a18a44765f8"
+    },
+    {
+      "path": "docs/development/evidence/M4-02-query-trace-red.txt",
+      "sha256": "ebebba580c54d6028106497dd64c3333a326b3cf57e8719b626c1053ac61c7a7"
+    },
+    {
+      "path": "docs/development/evidence/M4-02-query-trace-red.xml",
+      "sha256": "78119f1c1244e654ab68cf009ddfdd5db9906b2e0e5221c0bf5bd31503a651ee"
+    },
+    {
+      "path": "docs/development/reviews/M4-01-baseline-readonly.json",
+      "sha256": "86b9aeb9ab2a34ddde0df66ad5b080ad18c8e49e02c29f4fa7fad090d6780598"
+    }
+  ]
+}

@@ -74,7 +74,7 @@ def step_1_merge_docs(state):
         title = entity.get("title") or entity.get("item_name") or ""
 
         # 组装标准化对象
-        doc_items.append({
+        doc_items.append(dict(entity) | {
             "text": content,
             "doc_id": doc_id,
             "chunk_id": doc_id,  # 兼容旧逻辑保留字段
@@ -160,7 +160,7 @@ def step_2_rerank_docs(state, doc_items):
             # 保留两位小数便于日志查看
             score_val = float(score)
             scored_docs.append(
-                {
+                dict(item) | {
                     "text": text,
                     "score": score_val,
                     "source": item.get("source") or "",
@@ -172,13 +172,17 @@ def step_2_rerank_docs(state, doc_items):
             )
         # 按分数降序排序
         scored_docs.sort(key=lambda x: x["score"], reverse=True)
+        from app.retrieval.adapters import score_record
+        for rank, doc in enumerate(scored_docs, 1):
+            doc['rerank_score'] = doc['score']
+            doc['retrieval_trace'] = list(doc.get('retrieval_trace', [])) + [score_record('rerank', rank, doc['score'], 'bge_raw')]
         return scored_docs
     except Exception as e:
         logger.error(f"Step 2: 重排序过程发生异常: {e}", exc_info=True)
         # 出错时降级：返回原始文档顺序，分数置为 0 或 None
         # 避免整个流程中断
         fallback_docs = [
-            {
+            dict(x) | {
                 "text": x.get("text"),
                 "score": 0.0, # 降级分数
                 "source": x.get("source") or "",

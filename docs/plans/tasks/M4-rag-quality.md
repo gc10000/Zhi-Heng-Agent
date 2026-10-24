@@ -9,7 +9,7 @@
 
 ## 进入条件与执行约束
 
-M3第2轮已通过总控审查，授权M4-01至M4-10按依赖连续执行，从M4-01开始，阶段末提交总控审查；M5及后续未授权，见[M3第二轮授权](../../development/reviews/M3-review-r2.md)。当前M4-01/M4-09执行自验完成，M4为2/10，尚未阶段提交。实施前核对并保留现有未跟踪evals/，不覆盖或自动上传；先标注、冻结题集/划分和原链路基线，再做调参实验，heldout在策略选定后才最终评价。无稳定收益保留旧默认，不预设收益或覆盖课程数据。
+M3第2轮已通过总控审查，授权M4-01至M4-10按依赖连续执行，从M4-01开始，阶段末提交总控审查；M5及后续未授权，见[M3第二轮授权](../../development/reviews/M3-review-r2.md)。当前M4-01/M4-02/M4-09执行自验完成，M4为3/10，尚未阶段提交。实施前核对并保留现有未跟踪evals/，不覆盖或自动上传；先标注、冻结题集/划分和原链路基线，再做调参实验，heldout在策略选定后才最终评价。无稳定收益保留旧默认，不预设收益或覆盖课程数据。
 
 真实实现依赖 M1-11/M2-12；固定题集和标注规则先于策略调参。
 
@@ -54,14 +54,14 @@ M3第2轮已通过总控审查，授权M4-01至M4-10按依赖连续执行，从M
 ### M4-02：统一候选与分阶段追踪
 
 **依赖：**M4-01。
-**文件：**`app/retrieval/models.py`; `app/retrieval/adapters.py`; `app/query_process/agent/nodes/node_rrf.py`; `app/query_process/agent/nodes/node_rerank.py`; `tests/unit/test_retrieval_provenance.py`。
+**文件：**`app/retrieval/models.py`; `app/retrieval/adapters.py`; `app/knowledge/index.py`; `app/runs/query_runner.py`; `app/query_process/agent/nodes/node_rrf.py`; `app/query_process/agent/nodes/node_rerank.py`; `tests/unit/test_retrieval_provenance.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M4-02.1** 定义 RetrievalHit/QueryPlan/EvidencePack。
-- [ ] **M4-02.2** 保留 dense/sparse rank、RRF、rerank、revision 和来源。
-- [ ] **M4-02.3** 融合去重稳定 ID。
-- [ ] **M4-02.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_retrieval_provenance.py -q。
-- [ ] **M4-02.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M4-02.1** 定义 RetrievalHit/QueryPlan/EvidencePack。
+- [x] **M4-02.2** 保留 dense/sparse rank、RRF、rerank、revision 和来源。
+- [x] **M4-02.3** 融合去重稳定 ID。
+- [x] **M4-02.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_retrieval_provenance.py -q。
+- [x] **M4-02.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**所有来源经过重排仍可回溯；不同阶段分数不混同；图片不再从未纳入上下文的候选提取。
 
@@ -189,3 +189,5 @@ M3第2轮已通过总控审查，授权M4-01至M4-10按依赖连续执行，从M
 
 
 2026-10-24 M4-01执行自验完成：三资料595切片/53图，完整语料指纹/精确图对应/实际代码版本冻结；35dev真实一次执行成功，34逻辑生成/1澄清、69消息，heldout0；72离线+3真实Mongo端口注入通过。真实只读复核通过，未知HTTP次数/金额与原解析/摘要元数据限制保留，不宣称答案正确率或收益。见[基线交付](../../development/reviews/M4-01-baseline-delivery.md)。此前“尚未执行/未验收”段落为历史时点，当前按本段与进度接续M4-02。
+
+M4-02已接正式QueryRunner/V2Index，30项定向通过、付费0；原加权融合默认和候选量不变，追踪增加两次同范围只读分路检索。旧RRF仅兼容路径，保留复合身份/分数/来源。见[记录](../../development/records/M4-02.md)。

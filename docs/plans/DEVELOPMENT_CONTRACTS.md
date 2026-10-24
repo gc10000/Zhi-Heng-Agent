@@ -275,3 +275,10 @@ JSONL逐题固定id/group/split、问题/产品/历史、期望行为、必需�
 题集七题总控定向复核已通过，外部接受结论绑定当前subject及冻结版hash，累计50题来源审核、真实人工0。冻结JSONL/manifest不回写review计数。真实baseline-r2配置已建立，仅dev35题运行；heldout15题不执行。新增corpus.snapshot冻结三资料完整切片payload与dense/learned sparse向量hash、原件字节、图片归属/对象字节/摘要及缓存identity/来源与kb产品。RealQueryExecutor默认入口必须完整快照与dataset_acceptance文件hash；每题在创建/恢复run前重新只读校验，变化即拒绝，不以原件/活动指针相同放行。runtime_versions.code包含app/evaluation实现，避免评分变更冒充同版本。
 
 corpus.asset_equivalences仅接受原件目视核对、两端图片hash与物理页绑定的精确对应，并核对比对证据hash。指标可据此匹配标准裁图，不修改实际引用hash，也不将同页邻图视为命中。allowed_evidence_group_recall是辅助来源覆盖，human_answer_correctness仍null；行为为协议/证据保守判定，不是答案质量分。配置文件字节hash与规范JSON config_sha256分别记录。模型/依赖/课程数据不升级，历史摘要模型/prompt未知明确保留；新解析和视觉供应商调用0，文本调用待真实账本核对。基线执行期间不改app源码或冻结配置，版本变更另建实验。
+
+
+### M4-02 候选与阶段溯源
+
+RetrievalHit以document_id/revision_id/chunk_uid组成身份，保存原text/metadata与独立StageScore(stage/rank/score/score_kind/query_id)。dense和learned_sparse为真实IP分路，weighted_fusion为Milvus加权分；原策略不称RRF/BM25，未知分数null且backend_unspecified。QueryPlan保留原问题/实际检索输入/产品/修订；EvidencePack校验候选、重排和实际上下文子集及原文/来源不变。重排不得新增或重复候选，不同修订的旧同名ID不得融合。
+
+V2Index.search新增trace=True（默认）补同向量/同范围分路排名，多2次只读RPC；trace=False返回原融合响应，不改原融合/候选量。正式QueryRunner在持久run内部保存query_plan/retrieval_trace及selected标记；公开snapshot字段和citation.selected事件保持原接口，不暴露调试正文。实际citation只来自prompt_used_docs，未进上下文的图片不纳入引用。旧图适配无损保留原元数据/RRF/重排分；错误/取消/撤权继续通过原run协议收敛。
