@@ -1,0 +1,288 @@
+{
+  "notice": "M2第2轮开发复审脱敏摘要；原始证据本机保留，非总控通过结论。",
+  "date": "2026-10-24",
+  "stage": {
+    "exit_code": 0,
+    "passed": 345,
+    "deselected": 2,
+    "skipped": 0,
+    "seconds": 295.889,
+    "console_seconds": 295.92,
+    "warnings": 7,
+    "junit": "docs/development/evidence/M2-r2-stage.xml",
+    "test_directory_counts": {
+      "unit": 180,
+      "contract": 83,
+      "integration": 82
+    },
+    "command": "M1_TEST_DB=m1_test_20261024_m2_r2_stage; .venv/Scripts/python.exe -m pytest tests/unit tests/contract tests/integration -m 'not live_provider' -q --junitxml=docs/development/evidence/M2-r2-stage.xml",
+    "integration_notice": "集成目录含真实隔离存储、真实Linux worker/宿主BGE以及模型端口注入和纯探针，不将82项全部描述为供应商全链路。"
+  },
+  "legacy_reimport": {
+    "exit_code": 0,
+    "passed": 3,
+    "seconds": 0.013,
+    "report": "docs/development/evidence/M2-r2-reimport.txt",
+    "command": ".venv/Scripts/python.exe -m unittest discover -s test -p test_document_reimport.py -v"
+  },
+  "live_api": {
+    "exit_code": 0,
+    "passed": true,
+    "report": "docs/development/evidence/M2-r2-live-recheck.json",
+    "checks": {
+      "run_completed": true,
+      "answer_hash": true,
+      "job_completed": true,
+      "revision_active": true,
+      "revision_published": true,
+      "original_hash": true,
+      "message_snapshot": true,
+      "citations_sources": true,
+      "single_terminal": true,
+      "delta_snapshot_equal": true,
+      "event_order": true
+    },
+    "provider_calls": 0,
+    "mode": "existing_live_artifacts_read_only",
+    "event_count": 18,
+    "source_report_sha256": "d6ee8ec2dec62eed496e3bf2cae115182e152e543136e9bcd2cfff713c3cac12",
+    "notice": "本轮只读复核首轮真实HTTP产物，未再次执行付费问答。首轮51.593秒/回答1次为历史证据；本轮新增R1异常注入、R2真实隔离发布、R3真实Mongo及生成端口上下文验证。"
+  },
+  "directed": {
+    "R1_red": {
+      "exit_code": 1,
+      "tests": 11,
+      "failures": 4,
+      "errors": 0,
+      "passed": 7,
+      "junit_seconds": 24.973,
+      "junit": "docs/development/evidence/M2-r2-R1-red.xml"
+    },
+    "R1_green": {
+      "exit_code": 0,
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "passed": 16,
+      "junit_seconds": 34.738,
+      "junit": "docs/development/evidence/M2-r2-R1-green.xml"
+    },
+    "R2_red": {
+      "exit_code": 1,
+      "tests": 4,
+      "failures": 2,
+      "errors": 0,
+      "passed": 2,
+      "junit_seconds": 22.204,
+      "junit": "docs/development/evidence/M2-r2-R2-red-v3.xml"
+    },
+    "R2_green": {
+      "exit_code": 0,
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "passed": 11,
+      "junit_seconds": 56.464,
+      "junit": "docs/development/evidence/M2-r2-R2-green-v2.xml"
+    },
+    "R3_red": {
+      "exit_code": 1,
+      "tests": 2,
+      "failures": 2,
+      "errors": 0,
+      "passed": 0,
+      "junit_seconds": 8.187,
+      "junit": "docs/development/evidence/M2-r2-R3-red.xml"
+    },
+    "R3_green": {
+      "exit_code": 0,
+      "tests": 36,
+      "failures": 0,
+      "errors": 0,
+      "passed": 36,
+      "junit_seconds": 42.199,
+      "junit": "docs/development/evidence/M2-r2-R3-green.xml"
+    },
+    "artifact_red": {
+      "exit_code": 1,
+      "tests": 2,
+      "failures": 2,
+      "errors": 0,
+      "passed": 0,
+      "junit_seconds": 19.668,
+      "junit": "docs/development/evidence/M2-r2-artifacts-red.xml"
+    },
+    "artifact_green": {
+      "exit_code": 0,
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "passed": 2,
+      "junit_seconds": 14.872,
+      "junit": "docs/development/evidence/M2-r2-artifacts-green.xml"
+    }
+  },
+  "raw_evidence": [
+    {
+      "path": "docs/development/evidence/M2-r2-artifacts-green.txt",
+      "sha256": "fea1dfbb01c6d70dcbeb7fe7c02dce2e653db6bb02ab11e80881b62fdc854c59",
+      "bytes": 228
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-artifacts-green.xml",
+      "sha256": "944c31926971bbd6e5869c2185186854eee1acb22b4ac419cbeafd191d420d11",
+      "bytes": 513
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-artifacts-red.txt",
+      "sha256": "2d35bad962bfd80c994951591fa67b0f6416b3f5f8030e3a74b2ca8a69d6f440",
+      "bytes": 10512
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-artifacts-red.xml",
+      "sha256": "73fbb6929b8826537769b2ed2ba4f5423b8d528848c2487f17fd566f3ad2e547",
+      "bytes": 10624
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-live-recheck.json",
+      "sha256": "3c8c28581676cfa639872bd4146b1592eaedd06ff6f06587913fbe6f9a79ea35",
+      "bytes": 558
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-live-recheck.txt",
+      "sha256": "14cbddc7a33099fb498a65193dc84a5ce59bde1aa70f6fa03af1427212a12e78",
+      "bytes": 479
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-R1-green.txt",
+      "sha256": "c03c577441180bbd294ebe5a7b8a7bfb1ae7994ed1e40131fd7cbbfcfcc0e19d",
+      "bytes": 236
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-R1-green.xml",
+      "sha256": "406fde21f9e0971dd9b440bc0190548b2b7e1513c01f3f27ad11326bf16d3974",
+      "bytes": 2522
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-R1-red.txt",
+      "sha256": "47a030c8633eb37cf00cccde1baea3b749f0ed706352699cec88a9f11b8aa26d",
+      "bytes": 12932
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-R1-red.xml",
+      "sha256": "133221af55e6ab8c0f84123d59962cba8444db58cc79b08dad9894e42f7f1da0",
+      "bytes": 14235
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-R2-green-v2.txt",
+      "sha256": "56ff41f71d6dc92bf428a8431577433c7be21321447661c7a5928cdce6df0144",
+      "bytes": 239
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-R2-green-v2.xml",
+      "sha256": "d374822546b8c03d2222947ac829679ad38f78903bc3ecb31e52f9f4b6ec2d1c",
+      "bytes": 1975
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-R2-green.txt",
+      "sha256": "b4c54c1232ae7680f480aa2dd6c3d10fc18ff03dc40ec6da986893a28755834f",
+      "bytes": 2537
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-R2-green.xml",
+      "sha256": "83c0e6265f17334186fb61247678cc440f6e8b27889ae5b213533355e84e498c",
+      "bytes": 4051
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-R2-red-v2.txt",
+      "sha256": "85d4af6488103583bcd373bf66a9ab27e2eb59261d6849291d50ef1489c58579",
+      "bytes": 4490
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-R2-red-v2.xml",
+      "sha256": "6a3d2025eb40935d0499106a05adb2d8fb37a4e97610ae242440cd7def709ea5",
+      "bytes": 4791
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-R2-red-v3.txt",
+      "sha256": "a2d6b855825d6671f62d2fcccc38d2a50b9496dc838c63fa6eb98a3e1db18d90",
+      "bytes": 5756
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-R2-red-v3.xml",
+      "sha256": "8e344e7a8c65a919dfd2aa4896b6a836b6f42965a93a3f0ce92340157bfde558",
+      "bytes": 6088
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-R2-red.txt",
+      "sha256": "4a3f0e9c60ad6bc87b8d0bdb0120f6d140070ef5f1c89b7fb2f1f17e663fa04f",
+      "bytes": 4924
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-R2-red.xml",
+      "sha256": "462f4442ac0be266800850f71e572648fb643352e766fee0939cd85d90d400d0",
+      "bytes": 5251
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-R3-green.txt",
+      "sha256": "68d3cd10e9cd9211a93d12773a6952f395908235f8c56b3364cc49630cf43c10",
+      "bytes": 222
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-R3-green.xml",
+      "sha256": "db24413844f760dbf3c693c0830d85445c75082d59fc673571cac484fec5ebeb",
+      "bytes": 5226
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-R3-red.txt",
+      "sha256": "0ed776802aeee57293bcf8d9e254c9dd70457553488eab8d34627d602e2c3750",
+      "bytes": 3481
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-R3-red.xml",
+      "sha256": "88168d63d1f073ab2147c9a237a6d28aed7e2c01eea154359010d1b2dfd9c046",
+      "bytes": 3726
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-reimport-exit.txt",
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "bytes": 3
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-reimport.txt",
+      "sha256": "854371ea205ded091dbe42e86851d0c10a07f7f93d0cd532ff23050af57f93c5",
+      "bytes": 546
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-stage-exit.txt",
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "bytes": 3
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-stage.txt",
+      "sha256": "de0e4818ecf4fb044c1642a211d664e95d5f1cf33222d9dd6634f4fd3f6dd386",
+      "bytes": 1761
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-stage.xml",
+      "sha256": "31a86a3592476f280cfb9c7ba603c66611bd97e832b7e26c8f5e9fe6591412d8",
+      "bytes": 47093
+    },
+    {
+      "path": "docs/development/evidence/M2-r2-worker-build.txt",
+      "sha256": "2da3376a974ff3bc0567c4bb7bb924a1df4c14bdaf37f6c042011078a085c948",
+      "bytes": 1795
+    },
+    {
+      "path": "docs/development/evidence/M2-live-api-first.json",
+      "sha256": "d6ee8ec2dec62eed496e3bf2cae115182e152e543136e9bcd2cfff713c3cac12",
+      "bytes": 1337
+    }
+  ],
+  "script_errors": [
+    "R1文档批处理SyntaxError及patch上下文错误，后续f2d5631补齐；非业务红测。",
+    "R2首次完整发布用例4秒租约过短；red-v2时区计算错误；red-v3为准确目标窗口业务红测，原件保留。",
+    "R2红测回放脚本首次SyntaxError未执行，后续恢复旧领取逻辑准确复现并还原修复；非业务红测。",
+    "只读复核脚本首次KeyError: bucket；按资产契约补显式bucket/原桶配置后通过，非业务红测。"
+  ]
+}

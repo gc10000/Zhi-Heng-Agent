@@ -12,7 +12,7 @@ SUMMARY = ROOT / 'docs/development/reviews/M2-validation-summary.json'
 BASE = 'ea798d1f08326a7798c3ea12169f7276bf4aa4ad'
 
 
-def verify_results():
+def verify_results(*, live_report=None, legacy_report=None):
     summary = json.loads(SUMMARY.read_text(encoding='utf-8'))
     for item in summary['raw_evidence']:
         if audit.sha(ROOT / item['path']) != item['sha256']:
@@ -24,10 +24,12 @@ def verify_results():
     counts = dict(Counter(t.attrib['classname'].split('.')[1] for t in suite.findall('testcase')))
     if int(suite.attrib['tests']) != stage['passed'] or counts != stage['test_directory_counts']:
         raise ValueError('阶段摘要与实际JUnit数量不符')
-    live = json.loads((ROOT / 'docs/development/evidence/M2-live-api-first.json').read_text(encoding='utf-8'))
+    live_path = ROOT / (live_report or summary['live_api'].get('report', 'docs/development/evidence/M2-live-api-first.json'))
+    live = json.loads(live_path.read_text(encoding='utf-8'))
     if not live['passed'] or not all(live['checks'].values()) or live['checks'] != summary['live_api']['checks']:
         raise ValueError('真实API报告没有完整通过')
-    legacy = (ROOT / 'docs/development/evidence/M2-legacy-reimport-v2.txt').read_text(encoding='utf-8', errors='replace')
+    legacy_path = ROOT / (legacy_report or summary['legacy_reimport'].get('report', 'docs/development/evidence/M2-legacy-reimport-v2.txt'))
+    legacy = legacy_path.read_text(encoding='utf-8', errors='replace')
     if 'Ran ' + str(summary['legacy_reimport']['passed']) + ' tests' not in legacy or 'OK' not in legacy:
         raise ValueError('既有回归实际结果不匹配')
     if any(summary[k]['exit_code'] for k in ('stage', 'legacy_reimport', 'live_api')):
@@ -39,10 +41,17 @@ def verify_results():
 
 
 def main():
+    global SUMMARY, MANIFEST, BASE
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--check', action='store_true')
+    parser.add_argument('--summary', type=Path, default=SUMMARY)
+    parser.add_argument('--manifest', type=Path, default=MANIFEST)
+    parser.add_argument('--base', default=BASE)
+    parser.add_argument('--live-report', type=Path)
+    parser.add_argument('--legacy-report', type=Path)
     args = parser.parse_args()
-    summary = verify_results()
+    SUMMARY, MANIFEST, BASE = ROOT / args.summary, ROOT / args.manifest, args.base
+    summary = verify_results(live_report=args.live_report, legacy_report=args.legacy_report)
     audit.MANIFEST = MANIFEST
     if args.check:
         saved = json.loads(MANIFEST.read_text(encoding='utf-8'))
@@ -63,6 +72,7 @@ def main():
     else:
         saved = {'notice': 'M2独立提交快照；原始证据留本机，脱敏摘要引用其hash。自身hash不循环记录。非总控通过结论。',
                  'baseline_commit': BASE, 'pre_submission_head': audit.git('rev-parse', 'HEAD')[0],
+                 'summary': SUMMARY.relative_to(ROOT).as_posix(),
                  'file_count': len(files), 'python_syntax_files': python_count,
                  'checked_markdown_links': len(links), 'secret_scan': '未匹配本机敏感配置值',
                  'stage_passed': summary['stage']['passed'], 'files': files, 'links': links}
