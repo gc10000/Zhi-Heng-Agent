@@ -27,18 +27,31 @@ const question = ref(''), error = ref(''), busy = ref(false), restored = ref(fal
 const streaming = useRunStream(() => {
   if (auth.user) void cache.invalidateQueries({ queryKey: scopeKey(auth.user.user_id, auth.kb, 'history', cid.value) })
 })
-let epoch = 0
-function close() { epoch++; streaming.close(); runs.forget(selectedRun.value); selectedRun.value = '' }
+let epoch = 0, restoreGeneration = 0, resolvedTarget = ''
+function close() { epoch++; restoreGeneration++; resolvedTarget = ''; streaming.close(); runs.forget(selectedRun.value); selectedRun.value = '' }
 watch(cid, () => { close(); run.value = undefined; ui.selectedCitation = undefined; ui.evidence = false; error.value = ''; restored.value = false }, { immediate: true })
-watch(() => [history.data.value, conversation.data.value], async ([data]) => {
-  if (!data || restored.value || !cid.value) return
-  const version = epoch, currentId = cid.value
+watch(() => [history.data.value, conversation.data.value, history.isFetching.value, conversation.isFetching.value,
+  history.hasNextPage.value, history.error.value, conversation.error.value], async () => {
+  const request = ++restoreGeneration, version = epoch, currentId = cid.value
+  // 缓存可先显示历史，当前运行须等本次目录和历史刷新完成再选择，不能以旧终态锁住恢复。
+  if (!auth.user || !cid.value || !history.data.value || conversation.data.value?.conversation_id !== cid.value
+    || history.isFetching.value || conversation.isFetching.value || history.error.value || conversation.error.value) {
+    restored.value = false; return
+  }
   const rows = messages.value
-  // 等待历史全部页到齐，再恢复末轮快照；先清空旧会话运行，拒绝迟到响应。
   const lastRun = conversation.data.value?.active_run_id || (!history.hasNextPage.value ? rows.at(-1)?.run_id : undefined)
+  // 同一目标的历史刷新不重置正在流式接收的状态；改变目标才读取新的快照。
+  if (lastRun && lastRun === resolvedTarget) { restored.value = true; return }
+  restored.value = false
   if (!lastRun) { restored.value = !history.hasNextPage.value; return }
-  try { const value = await api.request<Run>(`/runs/${lastRun}`); if (version !== epoch || currentId !== cid.value) return; run.value = value; restored.value = true; if (!terminal(value.state)) subscribe() }
-  catch (e) { if (version === epoch) error.value = (e as Error).message }
+  streaming.close()
+  try {
+    const value = await api.request<Run>(`/runs/${encodeURIComponent(lastRun)}`)
+    if (request !== restoreGeneration || version !== epoch || currentId !== cid.value) return
+    if (selectedRun.value !== value.run_id) runs.forget(selectedRun.value)
+    run.value = value; resolvedTarget = lastRun; restored.value = true
+    if (!terminal(value.state)) subscribe()
+  } catch (e) { if (request === restoreGeneration && version === epoch) error.value = (e as Error).message }
 }, { immediate: true })
 function subscribe() {
   if (run.value) streaming.start(run.value)
@@ -52,12 +65,16 @@ async function send() {
     if (!pendingRequest || pendingRequest.question !== question.value || pendingRequest.products !== products) pendingRequest = { question: question.value, products, key: crypto.randomUUID() }
     const value = await api.post<Run>(`/conversations/${cid.value}/runs`, { question: question.value, kb_id: auth.kb, product_ids: ui.productIds, client_request_id: pendingRequest.key })
     if (version !== epoch) return
-    run.value = value; question.value = ''; pendingRequest = undefined; restored.value = true
-    await cache.invalidateQueries({ queryKey: scopeKey(auth.user!.user_id, auth.kb, 'history', cid.value) }); subscribe()
+    restoreGeneration++; run.value = value; question.value = ''; pendingRequest = undefined; restored.value = true; resolvedTarget = value.run_id
+    subscribe()
+    await Promise.all([
+      cache.invalidateQueries({ queryKey: scopeKey(auth.user!.user_id, auth.kb, 'history', cid.value) }),
+      cache.invalidateQueries({ queryKey: scopeKey(auth.user!.user_id, auth.kb, 'conversation', cid.value) }),
+    ])
   } catch (e) { if (version === epoch) error.value = (e as Error).message } finally { busy.value = false }
 }
 async function command(name: 'cancel' | 'confirm-product', fields = {}) {
-  if (commandBusy.value) return
+  if (commandBusy.value || !restored.value) return
   commandBusy.value = true
   try { await streaming.command(name, fields) }
   catch (e) { error.value = (e as Error).message }
