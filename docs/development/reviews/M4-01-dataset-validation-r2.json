@@ -1,0 +1,258 @@
+{
+  "kind": "M4-01_dataset_revision_r2_not_baseline_or_stage_acceptance",
+  "date": "2026-10-24",
+  "branch": "main",
+  "base_commit": "b02242bf23d590cb6fa9de36a5e15b8438cac0f3",
+  "task_status": "未验收，修订待定向复核和真实基线",
+  "M4_completed": 1,
+  "M4_total": 10,
+  "core_completed": 44,
+  "core_total": 76,
+  "M5_authorized": false,
+  "dataset": {
+    "dataset_sha256": "4a35321fc21a28f5b2986a84d8c8c77cf7c43b9da258cfe6ed3d5ebbf5e0a98c",
+    "manifest_sha256": "e91f599e1b180f3ad8651ebe70e987c347d78dc9c2d9b44cdf9872977635a3ae",
+    "review_output_sha256": "e8eb4157d7b52543d8a207c314e480142563f18537c917525efd682df9ef37cb",
+    "parent_dataset_sha256": "041c2a4c27929bf82879e8682acd7b4d0074e2476396acd5bf97507c9f33d975",
+    "parent_manifest_sha256": "2d60f4c74c74e079230501530dc2c87ec4f7622b8dfe941d3e148494eec2628f",
+    "review_source": {
+      "artifact": "docs/development/reviews/M4-01-dataset-review.md",
+      "artifact_sha256": "0c92ff4f856c84e3220f9e8ecd038a7ef0114a85b7415f7d8f459cd39bc6e0b2",
+      "commit": "b02242bf23d590cb6fa9de36a5e15b8438cac0f3",
+      "method": "independent_source_audit",
+      "reviewer": "control_assistant"
+    },
+    "questions": 50,
+    "splits": {
+      "dev": 35,
+      "heldout": 15
+    },
+    "category_splits": {
+      "ambiguity": {
+        "dev": 1
+      },
+      "configuration": {
+        "dev": 16,
+        "heldout": 3
+      },
+      "cross_model": {
+        "dev": 1
+      },
+      "diagram": {
+        "heldout": 1,
+        "dev": 2
+      },
+      "parameter": {
+        "dev": 10,
+        "heldout": 8
+      },
+      "troubleshooting": {
+        "dev": 5,
+        "heldout": 1
+      },
+      "unanswerable": {
+        "heldout": 2
+      }
+    },
+    "methods": {
+      "source_checked_assistant_draft": 7,
+      "independent_assistant_review": 43
+    },
+    "statuses": {
+      "draft": 7,
+      "reviewed": 43
+    },
+    "content_changes": [
+      {
+        "id": "support-v1-001",
+        "fields": [
+          "question",
+          "expected"
+        ],
+        "original_verdict": "建议补充"
+      },
+      {
+        "id": "support-v1-023",
+        "fields": [
+          "question",
+          "expected"
+        ],
+        "original_verdict": "建议补充"
+      },
+      {
+        "id": "support-v1-037",
+        "fields": [
+          "question",
+          "expected"
+        ],
+        "original_verdict": "建议补充"
+      },
+      {
+        "id": "support-v1-038",
+        "fields": [
+          "allowed_evidence"
+        ],
+        "original_verdict": "建议补充"
+      },
+      {
+        "id": "support-v1-042",
+        "fields": [
+          "question",
+          "expected"
+        ],
+        "original_verdict": "需修改"
+      },
+      {
+        "id": "support-v1-043",
+        "fields": [
+          "question",
+          "expected"
+        ],
+        "original_verdict": "需修改"
+      },
+      {
+        "id": "support-v1-047",
+        "fields": [
+          "expected",
+          "allowed_evidence"
+        ],
+        "original_verdict": "需修改"
+      }
+    ],
+    "human_reviewed": 0,
+    "sources": [
+      {
+        "sha256": "72983cc9b60f7f165bf89d3f6cbe39d56c4db148fd4b894c70c37378f8be5c8e",
+        "pages": 6,
+        "hash_matches": true
+      },
+      {
+        "sha256": "aa246f20a8b2a059b9e2c67410d0eccc2d86f3c643cc71a7b3eff6d7acff1523",
+        "pages": 34,
+        "hash_matches": true
+      },
+      {
+        "sha256": "9eda0af991762156befd5b6ac651730835c7b8732b0c48d8761574406298ebb9",
+        "pages": 13,
+        "hash_matches": true
+      }
+    ],
+    "assets": [
+      {
+        "sha256": "45d6677fc20d51ae3e09228e14fa3b3361504982b089b3a9bcdf102dade79077",
+        "physical_page": 4,
+        "size": [
+          788,
+          334
+        ],
+        "decoded": true
+      },
+      {
+        "sha256": "3b5348061fda10bcc046989cc929472ffc72ad5aab95dfe9a5a3a578b942389a",
+        "physical_page": 13,
+        "size": [
+          844,
+          416
+        ],
+        "decoded": true
+      },
+      {
+        "sha256": "c07006439e591ba7da551153e7499693277906b1198fa6b1f2a9f713936c61bc",
+        "physical_page": 12,
+        "size": [
+          842,
+          834
+        ],
+        "decoded": true
+      }
+    ],
+    "old_artifacts_unchanged": 67,
+    "clarification_metric_before": {
+      "allowed_evidence_group_recall": 0.0,
+      "behavior_matches": true,
+      "human_answer_correctness": null
+    },
+    "clarification_metric_after": {
+      "allowed_evidence_group_recall": null,
+      "behavior_matches": true,
+      "human_answer_correctness": null
+    }
+  },
+  "tests": [
+    {
+      "prefix": "M4-01-r2-annotation-red",
+      "exit_code": 1,
+      "tests": 30,
+      "failed": 2,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 28,
+      "deselected": 0,
+      "seconds": 20.49,
+      "type": "offline_unit",
+      "junit": "docs/development/evidence/M4-01-r2-annotation-red.xml"
+    },
+    {
+      "prefix": "M4-01-r2-content-binding-red",
+      "exit_code": 1,
+      "tests": 30,
+      "failed": 1,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 29,
+      "deselected": 0,
+      "seconds": 11.35,
+      "type": "offline_unit",
+      "junit": "docs/development/evidence/M4-01-r2-content-binding-red.xml"
+    },
+    {
+      "prefix": "M4-01-r2-evaluation-green",
+      "exit_code": 0,
+      "tests": 39,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 39,
+      "deselected": 0,
+      "seconds": 9.17,
+      "type": "offline_unit",
+      "junit": "docs/development/evidence/M4-01-r2-evaluation-green.xml"
+    }
+  ],
+  "final_current_tests": {
+    "prefix": "M4-01-r2-evaluation-green",
+    "exit_code": 0,
+    "tests": 39,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 39,
+    "deselected": 0,
+    "seconds": 9.17,
+    "type": "offline_unit",
+    "junit": "docs/development/evidence/M4-01-r2-evaluation-green.xml"
+  },
+  "real_integration_tests_run": 0,
+  "paid_calls": 0,
+  "model_calls": 0,
+  "service_writes": 0,
+  "baseline_executed": false,
+  "heldout_executed": false,
+  "checks": {
+    "readable_full_records_equal": 50,
+    "old_artifact_hashes": 67,
+    "source_hashes": 3,
+    "asset_hashes_and_decode": 3,
+    "python_syntax": 4,
+    "history_044_unchanged": true,
+    "scope_047_unchanged": true,
+    "split_group_ids_unchanged": true,
+    "review_file_matches_git_commit": true
+  },
+  "limits": [
+    "43题为独立助手原内容审核；7修订题待定向复核；人工0",
+    "原件页数承接既有审核，本轮只核对字节hash；裁图完整解码不等于重新目视全部题目",
+    "heldout无歧义/跨型，dev无资料不足；划分未改，不依据heldout调参",
+    "未重跑历史437、重导入3或真实API；未建立真实基线配置/独立语料准确资产映射"
+  ]
+}

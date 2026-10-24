@@ -1,0 +1,126 @@
+{
+  "kind": "M4-01_dataset_revision_r2_independent_snapshot_not_stage_acceptance",
+  "summary": "docs/development/reviews/M4-01-dataset-validation-r2.json",
+  "summary_sha256": "ed63c617999cf599d1762f819fd6f6c7a51a81a32846ad7843471581d6e2b05b",
+  "base_commit": "b02242bf23d590cb6fa9de36a5e15b8438cac0f3",
+  "files": [
+    {
+      "path": "app/evaluation/validate_dataset.py",
+      "sha256": "68c29ff4a5f2dffa93fb644c554a1cd45344f21498ee74fc2db2844678dafe0d"
+    },
+    {
+      "path": "docs/development/CHANGELOG.md",
+      "sha256": "6a655cef893a4a419d78697216eb40feac5c2828cbbb2d9082de6c105757b1b5"
+    },
+    {
+      "path": "docs/development/DECISIONS.md",
+      "sha256": "fa75d50faa0fac5062963cceb5daea9458b9a862c60640980b6946e3f497fa1e"
+    },
+    {
+      "path": "docs/development/PROGRESS.md",
+      "sha256": "60264fdb8297006a75ba5c64ad0b14cd384d602d44a39e7201cd834acc9d02fb"
+    },
+    {
+      "path": "docs/development/REVIEW_STATUS.md",
+      "sha256": "623f6936d7bf5a32d72333bec1f8a37ec117c6f6abb9f6278e6701d36fd79639"
+    },
+    {
+      "path": "docs/development/records/M4-01.md",
+      "sha256": "4e589373f3158081682d8d8696f368507c9386789382a41686a8211f35ad8515"
+    },
+    {
+      "path": "docs/development/reviews/M4-01-dataset-review.md",
+      "sha256": "0c92ff4f856c84e3220f9e8ecd038a7ef0114a85b7415f7d8f459cd39bc6e0b2"
+    },
+    {
+      "path": "docs/development/reviews/M4-01-dataset-revision-r2.md",
+      "sha256": "15eb5e081ebc145531191ccc2da8602edffb5def2501ac105f955dabd1c186fc"
+    },
+    {
+      "path": "docs/evaluation/labeling-guide.md",
+      "sha256": "21a80b5bedddbfcefbf0d3ba5a6ddfde21d72e9c0ee822bcbfc89b916d12d829"
+    },
+    {
+      "path": "docs/plans/DEVELOPMENT_CONTRACTS.md",
+      "sha256": "d220d7482eb470016298aa892baa819a2c3eac9668ecf15f49f68dfe24479883"
+    },
+    {
+      "path": "docs/plans/DEVELOPMENT_TODO.md",
+      "sha256": "75207810705e9dedab2f2045ed3acffbe5058c9e3bde5f87c0255986067e9bd5"
+    },
+    {
+      "path": "docs/plans/tasks/M4-rag-quality.md",
+      "sha256": "392f93a986d9c380428be232305115f80e22b46396d0b31a9807f156187a349c"
+    },
+    {
+      "path": "tests/unit/test_evaluation_dataset.py",
+      "sha256": "9290f7ac1e0a1e9de3d06ec3141cd908da4c3c7a0bcd65835b637ed5eb6d1206"
+    }
+  ],
+  "local_only_evidence": [
+    {
+      "path": "docs/development/evidence/M4-01-build-dataset-r2.py",
+      "sha256": "9fff2228e2b5d2b4a53282d143e26e51682f85198001508b205db0a0ce85897a"
+    },
+    {
+      "path": "docs/development/evidence/M4-01-r2-annotation-red.txt",
+      "sha256": "937e83f7c06f312ab6200c670589848e1bf58f3d0effa0350730f0966f4896dd"
+    },
+    {
+      "path": "docs/development/evidence/M4-01-r2-annotation-red.xml",
+      "sha256": "22d26bd51d249b4bc96cdd53d47dd414c5223e577b193293f239c6a084885d6b"
+    },
+    {
+      "path": "docs/development/evidence/M4-01-r2-before.json",
+      "sha256": "24c26a7ef8cd4a2f3b2592742d0c007de4ad656c89857d79cde1559fe7124d91"
+    },
+    {
+      "path": "docs/development/evidence/M4-01-r2-build.txt",
+      "sha256": "43455df22e605d0d72d8722567ffafd897c8c142a1f38d35b0394298fe2e6199"
+    },
+    {
+      "path": "docs/development/evidence/M4-01-r2-content-binding-red.txt",
+      "sha256": "5083e5ba5842dcf4fc7364c8a3c27991dc7c32965b5f404cf7bc4514bd551115"
+    },
+    {
+      "path": "docs/development/evidence/M4-01-r2-content-binding-red.xml",
+      "sha256": "d2873c09302dc36e9741cdbed44877bb80c620d85cf7103d2b7151edd3cea204"
+    },
+    {
+      "path": "docs/development/evidence/M4-01-r2-dataset-validate.txt",
+      "sha256": "2be69e5ab4a88ad287fd29614868238775df0bf5db9050eddf83706fef63d3a3"
+    },
+    {
+      "path": "docs/development/evidence/M4-01-r2-evaluation-green.txt",
+      "sha256": "9f445928207b665c6a3730cdfe7eb9f26ac9e0f5403ce87b9907c4bc01f7f0ff"
+    },
+    {
+      "path": "docs/development/evidence/M4-01-r2-evaluation-green.xml",
+      "sha256": "896faa7a802724e5a8246fba7a2642cb45e21d320b91f8c268214547c7a03e18"
+    },
+    {
+      "path": "docs/development/evidence/M4-01-r2-original-validate.txt",
+      "sha256": "a42b22a1e638c1448efd14992e65671edf3f2e6389108d5977cb7e3d75c8f136"
+    },
+    {
+      "path": "docs/development/evidence/M4-01-r2-verify.py",
+      "sha256": "861e9afc3cdac797d044479caa127564e888449a3cbf298af6b869262a67e478"
+    },
+    {
+      "path": "evals/datasets/support-v1-r2-manifest.json",
+      "sha256": "e91f599e1b180f3ad8651ebe70e987c347d78dc9c2d9b44cdf9872977635a3ae"
+    },
+    {
+      "path": "evals/datasets/support-v1-r2.jsonl",
+      "sha256": "4a35321fc21a28f5b2986a84d8c8c77cf7c43b9da258cfe6ed3d5ebbf5e0a98c"
+    },
+    {
+      "path": "output/evals/support-v1-r2-review.md",
+      "sha256": "e8eb4157d7b52543d8a207c314e480142563f18537c917525efd682df9ef37cb"
+    },
+    {
+      "path": "output/evals/support-v1-r2-revision-report.json",
+      "sha256": "a0d6508f596a683c8a5808f33396d6d774d6c477f2587bda189851128a88f85f"
+    }
+  ]
+}

@@ -261,7 +261,7 @@ Vue Query按用户/kb隔离目录与历史；401/退出清Query、设备/证据U
 
 ## M4评测接续约定（未验收）
 
-JSONL逐题固定id/group/split、问题/产品/历史、期望行为、必需证据组及替代原文页/资产。辅助草稿与真实人工复核分开；用户选择先等待人工复核，当前不执行真实基线或heldout。运行器不依赖M6，输出尝试日志/结果/参数manifest，按相同配置恢复；heldout需最终阶段与精确策略列表、题集/开发报告hash。真实适配器只传输入字段，标准答案不进上下文；范围限定m1_test_m4数据库/集合和m4-test归属/对象前缀，以冻结原件与活动修订拒绝串库。正式工作台基线为QueryRunner/V2Index，旧图保留兼容。尚未建立实际baseline.yaml和三资料语料，不把单元注入当真实基线。见[evaluation手册](../evaluation/labeling-guide.md)。
+JSONL逐题固定id/group/split、问题/产品/历史、期望行为、必需证据组及替代原文页/资产。辅助草稿、用户委托的独立助手原件审核、真实人工三种身份分开。新增annotation.method=independent_assistant_review；reviewed必须有reviewer及review的artifact/文档sha256/40位commit/independent_source_audit/subject_sha256。subject绑定不含annotation的原始对象规范JSON指纹，改内容后不能继承旧已审；修订草稿可关联旧review但不能宣称已审。schema校验引用形状/内容绑定，实际来源文件与Git提交字节由交付检查复核，不假称认证身份。human_reviewed只记真实人工。support-v1-r2保留原35/15及稳定ID，43题原内容助手已审、7题修订草稿，真实人工0；原版字节不变。澄清题允许空证据，来源组召回null，不强迫引用某型号。用户不必再逐题核50题，修订先定向回交；本轮不执行基线或heldout。运行器不依赖M6，输出尝试日志/结果/参数manifest，按相同配置恢复；heldout需最终阶段与精确策略列表、题集/开发报告hash。真实适配器只传输入字段，标准答案不进上下文；范围限定m1_test_m4数据库/集合和m4-test归属/对象前缀，以冻结原件与活动修订拒绝串库。正式工作台基线为QueryRunner/V2Index，旧图保留兼容。尚未建立实际baseline.yaml和三资料语料，不把单元注入当真实基线。见[evaluation手册](../evaluation/labeling-guide.md)。
 
 ## M4供应商能力与失败传播
 

@@ -10,6 +10,74 @@ from app.evaluation.validate_dataset import validate_dataset
 from app.evaluation.runner import run_experiment
 
 
+def independent_annotation(row):
+    from app.evaluation.validate_dataset import fingerprint
+    return {'method': 'independent_assistant_review', 'status': 'reviewed',
+            'reviewer': 'control_assistant', 'review': {
+                'artifact': 'docs/development/reviews/synthetic-dataset-review.md',
+                'artifact_sha256': 'b' * 64, 'commit': 'c' * 40,
+                'method': 'independent_source_audit',
+                'subject_sha256': fingerprint({k: v for k, v in row.items() if k != 'annotation'})}}
+
+
+def test_independent_assistant_review_keeps_real_identity_and_content_binding(tmp_path):
+    row = case()
+    row['annotation'] = independent_annotation(row)
+    data, manifest, _ = freeze(tmp_path, [row])
+    result = validate_dataset(data, manifest=manifest, minimum=1)[0]
+    assert result['annotation']['method'] == 'independent_assistant_review'
+    assert result['annotation']['reviewer'] == 'control_assistant'
+    assert result['annotation']['status'] == 'reviewed'
+
+
+def test_revision_cannot_inherit_old_assistant_review_but_keeps_pending_provenance(tmp_path):
+    row = case()
+    row['annotation'] = independent_annotation(row)
+    row['expected']['key_points'] = ['48 V']
+    data, manifest, _ = freeze(tmp_path, [row])
+    with pytest.raises(ValueError, match='审阅内容'):
+        validate_dataset(data, manifest=manifest, minimum=1)
+    row['annotation'].update(method='source_checked_assistant_draft', status='draft', reviewer=None)
+    data, manifest, _ = freeze(tmp_path, [row])
+    assert validate_dataset(data, manifest=manifest, minimum=1)[0]['annotation']['status'] == 'draft'
+
+
+@pytest.mark.parametrize('change', [
+    lambda a: a.pop('review'),
+    lambda a: a.update(reviewer='   '),
+    lambda a: a['review'].update(artifact='../private-review.md'),
+    lambda a: a['review'].update(artifact_sha256='invalid'),
+    lambda a: a['review'].update(commit='main'),
+    lambda a: a['review'].update(method='self_checked'),
+    lambda a: a.update(method='source_checked_assistant_draft'),
+])
+def test_assistant_approval_requires_traceable_review_without_draft_promotion(tmp_path, change):
+    row = case(); row['annotation'] = independent_annotation(row)
+    change(row['annotation'])
+    data, manifest, _ = freeze(tmp_path, [row])
+    with pytest.raises(ValueError):
+        validate_dataset(data, manifest=manifest, minimum=1)
+
+
+def test_human_review_stays_separate_and_requires_named_reviewer(tmp_path):
+    row = case(); row['annotation'] = {'method': 'human_reviewed', 'status': 'reviewed'}
+    data, manifest, _ = freeze(tmp_path, [row])
+    with pytest.raises(ValueError): validate_dataset(data, manifest=manifest, minimum=1)
+    row['annotation']['reviewer'] = '合成测试中的人工角色（非真实题集签字）'
+    data, manifest, _ = freeze(tmp_path, [row])
+    assert validate_dataset(data, manifest=manifest, minimum=1)[0]['annotation']['method'] == 'human_reviewed'
+
+
+def test_clarification_without_required_evidence_has_no_artificial_recall_penalty(tmp_path):
+    from app.evaluation.runner import evidence_metrics
+    row = case(); row['expected'].update(behavior='clarify', key_points=['先询问型号'])
+    row['allowed_evidence'] = []
+    data, manifest, _ = freeze(tmp_path, [row])
+    validate_dataset(data, manifest=manifest, minimum=1)
+    assert evidence_metrics(row, {'behavior': 'clarify', 'answer': '请提供设备型号', 'citations': []}) == {
+        'allowed_evidence_group_recall': None, 'behavior_matches': True, 'human_answer_correctness': None}
+
+
 def case(qid='q1', split='dev', group='g1'):
     return {'id': qid, 'category': 'parameter', 'group_id': group, 'split': split,
             'question': f'{qid}：AX的额定电压是多少？', 'product_names': ['AX'], 'history': [],

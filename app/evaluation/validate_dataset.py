@@ -42,15 +42,28 @@ class Expected(Strict):
     forbidden_claims: list[Text]
 
 
+class ReviewProvenance(Strict):
+    """审阅针对的题目内容与不可变来源；不包含私有审阅全文。"""
+    artifact: Annotated[str, Field(pattern=r'^docs/development/reviews/[A-Za-z0-9_.-]+\.md$', strict=True)]
+    artifact_sha256: Digest
+    commit: Annotated[str, Field(pattern=r'^[0-9a-f]{40}$', strict=True)]
+    method: Literal['independent_source_audit']
+    subject_sha256: Digest
+
+
 class Annotation(Strict):
-    method: Literal['source_checked_assistant_draft', 'human_reviewed']
+    method: Literal['source_checked_assistant_draft', 'independent_assistant_review', 'human_reviewed']
     status: Literal['draft', 'reviewed']
     reviewer: Text | None = None
+    review: ReviewProvenance | None = None
 
     @model_validator(mode='after')
-    def human_status(self):
-        if self.status == 'reviewed' and (self.method != 'human_reviewed' or not self.reviewer):
-            raise ValueError('人工复核状态须明确真实复核人，辅助草稿不能冒充通过')
+    def review_status(self):
+        if self.status == 'reviewed':
+            if self.method == 'source_checked_assistant_draft' or not (self.reviewer and self.reviewer.strip()):
+                raise ValueError('已审状态须明确真实审阅身份，辅助草稿不能冒充通过')
+            if self.method == 'independent_assistant_review' and self.review is None:
+                raise ValueError('独立助手审阅须绑定来源文档、提交、方法和题目内容')
         return self
 
 
@@ -66,6 +79,19 @@ class Question(Strict):
     allowed_evidence: list[list[Evidence]]
     source_scope: list[Digest] = Field(min_length=1)
     annotation: Annotation
+
+    @model_validator(mode='before')
+    @classmethod
+    def review_content(cls, value):
+        # 对原始字段求指纹，避免可选字段补null或模型序列化改变被审内容。
+        if isinstance(value, dict):
+            annotation = value.get('annotation')
+            if (isinstance(annotation, dict) and annotation.get('method') == 'independent_assistant_review'
+                    and annotation.get('status') == 'reviewed' and isinstance(annotation.get('review'), dict)):
+                content = {k: v for k, v in value.items() if k != 'annotation'}
+                if annotation['review'].get('subject_sha256') != fingerprint(content):
+                    raise ValueError('审阅内容指纹不一致：修改后须退回草稿并重新审阅')
+        return value
 
     @model_validator(mode='after')
     def support(self):
@@ -131,6 +157,8 @@ def main():
         parser.exit(1, '题集校验失败：请核对JSONL字段、来源清单、冻结指纹与分组划分；不输出题目或私有路径。\n')
     print(json.dumps({'passed': True, 'questions': len(rows), 'splits': dict(Counter(r['split'] for r in rows)),
                       'categories': dict(Counter(r['category'] for r in rows)),
+                      'annotation_methods': dict(Counter(r['annotation']['method'] for r in rows)),
+                      'human_reviewed': sum(r['annotation']['method'] == 'human_reviewed' and r['annotation']['status'] == 'reviewed' for r in rows),
                       'annotation_status': dict(Counter(r['annotation']['status'] for r in rows))}, ensure_ascii=False))
 
 

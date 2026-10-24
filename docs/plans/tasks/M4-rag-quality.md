@@ -26,22 +26,24 @@ M3第2轮已通过总控审查，授权M4-01至M4-10按依赖连续执行，从M
 ### M4-01：首批 50 题与原链路基线
 
 **依赖：**M0-09,M1-11,M2-12。
-**文件：**`evals/datasets/support-v1.jsonl`; `evals/datasets/split-manifest.json`; `evals/configs/baseline.yaml`; `app/evaluation/validate_dataset.py`; `app/evaluation/runner.py`; `docs/evaluation/labeling-guide.md`。
+**文件：**原`evals/datasets/support-v1.jsonl`及`split-manifest.json`保留；新增`evals/datasets/support-v1-r2.jsonl`及`support-v1-r2-manifest.json`；基线配置计划为`evals/configs/baseline-r2.yaml`（尚未建立）；`app/evaluation/validate_dataset.py`; `app/evaluation/runner.py`; `docs/evaluation/labeling-guide.md`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
 - [x] **M4-01.1** 覆盖参数/配置/故障/型号歧义/图示/跨型/无答案。
-- [ ] **M4-01.2** 人工标标准证据与适用型号。
+- [ ] **M4-01.2** 标标准证据与适用型号，按真实身份区分用户委托的独立助手审阅与人工；原50题审核后新增r2，43题沿用已审内容、7题修订待定向复核，人工0（ADR-040）。
 - [ ] **M4-01.3** 建立最小 JSONL 校验器和基线运行器，固定调参/评估划分再跑原链路。
 - [x] **M4-01.V** 验证：.venv/Scripts/python.exe -m app.evaluation.validate_dataset evals/datasets/support-v1.jsonl。
 - [x] **M4-01.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**每题有来源/允许证据/期望行为；保留多个正确证据；没有捏造提升指标或提前用 heldout 调参；M4 不依赖 M6 尚未建立的运行器。
 
-首次基线实际执行入口（在本任务建立校验器/运行器后运行）：
+2026-10-24修订接续：新增`evals/datasets/support-v1-r2.jsonl`与`support-v1-r2-manifest.json`，不覆盖原版，三项必改及四项建议均落实；完整可读稿本机`output/evals/support-v1-r2-review.md`。新CLI需显式`--manifest evals/datasets/support-v1-r2-manifest.json`，未来基线也须传新manifest与新的独立输出目录，不能默认读取旧split-manifest。当前只回交修订，未执行模型、基线或heldout；M4-01依然未验收。见[回交与验证](../../development/reviews/M4-01-dataset-revision-r2.md)。
+
+首次基线执行入口（须七题修订复核、独立语料和真实配置建立后运行；当前未执行）：
 
 ```powershell
-.venv/Scripts/python.exe -m app.evaluation.validate_dataset evals/datasets/support-v1.jsonl
-.venv/Scripts/python.exe -m app.evaluation.runner --dataset evals/datasets/support-v1.jsonl --config evals/configs/baseline.yaml --output output/evals/support-v1-baseline
+.venv/Scripts/python.exe -m app.evaluation.validate_dataset evals/datasets/support-v1-r2.jsonl --manifest evals/datasets/support-v1-r2-manifest.json
+.venv/Scripts/python.exe -m app.evaluation.runner --dataset evals/datasets/support-v1-r2.jsonl --manifest evals/datasets/support-v1-r2-manifest.json --config evals/configs/baseline-r2.yaml --output output/evals/support-v1-r2-baseline
 ```
 
 运行器须遵循冻结划分，仅在允许的 split 上开展调参实验。把脱敏后的结果清单与参数记录到验收文件；`output/` 中的原始问题与回答不默认公开。
