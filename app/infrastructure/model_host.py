@@ -2,6 +2,7 @@
 import hmac
 import os
 import threading
+from typing import Literal
 from fastapi import Depends, FastAPI, Header
 from pydantic import BaseModel, ConfigDict, Field
 from app.api.errors import APIError, install
@@ -20,6 +21,7 @@ def authorize(x_model_token: str = Header('')):
 class TextBatch(BaseModel):
     model_config = ConfigDict(extra='forbid')
     texts: list[str] = Field(min_length=1, max_length=64)
+    input_type:Literal['query','document']='document'
 
 
 @app.get('/health', dependencies=[Depends(authorize)])
@@ -35,6 +37,6 @@ def embeddings(data: TextBatch):
     # 重用宿主已有设备配置；不覆盖线程、模型版本或下载设置。
     with lock:
         from app.lm.embedding_utils import generate_embeddings
-        values = generate_embeddings(data.texts)
+        values = generate_embeddings(data.texts,input_type=data.input_type)
         return {'dense': [[float(x) for x in vector] for vector in values['dense']],
                 'sparse': [{str(k): float(v) for k, v in vector.items()} for vector in values['sparse']]}

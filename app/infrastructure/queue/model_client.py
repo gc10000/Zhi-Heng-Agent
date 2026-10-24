@@ -4,6 +4,10 @@ import requests
 
 
 class HostEmbedder:
+    def __init__(self, *, input_type='document'):
+        if input_type not in {'query','document'}:raise ValueError('嵌入类型无效')
+        self.input_type=input_type
+
     def __call__(self, texts):
         from app.infrastructure.providers.policy import ProviderPolicy, ProviderFailure, policies_enabled, classify
         base, token = os.getenv('MODEL_HOST_URL'), os.getenv('MODEL_HOST_TOKEN')
@@ -14,7 +18,7 @@ class HostEmbedder:
             try:
                 with requests.Session() as http:
                     http.trust_env = False
-                    result = http.post(base.rstrip('/') + '/embeddings', json={'texts': texts},
+                    result = http.post(base.rstrip('/') + '/embeddings', json={'texts': texts} | ({'input_type':self.input_type} if self.input_type!='document' else {}),
                                        headers={'X-Model-Token': token}, timeout=policy.timeout if policy else 300)
                     result.raise_for_status()
                     values = result.json()

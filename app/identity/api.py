@@ -56,5 +56,7 @@ def me(request: Request, user=Depends(principal)):
 @router.post('/auth/logout')
 def logout(request: Request, response: Response, user=Depends(principal)):
     identity(request).logout(request.cookies[COOKIE])
+    from app.retrieval.cache import QUERY_EMBEDDINGS
+    QUERY_EMBEDDINGS.invalidate(user.user_id)
     response.delete_cookie(COOKIE, path='/api/v1')
     return {'logged_out': True}

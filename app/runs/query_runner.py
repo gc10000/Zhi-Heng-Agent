@@ -19,20 +19,20 @@ def encode(texts):
     import os
     if os.getenv('MODEL_HOST_URL') and os.getenv('MODEL_HOST_TOKEN'):
         from app.infrastructure.queue.model_client import HostEmbedder
-        return HostEmbedder()(texts)
+        return HostEmbedder(input_type='query')(texts)
     with model_lock:
         from app.lm.embedding_utils import generate_embeddings
         from app.infrastructure.providers.clients import local_call
-        return local_call('embedding', lambda: generate_embeddings(texts))
+        return local_call('embedding', lambda: generate_embeddings(texts,input_type='query'))
 
 
 def rerank(question, docs):
     if not docs:
         return []
     with model_lock:
-        from app.lm.reranker_utils import get_reranker_model
+        from app.lm.reranker_utils import compute_rerank_scores
         from app.infrastructure.providers.clients import local_call
-        scores = local_call('rerank', lambda: get_reranker_model().compute_score([[question, d['text']] for d in docs], normalize=True))
+        scores = local_call('rerank', lambda: compute_rerank_scores([[question, d['text']] for d in docs], normalize=True))
     from app.infrastructure.providers.policy import ProviderFailure
     import math
     if isinstance(scores, (int, float)):
@@ -151,7 +151,15 @@ class QueryRunner:
             from app.retrieval.search import RetrievalPolicy, retrieve
             policy = RetrievalPolicy.model_validate(self.retrieval_policy)
             plan = plan.model_copy(update={'revision_ids': tuple(r['active_revision_id'] for r in revisions)})
-            hits = retrieve(g.index(), repo, plan, embedder=self.embedder, revision_snapshot=revisions, policy=policy)
+            from app.lm.runtime import ModelRuntimePolicy
+            from app.retrieval.cache import QUERY_EMBEDDINGS,configured_model_identity
+            runtime_policy=ModelRuntimePolicy.load()
+            cache_scope=dict(user_id=user.user_id,permissions=dict(role=user.role,kbs=sorted(user.kb_ids)),
+                owner_id=g.owner_id,kb_id=row['kb_id'],products=sorted(plan.product_ids),
+                revisions=sorted((r['document_id'],r['active_revision_id']) for r in revisions),
+                model=configured_model_identity(),strategy=dict(retrieval=policy.model_dump(),plan=plan.model_dump(mode='json')))
+            scoped_embedder=lambda texts:QUERY_EMBEDDINGS.get_or_compute(cache_scope,texts,self.embedder,runtime_policy)
+            hits = retrieve(g.index(), repo, plan, embedder=scoped_embedder, revision_snapshot=revisions, policy=policy)
             candidates = from_index_hits(hits)
             pack = EvidencePack(plan=plan, candidates=candidates)
             docs = []
@@ -166,7 +174,7 @@ class QueryRunner:
                     'source_refs': metadata.get('source_refs', [])})
             stage = 'rerank'
             emit('stage.changed', {'stage': stage}, fields={'stage': stage, 'retrieval_trace': pack.trace(),
-                'query_plan': plan.model_dump(mode='json'), 'retrieval_policy': policy.model_dump()})
+                'query_plan': plan.model_dump(mode='json'), 'retrieval_policy': policy.model_dump(), 'model_runtime':runtime_policy.model_dump()})
             from app.retrieval.rerank import rank_hits
             ranked = rank_hits(row['question'], candidates, ranker=self.ranker, policy=policy)
             pack = EvidencePack(plan=plan, candidates=candidates, reranked=ranked)

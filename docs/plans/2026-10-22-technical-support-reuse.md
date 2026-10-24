@@ -105,3 +105,5 @@ Celery固定5.5.3（BSD-3-Clause，上游https://github.com/celery/celery），r
 ## M4-01/09实际接续复用（2026-10-24）
 
 最小评测复用正式RunService/QueryRunner/V2Index，不以旧四分支图替代工作台基线。供应商策略通过既有OpenAI SDK、httpx、LangChain包接口适配，实际SDK异常与MockTransport分别验证分类/重试；没有复制上游源码、没有新增依赖或升级现有模型/CUDA，沿既有锁版本和许可证。部分流失败与原生成节点/账本复用，新增安全错误码；能力声明不等于真实账号可调用性，付费0。原课程来源仍见NOTICE.md，50题本机辅助草稿不上传、不冒充人工标注。
+
+M4-07/08继续复用已有LangChain/OpenAI SDK序列化、pymilvus BGEM3EmbeddingFunction及FlagEmbedding FlagReranker；未复制第三方实现或引入新依赖。已对实际安装版BGEM3的encode_queries/encode_documents共享_encode作行为核实，按语义分流但不声称模型收益。模型宿主路径沿实际app/infrastructure/model_host.py。缓存/锁为项目薄适配，课程模型包装来源与许可证继续保留。

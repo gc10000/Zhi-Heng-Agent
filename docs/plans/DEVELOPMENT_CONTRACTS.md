@@ -307,3 +307,9 @@ V2Index.related_rows按后端owner/kb/document/revision/product范围与种子or
 AnswerBudget包含模型窗口/输出/安全余量/字符兜底/供应商输出字段；build_budgeted_prompt在完整模板渲染后计数，记录计数方式及舍弃数量，前提组原子选取。固定输入过大不调用模型。正式run内部prompt_budget、answer_support、missing_evidence_models、output_truncated用于复核，不扩展公开请求或快照调试字段。引用编号顺序严格按实际prompt_used_docs，不按原候选顺序；资产/来源须属于本次已授权资料修订。未知/残缺/非法编号在流式边界拒绝为answer_citation_invalid；原本已输出的有效部分可保留，不能写成功助手消息。代码反引号和图片alt数字不误当证据编号。
 
 answer_support区分insufficient、partial_scope、partial_context、evidence_available、partial_output，evidence_available仅表示有入选证据而非答案正确。比较缺型号证据时提示资料不足；输出达到上限时中文部分回答说明与流/历史/final一致。来源不符citation_scope_invalid，固定输入超窗prompt_budget_exceeded均不可自动重试。引用门禁只保证本次编号/来源身份，不能替代语义事实正确性审查。
+
+### M4-08 模型生命周期与缓存边界
+
+复用实际app/infrastructure/model_host.py和原BGE/精排包装，不创建重复models/host.py。首次加载双重检查锁，失败不污染单例；公共推理锁及有界小批涵盖正式/兼容调用。generate_embeddings默认document，正式QueryRunner.encode显式query；HostEmbedder默认旧document协议，query发送input_type，需新版宿主。默认模型/设备/权重不变，安装SDK两接口实际同_encode。
+
+ScopedEmbeddingCache仅存查询向量，cache_enabled默认false；范围必须完整绑定用户、权限、owner/kb、产品、活动资料/修订、模型和检索/查询策略，文本另入键。值深拷贝、异常不缓存、并发miss一次计算，TTL/LRU有界。退出递增用户代际且清现值，旧计算不能重新填新代；修订/权限变化换键，检索和run依旧授权。内部model_runtime记录实际小批/缓存配置，公开API不增加底层参数。单进程锁不宣称跨进程共享模型；真实1/2/4测量后再决定是否单独托管，不先增进程。

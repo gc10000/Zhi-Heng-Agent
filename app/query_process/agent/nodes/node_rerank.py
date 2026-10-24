@@ -1,5 +1,5 @@
 from app.utils.task_utils import *
-from app.lm.reranker_utils import get_reranker_model
+from app.lm.reranker_utils import get_reranker_model,compute_rerank_scores
 from app.core.logger import logger
 import sys
 
@@ -153,7 +153,7 @@ def step_2_rerank_docs(state, doc_items):
         sentence_pairs = [[question, t] for t in texts]
         # 计算相关性得分
         logger.info("Step 2: 正在计算相关性得分...")
-        scores = reranker.compute_score(sentence_pairs)
+        scores = compute_rerank_scores(sentence_pairs,model=reranker)
         # 将得分与文档配对并排序（按 score 降序）
         scored_docs = []
         for item, text, score in zip(doc_items, texts, scores):

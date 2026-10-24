@@ -247,3 +247,13 @@ MODEL_HOST_PORT默认8011，MODEL_HOST_URL为worker可达宿主地址，MODEL_HO
 完整模板、型号、问题、历史和证据渲染后计数，再预留输出与协议余量。没有准确生成tokenizer时按每UTF-8字节1 token保守估计并记录utf8_bytes_upper_bound；该值不是供应商usage，安全余量用于消息封装。可内部注入实际token计数器，不新增浏览器参数。字符预算继续兜底，完整父子组不可拆，固定输入超过窗口在调用模型前失败prompt_budget_exceeded；无可用证据沿原正式入口返回资料不足，不强留首条。
 
 输出上限经当前LangChain/OpenAI SDK的extra_body显式传送选定字段，同时保留原enable_thinking等供应商参数，不修改client字典；已用合成HTTP核对流/非流两字段，尚无新供应商真实调用。finish_reason=length/max_tokens时保留部分回答并在流/历史/final一致提示达到长度上限。引用白名单及asset/revision检查接正式QueryRunner；旧兼容节点共享预算/输出限制，但未宣称完成同等引用编号校验。
+
+## M4本机模型生命周期与查询向量缓存
+
+`MODEL_RUNTIME_JSON`填写根目录.env，默认空值：embedding_batch_size=4、rerank_batch_size=8、cache_enabled=false、cache_max_entries=128、cache_ttl_seconds=60。批量严格整数1..64、缓存项1..2048、TTL秒1..3600、开关严格布尔，禁止未知字段；非法配置只报变量用途。实际.env不改，不升级PyTorch/CUDA或权重。
+
+API/旧节点/模型宿主使用进程内首次加载锁和公共推理锁；大批拆小批，批间释放推理锁，异常不返回半批成功。默认导入document、正式查询query；当前安装版BGEM3两接口共同调用_encode，分流不宣称质量提升。`warmup_models()`显式预热现有模型，不在import加载/下载；API与独立模型宿主仍各属不同进程，锁不承诺跨进程单份权重，是否独立托管由真实1/2/4资源实验决定。
+
+MODEL_HOST桥接新增可选input_type=query/document，省略仍document兼容现有导入worker；新query客户端要求同步重启新版宿主，否则旧服务会422拒绝，不能静默冒称query成功。清空MODEL_HOST_URL/TOKEN仅可在明确本机实验进程中选择直连模型，不修改真实.env。多进程部署的版本一致性需另验，尚未部署。
+
+查询缓存只保存向量、默认关闭，范围键绑定用户/当前kb权限及角色/组织/kb/产品/活动修订/模型配置指纹/检索与查询计划/文本。TTL+LRU有界，重复miss共享计算且值深拷贝；退出清用户值并递增代际，迟到计算不能回填新代。权限/产品/修订/问题变更均重算，始终先鉴权；不缓存答案、检索正文或生成上下文。模型/权重不是热替换资源，变更后重启API/宿主，不能在原路径替换权重却沿用已加载单例。

@@ -1,8 +1,10 @@
+import threading
 from app.core.logger import logger
 from app.conf.embedding_config import embedding_config
 
 # 模型单例对象，避免重复初始化
 _bge_m3_ef = None
+_load_lock = threading.Lock()
 
 def get_bge_m3_ef():
     """
@@ -16,39 +18,42 @@ def get_bge_m3_ef():
         logger.debug("BGE-M3模型单例已存在，直接返回实例")
         return _bge_m3_ef
 
-    # 从环境变量加载配置，无配置则使用默认值
-    # 本地有可以使用本地地址！ 没有使用 "BAAI/bge-m3" 会自动下载！ 如果云端部署也可以使用url地址！
-    model_name = embedding_config.bge_m3_path or "BAAI/bge-m3"
-    device = embedding_config.bge_device or "cpu"
-    use_fp16 = embedding_config.bge_fp16 or False
+    with _load_lock:
+        if _bge_m3_ef is not None:
+            return _bge_m3_ef
+        # 从环境变量加载配置，无配置则使用默认值
+        # 本地有可以使用本地地址！ 没有使用 "BAAI/bge-m3" 会自动下载！ 如果云端部署也可以使用url地址！
+        model_name = embedding_config.bge_m3_path or "BAAI/bge-m3"
+        device = embedding_config.bge_device or "cpu"
+        use_fp16 = embedding_config.bge_fp16 or False
 
-    # 打印模型初始化配置，便于问题排查
-    logger.info(
-        "开始初始化BGE-M3模型",
-        extra={
-            "model_name": model_name,
-            "device": device,
-            "use_fp16": use_fp16,
-            "normalize_embeddings": True
-        }
-    )
-
-    try:
-        # 初始化BGE-M3模型，开启原生L2归一化（适配Milvus IP内积检索）
-        _bge_m3_ef = BGEM3EmbeddingFunction(
-            model_name=model_name,
-            device=device,
-            use_fp16=use_fp16,
-            normalize_embeddings=True  # 模型原生对稠密+稀疏向量做L2归一化
+        # 打印模型初始化配置，便于问题排查
+        logger.info(
+            "开始初始化BGE-M3模型",
+            extra={
+                "model_name": model_name,
+                "device": device,
+                "use_fp16": use_fp16,
+                "normalize_embeddings": True
+            }
         )
-        logger.success("BGE-M3模型初始化成功，已开启原生L2归一化")
-        return _bge_m3_ef
-    except Exception as e:
-        logger.error(f"BGE-M3模型初始化失败：{str(e)}", exc_info=True)
-        raise  # 向上抛出异常，由调用方处理
+
+        try:
+            # 初始化BGE-M3模型，开启原生L2归一化（适配Milvus IP内积检索）
+            _bge_m3_ef = BGEM3EmbeddingFunction(
+                model_name=model_name,
+                device=device,
+                use_fp16=use_fp16,
+                normalize_embeddings=True  # 模型原生对稠密+稀疏向量做L2归一化
+            )
+            logger.success("BGE-M3模型初始化成功，已开启原生L2归一化")
+            return _bge_m3_ef
+        except Exception as e:
+            logger.error(f"BGE-M3模型初始化失败：{str(e)}", exc_info=True)
+            raise  # 向上抛出异常，由调用方处理
 
 
-def generate_embeddings(texts):
+def generate_embeddings(texts, *, input_type="document"):
     """
     为文本列表生成稠密+稀疏混合向量嵌入（模型原生L2归一化）
     :param texts: 要生成嵌入的文本列表，单文本也需封装为列表
@@ -60,12 +65,21 @@ def generate_embeddings(texts):
         logger.warning("生成向量入参不合法，texts必须为非空列表")
         raise ValueError("参数texts必须是包含文本的非空列表")
 
+    if input_type not in {'query','document'} or any(not isinstance(t,str) or not t for t in texts):
+        raise ValueError('嵌入须为非空文本及query/document类型')
+    from app.lm.runtime import ModelRuntimePolicy,inference_lock
+    policy=ModelRuntimePolicy.load()
+    if len(texts)>policy.embedding_batch_size:
+        parts=[generate_embeddings(texts[i:i+policy.embedding_batch_size],input_type=input_type)
+            for i in range(0,len(texts),policy.embedding_batch_size)]
+        return {key:[row for part in parts for row in part[key]] for key in ('dense','sparse')}
     logger.info(f"开始为{len(texts)}条文本生成混合向量嵌入")
     try:
         # 加载BGE-M3模型单例
         model = get_bge_m3_ef()
         # 模型编码生成向量，返回dense（稠密向量）+sparse（CSR格式稀疏向量）
-        embeddings = model.encode_documents(texts)
+        with inference_lock:
+            embeddings = (model.encode_queries if input_type=='query' else model.encode_documents)(texts)
         logger.debug(f"模型编码完成，开始解析稀疏向量格式，共{len(texts)}条")
 
         # 初始化稀疏向量处理结果，解析为字典格式（适配序列化/存储）
