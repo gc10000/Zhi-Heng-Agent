@@ -7,13 +7,23 @@ import pytest
 from fastapi.testclient import TestClient
 
 
-def test_import_does_not_initialize_resources(monkeypatch):
-    import pymongo
-    monkeypatch.setattr(pymongo, 'MongoClient', lambda *a, **k: pytest.fail('导入不能创建客户端'))
-    import app.main
-    importlib.reload(app.main)
-    assert 'app.query_process.agent.main_graph' not in sys.modules
-    assert app.main.app is not None
+def test_import_does_not_initialize_resources():
+    # 旧图本身也有正式回归，已加载模块不能当作新API导入的副作用。
+    # 在新进程保留原有两项断言，并禁止真实资源构造，避免依赖测试顺序。
+    import subprocess
+    code='''
+import importlib, sys
+import dotenv, pymongo
+dotenv.load_dotenv=lambda *a, **kw: False
+def forbidden(*a, **kw): raise AssertionError('导入不能创建客户端')
+pymongo.MongoClient=forbidden
+import app.main
+importlib.reload(app.main)
+assert 'app.query_process.agent.main_graph' not in sys.modules
+assert app.main.app is not None
+'''
+    result=subprocess.run([sys.executable,'-c',code],capture_output=True,text=True,timeout=60)
+    assert result.returncode==0, result.stderr
 
 
 def test_resources_acquired_and_closed_once_and_health_is_versioned():

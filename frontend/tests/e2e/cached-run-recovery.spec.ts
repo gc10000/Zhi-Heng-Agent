@@ -93,6 +93,16 @@ test('恢复快照途中切会话，迟到的旧运行既不覆盖也不订阅',
 
 test('历史尚有后续页时不把旧完成轮当作当前轮，加载末页才恢复新运行', async ({ page }) => {
   const reads: string[] = []
+  // 此例只验证分页选轮；有限的route.fulfill流会立即断开，额外触发合法恢复读取。
+  // 固定保持连接，继续严格断言只读一次末页运行；断流恢复另有stream用例。
+  await page.addInitScript(() => {
+    const streams: string[] = []
+    Object.assign(window, { paginationStreams: streams })
+    window.EventSource = class extends EventTarget {
+      constructor(url: string | URL) { super(); streams.push(String(url)) }
+      close() {}
+    } as unknown as typeof EventSource
+  })
   await mockApi(page, async route => {
     const url = new URL(route.request().url()), path = url.pathname
     if (path.endsWith('/messages')) {
@@ -110,4 +120,6 @@ test('历史尚有后续页时不把旧完成轮当作当前轮，加载末页�
   await page.getByRole('button', { name: '加载更多历史', exact: true }).click()
   await expect(page.getByRole('button', { name: '末页型号', exact: true })).toBeVisible()
   expect(reads).toEqual(['latest'])
+  expect(await page.evaluate(() => (window as unknown as { paginationStreams: string[] }).paginationStreams))
+    .toEqual(['/api/v1/runs/latest/events?after_seq=1'])
 })

@@ -80,3 +80,20 @@ def test_changed_active_corpus_rejected_before_generation(evaluation_context):
         scoped.documents.update_one(scoped.scope, {'$set': {'active_revision_id': None}})
         with pytest.raises(ValueError): execute(question)
     assert prompts == [] and resources['runs'].runs.count_documents({}) == 0
+
+
+def test_configured_strategy_controls_real_execution_ports_and_budget(evaluation_context):
+    cfg,factory,resources,prompts,question,_=evaluation_context
+    cfg.update(strategy='m4-configured',parameters=dict(retrieval=dict(fusion='rrf'),answer_budget=dict(output_tokens=128)))
+    gateway=resources['knowledge']();original=gateway.index_factory;seen=[]
+    class CapturedIndex:
+        def search(self,*args,**kwargs):
+            seen.append(kwargs)
+            return original().search(*args,**kwargs)
+    gateway.index_factory=CapturedIndex
+    with RealQueryExecutor(cfg,resource_factory=factory) as execute:
+        result=execute(question)
+    assert result['state']=='completed' and result['answer']=='额定电压为24 V。'
+    assert seen and all(row['policy']['fusion']=='rrf' for row in seen)
+    assert result['prompt_budget']['policy']['output_tokens']==128
+    assert len(prompts)==1 and result['citations']
