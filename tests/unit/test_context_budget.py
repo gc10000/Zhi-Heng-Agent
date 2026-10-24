@@ -26,7 +26,7 @@ def test_oversize_history_is_not_appended_before_checking(monkeypatch, answer_no
 
 def test_history_does_not_count_previous_messages_repeatedly(monkeypatch, answer_node):
     history = [{'role': 'user', 'text': str(i) + '中' * 1900} for i in range(6)]
-    packed = capture_inputs(monkeypatch, answer_node.module, history=history)
+    packed = capture_inputs(monkeypatch, answer_node.module, history=history, answer_budget={'context_window':64000})
     assert all(m['text'] in packed['history'] for m in history)
 
 
@@ -68,7 +68,7 @@ def test_output_images_only_come_from_packed_documents(monkeypatch, answer_node,
     from types import SimpleNamespace
     node = answer_node.module
     sid, _ = session
-    monkeypatch.setattr(node, 'get_llm_client', lambda: SimpleNamespace(invoke=lambda p: SimpleNamespace(content='答案')))
+    monkeypatch.setattr(node, 'get_llm_client', lambda: SimpleNamespace(invoke=lambda p, **options: SimpleNamespace(content='答案')))
     excluded = 'https://example.invalid/excluded.png'
     included = 'https://example.invalid/included.png'
     state = {'session_id': sid, 'is_stream': False, 'reranked_docs': [

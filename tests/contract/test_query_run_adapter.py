@@ -11,7 +11,7 @@ def test_old_generation_uses_bound_run_sink_instead_of_session_queue(monkeypatch
     calls = []
     # 先以现有生成行为建立反例，不将缺少新接口的ImportError当红测。
     class Model:
-        def stream(self, prompt):
+        def stream(self, prompt, **options):
             yield SimpleNamespace(content=prompt)
     monkeypatch.setattr(node, 'get_llm_client', lambda: Model())
     binding = getattr(sse, 'run_event_sink', ContextVar('missing_sink', default=None))
@@ -30,7 +30,7 @@ def test_same_legacy_session_concurrent_runs_are_isolated(monkeypatch):
     from app.utils import sse_utils as sse
     from app.query_process.agent.nodes import node_answer_output as node
     class Model:
-        def stream(self, prompt):
+        def stream(self, prompt, **options):
             for value in [prompt, '完成']:
                 yield SimpleNamespace(content=value)
     monkeypatch.setattr(node, 'get_llm_client', lambda: Model())

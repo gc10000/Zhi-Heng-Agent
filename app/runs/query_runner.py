@@ -46,13 +46,15 @@ def rerank(question, docs):
 
 
 class QueryRunner:
-    def __init__(self, repo, commands, knowledge, *, identity_store=None, embedder=encode, ranker=rerank, llm_factory=None, retrieval_policy=None, expansion_policy=None):
+    def __init__(self, repo, commands, knowledge, *, identity_store=None, embedder=encode, ranker=rerank, llm_factory=None, retrieval_policy=None, expansion_policy=None, answer_budget=None):
         self.repo, self.commands, self.events, self.knowledge = repo, commands, commands.events, knowledge
         self.identity_store, self.embedder, self.ranker, self.llm_factory = identity_store, embedder, ranker, llm_factory
         from app.retrieval.search import RetrievalPolicy
         self.retrieval_policy = RetrievalPolicy.load() if retrieval_policy is None else RetrievalPolicy.model_validate(retrieval_policy)
         from app.retrieval.expansion import ExpansionPolicy
         self.expansion_policy = ExpansionPolicy.load() if expansion_policy is None else ExpansionPolicy.model_validate(expansion_policy)
+        from app.answering.service import AnswerBudget
+        self.answer_budget=AnswerBudget.load() if answer_budget is None else AnswerBudget.model_validate(answer_budget)
         self.pool = ThreadPoolExecutor(max_workers=4, thread_name_prefix='持久问答')
         self.futures, self.lock, self.stopping = {}, threading.Lock(), threading.Event()
 
@@ -183,27 +185,43 @@ class QueryRunner:
             state = {'session_id': rid, 'is_stream': True, 'original_query': row['question'],
                      'item_names': [p['model'] for p in products if p['product_id'] in selected],
                      'reranked_docs': [d | {'text': controlled_markdown(d['text'], set(d['asset_ids']))} for d in docs],
-                     'history': self._history(user, current)}
+                     'history': self._history(user, current), 'answer_budget': self.answer_budget,
+                     'evidence_groups': expansion.groups}
+            if plan.route=='compare':
+                state['evidence_scope_note']='比较只能依据本轮参考内容，未提供某型号证据时必须明确资料不足，不得推断其参数。'
             prompt = step_2_construct_prompt(state)
             used = {d['chunk_id'] for d in state['prompt_used_docs']}
             used_keys = {stable_key(d) for d in state['prompt_used_docs']}
             pack = EvidencePack(plan=plan, candidates=candidates, reranked=ranked,
                 expanded=expansion.expanded, selected=[h for h in expansion.selected if h.identity in used_keys])
             citations = []
-            for d in docs:
+            original_docs={stable_key(d):d for d in docs}
+            for selected_doc in state['prompt_used_docs']:
+                d=original_docs[stable_key(selected_doc)]
                 if d['chunk_id'] in used:
                     citations.append({k: copy.deepcopy(d[k]) for k in ('chunk_uid', 'document_id', 'revision_id', 'text', 'asset_ids', 'source_refs')} |
                         {'citation_id': stable_id('citation', rid, [d['chunk_uid']])})
+            from app.answering.citations import validate_citation_sources, CitationGuard
+            def asset_lookup(aid):
+                return (g.db.knowledge_assets.find_one({'asset_id':aid}) or
+                    g.db.knowledge_legacy_assets.find_one({'asset_id':aid}))
+            validate_citation_sources(citations,revisions,asset_lookup=asset_lookup)
+            covered={pid for d in state['prompt_used_docs'] for pid in d.get('metadata',{}).get('product_ids',[])}
+            missing_models=[p['model'] for p in products if p['product_id'] in plan.product_ids and p['product_id'] not in covered] if plan.route=='compare' else []
             emit('citation.selected', {'citations': citations}, fields={'citations': citations, 'stage': stage,
                 'retrieval_trace': pack.trace(), 'expansion_policy': expansion_policy.model_dump(),
-                'expansion_excluded': expansion.excluded, 'evidence_groups': expansion.groups})
+                'expansion_excluded': expansion.excluded, 'evidence_groups': expansion.groups,
+                'prompt_budget':state['prompt_budget'], 'missing_evidence_models':missing_models,
+                'answer_support':'insufficient' if not used else 'partial_scope' if missing_models else
+                    'partial_context' if state['prompt_budget']['omitted_documents'] else 'evidence_available'})
             from app.utils.sse_utils import run_event_sink
             from app.runs.answer_filter import AnswerFilter
             safe_answer = AnswerFilter({aid for c in citations for aid in c['asset_ids']}, buffer.add)
+            citation_guard=CitationGuard(range(1,len(citations)+1),safe_answer.write)
             def sink(sid, kind, payload):
                 boundary()
                 if kind == 'delta':
-                    safe_answer.write(payload['delta'])
+                    citation_guard.write(payload['delta'])
                 elif kind == 'progress':
                     emit('stage.changed', {'stage': stage})
             binding = run_event_sink.set(sink)
@@ -216,6 +234,9 @@ class QueryRunner:
                     safe_answer.write(state['answer'])
             finally:
                 run_event_sink.reset(binding)
+            citation_guard.write('', final=True)
+            if state.get('output_truncated'):
+                safe_answer.write('\n\n（回答达到输出长度上限，以上为部分内容，可继续追问。）')
             safe_answer.write('', final=True)
             buffer.flush()
             boundary()
@@ -224,7 +245,9 @@ class QueryRunner:
                 raise ValueError('模型没有生成有效答案')
             completion = {'text': answer, 'citations': citations, 'product_snapshot': product_snapshot}
             self.commands.finish(user, rid, token, 'completed', {'answer': answer, 'citations': citations, 'message_id': row['assistant_message_id']},
-                fields={'answer': answer, 'citations': citations, 'stage': 'completed', 'completion_snapshot': completion})
+                fields={'answer': answer, 'citations': citations, 'stage': 'completed', 'completion_snapshot': completion,
+                    'output_truncated':bool(state.get('output_truncated'))} |
+                    ({'answer_support':'partial_output'} if state.get('output_truncated') else {}))
         except ExecutionStopped:
             # 合作取消已由boundary落终态；关机/失联由原租约扫描收敛interrupted。
             pass

@@ -3,11 +3,11 @@ import pytest
 
 
 def failing_llm(stream, fail_at_start=False):
-    def chunks(prompt):
+    def chunks(prompt, **options):
         if not fail_at_start:
             yield SimpleNamespace(content='部分答案')
         raise TimeoutError('synthetic-provider-timeout')
-    def invoke(prompt):
+    def invoke(prompt, **options):
         raise TimeoutError('synthetic-provider-timeout')
     return SimpleNamespace(stream=chunks, invoke=invoke)
 

@@ -49,7 +49,7 @@ def test_completed_cas_then_next_create_repairs_order_and_actual_context(query_c
     assert [m['role'] for m in conv.history(user, cid)['items']] == ['user', 'assistant', 'user']
     contexts = []
     class Model:
-        def stream(self, prompt):
+        def stream(self, prompt, **options):
             contexts.append(str(prompt))
             assert saved['text'] in str(prompt)
             yield SimpleNamespace(content='第二轮正确回答。')

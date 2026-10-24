@@ -301,3 +301,9 @@ QueryPlan增加rewritten_query/slots/scope_groups/candidates/unconfirmed_tokens/
 ### M4-06 有界证据扩展
 
 V2Index.related_rows按后端owner/kb/document/revision/product范围与种子ordinal窗口/parent_uid定点读取，不递归或整章追加。ExpansionPolicy默认禁用；expanded在EvidencePack中显式区分，必须可溯源候选并保持正文/metadata；不能伪造rerank分。完整父块+种子组在字符预算内原子加入，缺父/超预算省略后半块；相邻证据同样不能绕前提。先按资料轮流给种子预算，再有界补邻居，按复合身份去重，不按相同文本删合法位置。run内部新增expansion_policy/expansion_excluded/evidence_groups用于复核，公开snapshot不增加底层调试正文。所有引用/图像仍来自实际prompt_used_docs，基线适配器显式禁扩展；默认策略须等真实dev实验后决定。
+
+### M4-07 完整生成预算与引用门禁
+
+AnswerBudget包含模型窗口/输出/安全余量/字符兜底/供应商输出字段；build_budgeted_prompt在完整模板渲染后计数，记录计数方式及舍弃数量，前提组原子选取。固定输入过大不调用模型。正式run内部prompt_budget、answer_support、missing_evidence_models、output_truncated用于复核，不扩展公开请求或快照调试字段。引用编号顺序严格按实际prompt_used_docs，不按原候选顺序；资产/来源须属于本次已授权资料修订。未知/残缺/非法编号在流式边界拒绝为answer_citation_invalid；原本已输出的有效部分可保留，不能写成功助手消息。代码反引号和图片alt数字不误当证据编号。
+
+answer_support区分insufficient、partial_scope、partial_context、evidence_available、partial_output，evidence_available仅表示有入选证据而非答案正确。比较缺型号证据时提示资料不足；输出达到上限时中文部分回答说明与流/历史/final一致。来源不符citation_scope_invalid，固定输入超窗prompt_budget_exceeded均不可自动重试。引用门禁只保证本次编号/来源身份，不能替代语义事实正确性审查。

@@ -1,0 +1,136 @@
+{
+  "notice": "M4-07执行自验；合成HTTP及真实隔离Mongo端口注入，不是新供应商/答案质量验收。04冻结旧代码网格独立运行。",
+  "tests": [
+    {
+      "junit": "docs/development/evidence/M4-07-grounding-delivered.xml",
+      "passed": 135,
+      "exit_code": 0,
+      "seconds": 87.86,
+      "deselected": 0,
+      "skipped": 0,
+      "paths": [
+        "tests/unit/test_answer_grounding.py",
+        "tests/unit/test_context_budget.py",
+        "tests/unit/test_generation_failure.py",
+        "tests/unit/test_provider_clients.py",
+        "tests/integration/test_answer_grounding_run.py",
+        "tests/integration/test_query_runs.py",
+        "tests/integration/test_query_planning.py",
+        "tests/integration/test_evidence_expansion_run.py",
+        "tests/contract/test_query_run_adapter.py",
+        "tests/contract/test_legacy_query_failure.py",
+        "tests/integration/test_provider_query_failures.py",
+        "tests/integration/test_evaluation_run_adapter.py",
+        "tests/contract/test_answer_filter.py",
+        "tests/unit/test_retrieval_grid.py",
+        "tests/integration/test_review_completion_order.py"
+      ]
+    }
+  ],
+  "test_directory_counts": {
+    "unit": 70,
+    "integration": 47,
+    "contract": 18
+  },
+  "real_baseline": {
+    "report": "docs/development/reviews/M4-01-baseline-readonly.json",
+    "reused_historical_report": true,
+    "new_baseline_run": false
+  },
+  "new_paid_calls": 0,
+  "heldout_executed": 0,
+  "raw_evidence": [
+    {
+      "path": "docs/development/evidence/M4-07-grounding-complete.txt",
+      "sha256": "f6cb76c09dabce90bdb3e9b111421e13fcd8ca1b84e9f8eb7ebff8cda18b24e8"
+    },
+    {
+      "path": "docs/development/evidence/M4-07-grounding-complete.xml",
+      "sha256": "4172f326b0cc170b4a7caa74e8ec3077bdee36d457a13a6a38ad9b4c5fe9fa33"
+    },
+    {
+      "path": "docs/development/evidence/M4-07-grounding-delivered.txt",
+      "sha256": "80cbe8677374b753981fcfa0d48c71ae2ec0dcff674f59829ef4f3092d3241e7"
+    },
+    {
+      "path": "docs/development/evidence/M4-07-grounding-delivered.xml",
+      "sha256": "a8862d2073550f9fe32c00cf1290949218dfa30f398825f650f3ad43de088f0d"
+    },
+    {
+      "path": "docs/development/evidence/M4-07-grounding-final.txt",
+      "sha256": "437e6298f4762016536575694921b3d2dcca651db472c010eeb3894d6fc4bde4"
+    },
+    {
+      "path": "docs/development/evidence/M4-07-grounding-final.xml",
+      "sha256": "54641a5740db8d24b809c6acfff6bcc58e2cd7105c6fec23a19426ab7fdb2a05"
+    },
+    {
+      "path": "docs/development/evidence/M4-07-grounding-green.txt",
+      "sha256": "246c13b499fe2ff3800bab83d21c51523ffeb52fde1c9189e439ac8d6926d93c"
+    },
+    {
+      "path": "docs/development/evidence/M4-07-grounding-green.xml",
+      "sha256": "cd15b2a5e6504467e2505c29a7b14d6ddda6b7e64ed3675dcaec097e7b618ba1"
+    },
+    {
+      "path": "docs/development/evidence/M4-07-grounding-red.txt",
+      "sha256": "d8d9d3dd394ec1cb04b7387ec885a43b45a30287158cd477398f6c8c92970449"
+    },
+    {
+      "path": "docs/development/evidence/M4-07-grounding-red.xml",
+      "sha256": "6ff7b6627014990d32d6c8eb8efb699bc2be742e67508dbca61dba1d511cfb7a"
+    },
+    {
+      "path": "docs/development/evidence/M4-07-grounding-verified.txt",
+      "sha256": "4111023441e80505d59d7daf9c2e7731dbef5dc5bad88debbacfb73c454109cf"
+    },
+    {
+      "path": "docs/development/evidence/M4-07-grounding-verified.xml",
+      "sha256": "9faf5cefff80dc3b733a206553e4df6efcade05cf1663235c0b6aec38c94df0a"
+    },
+    {
+      "path": "docs/development/evidence/M4-07-output-length-red.txt",
+      "sha256": "04794a969c64fe5a43b413e7031fb3325e396d09a9f36f8ecfd1bfa2412553a0"
+    },
+    {
+      "path": "docs/development/evidence/M4-07-output-length-red.xml",
+      "sha256": "772a59bc8e920e1af0aff465ebc38f25365b764908dd66bf637278c46af564ef"
+    },
+    {
+      "path": "docs/development/evidence/M4-07-partial-scope-red.txt",
+      "sha256": "ce0275df9d12267d6f148f21f1957b86a251f89e81b2de5846d99e7031fdf84c"
+    },
+    {
+      "path": "docs/development/evidence/M4-07-partial-scope-red.xml",
+      "sha256": "2ca28f8a09e62edb804c9520df8b7f044aa84993ef7ab9737da5766ace82b7be"
+    },
+    {
+      "path": "docs/development/evidence/M4-07-reference-format-red.txt",
+      "sha256": "64defdaa64d57ea35c939b530e9fa98799ada8c73d8e52a2d3c618439abef856"
+    },
+    {
+      "path": "docs/development/evidence/M4-07-reference-format-red.xml",
+      "sha256": "797add9a98fa232c1786364ac7d718bfcee5a9f63b93b5a4c0c5cdbef0f60b2d"
+    },
+    {
+      "path": "docs/development/evidence/M4-07-sdk-limit-green.txt",
+      "sha256": "369bc0296dd437bcf14460a995e3364fea15e9f1fb09baa065fbfe2ad651d84f"
+    },
+    {
+      "path": "docs/development/evidence/M4-07-sdk-limit-green.xml",
+      "sha256": "ba6a9e8a5fab92e3c2ce28723b69ea21a97a0281bb9f8f144533eca8ce7ce7e1"
+    },
+    {
+      "path": "docs/development/evidence/M4-07-sdk-limit-red.txt",
+      "sha256": "9ff15cee78cbe2c2f5b0c544e8f5e29c3cea2fade4f2a93671f6a8b9c73020d3"
+    },
+    {
+      "path": "docs/development/evidence/M4-07-sdk-limit-red.xml",
+      "sha256": "1271244cb30836365fd53c0c1b1d30511b56af204cc894b285f8b352aedf806f"
+    },
+    {
+      "path": "docs/development/reviews/M4-01-baseline-readonly.json",
+      "sha256": "86b9aeb9ab2a34ddde0df66ad5b080ad18c8e49e02c29f4fa7fad090d6780598"
+    }
+  ]
+}

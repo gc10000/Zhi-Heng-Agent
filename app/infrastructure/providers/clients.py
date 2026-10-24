@@ -35,6 +35,17 @@ class PolicyChatClient:
             raise ProviderFailure(*classify(exc)) from None
 
 
+def output_limit_options(client,limit,field='max_tokens'):
+    """保留供应商extra_body；避免LangChain自动改写旧兼容字段。"""
+    if type(limit) is not int or limit<1 or field not in {'max_tokens','max_completion_tokens'}:
+        raise ValueError('生成输出上限或字段非法')
+    underlying=client.client if isinstance(client,PolicyChatClient) else client
+    body=dict(getattr(underlying,'extra_body',None) or {})
+    body.pop('max_tokens',None);body.pop('max_completion_tokens',None)
+    body[field]=limit
+    return {'extra_body':body}
+
+
 def local_call(capability, operation):
     if not policies_enabled(): return operation()
     if capability not in {'embedding', 'rerank'}:

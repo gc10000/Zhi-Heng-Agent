@@ -13,10 +13,10 @@ def install_graph(monkeypatch, answer_node, llm):
 def test_partial_timeout_reaches_outer_failed_state(monkeypatch, answer_node, session, stream):
     from app.utils import task_utils
     sid, q = session
-    def chunks(prompt):
+    def chunks(prompt, **options):
         yield SimpleNamespace(content='部分答案')
         raise TimeoutError('synthetic')
-    def invoke(prompt):
+    def invoke(prompt, **options):
         raise TimeoutError('synthetic')
     api = install_graph(monkeypatch, answer_node, SimpleNamespace(stream=chunks, invoke=invoke))
     api.run_query_graph(sid, '合成问题', stream)
@@ -34,7 +34,7 @@ def test_partial_timeout_reaches_outer_failed_state(monkeypatch, answer_node, se
 def test_success_has_one_terminal_and_one_saved_answer(monkeypatch, answer_node, session, stream):
     from app.utils import task_utils
     sid, q = session
-    llm = SimpleNamespace(stream=lambda p: iter([SimpleNamespace(content='完'), SimpleNamespace(content='整')]), invoke=lambda p: SimpleNamespace(content='完整'))
+    llm = SimpleNamespace(stream=lambda p, **options: iter([SimpleNamespace(content='完'), SimpleNamespace(content='整')]), invoke=lambda p, **options: SimpleNamespace(content='完整'))
     api = install_graph(monkeypatch, answer_node, llm)
     api.run_query_graph(sid, '问题', stream)
     assert task_utils.get_task_status(sid) == 'completed'
@@ -48,7 +48,7 @@ def test_success_has_one_terminal_and_one_saved_answer(monkeypatch, answer_node,
 
 def test_blocking_http_failure_is_not_success_response(monkeypatch, answer_node):
     from fastapi.testclient import TestClient
-    def fail(prompt):
+    def fail(prompt, **options):
         raise TimeoutError('synthetic')
     api = install_graph(monkeypatch, answer_node, SimpleNamespace(invoke=fail))
     with TestClient(api.app) as client:
@@ -61,7 +61,7 @@ def test_blocking_http_failure_is_not_success_response(monkeypatch, answer_node)
 def test_direct_graph_exception_and_retry_do_not_reuse_old_answer(monkeypatch, answer_node, session):
     from app.utils import task_utils
     sid, q = session
-    api = install_graph(monkeypatch, answer_node, SimpleNamespace(invoke=lambda p: SimpleNamespace(content='旧答案')))
+    api = install_graph(monkeypatch, answer_node, SimpleNamespace(invoke=lambda p, **options: SimpleNamespace(content='旧答案')))
     api.run_query_graph(sid, '问题', False)
     def fail(state):
         raise TimeoutError('synthetic-graph')
@@ -88,7 +88,7 @@ def test_injected_typed_graph_failure_preserves_partial(monkeypatch, answer_node
 
 def test_blocking_http_success_is_compatible(monkeypatch, answer_node):
     from fastapi.testclient import TestClient
-    api = install_graph(monkeypatch, answer_node, SimpleNamespace(invoke=lambda p: SimpleNamespace(content='完成答案')))
+    api = install_graph(monkeypatch, answer_node, SimpleNamespace(invoke=lambda p, **options: SimpleNamespace(content='完成答案')))
     with TestClient(api.app) as client:
         response = client.post('/query', json={'query': '问题', 'session_id': 'm0-http-success'})
     assert response.status_code == 200

@@ -23,7 +23,7 @@ def test_parent_prerequisite_reaches_actual_prompt_and_persistent_citations(quer
     g.index_factory = Index
     prompts = []
     class Model:
-        def stream(self, prompt):
+        def stream(self, prompt, **options):
             prompts.append(prompt); yield SimpleNamespace(content='断电后检查，输入电源为24V。')
     runner.llm_factory = Model
     rid = service.create(user, cid, request())['run_id']; runner.execute(rid)

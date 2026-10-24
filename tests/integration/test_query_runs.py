@@ -22,7 +22,7 @@ def query_context(run_context):
     rev = knowledge.create_revision(doc.document_id, 'one', original_sha256='a'*64, object_key='isolated/one.md')
     knowledge.documents.update_one({'document_id': doc.document_id}, {'$set': {'active_revision_id': rev.revision_id}})
     entity = {'chunk_uid': 'chunk-one', 'text': '设备电源输入为24V。', 'document_id': doc.document_id,
-              'revision_id': rev.revision_id, 'metadata': {'heading_path': ['电源'], 'asset_ids': [],
+              'revision_id': rev.revision_id, 'metadata': {'heading_path': ['电源'], 'asset_ids': [], 'product_ids':[product['product_id']],
               'source_refs': [{'document_id': doc.document_id, 'revision_id': rev.revision_id, 'kind': 'markdown', 'line_start': 2}]}}
     class Index:
         def search(self, scoped, text, **kwargs):
@@ -32,7 +32,7 @@ def query_context(run_context):
             return [{'entity': entity}]
     g.index_factory = Index
     class Model:
-        def stream(self, prompt):
+        def stream(self, prompt, **options):
             assert '24V' in prompt
             for text in ['电源输入', '为24V。']:
                 yield SimpleNamespace(content=text)
@@ -109,7 +109,7 @@ def test_generation_failure_keeps_partial_and_stage_without_success_message(quer
     from types import SimpleNamespace
     user, cid, conv, repo, service, g, runner, entity, product = query_context
     class Broken:
-        def stream(self, prompt):
+        def stream(self, prompt, **options):
             yield SimpleNamespace(content='部分回答')
             raise TimeoutError('synthetic-private-url-or-token')
     runner.llm_factory = Broken
@@ -128,7 +128,7 @@ def test_cancel_during_generation_never_saves_success(query_context):
     user, cid, conv, repo, service, g, runner, entity, product = query_context
     rid = service.create(user, cid, request())['run_id']
     class Cancelled:
-        def stream(self, prompt):
+        def stream(self, prompt, **options):
             runner.commands.cancel(user, rid, VersionInput(expected_version=repo.get(user, rid)['version']))
             yield SimpleNamespace(content='迟到答案')
     runner.llm_factory = Cancelled
@@ -170,7 +170,7 @@ def test_generated_external_image_is_blocked_in_deltas_and_snapshot(query_contex
     from types import SimpleNamespace
     user, cid, conv, repo, service, g, runner, entity, product = query_context
     class Model:
-        def stream(self, prompt):
+        def stream(self, prompt, **options):
             for text in ['说明![拓扑', '](https://untrusted.invalid/private.png)', '。']:
                 yield SimpleNamespace(content=text)
     runner.llm_factory = Model
@@ -191,7 +191,7 @@ def test_concurrent_conversations_never_mix_answers_or_events(query_context):
     user, cid, conv, repo, service, g, runner, entity, product = query_context
     second = conv.create(user, ConversationInput(kb_id='k', product_ids=[product['product_id']]))['conversation_id']
     class Model:
-        def stream(self, prompt):
+        def stream(self, prompt, **options):
             text = '甲会话独立' if '甲独有问题' in prompt else '乙会话独立'
             yield SimpleNamespace(content=text)
     runner.llm_factory = Model
@@ -210,7 +210,7 @@ def test_revoked_permission_stops_output_and_records_failure(query_context):
     repo.db.users.insert_one(user.model_dump(mode='json') | {'enabled': True})
     runner.identity_store = SimpleNamespace(users=repo.db.users)
     class Model:
-        def stream(self, prompt):
+        def stream(self, prompt, **options):
             yield SimpleNamespace(content='尚未刷出的部分')
             repo.db.users.update_one({'user_id': user.user_id}, {'$set': {'kb_ids': []}})
             yield SimpleNamespace(content='撤权后禁止输出')

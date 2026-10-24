@@ -36,7 +36,7 @@ def evaluation_context(mongo_db):
     g.index_factory = Index
     prompts = []
     class Model:
-        def stream(self, prompt):
+        def stream(self, prompt, **options):
             prompts.append(prompt)
             yield SimpleNamespace(content='额定电压为24 V。')
     commands = RunCommands(repo, EventLedger(repo))

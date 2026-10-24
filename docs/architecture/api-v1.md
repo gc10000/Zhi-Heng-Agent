@@ -33,3 +33,5 @@ GET /runs/{rid}/citations/{citation_id}仅回本轮入选快照并重新授权�
 M4-02内部run新增query_plan/retrieval_trace用于受控评测和追踪，不在GET /runs公开快照中增加字段；citation.selected仍只包含实际入选引用。候选去重和重排身份校验不改变现有终态、版本、租约及权限协议。
 
 M4-03不改变RunInput；product_snapshot可额外返回context_route（answer/compare/general/series），general清空后续隐式设备继承。原请求选择和query_plan为内部持久元数据；近型号与选择/指代冲突沿现有product.candidates和版本确认接口处理，候选相似度不当已确认事实。旧消息及其快照保持原字节语义。
+
+M4-07保持公开API字段与事件协议不变。问题/固定提示超窗以prompt_budget_exceeded失败；来源或图片跨修订为citation_scope_invalid，流式未知引用为answer_citation_invalid，均不写成功助手消息。合法输出达到模型上限则保存部分内容并统一追加中文说明，answer.delta拼接、历史和run.completed.answer保持一致。预算/支持程度仅内部持久化用于评测；引用编号与citation.selected顺序一致。旧兼容API共享预算和输出限制，尚无同等流式编号门禁保证。

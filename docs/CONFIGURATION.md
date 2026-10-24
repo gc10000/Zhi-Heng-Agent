@@ -239,3 +239,11 @@ MODEL_HOST_PORT默认8011，MODEL_HOST_URL为worker可达宿主地址，MODEL_HO
 `EVIDENCE_EXPANSION_JSON`在根目录.env可选，默认空/禁用，未确认dev收益前保持此值。可选enabled（严格布尔）、max_chars（1..12000，默认6000完整证据渲染字符）、max_added（0..20，默认4）、radius（0..2，默认1）、max_seeds（1..20，默认10）。修改后重启API；原基线评测显式禁用。非法值仅报变量名与用途，不打印JSON内容；不改实际.env。
 
 启用后仅按同组织/kb/资料/修订/型号的明确父块与有限邻居读取，不递归整章。父块缺失/完整组越预算则省略后半块，避免丢前提；不同资料种子优先获得预算，随后才补可选邻居。元数据/原文/asset来源均保留；查询关系单独记expansion，不能称实际模型相关分。正式run内部保存expansion_policy/expansion_excluded/evidence_groups，公开API不新增任意范围参数。清空变量即可回切；字符预算沿用原兜底，最终token预算由M4-07接入，不把本项称完整token约束。
+
+## M4完整提示词与输出预算
+
+`ANSWER_BUDGET_JSON`填写根目录.env；空值使用context_window=32768、output_tokens=4096、reserve_tokens=256、max_chars=12000、output_token_field="max_tokens"。窗口256..2000000、输出1..262144、安全余量0..8192、字符0..12000，均严格整数，输出加余量须小于窗口。字段只允许max_tokens或max_completion_tokens；未知字段/非法JSON拒绝且不打印值。部署者须按所用供应商的真实模型窗口配置，默认值不代表已探测能力。修改后重启API，实际.env未改。
+
+完整模板、型号、问题、历史和证据渲染后计数，再预留输出与协议余量。没有准确生成tokenizer时按每UTF-8字节1 token保守估计并记录utf8_bytes_upper_bound；该值不是供应商usage，安全余量用于消息封装。可内部注入实际token计数器，不新增浏览器参数。字符预算继续兜底，完整父子组不可拆，固定输入超过窗口在调用模型前失败prompt_budget_exceeded；无可用证据沿原正式入口返回资料不足，不强留首条。
+
+输出上限经当前LangChain/OpenAI SDK的extra_body显式传送选定字段，同时保留原enable_thinking等供应商参数，不修改client字典；已用合成HTTP核对流/非流两字段，尚无新供应商真实调用。finish_reason=length/max_tokens时保留部分回答并在流/历史/final一致提示达到长度上限。引用白名单及asset/revision检查接正式QueryRunner；旧兼容节点共享预算/输出限制，但未宣称完成同等引用编号校验。

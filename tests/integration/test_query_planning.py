@@ -19,6 +19,7 @@ def planning_context(query_context):
     scoped.documents.update_one({'document_id': doc.document_id}, {'$set': {'active_revision_id': rev.revision_id}})
     second = deepcopy(first) | {'chunk_uid': 'chunk-second', 'document_id': doc.document_id,
         'revision_id': rev.revision_id, 'text': '设备输入为48V。'}
+    second['metadata']['product_ids']=[b['product_id']]
     for ref in second['metadata']['source_refs']:
         ref.update(document_id=doc.document_id, revision_id=rev.revision_id)
     calls = []
@@ -29,7 +30,7 @@ def planning_context(query_context):
     g.index_factory = Index
     runner.embedder = lambda texts: {'dense': [[1., 0.] for _ in texts], 'sparse': [{1: .5} for _ in texts]}
     class Model:
-        def stream(self, prompt): yield SimpleNamespace(content='根据当前资料给出设备供电说明。')
+        def stream(self, prompt, **options): yield SimpleNamespace(content='根据当前资料给出设备供电说明。')
     runner.llm_factory = Model
     return query_context, a, b, calls
 

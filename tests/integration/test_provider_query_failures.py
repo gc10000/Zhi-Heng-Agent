@@ -19,7 +19,7 @@ pytestmark = pytest.mark.integration
 def test_sdk_error_after_partial_answer_never_completes_and_saves_safe_code(query_context, mode, code, retryable, wrapped):
     user, cid, conv, repo, service, g, runner, entity, product = query_context
     class Failure:
-        def stream(self, prompt):
+        def stream(self, prompt, **options):
             yield SimpleNamespace(content='已生成部分')
             req = httpx.Request('POST', 'https://private.invalid')
             if mode == 'timeout': raise openai.APITimeoutError(request=req)

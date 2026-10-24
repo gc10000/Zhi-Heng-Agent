@@ -45,27 +45,32 @@ def step_2_construct_prompt(state: QueryGraphState) -> str:
   rewritten_query = state.get("rewritten_query", "")
   # 优先使用重写后的问题
   question = rewritten_query if rewritten_query else original_query
+  if state.get('evidence_scope_note'):
+    question += '\n\n证据限制：' + state['evidence_scope_note']
   history = state.get("history", [])
   item_names = state.get("item_names", [])
   reranked_docs = state.get("reranked_docs") or []
 
   # 只计算实际插入的完整证据与历史；空串不追加未计费占位文本。
-  packed = pack_prompt_inputs(reranked_docs, history, MAX_CONTEXT_CHARS)
+  from app.answering.service import AnswerBudget,build_budgeted_prompt
+  budget = AnswerBudget.model_validate(state['answer_budget']) if state.get('answer_budget') is not None else AnswerBudget.load()
+  item_names_str = ", ".join(item_names) if item_names else "无指定商品"
+  packed = build_budgeted_prompt(reranked_docs,history,question=question,items=item_names_str,
+    render=lambda **kw:load_prompt('answer_out',**kw),budget=budget,
+    groups=state.get('evidence_groups',()),counter=state.get('token_counter'))
   context_str, history_str = packed['context'], packed['history']
   state['used_chunk_ids'] = packed['used_chunk_ids']
   state['prompt_used_docs'] = [reranked_docs[i] for i in packed['used_doc_indices']]
   state['prompt_input_chars'] = packed['used_chars']
+  state['prompt_budget'] = packed['budget']
+  state['answer_max_tokens'] = budget.output_tokens
+  state['answer_token_field'] = budget.output_token_field
 
   # 4. 格式化 Item Names (提问商品)
   item_names_str = ", ".join(item_names) if item_names else "无指定商品"
 
   # 5. 组装 Prompt
-  prompt = load_prompt("answer_out",
-    context=context_str,
-    history=history_str,
-    item_names=item_names_str,
-    question=question
-  )
+  prompt = packed['prompt']
 
   logger.info("答案提示词已组装，session={}，字符数={}，证据/历史字符数={}", state.get("session_id"), len(prompt), packed["used_chars"])
 
@@ -78,14 +83,21 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
   final_text = ''
   try:
     llm = client if client is not None else get_llm_client()
+    from app.infrastructure.providers.clients import output_limit_options
+    options = output_limit_options(llm,state['answer_max_tokens'],state.get('answer_token_field','max_tokens')) if state.get('answer_max_tokens') else {}
     if state.get('is_stream'):
-      for chunk in llm.stream(prompt):
+      for chunk in llm.stream(prompt,**options):
+        if (getattr(chunk,'response_metadata',None) or {}).get('finish_reason') in ('length','max_tokens'):
+          state['output_truncated'] = True
         delta = getattr(chunk, 'content', '') or ''
         if delta:
           final_text += delta
           push_to_session(session_id, SSEEvent.DELTA, {'delta': delta})
     else:
-      final_text = llm.invoke(prompt).content
+      response = llm.invoke(prompt,**options)
+      final_text = response.content
+      if (getattr(response,'response_metadata',None) or {}).get('finish_reason') in ('length','max_tokens'):
+        state['output_truncated'] = True
   except Exception as exc:
     logger.error('回答生成失败，session={}，异常类型={}，部分字符数={}', session_id, type(exc).__name__, len(final_text))
     raise AnswerGenerationError(partial_answer=final_text) from exc
