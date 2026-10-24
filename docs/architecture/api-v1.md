@@ -31,3 +31,5 @@ GET /runs/{rid}/citations/{citation_id}仅回本轮入选快照并重新授权�
 完成消息顺序：终态快照保存后先持久assistant再释放会话；新轮创建会补偿旧终态，写入失败保留原占用并允许相同请求重试。历史按首次ordinal顺序，跨轮消息与下一轮生成上下文均保持上一轮答案在下一轮问题之前。终态事件可先保存，不能仅据它假定会话占用已释放。
 
 M4-02内部run新增query_plan/retrieval_trace用于受控评测和追踪，不在GET /runs公开快照中增加字段；citation.selected仍只包含实际入选引用。候选去重和重排身份校验不改变现有终态、版本、租约及权限协议。
+
+M4-03不改变RunInput；product_snapshot可额外返回context_route（answer/compare/general/series），general清空后续隐式设备继承。原请求选择和query_plan为内部持久元数据；近型号与选择/指代冲突沿现有product.candidates和版本确认接口处理，候选相似度不当已确认事实。旧消息及其快照保持原字节语义。

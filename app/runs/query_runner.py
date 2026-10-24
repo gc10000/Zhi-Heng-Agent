@@ -116,28 +116,47 @@ class QueryRunner:
             selected = list(current['product_snapshot']['product_ids'])
             ids = g.product_kbs.distinct('product_id', {'owner_id': g.owner_id, 'kb_id': row['kb_id']})
             products = list(g.products.collection.find({'owner_id': g.owner_id, 'product_id': {'$in': ids}}))
-            if not selected and len(products) > 1:
-                if len(products) > 50:
-                    raise APIError(422, 'product_selection_required', '请先在产品目录选择型号。')
-                self.commands.wait_input(user, rid, token, candidates=[{k: p[k] for k in ('product_id', 'model')} for p in products],
-                                         resume_point={'stage': 'retrieve'})
-                return
-            if not selected and len(products) == 1:
-                selected = [products[0]['product_id']]
             for pid in selected:
                 g.product(user, pid, row['kb_id'])
-            product_snapshot = copy.deepcopy(current['product_snapshot']) | {'product_ids': selected}
+            from app.retrieval.query_planner import plan_query
+            plan = plan_query(row['question'], products, selected_ids=selected,
+                requested_ids=current.get('requested_product_ids', current['input_product_snapshot']['product_ids']),
+                messages=self._recent_messages(user, current), confirmed=bool(current.get('resumed_at')),
+                candidate_search=self._product_candidates)
+            emit('stage.changed', {'stage': 'product', 'reason': plan.reason}, fields={'query_plan': plan.model_dump(mode='json')})
+            if plan.route == 'clarify':
+                if len(plan.candidates) > 50:
+                    raise APIError(422, 'product_selection_required', '请先在产品目录选择型号。')
+                self.commands.wait_input(user, rid, token, candidates=[{k: p[k] for k in ('product_id', 'model')}
+                    for p in products if p['product_id'] in plan.candidates],
+                    resume_point={'stage': 'retrieve', 'reason': plan.reason})
+                return
+            selected = list(plan.product_ids)
+            for pid in selected:
+                g.product(user, pid, row['kb_id'])
+            product_snapshot = copy.deepcopy(current['product_snapshot']) | {'product_ids': selected, 'context_route': plan.route}
             emit('stage.changed', {'stage': 'retrieve'}, fields={'stage': 'retrieve', 'product_snapshot': product_snapshot})
             stage = 'retrieve'
             repo = g.repo(row['kb_id'])
             revisions = repo.get_active_revisions()
             emit('stage.changed', {'stage': stage, 'revision_count': len(revisions)}, fields={'revision_snapshot': revisions})
-            hits = g.index().search(repo, row['question'], embedder=self.embedder, revision_snapshot=revisions, product_ids=selected, limit=20)
-            from app.retrieval.adapters import from_index_hits, after_rerank, stable_key
-            from app.retrieval.models import QueryPlan, EvidencePack
+            from app.retrieval.adapters import from_index_hits, after_rerank, stable_key, score_record
+            from app.retrieval.models import EvidencePack
+            plan = plan.model_copy(update={'revision_ids': tuple(r['active_revision_id'] for r in revisions)})
+            hits = []
+            for scope in plan.scope_groups:
+                for query in plan.search_queries:
+                    found = g.index().search(repo, query, embedder=self.embedder, revision_snapshot=revisions,
+                        product_ids=list(scope), limit=20)
+                    if plan.route == 'compare':
+                        for rank, hit in enumerate(found, 1):
+                            hit = copy.deepcopy(hit)
+                            trace = hit.get('retrieval_trace') or [score_record('retrieval', rank, hit.get('distance'), 'backend_unspecified')]
+                            hit['retrieval_trace'] = [t | {'query_id': f'product:{scope[0]}/{t["query_id"]}'} for t in trace]
+                            hits.append(hit)
+                    else:
+                        hits.extend(found)
             candidates = from_index_hits(hits)
-            plan = QueryPlan(original_query=row['question'], search_queries=(row['question'],),
-                product_ids=tuple(selected), revision_ids=tuple(r['active_revision_id'] for r in revisions))
             pack = EvidencePack(plan=plan, candidates=candidates)
             docs = []
             for hit in candidates:
@@ -233,8 +252,36 @@ class QueryRunner:
             done.set()
             thread.join(timeout=2)
 
-    def _history(self, user, current):
+    def _recent_messages(self, user, current):
         # 只取当前会话最近已持久消息；不读取旧课程history。
         rows = list(self.repo.conversations.messages.find({'conversation_id': current['conversation_id'],
             'owner_id': user.user_id, 'run_id': {'$ne': current['run_id']}}).sort('ordinal', -1).limit(30))
-        return [{'role': r['role'], 'text': r['text']} for r in reversed(rows)]
+        return list(reversed(rows))
+
+    def _history(self, user, current):
+        return [{'role': r['role'], 'text': r['text']} for r in self._recent_messages(user, current)]
+
+    def _product_candidates(self, question, products):
+        """目录相似度仅排序澄清候选，精确命中不调用本机编码。"""
+        if len(products) > 50:
+            return [p['product_id'] for p in products]
+        try:
+            import math
+            labels = [(p['model'] + ' ' + ' '.join(p.get('aliases', [])[:3]))[:1000] for p in products]
+            vectors = self.embedder([question, *labels])['dense']
+            if len(vectors) != len(products) + 1:
+                raise ValueError('目录向量数量不符')
+            query = vectors[0]
+            norm = lambda v: math.sqrt(sum(float(x)**2 for x in v))
+            qnorm = norm(query)
+            if not qnorm: raise ValueError('目录查询向量为空')
+            scored = []
+            for product, vector in zip(products, vectors[1:]):
+                if len(vector) != len(query) or not norm(vector): raise ValueError('目录向量不兼容')
+                score = sum(float(a)*float(b) for a, b in zip(query, vector)) / (qnorm * norm(vector))
+                if not math.isfinite(score): raise ValueError('目录相似度非法')
+                scored.append((score, product['product_id']))
+            return [pid for _, pid in sorted(scored, key=lambda r: (-r[0], r[1]))[:3]]
+        except Exception as exc:
+            logging.getLogger(__name__).warning('目录候选向量不可用，保留待确认目录，异常类型：%s', type(exc).__name__)
+            return [p['product_id'] for p in products]

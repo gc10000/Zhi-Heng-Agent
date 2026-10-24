@@ -1,0 +1,134 @@
+{
+  "notice": "M4-03执行自验；历史基线报告只读复用，未运行新dev/heldout。",
+  "tests": [
+    {
+      "junit": "docs/development/evidence/M4-03-query-plan-complete.xml",
+      "passed": 63,
+      "exit_code": 0,
+      "seconds": 20.481,
+      "deselected": 0,
+      "skipped": 0
+    }
+  ],
+  "test_directory_counts": {
+    "unit": 24,
+    "integration": 39
+  },
+  "real_baseline": {
+    "report": "docs/development/reviews/M4-01-baseline-readonly.json",
+    "reused_historical_report": true,
+    "new_baseline_run": false
+  },
+  "new_paid_calls": 0,
+  "heldout_executed": 0,
+  "raw_evidence": [
+    {
+      "path": "docs/development/evidence/M4-03-context-reset-red.txt",
+      "sha256": "cc3369363cb9ea53845e0e6afe747e82c5a27743b5660eb333a3e0e0108cda5b"
+    },
+    {
+      "path": "docs/development/evidence/M4-03-context-reset-red.xml",
+      "sha256": "24928e4085024eadb390e8a7a32ea68b080e96aa6714731aa37aa069542beab2"
+    },
+    {
+      "path": "docs/development/evidence/M4-03-model-intent-red.txt",
+      "sha256": "7585a4b815c7fe5d1a2354af210a9201e6c3771dcb10eb4b7ac486788d376fa6"
+    },
+    {
+      "path": "docs/development/evidence/M4-03-model-intent-red.xml",
+      "sha256": "813a293c7330d61f88ad6198023074052c7df7d74bc51d2e15a738f5b6f8cee1"
+    },
+    {
+      "path": "docs/development/evidence/M4-03-model-token-red.txt",
+      "sha256": "d979703209dacb26c4d742c4b5d87e3b561529b1097e79fd249714cf98fbe1ba"
+    },
+    {
+      "path": "docs/development/evidence/M4-03-model-token-red.xml",
+      "sha256": "23c5a22ea83b1896c56631e9093ffb2bb54f29b1c850c195f67eb6d652521fe8"
+    },
+    {
+      "path": "docs/development/evidence/M4-03-normalized-near-red.txt",
+      "sha256": "383e96b046eb8fe55f8fde8f528f61f3aa3330d3e5eaf0705ed83440288321e7"
+    },
+    {
+      "path": "docs/development/evidence/M4-03-normalized-near-red.xml",
+      "sha256": "d0a004df094d5349f30164cfc2f991d87f514bf61f6c142205f2561c979a91bb"
+    },
+    {
+      "path": "docs/development/evidence/M4-03-query-context-final.txt",
+      "sha256": "c396fa5febed51e64715d29637b00690a3d41f7101642d6eccd34354563f5510"
+    },
+    {
+      "path": "docs/development/evidence/M4-03-query-context-final.xml",
+      "sha256": "b76386eb302c4d83de9bd95bed71db1cbd98ae6868dc12957bcba4d5335abe01"
+    },
+    {
+      "path": "docs/development/evidence/M4-03-query-plan-complete.txt",
+      "sha256": "98ec828074747bb20ec3e5fc43c57e38f9fe8c6c415a26818fa55e5a286f48e4"
+    },
+    {
+      "path": "docs/development/evidence/M4-03-query-plan-complete.xml",
+      "sha256": "29f08ee576b5ab4e47fe4edc9472574f5053dcc09377458010de8f61981c5d4b"
+    },
+    {
+      "path": "docs/development/evidence/M4-03-query-plan-final.txt",
+      "sha256": "d3951806ae61b4d611b307dc70c48d06757987f001653fb8ebf0e7cdfbe8619d"
+    },
+    {
+      "path": "docs/development/evidence/M4-03-query-plan-final.xml",
+      "sha256": "7e7c8581c39c7ed8ed2bd027d21c2550aeb21c4a09daefa4aac87c8461b194be"
+    },
+    {
+      "path": "docs/development/evidence/M4-03-query-plan-green.txt",
+      "sha256": "8eae638dd1dae20b24a4628d79baf5c112463f00017b36a1a334e8c20b878f7c"
+    },
+    {
+      "path": "docs/development/evidence/M4-03-query-plan-green.xml",
+      "sha256": "6b11ab506245e234222f40c2c3097e49bf75d279540834cb9c8fd1c42a319878"
+    },
+    {
+      "path": "docs/development/evidence/M4-03-query-plan-red-final.txt",
+      "sha256": "ca8bc8780ce2f721fe9966cc2853803d8d014c46f476f71d84c3b265ad1201d1"
+    },
+    {
+      "path": "docs/development/evidence/M4-03-query-plan-red-final.xml",
+      "sha256": "1ae508cac4b4104d321a8bd450b4669638dd1a221ebe7f67b7588cef145859a1"
+    },
+    {
+      "path": "docs/development/evidence/M4-03-query-plan-red.txt",
+      "sha256": "8b2974bb786d25b1fd9e4a15882fafcd22a197127752312d0d2b2d92c3efd4e6"
+    },
+    {
+      "path": "docs/development/evidence/M4-03-query-plan-red.xml",
+      "sha256": "0871707e2780c4eb4751110cf105c104c988c15610abeeee3108a2276565703b"
+    },
+    {
+      "path": "docs/development/evidence/M4-03-query-plan-verified.txt",
+      "sha256": "09a1a671ec6502a4da162f2ae73200020b658be636576ef9b3fd623325799a0a"
+    },
+    {
+      "path": "docs/development/evidence/M4-03-query-plan-verified.xml",
+      "sha256": "e7989d306fb904a2c950428baad2db11194df02673890a835283852952e3307e"
+    },
+    {
+      "path": "docs/development/evidence/M4-03-query-token-final.txt",
+      "sha256": "81d904d788c4d72300cd801dee78a228813cd5e7304d28d62c1721feff036454"
+    },
+    {
+      "path": "docs/development/evidence/M4-03-query-token-final.xml",
+      "sha256": "3db0a6bfee239af113d3d343005c6003182a6c1f1a5560415e6fcba5744fa34e"
+    },
+    {
+      "path": "docs/development/evidence/M4-03-query-unit-red.txt",
+      "sha256": "1d5848c2306a7865d374e83e486b842e5fb2fe2d9352b0171bbde3d6463bcc15"
+    },
+    {
+      "path": "docs/development/evidence/M4-03-query-unit-red.xml",
+      "sha256": "5ddcde075c368dac7b30477a0042dc5a4ac771bd56f2b1ae41e64434b995065b"
+    },
+    {
+      "path": "docs/development/reviews/M4-01-baseline-readonly.json",
+      "sha256": "86b9aeb9ab2a34ddde0df66ad5b080ad18c8e49e02c29f4fa7fad090d6780598"
+    }
+  ]
+}

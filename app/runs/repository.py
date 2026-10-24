@@ -41,6 +41,7 @@ class RunRepository:
                          'seq': 0, 'outbox': [], 'answer': '', 'citations': [],
                          'created_at': datetime.now(timezone.utc).isoformat()}
             row['input_product_snapshot'] = copy.deepcopy(row['product_snapshot'])
+            row['requested_product_ids'] = list(data.product_ids)
             try:
                 self.runs.insert_one(copy.deepcopy(row))
             except DuplicateKeyError:

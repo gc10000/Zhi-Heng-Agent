@@ -18,8 +18,13 @@ class QueryPlan(BaseModel):
     search_queries: tuple[str, ...] = ()
     product_ids: tuple[str, ...] = ()
     revision_ids: tuple[str, ...] = ()
-    route: Literal['answer', 'clarify', 'compare', 'insufficient'] = 'answer'
+    route: Literal['answer', 'clarify', 'compare', 'insufficient', 'general', 'series'] = 'answer'
     slots: dict[str, str] = Field(default_factory=dict)
+    scope_groups: tuple[tuple[str, ...], ...] = ()
+    candidates: tuple[str, ...] = ()
+    unconfirmed_tokens: tuple[str, ...] = ()
+    reason: str = ''
+    rewritten_query: str | None = None
 
 
 class RetrievalHit(BaseModel):

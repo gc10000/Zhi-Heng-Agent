@@ -37,7 +37,8 @@ def query_context(run_context):
             for text in ['电源输入', '为24V。']:
                 yield SimpleNamespace(content=text)
     commands = RunCommands(repo, EventLedger(repo))
-    runner = QueryRunner(repo, commands, lambda: g, ranker=lambda question, docs: docs, llm_factory=Model)
+    runner = QueryRunner(repo, commands, lambda: g, ranker=lambda question, docs: docs, llm_factory=Model,
+        embedder=lambda texts: {'dense': [[1., 0.] for _ in texts], 'sparse': [{1: .5} for _ in texts]})
     yield user, cid, conv, repo, service, g, runner, entity, product
     runner.close()
 

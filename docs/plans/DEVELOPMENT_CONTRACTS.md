@@ -282,3 +282,10 @@ corpus.asset_equivalences仅接受原件目视核对、两端图片hash与物理
 RetrievalHit以document_id/revision_id/chunk_uid组成身份，保存原text/metadata与独立StageScore(stage/rank/score/score_kind/query_id)。dense和learned_sparse为真实IP分路，weighted_fusion为Milvus加权分；原策略不称RRF/BM25，未知分数null且backend_unspecified。QueryPlan保留原问题/实际检索输入/产品/修订；EvidencePack校验候选、重排和实际上下文子集及原文/来源不变。重排不得新增或重复候选，不同修订的旧同名ID不得融合。
 
 V2Index.search新增trace=True（默认）补同向量/同范围分路排名，多2次只读RPC；trace=False返回原融合响应，不改原融合/候选量。正式QueryRunner在持久run内部保存query_plan/retrieval_trace及selected标记；公开snapshot字段和citation.selected事件保持原接口，不暴露调试正文。实际citation只来自prompt_used_docs，未进上下文的图片不纳入引用。旧图适配无损保留原元数据/RRF/重排分；错误/取消/撤权继续通过原run协议收敛。
+
+
+### M4-03 主体与查询计划
+
+目录按NFKC/大小写/分隔符规范化的完整标准名/别名精确匹配，数字品牌不当单一设备，近/未知型号（含显式纯数字及全角）只给待确认候选。可选本机目录向量最多50项/前三候选，精确命中不编码，向量分不当确认概率；不可用仍澄清，超过50要求UI目录先选。错误码、协议编号和环境版本不当设备。用户确认后按同run/版本门禁恢复，不再解析原未知名强迫重复确认。
+
+QueryPlan增加rewritten_query/slots/scope_groups/candidates/unconfirmed_tokens/reason，route区分answer/clarify/compare/insufficient/general/series。原问题不变，指代改写只加本目录已确认设备，槽位来自用户原文，不信助手猜测。比较每个产品独立过滤取证、共用权限与修订快照；后续证据缺失/预算仍须M4-06/07约束。内部requested_product_ids保留请求显式选择；旧run缺字段兼容旧输入快照。product_snapshot.context_route为可选新增字段，general表示继承清空边界；只从成功助手消息继承有效设备，取消/失败的用户快照不能覆盖，UI明确选择与指代冲突需澄清。不修改旧消息、ordinal或原始问题。
