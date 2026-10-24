@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import { mockApi } from './helpers'
 test('登录入口键盘可用且窄屏无溢出', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/')
@@ -6,5 +7,25 @@ test('登录入口键盘可用且窄屏无溢出', async ({ page }) => {
   await page.getByLabel('用户名', { exact: true }).focus()
   await page.keyboard.press('Tab')
   await expect(page.getByLabel('密码', { exact: true })).toBeFocused()
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+})
+test('1500px三栏可拖动，390px键盘抽屉与长标题不溢出', async ({ page }) => {
+  await mockApi(page)
+  await page.goto('/chat')
+  await expect(page.getByRole('navigation', { name: '工作台导航' })).toBeVisible()
+  await expect(page.getByRole('heading', { name: '证据与来源', exact: true })).toBeVisible()
+  const handle = page.getByRole('separator', { name: '调整问答与证据宽度' })
+  const before = await page.getByTestId('question-panel').boundingBox()
+  const rect = (await handle.boundingBox())!
+  await page.mouse.move(rect.x + 2, rect.y + 20); await page.mouse.down(); await page.mouse.move(rect.x - 100, rect.y + 20); await page.mouse.up()
+  expect((await page.getByTestId('question-panel').boundingBox())!.width).toBeLessThan(before!.width - 30)
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.getByRole('button', { name: '打开会话导航', exact: true }).click()
+  await expect(page.getByRole('dialog', { name: '会话导航' })).toBeVisible()
+  await page.keyboard.press('Escape')
+  await expect(page.getByRole('button', { name: '打开会话导航', exact: true })).toBeFocused()
+  await page.getByRole('button', { name: '打开证据', exact: true }).click()
+  await expect(page.getByRole('dialog', { name: '证据与来源' })).toBeVisible()
+  await page.keyboard.press('Escape')
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
 })

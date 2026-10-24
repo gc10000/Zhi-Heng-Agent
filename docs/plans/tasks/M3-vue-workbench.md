@@ -55,11 +55,11 @@ M2已通过第2轮总控审查，授权从M3-01连续执行至M3-11，按依赖�
 **文件：**`frontend/src/app/WorkbenchLayout.vue`; `frontend/src/components/ui/sidebar/`; `frontend/src/components/ui/resizable/`; `frontend/src/app/router.ts`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M3-03.1** 会话/问答/证据三栏。
-- [ ] **M3-03.2** 390px 以抽屉切换，1500px 可拖拽。
-- [ ] **M3-03.3** 提供资料、记录、评测导航与空状态。
-- [ ] **M3-03.V** 验证：pnpm -C frontend test:e2e -- layout.spec.ts。
-- [ ] **M3-03.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M3-03.1** 会话/问答/证据三栏。
+- [x] **M3-03.2** 390px 以抽屉切换，1500px 可拖拽。
+- [x] **M3-03.3** 提供资料、记录、评测导航与空状态。
+- [x] **M3-03.V** 验证：pnpm -C frontend test:e2e -- layout.spec.ts。
+- [x] **M3-03.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**窄屏无横向溢出；键盘可切换与关闭抽屉；大图和长文件名不撑坏布局。
 

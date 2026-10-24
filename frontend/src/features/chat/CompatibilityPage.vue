@@ -3,11 +3,8 @@ import { ref, onBeforeUnmount } from 'vue'
 import { api } from '@/lib/api/client'
 import type { Citation, Conversation, Run, User } from '@/lib/api/types'
 import { terminal } from '@/lib/api/types'
-import Sidebar from '@/components/ui/sidebar/Sidebar.vue'
-import ResizablePanelGroup from '@/components/ui/resizable/ResizablePanelGroup.vue'
 import Modal from '@/components/ui/dialog/Modal.vue'
-import { SplitterPanel, SplitterResizeHandle } from 'reka-ui'
-const menu = ref(false), evidenceOpen = ref(false)
+const evidenceOpen = ref(false)
 const props = defineProps<{ user: User }>()
 const cid = ref(''), question = ref(''), run = ref<Run>(), citation = ref<Citation>(), error = ref(''), busy = ref(false)
 let stream: EventSource | undefined
@@ -63,8 +60,7 @@ async function command(name: string, fields = {}) {
 async function show(c: Citation) { try { citation.value = await api.request<Citation>(`/runs/${run.value!.run_id}/citations/${c.citation_id}`); evidenceOpen.value = true } catch (e) { error.value = (e as Error).message } }
 onBeforeUnmount(() => stream?.close())
 </script>
-<template><main class="compat-page"><header><h1>知衡 · 技术支持工作台</h1><button @click="create">新建会话</button><button @click="menu = true">会话导航</button></header>
-<ResizablePanelGroup direction="horizontal"><SplitterPanel :default-size="25" :min-size="15"><Sidebar v-model:open="menu"><p>设备技术支持</p><p class="muted">资料、答案与可追溯来源</p></Sidebar></SplitterPanel><SplitterResizeHandle aria-label="调整导航宽度" class="resize-handle" /><SplitterPanel :default-size="75" :min-size="40">
+<template><section class="compat-page"><header><h1>技术问答</h1><button @click="create">新建会话</button></header>
 <p v-if="error" role="alert">{{ error }}</p><p v-if="!cid">新建会话后，选择适用设备并提问。</p>
 <section v-if="run"><p v-if="run.state === 'awaiting_input'">请选择适用型号</p>
 <button v-for="p in run.state === 'awaiting_input' ? run.candidates : []" :key="p.product_id" @click="command('confirm-product', { product_ids: [p.product_id] })">{{ p.model }}</button>
@@ -74,5 +70,4 @@ onBeforeUnmount(() => stream?.close())
 <button v-if="!terminal(run.state)" @click="command('cancel')">停止</button></section>
 <form v-if="cid" @submit.prevent="send"><label>问题<textarea v-model="question" required maxlength="32000" /></label><button :disabled="busy || !!run && !terminal(run.state)">发送</button></form>
 <Modal v-model:open="evidenceOpen" title="证据原文"><template v-if="citation"><p data-testid="citation-text">{{ citation.display_text || citation.text }}</p><p>修订：{{ citation.revision_id }}</p></template></Modal>
-</SplitterPanel></ResizablePanelGroup>
-</main></template>
+</section></template>
