@@ -86,12 +86,12 @@ M2已通过第2轮总控审查，授权从M3-01连续执行至M3-11，按依赖�
 **文件：**`frontend/src/features/chat/composables/useRunStream.ts`; `frontend/src/features/chat/stores/run.ts`; `frontend/src/features/chat/components/ChatThread.vue`; `frontend/src/features/chat/components/ChatComposer.vue`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M3-05.1** 原生 EventSource 配合同源 cookie。
-- [ ] **M3-05.2** 按 run/seq 去重，410 改读快照。
-- [ ] **M3-05.3** Pinia 保存活动 run，支持停止/重试。
-- [ ] **M3-05.4** 组件卸载关闭订阅。
-- [ ] **M3-05.V** 验证：pnpm -C frontend test:unit -- run-stream；pnpm -C frontend test:e2e -- stream.spec.ts。
-- [ ] **M3-05.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M3-05.1** 原生 EventSource 配合同源 cookie。
+- [x] **M3-05.2** 按 run/seq 去重，410 改读快照。
+- [x] **M3-05.3** Pinia 保存活动 run，支持停止/重试。
+- [x] **M3-05.4** 组件卸载关闭订阅。
+- [x] **M3-05.V** 验证：pnpm -C frontend test:unit -- run-stream；pnpm -C frontend test:e2e -- stream.spec.ts。
+- [x] **M3-05.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**同会话 409 有提示；网络中断恢复无重复；停止另发取消而非仅 abort；失败保留部分文本但不显示成功。
 

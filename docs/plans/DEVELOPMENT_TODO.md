@@ -101,7 +101,7 @@
 - [x] **M3-02** [API 客户端、生成类型与登录](tasks/M3-vue-workbench.md#m3-02) · 依赖：M3-01 · 8单元/1真实浏览器通过
 - [x] **M3-03** [三栏布局与响应式导航](tasks/M3-vue-workbench.md#m3-03) · 依赖：M3-01 · 两项浏览器/类型通过
 - [x] **M3-04** [会话目录与历史恢复](tasks/M3-vue-workbench.md#m3-04) · 依赖：M3-02,M3-03 · 2单元/1浏览器及类型通过
-- [ ] **M3-05** [SSE composable 与运行状态](tasks/M3-vue-workbench.md#m3-05) · 依赖：M3-02,M3-04
+- [x] **M3-05** [SSE composable 与运行状态](tasks/M3-vue-workbench.md#m3-05) · 依赖：M3-02,M3-04 · 10单元/2浏览器通过
 - [ ] **M3-06** [型号确认与阶段进度](tasks/M3-vue-workbench.md#m3-06) · 依赖：M3-05
 - [ ] **M3-07** [结构化引用与图片联动](tasks/M3-vue-workbench.md#m3-07) · 依赖：M3-05
 - [ ] **M3-08** [PDF 原件定位与文本层](tasks/M3-vue-workbench.md#m3-08) · 依赖：M3-07
