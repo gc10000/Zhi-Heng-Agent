@@ -71,12 +71,18 @@ def check_split(config, manifest):
         raise ValueError('缺少代码/模型/prompt版本')
 
 
-def evidence_metrics(question, result):
+def evidence_metrics(question, result, *, asset_equivalences=()):
     # 原文页/资产匹配只证明允许来源命中，不等同人工答案正确性。
     citations = result.get('citations', [])
     def matches(expected, cited):
-        return (cited.get('document_sha256') == expected['document_sha256'] and cited.get('page') == expected['page']
-                and (not expected.get('asset_sha256') or cited.get('asset_sha256') == expected['asset_sha256']))
+        if cited.get('document_sha256') != expected['document_sha256'] or cited.get('page') != expected['page']:
+            return False
+        if not expected.get('asset_sha256') or cited.get('asset_sha256') == expected['asset_sha256']:
+            return True
+        # 原PDF裁图与解析裁图可有不同字节；仅按冻结的精确对应计分，不改写真实引用hash。
+        return any(m['document_sha256'] == expected['document_sha256'] and m['page'] == expected['page']
+                   and m['asset_sha256'] == cited.get('asset_sha256')
+                   and m['expected_asset_sha256'] == expected['asset_sha256'] for m in asset_equivalences)
     groups = question['allowed_evidence']
     matched = sum(any(matches(e, c) for e in g for c in citations) for g in groups)
     return {'allowed_evidence_group_recall': matched / len(groups) if groups else None,
@@ -145,7 +151,8 @@ def run_experiment(dataset, manifest, config, output, executor):
                 if not isinstance(result, dict) or not isinstance(result.get('answer'), str) or not isinstance(result.get('citations'), list):
                     raise ValueError('执行器响应格式错误')
                 json.dumps(result, allow_nan=False)
-                record.update(status='completed', result=result, metrics=evidence_metrics(question, result))
+                record.update(status='completed', result=result, metrics=evidence_metrics(question, result,
+                    asset_equivalences=config.get('corpus', {}).get('asset_equivalences', [])))
             except Exception as exc:
                 record.update(status='failed', error={'type': type(exc).__name__})
             record['seconds'] = time.perf_counter() - started

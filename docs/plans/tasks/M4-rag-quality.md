@@ -26,7 +26,7 @@ M3第2轮已通过总控审查，授权M4-01至M4-10按依赖连续执行，从M
 ### M4-01：首批 50 题与原链路基线
 
 **依赖：**M0-09,M1-11,M2-12。
-**文件：**原`evals/datasets/support-v1.jsonl`及`split-manifest.json`保留；新增`evals/datasets/support-v1-r2.jsonl`及`support-v1-r2-manifest.json`；基线配置计划为`evals/configs/baseline-r2.yaml`（尚未建立）；`app/evaluation/validate_dataset.py`; `app/evaluation/runner.py`; `docs/evaluation/labeling-guide.md`。
+**文件：**原`evals/datasets/support-v1.jsonl`及`split-manifest.json`保留；新增`evals/datasets/support-v1-r2.jsonl`及`support-v1-r2-manifest.json`；基线配置`evals/configs/baseline-r2.yaml`（本机已冻结，dev执行中）；`app/evaluation/validate_dataset.py`; `app/evaluation/runner.py`; `docs/evaluation/labeling-guide.md`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
 - [x] **M4-01.1** 覆盖参数/配置/故障/型号歧义/图示/跨型/无答案。
@@ -41,7 +41,7 @@ M3第2轮已通过总控审查，授权M4-01至M4-10按依赖连续执行，从M
 
 2026-10-24总控定向复核：关闭三项必改及四项补充，M4-01.2通过。独立39项离线测试、八种内容变更拒绝、原件/裁图/冻结及溯源检查通过；见[复核结论](../../development/reviews/M4-01-dataset-review-r2.md)。r2保留原字节及回交标注计数，本次结论补足七题新内容的独立审核；无需为更新计数改写冻结文件。M4-01.3与整体任务仍未完成，可继续以下基线准备。
 
-首次基线执行入口（七题复核已通过，仍须建立独立语料和真实配置；当前未执行）：
+首次基线执行入口（七题复核已通过；三资料595切片/53图片独立语料及真实配置已冻结，dev执行中，结果待补）：
 
 ```powershell
 .venv/Scripts/python.exe -m app.evaluation.validate_dataset evals/datasets/support-v1-r2.jsonl --manifest evals/datasets/support-v1-r2-manifest.json

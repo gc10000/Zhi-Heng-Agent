@@ -16,8 +16,7 @@ def streamed_sha(path):
 
 def runtime_versions(*, root=None, model_paths=None):
     root = Path(root) if root else Path(__file__).resolve().parents[2]
-    code = {p.relative_to(root).as_posix(): streamed_sha(p) for p in sorted((root / 'app').rglob('*.py'))
-            if not p.is_relative_to(root / 'app/evaluation')}
+    code = {p.relative_to(root).as_posix(): streamed_sha(p) for p in sorted((root / 'app').rglob('*.py'))}
     prompts = {p.relative_to(root).as_posix(): streamed_sha(p) for p in sorted((root / 'prompts').rglob('*.prompt'))}
     paths = model_paths if model_paths is not None else {'embedding': os.getenv('BGE_M3_PATH'), 'reranker': os.getenv('BGE_RERANKER_LARGE')}
     models = {}

@@ -3,7 +3,7 @@ from contextlib import contextmanager, ExitStack
 import copy
 import os
 import re
-from .validate_dataset import fingerprint
+from .validate_dataset import fingerprint, file_sha
 
 
 def validate_target(config):
@@ -60,6 +60,12 @@ def open_evaluation_resources(config):
 class RealQueryExecutor:
     def __init__(self, config, *, resource_factory=None):
         validate_target(config)
+        if resource_factory is None and not config.get('corpus', {}).get('snapshot'):
+            raise ValueError('真实评测须冻结完整语料快照，不能只记录原件和活动指针')
+        if resource_factory is None:
+            acceptance = config.get('dataset_acceptance', [])
+            if not acceptance or any(file_sha(a['path']) != a['sha256'] for a in acceptance):
+                raise ValueError('须绑定真实题集接受结论，拒绝缺失或被改动的审阅材料')
         if config['strategy'] != 'm3-baseline':
             raise ValueError('基线适配器仅支持既有正式策略，不能静默忽略实验参数')
         if config.get('parameters'):
@@ -98,6 +104,13 @@ class RealQueryExecutor:
             revision = repo.get_revision(item['revision_id'])
             if revision['original_sha256'] != item['original_sha256'] or revision['status'] != 'published':
                 raise ValueError('冻结语料原件指纹/发布状态不符')
+        if 'snapshot' in self.config['corpus']:
+            from .corpus import corpus_snapshot, validate_asset_equivalences
+            actual = corpus_snapshot(g, self.config['target'], list(self.documents.values()),
+                                     expected=self.config['corpus']['snapshot'])
+            if fingerprint(actual) != fingerprint(self.config['corpus']['snapshot']):
+                raise ValueError('实际语料完整载荷/向量/图片/产品与冻结快照不一致')
+            validate_asset_equivalences(actual, self.config['corpus'].get('asset_equivalences', []))
         self.products = {p['model']: p['product_id'] for p in g.products.collection.find({'owner_id': g.owner_id})}
 
     def __call__(self, question):

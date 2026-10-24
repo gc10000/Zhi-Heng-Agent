@@ -268,3 +268,10 @@ JSONL逐题固定id/group/split、问题/产品/历史、期望行为、必需�
 `app/infrastructure/providers/policy.py`提供ProviderPolicy.load/capabilities/classify/invoke_json；clients.py接文本invoke/stream、视觉摘要、本机推理边界。`PROVIDER_POLICIES_ENABLED=false`默认保留旧SDK请求参数，显式启用才加载对应策略；不因可选工具或视觉缺配置阻断文本问答。能力描述与真实探针分离，配置存在不标verified。JSON同步对象有限格式重试，JSON流拒绝；部分文本流失败不重新打开流，完整外层失败/无助手成功消息。
 
 问答error保留code/stage并可新增retryable布尔；上游超时/连接/429/5xx可重试，鉴权/模型/格式/未知不统一改可重试。只传播安全码，不回显供应商正文/地址。旧APIError原因链与撤权安全逻辑优先保留。导入既有错误码与许可/维护权限/版本门禁不弱化，ProviderFailure可沿现有分类入口传播。配置见[说明](../CONFIGURATION.md)，本机timeout只在同步推理返回边界检测，不承诺抢占CUDA。
+
+
+### M4-01 独立真实基线冻结（2026-10-24）
+
+题集七题总控定向复核已通过，外部接受结论绑定当前subject及冻结版hash，累计50题来源审核、真实人工0。冻结JSONL/manifest不回写review计数。真实baseline-r2配置已建立，仅dev35题运行；heldout15题不执行。新增corpus.snapshot冻结三资料完整切片payload与dense/learned sparse向量hash、原件字节、图片归属/对象字节/摘要及缓存identity/来源与kb产品。RealQueryExecutor默认入口必须完整快照与dataset_acceptance文件hash；每题在创建/恢复run前重新只读校验，变化即拒绝，不以原件/活动指针相同放行。runtime_versions.code包含app/evaluation实现，避免评分变更冒充同版本。
+
+corpus.asset_equivalences仅接受原件目视核对、两端图片hash与物理页绑定的精确对应，并核对比对证据hash。指标可据此匹配标准裁图，不修改实际引用hash，也不将同页邻图视为命中。allowed_evidence_group_recall是辅助来源覆盖，human_answer_correctness仍null；行为为协议/证据保守判定，不是答案质量分。配置文件字节hash与规范JSON config_sha256分别记录。模型/依赖/课程数据不升级，历史摘要模型/prompt未知明确保留；新解析和视觉供应商调用0，文本调用待真实账本核对。基线执行期间不改app源码或冻结配置，版本变更另建实验。

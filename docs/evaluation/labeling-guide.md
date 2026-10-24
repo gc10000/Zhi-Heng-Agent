@@ -1,6 +1,6 @@
 # M4题集标注与冻结规则
 
-M4-01目前是未验收接续点。用户委托的独立原件审核及r2七题定向复核均已完成，三项必改/四项补充关闭，见[第二轮结论](../development/reviews/M4-01-dataset-review-r2.md)。可以继续独立语料、资产映射、配置及dev原链路基线；不再等待用户逐题核读。本次未运行dev查询、heldout或调参，原始题目、手册、问答和evals只留本机。
+M4-01目前是未验收接续点。用户委托的独立原件审核及r2七题定向复核均已完成，三项必改/四项补充关闭，见[第二轮结论](../development/reviews/M4-01-dataset-review-r2.md)。可以继续独立语料、资产映射、配置及dev原链路基线；不再等待用户逐题核读。dev原链路基线正在隔离范围执行，结果齐备前不验收；heldout和调参未运行。原始题目、手册、问答和evals只留本机。
 
 ## 当前审阅材料
 
@@ -35,7 +35,7 @@ M4-01目前是未验收接续点。用户委托的独立原件审核及r2七题�
 
 ## 校验、真实入口与恢复
 
-从项目根运行`.venv/Scripts/python.exe -m app.evaluation.validate_dataset evals/datasets/support-v1.jsonl`。通过仅说明字段/来源边界/冻结/划分自洽，不证明人工正确。复核后仍须建立独立语料和`evals/configs/baseline.yaml`，绑定实际源码、prompt、本机权重及原件/活动修订；目前尚无可执行真实基线配置。
+从项目根运行`.venv/Scripts/python.exe -m app.evaluation.validate_dataset evals/datasets/support-v1.jsonl`。通过仅说明字段/来源边界/冻结/划分自洽，不证明人工正确。已建立本机`evals/configs/baseline-r2.yaml`和独立三资料语料，绑定实际源码（含评测实现）、prompt、本机权重、接受结论，以及原件/活动修订/完整切片载荷与向量/图片/产品。配置文件字节SHA与manifest中的规范JSON配置SHA不同，分别记录，不混用。
 
 正式链路为RunService→QueryRunner→V2Index→模型重排→现有回答节点，旧四分支LangGraph仅兼容。现状：dense/sparse各20、WeightedRanker(0.5,0.5)、最终20、重排前10、12000字符上下文，未调整默认。
 
@@ -44,3 +44,12 @@ M4-01目前是未验收接续点。用户委托的独立原件审核及r2七题�
 `.runner.lock`独占防并发。崩溃后先核对PID及配置，确认进程结束再将锁移到新的证据路径保留，使用完全相同配置续跑。不删除attempts，不手改成功检查点。语料、参数或源码指纹变化时建立新实验版本，不冒充原基线续验。
 
 来源组命中只是原件页/资产的辅助命中，不是人工答案或精确引用正确率；p50/p95只来自实际完成耗时。单元注入、真实Mongo加端口注入、真实服务和付费调用分列，不混称全链路。
+
+
+## 独立语料冻结与图像对应
+
+真实入口每题执行前只读复核完整语料快照；仅原件hash和活动指针相同不足以证明切片正文、metadata、向量或图片没有变化。切片业务载荷和dense/learned sparse向量分别规范化取hash；图片复核对象字节/完整解码、资料与修订、独立对象前缀、摘要状态/文本hash、缓存identity、物理来源，并绑定产品集合。先拒绝变化的切片载荷，再读取其图片引用；不让变化引用引导访问其他对象。默认真实入口缺完整snapshot或接受结论hash不符时拒绝资源初始化；测试resource_factory显式注入不代表真实语料验收。
+
+原PDF标准裁图与MinerU输出可能覆盖同一准确对象但字节不同。仅允许目视核对并冻结的document_sha256/page/asset_sha256/expected_asset_sha256对应，绑定reviewer、原图裁图与比对图hash。同页其他图不能替代，结果保留实际引用asset_sha256，不把对应写成同hash。当前三处对应仅用于辅助来源组召回，不证明模型读懂原图或答案正确。
+
+历史摘要准确命中字节及原上下文缓存，但其原模型/prompt元数据未知，保留unknown。原解析部分code块缺正文、来源只有物理页等限制纳入基线，不从gold修补。基线首题包含冷加载，运行期间同机离线测试可能影响耗时，本轮p50/p95只作执行观测，不称隔离性能基准。SDK内部网络重试尚无HTTP计量，不将持久run生成次数等同精确HTTP调用次数或金额。

@@ -78,6 +78,31 @@ def test_clarification_without_required_evidence_has_no_artificial_recall_penalt
         'allowed_evidence_group_recall': None, 'behavior_matches': True, 'human_answer_correctness': None}
 
 
+def test_original_crop_equivalence_matches_exact_source_page_and_keeps_real_hash(tmp_path):
+    row = case(); row['allowed_evidence'][0][0]['asset_sha256'] = 'b' * 64
+    data, manifest, cfg = freeze(tmp_path, [row])
+    cfg['corpus'] = {'asset_equivalences': [{'document_sha256': 'a' * 64, 'page': 2,
+        'asset_sha256': 'c' * 64, 'expected_asset_sha256': 'b' * 64}]}
+    citation = {'document_sha256': 'a' * 64, 'page': 2, 'asset_sha256': 'c' * 64}
+    run_experiment(data, manifest, cfg, tmp_path / 'out',
+        lambda r: {'answer': '24 V', 'behavior': 'answer', 'citations': [citation]})
+    result = json.loads((tmp_path / 'out/results.jsonl').read_text(encoding='utf-8'))
+    assert result['metrics']['allowed_evidence_group_recall'] == 1.0
+    assert result['result']['citations'] == [citation]
+
+
+@pytest.mark.parametrize('field,value', [('page', 3), ('document_sha256', 'd' * 64), ('asset_sha256', 'd' * 64)])
+def test_image_equivalence_cannot_accept_wrong_page_document_or_neighbor_image(tmp_path, field, value):
+    row = case(); row['allowed_evidence'][0][0]['asset_sha256'] = 'b' * 64
+    data, manifest, cfg = freeze(tmp_path, [row])
+    cfg['corpus'] = {'asset_equivalences': [{'document_sha256': 'a' * 64, 'page': 2,
+        'asset_sha256': 'c' * 64, 'expected_asset_sha256': 'b' * 64}]}
+    citation = {'document_sha256': 'a' * 64, 'page': 2, 'asset_sha256': 'c' * 64, field: value}
+    run_experiment(data, manifest, cfg, tmp_path / 'out', lambda r: {'answer': '24 V', 'citations': [citation]})
+    result = json.loads((tmp_path / 'out/results.jsonl').read_text(encoding='utf-8'))
+    assert result['metrics']['allowed_evidence_group_recall'] == 0.0
+
+
 def case(qid='q1', split='dev', group='g1'):
     return {'id': qid, 'category': 'parameter', 'group_id': group, 'split': split,
             'question': f'{qid}：AX的额定电压是多少？', 'product_names': ['AX'], 'history': [],

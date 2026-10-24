@@ -20,3 +20,14 @@ def test_versions_bind_actual_code_prompt_weights_and_generation_config(tmp_path
 def test_missing_local_weights_rejected_before_automatic_download(tmp_path):
     import pytest
     with pytest.raises(ValueError): runtime_versions(root=tmp_path, model_paths={'embedding': tmp_path / 'absent'})
+
+
+def test_evaluation_matching_code_changes_are_bound_before_paid_execution(tmp_path):
+    (tmp_path / 'app/evaluation').mkdir(parents=True)
+    matching = tmp_path / 'app/evaluation/runner.py'; matching.write_text('matching=1', encoding='utf-8')
+    model = tmp_path / 'weights'; model.mkdir(); (model / 'model.bin').write_bytes(b'synthetic')
+    before = runtime_versions(root=tmp_path, model_paths={'embedding': model})
+    matching.write_text('matching=2', encoding='utf-8')
+    after = runtime_versions(root=tmp_path, model_paths={'embedding': model})
+    assert before['code'] != after['code']
+    assert before['model'] == after['model']
