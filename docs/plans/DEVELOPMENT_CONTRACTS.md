@@ -233,3 +233,7 @@ completed CAS同时保存completion_snapshot，assistant消息稳定ID幂等落�
 导入供应商超时（含OpenAI APITimeoutError/httpx.TimeoutException）公开upstream_timeout；连接失败（含OpenAI APIConnectionError/httpx.NetworkError）公开upstream_connection_failed，均retryable=true。429/5xx可重试，401/403及400/格式错误不可自动重试。普通文件OSError不作为网络超时；维护者与expected_version门禁不变。
 
 M2复审许可补充：跨job仅原子接管import_lease_until已过期的许可；同job更高attempt/同代异token保护，旧heartbeat/finally完整permit匹配，不影响接管者。最终发布fencing不变。
+
+### M2复审完成消息与下一轮顺序
+
+completed CAS持久保存completion_snapshot后，先幂等写assistant再释放会话。RunRepository.release从账本重读快照，各终态出口/事件flush/恢复复用；新轮reconcile先补偿active旧终态再CAS领取。写失败不释放旧占用，不插入下一轮user，可用相同client_request_id恢复。跨实例并发补偿只保留同一稳定消息，ordinal保持首次写入的值，不重排或改时间；释放仅匹配本run。正常QueryRunner每次completed均保存快照；历史低层无快照终态保留兼容，不推测生成答案。

@@ -7,6 +7,7 @@ from app.api.errors import APIError
 from app.knowledge.models import stable_id
 from app.knowledge.repository import fingerprint
 from app.runs.models import TERMINAL
+from app.identity.models import Principal
 
 
 class RunRepository:
@@ -57,6 +58,12 @@ class RunRepository:
             self.release(row)
             return row
         cid = row['conversation_id']
+        # 新轮领取前先物化上一轮终态消息；失败保留原占用，可用同请求恢复。
+        conversation = self.conversations.get(user, cid)
+        previous = conversation.get('active_run_id')
+        if previous and previous != rid:
+            prior = self.get(user, previous)
+            self.release(prior)
         # 先准备再CAS占用，重试同run可进入；其他run永远不能释放本run占用。
         claimed = self.conversations.conversations.update_one(
             self.conversations.scope(user) | {'conversation_id': cid, 'archived': False,
@@ -81,7 +88,20 @@ class RunRepository:
         return self.get(user, rid)
 
     def release(self, row):
+        # 重新读取事实，不能以调用者持有的旧快照跳过完成消息。
+        row = self.runs.find_one({'run_id': row['run_id'], 'owner_id': row['owner_id'],
+                                  'conversation_id': row['conversation_id'], 'kb_id': row['kb_id']})
+        if row is None:
+            return
         if row['state'] not in TERMINAL:
             return
+        if row['state'] == 'completed' and row.get('completion_snapshot'):
+            snap = row['completion_snapshot']
+            user = Principal(user_id=row['owner_id'], username='运行消息恢复', role='viewer', kb_ids=(row['kb_id'],))
+            self.conversations.append_message(user, row['conversation_id'], run_id=row['run_id'], role='assistant',
+                text=snap.get('text', row.get('answer', '')),
+                product_snapshot=snap.get('product_snapshot', row.get('product_snapshot', {})),
+                citations=snap.get('citations', row.get('citations', [])))
+        # 消息已持久才释放，迟到恢复只匹配自己的占用。
         self.conversations.conversations.update_one({'conversation_id': row['conversation_id'],
             'owner_id': row['owner_id'], 'active_run_id': row['run_id']}, {'$set': {'active_run_id': None}})

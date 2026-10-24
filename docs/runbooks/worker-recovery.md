@@ -15,3 +15,5 @@ Mongo是事实账本，Dispatcher发后确认，broker仅job_id；重复投递�
 ### 过期资料许可接管
 
 旧job已completed但finally前退出时，资料import_permit仍可能存在。等待import_lease_until过期后，新修订job通过原子CAS自动接管，无需手动清字段；有效其他job和同job更高attempt仍拒绝。同attempt异token不能覆盖。迟到heartbeat仅匹配完整job/attempt/token且许可未过期；finally只清自己的完整许可，最终指针仍核对permit和期限。多worker竞争只一方领取；不要直接修改许可来恢复。无期限的异常遗留需保留现场并人工核对，不自动猜测过期。
+
+M2复审顺序保证：completed及completion_snapshot已落库、assistant未持久时保留active_run_id。恢复、事件flush及新轮创建先幂等补齐上一轮assistant，再条件释放；写失败保持旧占用，可原请求重试，不重跑模型。消息ordinal不改写。旧run释放只匹配自身，不能释放新占用。

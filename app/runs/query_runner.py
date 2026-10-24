@@ -182,7 +182,6 @@ class QueryRunner:
             completion = {'text': answer, 'citations': citations, 'product_snapshot': product_snapshot}
             self.commands.finish(user, rid, token, 'completed', {'answer': answer, 'citations': citations, 'message_id': row['assistant_message_id']},
                 fields={'answer': answer, 'citations': citations, 'stage': 'completed', 'completion_snapshot': completion})
-            self.repo.conversations.append_message(user, row['conversation_id'], run_id=rid, role='assistant', **completion)
         except ExecutionStopped:
             # 合作取消已由boundary落终态；关机/失联由原租约扫描收敛interrupted。
             pass

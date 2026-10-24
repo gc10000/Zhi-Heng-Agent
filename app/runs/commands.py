@@ -126,15 +126,6 @@ class RunCommands:
                 continue
             self.repo.release(row)
             self.events.flush(row['run_id'])
-            # 完成事件与消息写入分离时，重启后依据同一不可变快照幂等补偿。
-            if row['state'] == 'completed' and row.get('completion_snapshot'):
-                snap = row['completion_snapshot']
-                user = Principal(user_id=row['owner_id'], username='运行恢复', role='viewer', kb_ids=(row['kb_id'],))
-                self.repo.conversations.append_message(
-                    user, row['conversation_id'], run_id=row['run_id'], role='assistant',
-                    text=snap.get('text', row.get('answer', '')),
-                    product_snapshot=snap.get('product_snapshot', row.get('product_snapshot', {})),
-                    citations=snap.get('citations', row.get('citations', [])))
         return recovered
 
     def _recoverable_scope(self, row):
