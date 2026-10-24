@@ -213,3 +213,22 @@ MODEL_HOST_PORT默认8011，MODEL_HOST_URL为worker可达宿主地址，MODEL_HO
 `Settings.provider_capabilities()`仅本机配置检查，不访问模型列表、不发付费探针；configured不等于verified，verified始终false。返回变量名、策略和布尔状态，不返回密钥/端点/本地模型路径。默认不开新公开HTTP端点。真实调用的错误模型、鉴权、限流、5xx、连接和超时明确分类；问答外层保存安全code/stage/retryable，仍保持failed且保留部分答案，不自动复活run。
 
 公共错误码：upstream_timeout、upstream_connection_failed、provider_rate_limited、provider_unavailable可重试；provider_authentication_failed、provider_model_not_found、provider_invalid_request、provider_invalid_response、provider_capability_unsupported、provider_json_stream_unsupported与未知错误不可盲重试。任务重试仍需原维护权限、版本与新运行请求协议，不代表SDK或本地推理可无限重试。该策略实验需在M4冻结开发集验证后才决定是否启用默认；当前.env不变、付费调用0。
+
+
+## M4检索阶段独立配置
+
+`RETRIEVAL_POLICY_JSON`填写根目录.env，空值保持已接受的默认。修改后重启API；正式持久run内部保存实际策略，公开API请求不允许浏览器任意覆盖服务端资源上限。非法JSON、未知字段、非整数数量、非有限权重及越界组合拒绝，不输出输入值。
+
+| 字段 | 默认 | 含义 |
+| --- | --- | --- |
+| dense_limit / sparse_limit | 20 / 20 | dense与learned sparse各自初召回数，后者不是BM25 |
+| fusion_limit | 20 | 融合池上限 |
+| rerank_limit | 20 | 实际送入本机重排的数量 |
+| context_limit | 10 | 重排后允许参与字符预算的数量，最终可更少 |
+| fusion | weighted | weighted / rrf / dense / learned_sparse |
+| dense_weight / sparse_weight | 0.5 / 0.5 | Milvus加权融合参数，各0..1，不能同时为0 |
+| rrf_k | 60 | Milvus RRF参数，1..16384 |
+
+数量均1..1000，context_limit≤rerank_limit≤fusion_limit，融合池不超过所用初召回总量。所有分路共用组织/知识库/产品/冻结修订过滤，不从客户端接收过滤表达式。weighted保留Milvus原分数，rrf明确标为倒数排名分，不混成重排相关度。默认不提高候选量；清空配置可回切原加权策略。
+
+固定dev检索网格入口为`.venv/Scripts/python.exe -m app.evaluation.retrieval_grid --dataset evals/datasets/support-v1-r2.jsonl --manifest evals/datasets/support-v1-r2-manifest.json --config evals/configs/retrieval-grid.yaml --output output/evals/support-v1-r2-retrieval-grid`。本机配置绑定实际源码/权重/prompt、题集接受结论和完整独立语料，源码变化必须另建新配置/输出，不改旧报告。网格只允许dev，答案供应商调用0，图/页来源命中不等同答案正确。查询嵌入按问题在同一进程共享，独立保存原编码时间；汇报检索/重排时间及含共享编码的估算时间，冷加载单列，非隔离性能结论。只读客户端不create_index或写run/消息；退出前再核完整语料。输出原始问题/检索正文留本机，不上传。

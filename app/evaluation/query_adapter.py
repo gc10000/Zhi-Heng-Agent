@@ -48,7 +48,9 @@ def open_evaluation_resources(config):
         settings = Settings(os.environ['MONGO_URL'], t['database'], knowledge_owner_id=t['owner_id'],
             object_bucket=t['bucket'], object_prefix=t['object_prefix'], milvus_collection=t['collection'])
         knowledge = KnowledgeResources(db, settings)
-        runner = QueryRunner(repo, commands, knowledge.get)
+        # 已冻结原链路显式使用原默认，不能被宿主实验环境变量悄悄覆盖。
+        from app.retrieval.search import RetrievalPolicy
+        runner = QueryRunner(repo, commands, knowledge.get, retrieval_policy=RetrievalPolicy())
         yield {'db': db, 'conversations': conv, 'runs': repo, 'run_service': RunService(repo),
                'commands': commands, 'query_runner': runner, 'knowledge': knowledge.get}
     finally:

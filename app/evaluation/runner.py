@@ -65,7 +65,7 @@ def check_split(config, manifest):
             raise ValueError('最终策略或开发报告与选择记录不一致')
     elif config['phase'] != 'development':
         raise ValueError('开发题只用于开发阶段，避免阶段误标')
-    if config.get('execution_mode') not in {'unit_injection', 'real_query_runner'}:
+    if config.get('execution_mode') not in {'unit_injection', 'real_query_runner', 'real_retrieval_grid'}:
         raise ValueError('须显式区分单元注入与真实QueryRunner执行')
     if not all(config.get('versions', {}).get(k) for k in ('code', 'model', 'prompt')):
         raise ValueError('缺少代码/模型/prompt版本')

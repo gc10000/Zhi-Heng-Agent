@@ -14,7 +14,7 @@ def score_record(stage, rank, score, score_kind, query_id='original'):
     return StageScore(stage=stage, rank=rank, score=score, score_kind=score_kind, query_id=query_id).model_dump()
 
 
-def traced_hybrid(hits, dense, sparse):
+def traced_hybrid(hits, dense, sparse, *, fusion='weighted'):
     branches = []
     for channel, rows in [('dense', dense), ('learned_sparse', sparse)]:
         ranks = {}
@@ -26,7 +26,8 @@ def traced_hybrid(hits, dense, sparse):
     for rank, raw in enumerate(hits, 1):
         item = copy.deepcopy(raw); key = stable_key(item.get('entity', item))
         item['retrieval_trace'] = [r[key] for r in branches if key in r] + [
-            score_record('weighted_fusion', rank, raw.get('distance', raw.get('score')), 'milvus_weighted_ip')]
+            score_record('rrf' if fusion == 'rrf' else 'weighted_fusion', rank,
+                raw.get('distance', raw.get('score')), 'reciprocal_rank' if fusion == 'rrf' else 'milvus_weighted_ip')]
         result.append(item)
     return result
 

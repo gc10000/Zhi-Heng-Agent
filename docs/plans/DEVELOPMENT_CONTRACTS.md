@@ -289,3 +289,10 @@ V2Index.search新增trace=True（默认）补同向量/同范围分路排名，�
 目录按NFKC/大小写/分隔符规范化的完整标准名/别名精确匹配，数字品牌不当单一设备，近/未知型号（含显式纯数字及全角）只给待确认候选。可选本机目录向量最多50项/前三候选，精确命中不编码，向量分不当确认概率；不可用仍澄清，超过50要求UI目录先选。错误码、协议编号和环境版本不当设备。用户确认后按同run/版本门禁恢复，不再解析原未知名强迫重复确认。
 
 QueryPlan增加rewritten_query/slots/scope_groups/candidates/unconfirmed_tokens/reason，route区分answer/clarify/compare/insufficient/general/series。原问题不变，指代改写只加本目录已确认设备，槽位来自用户原文，不信助手猜测。比较每个产品独立过滤取证、共用权限与修订快照；后续证据缺失/预算仍须M4-06/07约束。内部requested_product_ids保留请求显式选择；旧run缺字段兼容旧输入快照。product_snapshot.context_route为可选新增字段，general表示继承清空边界；只从成功助手消息继承有效设备，取消/失败的用户快照不能覆盖，UI明确选择与指代冲突需澄清。不修改旧消息、ordinal或原始问题。
+
+
+### M4-04 检索策略与dev网格
+
+正式入口复用`app/retrieval/search.py`的RetrievalPolicy/retrieve、`rerank.py`的rank_hits及实际V2Index；融合复用已安装pymilvus的WeightedRanker/RRFRanker，不重复实现同名fusion.py以免与服务端分数失配。dense/sparse初召回、融合池、重排输入和上下文候选独立有界；默认20/20/20/20/10与原加权保持。独立参数在run内部retrieval_policy留存；公开API字段不变。各分路共用后端scoped_filter，重排只接受本次真正送入的候选身份，保留复合身份/阶段分数/原文来源。
+
+`real_retrieval_grid`仅表示真实本机模型/索引检索实验，不表示答案生成或人工质量通过。固定grid只允许冻结dev；完整语料/接受结论/运行指纹在写报告前核验，使用独立输出和可恢复attempts，结束再核语料。原m3-baseline适配器显式使用RetrievalPolicy原默认，不受宿主实验环境覆盖；运行版本变化不能续写旧基线。保留课程数据和全部旧证据，不运行heldout调参。

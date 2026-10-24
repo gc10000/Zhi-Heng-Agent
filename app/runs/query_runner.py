@@ -40,15 +40,17 @@ def rerank(question, docs):
     try:
         if len(scores) != len(docs) or not all(math.isfinite(float(s)) for s in scores):
             raise ValueError()
-        return sorted([d | {'score': float(s)} for d, s in zip(docs, scores)], key=lambda d: d['score'], reverse=True)[:10]
+        return sorted([d | {'score': float(s)} for d, s in zip(docs, scores)], key=lambda d: d['score'], reverse=True)
     except (ValueError, TypeError):
         raise ProviderFailure('provider_invalid_response') from None
 
 
 class QueryRunner:
-    def __init__(self, repo, commands, knowledge, *, identity_store=None, embedder=encode, ranker=rerank, llm_factory=None):
+    def __init__(self, repo, commands, knowledge, *, identity_store=None, embedder=encode, ranker=rerank, llm_factory=None, retrieval_policy=None):
         self.repo, self.commands, self.events, self.knowledge = repo, commands, commands.events, knowledge
         self.identity_store, self.embedder, self.ranker, self.llm_factory = identity_store, embedder, ranker, llm_factory
+        from app.retrieval.search import RetrievalPolicy
+        self.retrieval_policy = RetrievalPolicy.load() if retrieval_policy is None else RetrievalPolicy.model_validate(retrieval_policy)
         self.pool = ThreadPoolExecutor(max_workers=4, thread_name_prefix='持久问答')
         self.futures, self.lock, self.stopping = {}, threading.Lock(), threading.Event()
 
@@ -140,22 +142,12 @@ class QueryRunner:
             repo = g.repo(row['kb_id'])
             revisions = repo.get_active_revisions()
             emit('stage.changed', {'stage': stage, 'revision_count': len(revisions)}, fields={'revision_snapshot': revisions})
-            from app.retrieval.adapters import from_index_hits, after_rerank, stable_key, score_record
+            from app.retrieval.adapters import from_index_hits, stable_key
             from app.retrieval.models import EvidencePack
+            from app.retrieval.search import RetrievalPolicy, retrieve
+            policy = RetrievalPolicy.model_validate(self.retrieval_policy)
             plan = plan.model_copy(update={'revision_ids': tuple(r['active_revision_id'] for r in revisions)})
-            hits = []
-            for scope in plan.scope_groups:
-                for query in plan.search_queries:
-                    found = g.index().search(repo, query, embedder=self.embedder, revision_snapshot=revisions,
-                        product_ids=list(scope), limit=20)
-                    if plan.route == 'compare':
-                        for rank, hit in enumerate(found, 1):
-                            hit = copy.deepcopy(hit)
-                            trace = hit.get('retrieval_trace') or [score_record('retrieval', rank, hit.get('distance'), 'backend_unspecified')]
-                            hit['retrieval_trace'] = [t | {'query_id': f'product:{scope[0]}/{t["query_id"]}'} for t in trace]
-                            hits.append(hit)
-                    else:
-                        hits.extend(found)
+            hits = retrieve(g.index(), repo, plan, embedder=self.embedder, revision_snapshot=revisions, policy=policy)
             candidates = from_index_hits(hits)
             pack = EvidencePack(plan=plan, candidates=candidates)
             docs = []
@@ -170,11 +162,11 @@ class QueryRunner:
                     'source_refs': metadata.get('source_refs', [])})
             stage = 'rerank'
             emit('stage.changed', {'stage': stage}, fields={'stage': stage, 'retrieval_trace': pack.trace(),
-                'query_plan': plan.model_dump(mode='json')})
-            docs = self.ranker(row['question'], docs)
-            ranked = after_rerank(candidates, docs)
+                'query_plan': plan.model_dump(mode='json'), 'retrieval_policy': policy.model_dump()})
+            from app.retrieval.rerank import rank_hits
+            ranked = rank_hits(row['question'], candidates, ranker=self.ranker, policy=policy)
             pack = EvidencePack(plan=plan, candidates=candidates, reranked=ranked)
-            docs = [h.document() for h in ranked]
+            docs = [h.document() for h in ranked[:policy.context_limit]]
             stage = 'answer'
             from app.query_process.agent.nodes.node_answer_output import step_2_construct_prompt, step_3_generate_response
             from app.knowledge.citation_api import controlled_markdown

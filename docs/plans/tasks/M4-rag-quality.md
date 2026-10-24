@@ -84,7 +84,7 @@ M3第2轮已通过总控审查，授权M4-01至M4-10按依赖连续执行，从M
 ### M4-04：候选池、融合与重排消融
 
 **依赖：**M4-02。
-**文件：**`app/retrieval/search.py`; `app/retrieval/fusion.py`; `app/retrieval/rerank.py`; `evals/configs/retrieval-grid.yaml`; `tests/integration/test_scope_filters.py`。
+**文件：**`app/retrieval/search.py`; `app/retrieval/rerank.py`; `app/knowledge/index.py`（直接复用Milvus的WeightedRanker/RRFRanker，不重复实现fusion.py）；`app/evaluation/retrieval_grid.py`/`readonly.py`; `evals/configs/retrieval-grid.yaml`; `tests/integration/test_scope_filters.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
 - [ ] **M4-04.1** 分别配置 dense/sparse 初召回量、RRF 池、重排量、上下文数。

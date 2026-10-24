@@ -116,8 +116,14 @@ class V2Index:
         repo.save_stage(revision_id,attempt=attempt,stage='indexed',manifest=manifest)
         return manifest
 
-    def search(self,repo,text,*,embedder,revision_snapshot=None,product_ids=(),limit=5,trace=True):
-        from pymilvus import AnnSearchRequest,WeightedRanker
+    def search(self,repo,text,*,embedder,revision_snapshot=None,product_ids=(),limit=5,trace=True,policy=None):
+        from pymilvus import AnnSearchRequest,WeightedRanker,RRFRanker
+        from app.retrieval.search import RetrievalPolicy
+        if policy is None:
+            policy=RetrievalPolicy(dense_limit=limit,sparse_limit=limit,fusion_limit=limit,
+                rerank_limit=limit,context_limit=limit)
+        else:
+            policy=RetrievalPolicy.model_validate(policy)
         snapshot=repo.get_active_revisions() if revision_snapshot is None else revision_snapshot
         ids=[r['active_revision_id'] for r in snapshot]
         if not ids:return []
@@ -126,16 +132,25 @@ class V2Index:
         embedding=embedder([text]);dense=embedding['dense'][0];sparse=embedding['sparse'][0]
         self.validate_vectors(dense,sparse,self.dense_dim)
         expr=scoped_filter(owner_id=repo.owner_id,kb_id=repo.kb_id,revision_ids=ids,product_ids=product_ids)
-        requests=[AnnSearchRequest(data=[dense],anns_field='dense_vector',param={'metric_type':'IP'},limit=limit,expr=expr),
-                  AnnSearchRequest(data=[sparse],anns_field='sparse_vector',param={'metric_type':'IP'},limit=limit,expr=expr)]
+        requests=[AnnSearchRequest(data=[dense],anns_field='dense_vector',param={'metric_type':'IP'},limit=policy.dense_limit,expr=expr),
+                  AnnSearchRequest(data=[sparse],anns_field='sparse_vector',param={'metric_type':'IP'},limit=policy.sparse_limit,expr=expr)]
         fields=['chunk_uid','text','document_id','revision_id','ordinal','metadata']
-        hits=self.client.hybrid_search(collection_name=self.collection,reqs=requests,ranker=WeightedRanker(0.5,0.5),limit=limit,
+        if policy.fusion in {'dense','learned_sparse'}:
+            field,data=('dense_vector',dense) if policy.fusion=='dense' else ('sparse_vector',sparse)
+            hits=self.client.search(collection_name=self.collection,data=[data],anns_field=field,search_params={'metric_type':'IP'},
+                filter=expr,limit=policy.fusion_limit,output_fields=fields,consistency_level='Strong')[0]
+            if not trace:return hits
+            from app.retrieval.adapters import score_record
+            return [dict(h)|{'retrieval_trace':[score_record(policy.fusion,n,h.get('distance'),'inner_product')]}
+                for n,h in enumerate(hits,1)]
+        ranker=RRFRanker(k=policy.rrf_k) if policy.fusion=='rrf' else WeightedRanker(policy.dense_weight,policy.sparse_weight)
+        hits=self.client.hybrid_search(collection_name=self.collection,reqs=requests,ranker=ranker,limit=policy.fusion_limit,
                                         output_fields=fields,consistency_level='Strong')[0]
         if not trace:return hits
         # Milvus融合响应没有分路排名；以相同向量、过滤、候选量补取真实分路。
         branches=[]
-        for field,data in [('dense_vector',dense),('sparse_vector',sparse)]:
+        for field,data,size in [('dense_vector',dense,policy.dense_limit),('sparse_vector',sparse,policy.sparse_limit)]:
             branches.append(self.client.search(collection_name=self.collection,data=[data],anns_field=field,
-                search_params={'metric_type':'IP'},filter=expr,limit=limit,output_fields=fields,consistency_level='Strong')[0])
+                search_params={'metric_type':'IP'},filter=expr,limit=size,output_fields=fields,consistency_level='Strong')[0])
         from app.retrieval.adapters import traced_hybrid
-        return traced_hybrid(hits,*branches)
+        return traced_hybrid(hits,*branches,fusion=policy.fusion)
