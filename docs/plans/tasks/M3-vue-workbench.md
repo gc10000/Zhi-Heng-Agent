@@ -150,11 +150,11 @@ M2已通过第2轮总控审查，授权从M3-01连续执行至M3-11，按依赖�
 **文件：**`frontend/src/features/products/ProductsPage.vue`; `frontend/src/features/documents/DocumentsPage.vue`; `frontend/src/features/documents/ImportJobPanel.vue`; `frontend/src/features/documents/RevisionPanel.vue`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M3-09.1** 产品/资料筛选、上传、任务阶段与错误重试。
-- [ ] **M3-09.2** 切片/图像预览、版本比较和维护者发布/撤回。
-- [ ] **M3-09.3** 显示解析降级质量。
-- [ ] **M3-09.V** 验证：pnpm -C frontend test:e2e -- documents.spec.ts。
-- [ ] **M3-09.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M3-09.1** 产品/资料筛选、上传、任务阶段与错误重试。
+- [x] **M3-09.2** 切片/图像预览、版本比较和维护者发布/撤回。
+- [x] **M3-09.3** 显示解析降级质量。
+- [x] **M3-09.V** 验证：pnpm -C frontend test:e2e -- documents.spec.ts。
+- [x] **M3-09.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**上传成功不等于发布；查看者无发布按钮且后台仍鉴权；重复提交不创建多任务；失败可定位阶段。
 

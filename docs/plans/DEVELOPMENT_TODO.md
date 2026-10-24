@@ -105,7 +105,7 @@
 - [x] **M3-06** [型号确认与阶段进度](tasks/M3-vue-workbench.md#m3-06) · 依赖：M3-05 · 刷新/409/终态浏览器通过
 - [x] **M3-07** [结构化引用与图片联动](tasks/M3-vue-workbench.md#m3-07) · 依赖：M3-05 · 4安全单元/3浏览器通过
 - [x] **M3-08** [PDF 原件定位与文本层](tasks/M3-vue-workbench.md#m3-08) · 依赖：M3-07 · 10单元/1集成/1浏览器通过
-- [ ] **M3-09** [产品资料与导入发布界面](tasks/M3-vue-workbench.md#m3-09) · 依赖：M3-02,M3-03
+- [x] **M3-09** [产品资料与导入发布界面](tasks/M3-vue-workbench.md#m3-09) · 依赖：M3-02,M3-03 · 2浏览器/类型通过，真实小样待M3-11
 - [ ] **M3-10** [可访问性、异常与性能检查](tasks/M3-vue-workbench.md#m3-10) · 依赖：M3-06,M3-08,M3-09
 - [ ] **M3-11** [M3 阶段验收](tasks/M3-vue-workbench.md#m3-11) · 依赖：M3-10
 
