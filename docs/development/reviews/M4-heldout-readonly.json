@@ -1,0 +1,46 @@
+{
+  "passed": true,
+  "mode": "real_m4_evaluation_read_only",
+  "split": "heldout",
+  "questions": 15,
+  "states": {
+    "completed": 14,
+    "awaiting_input": 1
+  },
+  "persisted_messages": 31,
+  "logical_answer_generations": 14,
+  "new_provider_calls": 0,
+  "corpus_sha256": "dd01944db688807c158923c0d21d272f1f45aa4304aa9012efada71c2c18b810",
+  "image_assets_fully_decoded": 19,
+  "human_answer_correctness": null,
+  "raw_evidence": [
+    {
+      "path": "evals/configs/m4-10-heldout-control.yaml",
+      "sha256": "3af2a11949ae8caa97b005dc0213bc5cc4529d1fb8eff674e6a7bd37effc27dd"
+    },
+    {
+      "path": "evals/datasets/support-v1-r2.jsonl",
+      "sha256": "4a35321fc21a28f5b2986a84d8c8c77cf7c43b9da258cfe6ed3d5ebbf5e0a98c"
+    },
+    {
+      "path": "evals/datasets/support-v1-r2-manifest.json",
+      "sha256": "e91f599e1b180f3ad8651ebe70e987c347d78dc9c2d9b44cdf9872977635a3ae"
+    },
+    {
+      "path": "output/evals/support-v1-r2-m4-10-heldout-control/attempts.jsonl",
+      "sha256": "1353d020b834c15cc0674a879e607d05feaffcae903c7e08e307d9a299b79f23"
+    },
+    {
+      "path": "output/evals/support-v1-r2-m4-10-heldout-control/manifest.json",
+      "sha256": "e56416194e9b1a6ba178dadc1a6e1d5ce9360b2ca24b293da41ab01a50bd62e8"
+    },
+    {
+      "path": "output/evals/support-v1-r2-m4-10-heldout-control/provider-counts-b11fcd7a0ec048498ccc2a0b8768eda9.json",
+      "sha256": "ae3d6a69921e7f0aef2e2d6d04d4e2fae27df49b3f6265c6c6c004fd6e1e8182"
+    },
+    {
+      "path": "output/evals/support-v1-r2-m4-10-heldout-control/results.jsonl",
+      "sha256": "1353d020b834c15cc0674a879e607d05feaffcae903c7e08e307d9a299b79f23"
+    }
+  ]
+}

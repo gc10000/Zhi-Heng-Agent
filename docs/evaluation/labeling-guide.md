@@ -2,6 +2,8 @@
 
 M4-10配置策略通过`m4-configured`与严格parameters接入正式QueryRunner；原`m3-baseline`不接受参数覆盖。`python -m app.evaluation.quality_grid --dataset <JSONL> --manifest <划分> --config <YAML> --output <新目录>`仅用于dev真实检索单因素/组合，输出不是生成答案。阶段缓存绑定完整执行版本与语料；原始耗时继续约束可选分支，命中不能把超时变为质量收益。所有复用、原耗时与逻辑供应商invoke/stream计数单列；不缓存答案、不将复用后的wall当生产时延，精确SDK重试数/金额未知。宽窗口字符兜底是当前模板对照，不能冒称历史原链路。先dev报告/默认选择冻结，再最终heldout；来源指标、人类正确率和助手答案抽检分别报告。
 
+恢复实验时保持原JSONL/划分/配置/接受结论/完整语料和执行字节一致。成功attempt及持久run按原请求复用；失败run不能通过换request_id绕过账本重新付费，应先只读定位状态并按既有重试门禁处理。`.runner.lock`存在时拒绝另进程执行，先核对PID与存活进程；不自动删除占用。中断的缓存写入或任何payload/seconds指纹损坏都拒绝使用，保留原目录并另建清楚标注的新实验，不能手改结果伪装恢复。源码变化后冻结新版本，不能继续向旧输出追加。`scripts/verification/recheck_m4_evaluation.py --config <本轮YAML> --output <真实问答结果目录> --report <新JSON>`只读核对实际消息顺序、答案、唯一终态、准确引用/图片和完整语料；不构造写入仓储、加载权重或调用模型。
+
 M4-01已完成执行自验，M4阶段仍在执行。用户委托的独立原件审核及r2七题定向复核均已完成，三项必改/四项补充关闭，见[第二轮结论](../development/reviews/M4-01-dataset-review-r2.md)。可以继续独立语料、资产映射、配置及dev原链路基线；不再等待用户逐题核读。35dev原链路基线及完整只读复核已通过，34逻辑生成/1澄清；heldout和调参未运行。原始题目、手册、问答和evals只留本机。
 
 ## 当前审阅材料

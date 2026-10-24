@@ -1,0 +1,46 @@
+{
+  "passed": true,
+  "mode": "real_m4_evaluation_read_only",
+  "split": "dev",
+  "questions": 35,
+  "states": {
+    "awaiting_input": 2,
+    "completed": 33
+  },
+  "persisted_messages": 68,
+  "logical_answer_generations": 33,
+  "new_provider_calls": 0,
+  "corpus_sha256": "dd01944db688807c158923c0d21d272f1f45aa4304aa9012efada71c2c18b810",
+  "image_assets_fully_decoded": 23,
+  "human_answer_correctness": null,
+  "raw_evidence": [
+    {
+      "path": "evals/configs/m4-10-dev-control.yaml",
+      "sha256": "b5f8f4fe5e998c3315250d1f7ad15be15345fc0df4b14b822c449613024ec91c"
+    },
+    {
+      "path": "evals/datasets/support-v1-r2.jsonl",
+      "sha256": "4a35321fc21a28f5b2986a84d8c8c77cf7c43b9da258cfe6ed3d5ebbf5e0a98c"
+    },
+    {
+      "path": "evals/datasets/support-v1-r2-manifest.json",
+      "sha256": "e91f599e1b180f3ad8651ebe70e987c347d78dc9c2d9b44cdf9872977635a3ae"
+    },
+    {
+      "path": "output/evals/support-v1-r2-m4-10-dev-control/attempts.jsonl",
+      "sha256": "bb0516fc81a5a8a6ce36fbba1f5b3cb5f546ef310700fa84e3222de3bd7263f0"
+    },
+    {
+      "path": "output/evals/support-v1-r2-m4-10-dev-control/manifest.json",
+      "sha256": "6df9defd739336f366f215f15858cb71243c21580fbea8d2a33d6ed999b4ed1c"
+    },
+    {
+      "path": "output/evals/support-v1-r2-m4-10-dev-control/provider-counts-4d80b161988041b398095de27b276787.json",
+      "sha256": "52a78e0ba23236f0f10f9520060a9dbb9fe62d58684ac639199c2e34182c0073"
+    },
+    {
+      "path": "output/evals/support-v1-r2-m4-10-dev-control/results.jsonl",
+      "sha256": "bb0516fc81a5a8a6ce36fbba1f5b3cb5f546ef310700fa84e3222de3bd7263f0"
+    }
+  ]
+}

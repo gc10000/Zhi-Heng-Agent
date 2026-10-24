@@ -1,6 +1,6 @@
-## M4执行接续（2026-10-25）
+## M4执行交付（2026-10-25）
 
-M4-01/02/03/06/09执行自验，M4 5/10、核心48/76；M4-04固定dev检索网格运行中未勾选，M4-07可按独立依赖接续。未阶段提交/未总控通过，M5未授权。
+M4执行自验10/10、核心53/76，现提交待审查，未自行标记总控通过。完整回归697通过/2排除/0跳过，后续4接线（3重叠）通过；七组dev检索、35dev问答、冻结默认后15heldout与真实只读核验完成。语义失败、助手抽检身份及计量限制见[阶段提交](reviews/M4-submission.md)。M5未授权。
 
 # 阶段审查与开发授权
 
@@ -16,7 +16,7 @@ M4-01/02/03/06/09执行自验，M4 5/10、核心48/76；M4-04固定dev检索网�
 | M1 | 通过 | 第2轮总控接受R1–R4，独立205+3通过；自包含恢复与零写拒绝验收，11/11 | [第2轮审查](reviews/M1-review-r2.md) · [第2轮提交](reviews/M1-submission-r2.md) · [第2轮摘要](reviews/M1-validation-summary-r2.json) · [第1轮审查](reviews/M1-review.md) |
 | M2 | 通过 | 第2轮总控接受R1–R3；独立345 passed/2 deselected/0 skipped、既有3项、原产物11检查及补充9检查通过；12/12、核心32/76 | [第二轮总控审查](reviews/M2-review-r2.md) · [第二轮提交](reviews/M2-submission-r2.md) · [第二轮摘要](reviews/M2-validation-summary-r2.json) · [首轮审查](reviews/M2-review.md) |
 | M3 | 通过 | 第2轮总控关闭R1/R2；独立346后端/37单元/24离线浏览器/既有3/只读8及原反例2项、新交错通过；11/11、核心43/76，本轮付费0 | [第二轮总控结论](reviews/M3-review-r2.md) · [独立摘要](reviews/M3-review-validation-r2.json) · [第二轮提交](reviews/M3-submission-r2.md) · [本轮快照](reviews/M3-artifact-manifest-r2.json) · [首轮审查](reviews/M3-review.md) |
-| M4 | 执行中，未阶段提交 | M4-01/M4-02/M4-03/M4-04/M4-05/M4-06/M4-07/M4-08/M4-09执行自验完成，9/10、核心52/76；题集审核50题/人工0，35dev真实基线及只读复核通过，34逻辑生成/1澄清，heldout0，M4-02定向30通过/新增调用0，M4-03定向63通过/付费0，M4-06定向45通过，M4-07定向135通过，M4-04九组真实网格与修正分析完成，05定向62通过，08定向112与真实1/2/4通过，接续10。M5未授权 | [定向复核](reviews/M4-01-dataset-review-r2.md) · [修订回交](reviews/M4-01-dataset-revision-r2.md) · [M4计划](../plans/tasks/M4-rag-quality.md) |
+| M4 | 待审查 | 执行自验10/10、核心53/76；697完整回归+4补充（3重叠）、既有3、前端37单元/24浏览器及类型/构建通过；35dev与15heldout共47答案流/3澄清，另4假设调用，未用heldout调参；准确引用/图片/消息只读通过，语义缺漏保留，人工0。M5未授权 | [阶段提交](reviews/M4-submission.md) · [本轮摘要](reviews/M4-validation-summary.json) · [独立快照](reviews/M4-artifact-manifest.json) · [M4计划](../plans/tasks/M4-rag-quality.md) |
 | M5 | 未提交 | 等待前置阶段与总控授权 | 尚无 |
 | M6 | 未提交 | 等待前置阶段与总控授权 | 尚无 |
 | M7 | 未提交 | 等待前置阶段与总控授权；不包含自动公开发布 | 尚无 |

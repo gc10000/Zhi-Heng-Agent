@@ -1,0 +1,1907 @@
+{
+  "notice": "M4执行接续快照，非总控通过；原始证据留本机。自身hash不循环记录。",
+  "baseline_commit": "83dd1b11c2873d11b0795099abc81260097b1638",
+  "pre_submission_head": "2563182e47dcc3b86440ee559b94a87857d31ce4",
+  "summary": "docs/development/reviews/M4-validation-summary.json",
+  "file_count": 134,
+  "python_syntax_files": 80,
+  "checked_markdown_links": 306,
+  "files": [
+    {
+      "path": ".env.example",
+      "sha256": "c96618b3cea9d74430acd07e7b580ab0b9788295b3348f756f09d4d24fa7ce4c",
+      "bytes": 14101
+    },
+    {
+      "path": "app/answering/citations.py",
+      "sha256": "4fa8ae722ed50653a25349494b39126d50a4e20235ea5c5f1517fccdd57ce186",
+      "bytes": 3759
+    },
+    {
+      "path": "app/answering/evidence.py",
+      "sha256": "5b30cfed9c3687faac76f6c15846e15a73bef88b9c0aeabf744c504058ab4152",
+      "bytes": 1168
+    },
+    {
+      "path": "app/answering/service.py",
+      "sha256": "eebae665836e1dc8664327bef9d68cc64fd87fda188ea305569594019c286d1f",
+      "bytes": 4027
+    },
+    {
+      "path": "app/conversations/context.py",
+      "sha256": "fffced931657d0d527f0b96c14fd04df7f579e8bd061a3d115069dc31cb17c63",
+      "bytes": 1257
+    },
+    {
+      "path": "app/evaluation/analyze_grid.py",
+      "sha256": "0edaf4229c79371d5c70c5ffbfdc8635e7c62bd5cdc0618a3bb6e2b3995f9de6",
+      "bytes": 5038
+    },
+    {
+      "path": "app/evaluation/corpus.py",
+      "sha256": "88ca1e371bdc0c9b53d2e1eb7a8bb2874bef6ccccae7425a1723c0300eb78c02",
+      "bytes": 5324
+    },
+    {
+      "path": "app/evaluation/provider_counts.py",
+      "sha256": "92fd73f4711c35cb475c457ce166b62f91600a12f90d903c5d7cac2b043682fd",
+      "bytes": 1040
+    },
+    {
+      "path": "app/evaluation/quality_grid.py",
+      "sha256": "277606aea67c7b3115010d71320bddc59effc6e666e3ab1a04423ef4e3ba2821",
+      "bytes": 14951
+    },
+    {
+      "path": "app/evaluation/query_adapter.py",
+      "sha256": "a490266e3e98502f5244fde407df438b35b5c0b85e75c288be479ed90a2abc38",
+      "bytes": 11455
+    },
+    {
+      "path": "app/evaluation/readonly.py",
+      "sha256": "7bd957a257bf2a350e07cea0fa43937deda9c8727a655d719aa3046ce9e10482",
+      "bytes": 3336
+    },
+    {
+      "path": "app/evaluation/resource_benchmark.py",
+      "sha256": "4dec9983d95ab77287f19706ba8f770ac58e5807a7357a1a2bff67e7eea92030",
+      "bytes": 5265
+    },
+    {
+      "path": "app/evaluation/retrieval_grid.py",
+      "sha256": "7046d5c58dcf0ea89d71d6144b8cf7e41d1f7fb157181c91f332a2159cd109b6",
+      "bytes": 12958
+    },
+    {
+      "path": "app/evaluation/runner.py",
+      "sha256": "d82cae76bda6d8f691065330de12b86cd99f9719dfa8f5b8145eb1447f2f1166",
+      "bytes": 11509
+    },
+    {
+      "path": "app/evaluation/strategy.py",
+      "sha256": "ebce43b316ba0f4e49c082b95a97307a08b304e8e4f539a6a5f1d88f7ade121c",
+      "bytes": 1238
+    },
+    {
+      "path": "app/evaluation/validate_dataset.py",
+      "sha256": "68c29ff4a5f2dffa93fb644c554a1cd45344f21498ee74fc2db2844678dafe0d",
+      "bytes": 7656
+    },
+    {
+      "path": "app/evaluation/versions.py",
+      "sha256": "ad9ce74628272fca710216a093b258b56a6f51c59dbcd4b92efe220df6bf7ecd",
+      "bytes": 2304
+    },
+    {
+      "path": "app/identity/api.py",
+      "sha256": "c842ab0012341d17d6aefdf762e6daf9fdbeb381c7c4b84a47f203ac192557fb",
+      "bytes": 2585
+    },
+    {
+      "path": "app/infrastructure/model_host.py",
+      "sha256": "f53a346dccdf3e9a5a22b0a43796402dd7603b589f04c7df9a3c4f6aa4783d8c",
+      "bytes": 1637
+    },
+    {
+      "path": "app/infrastructure/providers/clients.py",
+      "sha256": "a64508143878a3209e71c720f5323a980b82627e6fda4af04f8bbcf55d952065",
+      "bytes": 4940
+    },
+    {
+      "path": "app/infrastructure/providers/policy.py",
+      "sha256": "5d3dde1516a19688e8a7fe77f36486e8c7e5da1e34a32f5f28c6bd27824a3f4d",
+      "bytes": 6199
+    },
+    {
+      "path": "app/infrastructure/queue/model_client.py",
+      "sha256": "94d7f9abc2f758e9d59e5748d99dd7c400045ae3692c90464fd9697e79525158",
+      "bytes": 2588
+    },
+    {
+      "path": "app/ingestion/runner.py",
+      "sha256": "030c21b29d5f36bdbc567ab718645f6a24c5349e60a6bcb6e939537589b0bcee",
+      "bytes": 13710
+    },
+    {
+      "path": "app/knowledge/index.py",
+      "sha256": "56854e7382f9e651aafb1c93700131a3fea6e8d342ac6121f0f3722a9276d55c",
+      "bytes": 13408
+    },
+    {
+      "path": "app/lm/embedding_utils.py",
+      "sha256": "6bd06954d6b0b7d7f80b84de21357ddb5f73dab580fff58dd5c20a9dcc90a039",
+      "bytes": 6596
+    },
+    {
+      "path": "app/lm/lm_utils.py",
+      "sha256": "9b3a7da1865c094532a36b3d69267a826e4977a4c157d0ae260e8a3e0de7d659",
+      "bytes": 6427
+    },
+    {
+      "path": "app/lm/reranker_utils.py",
+      "sha256": "63d547e212cf08434986e43b26e5baab645fbefa47e079c5080c04af0dae07c0",
+      "bytes": 1747
+    },
+    {
+      "path": "app/lm/runtime.py",
+      "sha256": "2f9c1d1c3979b5fe599d664b8809d9f13481edc56b4f7f7d8334e51d43aad60e",
+      "bytes": 1303
+    },
+    {
+      "path": "app/products/resolver.py",
+      "sha256": "03a4f10b8816932912fd152e2bf6d93d224cad9bef0764987ce7a12569dfec8b",
+      "bytes": 4194
+    },
+    {
+      "path": "app/query_process/agent/main_graph.py",
+      "sha256": "aeb1edbe7b3b4af50762fd1be7ba3fbaa1625992cf12e8d61b770caa58968e64",
+      "bytes": 5026
+    },
+    {
+      "path": "app/query_process/agent/nodes/node_answer_output.py",
+      "sha256": "a8eb918dacdc59658cb89f0e958ec197d34f05f0e7242a56fee72c5c8475075c",
+      "bytes": 15800
+    },
+    {
+      "path": "app/query_process/agent/nodes/node_rerank.py",
+      "sha256": "095a4c8d601ad33f00b36a3aada203c93bc604f53a0130f6f5fdb69e6054c053",
+      "bytes": 16475
+    },
+    {
+      "path": "app/query_process/agent/nodes/node_rrf.py",
+      "sha256": "109997cd471f8c204f08578bdc2aaf54fc3a770694fc7d1f1e660b04d284519e",
+      "bytes": 13387
+    },
+    {
+      "path": "app/query_process/agent/state.py",
+      "sha256": "175082d0e62ac96ecc89c01628b083b6198dcddabcfc1ff4390f027332072827",
+      "bytes": 1385
+    },
+    {
+      "path": "app/retrieval/adapters.py",
+      "sha256": "51b84d74ec2a0cd50532ffccc9237346a71bc4f1bfa25ab235ff1854d6170953",
+      "bytes": 3421
+    },
+    {
+      "path": "app/retrieval/cache.py",
+      "sha256": "6317c945124ca2ef8bdbd20280f73c73c44839ff0c9e5e750beba6d0dbde0818",
+      "bytes": 2993
+    },
+    {
+      "path": "app/retrieval/expansion.py",
+      "sha256": "9a271fc6db2b5d41303878eeabd8a74e39d3a12c58d3e0de23890c68c5d3dfe5",
+      "bytes": 6357
+    },
+    {
+      "path": "app/retrieval/graph.py",
+      "sha256": "5d86ea885302cee994faf192dca0c335dca04497e877676973ef905e1ca9492e",
+      "bytes": 3819
+    },
+    {
+      "path": "app/retrieval/models.py",
+      "sha256": "871fc11f5ffef64982747cb5c2740aba9c3266d60db1a4a80de04e7531be3465",
+      "bytes": 4302
+    },
+    {
+      "path": "app/retrieval/query_planner.py",
+      "sha256": "355bbca3311c6b6db7389d0d4fac66b6f93f8c9b78d0cea7d188028d80532111",
+      "bytes": 5034
+    },
+    {
+      "path": "app/retrieval/rerank.py",
+      "sha256": "45fb84ee9732e333cbc6a00cff49074b69ae0c94c762443e834f82f7ba93cf1f",
+      "bytes": 444
+    },
+    {
+      "path": "app/retrieval/routing.py",
+      "sha256": "555da69b060f2af2de495beb00035a1c7e7d99f8d69441fd3e9f1bf0d20b4650",
+      "bytes": 1834
+    },
+    {
+      "path": "app/retrieval/search.py",
+      "sha256": "3029045bb49645c1a6d2f7215ccf14d6e9deaa55e692ae959bc1c26e07be13b8",
+      "bytes": 3186
+    },
+    {
+      "path": "app/runs/query_runner.py",
+      "sha256": "3636771a54fb192b618aae6d638e2e5bb7c1fe0d558a1272783b54a961374c01",
+      "bytes": 21747
+    },
+    {
+      "path": "app/runs/repository.py",
+      "sha256": "839e147c0e0ea59ee0fe8bfc17e0e671f46ccfd25795af5f2353ed5a86e93da7",
+      "bytes": 6207
+    },
+    {
+      "path": "app/settings.py",
+      "sha256": "ec635434b89687678be8a623ac97027b9d68b139dca2b967f7ba077c7ff69e8c",
+      "bytes": 2794
+    },
+    {
+      "path": "docs/CONFIGURATION.md",
+      "sha256": "3ec34d1a282f5b7368288b4ded80b3365e0a8077b5ab8a36c8eace122f7cabd7",
+      "bytes": 36170
+    },
+    {
+      "path": "docs/architecture/api-v1.md",
+      "sha256": "3d5fe9c91b8277f7f7f95f519d80cf2a2ab1022150e9d45c94b83a9ed0f01099",
+      "bytes": 8475
+    },
+    {
+      "path": "docs/development/CHANGELOG.md",
+      "sha256": "f076fb5472249f51319730578c7536ab492f8239b2bb697d8d49fb10940c8206",
+      "bytes": 52541
+    },
+    {
+      "path": "docs/development/DECISIONS.md",
+      "sha256": "2220423ef125ebd17a40449be05b2a8f2ec280fce4c8cb96970327470837c600",
+      "bytes": 32968
+    },
+    {
+      "path": "docs/development/PROGRESS.md",
+      "sha256": "71431e12627a440e3cf2d8ab8140fca24b7d590e7525a30b0d4c8e390a71e6db",
+      "bytes": 32279
+    },
+    {
+      "path": "docs/development/REVIEW_STATUS.md",
+      "sha256": "462db94a4c891e0290b75c3454b60c5334fafd466aa07eb803e3d1d0af161f5a",
+      "bytes": 12386
+    },
+    {
+      "path": "docs/development/records/M4-01.md",
+      "sha256": "b649047251a73ae0c5f0fb634869132393ef0497da0f3410b5cb11f787c5bc54",
+      "bytes": 21048
+    },
+    {
+      "path": "docs/development/records/M4-02.md",
+      "sha256": "6c12ba75ac6c3c97a90ee3737871f54abb37b5504b3bd1db0ced7ef475ac1630",
+      "bytes": 4617
+    },
+    {
+      "path": "docs/development/records/M4-03.md",
+      "sha256": "54e059c49afc51ca77d3bf1a9e89fb4c4c72be868c3230f4d2c3c5a3c346848f",
+      "bytes": 6754
+    },
+    {
+      "path": "docs/development/records/M4-04.md",
+      "sha256": "7d3b87f0cbf23b095c0e311e5c614d45bf093a2c270fe96d01f4065ff96a62da",
+      "bytes": 9049
+    },
+    {
+      "path": "docs/development/records/M4-05.md",
+      "sha256": "0527f3f608cdf018ba952f9f16f4e96ec1b5185b5a2ea97fa6101fb12ee8675d",
+      "bytes": 3827
+    },
+    {
+      "path": "docs/development/records/M4-06.md",
+      "sha256": "7641c2af67c8f3804ca102e02513b6f63b73273959e067ccd1694e34b0661ba6",
+      "bytes": 5048
+    },
+    {
+      "path": "docs/development/records/M4-07.md",
+      "sha256": "53e052477798836bfae92577236952cb50b2d3200c742ed9269b72c0106fc85a",
+      "bytes": 4777
+    },
+    {
+      "path": "docs/development/records/M4-08.md",
+      "sha256": "29a35db68a6ecdef2fd989e04deca38f68297e2ebdeb2c2ad06b0c7ffb3f7282",
+      "bytes": 6983
+    },
+    {
+      "path": "docs/development/records/M4-09.md",
+      "sha256": "3988d7999c47a76c237ef59bcd522801daf7aeeca48128e89610ca92d9761460",
+      "bytes": 7700
+    },
+    {
+      "path": "docs/development/records/M4-10.md",
+      "sha256": "56769c52768bcc8c3cd4fbbf8ba608e2962d7da6bf6e628b3293544899baec62",
+      "bytes": 11042
+    },
+    {
+      "path": "docs/development/reviews/M4-01-baseline-delivery.md",
+      "sha256": "2aaddd8c676e59cb695b073d1664eb36938b69360160e6a4ecabcef299e3684d",
+      "bytes": 3731
+    },
+    {
+      "path": "docs/development/reviews/M4-01-baseline-manifest.json",
+      "sha256": "2f6f31d1d62980dbf3ce17fec89798143111dc8151b692dd65a117f59fe2591b",
+      "bytes": 29860
+    },
+    {
+      "path": "docs/development/reviews/M4-01-baseline-readonly.json",
+      "sha256": "86b9aeb9ab2a34ddde0df66ad5b080ad18c8e49e02c29f4fa7fad090d6780598",
+      "bytes": 3472
+    },
+    {
+      "path": "docs/development/reviews/M4-01-baseline-validation.json",
+      "sha256": "05fefb9b28f3d35030e205ae3c85d970c67ccc22f518603224bafeee9959362c",
+      "bytes": 8046
+    },
+    {
+      "path": "docs/development/reviews/M4-01-dataset-manifest-r2.json",
+      "sha256": "29a3d700f9e781653f1988d426d79c2fae21ce4c20e65a2e17faac5a8f3b06c4",
+      "bytes": 4904
+    },
+    {
+      "path": "docs/development/reviews/M4-01-dataset-review-r2.md",
+      "sha256": "090aa581d514ba4a164684b7a5385d34c1f0703fc67aecd6878d8f81a218ad69",
+      "bytes": 5651
+    },
+    {
+      "path": "docs/development/reviews/M4-01-dataset-review-validation-r2.json",
+      "sha256": "0d8abad90560a9fe3a77164856a6214581d131f0a6824564b9d33bafb21a8837",
+      "bytes": 3500
+    },
+    {
+      "path": "docs/development/reviews/M4-01-dataset-review.md",
+      "sha256": "0c92ff4f856c84e3220f9e8ecd038a7ef0114a85b7415f7d8f459cd39bc6e0b2",
+      "bytes": 5720
+    },
+    {
+      "path": "docs/development/reviews/M4-01-dataset-revision-r2.md",
+      "sha256": "15eb5e081ebc145531191ccc2da8602edffb5def2501ac105f955dabd1c186fc",
+      "bytes": 5865
+    },
+    {
+      "path": "docs/development/reviews/M4-01-dataset-validation-r2.json",
+      "sha256": "ed63c617999cf599d1762f819fd6f6c7a51a81a32846ad7843471581d6e2b05b",
+      "bytes": 6826
+    },
+    {
+      "path": "docs/development/reviews/M4-02-manifest.json",
+      "sha256": "5e6296eb1c06ae2d9f15991066d8af061efa25469b647e6f5852fc360cc3cc8b",
+      "bytes": 27598
+    },
+    {
+      "path": "docs/development/reviews/M4-02-validation.json",
+      "sha256": "0e614700cce47aacf7dbbb95fc98ab2154711a6e1a020e9562574e5f4733cb3a",
+      "bytes": 2525
+    },
+    {
+      "path": "docs/development/reviews/M4-03-manifest.json",
+      "sha256": "66a967857cf9ff4fd067a688960d346fcaec6d6da001a4b9e2fbcf5c50219fce",
+      "bytes": 27794
+    },
+    {
+      "path": "docs/development/reviews/M4-03-validation.json",
+      "sha256": "5753835ea90d03da6302a64114116b2387a16ad78dddbf2fcdfcc99707bf1485",
+      "bytes": 5261
+    },
+    {
+      "path": "docs/development/reviews/M4-04-manifest-r2.json",
+      "sha256": "961f39e186c27e34848116e6e1c29566cbf24e9a4e8a8161711c9145081fcac6",
+      "bytes": 39690
+    },
+    {
+      "path": "docs/development/reviews/M4-04-validation.json",
+      "sha256": "526e30c968f4ae581280bb85b94a35eb0105a5abf6f07bec3333bc5f13deaf15",
+      "bytes": 12223
+    },
+    {
+      "path": "docs/development/reviews/M4-05-manifest.json",
+      "sha256": "7e9ff0c6e7f198e4b5d70a31d5e7f768a7d63667c518e135a9c8717fea361236",
+      "bytes": 29433
+    },
+    {
+      "path": "docs/development/reviews/M4-05-validation.json",
+      "sha256": "9a5de55e6b93e2ced394d85426fd147ded5dd4bc4680aa37d2017744c935887b",
+      "bytes": 2583
+    },
+    {
+      "path": "docs/development/reviews/M4-06-manifest-r2.json",
+      "sha256": "e9a3a2add921d6d99b5cd596c173e735aaf32db80dd4dd6c27a1d5c560716d5b",
+      "bytes": 27751
+    },
+    {
+      "path": "docs/development/reviews/M4-06-validation.json",
+      "sha256": "d1b5e7afbd5832d9543a7967cbeeb4db21c1460124b5ff83566258331350a617",
+      "bytes": 3270
+    },
+    {
+      "path": "docs/development/reviews/M4-07-manifest.json",
+      "sha256": "bb3e6fdf3dfc2e27b3ea4ef80f7d923d65ab3715908af6456e5585e368210c77",
+      "bytes": 30399
+    },
+    {
+      "path": "docs/development/reviews/M4-07-validation.json",
+      "sha256": "a746b3c256de62fd8d6f9f72761897c10b063716b64a36c0ebb0efcddba27188",
+      "bytes": 5480
+    },
+    {
+      "path": "docs/development/reviews/M4-08-manifest.json",
+      "sha256": "7c7fd04757baa21d8a9792775e6bdb524f45a3da302aa42a360e16216803034c",
+      "bytes": 34252
+    },
+    {
+      "path": "docs/development/reviews/M4-08-validation.json",
+      "sha256": "47c49b859b95a02671169358fbb07e282bb69c877acb785b2c71f7d4d397ab7d",
+      "bytes": 33512
+    },
+    {
+      "path": "docs/development/reviews/M4-dev-readonly.json",
+      "sha256": "98131033e3f0c021e17c46fef24c4301cd5b688f800ec759b612e68ad699cc06",
+      "bytes": 1665
+    },
+    {
+      "path": "docs/development/reviews/M4-heldout-readonly.json",
+      "sha256": "dc3374d4965259d9df6798d1416f7b17aaf7baab6bf033becaae39599f193eb1",
+      "bytes": 1689
+    },
+    {
+      "path": "docs/development/reviews/M4-partial-manifest.json",
+      "sha256": "d5f7f2efc9f58a756baa874f18423d844e2040f21a7ec17ec53b4d8fbdf21853",
+      "bytes": 5947
+    },
+    {
+      "path": "docs/development/reviews/M4-partial-validation.json",
+      "sha256": "169d0240d275f23644e8aa80a5c43dbeea95d8359e29677e42cc7c1bc4dc35bd",
+      "bytes": 19986
+    },
+    {
+      "path": "docs/development/reviews/M4-submission.md",
+      "sha256": "5a81ea5c6d76264322d7fe99c82885b826a44e865bd3d1d5277f4ddd6e6bbda1",
+      "bytes": 9662
+    },
+    {
+      "path": "docs/development/reviews/M4-validation-summary.json",
+      "sha256": "5c104f6ac284319af7232dfdc9be28226d5230d1af7f3ca0b0b9a12106af20aa",
+      "bytes": 138208
+    },
+    {
+      "path": "docs/evaluation/labeling-guide.md",
+      "sha256": "e48ac4ff83ffcb90d27952b163376ee93bbe30ee4643c800ef6ff9063f5d4681",
+      "bytes": 11259
+    },
+    {
+      "path": "docs/evaluation/retrieval-report.md",
+      "sha256": "399ffc380fc830f1fa0761db7d5c5be23f0a1e7deaf04235e142d262b434ffc2",
+      "bytes": 9339
+    },
+    {
+      "path": "docs/plans/2026-10-22-technical-support-reuse.md",
+      "sha256": "52d74e1ac3639599b4e41d2ee454b9841fda2ee206f85e40c7f0018200e96267",
+      "bytes": 13915
+    },
+    {
+      "path": "docs/plans/DEVELOPMENT_CONTRACTS.md",
+      "sha256": "473ff1df343b58c21d21e502eed6f61443f67cce878aa3c9b2c807248a2c284d",
+      "bytes": 49952
+    },
+    {
+      "path": "docs/plans/DEVELOPMENT_TODO.md",
+      "sha256": "ad4e22a61cba188d2cf954cd13cf4dfec3986af49f07bce73e2f9413b544fb5b",
+      "bytes": 18812
+    },
+    {
+      "path": "docs/plans/tasks/M4-rag-quality.md",
+      "sha256": "8655881310f513e43debeadab9f9ffaf3efe16e3076cfe2cd6aff4e3e5a6e939",
+      "bytes": 19579
+    },
+    {
+      "path": "docs/runbooks/worker-recovery.md",
+      "sha256": "2aff73edbdf9c211ec77dda4cb996ae4476f98a3aa862aa92003d85ff99f7461",
+      "bytes": 4373
+    },
+    {
+      "path": "scripts/verification/build_m4_artifacts.py",
+      "sha256": "6bce3033f61487c046c9a7c25fe4dd41d7eefdf95ddac9f00febf381a7cb92e9",
+      "bytes": 4998
+    },
+    {
+      "path": "scripts/verification/recheck_m4_evaluation.py",
+      "sha256": "e5d5a7e956ca1b814e209f40b8af09df397a709800fa572e584a0bc9a000b700",
+      "bytes": 6773
+    },
+    {
+      "path": "tests/contract/test_app_lifecycle.py",
+      "sha256": "03fe380d9147e64a01fea2aedfcd65444edfaa8f043d9c8ca005eae7bdbc155a",
+      "bytes": 3447
+    },
+    {
+      "path": "tests/contract/test_legacy_query_failure.py",
+      "sha256": "5cbed0e3b8adde63d3fbb19089cdb41da425ad814cf6408b4017b7021ef5e8c4",
+      "bytes": 4852
+    },
+    {
+      "path": "tests/contract/test_provider_capabilities.py",
+      "sha256": "9b3c322ec656ba074046d34b568260ce26f7aa1545926d0fa4e40fc7f73a11dd",
+      "bytes": 5811
+    },
+    {
+      "path": "tests/contract/test_query_run_adapter.py",
+      "sha256": "4f128f84c0ef8f2b5161960dc8d92d0c90de055b4b0e0628cf243ebbc64f17b2",
+      "bytes": 2285
+    },
+    {
+      "path": "tests/integration/test_answer_grounding_run.py",
+      "sha256": "feb4e5948a87ac1f1791f3792288ce366a3164a390babee5b0c93352802180f6",
+      "bytes": 4440
+    },
+    {
+      "path": "tests/integration/test_embedding_cache_run.py",
+      "sha256": "cfe02414999bb6832c31ab342515426e7c48fc6525d651c4fc4a44e38619c894",
+      "bytes": 1415
+    },
+    {
+      "path": "tests/integration/test_evaluation_run_adapter.py",
+      "sha256": "e4b675644a0d25fac247fc8ddd86909e3ef20dd68c411ce5643cd91715029f89",
+      "bytes": 6105
+    },
+    {
+      "path": "tests/integration/test_evidence_expansion_run.py",
+      "sha256": "560cbf3e6495f8e95a98460baed6ca295e7ed581ac9db7ffa93fdb8571f1c3be",
+      "bytes": 4827
+    },
+    {
+      "path": "tests/integration/test_provider_query_failures.py",
+      "sha256": "651b2c2269e2b32324542b8104104d74a9c126f1bca5de9cf41e752f761424e2",
+      "bytes": 2349
+    },
+    {
+      "path": "tests/integration/test_query_planning.py",
+      "sha256": "f854af09a3d45caf82cd2a06e1f2bb9f018dc925d8b3659e74ace6f04a7efc23",
+      "bytes": 6112
+    },
+    {
+      "path": "tests/integration/test_query_runs.py",
+      "sha256": "9a5f7900e346661820b86a29a4ea95d2a4a432b8d125d785ae90cf4ef8cdabb7",
+      "bytes": 15350
+    },
+    {
+      "path": "tests/integration/test_retrieval_graph_run.py",
+      "sha256": "3b615047d1b0bcca1b07cfa1dcdab5ebe74670e0b26f46ea6e523fc4fb971e3a",
+      "bytes": 1720
+    },
+    {
+      "path": "tests/integration/test_retrieval_trace.py",
+      "sha256": "658e6e1d5fd113bb866dcd8570266dd88c7eaaa0f7652b02e0160ed8751e8926",
+      "bytes": 2476
+    },
+    {
+      "path": "tests/integration/test_review_completion_order.py",
+      "sha256": "3e86615afe08937d24da175ebc614fcdba3ac8616e17b4fc85afce0d70936c9c",
+      "bytes": 5493
+    },
+    {
+      "path": "tests/integration/test_scope_filters.py",
+      "sha256": "19e3aefd7e46f23aabc7c687f15a5eb8aecb13a2e8d1970a6bd2ad3edd57011c",
+      "bytes": 4953
+    },
+    {
+      "path": "tests/unit/test_answer_grounding.py",
+      "sha256": "e8a5b6f35b8b438f88a7ecff141785ae09fa78c2f4b6c585472b50348c7dbf43",
+      "bytes": 7827
+    },
+    {
+      "path": "tests/unit/test_context_budget.py",
+      "sha256": "586e65c953c6dcc2c23ab1e426b24072a9a27a2a5dea707e524826c082d2e64b",
+      "bytes": 3863
+    },
+    {
+      "path": "tests/unit/test_embedding_cache.py",
+      "sha256": "d002c3989c2dee48ade6f8c01c20ce2b194e91744e4453ae60a84506a09a0e44",
+      "bytes": 3543
+    },
+    {
+      "path": "tests/unit/test_evaluation_corpus.py",
+      "sha256": "99233690c73408d781dd5be35976442cffb6e3ce3564d25f59610c10164fecbb",
+      "bytes": 8403
+    },
+    {
+      "path": "tests/unit/test_evaluation_dataset.py",
+      "sha256": "9e3e536844313a0e3123555ffce4f8f8e46200ec8a0f807dc6896f3cf972f9d2",
+      "bytes": 14783
+    },
+    {
+      "path": "tests/unit/test_evaluation_query_adapter.py",
+      "sha256": "97a4d3e4eaf4ac7032c7f167b7dd723ba037dd12ce3a88227793925f916cc27e",
+      "bytes": 2130
+    },
+    {
+      "path": "tests/unit/test_evaluation_versions.py",
+      "sha256": "cf91a09ccf488433b41c055ca1c1ff680725316a11607c64abb33c2e9c077d9b",
+      "bytes": 2152
+    },
+    {
+      "path": "tests/unit/test_evidence_expansion.py",
+      "sha256": "957a439b1b53f215b757ee99cd8fb47a1d58bbe48e8b01dc1b212ebc1bff345b",
+      "bytes": 4390
+    },
+    {
+      "path": "tests/unit/test_generation_failure.py",
+      "sha256": "f496107e8ec47966e0cf66f0b346d9e6c5d536b4d4a412a659756311dff2f7e2",
+      "bytes": 2138
+    },
+    {
+      "path": "tests/unit/test_m4_artifacts.py",
+      "sha256": "5ee16b9c5f0b03d25493ef1e37994cbcc0884dd774ae5cfc6ed326d273038dc2",
+      "bytes": 2283
+    },
+    {
+      "path": "tests/unit/test_model_lifecycle.py",
+      "sha256": "b5f6e9e5f749410fdefb86e31251fee06e4e29dd1819fdb1765d3d2805b57386",
+      "bytes": 8554
+    },
+    {
+      "path": "tests/unit/test_provider_clients.py",
+      "sha256": "156b1235dbc0dde96845cd55ed3c4c31acb22cf281f9926ebeffac42d50fbdba",
+      "bytes": 7502
+    },
+    {
+      "path": "tests/unit/test_quality_grid.py",
+      "sha256": "67f679bb024122870ce8630ec6c838ac3b221480783532fe5094ee4c1f88f884",
+      "bytes": 6436
+    },
+    {
+      "path": "tests/unit/test_query_plans.py",
+      "sha256": "714ea0bef0efb63a7dd86152ca8f161dba1da2e4bdc67b946ef353adab7d92fd",
+      "bytes": 7714
+    },
+    {
+      "path": "tests/unit/test_retrieval_graph.py",
+      "sha256": "6b8a7d37f62041ebe14ec17ddceca1dd8d948874cc069a8713450cf3edacf4fd",
+      "bytes": 7086
+    },
+    {
+      "path": "tests/unit/test_retrieval_grid.py",
+      "sha256": "ffee4cee669f598e2a81dfe5f398e2cd95f9a157d50ea31694f89c082ac01a7b",
+      "bytes": 7769
+    },
+    {
+      "path": "tests/unit/test_retrieval_policy.py",
+      "sha256": "9bbf388416f95422d006112f2967f0d0a6d66b7d3dfbb28c575621d18e23c7f6",
+      "bytes": 3186
+    },
+    {
+      "path": "tests/unit/test_retrieval_provenance.py",
+      "sha256": "552955dad1132c02dd34da7bc6279ae06a866a61d6034a39810f92908518971d",
+      "bytes": 5531
+    }
+  ],
+  "links": [
+    {
+      "source": "docs/CONFIGURATION.md",
+      "target": "E2E_VALIDATION.md"
+    },
+    {
+      "source": "docs/CONFIGURATION.md",
+      "target": "WINDOWS_DOCKER.md"
+    },
+    {
+      "source": "docs/CONFIGURATION.md",
+      "target": "runbooks/worker-recovery.md"
+    },
+    {
+      "source": "docs/CONFIGURATION.md",
+      "target": "../frontend/README.md"
+    },
+    {
+      "source": "docs/architecture/api-v1.md",
+      "target": "openapi-v1.json"
+    },
+    {
+      "source": "docs/architecture/api-v1.md",
+      "target": "run-events-example.json"
+    },
+    {
+      "source": "docs/architecture/api-v1.md",
+      "target": "../plans/DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/architecture/api-v1.md",
+      "target": "../CONFIGURATION.md"
+    },
+    {
+      "source": "docs/architecture/api-v1.md",
+      "target": "../development/reviews/M2-submission.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M4-submission.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M4-01-dataset-review-r2.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M4-01-dataset-revision-r2.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M4-01-dataset-review.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M4-01.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M3-review-r2.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M3-review.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M3-09.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M3-08.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M3-07.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M3-06.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M3-05.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M3-04.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M3-03.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M3-02.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M3-01.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M2-review-r2.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M2-review.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M2-08.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M2-07.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M2-06.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M2-05.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M2-04.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M2-03.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M1-review-r2.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M1-review.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "GIT_WORKFLOW.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M0-review-r3.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M0-submission-r3.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M0-review-r2.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M0-review.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "evidence/M0-review-probes.json"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M0-submission.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M0-09.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/PLAN-01.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M4-submission.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M4-validation-summary.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M4-artifact-manifest.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "records/M4-03.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M4-03-validation.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M4-01-dataset-review-r2.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M4-01-dataset-review-validation-r2.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M4-01-dataset-revision-r2.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "records/M4-01.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "records/M4-09.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "../evaluation/labeling-guide.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M4-partial-validation.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M4-partial-manifest.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M3-review-r2.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M3-review-validation-r2.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M3-review.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M3-review-validation.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M1-review-r2.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M1-review.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "GIT_WORKFLOW.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M0-review-r3.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M0-review-r2.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "REVIEW_STATUS.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M4-submission.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "GIT_WORKFLOW.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M0-review-r3.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M0-submission-r3.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M0-review-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M0-review.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M1-review-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M1-submission-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M1-validation-summary-r2.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M1-review.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M2-review-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M2-submission-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M2-validation-summary-r2.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M2-review.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M3-review-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M3-review-validation-r2.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M3-submission-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M3-artifact-manifest-r2.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M3-review.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M4-submission.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M4-validation-summary.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M4-artifact-manifest.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "../plans/tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M4-01-dataset-review-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M4-01-dataset-review-validation-r2.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M4-01-dataset-review.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M4-partial-validation.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M4-partial-manifest.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M3-review-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M3-submission-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M3-review.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M2-review-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M2-submission-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M2-review.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M1-review-r2.md"
+    },
+    {
+      "source": "docs/development/records/M4-01.md",
+      "target": "../../evaluation/labeling-guide.md"
+    },
+    {
+      "source": "docs/development/records/M4-01.md",
+      "target": "../reviews/M4-01-dataset-review.md"
+    },
+    {
+      "source": "docs/development/records/M4-01.md",
+      "target": "../reviews/M4-01-dataset-revision-r2.md"
+    },
+    {
+      "source": "docs/development/records/M4-01.md",
+      "target": "../reviews/M4-01-dataset-validation-r2.json"
+    },
+    {
+      "source": "docs/development/records/M4-01.md",
+      "target": "../reviews/M4-01-dataset-review-r2.md"
+    },
+    {
+      "source": "docs/development/records/M4-01.md",
+      "target": "../reviews/M4-01-dataset-review-validation-r2.json"
+    },
+    {
+      "source": "docs/development/records/M4-01.md",
+      "target": "../reviews/M4-01-baseline-delivery.md"
+    },
+    {
+      "source": "docs/development/records/M4-01.md",
+      "target": "../reviews/M4-01-baseline-validation.json"
+    },
+    {
+      "source": "docs/development/records/M4-01.md",
+      "target": "../reviews/M4-01-baseline-readonly.json"
+    },
+    {
+      "source": "docs/development/records/M4-02.md",
+      "target": "../reviews/M4-02-validation.json"
+    },
+    {
+      "source": "docs/development/records/M4-03.md",
+      "target": "../reviews/M4-03-validation.json"
+    },
+    {
+      "source": "docs/development/records/M4-04.md",
+      "target": "../../evaluation/retrieval-report.md"
+    },
+    {
+      "source": "docs/development/records/M4-04.md",
+      "target": "../reviews/M4-04-validation.json"
+    },
+    {
+      "source": "docs/development/records/M4-04.md",
+      "target": "../reviews/M4-04-manifest-r2.json"
+    },
+    {
+      "source": "docs/development/records/M4-05.md",
+      "target": "../reviews/M4-05-validation.json"
+    },
+    {
+      "source": "docs/development/records/M4-05.md",
+      "target": "../reviews/M4-05-manifest.json"
+    },
+    {
+      "source": "docs/development/records/M4-06.md",
+      "target": "../reviews/M4-06-validation.json"
+    },
+    {
+      "source": "docs/development/records/M4-07.md",
+      "target": "../reviews/M4-07-validation.json"
+    },
+    {
+      "source": "docs/development/records/M4-07.md",
+      "target": "../reviews/M4-07-manifest.json"
+    },
+    {
+      "source": "docs/development/records/M4-08.md",
+      "target": "../reviews/M4-08-validation.json"
+    },
+    {
+      "source": "docs/development/records/M4-08.md",
+      "target": "../reviews/M4-08-manifest.json"
+    },
+    {
+      "source": "docs/development/records/M4-09.md",
+      "target": "../reviews/M4-partial-validation.json"
+    },
+    {
+      "source": "docs/development/records/M4-10.md",
+      "target": "../reviews/M4-validation-summary.json"
+    },
+    {
+      "source": "docs/development/records/M4-10.md",
+      "target": "../reviews/M4-artifact-manifest.json"
+    },
+    {
+      "source": "docs/development/records/M4-10.md",
+      "target": "../reviews/M4-submission.md"
+    },
+    {
+      "source": "docs/development/reviews/M4-01-baseline-delivery.md",
+      "target": "M4-01-dataset-review-r2.md"
+    },
+    {
+      "source": "docs/development/reviews/M4-01-baseline-delivery.md",
+      "target": "M4-01-baseline-validation.json"
+    },
+    {
+      "source": "docs/development/reviews/M4-01-baseline-delivery.md",
+      "target": "M4-01-baseline-readonly.json"
+    },
+    {
+      "source": "docs/development/reviews/M4-01-baseline-delivery.md",
+      "target": "../records/M4-01.md"
+    },
+    {
+      "source": "docs/development/reviews/M4-01-dataset-review-r2.md",
+      "target": "M4-01-dataset-review.md"
+    },
+    {
+      "source": "docs/development/reviews/M4-01-dataset-review-r2.md",
+      "target": "M4-01-dataset-revision-r2.md"
+    },
+    {
+      "source": "docs/development/reviews/M4-01-dataset-review-r2.md",
+      "target": "M4-01-dataset-review-validation-r2.json"
+    },
+    {
+      "source": "docs/development/reviews/M4-01-dataset-revision-r2.md",
+      "target": "M4-01-dataset-review.md"
+    },
+    {
+      "source": "docs/development/reviews/M4-01-dataset-revision-r2.md",
+      "target": "../records/M4-01.md"
+    },
+    {
+      "source": "docs/development/reviews/M4-01-dataset-revision-r2.md",
+      "target": "M4-01-dataset-validation-r2.json"
+    },
+    {
+      "source": "docs/development/reviews/M4-01-dataset-revision-r2.md",
+      "target": "M4-01-dataset-manifest-r2.json"
+    },
+    {
+      "source": "docs/development/reviews/M4-submission.md",
+      "target": "../records/M4-01.md"
+    },
+    {
+      "source": "docs/development/reviews/M4-submission.md",
+      "target": "../records/M4-02.md"
+    },
+    {
+      "source": "docs/development/reviews/M4-submission.md",
+      "target": "../records/M4-03.md"
+    },
+    {
+      "source": "docs/development/reviews/M4-submission.md",
+      "target": "../records/M4-04.md"
+    },
+    {
+      "source": "docs/development/reviews/M4-submission.md",
+      "target": "../records/M4-05.md"
+    },
+    {
+      "source": "docs/development/reviews/M4-submission.md",
+      "target": "../records/M4-06.md"
+    },
+    {
+      "source": "docs/development/reviews/M4-submission.md",
+      "target": "../records/M4-07.md"
+    },
+    {
+      "source": "docs/development/reviews/M4-submission.md",
+      "target": "../records/M4-08.md"
+    },
+    {
+      "source": "docs/development/reviews/M4-submission.md",
+      "target": "../records/M4-09.md"
+    },
+    {
+      "source": "docs/development/reviews/M4-submission.md",
+      "target": "../records/M4-10.md"
+    },
+    {
+      "source": "docs/development/reviews/M4-submission.md",
+      "target": "M4-artifact-manifest.json"
+    },
+    {
+      "source": "docs/development/reviews/M4-submission.md",
+      "target": "M4-validation-summary.json"
+    },
+    {
+      "source": "docs/development/reviews/M4-submission.md",
+      "target": "M4-dev-readonly.json"
+    },
+    {
+      "source": "docs/development/reviews/M4-submission.md",
+      "target": "M4-heldout-readonly.json"
+    },
+    {
+      "source": "docs/development/reviews/M4-submission.md",
+      "target": "../../evaluation/retrieval-report.md"
+    },
+    {
+      "source": "docs/evaluation/labeling-guide.md",
+      "target": "../development/reviews/M4-01-dataset-review-r2.md"
+    },
+    {
+      "source": "docs/evaluation/labeling-guide.md",
+      "target": "../development/reviews/M4-01-dataset-review-r2.md"
+    },
+    {
+      "source": "docs/evaluation/labeling-guide.md",
+      "target": "../development/reviews/M4-01-dataset-review-validation-r2.json"
+    },
+    {
+      "source": "docs/evaluation/labeling-guide.md",
+      "target": "../development/reviews/M4-01-dataset-revision-r2.md"
+    },
+    {
+      "source": "docs/evaluation/labeling-guide.md",
+      "target": "../development/reviews/M4-01-baseline-delivery.md"
+    },
+    {
+      "source": "docs/evaluation/retrieval-report.md",
+      "target": "../development/records/M4-10.md"
+    },
+    {
+      "source": "docs/evaluation/retrieval-report.md",
+      "target": "../development/reviews/M4-validation-summary.json"
+    },
+    {
+      "source": "docs/evaluation/retrieval-report.md",
+      "target": "../development/reviews/M4-submission.md"
+    },
+    {
+      "source": "docs/evaluation/retrieval-report.md",
+      "target": "../development/records/M4-04.md"
+    },
+    {
+      "source": "docs/evaluation/retrieval-report.md",
+      "target": "../development/reviews/M4-04-validation.json"
+    },
+    {
+      "source": "docs/evaluation/retrieval-report.md",
+      "target": "../development/records/M4-08.md"
+    },
+    {
+      "source": "docs/plans/2026-10-22-technical-support-reuse.md",
+      "target": "2026-10-22-technical-support-optimization.md"
+    },
+    {
+      "source": "docs/plans/2026-10-22-technical-support-reuse.md",
+      "target": "../brainstorming/2026-10-22/support-research/vue3/repositories.json"
+    },
+    {
+      "source": "docs/plans/2026-10-22-technical-support-reuse.md",
+      "target": "../brainstorming/2026-10-22/support-research/vue3/source-files.json"
+    },
+    {
+      "source": "docs/plans/2026-10-22-technical-support-reuse.md",
+      "target": "../brainstorming/2026-10-22/support-research/reuse-source-files.json"
+    },
+    {
+      "source": "docs/plans/2026-10-22-technical-support-reuse.md",
+      "target": "../brainstorming/2026-10-22/support-research/reuse-repositories.json"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_CONTRACTS.md",
+      "target": "DEVELOPMENT_TODO.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_CONTRACTS.md",
+      "target": "2026-10-22-technical-support-optimization.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_CONTRACTS.md",
+      "target": "../architecture/knowledge-schema.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_CONTRACTS.md",
+      "target": "../development/DECISIONS.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_CONTRACTS.md",
+      "target": "../evaluation/labeling-guide.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_CONTRACTS.md",
+      "target": "../CONFIGURATION.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "../development/reviews/M4-submission.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "2026-10-22-technical-support-optimization.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "2026-10-22-technical-support-code-audit.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "2026-10-22-technical-support-reuse.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "../development/PROGRESS.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "../development/REVIEW_STATUS.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "../development/reviews/M3-review-r2.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "../development/GIT_WORKFLOW.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M5-support-workflow.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M6-evaluation.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M5-support-workflow.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M5-support-workflow.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M5-support-workflow.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M5-support-workflow.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M5-support-workflow.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M5-support-workflow.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M5-support-workflow.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M5-support-workflow.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M6-evaluation.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M6-evaluation.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M6-evaluation.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M6-evaluation.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M6-evaluation.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M6-evaluation.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M6-evaluation.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M6-evaluation.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../2026-10-22-technical-support-optimization.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../DEVELOPMENT_TODO.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../../development/reviews/M3-review-r2.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../../development/reviews/M4-submission.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../DEVELOPMENT_TODO.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../../development/PROGRESS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../../development/CHANGELOG.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../../development/reviews/M4-01-dataset-review.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../../development/reviews/M4-01-dataset-revision-r2.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../../development/reviews/M4-01-dataset-review-r2.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../../development/records/M4-10.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../../development/reviews/M4-01-baseline-delivery.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../../development/records/M4-02.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../../development/records/M4-03.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../../development/records/M4-06.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../../development/records/M4-07.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../../evaluation/retrieval-report.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../../development/records/M4-05.md"
+    },
+    {
+      "source": "docs/plans/tasks/M4-rag-quality.md",
+      "target": "../../development/records/M4-08.md"
+    },
+    {
+      "source": "docs/runbooks/worker-recovery.md",
+      "target": "../architecture/api-v1.md"
+    },
+    {
+      "source": "docs/runbooks/worker-recovery.md",
+      "target": "../CONFIGURATION.md"
+    },
+    {
+      "source": "docs/runbooks/worker-recovery.md",
+      "target": "../development/records/M2-09.md"
+    },
+    {
+      "source": "docs/runbooks/worker-recovery.md",
+      "target": "../development/records/M2-10.md"
+    },
+    {
+      "source": "docs/runbooks/worker-recovery.md",
+      "target": "../CONFIGURATION.md"
+    },
+    {
+      "source": "docs/runbooks/worker-recovery.md",
+      "target": "../evaluation/labeling-guide.md"
+    }
+  ]
+}
