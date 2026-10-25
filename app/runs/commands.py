@@ -101,9 +101,14 @@ class RunCommands:
                 try:
                     row = self.repo.reconcile(user, row['run_id'])
                 except APIError as exc:
-                    if exc.status == 409:
+                    # 未领取run的支持版本门禁仍应拒绝；但不能因此跳过其pending租约。
+                    # 运行已占用的中断窗口由reconcile补偿，过期未占用的准备记录在此终止。
+                    if exc.status == 409 and exc.code == 'support_context_changed':
+                        row = self.repo.runs.find_one({'run_id': row['run_id']}) or row
+                    elif exc.status == 409:
                         continue
-                    raise
+                    else:
+                        raise
             now, state = self.clock(), row['state']
             lease = row.get('execution_lease')
             timed_out = ((state == 'running' and (not lease or aware(lease) <= now)) or
@@ -114,8 +119,15 @@ class RunCommands:
                 # 有执行租约但未确认取消的worker失联，不能伪称已合作停止。
                 target = 'cancelled' if cancel_idle and not lease else 'interrupted'
                 try:
+                    fields = None
+                    if state == 'pending' and row.get('claim_state') == 'preparing' and row.get('error', {}).get('code') != 'support_context_changed':
+                        latest = self.repo.conversations.conversations.find_one({'conversation_id': row['conversation_id'],
+                            'owner_id': row['owner_id']}, {'active_run_id': 1})
+                        # 仅过期且仍未占用的旧快照因版本冲突终止；不能释放其他run的占用。
+                        if latest and latest.get('active_run_id') != row['run_id']:
+                            fields = {'claim_state': 'rejected', 'error': {'code': 'support_context_changed', 'stage': 'recovery'}}
                     self.events.emit(user, row['run_id'], 'run.' + target, {'reason': 'input_timeout' if state == 'awaiting_input' else 'lease_expired'},
-                        state=target, expected_version=row['version'], expected_states={state})
+                        state=target, fields=fields, expected_version=row['version'], expected_states={state})
                     recovered.append(row['run_id'])
                 except APIError as exc:
                     if exc.status != 409:

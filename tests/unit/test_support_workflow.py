@@ -55,6 +55,34 @@ def test_correction_keeps_previous_snapshot_and_version():
     assert error.value.status == 409
 
 
+def test_explicit_clear_marks_confirmed_slot_unknown_and_records_previous_value():
+    from app.support.models import SupportInput
+    from app.support.workflow import advance
+    row = initial()
+    row['citations'] = [{'citation_id': 'old-citation'}]
+    row = update(row, {'question': '通信失败', 'device': 'AX-24', 'symptom': '灯灭', 'environment': '室内'})
+    row['evidence_slots'] = {key: dict(value) for key, value in row['slots'].items()}
+    cleared = advance(row, SupportInput(expected_version=row['version'], clear_slots=['environment']), at='2026-10-25T00:01:00Z', user_id='operator')
+    assert cleared['slots']['environment']['value'] is None
+    assert cleared['slots']['environment']['confirmed'] is False
+    assert cleared['slots']['environment']['source'] == 'unknown'
+    assert cleared['history'][-1]['slots']['environment']['value'] == '室内'
+    assert cleared['history'][-1]['withdrawal'] == {'slots':['environment'],'source':'user_request','user_id':'operator','recorded_at':'2026-10-25T00:01:00Z'}
+    assert cleared['slots']['environment']['withdrawn_by'] == 'operator'
+    assert cleared['context_version'] == row['context_version'] + 1
+    assert cleared['needs_evidence'] is True
+    assert cleared['state'] == 'awaiting_input' and cleared['reason'] == 'needs_fresh_evidence'
+
+
+def test_clear_rejects_unconfirmed_duplicate_or_conflicting_slot_changes():
+    from app.support.models import SupportInput
+    from app.support.workflow import advance
+    row = initial()
+    for clear_slots, values in [(['device'], {}), (['device','device'], {}), (['device'], {'device':'AX-25'})]:
+        with pytest.raises((APIError, ValueError)):
+            advance(row, SupportInput(expected_version=0, clear_slots=clear_slots, values=values), at='now')
+
+
 @pytest.mark.parametrize('value', ['', ' ', 'a'*4001])
 def test_empty_or_oversized_slot_rejected(value):
     with pytest.raises(APIError) as error: update(initial(), {'question': value})

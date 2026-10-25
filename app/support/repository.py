@@ -39,7 +39,7 @@ class SupportRepository:
         if run:
             from .commands import check_run_context
             check_run_context(current, run)
-        return self.save(user, cid, current, advance(current, data, at=now(), run=run))
+        return self.save(user, cid, current, advance(current, data, at=now(), run=run, user_id=user.user_id))
 
     def editable(self, user, cid, expected_version):
         row = self.get(user, cid)

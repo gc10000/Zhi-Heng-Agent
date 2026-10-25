@@ -69,3 +69,34 @@ test('草稿编辑须先保存、确认冻结、导出和反馈分别留痕',asy
   await expect(page.getByText('反馈已保存为待审，尚未进入知识库。',{exact:true})).toBeVisible()
   expect(feedbacks).toBe(1);expect(exports).toBe(1)
 })
+
+test('清空已确认字段须显式设为未知，不能静默保存旧事实',async({page})=>{
+  let context:any={version:1,context_version:1,state:'ready',reason:'evidence_available',requested_slot:null,prompt:'可继续核对',run_id:'r',
+    slots:{question:{value:'通信失败',confirmed:true},device:{value:'AX-24',confirmed:true},symptom:{value:'灯灭',confirmed:true},environment:{value:'室内',confirmed:true},error_code:{value:null,confirmed:false},tried:{value:null,confirmed:false}},operations:[],citations:[],tool_calls:[]}
+  const updates:any[]=[]
+  await mockApi(page,async route=>{
+    const path=new URL(route.request().url()).pathname
+    if(path.endsWith('/cases')){await route.fulfill({json:{items:[],next_cursor:null}});return true}
+    if(path.endsWith('/support')){
+      if(route.request().method()==='POST'){
+        const body=route.request().postDataJSON();updates.push(body)
+        expect(body.expected_version).toBe(context.version)
+        expect(body.clear_slots).toEqual(['environment'])
+        expect(body.values||{}).toEqual({})
+        context={...context,version:context.version+1,context_version:context.context_version+1,state:'awaiting_input',reason:'needs_fresh_evidence',
+          requested_slot:null,slots:{...context.slots,environment:{value:null,confirmed:false,source:'unknown'}}}
+      }
+      await route.fulfill({json:context});return true
+    }
+    return false
+  })
+  await page.goto('/cases?conversation=conversation-a&run=r')
+  await page.getByLabel('运行环境',{exact:true}).fill('')
+  await page.getByRole('button',{name:'保存确认信息与纠正',exact:true}).click()
+  await expect(page.getByRole('alert').filter({hasText:'留空不会自动撤回已确认信息'})).toBeVisible()
+  expect(updates).toHaveLength(0)
+  await page.getByRole('button',{name:'将运行环境设为未知',exact:true}).click()
+  expect(updates).toHaveLength(1)
+  await expect(page.getByLabel('运行环境',{exact:true})).toHaveValue('')
+  await expect(page.getByText('上下文版本 2',{exact:false})).toBeVisible()
+})

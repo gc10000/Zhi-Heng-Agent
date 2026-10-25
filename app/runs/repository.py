@@ -66,16 +66,21 @@ class RunRepository:
         cid = row['conversation_id']
         # 新轮领取前先物化上一轮终态消息；失败保留原占用，可用同请求恢复。
         conversation = self.conversations.get(user, cid)
-        if row['claim_state'] == 'preparing' and 'input_support_version' in row and row['input_support_version'] != conversation.get('support', {}).get('version', 0):
+        # active_run_id 已是本run时，说明prepare后的领取CAS已成功，只是进程在
+        # 写claimed/首条消息前退出。此时继续用不可变旧快照补齐协议；不能撤回用户事实，
+        # 也不能让新上下文版本永久卡住已经持有的run。
+        occupied_window = row['claim_state'] == 'preparing' and conversation.get('active_run_id') == rid
+        if (row['claim_state'] == 'preparing' and not occupied_window and 'input_support_version' in row
+                and row['input_support_version'] != conversation.get('support', {}).get('version', 0)):
             raise APIError(409, 'support_context_changed', '支持上下文已改变，请用新请求标识重建运行。')
         previous = conversation.get('active_run_id')
         if previous and previous != rid:
             prior = self.get(user, previous)
             self.release(prior)
         # 先准备再CAS占用，重试同run可进入；其他run永远不能释放本run占用。
-        claim_query = self.conversations.scope(user) | {'conversation_id': cid, 'archived': False,
-                                              'active_run_id': {'$in': [None, rid]}}
-        if row['claim_state'] == 'preparing' and 'input_support_version' in row:
+        claim_query = self.conversations.scope(user) | {'conversation_id': cid, 'archived': False}
+        claim_query['active_run_id'] = rid if occupied_window else {'$in': [None, rid]}
+        if row['claim_state'] == 'preparing' and not occupied_window and 'input_support_version' in row:
             if row['input_support_version']:
                 claim_query['support.version'] = row['input_support_version']
             else:
@@ -88,6 +93,12 @@ class RunRepository:
             if current['state'] in TERMINAL:
                 self.release(current)
                 return current
+            latest = self.conversations.get(user, cid)
+            if latest.get('active_run_id') == rid:
+                return self.reconcile(user, rid)
+            if (row['claim_state'] == 'preparing' and 'input_support_version' in row
+                    and row['input_support_version'] != latest.get('support', {}).get('version', 0)):
+                raise APIError(409, 'support_context_changed', '支持上下文已改变，请用新请求标识重建运行。')
             self.runs.update_one({'run_id': rid, 'claim_state': 'preparing'},
                                  {'$set': {'claim_state': 'rejected', 'state': 'failed',
                                            'error': {'code': 'conversation_busy', 'stage': 'claim'}}})

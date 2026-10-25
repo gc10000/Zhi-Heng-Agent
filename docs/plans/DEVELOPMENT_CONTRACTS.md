@@ -344,10 +344,14 @@ GET/POST `/conversations/{cid}/support` 复用登录、CSRF和会话owner/kb授�
 
 计划最小调整：补充repository.py和API接线以满足等待持久化及进程重建验收，仍复用既有Mongo单文档能力，不引入checkpointer或新服务。M5-05再连接跨轮上下文和迟到run版本校验。
 
+首轮复审补充：POST允许显式`clear_slots`字段列表，六槽位范围内去重，拒绝与values重复或同时绑定新run；只撤回当前已确认值，写history及记录时间，置value=null/confirmed=false/source=unknown并递增version/context_version。有旧引用则要求新证据；未来run不继承撤回事实，旧run/草稿快照不变。单纯清空输入本身不会撤回，前端提供“设为未知”明确操作并提示。
+
 
 ### M5-02 引用清单
 
 POST `/conversations/{cid}/support/checklist`含expected_version/run_id，必须为本会话完成run，精确资料修订重新授权；整段操作引用摘录保留前提，最多20步骤，无动作证据转交。POST `/conversations/{cid}/support/operations/{oid}`含expected_version/status(not_tried/tried/ineffective)/note，记录服务器UTC时间和user_report来源，修正追加不覆盖。稳定操作身份按会话/资料/修订/切片/原文去重，后续run同证据不重置无效步骤。Vue组件纯文本展示，不执行设备动作。
+
+清单变更前递归重新授权当前聚合中的全部嵌套历史、旧操作引用和工具输出，再授权新run引用；任一修订撤权则拒绝整次请求，version与operations不变。新回答权限不代表旧资料仍可读。
 
 
 ### M5-03 草稿确认
@@ -363,6 +367,8 @@ POST /conversations/{cid}/support/tools：expected_version、tool(lookup_product
 ### M5-05 跨轮支持快照
 
 新run在prepare保存input_support_version及有界support_snapshot（确认槽位/最新报告/操作来源，不复制全部工作流历史），preparing→会话领取同时CAS支持版本，间隙纠正返回409、不得生成用户消息。已领取run保持旧快照；纠正只进入未来run的产品计划/生成history，已报无效不重复。目录外纠正必须澄清，不借目录唯一项自动确认。取消/解决后不继承支持快照。关联新完成回答检查snapshot.context_version，历史无support_snapshot回答仅首次绑定；清单只允许本次绑定时槽位或同版本新run。更改已确认槽位要求未来问答取新证据，旧run/消息/已保存草稿快照不改写。
+
+恢复补偿区分占用CAS：准备run若上下文改变且active_run_id不等于自身，保留版本门禁、不得写消息；若该指针已指向本run，表示领取CAS已成功，恢复以不可变旧support_snapshot补齐claimed和幂等用户消息。精确匹配自身占用，不能覆盖其他run。未占用的过期prepare即使版本冲突也继续执行pending超时，终止后不释放其他run。重复/并发恢复不重跑模型。
 
 
 ### M5-07 反馈与导出

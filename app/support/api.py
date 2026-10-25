@@ -62,6 +62,8 @@ def checklist(cid: str, data: ChecklistInput, request: Request, user=Depends(pri
     from .checklist import build_checklist
     repository = support(request)
     current = repository.editable(user, cid, data.expected_version)
+    # 新回答的权限不能覆盖旧操作和工具原文的权限；拒绝必须先于聚合写入。
+    authorize_payload(request, user, current)
     run = repository.completed_run(user, cid, data.run_id)
     from .commands import check_run_context
     check_run_context(current, run, allow_bound=True)

@@ -38,7 +38,7 @@ def decide(row):
     return row
 
 
-def advance(current, data, *, at, run=None):
+def advance(current, data, *, at, run=None, user_id=None):
     row = deepcopy(current)
     if row['state'] in {'cancelled', 'resolved', 'handoff'}:
         raise APIError(409, 'support_terminal', '支持流程已结束，请从新的会话继续。')
@@ -46,6 +46,13 @@ def advance(current, data, *, at, run=None):
         raise APIError(409, 'version_conflict', '支持上下文已改变，请刷新后重试。')
     if any(not value.strip() or len(value) > 4000 for value in data.values.values()):
         raise APIError(422, 'invalid_slot', '补充信息不能为空且每项最多4000字。')
+    if (len(data.clear_slots) != len(set(data.clear_slots)) or set(data.clear_slots) & set(data.values)
+            or (run and data.clear_slots)):
+        raise APIError(422, 'invalid_slot_change', '信息值与设为未知操作不能重复或同时绑定新回答。')
+    for key in data.clear_slots:
+        slot = row['slots'][key]
+        if not slot.get('confirmed') or not slot.get('value'):
+            raise APIError(409, 'slot_not_confirmed', '该信息当前不是已确认事实，请刷新后重试。')
     row['history'].append({k: deepcopy(row[k]) for k in ('version', 'context_version', 'slots', 'run_id', 'state')})
     progress = False
     for key, value in data.values.items():
@@ -53,6 +60,13 @@ def advance(current, data, *, at, run=None):
         old = row['slots'][key]
         progress |= data.confirmed and (old['value'] != value or not old['confirmed'])
         row['slots'][key] = {'value': value, 'confirmed': data.confirmed, 'source': 'user_report' if data.confirmed else 'unconfirmed', 'recorded_at': at}
+    for key in data.clear_slots:
+        row['slots'][key] = {'value': None, 'confirmed': False, 'source': 'unknown',
+                             'recorded_at': at, 'withdrawn_by': user_id}
+        progress = True
+    if data.clear_slots:
+        row['history'][-1]['withdrawal'] = {'slots': list(data.clear_slots), 'source': 'user_request',
+                                            'user_id': user_id, 'recorded_at': at}
     if run:
         row['run_id'] = run['run_id']
         row['citations'] = deepcopy(run.get('citations', []))
@@ -63,6 +77,8 @@ def advance(current, data, *, at, run=None):
         row['evidence_slots'] = deepcopy(row['slots'])
         row['needs_evidence'] = False
     elif current['citations'] and any(current['slots'][key].get('confirmed') and current['slots'][key].get('value') != value.strip() for key, value in data.values.items()):
+        row['needs_evidence'] = True
+    if current['citations'] and data.clear_slots:
         row['needs_evidence'] = True
     row['no_progress'] = 0 if progress else row['no_progress'] + 1
     if current['state'] == 'awaiting_input':

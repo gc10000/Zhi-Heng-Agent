@@ -710,6 +710,8 @@ export interface components {
             values?: {
                 [key: string]: string;
             };
+            /** Clear Slots */
+            clear_slots?: ("question" | "device" | "symptom" | "environment" | "error_code" | "tried")[];
             /**
              * Confirmed
              * @default true

@@ -49,7 +49,7 @@ async function download(){if(!record.data.value)return;const generation=epoch,id
 <p v-if="error||support.error.value||records.error.value||record.error.value" role="alert">{{error||support.error.value?.message||records.error.value?.message||record.error.value?.message}}</p>
 <button :disabled="busy" @click="perform(refresh)">刷新服务状态</button>
 <section v-if="cid&&support.data.value" aria-label="当前支持流程">
-<SupportContext :context="support.data.value" :busy="busy" :run-id="rid" @save="values=>perform(()=>change('',{...(!support.data.value?.run_id&&rid?{run_id:rid}:{}),values,confirmed:true}))" @action="action=>perform(()=>change('',{action}))" />
+<SupportContext :context="support.data.value" :busy="busy" :run-id="rid" @save="(values,clearSlots)=>perform(()=>change('',{...(!support.data.value?.run_id&&rid?{run_id:rid}:{}),values,clear_slots:clearSlots,confirmed:true}))" @action="action=>perform(()=>change('',{action}))" />
 <button v-if="rid&&support.data.value.run_id&&rid!==support.data.value.run_id" :disabled="busy||ended" @click="perform(()=>change('',{run_id:rid}))">关联本轮新回答</button>
 <RouterLink :to="'/chat/'+cid">回到会话继续问答</RouterLink>
 <button :disabled="busy||!rid||ended" @click="perform(()=>change('/checklist',{run_id:rid}))">依据本轮引用生成清单</button>
