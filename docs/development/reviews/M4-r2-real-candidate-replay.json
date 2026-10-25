@@ -1,0 +1,46 @@
+{
+  "passed": true,
+  "mode": "historical_real_candidates_current_selection_replay",
+  "notice": "使用旧真实候选原件并补本轮池身份后仅重放选择，不重新检索/重排模型，不冒充当前供应商全链路或新盲测",
+  "compare": {
+    "candidate_count": 40,
+    "rerank_input_count": 20,
+    "scope_input_counts": [
+      10,
+      10
+    ]
+  },
+  "hyde": {
+    "candidate_count": 28,
+    "novel_count": 8,
+    "rerank_input_count": 20,
+    "novel_selected": 8
+  },
+  "new_provider_calls": 0,
+  "raw_evidence": [
+    {
+      "path": "output/evals/M4-r2-executed-code/manifest.json",
+      "sha256": "ec984321b5c61f7770bc738346637a77a7ee4daedd2c16580ee07a8cf5fcc53d"
+    },
+    {
+      "path": "output/evals/support-v1-r2-m4-10-quality/control/results.jsonl",
+      "sha256": "1007eb478f4e804c5c5ccce25a5c79a95c3c3f79ffb6c898ceb3ec5e23a806cd"
+    },
+    {
+      "path": "output/evals/support-v1-r2-m4-10-quality/hyde/results.jsonl",
+      "sha256": "4ea2a35058eba5504b0c5ab8fc98b0441811f8dda56d97a758085af712ca9d43"
+    },
+    {
+      "path": "output/evals/support-v1-r2-m4-10-quality/stage-cache/04459106893a3a254ce659ad7c7d168d66bb68a4a83483f2a84ea71cf6c737e9.json",
+      "sha256": "7d739c7770781809ca20712ef319a08c197e9c27b150e33d7247c701c9afad76"
+    },
+    {
+      "path": "output/evals/support-v1-r2-m4-10-quality/stage-cache/11b2ce6e5d04c20d9369eb194b85d350b443833b6c8d6c2380fb65f305965bc2.json",
+      "sha256": "09cdebe76c06ecced8bf9d64ad0b2094ac92c38903d93ceb417d634b28714ceb"
+    },
+    {
+      "path": "output/evals/support-v1-r2-m4-10-quality/stage-cache/55a5d18e97b5fce3ae1ee2df1ecb2fd374b944e37f11f7cdab049a46d7def299.json",
+      "sha256": "1afe2ea4d4db3969c0965acc02ff1999e0c0797142675f57202d7a1ae9f97c6c"
+    }
+  ]
+}
