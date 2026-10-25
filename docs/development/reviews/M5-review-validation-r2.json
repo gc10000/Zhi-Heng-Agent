@@ -1,0 +1,487 @@
+{
+  "date": "2026-10-25",
+  "reviewed_commit": "9bd4c9659961c018a387a97b6bcd6e240aa3f4bc",
+  "handoff_commit": "dcf3193c8fa28eeebb0a84aed776b7cfd8defe57",
+  "baseline_commit": "f1cd675df936d88eb8b14b72857a0f06d4b6acb7",
+  "conclusion": "需修复",
+  "closed_findings": [
+    "R1"
+  ],
+  "remaining_blocking_findings": [
+    {
+      "id": "R2",
+      "priority": 1,
+      "file": "app/runs/repository.py",
+      "line": 98,
+      "reason": "归档已占用运行后领取CAS永久失败，reconcile无界自递归，恢复扫描抛RecursionError且占用未释放"
+    },
+    {
+      "id": "R3",
+      "priority": 2,
+      "file": "app/support/commands.py",
+      "line": 35,
+      "reason": "设备撤回后的None被当作无约束，正式QueryRunner从旧会话重新确认AX-24并直接回答",
+      "actual_route": "answer",
+      "actual_reason": "confirmed_context",
+      "expected_route": "clarify"
+    }
+  ],
+  "progress": {
+    "m5_core_completed": 5,
+    "m5_core_total": 7,
+    "core_completed": 58,
+    "core_total": 76,
+    "optional_completed": 0,
+    "optional_total": 2
+  },
+  "authorization": {
+    "tasks": "仅M5内R2/R3修复复验及第三轮提交，保留R1回归",
+    "reopened": [
+      "M5-05",
+      "M5-08"
+    ],
+    "mcp": "延期",
+    "m6_authorized": false,
+    "business_implementation_this_turn": false
+  },
+  "submitted_snapshot": {
+    "passed": true,
+    "files": 28,
+    "python_syntax": 10,
+    "local_links": 257,
+    "registered_evidence": 162,
+    "checked_before_review_document_edits": true,
+    "manifest": {
+      "path": "docs/development/reviews/M5-artifact-manifest-r2.json",
+      "bytes": 34333,
+      "sha256": "a0f0952b5dd739efce5ba3b4189d6a0be9e78814653ebe5299f696e5b62f7d95"
+    },
+    "command": ".venv/Scripts/python.exe -m scripts.verification.build_m5_artifacts --summary docs/development/reviews/M5-validation-summary-r2.json --manifest docs/development/reviews/M5-artifact-manifest-r2.json --base <manifest.baseline_commit> --check",
+    "exit_code": 0
+  },
+  "backend": {
+    "passed": 789,
+    "deselected": 2,
+    "skipped": 0,
+    "warnings": 7,
+    "pytest_seconds": 559.63,
+    "junit_seconds": 559.586,
+    "composition": {
+      "unit": 499,
+      "contract": 128,
+      "integration": 162
+    },
+    "collection_composition": {
+      "unit": 499,
+      "contract": 128,
+      "integration": 162
+    },
+    "commands": [
+      {
+        "name": "backend",
+        "command": [
+          "D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\.venv\\Scripts\\python.exe",
+          "-m",
+          "pytest",
+          "tests/unit",
+          "tests/contract",
+          "tests/integration",
+          "-m",
+          "not live_provider",
+          "-q",
+          "--tb=short",
+          "--junitxml=D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\output\\m5-review-r2-backend\\backend.xml"
+        ],
+        "exit_code": 0,
+        "seconds": 566.875
+      },
+      {
+        "name": "reimport",
+        "command": [
+          "D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\.venv\\Scripts\\python.exe",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "test",
+          "-p",
+          "test_document_reimport.py",
+          "-v"
+        ],
+        "exit_code": 0,
+        "seconds": 11.546
+      }
+    ],
+    "classification_notice": "JUnit和实际收集路径均499单元/128契约/162集成。集成目录含真实隔离服务及模型端口注入，不是供应商端到端。"
+  },
+  "reimport": {
+    "passed": 3,
+    "exit_code": 0
+  },
+  "frontend": {
+    "unit_passed": 37,
+    "unit_failed": 0,
+    "browser": {
+      "startTime": "2026-10-25T10:40:59.076Z",
+      "duration": 42543.883,
+      "expected": 28,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "commands": [
+      {
+        "name": "typecheck",
+        "command": [
+          "C:\\Users\\10426\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.CMD",
+          "-C",
+          "frontend",
+          "typecheck"
+        ],
+        "exit_code": 0,
+        "seconds": 5.593
+      },
+      {
+        "name": "unit",
+        "command": [
+          "C:\\Users\\10426\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.CMD",
+          "-C",
+          "frontend",
+          "exec",
+          "vitest",
+          "run",
+          "--reporter=json",
+          "--outputFile=D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\output\\m5-review-r2-frontend\\unit.json"
+        ],
+        "exit_code": 0,
+        "seconds": 6.766
+      },
+      {
+        "name": "build",
+        "command": [
+          "C:\\Users\\10426\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.CMD",
+          "-C",
+          "frontend",
+          "build"
+        ],
+        "exit_code": 0,
+        "seconds": 6.953
+      },
+      {
+        "name": "browser",
+        "command": [
+          "C:\\Users\\10426\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.CMD",
+          "-C",
+          "frontend",
+          "exec",
+          "playwright",
+          "test",
+          "--reporter=list,json",
+          "--output=D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\output\\m5-review-r2-frontend\\browser-artifacts"
+        ],
+        "exit_code": 0,
+        "seconds": 44.859
+      }
+    ],
+    "browser_mode": "离线协议与合成资产，不是供应商端到端"
+  },
+  "independent_probes": {
+    "original_backend": {
+      "passed": 2,
+      "deselected": 1,
+      "exit_code": 0,
+      "selection": "revoked_earlier or occupied_preparing"
+    },
+    "new_boundaries": {
+      "failed": 2,
+      "errors": 0,
+      "exit_code": 1,
+      "mode": "真实隔离Mongo、正式领取/恢复/QueryRunner、注入模型"
+    },
+    "unwrapped_archive_reproduction": {
+      "failed": 1,
+      "exit_code": 1,
+      "actual": {
+        "exception": "RecursionError",
+        "run_state": "pending",
+        "claim_state": "preparing",
+        "active_still_owned": true,
+        "mode": "real_mongo_archived_recovery_no_reentry_guard"
+      },
+      "notice": "直接实际恢复，不用递归计数替身，失败为期望无异常的断言"
+    },
+    "frontend_clear_slot": {
+      "mode": "actual_vue_offline_protocol_probe",
+      "blankWasBlocked": true,
+      "updates": [
+        {
+          "expected_version": 1,
+          "values": {},
+          "clear_slots": [
+            "environment"
+          ],
+          "confirmed": true
+        }
+      ],
+      "value": "",
+      "browserErrors": [],
+      "passed": true
+    },
+    "frontend_exit_code": 0
+  },
+  "readonly_live": {
+    "m5": {
+      "passed": true,
+      "mode": "real_m5_api_browser_artifacts_read_only",
+      "checks": {
+        "source_mongo_unchanged": true,
+        "historical_supplier_artifacts_preserved": true,
+        "persistent_handoff_not_resolved": true,
+        "reports_user_sourced_append_only": true,
+        "new_formal_run_completed_with_exact_answer": true,
+        "future_run_frozen_user_results": true,
+        "one_completed_new_query_two_setup_failures_preserved": true,
+        "new_answer_message_and_citations_exact": true,
+        "unique_terminal_and_stream_answer": true,
+        "confirmation_and_user_edits_preserved": true,
+        "case_has_original_operations_and_unknown_fields": true,
+        "download_exact_authorized_confirmed_snapshot": true,
+        "feedback_pending_and_run_bound": true,
+        "draft_does_not_publish_knowledge": true,
+        "case_citations_match_real_index_and_sources": true,
+        "original_real_http_sha256": true
+      },
+      "new_formal_queries": 3,
+      "setup_failed_before_retrieval": 2,
+      "logical_answer_generations": 1,
+      "exact_sdk_http_calls": null,
+      "exact_cost": null,
+      "recheck_provider_calls": 0,
+      "human_quality_rating": null
+    },
+    "m5_check_count": 16,
+    "m5_exit_code": 0,
+    "prior_m3": {
+      "passed": false,
+      "mode": "existing_m3_ui_artifacts_read_only",
+      "provider_calls": 0,
+      "checks": {
+        "two_completed_answers": true,
+        "ordered_persistent_history": true,
+        "grounded_parameters_and_followup": true,
+        "citations_exact_initial_revision": true,
+        "single_terminal_and_ordered_events": false,
+        "ui_import_published": true,
+        "ui_import_product_scope": true,
+        "originals_hash_match": true
+      },
+      "source_flow_sha256": "52cd0cbc3820e78c2b725d2b5df42b32c0ac6f834223b151626e742aa087d96e",
+      "message_count": 4
+    },
+    "prior_m3_passed_checks": 7,
+    "prior_m3_total_checks": 8,
+    "prior_m3_exit_code": 1,
+    "prior_m3_event_retention": {
+      "mode": "read_only_m3_event_retention",
+      "runs": [
+        {
+          "state": "completed",
+          "created_at": "2026-10-24T08:46:11.644750+00:00",
+          "replay_expires_at": "2026-10-25 08:47:00.162000",
+          "events_remaining": 0
+        },
+        {
+          "state": "completed",
+          "created_at": "2026-10-24T08:47:01.598224+00:00",
+          "replay_expires_at": "2026-10-25 08:47:13.631000",
+          "events_remaining": 0
+        }
+      ],
+      "event_ttl_indexes": [
+        {
+          "keys": [
+            [
+              "expires_at",
+              1
+            ]
+          ],
+          "expireAfterSeconds": 0
+        }
+      ]
+    },
+    "prior_m3_event_notice": "24小时事件回放窗口已在2026-10-25 08:47 UTC到期、事件由TTL清理；保留历史通过报告，不列新增业务回归，不伪称本轮8/8。",
+    "submission_notice": "执行第二轮沿用首轮只读报告；本轮总控单独新执行以上复核。",
+    "new_paid_model_calls_this_review": 0,
+    "historical_m5_answer_generations": 1,
+    "human_quality_rating": null
+  },
+  "nonblocking_documentation_corrections": [
+    {
+      "reason": "执行摘要/提交写497单元+164集成；原始执行JUnit及独立JUnit/collect-only均为499单元+162集成，契约128，总数789不变",
+      "submitted_claim": {
+        "unit": 497,
+        "contract": 128,
+        "integration": 164
+      },
+      "submitted_junit_actual": {
+        "unit": 499,
+        "contract": 128,
+        "integration": 162
+      },
+      "action": "第三轮摘要按实际收集/JUnit更正组成，历史提交快照不覆盖；不增加第四项业务阻塞"
+    }
+  ],
+  "git": {
+    "remote_main_verified_at_review_start": true,
+    "remote_main_at_review_start": "dcf3193c8fa28eeebb0a84aed776b7cfd8defe57",
+    "final_review_commit_and_push": "由最终交接回复记录实际结果，不循环amend"
+  },
+  "raw_evidence": [
+    {
+      "path": "output/m5-review-r2-backend/commands.json",
+      "bytes": 996,
+      "sha256": "6127dfcc3d79896e1986a674518ff5d195cd43db0754a08810e04411b4db3ff6"
+    },
+    {
+      "path": "output/m5-review-r2-backend/backend.xml",
+      "bytes": 117040,
+      "sha256": "2fded5c76afa7f3961497a12aaa0c20891a7517ca17bb0ca378f8da8ffbb926d"
+    },
+    {
+      "path": "output/m5-review-r2-backend/backend.txt",
+      "bytes": 2245,
+      "sha256": "682fed98775f95157509cc531e10eb50afb1f3ffdb161c918c18fd0207417a2a"
+    },
+    {
+      "path": "output/m5-review-r2-backend/reimport.txt",
+      "bytes": 546,
+      "sha256": "d95d2e439f6de0bd7fe8a3aa4f70fff77eb8a9052f5490fce43ec45a3cf99da1"
+    },
+    {
+      "path": "output/m5-review-r2-backend/collection.txt",
+      "bytes": 85816,
+      "sha256": "74ae53e9b93031e9da83150146682c745a019ed08d6d80decd259c06d05d0e8b"
+    },
+    {
+      "path": "output/m5-r2-stage-backend/backend.xml",
+      "bytes": 117041,
+      "sha256": "02d9f646c334a0cc4d1015ac8e41836b04f6bdc1ef54d83ad54bc4d9363c145f"
+    },
+    {
+      "path": "output/m5-review-r2-frontend/commands.json",
+      "bytes": 1622,
+      "sha256": "963a36ef97d648ec001bbba2e8d577d8e5ef8bff29487423be9221af74d2a205"
+    },
+    {
+      "path": "output/m5-review-r2-frontend/unit.json",
+      "bytes": 12237,
+      "sha256": "07f8c1038199d054485088ad20b4fd0eec408faf9e11a3f28c1d0386ff062091"
+    },
+    {
+      "path": "output/m5-review-r2-frontend/browser.json",
+      "bytes": 33039,
+      "sha256": "8df143a4174f7890e3708e37b3f3a4572f3ab6f5ae0ad6dc656b8e38d4d200d2"
+    },
+    {
+      "path": "output/m5-review-r2-original.xml",
+      "bytes": 544,
+      "sha256": "6bb066e5b2719b9acd688aeb79d59d6b989c95a1d40378608f380b6a26c2806b"
+    },
+    {
+      "path": "output/m5-review-r2-original.txt",
+      "bytes": 222,
+      "sha256": "d1f4f8ed99fb35e9a8121cfc54d9ab0a2d2f9aaabe789daed843bc64822b967d"
+    },
+    {
+      "path": "output/m5-review-probes/test_support_review.py",
+      "bytes": 4842,
+      "sha256": "6b599737f71f108bcdb5563cdb5dce137b76ab8731504c30716ba08c10100093"
+    },
+    {
+      "path": "output/m5-review-r2-probes/test_remaining_boundaries.py",
+      "bytes": 3832,
+      "sha256": "e081a9eed21c24666bebd0044b99216bf47d20ccd7ce2e76ec54b5d6f75bda37"
+    },
+    {
+      "path": "output/m5-review-r2-probes/boundaries.xml",
+      "bytes": 3130,
+      "sha256": "1dfbe2c1ce772d0c46bda7aad151c9c35517fe693c3484f1e3624d2993b1aa0c"
+    },
+    {
+      "path": "output/m5-review-r2-probes/boundaries.txt",
+      "bytes": 3499,
+      "sha256": "4ca92b1530ac51a0dbf144ff0f45b96658e331b4e7b9e0605fb067d3b99d1150"
+    },
+    {
+      "path": "output/m5-review-r2-probes/test_archived_real_recursion.py",
+      "bytes": 1955,
+      "sha256": "63cee86a9618d0976e9089ffbcc7ea735d1f9566f206d92687e008a4c075b617"
+    },
+    {
+      "path": "output/m5-review-r2-probes/archived-real-recursion.xml",
+      "bytes": 1007,
+      "sha256": "565f8cf12cdc50a9bcbf326e5e0a1190fb0bb1370df85543ce3d1fe4584d1b81"
+    },
+    {
+      "path": "output/m5-review-r2-probes/archived-real-recursion.txt",
+      "bytes": 968,
+      "sha256": "5ffe6bce85e68e21507636272bf0aa7961f2048819bff31f4139b35beab8ce2d"
+    },
+    {
+      "path": "output/m5-review-r2-probes/archived-real-recursion.json",
+      "bytes": 186,
+      "sha256": "001e0843c3b3233a2871c2a08f9b4271e6239146b34f8408cd929e693b4550a9"
+    },
+    {
+      "path": "output/m5-review-r2-probes/check-clear-slot.cjs",
+      "bytes": 2908,
+      "sha256": "1062e434e44eee4a896ae0a6ad0ebc2e4d61b113cafe557f67523ec517a974d2"
+    },
+    {
+      "path": "output/m5-review-r2-probes/clear-slot.json",
+      "bytes": 291,
+      "sha256": "22df2f8e1fafb7512cc3915c8cf5e21b264eee6a2cc5082d6d24c6b5ced59460"
+    },
+    {
+      "path": "output/m5-review-r2-probes/clear-slot.txt",
+      "bytes": 207,
+      "sha256": "6b5b6092d472132d9a6f9727cbc651f06ccde4f507d39de34862ec40939d7303"
+    },
+    {
+      "path": "output/m5-review-r2-probes/recheck_live.py",
+      "bytes": 1208,
+      "sha256": "c9fcf355c0275ede9faae64202d5a66bebd104eb32433cd127705def429143f3"
+    },
+    {
+      "path": "output/m5-review-r2-probes/live-recheck.txt",
+      "bytes": 829,
+      "sha256": "0adb7afd483a9459620ac693fcf09165022eb0397e2842b95e9fa6cecaa5323f"
+    },
+    {
+      "path": "output/m5-review-r2-probes/old-event-retention.json",
+      "bytes": 604,
+      "sha256": "d4a9e6b97f6e0070bc31e8791a5b695a2bde7ea5e2babe6f64742df2b46b4e8b"
+    },
+    {
+      "path": "output/m5-review-r2-prior-live-readonly.json",
+      "bytes": 560,
+      "sha256": "5cc0462cb4af52fc11f4760d0d780a66ca163a26c894ee184ba5e285f06ec90e"
+    },
+    {
+      "path": "output/m5-review-r2-live-readonly.json",
+      "bytes": 1831,
+      "sha256": "06aa1278f1a01403d9c893a3ad76e1efddff841d1e827bf1ed75f05d65eeb29d"
+    },
+    {
+      "path": "output/m5-review-r2-probes/build_review_summary.py",
+      "bytes": 11215,
+      "sha256": "0845a20d9be27053031dd7bb6c3a07153a5299986c39a85a2b79bbab15f4fa83"
+    }
+  ],
+  "limitations": [
+    "本轮付费0，没有新真实浏览器全链路、新答案生成或dev/heldout评价",
+    "保留原课程数据、evals、原始产物、失败证据和两轮执行快照",
+    "仅修改审查与进度文档，不修改业务实现",
+    "索引只读诊断首次把keys列表当dict而报AttributeError；更正格式后复核成功，不计业务反例"
+  ]
+}
