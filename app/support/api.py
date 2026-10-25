@@ -16,12 +16,37 @@ def support(request):
 
 @router.get('/conversations/{cid}/support')
 def get_support(cid: str, request: Request, user=Depends(principal)):
-    return support(request).get(user, cid)
+    row = support(request).get(user, cid)
+    authorize_payload(request, user, row)
+    return row
 
 
 @router.post('/conversations/{cid}/support')
 def update_support(cid: str, data: SupportInput, request: Request, user=Depends(principal)):
-    return support(request).update(user, cid, data)
+    repository = support(request)
+    authorize_payload(request, user, repository.get(user, cid))
+    if data.run_id:
+        authorize_payload(request, user, request.app.state.resources['runs'].get(user, data.run_id).get('citations', []))
+    return repository.update(user, cid, data)
+
+
+def authorize_payload(request, user, payload):
+    """连同历史/工具输出中的精确资料身份重新授权，撤权后不回显嵌套快照。"""
+    identities = set()
+    def collect(value):
+        if isinstance(value, dict):
+            if value.get('document_id') and value.get('revision_id'):
+                identities.add((value['document_id'], value['revision_id']))
+            for nested in value.values():
+                collect(nested)
+        elif isinstance(value, list):
+            for nested in value:
+                collect(nested)
+    collect(payload)
+    if identities:
+        gateway = request.app.state.resources['knowledge']()
+        for document_id, revision_id in identities:
+            gateway.revision(user, document_id, revision_id)
 
 
 def authorize_citations(request, user, citations):
@@ -52,6 +77,7 @@ def operation(cid: str, oid: str, data: OperationReport, request: Request, user=
     from .checklist import record_result
     repository = support(request)
     current = repository.editable(user, cid, data.expected_version)
+    authorize_payload(request, user, current)
     return repository.save(user, cid, current, record_result(current, oid, data, at=now(), user_id=user.user_id))
 
 
@@ -61,7 +87,7 @@ def cases(request):
 
 
 def authorized_case(request, user, case):
-    authorize_citations(request, user, case['citations'])
+    authorize_payload(request, user, case)
     return case
 
 
@@ -108,7 +134,10 @@ def call_tool(cid: str, data: ToolInput, request: Request, user=Depends(principa
     from .tools import execute_tool, scoped_handlers
     repository = support(request)
     context = repository.get(user, cid)
-    return execute_tool(repository, user, cid, data, scoped_handlers(request, user, cid, context))
+    authorize_payload(request, user, context)
+    result = execute_tool(repository, user, cid, data, scoped_handlers(request, user, cid, context))
+    authorize_payload(request, principal(request), result)
+    return result
 
 
 @router.get('/cases/{case_id}/export')

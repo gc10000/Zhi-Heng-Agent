@@ -1,6 +1,6 @@
-# 统一API v1 · M2交付
+# 统一API v1 · M2底座与M5支持扩展
 
-日期：2026-10-24。实际实现见[OpenAPI](openapi-v1.json)、[事件示例](run-events-example.json)和[公共契约](../plans/DEVELOPMENT_CONTRACTS.md)。OpenAPI从create_app().openapi()离线导出，24个路径/27个操作；事件文件为明确标注的合成协议示例，不是执行证据。M3已通过，当前M4获准实施、M5未授权。
+日期：2026-10-24。实际实现见[OpenAPI](openapi-v1.json)、[事件示例](run-events-example.json)和[公共契约](../plans/DEVELOPMENT_CONTRACTS.md)。OpenAPI从create_app().openapi()离线导出，当前33个路径/39个操作（M2交付时24个路径/27个操作）；事件文件为明确标注的合成协议示例，不是执行证据。M0至M4已通过，M5实施自验中，M6未授权。
 
 M3-08兼容补充：引用返回可空`original`，包含精确修订已登记原件的asset_id/media_type/name/url；与引用同权限复核，不公开对象键或签名URL，旧未登记原件返回null。PDF前端按物理页与已知normalized_top_left坐标定位，无bbox只跳页。
 
@@ -37,3 +37,20 @@ M4-03不改变RunInput；product_snapshot可额外返回context_route（answer/c
 M4-07保持公开API字段与事件协议不变。问题/固定提示超窗以prompt_budget_exceeded失败；来源或图片跨修订为citation_scope_invalid，流式未知引用为answer_citation_invalid，均不写成功助手消息。合法输出达到模型上限则保存部分内容并统一追加中文说明，answer.delta拼接、历史和run.completed.answer保持一致。预算/支持程度仅内部持久化用于评测；引用编号与citation.selected顺序一致。旧兼容API共享预算和输出限制，尚无同等流式编号门禁保证。
 
 M4-08不改变公开问答API。退出仍先撤销会话，再清该用户查询向量缓存并递增代际；迟到计算不能污染下一代。内部模型桥接POST /embeddings新增可选input_type（query/document，默认document），新查询客户端需要同步新版宿主；现有document worker请求保持原形。此桥接沿原令牌保护，不对外部署。
+
+
+## M5 支持流程与用户确认
+
+| 端点 | 输入与行为 |
+| --- | --- |
+| GET/POST `/conversations/{cid}/support` | 持久支持聚合；expected_version、values、confirmed、action和可选已完成run_id。槽位候选不当事实；更正只影响未来run |
+| POST `/conversations/{cid}/support/checklist` | expected_version/run_id；从实际引用整段生成未试清单，保留前提和风险，重复来源不使无效步骤复活 |
+| POST `/conversations/{cid}/support/operations/{oid}` | expected_version/status/note；用户自报追加服务器时间，全部无效转交 |
+| POST `/conversations/{cid}/support/tools` | expected_version/tool/arguments；仅3种固定只读工具及后端范围，预算先预留，失败/重复/超限转交 |
+| GET/POST `/cases` | owner/kb分页和完成run生成draft；expected_support_version门禁，同run幂等且不覆盖编辑 |
+| GET/PATCH `/cases/{id}` | 草稿字段编辑采用expected_version；历史引用与支持快照不回写 |
+| POST `/cases/{id}/confirm` | 用户确认服务端版本；确认后冻结，重复确认幂等 |
+| GET `/cases/{id}/export` | 仅confirmed，重新授权全部嵌套精确修订；返回filename/markdown/case_version，浏览器本地下载 |
+| POST `/feedback` | run/citation_ids/category/note/client_request_id；五类pending_review，幂等冲突409，不发布知识 |
+
+支持聚合state独立于问答run.state，不借用执行租约伪造人工等待。刷新读取支持快照，不改SSE序号；原型号确认/取消/消息补偿仍沿M2/M3协议。新run冻结support_snapshot，旧run迟到引用更新须核对context_version；已取消/已解决不复活。support/case读取包含嵌套历史和工具输出的资料重新授权，撤权404不返回内容。可选外网MCP不注册，详见[支持恢复手册](../runbooks/support-recovery.md)。

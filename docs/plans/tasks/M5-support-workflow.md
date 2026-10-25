@@ -9,7 +9,7 @@
 
 ## 进入条件与执行约束
 
-2026-10-25：M4第2轮总控通过、R1关闭，已授权从M5-01按依赖完成M5-01至M5-08；M5-06仍为可选，可登记延期，保持未勾选且不计核心进度。当前M5实施中（1/7核心、可选0/1），授权不计完成；阶段末提交M5-submission.md，M6及后续未授权。见[M4授权与保留边界](../../development/reviews/M4-review-r2.md)。先状态/槽位、引用操作清单与用户确认草稿，再有界只读工具和恢复；保留M4默认及真实质量局限，不以历史heldout调参或冒称新盲测。
+2026-10-25：M4第2轮总控通过、R1关闭，已授权从M5-01按依赖完成M5-01至M5-08；M5-06仍为可选，可登记延期，保持未勾选且不计核心进度。当前M5执行自验完成（7/7核心、待总控审查，可选0/1延期），授权不计完成；阶段末提交M5-submission.md，M6及后续未授权。见[M4授权与保留边界](../../development/reviews/M4-review-r2.md)。先状态/槽位、引用操作清单与用户确认草稿，再有界只读工具和恢复；保留M4默认及真实质量局限，不以历史heldout调参或冒称新盲测。
 
 依赖 M3-11 与 M4-10，先确定支持状态机，再加入工具调用。
 
@@ -134,10 +134,12 @@
 **文件：**`frontend/tests/e2e/support-case.spec.ts`; `docs/development/records/M5-08.md`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M5-08.1** 真实演示未解决追问→记录已试→新建议或转交→确认草稿→导出→反馈。
-- [ ] **M5-08.2** 检查循环上限与恢复。
-- [ ] **M5-08.V** 验证：pnpm -C frontend test:e2e -- support-case.spec.ts；.venv/Scripts/python.exe -m pytest tests/unit/test_support_workflow.py tests/unit/test_tool_budget.py -q。
-- [ ] **M5-08.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M5-08.1** 真实演示未解决追问→记录已试→新建议或转交→确认草稿→导出→反馈。
+- [x] **M5-08.2** 检查循环上限与恢复。
+- [x] **M5-08.V** 验证：pnpm -C frontend test:e2e -- support-case.spec.ts；.venv/Scripts/python.exe -m pytest tests/unit/test_support_workflow.py tests/unit/test_tool_budget.py -q。
+- [x] **M5-08.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**可选 MCP 即使延期也有明确范围决定；核心流程有真实引用与用户确认；无伪造已完成操作。
 
+
+阶段最终结果：774后端（497单元/128契约/149集成目录）、既有3、前端37单元/27离线浏览器与类型/构建通过；新真实答案生成1次、产物只读16检查通过。M5-06延期不计完成。详见[执行提交](../../development/reviews/M5-submission.md)、[摘要](../../development/reviews/M5-validation-summary.json)及[记录](../../development/records/M5-08.md)，M6未授权。

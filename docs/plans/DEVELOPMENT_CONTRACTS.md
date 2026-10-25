@@ -368,3 +368,7 @@ POST /conversations/{cid}/support/tools：expected_version、tool(lookup_product
 ### M5-07 反馈与导出
 
 POST /feedback：run_id/citation_ids/category(model/evidence/missing_material/operation/image)/note/client_request_id，owner由登录身份授予；仅同run已授权引用，幂等不同内容409，状态pending_review，不自动生成资料或执行审核。GET /cases/{case_id}/export仅confirmed且全部精确资料修订重新授权，返回{filename,markdown,case_version}供浏览器本地下载。动态文本转义Markdown/HTML，不把用户文本变成图片/链接/脚本；导出含修订、来源、用户编辑、原操作建议和自报时间。无对外发送。
+
+### M5-08 阶段边界补强
+
+支持上下文、处理记录的读取及变更前递归收集嵌套历史/工具输出的document_id+revision_id，重新核对精确修订访问；撤权时拒绝整份回显，不以最新引用列表代替历史授权。所有现有步骤均由用户自报无效时进入handoff/all_steps_ineffective，不声称已解决。接线前断电等原文保持整段前提；清单是待人工核对建议。前端反馈只选择对应run引用，跨记录/身份切换丢弃旧下载结果；确认必须先保存编辑。M5-06未启用，不存在外网工具注册。本阶段真实验收范围仅新隔离账本单样例，不能替代生产规模/答案质量评价。

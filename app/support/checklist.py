@@ -11,7 +11,7 @@ def build_checklist(current, run):
     for citation in run.get('citations', []):
         text = citation.get('text', '').strip()
         # 保留整段前提而非逐句截断；超长/无动作的证据交给用户查原文。
-        if not text or len(text) > 4000 or not re.search('检查|核对|设置|连接|断开|重启|确认', text):
+        if not text or len(text) > 4000 or not re.search('检查|核对|设置|连接|断开|断电|重启|确认', text):
             continue
         identity = stable_id('operation', run['conversation_id'], [citation['document_id'], citation['revision_id'], citation['chunk_uid'], text])
         if identity in seen:
@@ -41,4 +41,7 @@ def record_result(current, operation_id, data, *, at, user_id):
                             'source': 'user_report', 'user_id': user_id})
     step['status'] = data.status
     row['context_version'] += 1
+    if all(step['status'] == 'ineffective' for step in row['operations']):
+        row.update(state='handoff', reason='all_steps_ineffective', requested_slot=None,
+                   prompt='已有可追溯步骤均被用户记录为无效，停止重复建议并转交人工支持。')
     return row

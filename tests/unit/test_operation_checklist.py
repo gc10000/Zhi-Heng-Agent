@@ -56,3 +56,11 @@ def test_unknown_operation_and_empty_observation_rejected():
         with pytest.raises(APIError):
             record_result(row,oid,OperationReport(expected_version=0,status='tried',note=note),at='now',user_id='u')
         assert row == before
+
+
+def test_power_off_prerequisite_remains_a_reviewable_manual_action():
+    run = sample()
+    run['citations'][0]['text'] = '设备输入为24V直流。接线前必须断电。'
+    row = build_checklist(initial(), run)
+    assert len(row['operations']) == 1
+    assert row['operations'][0]['prerequisites'] == run['citations'][0]['text']

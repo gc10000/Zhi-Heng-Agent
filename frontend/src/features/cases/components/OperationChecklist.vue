@@ -14,5 +14,6 @@ const notes = reactive<Record<string,string>>({})
 <button :disabled="busy || !notes[step.operation_id]?.trim()" @click="emit('report',step.operation_id,'tried',notes[step.operation_id]!)">记录已试</button>
 <button :disabled="busy || !notes[step.operation_id]?.trim()" @click="emit('report',step.operation_id,'ineffective',notes[step.operation_id]!)">记录无效</button>
 <button :disabled="busy || !notes[step.operation_id]?.trim()" @click="emit('report',step.operation_id,'not_tried',notes[step.operation_id]!)">更正为未试</button>
-<ul><li v-for="(report,index) in step.reports" :key="index">{{ report.recorded_at }} · 用户自报 {{ report.status }}：{{ report.note }}</li></ul>
+<ul><li v-for="(report,index) in step.reports" :key="index">{{ report.recorded_at }} · 用户自报 {{ ({not_tried:'未试',tried:'已试',ineffective:'无效'} as Record<string,string>)[report.status]||'待核对' }}：{{ report.note }}</li></ul>
 </article></section></template>
+<style scoped>.card{padding:1rem;margin:.8rem 0;border:1px solid var(--border,#cbd5e1);border-radius:.7rem;background:var(--surface,#fff)}p,li{line-height:1.7}label{display:grid;gap:.4rem}button{margin:.35rem .4rem .35rem 0}</style>

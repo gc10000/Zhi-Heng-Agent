@@ -1,8 +1,8 @@
 # Product Knowledge RAG
 
-> 正在将课程底座演进为“设备技术支持与知识工作台”。M0、M1、M2、M3已通过总控审查。M3交付Vue 3工作台：登录、设备/会话、持久流式问答、图文来源与PDF定位、资料导入及修订管理；第二轮复审已关闭缓存会话恢复与跨页设备选择问题。[前端运行说明](frontend/README.md)、[M3第二轮总控审查](docs/development/reviews/M3-review-r2.md)、[完整优化计划](docs/plans/2026-10-22-technical-support-optimization.md)与[可视化路线图](docs/brainstorming/2026-10-22/support-plan.html)。
+> 正在将课程底座演进为“设备技术支持与知识工作台”。M0至M4已通过总控审查；Vue 3工作台具有登录、设备/会话、持久流式问答、图文来源与PDF定位、资料导入及修订管理。M5新增持久支持上下文、引用操作清单、用户自报、确认草稿、有限只读工具、授权导出与待审反馈，当前执行自验中，阶段末另交总控审查；M6未授权。
 
-> 开发以[总清单](docs/plans/DEVELOPMENT_TODO.md)、[进度](docs/development/PROGRESS.md)和[阶段审查](docs/development/REVIEW_STATUS.md)为准。M3第二轮独立346后端、37前端单元、24离线浏览器、既有3项与真实产物只读8检查通过，本轮付费0；M3 11/11、核心43/76。授权从M4-01开始连续完成M4-10，先冻结题集/划分并跑基线，M5及后续未授权。新接口见[API v1](docs/architecture/api-v1.md)，旧公开导入/查询入口仍保留原链路。
+> 当前事实以[总清单](docs/plans/DEVELOPMENT_TODO.md)、[进度](docs/development/PROGRESS.md)和[阶段审查](docs/development/REVIEW_STATUS.md)为准。[前端运行说明](frontend/README.md)、[API v1](docs/architecture/api-v1.md)、[支持流程与恢复](docs/runbooks/support-recovery.md)。操作建议不等于已执行，结果仅由用户自报；转交草稿不自动发送，反馈不自动成为知识，外网MCP未启用。原课程数据与全部历史验证边界保留，旧公开入口仍为原链路。
 
 > 原课程全部产品资料已完成入库：85 份 PDF + 1 份 Excel，6,612 个切片。范围、验证与续传记录见 [全量导入记录](docs/COURSE_IMPORT.md)。
 

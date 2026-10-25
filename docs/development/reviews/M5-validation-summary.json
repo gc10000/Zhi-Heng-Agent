@@ -1,0 +1,689 @@
+{
+  "notice": "M5执行自验与待审查材料；原始证据仅本机保存，hash不代表公开原件。",
+  "stage": "M5",
+  "review_status": "待审查",
+  "branch": "main",
+  "baseline_commit": "a842ce863d8b9e892da4760d2ec6975028121079",
+  "pre_submission_head": "f2c160c47c7f472a4467ef48acefd76315f0ad8a",
+  "completed": [
+    "M5-01",
+    "M5-02",
+    "M5-03",
+    "M5-04",
+    "M5-05",
+    "M5-07",
+    "M5-08"
+  ],
+  "deferred": [
+    {
+      "id": "M5-06",
+      "optional": true,
+      "reason": "外部MCP未显式启用/真实凭据联调，不注册工具，不计完成"
+    }
+  ],
+  "core_progress": {
+    "stage_completed": 7,
+    "stage_total": 7,
+    "overall_completed": 60,
+    "overall_total": 76
+  },
+  "tests": [
+    {
+      "junit": "output/m5-stage-backend-final/backend.xml",
+      "passed": 774,
+      "deselected": 2,
+      "skipped": 0,
+      "exit_code": 0,
+      "classifications": {
+        "unit": 497,
+        "contract": 128,
+        "integration": 149
+      },
+      "classification_notice": "测试目录组成；集成目录含真实隔离服务及模型/检索端口注入，不能当供应商调用数。",
+      "console_seconds": 508.85
+    }
+  ],
+  "legacy_reimport": {
+    "passed": 3,
+    "exit_code": 0,
+    "log": "output/m5-stage-backend-final/reimport.txt",
+    "test_seconds": 0.298
+  },
+  "frontend": {
+    "unit_report": "output/m5-stage-frontend-final/unit.json",
+    "unit_passed": 37,
+    "browser_report": "output/m5-stage-frontend-final/browser.json",
+    "browser_passed": 27,
+    "browser_skipped": 0,
+    "browser_unexpected": 0,
+    "browser_flaky": 0,
+    "typecheck_exit_code": 0,
+    "build_exit_code": 0,
+    "browser_mode": "offline_mock_api"
+  },
+  "real_baseline": {
+    "report": "output/m5-08-live-recheck-final.json",
+    "checks": 16,
+    "exit_code": 0,
+    "source": "原M3已验收隔离知识登记/历史复制到新随机账本；源Milvus/MinIO只读复用",
+    "mode": "real_new_api_process_and_browser",
+    "new_query_requests": 3,
+    "setup_failures_before_model": 2,
+    "logical_answer_generations": 1,
+    "exact_sdk_http_calls": null,
+    "exact_cost": null,
+    "read_only_recheck_provider_calls": 0,
+    "human_quality_rating": null,
+    "quality_claim": "仅助手单样例观察，不主张整体答案质量提升",
+    "browser_runs": [
+      {
+        "log": "output/m5-08-live-browser-r5.txt",
+        "passed": 1,
+        "exit_code": 0,
+        "seconds": 58.2
+      },
+      {
+        "log": "output/m5-08-live-browser-r6.txt",
+        "passed": 1,
+        "exit_code": 0,
+        "seconds": 29.1,
+        "resumed_checkpoint": true,
+        "new_model_calls": 0
+      }
+    ]
+  },
+  "prior_live_readonly": {
+    "report": "output/m5-08-prior-live-readonly.json",
+    "checks": 8,
+    "exit_code": 0,
+    "new_provider_calls": 0
+  },
+  "command_ledgers": [
+    "output/m5-stage-backend-final/commands.json",
+    "output/m5-stage-frontend-final/commands.json"
+  ],
+  "preserved_failures": [
+    {
+      "path": "output/m5-08-boundaries-red.txt",
+      "kind": "business_red",
+      "failed": 2
+    },
+    {
+      "path": "output/m5-08-action-red.txt",
+      "kind": "business_red",
+      "failed": 1,
+      "deselected": 5
+    },
+    {
+      "path": "output/m5-stage-backend-first/backend.txt",
+      "kind": "test_target_prefix_configuration_error",
+      "passed": 770,
+      "failed": 4,
+      "deselected": 2,
+      "exit_code": 1
+    },
+    {
+      "path": "output/m5-05-typecheck-final.txt",
+      "kind": "typescript_error_previously_masked_by_last_shell_exit",
+      "correction": "原件保留，07单独类型检查及最终stage类型检查退出0"
+    },
+    {
+      "path": "output/m5-07-browser.txt",
+      "kind": "accessibility_locator_failure",
+      "passed": 2,
+      "failed": 1,
+      "correction": "正式稳定名称修复后3通过，最终阶段27通过"
+    }
+  ],
+  "unverified": [
+    "可选外网MCP",
+    "生产容量与长年会话文档大小",
+    "现场设备操作结果",
+    "整体答案正确率",
+    "精确SDK重试和金额",
+    "历史Windows原生模型问题根治"
+  ],
+  "data_boundary": "不删除、重导入或发布源知识；保留随机测试账本、evals、所有原始output/evidence，不上传原件/配置/媒体。",
+  "raw_evidence": [
+    {
+      "path": "output/m5-01-behavior-red.txt",
+      "sha256": "1cdb7d028ca5e6e67d8e3c2239750c2c7e2590b02e37af136c83e7bc16cf1f1b"
+    },
+    {
+      "path": "output/m5-01-boundary-red.txt",
+      "sha256": "2929f6819d250b967c8130099464402539497e84261732cec48afdced37f4097"
+    },
+    {
+      "path": "output/m5-01-green.txt",
+      "sha256": "b29c7c1e8487e75f5ac25dbf2f34adba9dfe4fe3693371a538b375200da15630"
+    },
+    {
+      "path": "output/m5-01-red.txt",
+      "sha256": "770bf427847a5a23dade0062005a0d3a7188db3a0ba5d571cdf008d48719b6b1"
+    },
+    {
+      "path": "output/m5-02-green-integration.txt",
+      "sha256": "28aa2a83d9a99e9c90bbb84705da54265c59b73c9292f744b9e83314ef3785d8"
+    },
+    {
+      "path": "output/m5-02-red.txt",
+      "sha256": "297b24c143d6930e05895fda92161dc30c38d72da41ed7275bcbda9b53d28a9e"
+    },
+    {
+      "path": "output/m5-02-typecheck.txt",
+      "sha256": "241be48e89412fbf6fed0e7e10a0217d6a564c74e44cc6906baaac9d4715a40a"
+    },
+    {
+      "path": "output/m5-02-unit.txt",
+      "sha256": "73c64a3ef5adf572e5bb5e94d11f54dcbcf8a799c88aa22e217d7ca0d1a31aa1"
+    },
+    {
+      "path": "output/m5-03-browser-green.txt",
+      "sha256": "1a1c661a88e7c6ee81006a00c9354b999f1f348d360439c66a43363c58726045"
+    },
+    {
+      "path": "output/m5-03-browser-red-artifacts/.last-run.json",
+      "sha256": "b5788443f3f66f608c42acbfdb63fe57f30f1ec922b88391b8228f1958e8dc65"
+    },
+    {
+      "path": "output/m5-03-browser-red-artifacts/results.json",
+      "sha256": "f84e18a47103f7cfc35eee0e2abf480a5029f9e95e769611b336d1747fafd1ac"
+    },
+    {
+      "path": "output/m5-03-browser-red-artifacts/support-case-处理记录开放，空数据不伪造已完成事实/error-context.md",
+      "sha256": "51b8ae21ee427d0631be40a19f43175e31f0ce8e30946d4ac8bd847fcdbe7b1f"
+    },
+    {
+      "path": "output/m5-03-browser-red-artifacts/support-case-处理记录开放，空数据不伪造已完成事实/test-failed-1.png",
+      "sha256": "954f3d14e47b72e0c8e5271768548fe7919fc0c68839bb6a4541b7a25acc067a"
+    },
+    {
+      "path": "output/m5-03-browser-red-artifacts/support-case-处理记录开放，空数据不伪造已完成事实/trace.zip",
+      "sha256": "fd45af4a1cc366a976730fec7a9c4a9a7966c7174be15f20c03cc8157a385cc7"
+    },
+    {
+      "path": "output/m5-03-browser-red.txt",
+      "sha256": "90c50639daa957098486afe3aaec4d06dfd56886ea7973f1a1f184be23b97b6c"
+    },
+    {
+      "path": "output/m5-03-contract.txt",
+      "sha256": "ab6221912fbedf82b4f2c24e0c7d06c4e98207c45e013c37099b42cd1efd4672"
+    },
+    {
+      "path": "output/m5-03-green.txt",
+      "sha256": "89630b58776971e51a97b94c8572b29ae05aa72dd9e313e1cd7b102cc083dbc4"
+    },
+    {
+      "path": "output/m5-03-red.txt",
+      "sha256": "4aeac0c023695a175ecdceadc33951de428aed5ce3490482e99254b0027ac09e"
+    },
+    {
+      "path": "output/m5-03-typecheck.txt",
+      "sha256": "241be48e89412fbf6fed0e7e10a0217d6a564c74e44cc6906baaac9d4715a40a"
+    },
+    {
+      "path": "output/m5-04-green-integration.txt",
+      "sha256": "3f5a57d191fbf8e77384ea110a620d86013d4b1cdd5eb21b8d28d561404e8d55"
+    },
+    {
+      "path": "output/m5-04-red.txt",
+      "sha256": "04d6a1dfd9d6166da2b65bbd52c3ef7ba5a0f8336eca1b68dfb74168804de723"
+    },
+    {
+      "path": "output/m5-04-unit-green.txt",
+      "sha256": "987e75a97d760f619c415035f21745ac1f0a40fbb7338bce765599a61ca67a73"
+    },
+    {
+      "path": "output/m5-04-unit-red.txt",
+      "sha256": "35b07c41e039834806e80888858161e175e16916293d3a54e2b4af3214f9eb80"
+    },
+    {
+      "path": "output/m5-05-boundary-green.txt",
+      "sha256": "e244f156281ca5095a3b03d3608a7a359357eeb74e25ce68f0ec2afe02818bd3"
+    },
+    {
+      "path": "output/m5-05-boundary-red.txt",
+      "sha256": "5212e44a3f6f695be6a784c7929f9eab690971f0a35c87b2fff41dd5779725f0"
+    },
+    {
+      "path": "output/m5-05-browser.txt",
+      "sha256": "7664076f862e26e512a7691ff052ea13053d06478a04db62808b86f4c841bb00"
+    },
+    {
+      "path": "output/m5-05-claim-red.txt",
+      "sha256": "e9dd843632f0744561ee9266dfa76fb086673bb453d4c0a8cebc59a386d0d07e"
+    },
+    {
+      "path": "output/m5-05-green.txt",
+      "sha256": "ad592c6e2966e188603aee838629269ffe528d8b4e9bbb52a4ae8ea6ec23317e"
+    },
+    {
+      "path": "output/m5-05-model-red.txt",
+      "sha256": "893c9ca3716668ac3a255073737e747cc967c8802e32739ef61bf9ab2b25d870"
+    },
+    {
+      "path": "output/m5-05-red.txt",
+      "sha256": "95a5a7ab1e5d3df76ff7f440bf6a871552a92fd3fa28178a8983540b7c7e974e"
+    },
+    {
+      "path": "output/m5-05-related-final.txt",
+      "sha256": "821d69ac9f74b874418dc53fc60ade167a8ba2244d80e608a6db9cf906b13f5a"
+    },
+    {
+      "path": "output/m5-05-related-green.txt",
+      "sha256": "d0630a3411a0d0af3014f2795d20df005762546c1e380bd7d2a23d9de5352427"
+    },
+    {
+      "path": "output/m5-05-typecheck-final.txt",
+      "sha256": "2c1231531884ededf1b0c7aeea93534629ddc2ec3561e0d0bf7302fd4fc9c438"
+    },
+    {
+      "path": "output/m5-05-typecheck.txt",
+      "sha256": "241be48e89412fbf6fed0e7e10a0217d6a564c74e44cc6906baaac9d4715a40a"
+    },
+    {
+      "path": "output/m5-07-browser-failure-artifacts/.last-run.json",
+      "sha256": "50a6438498819b297d76388139d7b66bf325b31dc2357caca811b949d8be4f6a"
+    },
+    {
+      "path": "output/m5-07-browser-failure-artifacts/results.json",
+      "sha256": "068400506da14bbf6b5f1c79b8f109d6b36b92607c29e6c2c5f6af116703058a"
+    },
+    {
+      "path": "output/m5-07-browser-failure-artifacts/support-case-草稿编辑须先保存、确认冻结、导出和反馈分别留痕/error-context.md",
+      "sha256": "a99b08d77cdbd6975be55af6863457f632cad2af89516094c7bd109c38010055"
+    },
+    {
+      "path": "output/m5-07-browser-failure-artifacts/support-case-草稿编辑须先保存、确认冻结、导出和反馈分别留痕/test-failed-1.png",
+      "sha256": "f2031d04344dd344a192645305d2fb7bb7c35472962ff0ed63ec6690fa7c0f21"
+    },
+    {
+      "path": "output/m5-07-browser-failure-artifacts/support-case-草稿编辑须先保存、确认冻结、导出和反馈分别留痕/trace.zip",
+      "sha256": "5b6a6c7e47fee1f7e87cf7462bf607564f19119e6f6225936620b28e95301eb9"
+    },
+    {
+      "path": "output/m5-07-browser-final.txt",
+      "sha256": "468bdd22ccf4938b794566d3115973e8a4eb173cc3a0ed0d1b5ef449258aa598"
+    },
+    {
+      "path": "output/m5-07-browser.txt",
+      "sha256": "6e617181999162d845ebe415b73fba34c865bf8836729e3d81f7018c3de8e7ea"
+    },
+    {
+      "path": "output/m5-07-contract.txt",
+      "sha256": "fa0ae3a510bac30613b59d3648b421480a1f49b58486580c13e623b47140d138"
+    },
+    {
+      "path": "output/m5-07-green-final.txt",
+      "sha256": "f6ead82ae1fb2c1c90e7eb78d2b9c7c1eb4ce92c05e3a7e9b7a6dbd033587426"
+    },
+    {
+      "path": "output/m5-07-green.txt",
+      "sha256": "970c30811c7c90bcc97849cfca755a9673bc323e3ad3d9a79513b317cef45958"
+    },
+    {
+      "path": "output/m5-07-red.txt",
+      "sha256": "ebe3d875895f603aef9b344a493761828311a95ae6962a28a269df22e5360bf4"
+    },
+    {
+      "path": "output/m5-07-typecheck-final.txt",
+      "sha256": "241be48e89412fbf6fed0e7e10a0217d6a564c74e44cc6906baaac9d4715a40a"
+    },
+    {
+      "path": "output/m5-07-typecheck.txt",
+      "sha256": "ec5909dd20bc6cde0d65e7f64a10e51d4245b7fedbc7fecc41fb870ee037d20b"
+    },
+    {
+      "path": "output/m5-08-action-red.txt",
+      "sha256": "85df6490e520287b70656f9b2b89a48bde2ab1565feb46f008e320f46520f6b5"
+    },
+    {
+      "path": "output/m5-08-boundaries-green.txt",
+      "sha256": "d0e96a44b0961a5afe5c122cd4a220637e55024c881b2162f01a802545035a72"
+    },
+    {
+      "path": "output/m5-08-boundaries-red.txt",
+      "sha256": "18ab622846186cb11ada9d514e992d8d32b890f5c649a133a5b3d3561cc77447"
+    },
+    {
+      "path": "output/m5-08-evaluation-target-green.txt",
+      "sha256": "06b6be87688251ef0b86cf55187ec045f25daa1990264ee4e67fe63ebf52025c"
+    },
+    {
+      "path": "output/m5-08-generate-api.txt",
+      "sha256": "7a6896dadcae281001d456c9210db4f99f3c96fff1497809410c649417beb133"
+    },
+    {
+      "path": "output/m5-08-live-browser-first.txt",
+      "sha256": "b712dfb30c823712e8a2580305e29aa70fd927c1e28ed3593bb3734d2c727515"
+    },
+    {
+      "path": "output/m5-08-live-browser-r2.txt",
+      "sha256": "ce155751fcacd3b2675447e7d61f4543b902b5f06d5202aa58198aa071d43fc2"
+    },
+    {
+      "path": "output/m5-08-live-browser-r3.txt",
+      "sha256": "46b4aa7acd127a8e84a1e9bffe2b29f7f80d7fd602e88cd8e5d3c3170c29a688"
+    },
+    {
+      "path": "output/m5-08-live-browser-r4.txt",
+      "sha256": "4ac81c0a3a14d899261486607b0b5ee884bf122ad7139ef21b08f4ab7afb2f2c"
+    },
+    {
+      "path": "output/m5-08-live-browser-r5.txt",
+      "sha256": "f1bf8befc7dd1527e0b4a036df569d7acbfbfbfd1aa9818aec4b9640e6efa93f"
+    },
+    {
+      "path": "output/m5-08-live-browser-r6.txt",
+      "sha256": "07460451644f76900bd5cec8fc7215e1a95b7f28e5cd41756225321f87b8f010"
+    },
+    {
+      "path": "output/m5-08-live-recheck-final.json",
+      "sha256": "7623a35432bca35ab0bbacef35dd1866226b93fe97cfcf00c02c3bc27de196b8"
+    },
+    {
+      "path": "output/m5-08-live-recheck-final.txt",
+      "sha256": "0adb7afd483a9459620ac693fcf09165022eb0397e2842b95e9fa6cecaa5323f"
+    },
+    {
+      "path": "output/m5-08-live-recheck.json",
+      "sha256": "7623a35432bca35ab0bbacef35dd1866226b93fe97cfcf00c02c3bc27de196b8"
+    },
+    {
+      "path": "output/m5-08-live-recheck.txt",
+      "sha256": "0adb7afd483a9459620ac693fcf09165022eb0397e2842b95e9fa6cecaa5323f"
+    },
+    {
+      "path": "output/m5-08-prior-live-readonly.json",
+      "sha256": "eb8c1feb127fe6bb0b071147b8aff55f3986ebf408be1a6fdeb55afdb2afa0e6"
+    },
+    {
+      "path": "output/m5-08-prior-live-readonly.txt",
+      "sha256": "33485ca4552313303d0bf8e6510f6b899244852985b24f4a54caf4c5262ca409"
+    },
+    {
+      "path": "output/m5-live-config-r2-before-productcopy.json",
+      "sha256": "157493ca7cbcb6957230eab30d8276b3ab1b1e49e592f6ed5edd995a7de9d98a"
+    },
+    {
+      "path": "output/m5-live-config-r2-before-scopecopy.json",
+      "sha256": "25b697315689c376beb2ebf90f6d7f4751e9737bee29929bec141d6c45c09f76"
+    },
+    {
+      "path": "output/m5-live-config-r2.flow.confirmed.png",
+      "sha256": "74bc14b52227c18130dcb197910464814a66b5cf293b6f90258a215557db72ef"
+    },
+    {
+      "path": "output/m5-live-config-r2.flow.export.md",
+      "sha256": "734a4f7c367e729aba357571602b966e8ee6030be2743b0f623bb11e4aca9609"
+    },
+    {
+      "path": "output/m5-live-config-r2.flow.json",
+      "sha256": "7a7d554ed4e728e371c4ffad4f6d501cc0c82c53bd69953bd89d5778a2a39593"
+    },
+    {
+      "path": "output/m5-live-config-r2.flow.operation.png",
+      "sha256": "815de70bd84a03adffd2237d6f580f79e1196b09b12732223a493ffefc4daf42"
+    },
+    {
+      "path": "output/m5-live-config-r2.json",
+      "sha256": "b7a7f8d32465ca73e5104ff537a73f176d9c450b10830e06732e5574b4c8d517"
+    },
+    {
+      "path": "output/m5-live-config-r2.stop",
+      "sha256": "a0b28cdf92e250a1a93294d91144a0f893d27197d56b39991cc421768794005f"
+    },
+    {
+      "path": "output/m5-live-config-r2.vite.log",
+      "sha256": "5f6aeec98b896802b9d00d9a61432bc487fd30a735fdd105dd648d45718f677d"
+    },
+    {
+      "path": "output/m5-live-config.json",
+      "sha256": "777ac11cb4d3a7b6caf9d32fe5a065d84eb3ae4a19c88262bde8cbe4f914fef9"
+    },
+    {
+      "path": "output/m5-live-config.stop",
+      "sha256": "a0b28cdf92e250a1a93294d91144a0f893d27197d56b39991cc421768794005f"
+    },
+    {
+      "path": "output/m5-live-config.vite.log",
+      "sha256": "89559b4c745ae4d588aea8ef1cbe33f148f15965ecb712496cd9077ff04424d9"
+    },
+    {
+      "path": "output/m5-live-first-failure-artifacts/.last-run.json",
+      "sha256": "35ee80ae4eb37e73112b7441a69421385d4525197a1b5617264afa71e814f739"
+    },
+    {
+      "path": "output/m5-live-first-failure-artifacts/results.json",
+      "sha256": "58ed37ec13c1027d64c6857eed44b1e9e8bdd53bf4bd38bf347f5aa7088d21f7"
+    },
+    {
+      "path": "output/m5-live-first-failure-artifacts/support-live-真实新进程支持流程、用户确认与导出反馈/error-context.md",
+      "sha256": "afd382a0679ce0ce316a4aae2b7ecbfe05fa2e9ecae693dbf6cef1986e2d9e74"
+    },
+    {
+      "path": "output/m5-live-first-failure-artifacts/support-live-真实新进程支持流程、用户确认与导出反馈/test-failed-1.png",
+      "sha256": "5d40f89bfb25b0ced04e79f6c4028cd14db58d148b47e2130e162266e61bf1fa"
+    },
+    {
+      "path": "output/m5-live-first-failure-artifacts/support-live-真实新进程支持流程、用户确认与导出反馈/trace.zip",
+      "sha256": "a628a5cc53b53279f66eeb17a587af3b9b6f37b34acbea93a8481741e37b4a5f"
+    },
+    {
+      "path": "output/m5-live-first-failure-artifacts/support-live-真实新进程支持流程、用户确认与导出反馈/video.webm",
+      "sha256": "acb1fea5a13a76c8486f2fb05f0a98e5c4c1d18411ba9fbff2e4920a1e0b22d5"
+    },
+    {
+      "path": "output/m5-live-flow-r3-failed.json",
+      "sha256": "e5c7d0fc5f20d3a95792cda2ccffb21bbbed2aac9bb2ef757a712a611b363bbe"
+    },
+    {
+      "path": "output/m5-live-flow-r4-failed.json",
+      "sha256": "123ce3b73882057c85f545e6a4e1006e76d61d27848745ed8aef7c1914ffd53a"
+    },
+    {
+      "path": "output/m5-live-product-copy-recovery.json",
+      "sha256": "74c3b8b605344b7ca9568220b55741d3c19b0913404573d18fbda6f8027f362d"
+    },
+    {
+      "path": "output/m5-live-product-scope-copy-recovery.json",
+      "sha256": "bfd25725ca514112da8a72621e58660d81c4e844e27722613ef68bdfd1a8ac95"
+    },
+    {
+      "path": "output/m5-live-r2-browser-artifacts/.last-run.json",
+      "sha256": "35ee80ae4eb37e73112b7441a69421385d4525197a1b5617264afa71e814f739"
+    },
+    {
+      "path": "output/m5-live-r2-browser-artifacts/support-live-真实新进程支持流程、用户确认与导出反馈/error-context.md",
+      "sha256": "6883c6bb4982535e43878aa69a83c1e5a896c280a7e8e1e1cd053e285a536dc7"
+    },
+    {
+      "path": "output/m5-live-r2-browser-artifacts/support-live-真实新进程支持流程、用户确认与导出反馈/test-failed-1.png",
+      "sha256": "6566f820ea8ff7a3aa86ef6b8beb6ed544c71f2fded2ca1c8e977b65763840cf"
+    },
+    {
+      "path": "output/m5-live-r2-browser-artifacts/support-live-真实新进程支持流程、用户确认与导出反馈/trace.zip",
+      "sha256": "b026850ce9ecec8ffb16daf909262a624d8b3020f2179e86e866addbcc339ee8"
+    },
+    {
+      "path": "output/m5-live-r2-browser-artifacts/support-live-真实新进程支持流程、用户确认与导出反馈/video.webm",
+      "sha256": "467d847e90c8084b2974d3d9270713cb1a59875986a9769d266b855223b3027f"
+    },
+    {
+      "path": "output/m5-live-r3-browser-artifacts/.last-run.json",
+      "sha256": "35ee80ae4eb37e73112b7441a69421385d4525197a1b5617264afa71e814f739"
+    },
+    {
+      "path": "output/m5-live-r3-browser-artifacts/support-live-真实新进程支持流程、用户确认与导出反馈/error-context.md",
+      "sha256": "3e6563a8927c2d67d0a7f49c372e66684d7d9b61e57751d6c6ad8e4cf2f3c8fa"
+    },
+    {
+      "path": "output/m5-live-r3-browser-artifacts/support-live-真实新进程支持流程、用户确认与导出反馈/test-failed-1.png",
+      "sha256": "6566f820ea8ff7a3aa86ef6b8beb6ed544c71f2fded2ca1c8e977b65763840cf"
+    },
+    {
+      "path": "output/m5-live-r3-browser-artifacts/support-live-真实新进程支持流程、用户确认与导出反馈/trace.zip",
+      "sha256": "3a5b9420270e2f6db4a946f8398c05a50f82badf49b7ef0c0023457ba3657281"
+    },
+    {
+      "path": "output/m5-live-r3-browser-artifacts/support-live-真实新进程支持流程、用户确认与导出反馈/video.webm",
+      "sha256": "522c60291d981d26ed529224c691ca5f86eb17b17c0c8c5522db954d7bd597a8"
+    },
+    {
+      "path": "output/m5-live-r4-browser-artifacts/.last-run.json",
+      "sha256": "35ee80ae4eb37e73112b7441a69421385d4525197a1b5617264afa71e814f739"
+    },
+    {
+      "path": "output/m5-live-r4-browser-artifacts/support-live-真实新进程支持流程、用户确认与导出反馈/error-context.md",
+      "sha256": "b802f915d5044a61ece3097aed8a3c96c6b0169400cb032bec92ba60b38e0a6b"
+    },
+    {
+      "path": "output/m5-live-r4-browser-artifacts/support-live-真实新进程支持流程、用户确认与导出反馈/test-failed-1.png",
+      "sha256": "6566f820ea8ff7a3aa86ef6b8beb6ed544c71f2fded2ca1c8e977b65763840cf"
+    },
+    {
+      "path": "output/m5-live-r4-browser-artifacts/support-live-真实新进程支持流程、用户确认与导出反馈/trace.zip",
+      "sha256": "fda73365764c42305ec0a651e1538cb123d08594d2c9106ab96fc2ba813e3d1a"
+    },
+    {
+      "path": "output/m5-live-r4-browser-artifacts/support-live-真实新进程支持流程、用户确认与导出反馈/video.webm",
+      "sha256": "99f5e90fe391df6b896827a9cf002e5d64d3a6ab08dc5493ad0c1ab7a73e1599"
+    },
+    {
+      "path": "output/m5-live-r5-browser-artifacts/.last-run.json",
+      "sha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "path": "output/m5-live-r5-browser-artifacts/support-live-真实新进程支持流程、用户确认与导出反馈/trace.zip",
+      "sha256": "43fa2435b8b30b4290ce2cd3c6ac7c588a9e23d3ecf8a563f742406427a9e2bd"
+    },
+    {
+      "path": "output/m5-live-r5-browser-artifacts/support-live-真实新进程支持流程、用户确认与导出反馈/video.webm",
+      "sha256": "4e5d3f7b37ec8048be9fec2b0a7cccf96aa127671fac7b0a486e48cde2681b43"
+    },
+    {
+      "path": "output/m5-live-r6-browser-artifacts/.last-run.json",
+      "sha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "path": "output/m5-live-r6-browser-artifacts/support-live-真实新进程支持流程、用户确认与导出反馈/confirmed.png",
+      "sha256": "1c071887ff95cf003b4fe223aef720d5ccc199f59fefd4c0fe4c6b58b6becbf1"
+    },
+    {
+      "path": "output/m5-live-r6-browser-artifacts/support-live-真实新进程支持流程、用户确认与导出反馈/export.md",
+      "sha256": "734a4f7c367e729aba357571602b966e8ee6030be2743b0f623bb11e4aca9609"
+    },
+    {
+      "path": "output/m5-live-r6-browser-artifacts/support-live-真实新进程支持流程、用户确认与导出反馈/trace.zip",
+      "sha256": "cb40665ab517d08a048ce6be333e59cf1403a95e78e4d8fcf4f553a0fab501f1"
+    },
+    {
+      "path": "output/m5-live-r6-browser-artifacts/support-live-真实新进程支持流程、用户确认与导出反馈/video.webm",
+      "sha256": "b50fed38cbd171148f080c477d1be255cee99795a6dde79be0ac5a0c4709abf9"
+    },
+    {
+      "path": "output/m5-stage-backend-final/backend.txt",
+      "sha256": "187b3ff7db699c0b57e64b78fc836853bd20ecf891135c4ae0b2235b715d0956"
+    },
+    {
+      "path": "output/m5-stage-backend-final/backend.xml",
+      "sha256": "968037d892a2eea0fb1c6f3787c28c256708782de0ab260714b90bfced05a8af"
+    },
+    {
+      "path": "output/m5-stage-backend-final/commands.json",
+      "sha256": "5aa22e8b47927fcd9f26c0004a18f3ff1ce2b2412b6671b12e0f9be537228deb"
+    },
+    {
+      "path": "output/m5-stage-backend-final/reimport.txt",
+      "sha256": "873d026337204c9dd4d0f37a716093eaf6537d8857a032a5c6f58c64259c55c4"
+    },
+    {
+      "path": "output/m5-stage-backend-first/backend.txt",
+      "sha256": "0ac07fcc06ffb17ecc6a6a544ee4792c58cf29b156730b5681a7824b50e95034"
+    },
+    {
+      "path": "output/m5-stage-backend-first/backend.xml",
+      "sha256": "3b96f7f71ad67ce6d0af4517b0bebe695c1be0edc824ed640f252b670bda7f9c"
+    },
+    {
+      "path": "output/m5-stage-backend-first/commands.json",
+      "sha256": "87a3f126412290cecb89968c196a1a4fe1fd25fd1e1c640097d92e08670399ac"
+    },
+    {
+      "path": "output/m5-stage-backend-first/reimport.txt",
+      "sha256": "d66bceed6d101245f1b1e641e340614048d663b04bfd91c90b460718a6637a80"
+    },
+    {
+      "path": "output/m5-stage-collection.txt",
+      "sha256": "b9f60d42e80d4327e88cefa9a735c427ab93b70ad074e40203bef8178723adbf"
+    },
+    {
+      "path": "output/m5-stage-frontend-final/browser-artifacts/.last-run.json",
+      "sha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "path": "output/m5-stage-frontend-final/browser.json",
+      "sha256": "0a378231e95d966a8b97d6c56ef2405a70deac0c43a82ab69309809e9cf91722"
+    },
+    {
+      "path": "output/m5-stage-frontend-final/browser.txt",
+      "sha256": "3f7c2cdae9d23cf168eafb1700efde420f4dfabea891cfc9ae52e45baa276e85"
+    },
+    {
+      "path": "output/m5-stage-frontend-final/build.txt",
+      "sha256": "d3ac445781fd0477906438a03ecfabcb57ccab36414d5e232abd102b3ce543d7"
+    },
+    {
+      "path": "output/m5-stage-frontend-final/commands.json",
+      "sha256": "de7c4177432f8743892994e2aa25c1140bed67b486bb175402c30385458fa410"
+    },
+    {
+      "path": "output/m5-stage-frontend-final/typecheck.txt",
+      "sha256": "aacdfedc485449151e8f0cedfb8264a7d15047256a7b3c3a4a9e848e28e7b178"
+    },
+    {
+      "path": "output/m5-stage-frontend-final/unit.json",
+      "sha256": "a01e52e7c0a3b422de0a132e266b562977ef192278c09fef7fee04a764eebeb1"
+    },
+    {
+      "path": "output/m5-stage-frontend-final/unit.txt",
+      "sha256": "bdf249318697bdb2de3d3025cec3306fc2255c1f3c27ea397861ad4c16dd1033"
+    },
+    {
+      "path": "output/m5-stage-frontend-first/browser-artifacts/.last-run.json",
+      "sha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "path": "output/m5-stage-frontend-first/browser.json",
+      "sha256": "46dde5ba6e408e0f20e7809d639a52cc300c5acf134d0723d4c6fda83ca50ca9"
+    },
+    {
+      "path": "output/m5-stage-frontend-first/browser.txt",
+      "sha256": "c2a66322e417400d87ebcb4a366688072b5f0346bbf57b28b3f4a58cfea8499d"
+    },
+    {
+      "path": "output/m5-stage-frontend-first/build.txt",
+      "sha256": "13df25f7efd33398aec287bb029dec0a511b3bac6e75c5feafa6f0cd0f57c4eb"
+    },
+    {
+      "path": "output/m5-stage-frontend-first/commands.json",
+      "sha256": "b41d0d420f8c4f7e7348acd0429bb2d5cf02d4fb72e5e1735a90ed34a89bff9c"
+    },
+    {
+      "path": "output/m5-stage-frontend-first/typecheck.txt",
+      "sha256": "aacdfedc485449151e8f0cedfb8264a7d15047256a7b3c3a4a9e848e28e7b178"
+    },
+    {
+      "path": "output/m5-stage-frontend-first/unit.json",
+      "sha256": "f646aecf293ac603403ae5827f0790627ee24a117571c899bc5cf94a82ecc634"
+    },
+    {
+      "path": "output/m5-stage-frontend-first/unit.txt",
+      "sha256": "149b7d3c5ba4b4fdbb1a104f5ae78e8e88db8308a0ca04a34912ab34dbf0ceeb"
+    },
+    {
+      "path": "output/m5_record.py",
+      "sha256": "c7dcec07c0a274862272d9e2cdd7630a89f3249f162beb1b423b6e34d85fb1dc"
+    }
+  ]
+}
