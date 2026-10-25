@@ -38,7 +38,7 @@
 
 定向绿测：`output/m5-r3-targeted-green.txt`，77 passed，退出码0；补充 R2/R3 入口回归10 passed，退出码0。R2/R3均使用真实隔离 Mongo、合成资料和注入模型，未调用付费供应商。
 
-阶段后端：`output/m5-r3-stage-backend/commands.json`，pytest **795 passed、2 deselected、0 skipped、7 warnings**，退出码0；JUnit 实际目录组成以 `backend.xml` 为准。既有重导入 **3 passed**，退出码0。
+阶段后端：`output/m5-r3-stage-backend/commands.json`，pytest **795 passed、2 deselected、0 skipped、7 warnings**，退出码0；本轮独立收集为 **500 unit、128 contract、169 integration（797 collected，2 deselected）**，不是旧摘要中的组成。既有重导入 **3 passed**，退出码0。
 
 阶段前端：`output/m5-r3-stage-frontend/commands.json`，typecheck/unit/build/browser均退出0；Vitest **37 passed**，Playwright 离线浏览器 **28 passed、0 skipped、0 unexpected、0 flaky**。
 

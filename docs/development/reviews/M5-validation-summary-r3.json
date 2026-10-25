@@ -10,7 +10,7 @@
   "tests": {
     "targeted": {"passed": 77, "exit_code": 0, "evidence": "output/m5-r3-targeted-green.txt"},
     "additional_boundary": {"passed": 10, "exit_code": 0, "scope": "R2归档恢复与R3正式QueryRunner入口"},
-    "backend": {"passed": 795, "deselected": 2, "skipped": 0, "warnings": 7, "exit_code": 0, "evidence": "output/m5-r3-stage-backend/backend.xml", "ledger": "output/m5-r3-stage-backend/commands.json"},
+    "backend": {"passed": 795, "collected": 797, "deselected": 2, "skipped": 0, "warnings": 7, "exit_code": 0, "classification": {"unit": 500, "contract": 128, "integration": 169}, "evidence": "output/m5-r3-stage-backend/backend.xml", "ledger": "output/m5-r3-stage-backend/commands.json"},
     "legacy_reimport": {"passed": 3, "exit_code": 0, "evidence": "output/m5-r3-stage-backend/reimport.txt"},
     "frontend_unit": {"passed": 37, "exit_code": 0, "evidence": "output/m5-r3-stage-frontend/unit.json"},
     "frontend_browser": {"passed": 28, "skipped": 0, "unexpected": 0, "flaky": 0, "exit_code": 0, "mode": "offline_mock_api", "evidence": "output/m5-r3-stage-frontend/browser.json"},
