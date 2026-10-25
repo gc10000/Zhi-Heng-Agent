@@ -95,3 +95,14 @@ def confirm_case(case_id: str, data: VersionInput, request: Request, user=Depend
     repository = cases(request)
     authorized_case(request, user, repository.get(user, case_id))
     return repository.confirm(user, case_id, data.expected_version)
+
+
+from .tools import ToolInput
+
+
+@router.post('/conversations/{cid}/support/tools')
+def call_tool(cid: str, data: ToolInput, request: Request, user=Depends(principal)):
+    from .tools import execute_tool, scoped_handlers
+    repository = support(request)
+    context = repository.get(user, cid)
+    return execute_tool(repository, user, cid, data, scoped_handlers(request, user, cid, context))

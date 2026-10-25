@@ -72,11 +72,11 @@
 **文件：**`app/support/tools.py`; `app/support/budget.py`; `tests/unit/test_tool_budget.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M5-04.1** 白名单工具、输入输出 schema、调用轮数/时长/token 上限。
-- [ ] **M5-04.2** 工具失败/重复结果退出。
-- [ ] **M5-04.3** 默认只读工具。
-- [ ] **M5-04.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_tool_budget.py -q。
-- [ ] **M5-04.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M5-04.1** 白名单工具、输入输出 schema、调用轮数/时长/token 上限。
+- [x] **M5-04.2** 工具失败/重复结果退出。
+- [x] **M5-04.3** 默认只读工具。
+- [x] **M5-04.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_tool_budget.py -q。
+- [x] **M5-04.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**恶意文档不能触发越权工具；最多达到预算即停止并说明；不引入自主设备控制。
 

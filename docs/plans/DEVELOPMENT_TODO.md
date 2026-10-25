@@ -127,7 +127,7 @@
 - [x] **M5-01** [支持状态机与结构槽位](tasks/M5-support-workflow.md#m5-01) · 依赖：M3-11,M4-10
 - [x] **M5-02** [引用绑定操作清单](tasks/M5-support-workflow.md#m5-02) · 依赖：M5-01
 - [x] **M5-03** [处理记录与转交草稿](tasks/M5-support-workflow.md#m5-03) · 依赖：M5-02
-- [ ] **M5-04** [有限工具注册与执行预算](tasks/M5-support-workflow.md#m5-04) · 依赖：M5-01
+- [x] **M5-04** [有限工具注册与执行预算](tasks/M5-support-workflow.md#m5-04) · 依赖：M5-01
 - [ ] **M5-05** [澄清恢复与上下文纠正](tasks/M5-support-workflow.md#m5-05) · 依赖：M5-03,M5-04
 - [ ] **M5-06** [官方网页 MCP 工具（可选）](tasks/M5-support-workflow.md#m5-06) · 依赖：M5-04,M4-09
 - [ ] **M5-07** [反馈分类与草稿导出](tasks/M5-support-workflow.md#m5-07) · 依赖：M5-03

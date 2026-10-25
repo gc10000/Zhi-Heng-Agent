@@ -468,3 +468,10 @@ M4-R1复交验证：完整717、定向89（重叠不累加）、既有3及前端
 新增cases.py仓储及cases列表/详情/编辑/确认API、CasesPage.vue工作台与问答跳转。run确定草稿ID，重生成保留用户编辑；未知显式未知，support/run/引用/操作各自快照，owner/kb与版本门禁，确认冻结且幂等。
 
 验证：`.venv/Scripts/python.exe -m pytest tests/integration/test_case_persistence.py -q --tb=short`（M1_TEST_DB=m1_test_m5_cases）：红2 failed退出1，绿2 passed退出0；`.venv/Scripts/python.exe -m pytest tests/contract/test_case_confirmation.py -q`：5 passed退出0；`pnpm -C frontend typecheck`退出0；`pnpm -C frontend test:e2e -- support-case.spec.ts`：离线浏览器红1失败、绿1通过，退出1/0。
+
+
+## 2026-10-25 · M5-04
+
+新增tools.py和budget.py及support/tools正式入口。仅lookup_product/read_evidence/search_manual白名单，参数/输出Pydantic固定，scope由后端授予；最多6次调用/2次扩展检索/30秒累计/12000 UTF8字节保守token，非最优性能主张。预留先CAS落库、最多2个在途工作线程、超时不接纳晚到结果；失败/重复结果转交，取消或纠正使迟到CAS失效。文档从不驱动自由工具调用，不控制设备。
+
+验证：`.venv/Scripts/python.exe -m pytest tests/integration/test_support_tool_limits.py -q --tb=short`（M1_TEST_DB=m1_test_m5_tools）：红1 failed退出1，绿1 passed退出0；`.venv/Scripts/python.exe -m pytest tests/unit/test_tool_budget.py -q`：边界红1 failed/9 passed退出1（检索来源字段实际在metadata，已修正），绿10 passed退出0。

@@ -353,3 +353,8 @@ POST `/conversations/{cid}/support/checklist`含expected_version/run_id，必须
 ### M5-03 草稿确认
 
 POST /cases接受run_id/expected_support_version，本会话完成run生成幂等draft，字段未知显式未知，快照含run、支持上下文、资料修订与用户自报；同run重复生成返回现存草稿，不覆盖编辑。GET /cases支持cursor/limit；GET/PATCH /cases/{case_id}、POST confirm检查owner/kb与精确引用权限，expected_version CAS。用户编辑追加edits来源与时间，确认后冻结，不允许静默覆盖；相同确认版本重复返回同结果。草稿创建不发送任何消息或设备操作。新增Vue处理记录页，问答完成后可显式进入。
+
+
+### M5-04 有限只读工具
+
+POST /conversations/{cid}/support/tools：expected_version、tool(lookup_product/read_evidence/search_manual)、arguments按注册工具schema，拒绝额外scope/表达式/路径。lookup仅当前kb产品，read仅当前支持引用，search使用已完成run产品快照/当前授权修订及原默认检索。输出是待核对内部资料，不自动成为事实或执行指令。预算持久预留先于执行：最多6调用、2扩展检索、累计30秒、12000 UTF8字节保守token计数；失败/重复/超预算转交。共享2槽，超时仅拒绝晚到结果，不声称GPU/数据库硬中断。崩溃留下running预留时禁止再派发，可显式结束/转交；不手工清账本重试。新版本CAS失败的晚到结果不写入。外网MCP未启用。
