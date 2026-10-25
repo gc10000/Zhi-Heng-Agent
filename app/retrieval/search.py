@@ -1,5 +1,6 @@
 """固定检索策略；各数量独立且有界，默认保持已接受的加权路径。"""
 import copy
+import json
 import os
 from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field, model_validator
@@ -54,10 +55,14 @@ def retrieve(index, repo, plan, *, embedder, revision_snapshot, policy):
             found = index.search(repo, query, **args)
             for rank, raw in enumerate(found, 1):
                 hit = copy.deepcopy(raw)
+                trace = hit.get('retrieval_trace') or hit.get('entity', hit).get('retrieval_trace') or [
+                    score_record('retrieval', rank, hit.get('distance'), 'backend_unspecified')]
                 if plan.route == 'compare' or query_number:
-                    trace = hit.get('retrieval_trace') or [score_record('retrieval', rank,
-                        hit.get('distance'), 'backend_unspecified')]
                     prefix = f'product:{scope[0]}/' if plan.route == 'compare' else ''
-                    hit['retrieval_trace'] = [t | {'query_id': f'{prefix}query:{query_number}/{t["query_id"]}'} for t in trace]
+                    trace = [t | {'query_id': f'{prefix}query:{query_number}/{t["query_id"]}'} for t in trace]
+                # 独立记录池内名次与真实范围；不改写后端各阶段的分数含义。
+                hit['retrieval_trace'] = trace + [score_record('candidate_pool', rank, None,
+                    'rank_only', json.dumps(dict(scope=sorted(scope), query=query_number),
+                        ensure_ascii=False, sort_keys=True))]
                 hits.append(hit)
     return hits

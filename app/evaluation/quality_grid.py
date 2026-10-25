@@ -87,7 +87,10 @@ class QualityExecutor(RetrievalExecutor):
             s.get('query_id','').startswith('branch:'+name+'/')
             for name in expired for s in h.get('retrieval_trace',[]))]
         candidates=from_index_hits(branches.hits)
+        rerank_inputs=[]
         def cached_rank(query,docs):
+            # 保存本次真实提交的复合身份，缓存命中同样留下选择证据，不记录正文。
+            rerank_inputs.extend(list(stable_key(d)) for d in docs)
             args=[query,[{k:d[k] for k in ('document_id','revision_id','chunk_uid','text','metadata')} for d in docs]]
             def compute():
                 found=self.ranker(query,docs)
@@ -118,6 +121,7 @@ class QualityExecutor(RetrievalExecutor):
         with observation_lock:
             sealed=True;observations=copy.deepcopy(observations)
         return empty|dict(citations=source_citations(selected,self.documents,self.assets),behavior='answer' if selected else 'insufficient',
+            rerank_inputs=rerank_inputs,
             stage_metrics=stages,stage_counts=dict(candidates=len(candidates),reranked=len(ranked),context=len(selected),expanded=len(expanded.expanded)),
             prompt_budget=state['prompt_budget'],expansion_excluded=expanded.excluded,retrieval_branches=branches.branches,
             stage_cache=observations,stage_timings=dict(original_observed_stage_seconds=sum(o['original_seconds'] for o in observations)),

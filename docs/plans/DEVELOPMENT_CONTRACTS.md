@@ -327,3 +327,12 @@ M4-03接口数字边界补充：仅有限已知接口前缀且紧随接口/端�
 ### M4-10 当前策略评价与真实阶段复用
 
 `m4-configured`参数严格解析retrieval/expansion/enhancement/answer_budget/runtime并显式接入正式QueryRunner；m3-baseline拒绝策略覆盖。quality_grid只允许冻结dev；生产共享检索图/重排/扩展/完整预算，标准标签只在末端评分使用。阶段缓存按完整代码/模型/prompt版本、目标/完整语料及实际输入和策略绑定，key/value/原耗时共同校验，复用记录和原耗时不冒充新推理或生产时延。可选分支复用后，原生成及检索阶段耗时之和超期限仍拒绝该分支，保留本地同身份结果。计数包装仅数逻辑invoke/stream（含失败），各进程另存独立计数文件；精确SDK HTTP重试数和金额未知。源码变动后不续写旧实验；先dev选定策略及报告指纹，再最终heldout，不用heldout调参。
+
+
+### M4-R1：跨范围与分支的有界候选选择
+
+`retrieve`为每个范围/查询附加`candidate_pool`追踪：query_id保存规范JSON（scope、query序号），rank是后端该池的返回名次，score=null/score_kind=rank_only；图继续为可选分支加branch:hyde或branch:decomposition前缀。原dense/sparse/fusion分数与正文、修订、来源不改。
+
+`rank_hits`统一调用`selection.select_candidates`：先按规范范围轮转，再按本地→HyDE→分解及查询序号轮转各池。相同复合身份保留所有池的追踪，但范围内仅由最先的规范池负责，避免重复前缀抢走新增证据名额；全局身份只选一次。单范围单查询保持后端原次序；不跨池比较原始分数、不增加默认20重排量。非空范围数超过重排上限时在调用重排前明确拒绝，不能默默丢范围或突破上限。范围空缺时名额可复用。入选机会不保证最终引用，模型相关性、上下文和完整prompt预算仍生效。
+
+正式QueryRunner、RetrievalExecutor及QualityExecutor共用该选择函数。QualityExecutor新增内部`rerank_inputs`复合身份列表，包含缓存命中时本次实际提交的输入；不扩大公开API或暴露正文。阶段缓存随代码指纹隔离，本轮不可续写旧实验。参见ADR-049和[M4首轮总控要求](../development/reviews/M4-review.md)。
