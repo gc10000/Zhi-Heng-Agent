@@ -4,7 +4,7 @@
   "generated_at": "2026-10-25",
   "status": "待审查",
   "source_head_before_submission": "b273f6a66446f9d173cfa6be973a5a18b4e7ead0",
-  "submission_commit": null,
+  "submission_commit": "b8a0aba",
   "excluded": [
     ".env",
     "evals/",
