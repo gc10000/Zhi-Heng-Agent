@@ -1,6 +1,6 @@
 # 开发公共契约与任务交接边界
 
-日期：2026-10-24。状态：M0/M1/M2/M3总控通过；M4获准按依赖执行，M5及以后未授权。关联：[开发总清单](DEVELOPMENT_TODO.md)、[原始优化方案](2026-10-22-technical-support-optimization.md)。
+日期：2026-10-24。状态：M0/M1/M2/M3总控通过；M4总控通过，M5获准按依赖执行，M6及以后未授权。关联：[开发总清单](DEVELOPMENT_TODO.md)、[原始优化方案](2026-10-22-technical-support-optimization.md)。
 
 ## 1. 稳定接口和文件归属
 
@@ -336,3 +336,10 @@ M4-03接口数字边界补充：仅有限已知接口前缀且紧随接口/端�
 `rank_hits`统一调用`selection.select_candidates`：先按规范范围轮转，再按本地→HyDE→分解及查询序号轮转各池。相同复合身份保留所有池的追踪，但范围内仅由最先的规范池负责，避免重复前缀抢走新增证据名额；全局身份只选一次。单范围单查询保持后端原次序；不跨池比较原始分数、不增加默认20重排量。非空范围数超过重排上限时在调用重排前明确拒绝，不能默默丢范围或突破上限。范围空缺时名额可复用。入选机会不保证最终引用，模型相关性、上下文和完整prompt预算仍生效。
 
 正式QueryRunner、RetrievalExecutor及QualityExecutor共用该选择函数。QualityExecutor新增内部`rerank_inputs`复合身份列表，包含缓存命中时本次实际提交的输入；不扩大公开API或暴露正文。阶段缓存随代码指纹隔离，本轮不可续写旧实验。参见ADR-049和[M4首轮总控要求](../development/reviews/M4-review.md)。
+
+
+### M5-01 支持上下文聚合
+
+GET/POST `/conversations/{cid}/support` 复用登录、CSRF和会话owner/kb授权。POST含expected_version、values（question/device/symptom/environment/error_code/tried）、confirmed、action(update/handoff/resolve/cancel)、可选本会话已完成run_id。单文档会话support.version CAS，独立context_version及历史快照，不改写消息ordinal、旧run或资料修订。状态awaiting_input/ready/handoff/resolved/cancelled；一次只问一个必要槽位，最多3轮补充，候选不当事实，缺证据/无进展转交。未输入环境/错误码保留未知；action=resolve仅用户自报解决，不代表系统验证设备。run引用快照不自动确认型号或实际操作，后续消费须重新授权精确修订。
+
+计划最小调整：补充repository.py和API接线以满足等待持久化及进程重建验收，仍复用既有Mongo单文档能力，不引入checkpointer或新服务。M5-05再连接跨轮上下文和迟到run版本校验。

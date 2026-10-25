@@ -9,7 +9,7 @@
 
 ## 进入条件与执行约束
 
-2026-10-25：M4第2轮总控通过、R1关闭，已授权从M5-01按依赖完成M5-01至M5-08；M5-06仍为可选，可登记延期，保持未勾选且不计核心进度。当前M5尚未实施（0/7核心、可选0/1），授权不计完成；阶段末提交M5-submission.md，M6及后续未授权。见[M4授权与保留边界](../../development/reviews/M4-review-r2.md)。先状态/槽位、引用操作清单与用户确认草稿，再有界只读工具和恢复；保留M4默认及真实质量局限，不以历史heldout调参或冒称新盲测。
+2026-10-25：M4第2轮总控通过、R1关闭，已授权从M5-01按依赖完成M5-01至M5-08；M5-06仍为可选，可登记延期，保持未勾选且不计核心进度。当前M5实施中（1/7核心、可选0/1），授权不计完成；阶段末提交M5-submission.md，M6及后续未授权。见[M4授权与保留边界](../../development/reviews/M4-review-r2.md)。先状态/槽位、引用操作清单与用户确认草稿，再有界只读工具和恢复；保留M4默认及真实质量局限，不以历史heldout调参或冒称新盲测。
 
 依赖 M3-11 与 M4-10，先确定支持状态机，再加入工具调用。
 
@@ -24,14 +24,14 @@
 ### M5-01：支持状态机与结构槽位
 
 **依赖：**M3-11,M4-10。
-**文件：**`app/support/models.py`; `app/support/workflow.py`; `tests/unit/test_support_workflow.py`。
+**文件：**`app/support/models.py`; `app/support/workflow.py`; `tests/unit/test_support_workflow.py`；实际补充持久化`app/support/repository.py`、`api.py`及独立Mongo测试`tests/integration/test_support_persistence.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M5-01.1** 问题/设备/现象/环境/错误码/已尝试步骤版本化。
-- [ ] **M5-01.2** 缺槽位询问、证据不足退出转交。
-- [ ] **M5-01.3** 一次只收集必要信息。
-- [ ] **M5-01.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_support_workflow.py -q。
-- [ ] **M5-01.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M5-01.1** 问题/设备/现象/环境/错误码/已尝试步骤版本化。
+- [x] **M5-01.2** 缺槽位询问、证据不足退出转交。
+- [x] **M5-01.3** 一次只收集必要信息。
+- [x] **M5-01.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_support_workflow.py -q。
+- [x] **M5-01.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**等待输入持久化且可恢复；无进展/缺证据有出口；不把用户未确认信息当事实。
 

@@ -124,7 +124,7 @@
 
 ### M5 · 技术支持流程与有限 Agent
 
-- [ ] **M5-01** [支持状态机与结构槽位](tasks/M5-support-workflow.md#m5-01) · 依赖：M3-11,M4-10
+- [x] **M5-01** [支持状态机与结构槽位](tasks/M5-support-workflow.md#m5-01) · 依赖：M3-11,M4-10
 - [ ] **M5-02** [引用绑定操作清单](tasks/M5-support-workflow.md#m5-02) · 依赖：M5-01
 - [ ] **M5-03** [处理记录与转交草稿](tasks/M5-support-workflow.md#m5-03) · 依赖：M5-02
 - [ ] **M5-04** [有限工具注册与执行预算](tasks/M5-support-workflow.md#m5-04) · 依赖：M5-01

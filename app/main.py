@@ -97,6 +97,8 @@ def create_app(*, settings=None, resource_factory=open_resources):
     from app.knowledge.citation_api import router as citation_router
     application.include_router(asset_router)
     application.include_router(citation_router)
+    from app.support.api import router as support_router
+    application.include_router(support_router)
 
     @application.middleware('http')
     async def request_identity(request: Request, call_next):
