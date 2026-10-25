@@ -1,0 +1,71 @@
+{
+  "passed": true,
+  "mode": "current_dev_hyde_timeout_diagnostic",
+  "question_id": "support-v1-036",
+  "versions": {
+    "code": "bb69858f1575b8d0928efe20962ad7c147200d839ed61bb1e0879348fb8e3ea9",
+    "prompt": "26534c884d5f9b222cd73bed840325532abff238157108d16e8d44f80ee736f8",
+    "model": "565fbfe4c795fb52f84183f7b2708491fd7824fa07f2de9fd546e9d6d6e5bb90"
+  },
+  "corpus_sha256": "dd01944db688807c158923c0d21d272f1f45aa4304aa9012efada71c2c18b810",
+  "hyde_status": "completed",
+  "timeout_seconds": 60.0,
+  "production_timeout_seconds": 8.0,
+  "stage_counts": {
+    "candidates": 29,
+    "reranked": 20,
+    "context": 10,
+    "expanded": 0
+  },
+  "novel_retrieved": 9,
+  "novel_in_rerank": 9,
+  "success_path_verified": true,
+  "logical_provider_calls": {
+    "invoke_started": 1,
+    "stream_started": 0
+  },
+  "answer_generations": 0,
+  "heldout_executed": 0,
+  "exact_sdk_http_calls": null,
+  "exact_cost": null,
+  "seconds": 160.7880165000097,
+  "notice": "固定dev单题60秒诊断探针，默认仍8秒；验证新真实检索及重排接线，不作为默认策略收益或新盲测",
+  "raw_evidence": [
+    {
+      "path": "evals/configs/m4-r2-hyde-probe.yaml",
+      "sha256": "768349c805698e1ad82e82f6adee6310a7f72638b58b8e9d9cf2572c0e24527a"
+    },
+    {
+      "path": "output/evals/probe_m4_r2_hyde.py",
+      "sha256": "a8475ace98f9710f828df3f244edaa5227f5af4fdeb83a6a5dd32abe35f2868f"
+    },
+    {
+      "path": "output/evals/support-v1-r2-m4-r2-hyde-diagnostic/config.json",
+      "sha256": "6891ffd8750ebc56619dbe60afd092a521544d834308998cd54e98b59b4f444f"
+    },
+    {
+      "path": "output/evals/support-v1-r2-m4-r2-hyde-diagnostic/counts.json",
+      "sha256": "298006d0a6a50baadf67cac8e3b9a09410d3bf365a87d1e6ecb3505d4a99db6e"
+    },
+    {
+      "path": "output/evals/support-v1-r2-m4-r2-hyde-diagnostic/result.json",
+      "sha256": "cc744b03e642b4a8ba01aba83d6cea9cd0bbb257acdbda5d4b0dc40335c89fce"
+    },
+    {
+      "path": "output/evals/support-v1-r2-m4-r2-hyde-diagnostic/stage-cache/113c6e7bc3e7849905eb5c886df5276ea56410c97f09540e768683d11e83d6b8.json",
+      "sha256": "5de25a71f01173f511e228e709b480ca2d5b754ed0b46d69a2894f3f990b8664"
+    },
+    {
+      "path": "output/evals/support-v1-r2-m4-r2-hyde-diagnostic/stage-cache/46c602d03a7f05a1055cf26c3e21bbffc9a0e42a81db496ec634727c4f45797e.json",
+      "sha256": "8589822673e7d435178bde4ee90c0bd6df4c2e3c11572ed89733836c951dbb11"
+    },
+    {
+      "path": "output/evals/support-v1-r2-m4-r2-hyde-diagnostic/stage-cache/5d8bebb391b78d5cefe8abca3f8af4b5335aaa86fbbe0bc43d5759a6b5056dbf.json",
+      "sha256": "eab2439a35aa13a18d02ad3b7d51cf551210139f910104ec33b095c92af9c616"
+    },
+    {
+      "path": "output/evals/support-v1-r2-m4-r2-hyde-diagnostic/stage-cache/a44b8ab5b422a7c1a69c0ddecb71bafa5060697bbbd351b81a1d5f4d22635e46.json",
+      "sha256": "b53db29ed732ae464e85c83c40f51b8289c90bb03e9857e72a0c978b4267922b"
+    }
+  ]
+}

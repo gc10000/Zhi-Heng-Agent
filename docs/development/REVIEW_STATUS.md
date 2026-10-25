@@ -1,3 +1,7 @@
+## M4-R1修复复交：待审查（2026-10-25）
+
+执行会话完成R1修复和自验，03/04/05/10恢复为10/10、核心53/76；此状态不代表总控通过，M5未授权。完整结果及原件hash见[第二次提交](reviews/M4-submission-r2.md)与[新摘要](reviews/M4-validation-summary-r2.json)，原首轮提交/审查/失败证据均保留。下方首轮状态为历史时点。
+
 ## M4首轮总控：需修复（2026-10-25）
 
 独立发现R1（P1）：多型号/增强分支候选按拼接顺序截前20条，后续范围和成功增强的新证据不能进入重排；正式入口三项满池反例失败，真实dev048/HyDE036对应。重开M4-03/04/05/10，M4 6/10、核心49/76；仅继续M4修复复审，不进入M5。本轮付费0，原实验/快照/evals/evidence保留；详见[首轮结论](reviews/M4-review.md)与[独立摘要](reviews/M4-review-validation.json)。
@@ -20,7 +24,7 @@ M4执行自验10/10、核心53/76，现提交待审查，未自行标记总控�
 | M1 | 通过 | 第2轮总控接受R1–R4，独立205+3通过；自包含恢复与零写拒绝验收，11/11 | [第2轮审查](reviews/M1-review-r2.md) · [第2轮提交](reviews/M1-submission-r2.md) · [第2轮摘要](reviews/M1-validation-summary-r2.json) · [第1轮审查](reviews/M1-review.md) |
 | M2 | 通过 | 第2轮总控接受R1–R3；独立345 passed/2 deselected/0 skipped、既有3项、原产物11检查及补充9检查通过；12/12、核心32/76 | [第二轮总控审查](reviews/M2-review-r2.md) · [第二轮提交](reviews/M2-submission-r2.md) · [第二轮摘要](reviews/M2-validation-summary-r2.json) · [首轮审查](reviews/M2-review.md) |
 | M3 | 通过 | 第2轮总控关闭R1/R2；独立346后端/37单元/24离线浏览器/既有3/只读8及原反例2项、新交错通过；11/11、核心43/76，本轮付费0 | [第二轮总控结论](reviews/M3-review-r2.md) · [独立摘要](reviews/M3-review-validation-r2.json) · [第二轮提交](reviews/M3-submission-r2.md) · [本轮快照](reviews/M3-artifact-manifest-r2.json) · [首轮审查](reviews/M3-review.md) |
-| M4 | 需修复 | R1候选合并后顺序截断，独立满池反例3项失败，真实048/036证实；重开03/04/05/10，当前6/10、核心49/76。独立后端698通过/2排除/0跳过，前端37/24、类型/构建、既有3及35dev/15heldout只读通过；付费0、M5未授权 | [首轮总控结论](reviews/M4-review.md) · [独立摘要](reviews/M4-review-validation.json) · [阶段提交](reviews/M4-submission.md) · [提交快照](reviews/M4-artifact-manifest.json) · [M4计划](../plans/tasks/M4-rag-quality.md) |
+| M4 | 待审查 | 首轮R1修复执行自验：10/10、核心53/76；完整717通过/2排除/0跳过，定向89、既有3、前端37/24/类型/构建及原真实产物只读通过；新版本四组35dev检索及60秒单题诊断核对，总invoke 5/stream 0，旧heldout本轮0，M5未授权 | [第二次提交](reviews/M4-submission-r2.md) · [本轮摘要](reviews/M4-validation-summary-r2.json) · [独立快照](reviews/M4-artifact-manifest-r2.json) · [首轮总控结论](reviews/M4-review.md) |
 | M5 | 未提交 | 等待前置阶段与总控授权 | 尚无 |
 | M6 | 未提交 | 等待前置阶段与总控授权 | 尚无 |
 | M7 | 未提交 | 等待前置阶段与总控授权；不包含自动公开发布 | 尚无 |
