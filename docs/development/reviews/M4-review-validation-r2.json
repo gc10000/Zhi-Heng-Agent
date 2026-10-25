@@ -1,0 +1,460 @@
+{
+  "date": "2026-10-25",
+  "reviewed_commit": "34eb8ba1c06f67f2c9ba743c8f4f7d06db3f210b",
+  "implementation_commit": "2b06ee32e8c3ac167505dcafa575434cd4b1d58c",
+  "conclusion": "通过",
+  "closed_findings": [
+    "R1"
+  ],
+  "new_blocking_findings": [],
+  "progress": {
+    "m4_completed": 10,
+    "m4_total": 10,
+    "core_completed": 53,
+    "core_total": 76,
+    "optional_completed": 0,
+    "optional_total": 2
+  },
+  "next_stage_authorization": {
+    "stage": "M5",
+    "tasks": "M5-01至M5-08按依赖执行，M5-06可选",
+    "start": "M5-01",
+    "next_review": "M5-submission.md",
+    "m6_authorized": false,
+    "implementation_this_turn": false
+  },
+  "submitted_snapshot": {
+    "passed": true,
+    "files": 26,
+    "python_syntax": 6,
+    "local_links": 292,
+    "registered_evidence": 457,
+    "checked_before_review_document_edits": true,
+    "manifest": "docs/development/reviews/M4-artifact-manifest-r2.json",
+    "manifest_sha256": "17c4950c484a2cc069bc9e2ce69b75f31b7648d6e166f7eceff5c2b8ec049e03",
+    "command": "python -m scripts.verification.build_m4_artifacts --summary docs/development/reviews/M4-validation-summary-r2.json --manifest docs/development/reviews/M4-artifact-manifest-r2.json --base 881c98a --check",
+    "initial_invocation_note": "首次传完整base SHA被快照的短SHA字符串比较拒绝，按原881c98a校正通过；非业务失败"
+  },
+  "backend": {
+    "passed": 717,
+    "deselected": 2,
+    "failures": 0,
+    "skipped": 0,
+    "exit_code": 0,
+    "warnings": 7,
+    "console_seconds": 511.72,
+    "junit_seconds": 511.697,
+    "by_directory": {
+      "tests.unit": 471,
+      "tests.contract": 115,
+      "tests.integration": 131
+    },
+    "junit": "docs/development/evidence/M4-review-r2-stage.xml",
+    "db_prefix": "m1_test_m4_review_r2_stage",
+    "scope": "真实存储/Linux worker/模型端口注入混合，不统称供应商端到端"
+  },
+  "original_review_probes": {
+    "passed": 3,
+    "exit_code": 0,
+    "console_seconds": 12.09,
+    "assertions_unchanged": true,
+    "only_output_prefix_changed": true,
+    "compare": {
+      "state": "completed",
+      "candidates": 40,
+      "rerank_inputs": 20,
+      "rerank_product_count": 2,
+      "citation_document_count": 1
+    },
+    "hyde": {
+      "state": "completed",
+      "branch_status": "completed",
+      "candidates": 21,
+      "rerank_inputs": 20,
+      "unique_in_rerank": true,
+      "unique_in_citations": true
+    },
+    "decomposition": {
+      "state": "completed",
+      "branch_status": "completed",
+      "candidates": 21,
+      "rerank_inputs": 20,
+      "unique_in_rerank": true,
+      "unique_in_citations": true
+    }
+  },
+  "frontend": {
+    "unit_passed": 37,
+    "unit_seconds": 4.28,
+    "unit_exit_code": 0,
+    "typecheck_exit_code": 0,
+    "build_exit_code": 0,
+    "offline_browser_passed": 24,
+    "offline_browser_seconds": 32.5,
+    "offline_browser_exit_code": 0,
+    "real_api_browser_rerun": 0
+  },
+  "legacy_reimport": {
+    "passed": 3,
+    "seconds": 0.154,
+    "exit_code": 0
+  },
+  "current_dev_readonly": {
+    "passed": true,
+    "new_provider_calls": 0,
+    "new_answer_generations": 0,
+    "new_heldout_executions": 0,
+    "frozen_files": 146,
+    "variants": [
+      {
+        "id": "control",
+        "completed": 35,
+        "nonclarification_checks": 33,
+        "recall": {
+          "candidates": {
+            "mean": 0.9117647058823529,
+            "applicable_questions": 34
+          },
+          "reranked": {
+            "mean": 0.9117647058823529,
+            "applicable_questions": 34
+          },
+          "context": {
+            "mean": 0.8235294117647058,
+            "applicable_questions": 34
+          }
+        },
+        "compare": {
+          "id": "support-v1-048",
+          "candidates": 40,
+          "rerank_inputs": 20,
+          "novel": {},
+          "novel_in_rerank": {},
+          "input_document_counts": [
+            10,
+            10
+          ]
+        },
+        "novel_cases": []
+      },
+      {
+        "id": "hyde",
+        "completed": 35,
+        "nonclarification_checks": 33,
+        "recall": {
+          "candidates": {
+            "mean": 0.9117647058823529,
+            "applicable_questions": 34
+          },
+          "reranked": {
+            "mean": 0.9117647058823529,
+            "applicable_questions": 34
+          },
+          "context": {
+            "mean": 0.8235294117647058,
+            "applicable_questions": 34
+          }
+        },
+        "compare": {
+          "id": "support-v1-048",
+          "candidates": 40,
+          "rerank_inputs": 20,
+          "novel": {},
+          "novel_in_rerank": {},
+          "input_document_counts": [
+            10,
+            10
+          ]
+        },
+        "novel_cases": []
+      },
+      {
+        "id": "decomposition",
+        "completed": 35,
+        "nonclarification_checks": 33,
+        "recall": {
+          "candidates": {
+            "mean": 0.9117647058823529,
+            "applicable_questions": 34
+          },
+          "reranked": {
+            "mean": 0.9117647058823529,
+            "applicable_questions": 34
+          },
+          "context": {
+            "mean": 0.8235294117647058,
+            "applicable_questions": 34
+          }
+        },
+        "compare": {
+          "id": "support-v1-048",
+          "candidates": 40,
+          "rerank_inputs": 20,
+          "novel": {},
+          "novel_in_rerank": {},
+          "input_document_counts": [
+            10,
+            10
+          ]
+        },
+        "novel_cases": []
+      },
+      {
+        "id": "combined",
+        "completed": 35,
+        "nonclarification_checks": 33,
+        "recall": {
+          "candidates": {
+            "mean": 0.9117647058823529,
+            "applicable_questions": 34
+          },
+          "reranked": {
+            "mean": 0.9117647058823529,
+            "applicable_questions": 34
+          },
+          "context": {
+            "mean": 0.8235294117647058,
+            "applicable_questions": 34
+          }
+        },
+        "compare": {
+          "id": "support-v1-048",
+          "candidates": 40,
+          "rerank_inputs": 20,
+          "novel": {},
+          "novel_in_rerank": {},
+          "input_document_counts": [
+            10,
+            10
+          ]
+        },
+        "novel_cases": [
+          {
+            "id": "support-v1-035",
+            "candidates": 26,
+            "rerank_inputs": 20,
+            "novel": {
+              "hyde": 6
+            },
+            "novel_in_rerank": {
+              "hyde": 6
+            }
+          }
+        ]
+      }
+    ],
+    "rank_cache_keys_bound_to_actual_inputs": true,
+    "independent_reference_selector": true,
+    "diagnostic": {
+      "candidates": 29,
+      "rerank_inputs": 20,
+      "novel": {
+        "hyde": 9
+      },
+      "novel_in_rerank": {
+        "hyde": 9
+      }
+    },
+    "corpus_sha256": "dd01944db688807c158923c0d21d272f1f45aa4304aa9012efada71c2c18b810",
+    "indexed_chunks": 595,
+    "submitted_logical_calls": {
+      "invoke_started": 5,
+      "stream_started": 0
+    }
+  },
+  "historical_readonly": {
+    "dev": {
+      "passed": true,
+      "mode": "historical_frozen_code_readonly",
+      "split": "dev",
+      "questions": 35,
+      "states": {
+        "awaiting_input": 2,
+        "completed": 33
+      },
+      "persisted_messages": 68,
+      "logical_answer_generations": 33,
+      "new_provider_calls": 0,
+      "corpus_sha256": "dd01944db688807c158923c0d21d272f1f45aa4304aa9012efada71c2c18b810",
+      "image_assets_fully_decoded": 23,
+      "human_answer_correctness": null,
+      "notice": "只读复核旧版本真实产物，未执行当前版本生成，旧heldout不作为新版本未见评价",
+      "frozen_versions": {
+        "code": "c1c1b8c316649fa684684a0e6871ccf3ffc6fec760b53d831763249332391339",
+        "prompt": "26534c884d5f9b222cd73bed840325532abff238157108d16e8d44f80ee736f8",
+        "model": "565fbfe4c795fb52f84183f7b2708491fd7824fa07f2de9fd546e9d6d6e5bb90"
+      }
+    },
+    "heldout": {
+      "passed": true,
+      "mode": "historical_frozen_code_readonly",
+      "split": "heldout",
+      "questions": 15,
+      "states": {
+        "completed": 14,
+        "awaiting_input": 1
+      },
+      "persisted_messages": 31,
+      "logical_answer_generations": 14,
+      "new_provider_calls": 0,
+      "corpus_sha256": "dd01944db688807c158923c0d21d272f1f45aa4304aa9012efada71c2c18b810",
+      "image_assets_fully_decoded": 19,
+      "human_answer_correctness": null,
+      "notice": "只读复核旧版本真实产物，未执行当前版本生成，旧heldout不作为新版本未见评价",
+      "frozen_versions": {
+        "code": "c1c1b8c316649fa684684a0e6871ccf3ffc6fec760b53d831763249332391339",
+        "prompt": "26534c884d5f9b222cd73bed840325532abff238157108d16e8d44f80ee736f8",
+        "model": "565fbfe4c795fb52f84183f7b2708491fd7824fa07f2de9fd546e9d6d6e5bb90"
+      }
+    }
+  },
+  "selection_properties": {
+    "passed": true,
+    "checks": 3,
+    "shuffle_permutations": 50,
+    "three_scope_counts": {
+      "a": 7,
+      "b": 7,
+      "c": 6
+    },
+    "shared_identity_occurrences": 1,
+    "total_bound": 20,
+    "new_provider_calls": 0
+  },
+  "old_candidates_selection_replay": {
+    "passed": true,
+    "mode": "historical_real_candidates_current_selection_replay",
+    "notice": "使用旧真实候选原件并补本轮池身份后仅重放选择，不重新检索/重排模型，不冒充当前供应商全链路或新盲测",
+    "compare": {
+      "candidate_count": 40,
+      "rerank_input_count": 20,
+      "scope_input_counts": [
+        10,
+        10
+      ]
+    },
+    "hyde": {
+      "candidate_count": 28,
+      "novel_count": 8,
+      "rerank_input_count": 20,
+      "novel_selected": 8
+    },
+    "new_provider_calls": 0
+  },
+  "new_provider_calls": 0,
+  "new_paid_calls": 0,
+  "new_answer_generations": 0,
+  "new_heldout_executions": 0,
+  "human_answer_correctness": null,
+  "accepted_limits": [
+    "入选重排机会不保证最终引用或完整语义",
+    "新版本没有答案质量/盲测结果",
+    "旧15heldout不再作为修复后未见评价",
+    "默认仍8秒，60秒诊断不作为默认收益",
+    "真实dev分解未触发",
+    "精确HTTP重试/金额未知",
+    "wall含阶段缓存和同机竞争，不作生产性能结论"
+  ],
+  "raw_evidence": [
+    {
+      "path": "docs/development/evidence/M4-review-r2-browser.txt",
+      "sha256": "0b3741ea4091d9b09dc127915090d37cb17f7ff5d2eaf9e9c26f1ca03acb4aa6"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-r2-build.txt",
+      "sha256": "c39619faaf04fecf178e176d4b7e87bf019e9b27eb2715754aaca7a570f5a340"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-r2-compare-starvation.json",
+      "sha256": "af9c2a9ea05cc62128545abae46c22f195e818781f0c19bbc1b867bd0cf36140"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-r2-decomposition-starvation.json",
+      "sha256": "906e95faf44bd7a6150a990fd4a1966c00b910e5f71ae3709c4914f59763bb77"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-r2-dev-independent.json",
+      "sha256": "13456a28ed592efbe6ed86d6fcd7b15e4f19f3440da5c101a38d29723bc06a1d"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-r2-dev-independent.txt",
+      "sha256": "9c6cd4f3f463bd5c5141ac2d0b263343c340d409bbf9f0b7581bd835335c9f22"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-r2-frontend-unit.txt",
+      "sha256": "f20fba5c6be70b9627f70e57df72cb389ad8e8dd980e22f3cf66fe54cd074fcc"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-r2-historical-dev-readonly.json",
+      "sha256": "c7ff1e5704091d9ea773f560f8c49d2dd91f6e26c16891f22c1bdfa9b4e10600"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-r2-historical-heldout-readonly.json",
+      "sha256": "a65d4239f3e33a2cfbc624c701df5c3c034b79231a3a0be2b849f5327c8d8815"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-r2-historical.txt",
+      "sha256": "66a316b75a833ae96da55fb55b178daecb1c99ab7425bb1e607863a7df401867"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-r2-hyde-starvation.json",
+      "sha256": "906e95faf44bd7a6150a990fd4a1966c00b910e5f71ae3709c4914f59763bb77"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-r2-original-probes.txt",
+      "sha256": "be1ede6c1a2339cbb7baf8bbd1ae747e9d5544206f39d841259a1b16f4411540"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-r2-original-probes.xml",
+      "sha256": "626ce25aeb244bf39d744e94d32ed80ea0e350cb19f669e4820a57defa2f5881"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-r2-real-candidate-replay.json",
+      "sha256": "81db01e51fe0c7e0881dde35a9a69e12f0f8d41ed10c84eba0df2ce0d6b67117"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-r2-reimport.txt",
+      "sha256": "86ef9577ad3eb39364bf117010bb52f1cedef0d18a1ae02bf1adeca8593b7281"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-r2-selection-properties.json",
+      "sha256": "e010489da425a374bf18730dee0ba719bf34301f1db98dcb823618c85ac2106f"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-r2-stage.txt",
+      "sha256": "3aa44b71673d3f90962ea2cb61aefeb692b8c69a9b3c40c8ada1ce0f7ebb1645"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-r2-stage.xml",
+      "sha256": "77408b7f1e46e4ab9f726f140a34db12682b641bba916fc9611a465b90e09ed7"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-r2-typecheck.txt",
+      "sha256": "241be48e89412fbf6fed0e7e10a0217d6a564c74e44cc6906baaac9d4715a40a"
+    },
+    {
+      "path": "output/evals/test_m4_control_starvation_r2.py",
+      "sha256": "ca4b7224b40469f2bffbd183c5057575f74c806bb27b01a2976486a993a5081c"
+    },
+    {
+      "path": "output/evals/m4_review_r2_readonly.py",
+      "sha256": "2af3e1cf42739dd65290f7c38991d31486720f9c1914170f2325e4ebb8b3b396"
+    },
+    {
+      "path": "output/evals/m4_review_r2_selection_properties.py",
+      "sha256": "04ff7bf39a3fe2d9413516071150bad8c906112bb2e8edb2a7486e5f9967fc7b"
+    },
+    {
+      "path": "output/evals/recheck_m4_review_r2_historical.py",
+      "sha256": "cb3682f19826e7a1d276d2cc754b93c4a38102b4a8cda4307efe23e18a1c4e5f"
+    },
+    {
+      "path": "output/evals/replay_m4_review_r2_candidates.py",
+      "sha256": "c1de71194556a86117e13387280a70c6a8f62976e269d5700637dd12a832d378"
+    },
+    {
+      "path": "output/evals/build_m4_review_r2.py",
+      "sha256": "974c39b8aa868db7b12e859eea033ae5a44fc69b0a460f89468b9ba4069cbb7a"
+    }
+  ]
+}
