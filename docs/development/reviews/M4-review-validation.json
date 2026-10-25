@@ -1,0 +1,264 @@
+{
+  "date": "2026-10-25",
+  "reviewed_commit": "e7571e32a86f309348b6c305d1a51bd76b3b75fd",
+  "conclusion": "需修复",
+  "blocking_findings": [
+    "R1"
+  ],
+  "next_stage_authorized": false,
+  "progress": {
+    "m4_completed": 6,
+    "m4_total": 10,
+    "core_completed": 49,
+    "core_total": 76,
+    "reopened": [
+      "M4-03",
+      "M4-04",
+      "M4-05",
+      "M4-10"
+    ]
+  },
+  "submitted_snapshot": {
+    "passed": true,
+    "files": 134,
+    "python_syntax": 80,
+    "local_links": 306,
+    "checked_before_review_document_edits": true,
+    "command": "python -m scripts.verification.build_m4_artifacts --summary docs/development/reviews/M4-validation-summary.json --manifest docs/development/reviews/M4-artifact-manifest.json --base 83dd1b11c2873d11b0795099abc81260097b1638 --check",
+    "manifest_sha256": "7b2fdaf7b561d9a938784c1178f7198b3c6f6cc07d8a569a09c98429489d89df"
+  },
+  "stage": {
+    "passed": 698,
+    "deselected": 2,
+    "skipped": 0,
+    "failures": 0,
+    "exit_code": 0,
+    "warnings": 7,
+    "console_seconds": 682.01,
+    "junit_seconds": 681.908,
+    "by_directory": {
+      "tests.unit": 456,
+      "tests.contract": 115,
+      "tests.integration": 127
+    },
+    "db_prefix": "m1_test_m4_control_review",
+    "junit": "docs/development/evidence/M4-review-stage.xml",
+    "scope": "独立存储、Linux worker及模型端口注入；不是供应商端到端"
+  },
+  "frontend": {
+    "unit_passed": 37,
+    "unit_exit_code": 0,
+    "typecheck_exit_code": 0,
+    "build_exit_code": 0,
+    "offline_browser_passed": 24,
+    "offline_browser_exit_code": 0,
+    "real_api_browser_rerun": 0
+  },
+  "legacy_reimport": {
+    "passed": 3,
+    "seconds": 1.539,
+    "exit_code": 0
+  },
+  "readonly": {
+    "dev": {
+      "passed": true,
+      "mode": "real_m4_evaluation_read_only",
+      "split": "dev",
+      "questions": 35,
+      "states": {
+        "awaiting_input": 2,
+        "completed": 33
+      },
+      "persisted_messages": 68,
+      "logical_answer_generations": 33,
+      "new_provider_calls": 0,
+      "corpus_sha256": "dd01944db688807c158923c0d21d272f1f45aa4304aa9012efada71c2c18b810",
+      "image_assets_fully_decoded": 23,
+      "human_answer_correctness": null
+    },
+    "heldout": {
+      "passed": true,
+      "mode": "real_m4_evaluation_read_only",
+      "split": "heldout",
+      "questions": 15,
+      "states": {
+        "completed": 14,
+        "awaiting_input": 1
+      },
+      "persisted_messages": 31,
+      "logical_answer_generations": 14,
+      "new_provider_calls": 0,
+      "corpus_sha256": "dd01944db688807c158923c0d21d272f1f45aa4304aa9012efada71c2c18b810",
+      "image_assets_fully_decoded": 19,
+      "human_answer_correctness": null
+    }
+  },
+  "blocking_reproduction": {
+    "tests": 3,
+    "failed_business_assertions": 3,
+    "errors": 0,
+    "exit_code": 1,
+    "console_seconds": 31.22,
+    "junit": "docs/development/evidence/M4-review-starvation.xml",
+    "compare": {
+      "state": "completed",
+      "candidates": 40,
+      "rerank_inputs": 20,
+      "rerank_product_count": 1,
+      "citation_document_count": 1
+    },
+    "hyde": {
+      "state": "completed",
+      "branch_status": "completed",
+      "candidates": 21,
+      "rerank_inputs": 20,
+      "unique_in_rerank": false,
+      "unique_in_citations": false
+    },
+    "decomposition": {
+      "state": "completed",
+      "branch_status": "completed",
+      "candidates": 21,
+      "rerank_inputs": 20,
+      "unique_in_rerank": false,
+      "unique_in_citations": false
+    }
+  },
+  "experiment_analysis": {
+    "new_provider_calls": 0,
+    "semantic_accuracy": null,
+    "selection_created_utc": "2026-10-24T18:42:45.398641+00:00",
+    "actual_dev_048": {
+      "route": "compare",
+      "scope_groups": 2,
+      "candidates_by_document": [
+        20,
+        20
+      ],
+      "reranked_by_document": [
+        20
+      ],
+      "cited_documents": 1,
+      "source_group_recall": 0.5
+    },
+    "dev_run_creation_utc": {
+      "first": "2026-10-24T18:27:08.220929+00:00",
+      "last": "2026-10-24T18:41:30.162392+00:00",
+      "count": 35
+    },
+    "heldout_run_creation_utc": {
+      "first": "2026-10-24T18:43:18.779876+00:00",
+      "last": "2026-10-24T18:48:05.129521+00:00",
+      "count": 15
+    },
+    "actual_hyde_036": {
+      "control_counts": {
+        "candidates": 20,
+        "reranked": 20,
+        "context": 10,
+        "expanded": 0
+      },
+      "hyde_counts": {
+        "candidates": 28,
+        "reranked": 20,
+        "context": 10,
+        "expanded": 0
+      },
+      "branch": {
+        "name": "hyde",
+        "status": "completed",
+        "seconds": 7.4210000000020955
+      },
+      "identical_rerank_cache_key": true
+    },
+    "submitted_logical_provider_calls": {
+      "invoke_started": 4,
+      "stream_started": 47
+    },
+    "four_root_cause_files_match_frozen_execution": true
+  },
+  "new_paid_calls": 0,
+  "new_model_provider_calls": 0,
+  "human_answer_correctness": null,
+  "limitations": [
+    "常规全绿不覆盖满池候选合并缺陷",
+    "未重新执行历史M3真实浏览器或旧产物8项核验",
+    "未执行新baseline/dev/heldout付费实验",
+    "原15heldout不再是修复后版本未见评价",
+    "精确HTTP调用数与金额未知"
+  ],
+  "raw_evidence": [
+    {
+      "path": "docs/development/evidence/M4-review-browser.txt",
+      "sha256": "97c7b1afb53c248de550887408c3d88ae38c3cea95cdcb7d44dd10b075f2b25e"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-build.txt",
+      "sha256": "69a52d1fe1fb625cf88d13f0a0ffa0ef5243537bc2a8b786ec46e17b69b8b200"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-compare-starvation.json",
+      "sha256": "59a265a94923c7c016667f25f1c4d1619895be65c4b959178873ba6447b4757b"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-decomposition-starvation.json",
+      "sha256": "22ac04b84e827bf33eec6c519c18ab9f43d746f11e33b8b3cc80da4b72b36fe8"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-dev-readonly.json",
+      "sha256": "98131033e3f0c021e17c46fef24c4301cd5b688f800ec759b612e68ad699cc06"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-experiment-analysis.json",
+      "sha256": "6c9569971cd5d879cd5b0ef579ac9829bc5231f03fe3cf5a02fbb951a62e7f81"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-frontend-unit.txt",
+      "sha256": "e54f21004f6642d98b7591e798b3e03365cd8a3b8a15e7b796d8c7c3e40287ac"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-heldout-readonly.json",
+      "sha256": "dc3374d4965259d9df6798d1416f7b17aaf7baab6bf033becaae39599f193eb1"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-hyde-starvation.json",
+      "sha256": "22ac04b84e827bf33eec6c519c18ab9f43d746f11e33b8b3cc80da4b72b36fe8"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-reimport.txt",
+      "sha256": "63234d596634fab599f3b85b44e06dc23c79ff03e9a6e0fb5d15160a3d52b7cd"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-stage.txt",
+      "sha256": "3ffb6a0bc9136c9659ef43f963c17e9824988113a1c8d60c9d1f8c2dfa5b9b24"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-stage.xml",
+      "sha256": "1868d87604009794b0070dbcb26a3787484650de49ec18abb1b98c8342a7bc23"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-starvation.txt",
+      "sha256": "56ab41d8f60130df8e6e5818d7bf1fa5949cc525b2a14fe5a77a4a64df4d4f49"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-starvation.xml",
+      "sha256": "875576bf9ca86375bda0b039dcb9452e3dd219146f4782c0ecfae8430565c7ee"
+    },
+    {
+      "path": "docs/development/evidence/M4-review-typecheck.txt",
+      "sha256": "241be48e89412fbf6fed0e7e10a0217d6a564c74e44cc6906baaac9d4715a40a"
+    },
+    {
+      "path": "output/evals/test_m4_control_starvation.py",
+      "sha256": "547cbc9eb36c288955febf4cdaab422e232d133b62110656446af9979f63f8e1"
+    },
+    {
+      "path": "output/evals/m4_control_analysis.py",
+      "sha256": "46eea4e8d59f83829c91a775cb60edef3e1e38a10d8d04e7c1755362280cc377"
+    },
+    {
+      "path": "output/evals/build_m4_control_review.py",
+      "sha256": "f37cd0a89cb3986969e07df6aa34aaba81ed46e8511f917ef2ee4c3ef44bafd2"
+    }
+  ]
+}
