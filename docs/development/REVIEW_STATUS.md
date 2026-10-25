@@ -16,7 +16,7 @@ M4执行自验10/10、核心53/76，现提交待审查，未自行标记总控�
 
 # 阶段审查与开发授权
 
-更新日期：2026-10-25。角色：开发会话实现与自验；原规划会话负责独立审查。M0至M4已通过总控审查；授权M5-01至M5-08按依赖连续执行，从M5-01开始，M5-06可选；M6及后续阶段未授权。
+更新日期：2026-10-25。角色：开发会话实现与自验；原规划会话负责独立审查。M0至M4已通过总控审查；M5首轮需修复R1—R3，仅授权M5内修复与复验，重开M5-02/05/08，当前4/7核心、总核心57/76；M5-06可选延期，M6及后续阶段未授权。
 
 开发任务验收与总控审查是两个状态：任务按实际证据勾选，阶段审查单独记录。下一阶段实现需要前置验收通过，并且得到本页的总控授权；同一阶段内无需每个任务重新申请。
 
@@ -29,7 +29,7 @@ M4执行自验10/10、核心53/76，现提交待审查，未自行标记总控�
 | M2 | 通过 | 第2轮总控接受R1–R3；独立345 passed/2 deselected/0 skipped、既有3项、原产物11检查及补充9检查通过；12/12、核心32/76 | [第二轮总控审查](reviews/M2-review-r2.md) · [第二轮提交](reviews/M2-submission-r2.md) · [第二轮摘要](reviews/M2-validation-summary-r2.json) · [首轮审查](reviews/M2-review.md) |
 | M3 | 通过 | 第2轮总控关闭R1/R2；独立346后端/37单元/24离线浏览器/既有3/只读8及原反例2项、新交错通过；11/11、核心43/76，本轮付费0 | [第二轮总控结论](reviews/M3-review-r2.md) · [独立摘要](reviews/M3-review-validation-r2.json) · [第二轮提交](reviews/M3-submission-r2.md) · [本轮快照](reviews/M3-artifact-manifest-r2.json) · [首轮审查](reviews/M3-review.md) |
 | M4 | 通过 | 第2轮关闭R1，10/10、核心53/76；独立717后端/原3反例/前端37单元24浏览器/既有3/类型/构建、新dev140题次实际输入与诊断、旧真实产物只读通过；本轮新增付费0，未生成新答案/heldout | [第2轮总控结论](reviews/M4-review-r2.md) · [独立摘要](reviews/M4-review-validation-r2.json) · [第二次提交](reviews/M4-submission-r2.md) · [提交快照](reviews/M4-artifact-manifest-r2.json) · [首轮结论](reviews/M4-review.md) |
-| M5 | 待审查 | 01至05、07、08执行自验7/7核心，总核心60/76；06明确延期0/1。774后端/37前端单元/27离线浏览器/既有3及真实小样16只读检查通过；1次真实答案生成，精确HTTP/金额未知。未自行标记总控通过，M6未授权 | [执行提交](reviews/M5-submission.md) · [验证摘要](reviews/M5-validation-summary.json) · [独立快照](reviews/M5-artifact-manifest.json) · [M5计划](../plans/tasks/M5-support-workflow.md) |
+| M5 | 需修复 | R1清单回显撤权旧原文、R2占用中断叠加纠正后pending不恢复、R3清空已确认值被静默忽略。重开02/05/08，4/7核心、总核心57/76；06延期。既有验证不替代新反例；本轮付费0，M6未授权 | [总控结论](reviews/M5-review.md) · [独立摘要](reviews/M5-review-validation.json) · [原执行提交](reviews/M5-submission.md) · [原快照](reviews/M5-artifact-manifest.json) · [M5计划](../plans/tasks/M5-support-workflow.md) |
 | M6 | 未提交 | 等待前置阶段与总控授权 | 尚无 |
 | M7 | 未提交 | 等待前置阶段与总控授权；不包含自动公开发布 | 尚无 |
 

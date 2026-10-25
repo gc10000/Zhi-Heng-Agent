@@ -1,0 +1,360 @@
+{
+  "date": "2026-10-25",
+  "reviewed_commit": "0f4ed6c4f38198d73a992f5bd083f024ab540854",
+  "handoff_commit": "8f5afe06341992ba05e2ee96de9286b54b0dedd4",
+  "conclusion": "需修复",
+  "new_blocking_findings": [
+    {
+      "id": "R1",
+      "priority": 1,
+      "reason": "清单入口未核对既有聚合的嵌套修订权限，返回撤权旧操作原文",
+      "actual_status": 200,
+      "expected_status": 404
+    },
+    {
+      "id": "R2",
+      "priority": 1,
+      "reason": "占用CAS后中断再纠正，恢复扫描跳过pending超时，旧占用不释放"
+    },
+    {
+      "id": "R3",
+      "priority": 2,
+      "reason": "清空已确认环境被过滤为values空字典，保存后旧事实恢复"
+    }
+  ],
+  "progress": {
+    "m5_core_completed": 4,
+    "m5_core_total": 7,
+    "core_completed": 57,
+    "core_total": 76,
+    "optional_completed": 0,
+    "optional_total": 2
+  },
+  "authorization": {
+    "tasks": "仅M5内R1—R3修复复验及第二轮提交",
+    "reopened": [
+      "M5-02",
+      "M5-05",
+      "M5-08"
+    ],
+    "mcp": "延期",
+    "m6_authorized": false,
+    "business_implementation_this_turn": false
+  },
+  "submitted_snapshot": {
+    "passed": true,
+    "files": 68,
+    "python_syntax": 34,
+    "local_links": 289,
+    "registered_evidence": 135,
+    "checked_before_review_document_edits": true,
+    "manifest": {
+      "path": "docs/development/reviews/M5-artifact-manifest.json",
+      "bytes": 44609,
+      "sha256": "c0a25a4f093ed68a760bdbc7c68b17f4dbceb0ab619eaf3f1d3af68eaaa7eb9f"
+    }
+  },
+  "backend": {
+    "passed": 774,
+    "deselected": 2,
+    "skipped": 0,
+    "junit_seconds": 607.693,
+    "composition": {
+      "unit": 497,
+      "contract": 128,
+      "integration": 149
+    },
+    "commands": [
+      {
+        "name": "backend",
+        "command": [
+          "D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\.venv\\Scripts\\python.exe",
+          "-m",
+          "pytest",
+          "tests/unit",
+          "tests/contract",
+          "tests/integration",
+          "-m",
+          "not live_provider",
+          "-q",
+          "--tb=short",
+          "--junitxml=D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\output\\m5-review-backend\\backend.xml"
+        ],
+        "exit_code": 0,
+        "seconds": 619.625
+      },
+      {
+        "name": "reimport",
+        "command": [
+          "D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\.venv\\Scripts\\python.exe",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "test",
+          "-p",
+          "test_document_reimport.py",
+          "-v"
+        ],
+        "exit_code": 0,
+        "seconds": 18.859
+      }
+    ]
+  },
+  "reimport": {
+    "passed": 3,
+    "exit_code": 0
+  },
+  "frontend": {
+    "unit_passed": 37,
+    "unit_failed": 0,
+    "browser": {
+      "startTime": "2026-10-25T08:40:59.844Z",
+      "duration": 58268.527,
+      "expected": 27,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "commands": [
+      {
+        "name": "typecheck",
+        "command": [
+          "C:\\Users\\10426\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.CMD",
+          "-C",
+          "frontend",
+          "typecheck"
+        ],
+        "exit_code": 0,
+        "seconds": 7.593
+      },
+      {
+        "name": "unit",
+        "command": [
+          "C:\\Users\\10426\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.CMD",
+          "-C",
+          "frontend",
+          "exec",
+          "vitest",
+          "run",
+          "--reporter=json",
+          "--outputFile=D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\output\\m5-review-frontend\\unit.json"
+        ],
+        "exit_code": 0,
+        "seconds": 8.5
+      },
+      {
+        "name": "build",
+        "command": [
+          "C:\\Users\\10426\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.CMD",
+          "-C",
+          "frontend",
+          "build"
+        ],
+        "exit_code": 0,
+        "seconds": 10.718
+      },
+      {
+        "name": "browser",
+        "command": [
+          "C:\\Users\\10426\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.CMD",
+          "-C",
+          "frontend",
+          "exec",
+          "playwright",
+          "test",
+          "--reporter=list,json",
+          "--output=D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\output\\m5-review-frontend\\browser-artifacts"
+        ],
+        "exit_code": 0,
+        "seconds": 60.391
+      }
+    ],
+    "browser_mode": "离线协议与合成资产，不是供应商端到端"
+  },
+  "readonly_live": {
+    "prior": {
+      "passed": true,
+      "mode": "existing_m3_ui_artifacts_read_only",
+      "provider_calls": 0,
+      "checks": {
+        "two_completed_answers": true,
+        "ordered_persistent_history": true,
+        "grounded_parameters_and_followup": true,
+        "citations_exact_initial_revision": true,
+        "single_terminal_and_ordered_events": true,
+        "ui_import_published": true,
+        "ui_import_product_scope": true,
+        "originals_hash_match": true
+      },
+      "source_flow_sha256": "52cd0cbc3820e78c2b725d2b5df42b32c0ac6f834223b151626e742aa087d96e",
+      "message_count": 4
+    },
+    "m5": {
+      "passed": true,
+      "mode": "real_m5_api_browser_artifacts_read_only",
+      "checks": {
+        "source_mongo_unchanged": true,
+        "historical_supplier_artifacts_preserved": true,
+        "persistent_handoff_not_resolved": true,
+        "reports_user_sourced_append_only": true,
+        "new_formal_run_completed_with_exact_answer": true,
+        "future_run_frozen_user_results": true,
+        "one_completed_new_query_two_setup_failures_preserved": true,
+        "new_answer_message_and_citations_exact": true,
+        "unique_terminal_and_stream_answer": true,
+        "confirmation_and_user_edits_preserved": true,
+        "case_has_original_operations_and_unknown_fields": true,
+        "download_exact_authorized_confirmed_snapshot": true,
+        "feedback_pending_and_run_bound": true,
+        "draft_does_not_publish_knowledge": true,
+        "case_citations_match_real_index_and_sources": true,
+        "original_real_http_sha256": true
+      },
+      "new_formal_queries": 3,
+      "setup_failed_before_retrieval": 2,
+      "logical_answer_generations": 1,
+      "exact_sdk_http_calls": null,
+      "exact_cost": null,
+      "recheck_provider_calls": 0,
+      "human_quality_rating": null
+    },
+    "new_paid_model_calls_this_review": 0,
+    "ui_screenshot_visually_inspected": "output/m5-live-config-r2.flow.confirmed.png",
+    "human_quality_rating": null
+  },
+  "independent_probes": {
+    "backend_blockers_failed": 2,
+    "backend_exit_code": 1,
+    "repeat_confirmed": true,
+    "frontend_clear_slot": {
+      "mode": "actual_vue_offline_protocol_probe",
+      "expected": "清空后应保存为未知或明确提示不能清空",
+      "submittedValues": {},
+      "actualValueAfterSave": "室内",
+      "browserErrors": [],
+      "passed": false
+    },
+    "frontend_exit_code": 1,
+    "initial_exploration": "最初三项探索断言均失败，其中handoff后清单请求仍200但保持handoff；该额外假设未证明复活，不列第四项阻塞。随后仅选择R1/R2复跑，两项仍失败。"
+  },
+  "git": {
+    "remote_main_verified": false,
+    "proxy_read_result": "127.0.0.1:7890无法连接",
+    "direct_read_result": "关闭代理后GitHub低速15秒超时",
+    "final_review_commit_and_push": "最终交接回复补记；不循环修改冻结快照"
+  },
+  "raw_evidence": [
+    {
+      "path": "output/m5-review-backend/commands.json",
+      "bytes": 993,
+      "sha256": "e254cea7889b4870db6446ec1e1a2ee880367df3c3e8309e9a2eb9025ca7c53a"
+    },
+    {
+      "path": "output/m5-review-backend/backend.xml",
+      "bytes": 114659,
+      "sha256": "24b4608cd8d3df37b14c5f96a96aaebc9d445b807e177896a17fab7d64d9e8ae"
+    },
+    {
+      "path": "output/m5-review-backend/backend.txt",
+      "bytes": 2242,
+      "sha256": "a4b33442291306256d3e1f1b653a61808de546086c637fa80027f07a467e806a"
+    },
+    {
+      "path": "output/m5-review-backend/reimport.txt",
+      "bytes": 546,
+      "sha256": "ddb24196fe15850fe1fc64b079b524850e550cb6af01f04bdb79b914adfc07f0"
+    },
+    {
+      "path": "output/m5-review-frontend/commands.json",
+      "bytes": 1615,
+      "sha256": "1e354ee0eff7b201be91a71a6254a2d544734d3b8650d9a4d5e878c006990717"
+    },
+    {
+      "path": "output/m5-review-frontend/unit.json",
+      "bytes": 12239,
+      "sha256": "142d6d0a6ad0db260884c81f0c8d634e833d2ea3c0e929cdf84386b78f1edb81"
+    },
+    {
+      "path": "output/m5-review-frontend/browser.json",
+      "bytes": 31990,
+      "sha256": "9ee0887d9c456e05b019125c73ac7b53744359c44fc0422b876eb40feee2dd3a"
+    },
+    {
+      "path": "output/m5-review-prior-live-readonly.json",
+      "bytes": 558,
+      "sha256": "eb8c1feb127fe6bb0b071147b8aff55f3986ebf408be1a6fdeb55afdb2afa0e6"
+    },
+    {
+      "path": "output/m5-review-live-readonly.json",
+      "bytes": 1828,
+      "sha256": "b91c7e49f8ef05761f7355e7284763a2212bbb8d6f337df54a20d593f71c46bf"
+    },
+    {
+      "path": "output/m5-review-probes/test_support_review.py",
+      "bytes": 4842,
+      "sha256": "6b599737f71f108bcdb5563cdb5dce137b76ab8731504c30716ba08c10100093"
+    },
+    {
+      "path": "output/m5-review-probes/backend.xml",
+      "bytes": 2672,
+      "sha256": "c4c442a0ed689bd4a9bb8628c2293e2df0e7d643ca0074aa64e569036e2fcbcd"
+    },
+    {
+      "path": "output/m5-review-probes/backend.txt",
+      "bytes": 2368,
+      "sha256": "9a5c50145888c8b5f2b0f0458a49f9ad7b7b14158b6ba85abfb18a3d6b13f7ad"
+    },
+    {
+      "path": "output/m5-review-probes/blockers.xml",
+      "bytes": 1878,
+      "sha256": "c2e0de032fc38230de937737171f917aa44fe0addf0d01713244a1c8c55a2284"
+    },
+    {
+      "path": "output/m5-review-probes/blockers.txt",
+      "bytes": 1738,
+      "sha256": "6145fd5efe46700d696f15377750662a973451a90dc9bbda1f2d6da1adbe081d"
+    },
+    {
+      "path": "output/m5-review-probes/check-clear-slot.cjs",
+      "bytes": 2827,
+      "sha256": "9cce2d86bfc5055cdc4d20890609b72187705bf20c23f757d9c6c792762fae13"
+    },
+    {
+      "path": "output/m5-review-probes/clear-slot.json",
+      "bytes": 224,
+      "sha256": "f09570e9453a62716a6f56f5f1055091dfc015bb5ba3815a11e8df41a75f2bb7"
+    },
+    {
+      "path": "output/m5-review-probes/clear-slot.txt",
+      "bytes": 201,
+      "sha256": "e1bac0fe3d43b2d45b9f7cec0b1639962e5365a3ea2647f2b831036bb1a1f43c"
+    },
+    {
+      "path": "output/m5-review-probes/clear-slot.png",
+      "bytes": 62869,
+      "sha256": "d22e82fffd4aa8efc34a09cabec17f57eb5dc4dda2f66806e6d049e41207c100"
+    },
+    {
+      "path": "output/m5-review-probes/recheck_live.py",
+      "bytes": 1177,
+      "sha256": "73e5d6f27a8c566b62552ae305d74afabd07dec3ac23546266c489f6c1469c19"
+    },
+    {
+      "path": "output/m5-review-probes/live-recheck.txt",
+      "bytes": 829,
+      "sha256": "0adb7afd483a9459620ac693fcf09165022eb0397e2842b95e9fa6cecaa5323f"
+    },
+    {
+      "path": "output/m5-live-config-r2.flow.confirmed.png",
+      "bytes": 97937,
+      "sha256": "74bc14b52227c18130dcb197910464814a66b5cf293b6f90258a215557db72ef"
+    }
+  ],
+  "limitations": [
+    "本轮没有新真实浏览器全链路或新答案生成，只读复核原真实产物",
+    "历史1次真实答案生成不计本轮，精确SDK HTTP/金额仍未知",
+    "原课程数据、原始证据、evals及提交快照均保留",
+    "独立反例仅隔离测试库写入，业务实现未修复"
+  ]
+}
