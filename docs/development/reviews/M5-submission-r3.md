@@ -56,3 +56,5 @@
 ## 8. 后续门禁
 
 本材料提交给总控独立复审。M5状态保持“待审查”，不自行标记通过；在总控复审前不进入 M6。
+
+交付提交：`b273f6a66446f9d173cfa6be973a5a18b4e7ead0`，分支`main`，已正常推送；`git ls-remote origin refs/heads/main`返回同一完整SHA。

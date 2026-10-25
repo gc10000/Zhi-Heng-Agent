@@ -3,6 +3,7 @@
   "round": 3,
   "review_status": "待审查",
   "baseline_head": "8b0ad61",
+  "submission_commit": "b273f6a66446f9d173cfa6be973a5a18b4e7ead0",
   "scope": ["M5-05", "M5-08", "R2", "R3"],
   "completed": ["M5-01", "M5-02", "M5-03", "M5-04", "M5-05", "M5-07", "M5-08"],
   "deferred": [{"id": "M5-06", "reason": "可选外部MCP未启用、未联调真实凭据"}],

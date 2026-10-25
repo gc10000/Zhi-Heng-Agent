@@ -10,6 +10,8 @@
 
 已完成：R2/R3红测、最小修复、77项定向回归、后端795项阶段回归、既有重导入3项、前端37单元/28离线浏览器及类型/构建；证据和SHA见`M5-submission-r3.md`、`M5-validation-summary-r3.json`、`M5-artifact-manifest-r3.json`。M5状态已更新为待审查，下一动作是总控独立复审；不进入M6。
 
+交付同步：修复与第三轮材料已提交 `b273f6a66446f9d173cfa6be973a5a18b4e7ead0`，正常推送`origin/main`并以`git ls-remote`核对同一完整SHA；工作区仅保留未跟踪`evals/`。
+
 ## M5第二轮总控复审：关闭R1，R2/R3仍需修复
 
 审查9bd4c96与交接dcf3193。第二轮快照在总控文档修改前通过28文件hash/10Python语法/257链接/162本机证据hash核对；独立后端789 passed、2 deselected、0 skipped（559.63秒），既有重导入3项，前端37单元/28离线浏览器及类型/构建通过。首轮R1/R2原反例2通过，实际Vue清空提示与设未知协议探针通过。R1关闭；R2归档占用会话后恢复实际抛RecursionError，R3撤回设备后正式QueryRunner仍从旧会话继承AX-24直接回答，两个新边界探针失败，未包装恢复再次失败。仅使用真实随机测试库与注入模型，未调用供应商。重开M5-05/08，当前M5核心5/7、总核心58/76；仅授权M5内修复与第三轮提交，MCP延期、M6未授权。详见[第二轮总控结论](reviews/M5-review-r2.md)与[独立摘要](reviews/M5-review-validation-r2.json)。JUnit与独立collect-only均499单元/128契约/162集成，提交所写497/128/164须在第三轮更正，不回写旧快照。

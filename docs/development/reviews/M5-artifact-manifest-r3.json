@@ -4,6 +4,7 @@
   "generated_at": "2026-10-25",
   "status": "待审查",
   "source_head_before_submission": "8b0ad61",
+  "submission_commit": "b273f6a66446f9d173cfa6be973a5a18b4e7ead0",
   "excluded": [".env", "evals/", "output/", "evidence/", "课程原件", "模型权重", "运行数据"],
   "evidence": {
     "output/m5-r3-r2-r3-red.txt": "cbe6bffe874bbcd1c044566a14300d771a5dddf3767effa091065da03e4ea710",
