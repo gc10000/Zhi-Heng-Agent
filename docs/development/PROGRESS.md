@@ -6,6 +6,8 @@
 
 审查对象e7571e32a86f309348b6c305d1a51bd76b3b75fd。R1（P1）：多范围/分支候选保序拼接后截前20条，第二产品及成功增强的新证据不能进入重排；三个正式入口独立反例失败，实际dev048与HyDE036追踪也证实。重开M4-03/04/05/10，当前M4 6/10、核心49/76。独立后端698通过/2排除/0跳过，快照134文件/80Python/306链接、前端37单元/24浏览器/类型/构建、既有3及35dev/15heldout真实产物只读通过；详见[独立结论](reviews/M4-review.md)与[摘要](reviews/M4-review-validation.json)。本轮付费0，不进入M5。下一动作：先正式满池红测、修复候选合并、按新版本dev验证并更正实验解释，提交M4-submission-r2；原15heldout不再当新版本未见评价。原提交/快照/evals/output/evidence和课程数据保留不回写，不上传原始产物。
 
+Git接续（2026-10-25）：审查材料提交main `522ec33da6a3b2c9fac7aefc1c0c7e245f8731ff`。正常`git -c http.proxy= -c https.proxy= -c http.lowSpeedLimit=1 -c http.lowSpeedTime=20 push origin main`退出1：github.com:443连接失败（21.111秒），未确认远程同步；只读ls-remote长时间无响应后已停止，不据远程跟踪缓存宣称最新远程SHA。本段随独立接续提交保存，不反复amend；网络恢复后正常push并以ls-remote完整SHA核对。不强推、不改全局代理；当前仅evals/未跟踪，原始产物未暂存。
+
 ## M4执行交付（历史时点，现以首轮总控结论为准）
 
 M4执行自验10/10、核心53/76，M5未授权。阶段材料[提交](reviews/M4-submission.md)、[实际摘要](reviews/M4-validation-summary.json)、[独立快照](reviews/M4-artifact-manifest.json)。完整后端697通过/2排除/0跳过，后续4接线（3重叠）通过，共698唯一用例；既有3、37前端单元/24浏览器/类型/构建均0。七组dev真实检索245题次、35dev完整问答及选定后15heldout全部执行成功；答案流47/澄清3，另4逻辑假设调用，精确HTTP/金额未知。语义缺漏保留，不把执行成功或页命中当答案正确。dev23图/heldout19图完整hash/解码与消息/引用/终态通过，语料不变。人工0，助手抽检dev13/heldout4，人类正确率null。默认保留原加权、关闭扩展/增强/查询缓存。当前main已推送实现5517224和测试/网格2563182，最终材料SHA与推送核头在最终交接补记；evals/及全部原始evidence/output保留且不上传。不进入M5，等待总控独立复核。
