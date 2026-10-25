@@ -4,6 +4,8 @@
   "review_status": "待审查",
   "scope": ["M5-05", "M5-08", "R3"],
   "baseline_head": "7e60d51d498b2a8215894de5485ed5a2aaa5f337",
+  "submission_commit": "a98e12df2082d22e0e99537730fe87fe35aeb083",
+  "remote": "origin/main",
   "completed": ["M5-01", "M5-02", "M5-03", "M5-04", "M5-05", "M5-07", "M5-08"],
   "deferred": [{"id": "M5-06", "reason": "可选外部MCP未启用、未联调真实凭据"}],
   "r3": {

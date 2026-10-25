@@ -4,6 +4,8 @@
   "generated_at": "2026-10-25",
   "status": "待审查",
   "source_head_before_submission": "7e60d51d498b2a8215894de5485ed5a2aaa5f337",
+  "submission_commit": "a98e12df2082d22e0e99537730fe87fe35aeb083",
+  "remote": "origin/main",
   "excluded": [".env", "evals/", "output/", "evidence/", "课程原件", "模型权重", "运行数据"],
   "evidence": {
     "output/m5-r5-r3-red.txt": "759fd500968a080a950ef41af958c1d8b5a7d27d35ef6f6e144381b2f96c0547",
