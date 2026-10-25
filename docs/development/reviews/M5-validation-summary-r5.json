@@ -1,0 +1,31 @@
+{
+  "stage": "M5",
+  "round": 5,
+  "review_status": "待审查",
+  "scope": ["M5-05", "M5-08", "R3"],
+  "baseline_head": "7e60d51d498b2a8215894de5485ed5a2aaa5f337",
+  "completed": ["M5-01", "M5-02", "M5-03", "M5-04", "M5-05", "M5-07", "M5-08"],
+  "deferred": [{"id": "M5-06", "reason": "可选外部MCP未启用、未联调真实凭据"}],
+  "r3": {
+    "red": {"failed": 2, "passed": 7, "exit_code": 1, "evidence": "output/m5-r5-r3-red.txt"},
+    "targeted": {"passed": 84, "exit_code": 0, "database_prefix": "m1_test_m5_r5_targeted"},
+    "behavior": [
+      "新格式撤回后重新确认AX-48，无显式型号继续使用AX-48",
+      "旧r2格式重新确认覆盖历史撤回",
+      "再次撤回仍要求主体澄清",
+      "未确认候选不能解除撤回边界"
+    ]
+  },
+  "stage": {
+    "backend": {"tests": 802, "failures": 0, "errors": 0, "skipped": 0, "deselected": 2, "warnings": 7, "exit_code": 0, "evidence": "output/m5-r5-stage-backend/backend.xml"},
+    "legacy_reimport": {"passed": 3, "exit_code": 0, "evidence": "output/m5-r5-stage-backend/reimport.txt"},
+    "frontend_unit": {"passed": 37, "exit_code": 0, "evidence": "output/m5-r5-stage-frontend/unit.json"},
+    "frontend_browser": {"passed": 28, "skipped": 0, "unexpected": 0, "flaky": 0, "exit_code": 0, "mode": "offline_mock_api", "evidence": "output/m5-r5-stage-frontend/browser.json"},
+    "frontend_typecheck": {"exit_code": 0},
+    "frontend_build": {"exit_code": 0}
+  },
+  "real_artifacts": {"historical_passed": 16, "evidence": "output/m5-r4-live-readonly.json", "new_recheck": {"exit_code": 1, "reason": "历史临时API 127.0.0.1:58277连接拒绝，未生成报告"}, "new_provider_calls": 0},
+  "data_boundary": "仅使用随机m1_test隔离库、注入模型/检索夹具和历史真实产物只读范围；不删除课程原件、知识集合、对象、缓存、原始evidence、output或evals。",
+  "unverified": ["本轮真实HTTP重新启动后的冷启动", "生产规模灾备", "整体答案正确率", "精确SDK费用与HTTP重试计数", "MCP真实凭据", "历史Windows原生模型问题根治"],
+  "next_gate": "等待总控审查M5，不进入M6"
+}

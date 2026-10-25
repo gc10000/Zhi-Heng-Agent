@@ -43,9 +43,12 @@ def subject_withdrawn(snapshot):
     """撤回设备后形成未来轮主体边界，不能由旧历史或唯一目录项补回。"""
     if not snapshot:
         return False
+    device = snapshot.get('slots', {}).get('device', {})
+    # 当前已确认的设备是新的有效主体，不能被更早的撤回历史永久覆盖。
+    if device.get('confirmed') and device.get('value'):
+        return False
     if snapshot.get('subject_withdrawn'):
         return True
-    device = snapshot.get('slots', {}).get('device', {})
     # r2快照没有新增标记，但合法撤回会保留清空后的设备槽位和撤回操作者。
     if (device.get('value') is None and not device.get('confirmed')
             and device.get('source') == 'unknown' and device.get('withdrawn_by')):

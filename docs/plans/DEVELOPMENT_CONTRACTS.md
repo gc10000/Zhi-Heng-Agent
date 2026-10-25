@@ -374,6 +374,8 @@ M5-05第三轮补充：会话归档后，领取/恢复按运行版本CAS置为`i
 
 M5-05第四轮补充：归档worker启动、领取和恢复扫描必须通过同一`EventLedger.emit`以版本CAS原子保存终态、`seq`和outbox，并幂等投递`run.interrupted`；并发冲突只能在确认事件已持久后收敛。r2撤回快照可能缺少`subject_withdrawn`，消费者须识别设备槽位清空及`history.withdrawal.slots=device`，但不得把普通未填写设备误判为撤回。撤回后旧助手历史不参与主体冲突；本轮显式`product_ids`保留并按`explicit_selection`继续，未显式选择仍澄清。旧消息、run、ordinal和草稿不可改写。
 
+M5-05第五轮补充：撤回判定按当前有效事实优先。当前`slots.device.value`非空且`confirmed=true`时，视为用户重新确认的现行主体，即使完整`history`含更早设备撤回也不得重置本轮；当前未知且有撤回操作者、`subject_withdrawn=true`或旧格式明确撤回历史时仍必须澄清。未确认候选不能解除边界，再次`clear_slots=['device']`必须重新触发主体澄清。兼容处理不删除历史、旧run、消息、草稿或ordinal。
+
 
 ### M5-07 反馈与导出
 

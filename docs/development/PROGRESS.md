@@ -1,5 +1,11 @@
 # 开发进度与接续点
 
+## M5第五轮 R3 修复交付：等待总控审查
+
+第四轮仅剩 R3：设备撤回后重新确认 AX-48，当前确认事实仍被历史撤回记录覆盖，正式下一轮重复澄清。先在真实隔离 Mongo、正式 `SupportRepository` + `QueryRunner.execute()` 路径建立红测：新格式和旧 r2 格式各1项失败，7项对照通过，证据 `output/m5-r5-r3-red.txt`，退出码1；中间测试夹具构造错误未计业务红测。最小修复 `app/support/commands.py::subject_withdrawn()` 以当前非空且已确认设备优先，保留当前未知撤回、标记和旧历史兼容；再次撤回及未确认候选仍澄清，不改写历史消息、旧run或草稿。
+
+本轮定向回归 **84 passed**，退出码0。后端阶段新随机库 `m1_test_m4_m5_stage_b8f5932f` 实际 **802 tests、0 failures、0 errors、0 skipped**，另排除2项 `live_provider`；既有重导入 **3 passed**。前端新随机库 `m1_test_m4_m5_stage_4e8011be` typecheck/build退出0，Vitest **37 passed**，离线浏览器 **28 passed、0 skipped/0 unexpected/0 flaky**。原 M5 真实产物历史16项继续只读保留，重查脚本因历史临时API `127.0.0.1:58277` 连接拒绝退出1，未生成新报告/未调用供应商，环境失败已区分记录。新材料为 `M5-submission-r5.md`、`M5-validation-summary-r5.json`、`M5-artifact-manifest-r5.json`；本地提交/远程核对待完成。M5保持“待审查”，M6未授权。
+
 更新日期：2026-10-25。
 
 ## M5第四轮总控独立复审：关闭R2，R3仍需修复

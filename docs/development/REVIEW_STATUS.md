@@ -1,3 +1,7 @@
+## M5第五轮修复交付：待总控审查（2026-10-25）
+
+R3已完成最小修复：当前重新确认的非空已确认设备优先成为主体，旧撤回历史不再永久覆盖；旧 r2 快照兼容、再次撤回和未确认候选边界保留。定向84通过；后端802 tests/0失败/0错误/0跳过（另排除2 live_provider）、重导入3项、前端37单元/28浏览器、类型检查和构建均通过。本轮真实API复核因历史临时端口停止未完成，未新增付费调用；历史16项只读证据保留。M5-05/08已完成执行自验但阶段仍标记待审查，M6未授权。材料见[M5第五轮提交](reviews/M5-submission-r5.md)。
+
 ## M4第2轮总控通过（2026-10-25）
 
 关闭R1，M4 10/10、核心53/76。独立717后端/原3反例/37前端单元/24离线浏览器/既有3、类型/构建、新dev实际输入与缓存/595切片/146冻结字节及历史真实产物只读通过，本轮新增付费0。授权从M5-01至M5-08按依赖连续执行，06可选；M5尚未实现，M6及后续未授权。详见[第2轮结论](reviews/M4-review-r2.md)与[独立摘要](reviews/M4-review-validation-r2.json)。下方提交/首轮结论为历史时点。
@@ -29,7 +33,7 @@ M4执行自验10/10、核心53/76，现提交待审查，未自行标记总控�
 | M2 | 通过 | 第2轮总控接受R1–R3；独立345 passed/2 deselected/0 skipped、既有3项、原产物11检查及补充9检查通过；12/12、核心32/76 | [第二轮总控审查](reviews/M2-review-r2.md) · [第二轮提交](reviews/M2-submission-r2.md) · [第二轮摘要](reviews/M2-validation-summary-r2.json) · [首轮审查](reviews/M2-review.md) |
 | M3 | 通过 | 第2轮总控关闭R1/R2；独立346后端/37单元/24离线浏览器/既有3/只读8及原反例2项、新交错通过；11/11、核心43/76，本轮付费0 | [第二轮总控结论](reviews/M3-review-r2.md) · [独立摘要](reviews/M3-review-validation-r2.json) · [第二轮提交](reviews/M3-submission-r2.md) · [本轮快照](reviews/M3-artifact-manifest-r2.json) · [首轮审查](reviews/M3-review.md) |
 | M4 | 通过 | 第2轮关闭R1，10/10、核心53/76；独立717后端/原3反例/前端37单元24浏览器/既有3/类型/构建、新dev140题次实际输入与诊断、旧真实产物只读通过；本轮新增付费0，未生成新答案/heldout | [第2轮总控结论](reviews/M4-review-r2.md) · [独立摘要](reviews/M4-review-validation-r2.json) · [第二次提交](reviews/M4-submission-r2.md) · [提交快照](reviews/M4-artifact-manifest-r2.json) · [首轮结论](reviews/M4-review.md) |
-| M5 | 需修复 | 第四轮关闭R2，R1保持关闭；R3重新确认新设备后仍被历史撤回重置。05/08保持重开，5/7核心、总核心58/76；06延期，M6未授权 | [第四轮总控](reviews/M5-review-r4.md) · [独立摘要](reviews/M5-review-validation-r4.json) · [第四轮提交](reviews/M5-submission-r4.md) · [第四轮快照](reviews/M5-artifact-manifest-r4.json) · [第三轮总控](reviews/M5-review-r3.md) |
+| M5 | 待审查 | 第五轮已修复R3，R1/R2保持关闭；05/08执行自验完成，核心7/7、总核心60/76；06延期，M6未授权 | [第五轮提交](reviews/M5-submission-r5.md) · [第五轮摘要](reviews/M5-validation-summary-r5.json) · [第五轮快照](reviews/M5-artifact-manifest-r5.json) · [第四轮总控](reviews/M5-review-r4.md) · [第四轮提交](reviews/M5-submission-r4.md) |
 | M6 | 未提交 | 等待前置阶段与总控授权 | 尚无 |
 | M7 | 未提交 | 等待前置阶段与总控授权；不包含自动公开发布 | 尚无 |
 
