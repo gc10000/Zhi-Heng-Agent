@@ -9,7 +9,7 @@ export const router = createRouter({
       { path: 'chat/:conversationId?', name: 'chat', component: () => import('@/features/chat/ChatPage.vue') },
       { path: 'products', component: () => import('@/features/products/ProductsPage.vue') },
       { path: 'documents', component: () => import('@/features/documents/DocumentsPage.vue') },
-      { path: 'cases', component: () => import('./DeferredPage.vue'), props: { title: '处理记录', message: '处理记录尚未开放。请在会话中查看已有问题与依据。' } },
+      { path: 'cases', component: () => import('@/features/cases/CasesPage.vue') },
       { path: 'evaluations', component: () => import('./DeferredPage.vue'), props: { title: '评测工作台', message: '评测管理尚未开放，当前没有可展示的评测结果。' } },
     ] },
     { path: '/:pathMatch(.*)*', redirect: '/chat' },

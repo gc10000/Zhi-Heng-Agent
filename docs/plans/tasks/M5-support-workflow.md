@@ -57,11 +57,11 @@
 **文件：**`app/support/cases.py`; `app/support/api.py`; `frontend/src/features/cases/CasesPage.vue`; `tests/contract/test_case_confirmation.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M5-03.1** 从 run/操作结果生成草稿。
-- [ ] **M5-03.2** 用户修改/确认保存，未知字段显式未知。
-- [ ] **M5-03.3** 记录 owner/版本/引用快照。
-- [ ] **M5-03.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_case_confirmation.py -q。
-- [ ] **M5-03.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M5-03.1** 从 run/操作结果生成草稿。
+- [x] **M5-03.2** 用户修改/确认保存，未知字段显式未知。
+- [x] **M5-03.3** 记录 owner/版本/引用快照。
+- [x] **M5-03.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_case_confirmation.py -q。
+- [x] **M5-03.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**未经确认只为 draft；重新生成不覆盖用户编辑；转交草稿可追溯对应问题和实际结果。
 

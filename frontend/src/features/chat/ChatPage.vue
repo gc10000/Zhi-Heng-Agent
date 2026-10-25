@@ -93,6 +93,7 @@ const showLive = computed(() => run.value && !messages.value.some(m => m.role ==
 <ChatThread :messages="messages" :run="run" :show-live="!!showLive" :busy="commandBusy" @citation="show" @confirm="command('confirm-product',$event)" />
 <button v-if="history.hasNextPage.value" :disabled="history.isFetchingNextPage.value" @click="history.fetchNextPage()">加载更多历史</button>
 <p v-if="run && !showLive && terminal(run.state)" role="status">{{ run.state === 'completed' ? '回答完成' : run.state === 'cancelled' ? '已取消' : '回答未完成' }}</p>
+<RouterLink v-if="run?.state==='completed'" :to="{path:'/cases',query:{conversation:cid,run:run.run_id}}">进入支持流程与处理草稿</RouterLink>
 <button v-if="run && ['failed','interrupted','cancelled'].includes(run.state)" @click="question = run.question">重新提问</button>
 <ProductSelector :model-value="productSelection.selectedId.value" :products="productSelection.options.value" :pending="productSelection.pending.value" :error="productSelection.error.value" :has-more="productSelection.hasMore.value" @update:model-value="productSelection.choose" />
 <ChatComposer v-model="question" :busy="busy" :active="!!run && !terminal(run.state)" :disabled="!restored || history.isPending.value || !productSelection.ready.value" @send="send" @cancel="command('cancel')" /></template>

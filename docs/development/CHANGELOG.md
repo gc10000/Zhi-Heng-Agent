@@ -461,3 +461,10 @@ M4-R1复交验证：完整717、定向89（重叠不累加）、既有3及前端
 新增checklist.py、操作与报告输入契约、support清单/记录API及OperationChecklist.vue。整段原文保留前提风险，引用按精确修订重新授权，默认未试；用户自报追加时间与身份，重生成保持无效状态并去重。
 
 验证：`$env:M1_TEST_DB='m1_test_m5_checklist'`；`.venv/Scripts/python.exe -m pytest tests/integration/test_support_checklist.py -q --tb=short`：红2 failed退出1，绿2 passed退出0；`.venv/Scripts/python.exe -m pytest tests/unit/test_operation_checklist.py -q`：5 passed退出0；`pnpm -C frontend typecheck`退出0。
+
+
+## 2026-10-25 · M5-03
+
+新增cases.py仓储及cases列表/详情/编辑/确认API、CasesPage.vue工作台与问答跳转。run确定草稿ID，重生成保留用户编辑；未知显式未知，support/run/引用/操作各自快照，owner/kb与版本门禁，确认冻结且幂等。
+
+验证：`.venv/Scripts/python.exe -m pytest tests/integration/test_case_persistence.py -q --tb=short`（M1_TEST_DB=m1_test_m5_cases）：红2 failed退出1，绿2 passed退出0；`.venv/Scripts/python.exe -m pytest tests/contract/test_case_confirmation.py -q`：5 passed退出0；`pnpm -C frontend typecheck`退出0；`pnpm -C frontend test:e2e -- support-case.spec.ts`：离线浏览器红1失败、绿1通过，退出1/0。

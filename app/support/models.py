@@ -25,3 +25,15 @@ class OperationReport(BaseModel):
     expected_version: int = Field(ge=0)
     status: Literal['not_tried', 'tried', 'ineffective']
     note: str = Field(min_length=1, max_length=4000)
+
+
+class CaseInput(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    run_id: str = Field(min_length=1, max_length=128)
+    expected_support_version: int = Field(ge=0)
+
+
+class CasePatch(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    expected_version: int = Field(ge=0)
+    fields: dict[Literal['question','device','symptom','environment','error_code','tried','summary','handoff_reason'], str] = Field(max_length=8)

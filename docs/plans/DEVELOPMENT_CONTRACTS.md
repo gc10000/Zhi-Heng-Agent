@@ -348,3 +348,8 @@ GET/POST `/conversations/{cid}/support` 复用登录、CSRF和会话owner/kb授�
 ### M5-02 引用清单
 
 POST `/conversations/{cid}/support/checklist`含expected_version/run_id，必须为本会话完成run，精确资料修订重新授权；整段操作引用摘录保留前提，最多20步骤，无动作证据转交。POST `/conversations/{cid}/support/operations/{oid}`含expected_version/status(not_tried/tried/ineffective)/note，记录服务器UTC时间和user_report来源，修正追加不覆盖。稳定操作身份按会话/资料/修订/切片/原文去重，后续run同证据不重置无效步骤。Vue组件纯文本展示，不执行设备动作。
+
+
+### M5-03 草稿确认
+
+POST /cases接受run_id/expected_support_version，本会话完成run生成幂等draft，字段未知显式未知，快照含run、支持上下文、资料修订与用户自报；同run重复生成返回现存草稿，不覆盖编辑。GET /cases支持cursor/limit；GET/PATCH /cases/{case_id}、POST confirm检查owner/kb与精确引用权限，expected_version CAS。用户编辑追加edits来源与时间，确认后冻结，不允许静默覆盖；相同确认版本重复返回同结果。草稿创建不发送任何消息或设备操作。新增Vue处理记录页，问答完成后可显式进入。
