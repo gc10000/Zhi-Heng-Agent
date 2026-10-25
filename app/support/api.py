@@ -100,6 +100,7 @@ def confirm_case(case_id: str, data: VersionInput, request: Request, user=Depend
 
 
 from .tools import ToolInput
+from .feedback import FeedbackInput
 
 
 @router.post('/conversations/{cid}/support/tools')
@@ -108,3 +109,19 @@ def call_tool(cid: str, data: ToolInput, request: Request, user=Depends(principa
     repository = support(request)
     context = repository.get(user, cid)
     return execute_tool(repository, user, cid, data, scoped_handlers(request, user, cid, context))
+
+
+@router.get('/cases/{case_id}/export')
+def export_case(case_id: str, request: Request, user=Depends(principal)):
+    from .export import export_markdown
+    return export_markdown(authorized_case(request, user, cases(request).get(user, case_id)))
+
+
+@router.post('/feedback', status_code=201)
+def feedback(data: FeedbackInput, request: Request, user=Depends(principal)):
+    from .feedback import save_feedback
+    resources = request.app.state.resources
+    run = resources['runs'].get(user, data.run_id)
+    selected = [c for c in run.get('citations',[]) if c['citation_id'] in data.citation_ids]
+    authorize_citations(request, user, selected)
+    return save_feedback(resources['db'],user,run,data)

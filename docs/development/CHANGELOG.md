@@ -482,3 +482,10 @@ M4-R1复交验证：完整717、定向89（重叠不累加）、既有3及前端
 新增commands.py冻结支持上下文、旧run/context门禁、来源槽位快照；RunRepository准备/领取绑定support版本，历史纠正与自报无效步骤实际进入QueryRunner生成history，旧消息/运行不回写；目录外纠正强制型号澄清，旧证据不得生成新上下文清单。SupportContext.vue提供完整槽位纠正、取消和刷新，草稿未保存编辑禁确认。
 
 验证：`.venv/Scripts/python.exe -m pytest tests/integration/test_support_context_runs.py tests/contract/test_support_resume.py -q --tb=short`：红2 failed/1 passed，绿3 passed，退出1/0。补充红：旧清单1失败（另缺fixture错误单独计，不当业务红）、目录外型号1失败、准备领取窗口1失败，均已修复。最终相关10文件命令见下方，40 passed退出0；前端typecheck退出0、离线浏览器2 passed退出0。
+
+
+## 2026-10-25 · M5-07
+
+新增feedback.py、export.py、反馈/导出API和FeedbackForm.vue。五类反馈绑定本run引用、待审且幂等，不发布知识；只有用户确认快照可导出，重新授权精确修订，Markdown转义动态文本并保留资料版本、自报时间、用户编辑。Vue下载及反馈交互接线。
+
+验证：`.venv/Scripts/python.exe -m pytest tests/integration/test_support_feedback_export.py -q --tb=short`（M1_TEST_DB=m1_test_m5_feedback）：红2失败退出1；首次绿1失败/1通过（UUID过度转义），修复后2 passed退出0。`.venv/Scripts/python.exe -m pytest tests/contract/test_feedback_export.py -q`：7 passed退出0；`pnpm -C frontend typecheck`最终退出0；`pnpm -C frontend test:e2e -- support-case.spec.ts`：3离线浏览器通过退出0。

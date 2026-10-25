@@ -119,11 +119,11 @@
 **文件：**`app/support/feedback.py`; `app/support/export.py`; `frontend/src/features/cases/components/FeedbackForm.vue`; `tests/contract/test_feedback_export.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M5-07.1** 反馈按型号/证据/缺资料/步骤/配图分类。
-- [ ] **M5-07.2** 关联 run/citation。
-- [ ] **M5-07.3** 导出 Markdown 时转义并含资料版本。
-- [ ] **M5-07.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_feedback_export.py -q。
-- [ ] **M5-07.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M5-07.1** 反馈按型号/证据/缺资料/步骤/配图分类。
+- [x] **M5-07.2** 关联 run/citation。
+- [x] **M5-07.3** 导出 Markdown 时转义并含资料版本。
+- [x] **M5-07.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_feedback_export.py -q。
+- [x] **M5-07.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**反馈不自动成为知识；导出只含授权资料；用户编辑和实际操作记录保留。
 

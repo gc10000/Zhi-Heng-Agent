@@ -9,6 +9,7 @@ import type { Page } from '@/lib/api/types'
 import type { Support, CaseRecord } from './types'
 import OperationChecklist from './components/OperationChecklist.vue'
 import SupportContext from './components/SupportContext.vue'
+import FeedbackForm from './components/FeedbackForm.vue'
 const route=useRoute(),auth=useAuthStore(),ui=useUiStore(),cache=useQueryClient()
 const cid=computed(()=>String(route.query.conversation||'')),rid=computed(()=>String(route.query.run||''))
 const scope=computed(()=>[auth.user?.user_id||'',auth.kb])
@@ -25,6 +26,7 @@ let epoch=0
 watch(()=>[...scope.value,cid.value,rid.value],()=>{epoch++;caseId.value='';error.value='';Object.keys(edits).forEach(k=>delete edits[k])})
 watch(()=>record.data.value, value=>{Object.keys(edits).forEach(k=>delete edits[k]);if(value)Object.assign(edits,value.fields)})
 async function perform(action:()=>Promise<void>){if(busy.value)return;busy.value=true;error.value='';const generation=epoch;try{await action()}catch(e){if(generation===epoch)error.value=(e as Error).message}finally{busy.value=false}}
+async function refresh(){await records.refetch();if(cid.value)await support.refetch();if(caseId.value)await record.refetch()}
 async function change(path:string,fields:Record<string,unknown>){const current=support.data.value;if(!current||support.isFetching.value||support.error.value)return;const key=[...supportKey.value],generation=epoch;
   const updated=await api.post<Support>(`/conversations/${encodeURIComponent(cid.value)}/support${path}`,{expected_version:current.version,...fields});
   if(generation===epoch)cache.setQueryData(key,updated)
@@ -36,10 +38,14 @@ async function confirm(){if(!record.data.value)return;const old=record.data.valu
 const dirty=computed(()=>!!record.data.value&&JSON.stringify(edits)!==JSON.stringify(record.data.value.fields))
 const ended=computed(()=>!!support.data.value&&['handoff','resolved','cancelled'].includes(support.data.value.state))
 const toolQuery=ref('')
+const feedbackStatus=ref(''),exported=ref('')
+watch(()=>[caseId.value,...scope.value],()=>{feedbackStatus.value='';exported.value=''})
+async function feedback(value:unknown){await api.post('/feedback',value);feedbackStatus.value='反馈已保存为待审，尚未进入知识库。'}
+async function download(){if(!record.data.value)return;const generation=epoch;const data=await api.request<{filename:string;markdown:string}>('/cases/'+record.data.value.case_id+'/export');if(generation!==epoch)return;exported.value=data.markdown;const url=URL.createObjectURL(new Blob([data.markdown],{type:'text/markdown;charset=utf-8'}));const anchor=document.createElement('a');anchor.href=url;anchor.download=data.filename;anchor.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 </script>
 <template><section class="cases-page"><h1>处理记录</h1><p>建议、用户自报与已确认记录分别留痕。转交草稿不会自动发送给他人。</p>
 <p v-if="error||support.error.value||records.error.value||record.error.value" role="alert">{{error||support.error.value?.message||records.error.value?.message||record.error.value?.message}}</p>
-<button :disabled="busy" @click="perform(async()=>{await Promise.all([records.refetch(),...(cid?[support.refetch()]:[]),...(caseId?[record.refetch()]:[])])})">刷新服务状态</button>
+<button :disabled="busy" @click="perform(refresh)">刷新服务状态</button>
 <section v-if="cid&&support.data.value" aria-label="当前支持流程">
 <SupportContext :context="support.data.value" :busy="busy" :run-id="rid" @save="values=>perform(()=>change('',{...(!support.data.value?.run_id&&rid?{run_id:rid}:{}),values,confirmed:true}))" @action="action=>perform(()=>change('',{action}))" />
 <button v-if="rid&&support.data.value.run_id&&rid!==support.data.value.run_id" :disabled="busy||ended" @click="perform(()=>change('',{run_id:rid}))">关联本轮新回答</button>
@@ -57,5 +63,7 @@ const toolQuery=ref('')
 <label v-for="(_,key) in record.data.value.fields" :key="key">{{{question:'问题',device:'设备',symptom:'现象',environment:'环境',error_code:'错误码',tried:'已尝试',summary:'处理摘要',handoff_reason:'转交原因'}[key]||key}}<textarea v-model="edits[key]" :disabled="busy||record.data.value.status==='confirmed'" maxlength="16000" /></label>
 <template v-if="record.data.value.status==='draft'"><button :disabled="busy||!dirty" @click="perform(save)">保存用户编辑</button><button :disabled="busy||dirty" @click="perform(confirm)">确认保存当前服务端草稿</button><p>请先保存编辑，再确认；确认冻结服务端版本。</p></template>
 <p v-else>确认时间：{{record.data.value.confirmed_at}}</p>
+<button v-if="record.data.value.status==='confirmed'" :disabled="busy" @click="perform(download)">导出已确认 Markdown</button><pre v-if="exported" aria-label="导出内容">{{exported}}</pre>
 <OperationChecklist :operations="record.data.value.operations" :busy="true" @citation="citation" />
+<FeedbackForm :run-id="record.data.value.run_id" :citations="record.data.value.citations" :busy="busy" @submit="value=>perform(()=>feedback(value))" /><p v-if="feedbackStatus" role="status">{{feedbackStatus}}</p>
 </article></section></template>

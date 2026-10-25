@@ -363,3 +363,8 @@ POST /conversations/{cid}/support/tools：expected_version、tool(lookup_product
 ### M5-05 跨轮支持快照
 
 新run在prepare保存input_support_version及有界support_snapshot（确认槽位/最新报告/操作来源，不复制全部工作流历史），preparing→会话领取同时CAS支持版本，间隙纠正返回409、不得生成用户消息。已领取run保持旧快照；纠正只进入未来run的产品计划/生成history，已报无效不重复。目录外纠正必须澄清，不借目录唯一项自动确认。取消/解决后不继承支持快照。关联新完成回答检查snapshot.context_version，历史无support_snapshot回答仅首次绑定；清单只允许本次绑定时槽位或同版本新run。更改已确认槽位要求未来问答取新证据，旧run/消息/已保存草稿快照不改写。
+
+
+### M5-07 反馈与导出
+
+POST /feedback：run_id/citation_ids/category(model/evidence/missing_material/operation/image)/note/client_request_id，owner由登录身份授予；仅同run已授权引用，幂等不同内容409，状态pending_review，不自动生成资料或执行审核。GET /cases/{case_id}/export仅confirmed且全部精确资料修订重新授权，返回{filename,markdown,case_version}供浏览器本地下载。动态文本转义Markdown/HTML，不把用户文本变成图片/链接/脚本；导出含修订、来源、用户编辑、原操作建议和自报时间。无对外发送。
