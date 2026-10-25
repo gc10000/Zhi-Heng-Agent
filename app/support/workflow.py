@@ -66,4 +66,3 @@ def advance(current, data, *, at, run=None):
         row['state'] = {'handoff': 'handoff', 'resolve': 'resolved', 'cancel': 'cancelled'}[data.action]
         row['reason'] = 'user_' + data.action
     return decide(row)
-

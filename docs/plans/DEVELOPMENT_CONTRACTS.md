@@ -343,3 +343,8 @@ M4-03接口数字边界补充：仅有限已知接口前缀且紧随接口/端�
 GET/POST `/conversations/{cid}/support` 复用登录、CSRF和会话owner/kb授权。POST含expected_version、values（question/device/symptom/environment/error_code/tried）、confirmed、action(update/handoff/resolve/cancel)、可选本会话已完成run_id。单文档会话support.version CAS，独立context_version及历史快照，不改写消息ordinal、旧run或资料修订。状态awaiting_input/ready/handoff/resolved/cancelled；一次只问一个必要槽位，最多3轮补充，候选不当事实，缺证据/无进展转交。未输入环境/错误码保留未知；action=resolve仅用户自报解决，不代表系统验证设备。run引用快照不自动确认型号或实际操作，后续消费须重新授权精确修订。
 
 计划最小调整：补充repository.py和API接线以满足等待持久化及进程重建验收，仍复用既有Mongo单文档能力，不引入checkpointer或新服务。M5-05再连接跨轮上下文和迟到run版本校验。
+
+
+### M5-02 引用清单
+
+POST `/conversations/{cid}/support/checklist`含expected_version/run_id，必须为本会话完成run，精确资料修订重新授权；整段操作引用摘录保留前提，最多20步骤，无动作证据转交。POST `/conversations/{cid}/support/operations/{oid}`含expected_version/status(not_tried/tried/ineffective)/note，记录服务器UTC时间和user_report来源，修正追加不覆盖。稳定操作身份按会话/资料/修订/切片/原文去重，后续run同证据不重置无效步骤。Vue组件纯文本展示，不执行设备动作。

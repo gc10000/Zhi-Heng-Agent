@@ -454,3 +454,10 @@ R1–R3定向通过，完整阶段345 passed、2 deselected、0 skipped（180单
 完整dev检索发现Cellular-Ethernet2/0接口被当未知设备而澄清；四种合成接口正式红测后最小识别明确端口语境，仍拒绝显式陌生型号和AX近型号。35定向通过，旧实验/失败保留，后续新版本重测，不修改gold/目录或heldout。
 
 M4-R1复交验证：完整717、定向89（重叠不累加）、既有3及前端37/24/类型/构建通过；新四组各35dev真实检索完成、另60秒单题诊断1次，总逻辑invoke 5/stream 0，无新答案或heldout，原真实产物只读保持。阶段10/10仅执行自验，待总控复审。
+
+
+## 2026-10-25 · M5-02
+
+新增checklist.py、操作与报告输入契约、support清单/记录API及OperationChecklist.vue。整段原文保留前提风险，引用按精确修订重新授权，默认未试；用户自报追加时间与身份，重生成保持无效状态并去重。
+
+验证：`$env:M1_TEST_DB='m1_test_m5_checklist'`；`.venv/Scripts/python.exe -m pytest tests/integration/test_support_checklist.py -q --tb=short`：红2 failed退出1，绿2 passed退出0；`.venv/Scripts/python.exe -m pytest tests/unit/test_operation_checklist.py -q`：5 passed退出0；`pnpm -C frontend typecheck`退出0。

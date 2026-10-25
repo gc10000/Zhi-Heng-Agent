@@ -38,3 +38,16 @@ class SupportRepository:
             raise APIError(409, 'support_run_unavailable', '仅能关联本会话已完成的回答。')
         return self.save(user, cid, current, advance(current, data, at=now(), run=run))
 
+    def editable(self, user, cid, expected_version):
+        row = self.get(user, cid)
+        if row['version'] != expected_version:
+            raise APIError(409, 'version_conflict', '支持上下文已改变，请刷新后重试。')
+        if row['state'] in {'resolved', 'cancelled'}:
+            raise APIError(409, 'support_terminal', '已结束的支持流程不能继续添加操作。')
+        return row
+
+    def completed_run(self, user, cid, rid):
+        row = self.runs.get(user, rid)
+        if row['conversation_id'] != cid or row['state'] != 'completed':
+            raise APIError(409, 'support_run_unavailable', '仅能关联本会话已完成的回答。')
+        return row

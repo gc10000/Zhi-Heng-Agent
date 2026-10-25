@@ -13,3 +13,15 @@ class SupportInput(BaseModel):
     action: Literal['update', 'handoff', 'resolve', 'cancel'] = 'update'
     run_id: str | None = Field(default=None, max_length=128)
 
+
+class ChecklistInput(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    expected_version: int = Field(ge=0)
+    run_id: str = Field(min_length=1, max_length=128)
+
+
+class OperationReport(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    expected_version: int = Field(ge=0)
+    status: Literal['not_tried', 'tried', 'ineffective']
+    note: str = Field(min_length=1, max_length=4000)

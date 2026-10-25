@@ -42,11 +42,11 @@
 **文件：**`app/support/checklist.py`; `frontend/src/features/cases/components/OperationChecklist.vue`; `tests/unit/test_operation_checklist.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M5-02.1** 步骤含前提、引用、风险提示和用户自报结果。
-- [ ] **M5-02.2** 允许标记未试/已试/无效。
-- [ ] **M5-02.3** 保留实际记录时间。
-- [ ] **M5-02.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_operation_checklist.py -q。
-- [ ] **M5-02.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M5-02.1** 步骤含前提、引用、风险提示和用户自报结果。
+- [x] **M5-02.2** 允许标记未试/已试/无效。
+- [x] **M5-02.3** 保留实际记录时间。
+- [x] **M5-02.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_operation_checklist.py -q。
+- [x] **M5-02.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**AI 建议与执行事实分开；每个具体操作可追溯；后续追问不重复无效步骤。
 
