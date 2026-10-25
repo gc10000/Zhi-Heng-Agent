@@ -4,7 +4,7 @@
   "review_status": "待审查",
   "branch": "main",
   "baseline_commit": "f1cd675df936d88eb8b14b72857a0f06d4b6acb7",
-  "pre_submission_head": "f1cd675df936d88eb8b14b72857a0f06d4b6acb7",
+  "pre_submission_head": "9bd4c9659961c018a387a97b6bcd6e240aa3f4bc",
   "completed": [
     "M5-01",
     "M5-02",

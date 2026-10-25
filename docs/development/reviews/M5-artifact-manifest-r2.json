@@ -2,7 +2,7 @@
   "notice": "M5执行提交快照，不代表总控通过；原始证据仅留本机。",
   "summary": "docs/development/reviews/M5-validation-summary-r2.json",
   "baseline_commit": "f1cd675",
-  "pre_submission_head": "f1cd675df936d88eb8b14b72857a0f06d4b6acb7",
+  "pre_submission_head": "9bd4c9659961c018a387a97b6bcd6e240aa3f4bc",
   "file_count": 28,
   "python_syntax_files": 10,
   "checked_markdown_links": 257,
@@ -44,8 +44,8 @@
     },
     {
       "path": "docs/development/CHANGELOG.md",
-      "sha256": "7114b4d08e607687b45d236642c411d87bb683e12fe7dd66ec1eb44239a2d347",
-      "bytes": 62369
+      "sha256": "b247f8d3d1e27a499936c6036a90f7948bb88aefdc6884d9a9721aa4a7317462",
+      "bytes": 62534
     },
     {
       "path": "docs/development/DECISIONS.md",
@@ -54,13 +54,13 @@
     },
     {
       "path": "docs/development/PROGRESS.md",
-      "sha256": "2d481f8caf87c048bddf6dcc53b767c26d2d3beb3e49767f146e7d6b5fa4c5f5",
-      "bytes": 40651
+      "sha256": "df4f073e09c323b415d3c718edb04860f62d42a0d363a6ca0263377440012db5",
+      "bytes": 40721
     },
     {
       "path": "docs/development/REVIEW_STATUS.md",
-      "sha256": "9ac08583a556016b7508da30f469880b3ed00179fc580e2a38097f5adc68a1e2",
-      "bytes": 14289
+      "sha256": "041e42b043ddebe192255b60addeb4ea3b5c1592a000ac55beea16635c2fb201",
+      "bytes": 14427
     },
     {
       "path": "docs/development/records/M5-02.md",
@@ -74,17 +74,17 @@
     },
     {
       "path": "docs/development/records/M5-08.md",
-      "sha256": "5bf2c84057b4144133994b7266c57595d25fd7dd435d53306a4f47ce6656a0c0",
-      "bytes": 9780
+      "sha256": "df5b43030cca101ee183dbe4f8cf2d1b3dca8a46c79b74c26817b3bf51bfe2ba",
+      "bytes": 9826
     },
     {
       "path": "docs/development/reviews/M5-submission-r2.md",
-      "sha256": "0332bdba119b6674d425fdcd93a6cb46ec25258925cc2da3c08878cdbe59fb80",
-      "bytes": 6619
+      "sha256": "8f4bb0f709e98d626634a267bc779c68e1bd6e9a582d5a7ae21f263a84e3f430",
+      "bytes": 6701
     },
     {
       "path": "docs/development/reviews/M5-validation-summary-r2.json",
-      "sha256": "2d59d503466900f6f408cd8111adca1dd4d9d6478cbd1098001f824604deb01d",
+      "sha256": "589e50b288b5051e8aaa9a852525b73688f4ff4e4ef2d79f6cedc1a800238ae3",
       "bytes": 32591
     },
     {
@@ -99,8 +99,8 @@
     },
     {
       "path": "docs/plans/tasks/M5-support-workflow.md",
-      "sha256": "48ac4caef862de159480d762d0eba95a158c95fae8c577322fbd1c942b2e8160",
-      "bytes": 12137
+      "sha256": "571d51feb40d3d1acab39095dcb99ee046117512cff34fb8a99ee5d55492aaa0",
+      "bytes": 12124
     },
     {
       "path": "docs/runbooks/support-recovery.md",

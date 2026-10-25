@@ -54,6 +54,6 @@
 
 ## Git 交接与后续
 
-本轮基线为 `f1cd675df936d88eb8b14b72857a0f06d4b6acb7`，分支 `main`；manifest 记录提交前 HEAD 与基线相同。暂存时排除 `.env`、模型、课程原件、运行数据、原始 `evidence/`、`output/` 和 `evals/`；最终提交 SHA、推送结果及远程核头在交接回复补记，不强推。
+本轮基线为 `f1cd675df936d88eb8b14b72857a0f06d4b6acb7`，分支 `main`；修复提交 `9bd4c9659961c018a387a97b6bcd6e240aa3f4bc` 已正常推送，`origin/main` 远程核头一致。manifest 保留提交前源码/文档快照。暂存时排除 `.env`、模型、课程原件、运行数据、原始 `evidence/`、`output/` 和 `evals/`，不强推；本次补记只更新交接文档和快照。
 
 下一步由总控独立复审本材料和新 manifest。**等待总控审查 M5；不进入 M6。**
