@@ -9,6 +9,7 @@ QUESTIONS = {'question': '请描述需要解决的问题。', 'device': '请确�
 def initial():
     return {'version': 0, 'context_version': 0, 'state': 'awaiting_input', 'requested_slot': 'question',
             'prompt': QUESTIONS['question'], 'reason': 'missing_slot', 'rounds': 0, 'no_progress': 0,
+            'subject_withdrawn': False,
             'slots': {s: {'value': None, 'confirmed': False, 'source': 'unknown'} for s in SLOTS},
             'citations': [], 'run_id': None, 'history': [], 'operations': [], 'tool_calls': []}
 
@@ -60,9 +61,13 @@ def advance(current, data, *, at, run=None, user_id=None):
         old = row['slots'][key]
         progress |= data.confirmed and (old['value'] != value or not old['confirmed'])
         row['slots'][key] = {'value': value, 'confirmed': data.confirmed, 'source': 'user_report' if data.confirmed else 'unconfirmed', 'recorded_at': at}
+        if key == 'device' and data.confirmed:
+            row['subject_withdrawn'] = False
     for key in data.clear_slots:
         row['slots'][key] = {'value': None, 'confirmed': False, 'source': 'unknown',
                              'recorded_at': at, 'withdrawn_by': user_id}
+        if key == 'device':
+            row['subject_withdrawn'] = True
         progress = True
     if data.clear_slots:
         row['history'][-1]['withdrawal'] = {'slots': list(data.clear_slots), 'source': 'user_request',

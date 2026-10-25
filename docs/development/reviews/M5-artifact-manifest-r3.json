@@ -1,0 +1,27 @@
+{
+  "stage": "M5",
+  "round": 3,
+  "generated_at": "2026-10-25",
+  "status": "待审查",
+  "source_head_before_submission": "8b0ad61",
+  "excluded": [".env", "evals/", "output/", "evidence/", "课程原件", "模型权重", "运行数据"],
+  "evidence": {
+    "output/m5-r3-r2-r3-red.txt": "cbe6bffe874bbcd1c044566a14300d771a5dddf3767effa091065da03e4ea710",
+    "output/m5-r3-targeted-green.txt": "74227aabe6e3e1561b2da00f9da9ea88f042fc10d0b4aace81268e382df8598d",
+    "output/m5-r3-targeted-config-error.txt": "fd6448630e8ca48c681060a401f414da3669b113dab1305cfc7e45dbfff9e562",
+    "output/m5-r3-stage-backend/commands.json": "f7761b23994d9e3b0d25e884e7ed5d6dd333f521f28d4c5815d6be797ae55840",
+    "output/m5-r3-stage-backend/backend.xml": "62d311ab9db87a783f708d39639817d6e52ed027cafa57f004d9b9e26849c521",
+    "output/m5-r3-stage-frontend/commands.json": "435415d653bb43ea75ee45f76694e5d8263ed4119c92c5b2e59408afb9040af3",
+    "output/m5-r3-stage-frontend/unit.json": "c4fce2a185e3ac67810ba7acb280d03558e78f38519ecb210a3d67b5c4871af9",
+    "output/m5-r3-stage-frontend/browser.json": "e23db67350bfbc11d5b5a7f1e875609071f5ed9e93ddb293bc308d03e5d74f60"
+  },
+  "tracked_scope": [
+    "app/runs/repository.py", "app/runs/commands.py", "app/runs/query_runner.py",
+    "app/retrieval/query_planner.py", "app/support/commands.py", "app/support/workflow.py",
+    "tests/integration/test_support_claim_recovery.py", "tests/integration/test_support_query_context.py",
+    "tests/unit/test_query_plans.py", "tests/unit/test_support_workflow.py",
+    "docs/development/records/M5-05.md", "docs/development/records/M5-08.md",
+    "docs/runbooks/support-recovery.md", "docs/plans/DEVELOPMENT_CONTRACTS.md"
+  ],
+  "integrity_note": "本manifest只登记本轮可复核证据路径和SHA256；不替换r1/r2快照，不将本地output列入Git提交。"
+}

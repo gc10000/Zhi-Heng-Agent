@@ -127,11 +127,19 @@ class QueryRunner:
             for pid in selected:
                 g.product(user, pid, row['kb_id'])
             from app.retrieval.query_planner import plan_query
-            from app.support.commands import product_context
+            from app.support.commands import product_context, subject_withdrawn
             support_ids = product_context(current.get('support_snapshot'), products)
+            withdrawn_subject = subject_withdrawn(current.get('support_snapshot'))
             plan_messages = self._recent_messages(user, current)
             planning_question = row['question']
-            if support_ids is not None and not current.get('requested_product_ids'):
+            context_reset = False
+            if withdrawn_subject and not current.get('requested_product_ids') and not current.get('resumed_at'):
+                # 设备主体已被用户撤回；本轮没有显式型号时，旧助手快照、旧选择和
+                # 唯一目录项都不能重新确认主体，交由计划器返回澄清。
+                selected = []
+                plan_messages = []
+                context_reset = True
+            elif support_ids is not None and not current.get('requested_product_ids'):
                 # 显式用户纠正构成新的主体边界，不用旧助手型号将其覆盖。
                 selected = list(support_ids)
                 plan_messages = []
@@ -139,7 +147,7 @@ class QueryRunner:
                     planning_question = '型号：' + current['support_snapshot']['slots']['device']['value'] + '\n' + row['question']
             plan = plan_query(planning_question, products, selected_ids=selected,
                 requested_ids=current.get('requested_product_ids', current['input_product_snapshot']['product_ids']),
-                messages=plan_messages, confirmed=bool(current.get('resumed_at')),
+                messages=plan_messages, confirmed=bool(current.get('resumed_at')), context_reset=context_reset,
                 candidate_search=self._product_candidates)
             plan = plan.model_copy(update={'original_query': row['question']})
             emit('stage.changed', {'stage': 'product', 'reason': plan.reason}, fields={'query_plan': plan.model_dump(mode='json')})

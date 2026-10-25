@@ -16,7 +16,7 @@ M4执行自验10/10、核心53/76，现提交待审查，未自行标记总控�
 
 # 阶段审查与开发授权
 
-更新日期：2026-10-25。角色：开发会话实现与自验；原规划会话负责独立审查。M0至M4已通过总控审查；M5第二轮关闭R1，R2/R3仍需修复，重开M5-05/08，当前5/7核心、总核心58/76；仅授权M5内修复与第三轮提交。M5-06可选延期，M6及后续阶段未授权。审查开始已独立核对dcf3193本地与远程一致，最终审查文档同步由交接回复补记。
+更新日期：2026-10-25。角色：开发会话实现与自验；原规划会话负责独立审查。M0至M4已通过总控审查；M5第三轮R2/R3已完成执行自验，R1保持关闭，M5-05/08材料待总控复审，当前核心7/7（总核心60/76）；仅授权M5内修复与第三轮提交。M5-06可选延期，M6及后续阶段未授权。第三轮后端795 passed/2 deselected/0 skipped，既有重导入3项，前端37单元/28离线浏览器及类型/构建通过；本轮付费0。审查文档由总控复核后再更新为通过。
 
 开发任务验收与总控审查是两个状态：任务按实际证据勾选，阶段审查单独记录。下一阶段实现需要前置验收通过，并且得到本页的总控授权；同一阶段内无需每个任务重新申请。
 
@@ -29,7 +29,7 @@ M4执行自验10/10、核心53/76，现提交待审查，未自行标记总控�
 | M2 | 通过 | 第2轮总控接受R1–R3；独立345 passed/2 deselected/0 skipped、既有3项、原产物11检查及补充9检查通过；12/12、核心32/76 | [第二轮总控审查](reviews/M2-review-r2.md) · [第二轮提交](reviews/M2-submission-r2.md) · [第二轮摘要](reviews/M2-validation-summary-r2.json) · [首轮审查](reviews/M2-review.md) |
 | M3 | 通过 | 第2轮总控关闭R1/R2；独立346后端/37单元/24离线浏览器/既有3/只读8及原反例2项、新交错通过；11/11、核心43/76，本轮付费0 | [第二轮总控结论](reviews/M3-review-r2.md) · [独立摘要](reviews/M3-review-validation-r2.json) · [第二轮提交](reviews/M3-submission-r2.md) · [本轮快照](reviews/M3-artifact-manifest-r2.json) · [首轮审查](reviews/M3-review.md) |
 | M4 | 通过 | 第2轮关闭R1，10/10、核心53/76；独立717后端/原3反例/前端37单元24浏览器/既有3/类型/构建、新dev140题次实际输入与诊断、旧真实产物只读通过；本轮新增付费0，未生成新答案/heldout | [第2轮总控结论](reviews/M4-review-r2.md) · [独立摘要](reviews/M4-review-validation-r2.json) · [第二次提交](reviews/M4-submission-r2.md) · [提交快照](reviews/M4-artifact-manifest-r2.json) · [首轮结论](reviews/M4-review.md) |
-| M5 | 需修复 | 第二轮关闭R1；R2归档后恢复递归至RecursionError，R3撤回设备后旧型号重入正式计划。05/08重开，5/7核心、总核心58/76；06延期，本轮付费0，M6未授权 | [第二轮总控](reviews/M5-review-r2.md) · [独立摘要](reviews/M5-review-validation-r2.json) · [第二轮提交](reviews/M5-submission-r2.md) · [第二轮快照](reviews/M5-artifact-manifest-r2.json) · [首轮总控](reviews/M5-review.md) |
+| M5 | 待审查 | 第三轮已修复R2归档恢复递归与R3撤回设备主体重入；R1保持关闭，核心7/7、总核心60/76；M5-06延期，M6未授权 | [第二轮总控](reviews/M5-review-r2.md) · [第三轮提交](reviews/M5-submission-r3.md) · [第三轮摘要](reviews/M5-validation-summary-r3.json) · [第三轮快照](reviews/M5-artifact-manifest-r3.json) · [首轮总控](reviews/M5-review.md) |
 | M6 | 未提交 | 等待前置阶段与总控授权 | 尚无 |
 | M7 | 未提交 | 等待前置阶段与总控授权；不包含自动公开发布 | 尚无 |
 

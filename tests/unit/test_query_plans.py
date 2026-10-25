@@ -106,6 +106,12 @@ def test_general_context_reset_does_not_resurrect_old_conversation_selection(dir
     assert plan.route == 'clarify' and not plan.product_ids
 
 
+def test_explicit_context_reset_does_not_auto_select_single_catalog_model(directory):
+    plan = plan_query('它具体如何供电', directory[:1], selected_ids=['a'], context_reset=True)
+    assert plan.route == 'clarify' and plan.reason == 'model_required_after_context_reset'
+    assert plan.product_ids == () and plan.candidates == ('a',)
+
+
 def test_unknown_foreign_model_does_not_silently_reuse_old_device(directory):
     plan = plan_query('ZZ99如何供电', directory, selected_ids=['a'])
     assert plan.route == 'clarify' and not plan.product_ids

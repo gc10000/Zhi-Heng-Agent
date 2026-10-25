@@ -8,6 +8,7 @@ def freeze_support(conversation):
     if not context or context['state'] in {'cancelled', 'resolved'}:
         return None
     row = {key: deepcopy(context[key]) for key in ('version','context_version','state','slots','run_id')}
+    row['subject_withdrawn'] = bool(context.get('subject_withdrawn'))
     row['operations'] = [{key: deepcopy(step[key]) for key in ('operation_id','suggestion','status','citation_ids')} |
                          {'reports': deepcopy(step['reports'][-1:])} for step in context['operations']]
     return row
@@ -34,3 +35,8 @@ def product_context(snapshot, products):
     from app.products.resolver import resolve_catalog
     result = resolve_catalog(device['value'], products)
     return result.exact if len(result.exact) == 1 and not result.unknown_tokens else ()
+
+
+def subject_withdrawn(snapshot):
+    """撤回设备后形成未来轮主体边界，不能由旧历史或唯一目录项补回。"""
+    return bool(snapshot and snapshot.get('subject_withdrawn'))

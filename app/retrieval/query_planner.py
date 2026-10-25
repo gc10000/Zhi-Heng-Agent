@@ -5,7 +5,8 @@ from app.products.resolver import resolve_catalog
 from .models import QueryPlan
 
 
-def plan_query(question, products, *, selected_ids=(), requested_ids=(), messages=(), confirmed=False, candidate_search=None):
+def plan_query(question, products, *, selected_ids=(), requested_ids=(), messages=(), confirmed=False,
+               context_reset=False, candidate_search=None):
     directory = {p['product_id']: p for p in products}
     if not set(selected_ids) <= directory.keys() or not set(requested_ids) <= directory.keys():
         raise ValueError('输入选择不在当前授权产品目录')
@@ -46,7 +47,8 @@ def plan_query(question, products, *, selected_ids=(), requested_ids=(), message
     if re.search(r'不限定型号|不指定型号|所有设备|所有型号|通用问题', question):
         return finish((), 'general', 'explicit_general')
     if resolution.series: return finish(resolution.series, 'series', 'catalog_series')
-    recent, context_reset = recent_product_context(messages, directory)
+    recent, history_reset = recent_product_context(messages, directory)
+    context_reset = context_reset or history_reset
     if not recent and not context_reset:
         # 老历史若未记录型号快照，仅信任用户自己明确说出的单一目录型号。
         for message in reversed(messages):

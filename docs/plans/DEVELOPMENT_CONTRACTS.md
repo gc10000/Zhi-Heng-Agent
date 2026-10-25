@@ -370,6 +370,8 @@ POST /conversations/{cid}/support/tools：expected_version、tool(lookup_product
 
 恢复补偿区分占用CAS：准备run若上下文改变且active_run_id不等于自身，保留版本门禁、不得写消息；若该指针已指向本run，表示领取CAS已成功，恢复以不可变旧support_snapshot补齐claimed和幂等用户消息。精确匹配自身占用，不能覆盖其他run。未占用的过期prepare即使版本冲突也继续执行pending超时，终止后不释放其他run。重复/并发恢复不重跑模型。
 
+M5-05第三轮补充：会话归档后，领取/恢复按运行版本CAS置为`interrupted`并记录`conversation_archived`，精确释放自身占用；扫描继续处理其他会话，迟到旧run不能清理新run。支持聚合的设备撤回保存`subject_withdrawn=true`，未来run无显式型号时将该标记传给QueryPlan作为主体重置边界，禁止旧助手快照、旧会话选择和唯一目录项自动恢复；显式新型号仍走目录精确确认。
+
 
 ### M5-07 反馈与导出
 

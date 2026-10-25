@@ -72,6 +72,12 @@ def test_explicit_clear_marks_confirmed_slot_unknown_and_records_previous_value(
     assert cleared['context_version'] == row['context_version'] + 1
     assert cleared['needs_evidence'] is True
     assert cleared['state'] == 'awaiting_input' and cleared['reason'] == 'needs_fresh_evidence'
+    device_cleared = advance(row, SupportInput(expected_version=row['version'], clear_slots=['device']),
+                             at='2026-10-25T00:01:00Z', user_id='operator')
+    assert device_cleared['subject_withdrawn'] is True
+    restored = advance(device_cleared, SupportInput(expected_version=device_cleared['version'], values={'device': 'AX-25'}),
+                        at='2026-10-25T00:02:00Z', user_id='operator')
+    assert restored['subject_withdrawn'] is False
 
 
 def test_clear_rejects_unconfirmed_duplicate_or_conflicting_slot_changes():

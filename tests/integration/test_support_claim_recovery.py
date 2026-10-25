@@ -5,6 +5,7 @@ from datetime import timedelta
 import pytest
 from app.api.errors import APIError
 from app.conversations.repository import ConversationRepository
+from app.conversations.models import ConversationPatch
 from app.runs.commands import RunCommands
 from app.runs.events import EventLedger, utcnow
 from app.runs.models import RunInput
@@ -123,3 +124,57 @@ def test_parallel_recovery_of_occupied_old_snapshot_is_idempotent(support_client
     assert all(row['claim_state'] == 'claimed' for row in rows)
     assert resources['db'].messages.count_documents({'run_id': prepared['run_id'], 'role': 'user'}) == 1
     assert resources['conversations'].get(user, cid)['active_run_id'] == prepared['run_id']
+
+
+def test_archived_occupied_preparing_run_is_terminated_without_blocking_scan(support_client, monkeypatch):
+    resources, user, cid, support, prepared = setup(support_client)
+    stop_after_occupation(resources, user, prepared, monkeypatch)
+    archived = resources['conversations'].patch(user, cid, ConversationPatch(expected_version=0, archived=True))
+    assert archived['archived'] is True
+
+    repo, commands = rebuild(resources, lambda: utcnow() + timedelta(hours=1))
+    direct = repo.reconcile(user, prepared['run_id'])
+    assert direct['state'] == 'interrupted'
+    # 归档后的占用不能再次进入同一 reconcile 递归；恢复扫描应收敛并释放自身占用。
+    commands.recover()
+    row = repo.get(user, prepared['run_id'])
+    assert row['state'] == 'interrupted'
+    assert repo.conversations.get(user, cid)['active_run_id'] is None
+    assert repo.db.messages.count_documents({'run_id': prepared['run_id']}) == 0
+
+
+def test_archived_run_does_not_stop_recovery_of_another_conversation(support_client, monkeypatch):
+    resources, user, cid, support, prepared = setup(support_client)
+    stop_after_occupation(resources, user, prepared, monkeypatch)
+    resources['conversations'].patch(user, cid, ConversationPatch(expected_version=0, archived=True))
+
+    from app.conversations.models import ConversationInput
+    other_cid = resources['conversations'].create(user, ConversationInput(kb_id='k'))['conversation_id']
+    other = resources['runs'].prepare(user, other_cid, RunInput(question='另一账本', kb_id='k', client_request_id='other-recovery'))
+    repo, commands = rebuild(resources, lambda: utcnow() + timedelta(hours=1))
+    recovered = commands.recover()
+
+    assert prepared['run_id'] in recovered
+    assert other['run_id'] in recovered
+    assert repo.get(user, prepared['run_id'])['state'] == 'interrupted'
+    assert repo.get(user, other['run_id'])['state'] == 'interrupted'
+    assert repo.conversations.get(user, cid)['active_run_id'] is None
+    assert repo.conversations.get(user, other_cid)['active_run_id'] is None
+
+
+def test_archived_claimed_pending_run_is_terminal_and_recovery_is_idempotent(support_client):
+    resources, user, cid, support, prepared = setup(support_client)
+    claimed = resources['run_service'].create(user, cid,
+        RunInput(question='已领取后归档', kb_id='k', client_request_id='claimed-archive'))
+    assert claimed['state'] == 'pending'
+    archived = resources['conversations'].patch(user, cid, ConversationPatch(expected_version=0, archived=True))
+    assert archived['archived'] is True
+
+    repo, commands = rebuild(resources, lambda: utcnow() + timedelta(hours=1))
+    commands.recover()
+    commands.recover()
+    row = repo.get(user, claimed['run_id'])
+    assert row['state'] == 'interrupted' and row['error']['code'] == 'conversation_archived'
+    assert row['claim_state'] == 'rejected'
+    assert repo.conversations.get(user, cid)['active_run_id'] is None
+    assert repo.db.messages.count_documents({'run_id': claimed['run_id'], 'role': 'user'}) == 1

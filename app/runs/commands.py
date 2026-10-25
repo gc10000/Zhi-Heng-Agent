@@ -97,6 +97,21 @@ class RunCommands:
             if not self._recoverable_scope(row):
                 continue
             user = Principal(user_id=row['owner_id'], username='运行恢复', role='viewer', kb_ids=(row['kb_id'],))
+            conversation = self.repo.conversations.conversations.find_one(
+                {'conversation_id': row['conversation_id'], 'owner_id': row['owner_id'], 'kb_id': row['kb_id']},
+                {'archived': 1})
+            if conversation and conversation.get('archived'):
+                try:
+                    self.events.emit(user, row['run_id'], 'run.interrupted',
+                        {'reason': 'conversation_archived'}, state='interrupted',
+                        fields={'claim_state': 'rejected',
+                                'error': {'code': 'conversation_archived', 'stage': 'recovery'}},
+                        expected_version=row['version'], expected_states={row['state']})
+                    recovered.append(row['run_id'])
+                except APIError as exc:
+                    if exc.status != 409:
+                        raise
+                continue
             if row['state'] == 'pending':
                 try:
                     row = self.repo.reconcile(user, row['run_id'])

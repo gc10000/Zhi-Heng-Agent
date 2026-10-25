@@ -237,3 +237,7 @@ M5使用原已验收M3供应商产物先只读复核，再仅将隔离登记/历
 ## ADR-054：preparing恢复按占用所有权分流（M5首轮复审）
 
 上下文版本门禁只拒绝未占用的准备run。active_run_id已经CAS指向本run但claim标志/首条消息未写时，run拥有有效领取权，可用不可变旧快照完成幂等补偿；不覆盖纠正后的新上下文。未占用旧prepare即使版本冲突也继续pending期限扫描，到期进入终态。release条件精确匹配run_id，不得清理后续run占用。恢复不执行/重试模型。
+
+## ADR-055：归档恢复终态与设备主体撤回边界（M5第三轮）
+
+总控复审发现归档会话仍保留`active_run_id`时，领取CAS必因`archived=false`失败，旧实现通过自递归重试并最终阻断恢复扫描；撤回设备后旧助手快照/会话选择又可能覆盖当前未知主体。选择在`RunRepository`中按运行版本CAS将归档活动run收敛为`interrupted`，错误码为`conversation_archived`，释放条件仍精确匹配自身run；`RunCommands.recover`对归档账本走同一幂等终态并继续扫描。支持聚合新增`subject_withdrawn`，由`clear_slots=['device']`设置、显式新设备确认清除；QueryRunner将其映射为`context_reset`，计划器在没有本轮型号时只返回澄清。替代方案是捕获`RecursionError`、清空历史或依赖前端排序，均不能证明状态收敛和跨入口主体边界。影响M5-05/08、运行恢复、查询计划及契约/手册；回滚只撤回终态分流和边界消费者，保留历史快照和撤回记录。正式红绿及阶段回归见`records/M5-05.md`、`records/M5-08.md`。

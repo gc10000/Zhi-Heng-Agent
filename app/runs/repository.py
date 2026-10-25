@@ -58,14 +58,16 @@ class RunRepository:
 
     def reconcile(self, user, rid):
         row = self.get(user, rid)
-        if row['claim_state'] == 'rejected':
-            raise APIError(409, 'conversation_busy', '会话已有未结束的运行。')
         if row['state'] in TERMINAL:
             self.release(row)
             return row
+        if row['claim_state'] == 'rejected':
+            raise APIError(409, 'conversation_busy', '会话已有未结束的运行。')
         cid = row['conversation_id']
         # 新轮领取前先物化上一轮终态消息；失败保留原占用，可用同请求恢复。
         conversation = self.conversations.get(user, cid)
+        if conversation.get('archived'):
+            return self._interrupt_archived(row)
         # active_run_id 已是本run时，说明prepare后的领取CAS已成功，只是进程在
         # 写claimed/首条消息前退出。此时继续用不可变旧快照补齐协议；不能撤回用户事实，
         # 也不能让新上下文版本永久卡住已经持有的run。
@@ -95,7 +97,23 @@ class RunRepository:
                 return current
             latest = self.conversations.get(user, cid)
             if latest.get('active_run_id') == rid:
-                return self.reconcile(user, rid)
+                if latest.get('archived'):
+                    return self._interrupt_archived(current)
+                # CAS可能因并发写入短暂失败，但自身占用指针已经成立；直接完成
+                # preparing->claimed和幂等用户消息，不以递归重试放大恢复故障。
+                if current.get('claim_state') == 'preparing':
+                    self.runs.update_one({'run_id': rid, 'version': current['version'],
+                                          'claim_state': 'preparing'},
+                                         {'$set': {'claim_state': 'claimed'}, '$inc': {'version': 1}})
+                    current = self.get(user, rid)
+                    if current['state'] in TERMINAL:
+                        self.release(current)
+                        return current
+                    self.conversations.append_message(
+                        user, cid, run_id=rid, role='user', text=current['question'],
+                        product_snapshot=current.get('input_product_snapshot', current['product_snapshot']))
+                    return self.get(user, rid)
+                return current
             if (row['claim_state'] == 'preparing' and 'input_support_version' in row
                     and row['input_support_version'] != latest.get('support', {}).get('version', 0)):
                 raise APIError(409, 'support_context_changed', '支持上下文已改变，请用新请求标识重建运行。')
@@ -111,6 +129,19 @@ class RunRepository:
         self.conversations.append_message(user, cid, run_id=rid, role='user', text=row['question'],
                                           product_snapshot=row.get('input_product_snapshot', row['product_snapshot']))
         return self.get(user, rid)
+
+    def _interrupt_archived(self, row):
+        """归档会话不再领取运行，使用版本CAS收敛并只清理自身占用。"""
+        result = self.runs.update_one(
+            {'run_id': row['run_id'], 'version': row['version'],
+             'state': {'$nin': list(TERMINAL)}},
+            {'$set': {'state': 'interrupted', 'claim_state': 'rejected',
+                      'error': {'code': 'conversation_archived', 'stage': 'claim'}},
+             '$inc': {'version': 1}})
+        current = self.runs.find_one({'run_id': row['run_id']}) or row
+        if current['state'] in TERMINAL:
+            self.release(current)
+        return current
 
     def release(self, row):
         # 重新读取事实，不能以调用者持有的旧快照跳过完成消息。
