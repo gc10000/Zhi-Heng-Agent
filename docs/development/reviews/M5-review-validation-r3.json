@@ -1,0 +1,472 @@
+{
+  "date": "2026-10-25",
+  "reviewed_commit": "b273f6a66446f9d173cfa6be973a5a18b4e7ead0",
+  "handoff_commit": "d283aac1332860ae216b83272b43a42aa6cee6b6",
+  "statistics_commit_and_head": "65cf4b5e7d7b3a22d1b5eb74dbb4e11cff4ec0f2",
+  "baseline_commit": "8b0ad6140dc36c64de53bbe934db5512d2f351e6",
+  "conclusion": "需修复",
+  "closed_findings": [
+    "R1"
+  ],
+  "accepted_paths": [
+    "R2原归档恢复不再递归且释放自身",
+    "R3当前新格式撤回后不带型号会澄清",
+    "R3问题文本明确写新型号可执行",
+    "原R1完整聚合授权仍通过"
+  ],
+  "remaining_blocking_findings": [
+    {
+      "id": "R2",
+      "priority": 2,
+      "file": "app/runs/repository.py",
+      "line": 137,
+      "reason": "_interrupt_archived直接CAS写终态，缺少seq/outbox/终态事件；新实例恢复不能补投",
+      "worker_actual": {
+        "state": "interrupted",
+        "seq": 0,
+        "events": [],
+        "active_run_id": null,
+        "answer": ""
+      },
+      "public_api_actual": {
+        "snapshot_status": 200,
+        "snapshot_state": "interrupted",
+        "events_status": 200,
+        "events_body": ""
+      },
+      "client_impact_limit": "现有Vue断流后读快照可以收敛，不主张永久卡死；持久事件协议仍不一致"
+    },
+    {
+      "id": "R3",
+      "priority": 2,
+      "file": "app/support/commands.py",
+      "line": 11,
+      "reason": "新增标记对旧r2合法撤回格式缺省false，设备重新从旧历史进入答案；新格式显式产品选择仍受旧历史冲突",
+      "legacy_fixture_notice": "只在随机库去掉r3新增字段，保留r2全部撤回业务字段，复现升级前合法格式",
+      "legacy_actual": {
+        "state": "completed",
+        "route": "answer",
+        "reason": "confirmed_context",
+        "planned_device": "AX-24",
+        "withdrawn_value": null,
+        "has_withdrawal_record": true,
+        "new_flag_in_snapshot": false
+      },
+      "explicit_selection_actual": {
+        "state": "awaiting_input",
+        "route": "clarify",
+        "reason": "selection_context_conflict",
+        "requested": [
+          "be70269a-c620-451b-b262-2833ce98f8c7"
+        ]
+      },
+      "selection_file": "app/runs/query_runner.py",
+      "selection_line": 136
+    }
+  ],
+  "progress": {
+    "m5_core_completed": 5,
+    "m5_core_total": 7,
+    "core_completed": 58,
+    "core_total": 76,
+    "optional_completed": 0,
+    "optional_total": 2
+  },
+  "authorization": {
+    "tasks": "仅M5内R2/R3修复与第四轮提交，保留R1和已通过路径",
+    "reopened": [
+      "M5-05",
+      "M5-08"
+    ],
+    "mcp": "延期",
+    "m6_authorized": false,
+    "business_implementation_this_turn": false
+  },
+  "submitted_snapshot": {
+    "mode": "r3自定义证据manifest逐项hash加独立Git差异快照",
+    "manifest": {
+      "path": "docs/development/reviews/M5-artifact-manifest-r3.json",
+      "bytes": 1912,
+      "sha256": "60c8ac4b55c9c2e1676c36de4c77253529c5de089f11e4e7929a8f6a3bf8fba7"
+    },
+    "registered_evidence_hashed": 8,
+    "files_audited": 23,
+    "python_syntax_files": 10,
+    "local_links": 260,
+    "secret_scan_passed": true,
+    "checked_before_review_document_edits": true,
+    "schema_notice": "原manifest没有files或baseline_commit；标准校验接口缺base而退出2。随后按当前结构独立验证，不将退出2当业务失败或伪称标准快照校验通过。"
+  },
+  "backend": {
+    "passed": 795,
+    "collected": 797,
+    "deselected": 2,
+    "skipped": 0,
+    "warnings": 7,
+    "pytest_seconds": 558.08,
+    "junit_seconds": 558.069,
+    "executed_composition": {
+      "unit": 500,
+      "contract": 128,
+      "integration": 167
+    },
+    "selected_collection_composition": {
+      "unit": 500,
+      "contract": 128,
+      "integration": 167
+    },
+    "submitted_collected_composition": {
+      "unit": 500,
+      "contract": 128,
+      "integration": 169
+    },
+    "classification_notice": "169集成收集项含2排除，实际167集成通过；完整执行795。隔离服务与注入模型不等于供应商端到端。",
+    "commands": [
+      {
+        "name": "backend",
+        "command": [
+          "D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\.venv\\Scripts\\python.exe",
+          "-m",
+          "pytest",
+          "tests/unit",
+          "tests/contract",
+          "tests/integration",
+          "-m",
+          "not live_provider",
+          "-q",
+          "--tb=short",
+          "--junitxml=D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\output\\m5-review-r3-backend\\backend.xml"
+        ],
+        "exit_code": 0,
+        "seconds": 565.015
+      },
+      {
+        "name": "reimport",
+        "command": [
+          "D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\.venv\\Scripts\\python.exe",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "test",
+          "-p",
+          "test_document_reimport.py",
+          "-v"
+        ],
+        "exit_code": 0,
+        "seconds": 10.797
+      }
+    ]
+  },
+  "reimport": {
+    "passed": 3,
+    "exit_code": 0
+  },
+  "frontend": {
+    "unit_passed": 37,
+    "unit_failed": 0,
+    "browser": {
+      "startTime": "2026-10-25T11:32:39.531Z",
+      "duration": 41929.14,
+      "expected": 28,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "commands": [
+      {
+        "name": "typecheck",
+        "command": [
+          "C:\\Users\\10426\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.CMD",
+          "-C",
+          "frontend",
+          "typecheck"
+        ],
+        "exit_code": 0,
+        "seconds": 4.735
+      },
+      {
+        "name": "unit",
+        "command": [
+          "C:\\Users\\10426\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.CMD",
+          "-C",
+          "frontend",
+          "exec",
+          "vitest",
+          "run",
+          "--reporter=json",
+          "--outputFile=D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\output\\m5-review-r3-frontend\\unit.json"
+        ],
+        "exit_code": 0,
+        "seconds": 6.5
+      },
+      {
+        "name": "build",
+        "command": [
+          "C:\\Users\\10426\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.CMD",
+          "-C",
+          "frontend",
+          "build"
+        ],
+        "exit_code": 0,
+        "seconds": 6.859
+      },
+      {
+        "name": "browser",
+        "command": [
+          "C:\\Users\\10426\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.CMD",
+          "-C",
+          "frontend",
+          "exec",
+          "playwright",
+          "test",
+          "--reporter=list,json",
+          "--output=D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\output\\m5-review-r3-frontend\\browser-artifacts"
+        ],
+        "exit_code": 0,
+        "seconds": 43.985
+      }
+    ],
+    "browser_mode": "离线API协议与合成资产"
+  },
+  "independent_probes": {
+    "original": {
+      "passed": 4,
+      "deselected": 1,
+      "exit_code": 0,
+      "selection": "not handoff"
+    },
+    "previous_unwrapped_recursion": {
+      "passed": 1,
+      "exit_code": 0,
+      "notice": "仅将输出路径改到新目录，保留原失败证据"
+    },
+    "new_first_group": {
+      "passed": 1,
+      "failed": 3,
+      "errors": 0,
+      "exit_code": 1,
+      "control_passed": "归档扫描正常产生唯一终态事件"
+    },
+    "new_followup": {
+      "passed": 0,
+      "failed": 2,
+      "deselected": 4,
+      "exit_code": 1,
+      "selection": "r2_persisted or public_sse"
+    },
+    "new_unique_tests": 6,
+    "new_failed": 5,
+    "business_findings": 2,
+    "mode": "真实随机Mongo与实际QueryRunner/commands/公开HTTP，模型端口注入；付费0"
+  },
+  "readonly_live": {
+    "m5": {
+      "passed": true,
+      "mode": "real_m5_api_browser_artifacts_read_only",
+      "checks": {
+        "source_mongo_unchanged": true,
+        "historical_supplier_artifacts_preserved": true,
+        "persistent_handoff_not_resolved": true,
+        "reports_user_sourced_append_only": true,
+        "new_formal_run_completed_with_exact_answer": true,
+        "future_run_frozen_user_results": true,
+        "one_completed_new_query_two_setup_failures_preserved": true,
+        "new_answer_message_and_citations_exact": true,
+        "unique_terminal_and_stream_answer": true,
+        "confirmation_and_user_edits_preserved": true,
+        "case_has_original_operations_and_unknown_fields": true,
+        "download_exact_authorized_confirmed_snapshot": true,
+        "feedback_pending_and_run_bound": true,
+        "draft_does_not_publish_knowledge": true,
+        "case_citations_match_real_index_and_sources": true,
+        "original_real_http_sha256": true
+      },
+      "new_formal_queries": 3,
+      "setup_failed_before_retrieval": 2,
+      "logical_answer_generations": 1,
+      "exact_sdk_http_calls": null,
+      "exact_cost": null,
+      "recheck_provider_calls": 0,
+      "human_quality_rating": null
+    },
+    "m5_check_count": 16,
+    "m5_exit_code": 0,
+    "freshly_reexecuted": true,
+    "new_paid_model_calls_this_review": 0,
+    "historical_m5_answer_generations": 1,
+    "prior_m3": "本轮未重跑；沿用第二轮已说明的7/8及24h事件TTL到期边界，不声称新8/8",
+    "prior_m3_reference": {
+      "path": "docs/development/reviews/M5-review-validation-r2.json",
+      "bytes": 16590,
+      "sha256": "4b39ba080a3c12ea2cdc8d1653306f491b6ff82d3c651816b0ae1484531a19e2"
+    }
+  },
+  "git": {
+    "remote_main_verified_at_review_start": false,
+    "read_results": [
+      "只读ls-remote连接超时300秒",
+      "再次直连github.com:443约21秒失败"
+    ],
+    "user_reported_remote_main": "65cf4b5e7d7b3a22d1b5eb74dbb4e11cff4ec0f2",
+    "final_review_commit_and_push": "最终交接回复记录实际提交/推送与核头结果，不循环amend"
+  },
+  "raw_evidence": [
+    {
+      "path": "output/m5-review-r3-probes/submission-audit.json",
+      "bytes": 4477,
+      "sha256": "9fbb5e857925648ea980765a943e95c7ec19fb04ee9bab24021948da7aa553d8"
+    },
+    {
+      "path": "output/m5-review-r3-backend/commands.json",
+      "bytes": 996,
+      "sha256": "335a0a5690741060d1dd98abf99dda1d64e2e167b2fbee80417b0254ddc7e8b2"
+    },
+    {
+      "path": "output/m5-review-r3-backend/backend.xml",
+      "bytes": 117979,
+      "sha256": "9f586ddf43ced62062478bee5bd11b6a00dfd9a60b7f39dd51d064275b87428d"
+    },
+    {
+      "path": "output/m5-review-r3-backend/backend.txt",
+      "bytes": 2326,
+      "sha256": "5d8c7a4e5f42e39d93beb4e703ae241696f187151194aeee5e6757b904b32055"
+    },
+    {
+      "path": "output/m5-review-r3-backend/reimport.txt",
+      "bytes": 546,
+      "sha256": "17565ef8c692e036da1bfa7aeb4df46ee12d2255cf37aeabe07203350639414d"
+    },
+    {
+      "path": "output/m5-review-r3-backend/collection.txt",
+      "bytes": 86522,
+      "sha256": "b891038e106b14fd197cb445715b7215ca064f53b1405f00c2521fbf15ad2d9f"
+    },
+    {
+      "path": "output/m5-review-r3-frontend/commands.json",
+      "bytes": 1620,
+      "sha256": "946c951817cff43d20bf512847705576f70134e119798c147c3f78b9cff843f9"
+    },
+    {
+      "path": "output/m5-review-r3-frontend/unit.json",
+      "bytes": 12246,
+      "sha256": "d835aded9d6dde0139a1936e227928194d61bd8a558c56c1ca1c6324efb096a2"
+    },
+    {
+      "path": "output/m5-review-r3-frontend/browser.json",
+      "bytes": 33039,
+      "sha256": "61e19dbf7de4788641da5bb75a1c3c79338a23fc3685556cbe964b32f52bd626"
+    },
+    {
+      "path": "output/m5-review-r3-original.xml",
+      "bytes": 855,
+      "sha256": "775ca5de719767846a80f2bc57ff0d9b8a308c6f3ed267e19eaad467c987530b"
+    },
+    {
+      "path": "output/m5-review-r3-original.txt",
+      "bytes": 223,
+      "sha256": "06a1596103eb8650ec151cbcb53963bcb17a7c7b22f01a046c2ed2363d4f4f22"
+    },
+    {
+      "path": "output/m5-review-probes/test_support_review.py",
+      "bytes": 4842,
+      "sha256": "6b599737f71f108bcdb5563cdb5dce137b76ab8731504c30716ba08c10100093"
+    },
+    {
+      "path": "output/m5-review-r2-probes/test_remaining_boundaries.py",
+      "bytes": 3832,
+      "sha256": "e081a9eed21c24666bebd0044b99216bf47d20ccd7ce2e76ec54b5d6f75bda37"
+    },
+    {
+      "path": "output/m5-review-r3-probes/test_previous_recursion.py",
+      "bytes": 1984,
+      "sha256": "4741d4e1ab12b27553b314e64fd671d10369448d41052df25ee953b2c4e3f764"
+    },
+    {
+      "path": "output/m5-review-r3-probes/previous-recursion.json",
+      "bytes": 178,
+      "sha256": "eb2fafaf1fc4f547b4d5c8d2629601198e4203250c422dae01c94a946e846a8c"
+    },
+    {
+      "path": "output/m5-review-r3-probes/previous-recursion.xml",
+      "bytes": 394,
+      "sha256": "717d3197ada50022a02ee352ed9b1a7bcd75688d79e31c1ddbc0f94db680d356"
+    },
+    {
+      "path": "output/m5-review-r3-probes/previous-recursion.txt",
+      "bytes": 225,
+      "sha256": "6261b31cdcee4f7263a11f5c6c73ba98130c8ca5a49396ce5ed29582e02c0ba6"
+    },
+    {
+      "path": "output/m5-review-r3-probes/test_terminal_and_withdrawal.py",
+      "bytes": 8368,
+      "sha256": "274a86f487a5f6282ce8fd4ba761dc660ef8658672415e2a4b3462d6a432c6ee"
+    },
+    {
+      "path": "output/m5-review-r3-probes/new-boundaries.xml",
+      "bytes": 3239,
+      "sha256": "c8026b8dfd618773717d5b5096d68047a130f7f0d0d4f70ff8dbab9d24f5b12c"
+    },
+    {
+      "path": "output/m5-review-r3-probes/new-boundaries.txt",
+      "bytes": 2782,
+      "sha256": "4de8ebb9fdffb5b7b8ccbd35e7152f787564846ff1dd5a6f374a04104b4c76c0"
+    },
+    {
+      "path": "output/m5-review-r3-probes/followup.xml",
+      "bytes": 1887,
+      "sha256": "24655dfd73c7f786b688b851da68051d75788ffecb92fc86b4199219c2dfd95c"
+    },
+    {
+      "path": "output/m5-review-r3-probes/followup.txt",
+      "bytes": 2216,
+      "sha256": "6fe836924ec0381e7299fa65bbeebd27e67fad2e413c90f13c95ea1542983377"
+    },
+    {
+      "path": "output/m5-review-r3-probes/archive-worker-terminal.json",
+      "bytes": 103,
+      "sha256": "1923f986ef71a64e80259d5cde1bd61e007e6668d5e284cd155e3a54503eaee6"
+    },
+    {
+      "path": "output/m5-review-r3-probes/archive-public-events.json",
+      "bytes": 113,
+      "sha256": "3e6eb350c8cbcb4ca4f2bfb63a1ba052875c454c5a3e595aa7a7c71ffaf707bf"
+    },
+    {
+      "path": "output/m5-review-r3-probes/withdrawal-legacy-state.json",
+      "bytes": 210,
+      "sha256": "65a7694caadee621a126e9150931cc27abbbd9c1ca4a0513daacecaaa99c022c"
+    },
+    {
+      "path": "output/m5-review-r3-probes/withdrawal-new-selection.json",
+      "bytes": 167,
+      "sha256": "d764b3a5d0feb9b4d99cd5f6f9fce513b495e6ef42cfb540c715bee6f66d01a3"
+    },
+    {
+      "path": "output/m5-review-r3-probes/recheck_live.py",
+      "bytes": 1208,
+      "sha256": "7c083ba9fe256108867b826690b0c5c6602882af69a089a6fe09059b009e6651"
+    },
+    {
+      "path": "output/m5-review-r3-probes/live-recheck.txt",
+      "bytes": 829,
+      "sha256": "0adb7afd483a9459620ac693fcf09165022eb0397e2842b95e9fa6cecaa5323f"
+    },
+    {
+      "path": "output/m5-review-r3-live-readonly.json",
+      "bytes": 1831,
+      "sha256": "49d64caa30d121038cfa1863de15fd4510860d60ce776110c12735aa88477d12"
+    },
+    {
+      "path": "output/m5-review-r3-probes/build_review_summary.py",
+      "bytes": 11971,
+      "sha256": "c4b1091c107a00cb72941dc0273f1913489d4934718daa1b0abf8801838d7ca2"
+    }
+  ],
+  "limitations": [
+    "仅审查与文档修改，未修业务源码；原始output/evidence/evals均保留本机",
+    "没有新增付费调用、真实浏览器全流程、dev/heldout或质量提升结论",
+    "通过路径不因新增边界失败而被抹去，阶段回归通过也不替代新增反例",
+    "执行77定向及10补充是提交侧报告；本轮独立原探针与新边界另行计数"
+  ]
+}
