@@ -2,6 +2,12 @@
 
 更新日期：2026-10-25。
 
+## M5第四轮修复交付：等待总控审查
+
+仅处理M5-05、M5-08的R2/R3。先以真实隔离Mongo正式入口复现3项业务失败：归档worker启动`seq=0`且无`run.interrupted`、r2撤回快照复活旧型号、撤回后显式新选择触发旧主体冲突；红测证据`output/m5-r4-r2-r3-red.txt`，退出1。修复后同组定向70 passed，退出0；阶段后端798 passed/2 deselected/0 skipped/7 warnings，既有重导入3 passed；前端37单元/28离线浏览器、类型检查和构建均退出0。原M5隔离账本只读16项通过，复核调用0，脚本配置/连接错误不计业务红测。
+
+源码改动：`app/runs/repository.py`、`app/runs/commands.py`统一归档终态事件账本及并发幂等核验；`app/support/commands.py`保留撤回历史并识别r2格式；`app/runs/query_runner.py`隔离旧历史同时接受本轮显式型号；测试新增归档事件、旧格式和显式选择反例。证据和新r4摘要/manifest不覆盖前三轮。下一步提交并推送，保持M5“待审查”，等待总控审查M5，不进入M6。
+
 ## M5第三轮总控独立复审：原反例通过，R2/R3仍需修复
 
 审查实现b273f6a、交接d283aac及统计更正65cf4b5。R1保持关闭，首两轮原探针4通过，未包装归档递归另1通过；接受归档有界收敛及当前新格式撤回后无型号澄清。但新增边界6用例5失败/1对照通过：归档worker启动直接写interrupted却无事件/outbox，公开SSE为空且恢复不能补投；r2合法撤回格式缺新标记会重继承AX-24，新格式明确product_ids仍受旧历史冲突。重开M5-05/08，当前5/7核心、总核心58/76；仅M5内修复与第四轮提交，M6未授权。详见[第三轮总控](reviews/M5-review-r3.md)和[独立摘要](reviews/M5-review-validation-r3.json)。

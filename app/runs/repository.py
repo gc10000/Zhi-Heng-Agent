@@ -131,17 +131,34 @@ class RunRepository:
         return self.get(user, rid)
 
     def _interrupt_archived(self, row):
-        """归档会话不再领取运行，使用版本CAS收敛并只清理自身占用。"""
-        result = self.runs.update_one(
-            {'run_id': row['run_id'], 'version': row['version'],
-             'state': {'$nin': list(TERMINAL)}},
-            {'$set': {'state': 'interrupted', 'claim_state': 'rejected',
-                      'error': {'code': 'conversation_archived', 'stage': 'claim'}},
-             '$inc': {'version': 1}})
-        current = self.runs.find_one({'run_id': row['run_id']}) or row
-        if current['state'] in TERMINAL:
-            self.release(current)
-        return current
+        """归档会话不再领取运行，终态和可重放事件必须同一CAS写入。"""
+        ledger = getattr(self, '_event_ledger', None)
+        if ledger is None:
+            from app.runs.events import EventLedger
+            ledger = EventLedger(self)
+            self._event_ledger = ledger
+        user = Principal(user_id=row['owner_id'], username='归档运行恢复', role='viewer', kb_ids=(row['kb_id'],))
+        try:
+            ledger.emit(user, row['run_id'], 'run.interrupted', {'reason': 'conversation_archived'},
+                        state='interrupted',
+                        fields={'claim_state': 'rejected',
+                                'error': {'code': 'conversation_archived', 'stage': 'claim'}},
+                        expected_version=row['version'], expected_states={row['state']})
+        except APIError as exc:
+            if exc.status != 409:
+                raise
+            current = self.runs.find_one({'run_id': row['run_id']})
+            if not current or current['state'] not in TERMINAL:
+                raise
+            # 并发恢复只能观察到同一CAS留下的outbox/事件；缺失时暴露不变量破坏，
+            # 不能把“终态已存在”误当作事件已经补投。
+            persisted = (current.get('outbox') or [])
+            persisted = any(event.get('type') == 'run.interrupted' for event in persisted)
+            persisted = persisted or self.db.run_events.find_one(
+                {'run_id': row['run_id'], 'type': 'run.interrupted'}) is not None
+            if not persisted:
+                raise RuntimeError('归档终态缺少run.interrupted事件') from exc
+        return self.runs.find_one({'run_id': row['run_id']}) or row
 
     def release(self, row):
         # 重新读取事实，不能以调用者持有的旧快照跳过完成消息。

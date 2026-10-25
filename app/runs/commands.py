@@ -22,6 +22,8 @@ class ConfirmInput(VersionInput):
 class RunCommands:
     def __init__(self, repo, events, *, lease_seconds=60, input_wait_seconds=86400, pending_seconds=300, clock=utcnow):
         self.repo, self.events, self.clock = repo, events, clock
+        # 仓储的归档领取路径也必须使用同一个事件账本，避免worker启动与扫描分叉。
+        self.repo._event_ledger = events
         self.lease_seconds, self.input_wait_seconds, self.pending_seconds = lease_seconds, input_wait_seconds, pending_seconds
 
     def start(self, user, rid):

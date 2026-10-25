@@ -128,10 +128,10 @@
 - [x] **M5-02** [引用绑定操作清单](tasks/M5-support-workflow.md#m5-02) · 依赖：M5-01 · R1修复：清单变更前完整聚合授权，撤权零写入
 - [x] **M5-03** [处理记录与转交草稿](tasks/M5-support-workflow.md#m5-03) · 依赖：M5-02
 - [x] **M5-04** [有限工具注册与执行预算](tasks/M5-support-workflow.md#m5-04) · 依赖：M5-01
-- [ ] **M5-05** [澄清恢复与上下文纠正](tasks/M5-support-workflow.md#m5-05) · 依赖：M5-03,M5-04 · 第三轮总控：补归档终态事件、旧撤回格式与显式新选择边界
+- [x] **M5-05** [澄清恢复与上下文纠正](tasks/M5-support-workflow.md#m5-05) · 依赖：M5-03,M5-04 · 第四轮执行自验通过，待总控审查关闭R2/R3
 - [ ] **M5-06** [官方网页 MCP 工具（可选）](tasks/M5-support-workflow.md#m5-06) · 依赖：M5-04,M4-09
 - [x] **M5-07** [反馈分类与草稿导出](tasks/M5-support-workflow.md#m5-07) · 依赖：M5-03
-- [ ] **M5-08** [M5 阶段验收](tasks/M5-support-workflow.md#m5-08) · 依赖：M5-05,M5-07 · 保留R1与已通过原反例，关闭R2/R3遗漏后第四轮提交
+- [x] **M5-08** [M5 阶段验收](tasks/M5-support-workflow.md#m5-08) · 依赖：M5-05,M5-07 · 第四轮阶段自验通过，待总控审查
 
 ### M6 · 评测、质量中心与反馈闭环
 

@@ -1,0 +1,50 @@
+{
+  "stage": "M5",
+  "round": 4,
+  "generated_at": "2026-10-25",
+  "status": "待审查",
+  "source_head_before_submission": "b273f6a66446f9d173cfa6be973a5a18b4e7ead0",
+  "submission_commit": null,
+  "excluded": [
+    ".env",
+    "evals/",
+    "output/",
+    "evidence/",
+    "课程原件",
+    "模型权重",
+    "运行数据"
+  ],
+  "evidence": {
+    "output/m5-r4-r2-r3-red.txt": "794ac7b24d4ee569adbbeb15e6bcd837454ed8726a32d3fe1cd161dc505c6b12",
+    "output/m5-r4-r2-r3-green.xml": "63162254c2232c3ab907a24d8df7361c56df6204fa799fd86336071e366dacd1",
+    "output/m5-r4-stage-backend/commands.json": "2d3f51c5ca549b601c78deddb4dfca9e53e0ec0a6695cafa1b2647bab9d96280",
+    "output/m5-r4-stage-backend/backend.xml": "066356da543b29e60d0d77f3ab45dcf0d129db9b34429f322b399e5b4f7f77d4",
+    "output/m5-r4-stage-backend/reimport.txt": "f1493c52302b02256599b51c497d1bfcfdcd1065b8b2c888cdf885c99b6a47af",
+    "output/m5-r4-stage-frontend/commands.json": "ab83dc468e2e6c7ce72cac4ce736ef1e7f29e2f9baca47495a051397b72f9686",
+    "output/m5-r4-stage-frontend/unit.json": "ab9f53f1065c774f88d2dab300d92c273446efe2a709f45db6add0c6323176a8",
+    "output/m5-r4-stage-frontend/browser.json": "fc0aceee6c819b4d4f1cdce5cd7a1b5faed564fd53418e2355200cfdb8d78e40",
+    "output/m5-r4-live-readonly.json": "f5c2aa6ee42875c4512a528e54c4f65c4610b3a2074da078d0a2953feb42df93"
+  },
+  "tracked_scope": [
+    "app/runs/repository.py",
+    "app/runs/commands.py",
+    "app/runs/query_runner.py",
+    "app/support/commands.py",
+    "tests/integration/test_support_claim_recovery.py",
+    "tests/integration/test_support_query_context.py",
+    "docs/development/records/M5-05.md",
+    "docs/development/records/M5-08.md",
+    "docs/development/PROGRESS.md",
+    "docs/development/REVIEW_STATUS.md",
+    "docs/plans/DEVELOPMENT_TODO.md",
+    "docs/plans/tasks/M5-support-workflow.md",
+    "docs/plans/DEVELOPMENT_CONTRACTS.md",
+    "docs/runbooks/support-recovery.md",
+    "docs/development/CHANGELOG.md",
+    "docs/development/DECISIONS.md",
+    "docs/development/reviews/M5-submission-r4.md",
+    "docs/development/reviews/M5-validation-summary-r4.json",
+    "docs/development/reviews/M5-artifact-manifest-r4.json"
+  ],
+  "integrity_note": "本manifest为r4独立材料，证据SHA256已按本轮实际文件计算；不替换r1/r2/r3快照，不将本地output/evidence/evals加入Git。"
+}

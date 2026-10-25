@@ -372,6 +372,8 @@ POST /conversations/{cid}/support/tools：expected_version、tool(lookup_product
 
 M5-05第三轮补充：会话归档后，领取/恢复按运行版本CAS置为`interrupted`并记录`conversation_archived`，精确释放自身占用；扫描继续处理其他会话，迟到旧run不能清理新run。支持聚合的设备撤回保存`subject_withdrawn=true`，未来run无显式型号时将该标记传给QueryPlan作为主体重置边界，禁止旧助手快照、旧会话选择和唯一目录项自动恢复；显式新型号仍走目录精确确认。
 
+M5-05第四轮补充：归档worker启动、领取和恢复扫描必须通过同一`EventLedger.emit`以版本CAS原子保存终态、`seq`和outbox，并幂等投递`run.interrupted`；并发冲突只能在确认事件已持久后收敛。r2撤回快照可能缺少`subject_withdrawn`，消费者须识别设备槽位清空及`history.withdrawal.slots=device`，但不得把普通未填写设备误判为撤回。撤回后旧助手历史不参与主体冲突；本轮显式`product_ids`保留并按`explicit_selection`继续，未显式选择仍澄清。旧消息、run、ordinal和草稿不可改写。
+
 
 ### M5-07 反馈与导出
 

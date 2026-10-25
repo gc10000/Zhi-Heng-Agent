@@ -68,3 +68,53 @@ def test_withdrawn_device_allows_explicit_new_model_to_resume_query(query_contex
     assert result['state'] == 'completed', result.get('error')
     assert result['query_plan']['reason'] == 'catalog_exact'
     assert result['query_plan']['product_ids'] == [new_product['product_id']]
+
+
+def test_legacy_withdrawal_snapshot_blocks_old_history_after_upgrade(query_context):
+    """r2撤回快照没有subject_withdrawn时，仍按撤回事实隔离旧主体。"""
+    user, cid, conv, repo, service, g, runner, entity, product = query_context
+    support = SupportRepository(conv, repo)
+    confirmed = support.update(user, cid, SupportInput(expected_version=0,
+        values={'device': 'AX-24', 'symptom': '通信失败'}))
+    old = service.create(user, cid, RunInput(question='AX-24的电源呢', kb_id='k', client_request_id='legacy-old'))
+    runner.execute(old['run_id'])
+    withdrawn = support.update(user, cid, SupportInput(expected_version=confirmed['version'], clear_slots=['device']))
+    fresh = service.create(user, cid, RunInput(question='它的电源呢', kb_id='k', client_request_id='legacy-after'))
+    legacy = repo.get(user, fresh['run_id'])['support_snapshot']
+    legacy.pop('subject_withdrawn', None)
+    legacy['history'] = withdrawn['history']
+    repo.runs.update_one({'run_id': fresh['run_id']}, {'$set': {'support_snapshot': legacy}})
+
+    runner.execute(fresh['run_id'])
+    result = repo.get(user, fresh['run_id'])
+    assert result['state'] == 'awaiting_input', result.get('error')
+    assert result['query_plan']['reason'] == 'model_required_after_context_reset'
+    assert not result.get('answer')
+
+
+def test_withdrawn_explicit_product_selection_ignores_old_history(query_context):
+    """撤回后选择器传入的新型号不能被旧助手主体冲突阻断。"""
+    from app.knowledge.api import ProductInput
+    user, cid, conv, repo, service, g, runner, entity, product = query_context
+    support = SupportRepository(conv, repo)
+    confirmed = support.update(user, cid, SupportInput(expected_version=0,
+        values={'device': 'AX-24', 'symptom': '通信失败'}))
+    old = service.create(user, cid, RunInput(question='AX-24的电源呢', kb_id='k', client_request_id='selector-old'))
+    runner.execute(old['run_id'])
+    support.update(user, cid, SupportInput(expected_version=confirmed['version'], clear_slots=['device']))
+    new_product = g.add_product(user, 'k', ProductInput(kb_id='k', model='AX-48'))
+    original_entity = entity
+    class Index:
+        def search(self, scoped, text, **kwargs):
+            assert kwargs['product_ids'] == [new_product['product_id']]
+            copied = original_entity | {'metadata': original_entity['metadata'] | {'product_ids': [new_product['product_id']]}}
+            return [{'entity': copied}]
+    g.index_factory = Index
+
+    fresh = service.create(user, cid, RunInput(question='它的电源呢', kb_id='k',
+        client_request_id='selector-new', product_ids=[new_product['product_id']]))
+    runner.execute(fresh['run_id'])
+    result = repo.get(user, fresh['run_id'])
+    assert result['state'] == 'completed', result.get('error')
+    assert result['query_plan']['reason'] == 'explicit_selection'
+    assert result['query_plan']['product_ids'] == [new_product['product_id']]

@@ -141,6 +141,30 @@ def test_archived_occupied_preparing_run_is_terminated_without_blocking_scan(sup
     assert row['state'] == 'interrupted'
     assert repo.conversations.get(user, cid)['active_run_id'] is None
     assert repo.db.messages.count_documents({'run_id': prepared['run_id']}) == 0
+    assert [event['type'] for event in commands.events.read(user, prepared['run_id'])] == ['run.interrupted']
+
+
+def test_archived_worker_start_persists_replayable_terminal_event(support_client, monkeypatch):
+    """worker先于恢复扫描启动时，归档终态必须仍走事件账本。"""
+    resources, user, cid, support, prepared = setup(support_client)
+    stop_after_occupation(resources, user, prepared, monkeypatch)
+    resources['conversations'].patch(user, cid, ConversationPatch(expected_version=0, archived=True))
+
+    repo, commands = rebuild(resources, utcnow)
+    with pytest.raises(APIError) as error:
+        commands.start(user, prepared['run_id'])
+    assert error.value.code == 'state_conflict'
+    row = repo.get(user, prepared['run_id'])
+    assert row['state'] == 'interrupted'
+    assert row['seq'] == 1
+    assert row['outbox'] == []
+    events = commands.events.read(user, prepared['run_id'])
+    assert [event['type'] for event in events] == ['run.interrupted']
+    assert events[0]['payload'] == {'reason': 'conversation_archived'}
+
+    rebuilt = rebuild(resources, utcnow)[1]
+    assert rebuilt.recover() == []
+    assert rebuilt.events.read(user, prepared['run_id']) == events
 
 
 def test_archived_run_does_not_stop_recovery_of_another_conversation(support_client, monkeypatch):
@@ -178,3 +202,4 @@ def test_archived_claimed_pending_run_is_terminal_and_recovery_is_idempotent(sup
     assert row['claim_state'] == 'rejected'
     assert repo.conversations.get(user, cid)['active_run_id'] is None
     assert repo.db.messages.count_documents({'run_id': claimed['run_id'], 'role': 'user'}) == 1
+    assert [event['type'] for event in commands.events.read(user, claimed['run_id'])] == ['run.interrupted']

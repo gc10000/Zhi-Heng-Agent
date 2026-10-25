@@ -1,0 +1,31 @@
+{
+  "stage": "M5",
+  "round": 4,
+  "review_status": "待审查",
+  "baseline_head": "b273f6a66446f9d173cfa6be973a5a18b4e7ead0",
+  "submission_commit": null,
+  "scope": ["M5-05", "M5-08", "R2", "R3"],
+  "completed": ["M5-01", "M5-02", "M5-03", "M5-04", "M5-05", "M5-07", "M5-08"],
+  "deferred": [{"id": "M5-06", "reason": "可选外部MCP未启用、未联调真实凭据"}],
+  "tests": {
+    "red_business": {"failed": 3, "exit_code": 1, "evidence": "output/m5-r4-r2-r3-red.txt"},
+    "targeted": {"passed": 70, "exit_code": 0, "evidence": "output/m5-r4-r2-r3-green.xml"},
+    "backend": {"passed": 798, "collected": 800, "deselected": 2, "skipped": 0, "warnings": 7, "exit_code": 0, "evidence": "output/m5-r4-stage-backend/backend.xml", "ledger": "output/m5-r4-stage-backend/commands.json"},
+    "legacy_reimport": {"passed": 3, "exit_code": 0, "evidence": "output/m5-r4-stage-backend/reimport.txt"},
+    "frontend_unit": {"passed": 37, "exit_code": 0, "evidence": "output/m5-r4-stage-frontend/unit.json"},
+    "frontend_browser": {"passed": 28, "skipped": 0, "unexpected": 0, "flaky": 0, "exit_code": 0, "mode": "offline_mock_api", "evidence": "output/m5-r4-stage-frontend/browser.json"},
+    "frontend_typecheck": {"exit_code": 0},
+    "frontend_build": {"exit_code": 0},
+    "syntax": {"exit_code": 0, "command": ".venv/Scripts/python.exe -m compileall -q app tests"}
+  },
+  "real_artifacts": {"passed": 16, "exit_code": 0, "evidence": "output/m5-r4-live-readonly.json", "recheck_provider_calls": 0},
+  "script_errors": [
+    {"kind": "missing_isolation_env", "exit_code": 1, "excluded_from_business_red": true},
+    {"kind": "historical_live_endpoint_connection_refused", "exit_code": 1, "excluded_from_business_red": true},
+    {"kind": "m5_environment_legacy_field_adapter", "exit_code": 1, "excluded_from_business_red": true}
+  ],
+  "real_provider": {"new_paid_calls": 0, "live_answer_generation": 0, "prior_artifacts": "read_only_reused"},
+  "data_boundary": "仅使用随机m1_test隔离库、合成资料、注入模型和既有隔离账本只读复核；不删除课程原件、知识集合、对象、缓存、原始evidence、output或evals。",
+  "unverified": ["生产规模灾备", "整体答案正确率", "精确SDK费用与HTTP重试计数", "MCP真实凭据", "历史Windows原生模型问题根治"],
+  "next_gate": "等待总控审查M5，不进入M6"
+}

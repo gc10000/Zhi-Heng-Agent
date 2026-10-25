@@ -133,12 +133,14 @@ class QueryRunner:
             plan_messages = self._recent_messages(user, current)
             planning_question = row['question']
             context_reset = False
-            if withdrawn_subject and not current.get('requested_product_ids') and not current.get('resumed_at'):
-                # 设备主体已被用户撤回；本轮没有显式型号时，旧助手快照、旧选择和
-                # 唯一目录项都不能重新确认主体，交由计划器返回澄清。
-                selected = []
+            if withdrawn_subject and not current.get('resumed_at'):
+                # 设备主体已被用户撤回；旧助手快照不能参与本轮主体判断。
+                # 显式product_ids来自本轮选择器，保留它交由计划器确认；没有显式
+                # 型号时清空隐式选择，交由计划器返回澄清。
                 plan_messages = []
                 context_reset = True
+                if not current.get('requested_product_ids'):
+                    selected = []
             elif support_ids is not None and not current.get('requested_product_ids'):
                 # 显式用户纠正构成新的主体边界，不用旧助手型号将其覆盖。
                 selected = list(support_ids)
