@@ -127,10 +127,21 @@ class QueryRunner:
             for pid in selected:
                 g.product(user, pid, row['kb_id'])
             from app.retrieval.query_planner import plan_query
-            plan = plan_query(row['question'], products, selected_ids=selected,
+            from app.support.commands import product_context
+            support_ids = product_context(current.get('support_snapshot'), products)
+            plan_messages = self._recent_messages(user, current)
+            planning_question = row['question']
+            if support_ids is not None and not current.get('requested_product_ids'):
+                # 显式用户纠正构成新的主体边界，不用旧助手型号将其覆盖。
+                selected = list(support_ids)
+                plan_messages = []
+                if not support_ids:
+                    planning_question = '型号：' + current['support_snapshot']['slots']['device']['value'] + '\n' + row['question']
+            plan = plan_query(planning_question, products, selected_ids=selected,
                 requested_ids=current.get('requested_product_ids', current['input_product_snapshot']['product_ids']),
-                messages=self._recent_messages(user, current), confirmed=bool(current.get('resumed_at')),
+                messages=plan_messages, confirmed=bool(current.get('resumed_at')),
                 candidate_search=self._product_candidates)
+            plan = plan.model_copy(update={'original_query': row['question']})
             emit('stage.changed', {'stage': 'product', 'reason': plan.reason}, fields={'query_plan': plan.model_dump(mode='json')})
             if plan.route == 'clarify':
                 if len(plan.candidates) > 50:
@@ -311,7 +322,8 @@ class QueryRunner:
         return list(reversed(rows))
 
     def _history(self, user, current):
-        return [{'role': r['role'], 'text': r['text']} for r in self._recent_messages(user, current)]
+        from app.conversations.context import support_history
+        return [{'role': r['role'], 'text': r['text']} for r in self._recent_messages(user, current)] + support_history(current.get('support_snapshot'))
 
     def _product_candidates(self, question, products):
         """目录相似度仅排序澄清候选，精确命中不调用本机编码。"""

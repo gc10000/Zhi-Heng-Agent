@@ -475,3 +475,10 @@ M4-R1复交验证：完整717、定向89（重叠不累加）、既有3及前端
 新增tools.py和budget.py及support/tools正式入口。仅lookup_product/read_evidence/search_manual白名单，参数/输出Pydantic固定，scope由后端授予；最多6次调用/2次扩展检索/30秒累计/12000 UTF8字节保守token，非最优性能主张。预留先CAS落库、最多2个在途工作线程、超时不接纳晚到结果；失败/重复结果转交，取消或纠正使迟到CAS失效。文档从不驱动自由工具调用，不控制设备。
 
 验证：`.venv/Scripts/python.exe -m pytest tests/integration/test_support_tool_limits.py -q --tb=short`（M1_TEST_DB=m1_test_m5_tools）：红1 failed退出1，绿1 passed退出0；`.venv/Scripts/python.exe -m pytest tests/unit/test_tool_budget.py -q`：边界红1 failed/9 passed退出1（检索来源字段实际在metadata，已修正），绿10 passed退出0。
+
+
+## 2026-10-25 · M5-05
+
+新增commands.py冻结支持上下文、旧run/context门禁、来源槽位快照；RunRepository准备/领取绑定support版本，历史纠正与自报无效步骤实际进入QueryRunner生成history，旧消息/运行不回写；目录外纠正强制型号澄清，旧证据不得生成新上下文清单。SupportContext.vue提供完整槽位纠正、取消和刷新，草稿未保存编辑禁确认。
+
+验证：`.venv/Scripts/python.exe -m pytest tests/integration/test_support_context_runs.py tests/contract/test_support_resume.py -q --tb=short`：红2 failed/1 passed，绿3 passed，退出1/0。补充红：旧清单1失败（另缺fixture错误单独计，不当业务红）、目录外型号1失败、准备领取窗口1失败，均已修复。最终相关10文件命令见下方，40 passed退出0；前端typecheck退出0、离线浏览器2 passed退出0。

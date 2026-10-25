@@ -38,6 +38,8 @@ def checklist(cid: str, data: ChecklistInput, request: Request, user=Depends(pri
     repository = support(request)
     current = repository.editable(user, cid, data.expected_version)
     run = repository.completed_run(user, cid, data.run_id)
+    from .commands import check_run_context
+    check_run_context(current, run, allow_bound=True)
     authorize_citations(request, user, run.get('citations', []))
     row = build_checklist(current, run)
     if not row['operations']:

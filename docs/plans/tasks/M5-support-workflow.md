@@ -87,16 +87,18 @@
 **文件：**`app/conversations/context.py`; `app/support/commands.py`; `frontend/src/features/cases/components/SupportContext.vue`; `tests/contract/test_support_resume.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M5-05.1** 持久 awaiting_input 与上下文摘要版本。
-- [ ] **M5-05.2** 用户可纠正型号/步骤结果。
-- [ ] **M5-05.3** 迟到响应核对 run/context version。
-- [ ] **M5-05.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_support_resume.py -q。
-- [ ] **M5-05.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M5-05.1** 持久 awaiting_input 与上下文摘要版本。
+- [x] **M5-05.2** 用户可纠正型号/步骤结果。
+- [x] **M5-05.3** 迟到响应核对 run/context version。
+- [x] **M5-05.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_support_resume.py -q。
+- [x] **M5-05.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**刷新可继续，取消后不复活；纠正只影响未来轮次；旧处理记录保留原快照。
 
 <a id="m5-06"></a>
 ### M5-06：官方网页 MCP 工具（可选）
+
+2026-10-25范围决定：延期，未启用外部工具/真实凭据联调，不勾选；见records/M5-06.md。核心阶段不依赖该可选项。
 
 **依赖：**M5-04,M4-09。
 **文件：**`app/support/web_tool.py`; `app/query_process/agent/nodes/node_web_search_mcp.py`; `tests/contract/test_web_tool.py`; `docs/runbooks/mcp-search.md`。

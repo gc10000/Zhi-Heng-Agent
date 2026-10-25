@@ -358,3 +358,8 @@ POST /cases接受run_id/expected_support_version，本会话完成run生成幂�
 ### M5-04 有限只读工具
 
 POST /conversations/{cid}/support/tools：expected_version、tool(lookup_product/read_evidence/search_manual)、arguments按注册工具schema，拒绝额外scope/表达式/路径。lookup仅当前kb产品，read仅当前支持引用，search使用已完成run产品快照/当前授权修订及原默认检索。输出是待核对内部资料，不自动成为事实或执行指令。预算持久预留先于执行：最多6调用、2扩展检索、累计30秒、12000 UTF8字节保守token计数；失败/重复/超预算转交。共享2槽，超时仅拒绝晚到结果，不声称GPU/数据库硬中断。崩溃留下running预留时禁止再派发，可显式结束/转交；不手工清账本重试。新版本CAS失败的晚到结果不写入。外网MCP未启用。
+
+
+### M5-05 跨轮支持快照
+
+新run在prepare保存input_support_version及有界support_snapshot（确认槽位/最新报告/操作来源，不复制全部工作流历史），preparing→会话领取同时CAS支持版本，间隙纠正返回409、不得生成用户消息。已领取run保持旧快照；纠正只进入未来run的产品计划/生成history，已报无效不重复。目录外纠正必须澄清，不借目录唯一项自动确认。取消/解决后不继承支持快照。关联新完成回答检查snapshot.context_version，历史无support_snapshot回答仅首次绑定；清单只允许本次绑定时槽位或同版本新run。更改已确认槽位要求未来问答取新证据，旧run/消息/已保存草稿快照不改写。

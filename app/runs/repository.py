@@ -42,6 +42,11 @@ class RunRepository:
                          'created_at': datetime.now(timezone.utc).isoformat()}
             row['input_product_snapshot'] = copy.deepcopy(row['product_snapshot'])
             row['requested_product_ids'] = list(data.product_ids)
+            row['input_support_version'] = conv.get('support', {}).get('version', 0)
+            from app.support.commands import freeze_support
+            support = freeze_support(conv)
+            if support is not None:
+                row['support_snapshot'] = support
             try:
                 self.runs.insert_one(copy.deepcopy(row))
             except DuplicateKeyError:
@@ -61,14 +66,22 @@ class RunRepository:
         cid = row['conversation_id']
         # 新轮领取前先物化上一轮终态消息；失败保留原占用，可用同请求恢复。
         conversation = self.conversations.get(user, cid)
+        if row['claim_state'] == 'preparing' and 'input_support_version' in row and row['input_support_version'] != conversation.get('support', {}).get('version', 0):
+            raise APIError(409, 'support_context_changed', '支持上下文已改变，请用新请求标识重建运行。')
         previous = conversation.get('active_run_id')
         if previous and previous != rid:
             prior = self.get(user, previous)
             self.release(prior)
         # 先准备再CAS占用，重试同run可进入；其他run永远不能释放本run占用。
+        claim_query = self.conversations.scope(user) | {'conversation_id': cid, 'archived': False,
+                                              'active_run_id': {'$in': [None, rid]}}
+        if row['claim_state'] == 'preparing' and 'input_support_version' in row:
+            if row['input_support_version']:
+                claim_query['support.version'] = row['input_support_version']
+            else:
+                claim_query['support.version'] = {'$in': [None, 0]}
         claimed = self.conversations.conversations.update_one(
-            self.conversations.scope(user) | {'conversation_id': cid, 'archived': False,
-                                              'active_run_id': {'$in': [None, rid]}},
+            claim_query,
             {'$set': {'active_run_id': rid}})
         if not claimed.matched_count:
             current = self.get(user, rid)

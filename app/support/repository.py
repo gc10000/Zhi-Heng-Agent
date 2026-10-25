@@ -36,6 +36,9 @@ class SupportRepository:
         run = self.runs.get(user, data.run_id) if data.run_id else None
         if run and (run['conversation_id'] != cid or run['state'] != 'completed'):
             raise APIError(409, 'support_run_unavailable', '仅能关联本会话已完成的回答。')
+        if run:
+            from .commands import check_run_context
+            check_run_context(current, run)
         return self.save(user, cid, current, advance(current, data, at=now(), run=run))
 
     def editable(self, user, cid, expected_version):

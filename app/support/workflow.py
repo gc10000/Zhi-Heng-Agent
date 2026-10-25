@@ -29,7 +29,9 @@ def decide(row):
                 return row
             row.update(state='awaiting_input', requested_slot=slot, prompt=QUESTIONS[slot], reason='missing_slot')
             return row
-    if not row['citations']:
+    if row.get('needs_evidence'):
+        row.update(state='awaiting_input', reason='needs_fresh_evidence', prompt='上下文已纠正，请新建问答核对证据后继续。')
+    elif not row['citations']:
         row.update(state='handoff', reason='missing_evidence', prompt='缺少可追溯证据，请补充资料或转交人工支持。')
     else:
         row.update(state='ready', reason='evidence_available', prompt='可依据资料生成待核对的操作清单；执行结果须由用户记录。')
@@ -58,6 +60,10 @@ def advance(current, data, *, at, run=None):
         if not row['slots']['question']['value']:
             row['slots']['question'] = {'value': run['question'], 'confirmed': True, 'source': 'user_question', 'recorded_at': at}
         progress = True
+        row['evidence_slots'] = deepcopy(row['slots'])
+        row['needs_evidence'] = False
+    elif current['citations'] and any(current['slots'][key].get('confirmed') and current['slots'][key].get('value') != value.strip() for key, value in data.values.items()):
+        row['needs_evidence'] = True
     row['no_progress'] = 0 if progress else row['no_progress'] + 1
     if current['state'] == 'awaiting_input':
         row['rounds'] += 1

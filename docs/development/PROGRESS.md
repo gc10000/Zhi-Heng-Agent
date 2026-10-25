@@ -4,7 +4,7 @@
 
 ## M5执行动态
 
-当前M5-05：澄清恢复、型号与步骤纠正、run/context版本校验和未来轮上下文。下一步：先验证旧run引用不能覆盖新上下文，取消不复活与生成上下文实际包含无效步骤。不进入M6；原evals/output/evidence保留且不上传。
+当前M5-07：反馈分类、run/citation绑定与确认草稿的授权Markdown导出。下一步：先正式HTTP红测，覆盖未确认拒导出、跨范围拒绝与Markdown转义。不进入M6；原evals/output/evidence保留且不上传。
 
 
 ## 当前执行：M5-02 引用绑定操作清单
