@@ -4,7 +4,7 @@ import copy
 import json
 from pathlib import Path
 import time
-from .runner import atomic_json, run_experiment, percentile, evidence_metrics, output_lock
+from .runner import atomic_json, run_experiment, percentile, evidence_metrics, output_lock, check_split
 from .validate_dataset import file_sha, fingerprint, validate_dataset
 from app.retrieval.search import RetrievalPolicy, retrieve
 from app.retrieval.adapters import from_index_hits
@@ -21,6 +21,8 @@ def validate_grid(config, dataset, manifest):
         raise ValueError('网格与冻结题集/划分不一致')
     if config.get('execution_mode') != 'real_retrieval_grid' or not config.get('grid'):
         raise ValueError('必须明确真实检索网格，不能冒充生成问答')
+    if 'metric_schema_version' in config:
+        check_split(config, json.loads(Path(manifest).read_text(encoding='utf-8')))
     if len(config['grid']) > 20 or len({r['id'] for r in config['grid']}) != len(config['grid']):
         raise ValueError('网格有界且名称不能重复')
     import re
@@ -44,6 +46,23 @@ def source_citations(hits, documents, assets):
             refs.extend(dict(document_sha256=source['original_sha256'], page=r['page'], asset_sha256=a['sha256'])
                 for r in a['source_refs'] if r.get('page'))
     return refs
+
+
+def ranked_source_candidates(hits, documents, assets):
+    """保留真实排序身份及授权来源指纹，供实验运行器离线计分。"""
+    candidates = []
+    seen = set()
+    for hit in hits:
+        identity = hit.identity
+        if identity in seen:
+            raise ValueError('检索排名包含重复切片身份')
+        seen.add(identity)
+        citations = source_citations([hit], documents, assets)
+        candidates.append({
+            'candidate_id': json.dumps(list(identity), ensure_ascii=False, separators=(',', ':')),
+            'sources': citations,
+        })
+    return candidates
 
 
 class RetrievalExecutor:
@@ -72,7 +91,10 @@ class RetrievalExecutor:
             selected_ids=[self.products_by_name[p] for p in question['product_names']], messages=question['history'])
         empty = dict(answer='', citations=[], behavior='clarify' if plan.route == 'clarify' else 'insufficient',
             route=plan.route, stage_timings={}, stage_counts={}, stage_metrics={})
-        if plan.route == 'clarify': return empty
+        if plan.route == 'clarify':
+            if self.config.get('metric_schema_version') == 1:
+                empty['retrieval_candidates'] = {'candidates': [], 'reranked': [], 'context': []}
+            return empty
         revisions = self.repo.get_active_revisions()
         expected = {(d['document_id'], d['revision_id']) for d in self.documents.values()}
         if expected != {(d['document_id'], d['active_revision_id']) for d in revisions}: raise ValueError('活动修订漂移')
@@ -100,10 +122,13 @@ class RetrievalExecutor:
         selected_ids = {(d['document_id'], d['revision_id'], d['chunk_uid']) for d in state['prompt_used_docs']}
         selected = [h for h in ranked if h.identity in selected_ids]
         stage_metrics = {}
+        ranked_candidates = {}
         for stage, group in [('candidates', hits), ('reranked', ranked), ('context', selected)]:
             refs = source_citations(group, self.documents, self.assets)
             stage_metrics[stage] = evidence_metrics(question, dict(citations=refs),
                 asset_equivalences=self.config['corpus'].get('asset_equivalences', []))['allowed_evidence_group_recall']
+            if self.config.get('metric_schema_version') == 1:
+                ranked_candidates[stage] = ranked_source_candidates(group, self.documents, self.assets)
         memory = process.memory_info()
         result = empty | dict(citations=source_citations(selected, self.documents, self.assets),
             behavior='answer' if selected else 'insufficient', stage_metrics=stage_metrics,
@@ -113,6 +138,8 @@ class RetrievalExecutor:
             resources=dict(rss_before_bytes=rss_before, rss_after_bytes=memory.rss,
                 process_peak_rss_bytes=getattr(memory, 'peak_wset', None), cpu_seconds=sum(process.cpu_times()[:2])-cpu_before),
             trace=EvidencePack(plan=plan, candidates=hits, reranked=ranked, selected=selected).trace())
+        if self.config.get('metric_schema_version') == 1:
+            result['retrieval_candidates'] = ranked_candidates
         try:
             import torch
             if torch.cuda.is_available(): result['resources']['gpu_allocated_bytes'] = torch.cuda.memory_allocated()
@@ -178,6 +205,8 @@ def _run_grid(config, dataset, manifest, output, gateway, *, embedder, ranker):
         row.update(p50_pipeline_seconds=percentile(timings,.5), p95_pipeline_seconds=percentile(timings,.95))
         row['max_observed_rss_bytes'] = max((r['result']['resources']['rss_after_bytes'] for r in completed if 'resources' in r['result']), default=None)
         row['clarified'] = sum(r['result']['route']=='clarify' for r in completed)
+        if config.get('metric_schema_version') == 1:
+            row['summary'] = report.get('summary')
         reports.append(row)
         atomic_json(output/'grid-summary.json', dict(config_sha256=fingerprint(config),
             selected_dev=len(selected), heldout_executed=0, paid_calls=0, variants=reports,

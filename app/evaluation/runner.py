@@ -49,6 +49,21 @@ def strategy_fingerprint(config):
     return fingerprint({k: config.get(k, {}) for k in ('strategy', 'parameters', 'versions')})
 
 
+def reproducibility_metadata(config, *, dataset_sha256, split_manifest_sha256, config_sha256):
+    """生成M6清单必须保存的完整、可校验复现身份。"""
+    return {
+        'metric_schema_version': config['metric_schema_version'],
+        'dataset_sha256': dataset_sha256,
+        'split_manifest_sha256': split_manifest_sha256,
+        'config_sha256': config_sha256,
+        'strategy_sha256': strategy_fingerprint(config),
+        'strategy': config['strategy'],
+        'parameters': config.get('parameters', {}),
+        'versions': {key: config['versions'][key] for key in ('code', 'model', 'prompt')},
+        'seed': config['seed'],
+    }
+
+
 def check_split(config, manifest):
     if config.get('split') not in {'dev', 'heldout'} or config.get('phase') not in {'development', 'final'}:
         raise ValueError('必须明确开发或最终评价阶段与划分')
@@ -69,6 +84,21 @@ def check_split(config, manifest):
         raise ValueError('须显式区分单元注入与真实QueryRunner执行')
     if not all(config.get('versions', {}).get(k) for k in ('code', 'model', 'prompt')):
         raise ValueError('缺少代码/模型/prompt版本')
+    # M4旧实验保持原配置兼容；M6显式采用新指标契约后必须冻结随机种子。
+    if 'metric_schema_version' in config:
+        version = config['metric_schema_version']
+        if isinstance(version, bool) or not isinstance(version, int) or version != 1:
+            raise ValueError('不支持的评测指标契约版本')
+        seed = config.get('seed')
+        if isinstance(seed, bool) or not isinstance(seed, int) or seed < 0:
+            raise ValueError('M6实验必须记录非负整数seed')
+        if not config.get('strategy'):
+            raise ValueError('M6实验必须记录策略身份')
+        ks = config.get('metric_k_values', (1, 5, 10))
+        if (not isinstance(ks, (list, tuple)) or not ks or
+                any(isinstance(value, bool) or not isinstance(value, int) or value < 1 for value in ks) or
+                len(set(ks)) != len(ks)):
+            raise ValueError('metric_k_values必须是唯一正整数列表')
 
 
 def evidence_metrics(question, result, *, asset_equivalences=()):
@@ -123,16 +153,31 @@ def run_experiment(dataset, manifest, config, output, executor):
     output = Path(output)
     with output_lock(output):
         report_path, attempts_path = output / 'manifest.json', output / 'attempts.jsonl'
+        split_manifest_sha256 = file_sha(manifest)
+        m6_reproducibility = None
+        if config.get('metric_schema_version') == 1:
+            m6_reproducibility = reproducibility_metadata(
+                config, dataset_sha256=frozen['dataset_sha256'],
+                split_manifest_sha256=split_manifest_sha256, config_sha256=digest)
         if report_path.exists():
             saved = json.loads(report_path.read_text(encoding='utf-8'))
-            if saved['config_sha256'] != digest or saved['split_manifest_sha256'] != file_sha(manifest):
+            if saved['config_sha256'] != digest or saved['split_manifest_sha256'] != split_manifest_sha256:
                 raise ValueError('输出目录已属于其他参数/题集，须使用新实验目录')
+            if m6_reproducibility is not None:
+                if (saved.get('manifest_schema_version') != 1 or
+                        saved.get('reproducibility') != m6_reproducibility or
+                        saved.get('reproducibility_sha256') != fingerprint(m6_reproducibility)):
+                    raise ValueError('M6实验复现清单缺失、损坏或与当前seed不一致')
         elif any(p.name != '.runner.lock' for p in output.iterdir()):
             raise ValueError('输出目录已有未知文件，拒绝覆盖')
         report = {'experiment_id': config['experiment_id'], 'dataset_sha256': frozen['dataset_sha256'],
                   'split_manifest_sha256': file_sha(manifest), 'config_sha256': digest, 'config': config,
                   'selected_ids': [r['id'] for r in selected], 'execution_mode': config['execution_mode'],
                   'status': 'running', 'notice': '辅助来源命中不等同人工答案正确；注入运行不是真实链路。'}
+        if m6_reproducibility is not None:
+            report['manifest_schema_version'] = 1
+            report['reproducibility'] = m6_reproducibility
+            report['reproducibility_sha256'] = fingerprint(m6_reproducibility)
         atomic_json(report_path, report)
         by_id = {}
         if attempts_path.exists():
@@ -151,10 +196,47 @@ def run_experiment(dataset, manifest, config, output, executor):
                 if not isinstance(result, dict) or not isinstance(result.get('answer'), str) or not isinstance(result.get('citations'), list):
                     raise ValueError('执行器响应格式错误')
                 json.dumps(result, allow_nan=False)
-                record.update(status='completed', result=result, metrics=evidence_metrics(question, result,
-                    asset_equivalences=config.get('corpus', {}).get('asset_equivalences', [])))
+                if config.get('metric_schema_version') == 1:
+                    retrieval_candidates = result.pop('retrieval_candidates', None)
+                else:
+                    retrieval_candidates = None
+                metric_row = evidence_metrics(question, result,
+                    asset_equivalences=config.get('corpus', {}).get('asset_equivalences', []))
+                if retrieval_candidates is not None and config.get('metric_schema_version') == 1:
+                    from .metrics import retrieval_metrics
+                    equivalences = config.get('corpus', {}).get('asset_equivalences', [])
+                    k_values = config.get('metric_k_values', (1, 5, 10))
+                    if isinstance(retrieval_candidates, dict):
+                        retrieval = {stage: retrieval_metrics(question, candidates,
+                            k_values=k_values, asset_equivalences=equivalences)
+                            for stage, candidates in retrieval_candidates.items()}
+                    else:
+                        retrieval = retrieval_metrics(question, retrieval_candidates,
+                            k_values=k_values, asset_equivalences=equivalences)
+                    metric_row['retrieval'] = retrieval
+                    # 保留可复核的候选身份/来源，不持久化完整候选文本或其他调试字段。
+                    if isinstance(retrieval_candidates, dict):
+                        result['retrieval_candidates'] = {stage: [
+                            {'candidate_id': candidate['candidate_id'], 'sources': candidate['sources']}
+                            for candidate in candidates]
+                            for stage, candidates in retrieval_candidates.items()}
+                    else:
+                        result['retrieval_candidates'] = [
+                            {'candidate_id': candidate['candidate_id'], 'sources': candidate['sources']}
+                            for candidate in retrieval_candidates]
+                if config.get('metric_schema_version') == 1:
+                    from .datasets import is_label_eligible
+                    record['label_eligible'] = is_label_eligible(question)
+                record.update(status='completed', result=result, metrics=metric_row)
             except Exception as exc:
                 record.update(status='failed', error={'type': type(exc).__name__})
+                if config.get('metric_schema_version') == 1:
+                    stage = getattr(exc, 'stage', getattr(exc, 'failure_stage', None))
+                    safe_stages = {'validation', 'planning', 'retrieval', 'rerank', 'generation', 'persistence'}
+                    if not isinstance(stage, str) or stage not in safe_stages:
+                        stage = 'unknown'
+                    from .datasets import is_label_eligible
+                    record.update(label_eligible=is_label_eligible(question), failure_stage=stage)
             record['seconds'] = time.perf_counter() - started
             with attempts_path.open('a', encoding='utf-8') as stream:
                 stream.write(json.dumps(record, ensure_ascii=False, allow_nan=False) + '\n')
@@ -168,6 +250,9 @@ def run_experiment(dataset, manifest, config, output, executor):
         timings = [r['seconds'] for r in results if r['status'] == 'completed']
         report.update(status='completed' if len(timings) == len(selected) else 'incomplete', completed=len(timings),
                       failed=len(selected) - len(timings), p50_seconds=percentile(timings, .5), p95_seconds=percentile(timings, .95))
+        if config.get('metric_schema_version') == 1:
+            from .metrics import summarize_experiment
+            report['summary'] = summarize_experiment(results, selected)
         atomic_json(report_path, report)
         return report
 

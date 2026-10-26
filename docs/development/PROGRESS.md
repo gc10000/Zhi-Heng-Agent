@@ -1,12 +1,14 @@
 # 开发进度与接续点
 
-## M6-01 完成，接续执行 M6-02（2026-10-26）
+## M6-02 完成自验，接续执行 M6-03（2026-10-26）
 
 用户已明确授权按依赖连续执行 M6-01 至 M6-08；M6-06 为可选项，M7 未授权。M5 第五轮总控复审通过，核心 7/7、总核心 60/76。工作区为 `main`，M6-01起点HEAD与`origin/main`均为`bc5acded28f49a43623861fa916a6c3e5b171243`；本地`evals/`、`output/`和既有未跟踪`tmp/`均保留，不上传。
 
 M6-01 已完成执行自验，当前接续任务：**M6-02 实验运行器与检索指标**。本轮生成本机 `support-v2-draft-r2`：150 行，旧题50仅历史曝光，fresh dev/heldout各50；新100题均为 `source_checked_assistant_draft/draft`，只有旧43条独立助手已审标签进入标准资格计数，真实人工0。fresh heldout 使用未进入历史题集的华为擎云 P5 原件，已冻结但未执行、不用于调参。`support-v2-r2` 的文本来源跨度127/127经真实PDF和M1 `chunk_document` 映射，3条图像跨度按历史资产哈希、物理页及 `Asset`/`Chunk` 领域对象投影复验；未访问数据库、对象存储或模型。
 
-改动：`app/evaluation/validate_dataset.py`、`app/evaluation/datasets.py`、`tests/unit/test_eval_labels.py`、`scripts/verification/build_m6_dataset.py`、`scripts/verification/map_m6_dataset_chunks.py`，以及M6-01记录、契约、决策、变更和标注手册。定向回归55 passed；题集校验和来源映射退出0。首个草稿r1、失败红测、PDF目视页和r2/r3独立证据保留在本机`output/m6-01/`，不上传。当前开始M6-02：先写排序指标合成失败用例，定义多证据组与无证据题公式，再扩展现有运行器的manifest/聚合；不运行heldout或M7。
+M6-01源码/测试/维护文档已提交并推送 `2d1990dd17ff7a61b8cada548a5b75428ede598c`，`git ls-remote`核对`origin/main`完整SHA一致。改动包含稳定来源跨度、标签修订/资格和划分门禁及本地工具；不含`evals/`、`output/`、原始资料或既有未跟踪`tmp/`。fresh heldout未运行。
+
+**M6-02 实验运行器与检索指标**已完成实现和执行自验。新增按必需证据组计算Recall@k/MRR/组级nDCG，未审草稿及无证据题不进入标准指标；运行清单保存数据/划分/配置/策略/版本/seed身份，报告按题型、失败阶段、逻辑调用、token及可用精确成本汇总。真实检索网格只保留候选身份与来源，不重复持久化正文；M4旧配置保持兼容。指标定向9 passed，完整评测单元回归134 passed、0 skipped，退出码均0。缺少进程级`M1_TEST_DB`，真实Mongo适配器集成未运行；本轮真实Mongo/Milvus/MinIO/供应商调用0，fresh dev草稿未生成标准质量分、heldout未运行。红测与绿测证据在本机`output/m6-02/`，不纳入Git。下一步按M6-03核对实验任务/API/前端实际源码和队列契约，先建立访问与队列隔离回归；M7未授权。
 
 ## M5第五轮总控独立复审：通过
 

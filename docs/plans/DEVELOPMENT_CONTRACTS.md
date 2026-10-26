@@ -390,3 +390,7 @@ POST /feedback：run_id/citation_ids/category(model/evidence/missing_material/op
 M6-01允许证据使用稳定`source_span`：原件SHA256、物理页、引文SHA256及可选图像资产SHA256；映射结果带当前`document_id/revision_id/chunk_uid`，未映射来源标为invalid，不计检索失败。标签修订须有版本、理由、前后指纹，修订后回到draft；标准资格只接受有身份的`independent_assistant_review/reviewed`或`human_reviewed/reviewed`，两种身份分别统计，draft/feedback不是真值。历史曝光、fresh dev、fresh heldout必须互斥穷尽；heldout不能复用历史来源或fresh-dev来源，策略冻结前不得运行。
 
 M6-02需定义多证据组规则：外层`allowed_evidence`每组是一个必需目标，组内证据为正确替代项，同一组在排名前缀中最多计一次命中；无必需证据题的检索指标为`null`而非0。来源召回/排序不等于答案质量或人工正确率。实验manifest绑定数据、代码、模型、prompt、策略和seed；成本/供应商逻辑调用与精确HTTP请求/费用分开，未采集字段记null而非0。各指标公式与执行范围在对应任务记录中补齐。
+
+M6-02实现使用`metric_schema_version=1`启用新报告契约；M4既有配置不带该字段时维持旧输出。每个M6运行清单包含`manifest_schema_version=1`、数据/划分/配置/策略hash、策略参数、代码/模型/prompt版本及seed，并对复现对象另存SHA256。seed是固定配置的复核元数据，不保证控制供应商SDK或模型内部所有随机性。真实检索候选按`candidates/reranked/context`持久化稳定候选身份和授权来源指纹，不重复保存候选正文；单位测试使用合成候选不代表真实检索验收。
+
+对符合资格的已审题，Recall@k=前k候选命中的必需证据组数/必需组数；组内任一正确替代来源即可命中，同组只计一次。MRR取首个命中任意必需组的倒数排名。组级nDCG的gain为该候选首次命中的新证据组数、折扣为`log2(rank+1)`，再除以必需组数；一个候选可用多个来源满足多个组。草稿/反馈题和空`allowed_evidence`题的标准检索指标均为null；`human_answer_correctness`始终不由来源指标生成。报告按类别汇总成功/失败、缺失结果、失败阶段、检索均值及供应商调用/token/精确费用；字段不完整时不把缺失值当0。

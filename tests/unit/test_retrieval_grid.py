@@ -4,7 +4,7 @@ from types import SimpleNamespace
 import pytest
 from app.evaluation.retrieval_grid import RetrievalExecutor, validate_grid
 from app.retrieval.search import RetrievalPolicy
-from tests.unit.test_evaluation_dataset import case, freeze
+from tests.unit.test_evaluation_dataset import case, freeze, independent_annotation
 from app.evaluation.validate_dataset import file_sha
 
 
@@ -49,6 +49,85 @@ def grid_fixture(tmp_path):
 def test_grid_selects_only_frozen_dev(tmp_path):
     data, manifest, cfg = grid_fixture(tmp_path)
     assert [q['id'] for q in validate_grid(cfg, data, manifest)] == [f'q{i}' for i in range(35)]
+
+
+def test_m6_grid_requires_explicit_seed_while_m4_grid_stays_compatible(tmp_path):
+    data, manifest, cfg = grid_fixture(tmp_path)
+    cfg.update(metric_schema_version=1, metric_k_values=[1, 5], seed=21)
+    assert len(validate_grid(cfg, data, manifest)) == 35
+    del cfg['seed']
+    with pytest.raises(ValueError, match='seed'):
+        validate_grid(cfg, data, manifest)
+    cfg['seed'] = 21
+    cfg['metric_schema_version'] = 2
+    with pytest.raises(ValueError, match='契约版本'):
+        validate_grid(cfg, data, manifest)
+
+
+def test_m4_executor_keeps_output_shape_and_m6_exposes_ranked_sources():
+    base = fixture_config()
+    entity = dict(document_id='d', revision_id='r', chunk_uid='c', text='电压24V', metadata=dict(
+        source_refs=[dict(kind='pdf', page=2)], asset_ids=[]))
+    products = [dict(product_id='p', model='AX')]
+    index = SimpleNamespace(search=lambda *a, **kw: [dict(entity=entity)])
+    repo = SimpleNamespace(kb_id='kb', get_active_revisions=lambda: [dict(document_id='d', active_revision_id='r')])
+    g = SimpleNamespace(owner_id='owner', repo=lambda kb: repo, index=lambda: index,
+        product_kbs=SimpleNamespace(distinct=lambda *a: ['p']),
+        products=SimpleNamespace(collection=SimpleNamespace(find=lambda *a: products)))
+    encode = lambda texts: dict(dense=[[1., 0.]], sparse=[{1: .5}])
+    rank = lambda q, docs: [d | dict(score=.9) for d in docs]
+    question = case()
+
+    m4_result = RetrievalExecutor(base, g, embedder=encode, ranker=rank).execute(question, RetrievalPolicy())
+    assert 'retrieval_candidates' not in m4_result
+
+    base['metric_schema_version'] = 1
+    m6_result = RetrievalExecutor(base, g, embedder=encode, ranker=rank).execute(question, RetrievalPolicy())
+    assert m6_result['retrieval_candidates']['candidates'] == [
+        {'candidate_id': '["d","r","c"]', 'sources': [{'document_sha256': 'a' * 64, 'page': 2}]}
+    ]
+
+
+def test_m6_grid_writes_stage_metrics_and_category_summary_for_reviewed_dev_only(tmp_path, monkeypatch):
+    import json
+    from app.evaluation import retrieval_grid as grid
+
+    rows = []
+    for i in range(50):
+        row = case(f'm6-q{i}', 'dev' if i < 35 else 'heldout', f'm6-g{i}')
+        row['annotation'] = independent_annotation(row)
+        rows.append(row)
+    data, manifest, cfg = freeze(tmp_path, rows)
+    cfg.update(execution_mode='real_retrieval_grid', split_manifest_sha256=file_sha(manifest),
+        metric_schema_version=1, metric_k_values=[1, 5], seed=21,
+        grid=[dict(id='control', policy=RetrievalPolicy().model_dump())])
+
+    class Execute:
+        def __init__(self, *args, **kwargs):
+            self.encode = lambda _: None
+
+        def execute(self, question, policy):
+            evidence = question['allowed_evidence'][0][0]
+            source = {key: evidence[key] for key in ('document_sha256', 'page')}
+            ranked = [{'candidate_id': question['id'], 'sources': [source]}]
+            return dict(answer='', citations=[evidence], behavior='answer', route='answer',
+                retrieval_candidates={stage: ranked for stage in ('candidates', 'reranked', 'context')},
+                stage_metrics=dict(candidates=1., reranked=1., context=1.),
+                stage_timings=dict(estimated_pipeline_seconds=.01),
+                logical_provider_calls={}, token_usage={'input': 0, 'output': 0})
+
+    monkeypatch.setattr(grid, 'RetrievalExecutor', Execute)
+    report = grid.run_grid(cfg, data, manifest, tmp_path / 'm6-grid', None,
+                           embedder=None, ranker=lambda *args: None)[0]
+    summary = report['summary']
+    assert report['failed'] == 0 and report['completed'] == 35
+    assert summary['retrieval_metric_means']['candidates']['mrr'] == 1.0
+    assert summary['by_category']['parameter']['retrieval_metric_means']['candidates']['recall_at_k@1'] == 1.0
+    assert summary['accounting']['logical_provider_calls'] == {}
+    assert summary['accounting']['exact_cost'] is None
+    stored = json.loads((tmp_path / 'm6-grid' / 'grid-summary.json').read_text(encoding='utf-8'))
+    assert stored['heldout_executed'] == 0 and stored['paid_calls'] == 0
+    assert stored['variants'][0]['summary'] == summary
 
 
 @pytest.mark.parametrize('change', [lambda c: c.update(split='heldout'),

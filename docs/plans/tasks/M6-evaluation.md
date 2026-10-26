@@ -40,11 +40,11 @@
 **文件：**`app/evaluation/runner.py`; `app/evaluation/metrics.py`; `app/evaluation/validate_dataset.py`; `tests/unit/test_eval_metrics.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M6-02.1** Recall@k/MRR/nDCG 使用允许证据。
-- [ ] **M6-02.2** 保存模型/数据/prompt/策略/hash/seed。
-- [ ] **M6-02.3** 可按题型、失败阶段、成本统计。
-- [ ] **M6-02.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_eval_metrics.py -q。
-- [ ] **M6-02.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M6-02.1** Recall@k/MRR/nDCG 使用允许证据；多组必需、组内替代，无证据/草稿不计标准质量分。
+- [x] **M6-02.2** 保存模型/数据/prompt/策略/hash/seed复现身份；seed只作为可复核元数据，不宣称控制所有供应商随机性。
+- [x] **M6-02.3** 可按题型、失败阶段、逻辑调用/token与可用精确成本统计；未采集保持null。
+- [x] **M6-02.V** 指标契约9项通过；包含M6-01标签门禁的完整评测单元回归134 passed、0 skipped。
+- [x] **M6-02.D** 验证记录、总清单、进度、变更/决策、公共指标契约及评测报告说明已同步；未运行heldout/真实Mongo/供应商。
 
 **验收：**合成确定性样例指标算对；真实报告区分命中/答案质量；多证据与无答案题有明确计算规则。
 
