@@ -28,10 +28,23 @@ async def open_resources(settings):
         knowledge = KnowledgeResources(db, settings)
         from app.runs.query_runner import QueryRunner
         query_runner = QueryRunner(runs, commands, knowledge.get, identity_store=MongoIdentityStore(db))
+        from app.evaluation.catalog import EvaluationCatalog
+        from app.evaluation.repository import EvaluationRepository
+        from app.evaluation.service import EvaluationService
+        import os
+        directory = os.getenv('M6_EVALUATION_CATALOG')
+        evaluations = EvaluationService(EvaluationRepository(db), EvaluationCatalog(directory)) if directory else None
+        def dispatch_evaluations():
+            import os
+            from app.evaluation.jobs import dispatch
+            from app.infrastructure.queue.celery_app import celery_app
+            return dispatch(evaluations.repo, lambda eid: celery_app.send_task('evaluation.execute', args=[eid],
+                queue=os.getenv('M6_QUEUE_NAME', 'knowledge-evaluation')))
         try:
             yield {'db': db, 'identity': IdentityService(MongoIdentityStore(db), session_seconds=settings.session_seconds),
                    'conversations': conversations, 'runs': runs, 'run_service': RunService(runs),
-                   'events': events, 'commands': commands, 'knowledge': knowledge.get, 'query_runner': query_runner}
+                   'events': events, 'commands': commands, 'knowledge': knowledge.get, 'query_runner': query_runner,
+                   'evaluations': evaluations, 'evaluation_dispatch': dispatch_evaluations if evaluations else None}
         finally:
             query_runner.close()
             knowledge.close()
@@ -64,12 +77,26 @@ def create_app(*, settings=None, resource_factory=open_resources):
                         logging.getLogger(__name__).error('问答派发失败，异常类型：%s', type(exc).__name__)
                     await asyncio.sleep(.2)
             query = asyncio.create_task(query_loop()) if 'query_runner' in resources else None
+            async def evaluation_loop():
+                while True:
+                    try:
+                        await asyncio.to_thread(resources['evaluation_dispatch'])
+                    except Exception as exc:
+                        logging.getLogger(__name__).error('评测派发失败，异常类型：%s', type(exc).__name__)
+                    await asyncio.sleep(15)
+            evaluation = asyncio.create_task(evaluation_loop()) if resources.get('evaluation_dispatch') else None
             application.state.resources = resources
             application.state.ready = True
             try:
                 yield
             finally:
                 application.state.ready = False
+                if evaluation:
+                    evaluation.cancel()
+                    try:
+                        await evaluation
+                    except asyncio.CancelledError:
+                        pass
                 if query:
                     query.cancel()
                     try:
@@ -99,6 +126,8 @@ def create_app(*, settings=None, resource_factory=open_resources):
     application.include_router(citation_router)
     from app.support.api import router as support_router
     application.include_router(support_router)
+    from app.evaluation.api import router as evaluation_router
+    application.include_router(evaluation_router)
 
     @application.middleware('http')
     async def request_identity(request: Request, call_next):

@@ -55,11 +55,11 @@
 **文件：**`app/evaluation/api.py`; `app/evaluation/jobs.py`; `frontend/src/features/evaluation/ExperimentsPage.vue`; `tests/contract/test_experiment_access.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M6-03.1** 评测任务使用独立队列预算。
-- [ ] **M6-03.2** 前端选择版本与配置，查看题级证据、答案和基线差异。
-- [ ] **M6-03.3** 支持取消和失败重试。
-- [ ] **M6-03.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_experiment_access.py -q；pnpm -C frontend test:e2e -- experiments.spec.ts。
-- [ ] **M6-03.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M6-03.1** 独立队列/单并发宿主/所有者预算，拒绝与导入队列同名；Linux控制worker复用既有Windows模型宿主。
+- [x] **M6-03.2** 前端选择服务端登记版本/配置，按题分页查看来源、答案和同题集基线差异，未知成本/语义分保持未知。
+- [x] **M6-03.3** 版本化取消/失败重试，成功题检查点复用，显式失败题新run身份；结果attempt指针CAS保护迟到worker。
+- [x] **M6-03.V** 相称后端176 passed（143单元/16契约/17隔离Mongo），前端37单元/3定向浏览器通过；真实API/Redis/Linux/宿主失败门禁7检查通过、模型调用0。
+- [x] **M6-03.D** 已保存M6-03记录及全部本机红绿证据，配置、契约/OpenAPI、恢复文档和前端类型已同步。真实成功评测/反馈闭环留M6-08，不将传输失败门禁冒称模型评测成功。
 
 **验收：**普通用户不能访问他人私有题集；线上问答不被评测挤占；无 mock 指标混入真实结果。
 

@@ -5,16 +5,26 @@ from celery import Celery
 
 def create_celery():
     broker = os.getenv('REDIS_URL')
+    import_queue, evaluation_queue = os.getenv('M2_QUEUE_NAME', 'knowledge-import'), os.getenv('M6_QUEUE_NAME', 'knowledge-evaluation')
+    if not evaluation_queue.strip() or evaluation_queue == import_queue:
+        raise ValueError('M6_QUEUE_NAME须为非空独立队列，不得与M2_QUEUE_NAME相同。')
     app = Celery('knowledge_import', broker=broker or 'redis://127.0.0.1:6379/0')
     app.conf.update(task_acks_late=True, task_reject_on_worker_lost=True, worker_prefetch_multiplier=1,
                     broker_transport_options={'visibility_timeout': 120}, task_ignore_result=True,
                     task_serializer='json', accept_content=['json'], result_serializer='json',
-                    task_default_queue=os.getenv('M2_QUEUE_NAME', 'knowledge-import'),
-                    task_send_sent_event=False, worker_send_task_events=False)
+                    task_default_queue=import_queue,
+                    task_send_sent_event=False, worker_send_task_events=False,
+                    task_routes={'evaluation.execute': {'queue': evaluation_queue}})
     return app
 
 
 celery_app = create_celery()
+
+
+@celery_app.task(name='evaluation.execute', acks_late=True, reject_on_worker_lost=True)
+def evaluate(experiment_id):
+    from app.evaluation.jobs import run_job
+    run_job(experiment_id)
 
 
 @celery_app.task(name='knowledge.import', acks_late=True, reject_on_worker_lost=True)

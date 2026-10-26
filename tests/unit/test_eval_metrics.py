@@ -183,7 +183,7 @@ def test_runner_persists_safe_failure_stage_without_exception_message(tmp_path):
     record = json.loads((tmp_path / 'failed-run' / 'results.jsonl').read_text(encoding='utf-8'))
     assert report['summary']['by_failure_stage'] == {'retrieval': 1}
     assert record['failure_stage'] == 'retrieval'
-    assert record['error'] == {'type': 'RetrievalFailure'}
+    assert record['error'] == {'type': 'RetrievalFailure', 'code': 'provider_unknown_error', 'retryable': False}
     assert 'private' not in json.dumps(record)
 
 

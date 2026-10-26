@@ -59,6 +59,7 @@ class QueryRunner:
         self.enhancement_policy=EnhancementPolicy.load() if enhancement_policy is None else EnhancementPolicy.model_validate(enhancement_policy)
         self.pool = ThreadPoolExecutor(max_workers=4, thread_name_prefix='持久问答')
         self.futures, self.lock, self.stopping = {}, threading.Lock(), threading.Event()
+        self.capture_evaluation = False
 
     def scan(self):
         with self.lock:
@@ -200,6 +201,7 @@ class QueryRunner:
             emit('stage.changed',{'stage':stage},fields={'retrieval_branches':graph_result.branches,
                 'enhancement_policy':enhancement_policy.model_dump(),'retrieval_merge_count':graph_result.merge_count})
             candidates = from_index_hits(hits)
+            retrieved_candidates = list(candidates)
             pack = EvidencePack(plan=plan, candidates=candidates)
             docs = []
             for hit in candidates:
@@ -255,7 +257,17 @@ class QueryRunner:
             validate_citation_sources(citations,revisions,asset_lookup=asset_lookup)
             covered={pid for d in state['prompt_used_docs'] for pid in d.get('metadata',{}).get('product_ids',[])}
             missing_models=[p['model'] for p in products if p['product_id'] in plan.product_ids and p['product_id'] not in covered] if plan.route=='compare' else []
-            emit('citation.selected', {'citations': citations}, fields={'citations': citations, 'stage': stage,
+            evaluation_fields = {}
+            if self.capture_evaluation:
+                # 仅评测运行保存候选来源，不复制检索正文或标准答案。
+                evaluation_fields['evaluation_candidates'] = {name: [
+                    {'document_id': hit.document_id, 'revision_id': hit.revision_id,
+                     'chunk_uid': hit.chunk_uid, 'metadata': {
+                         'source_refs': copy.deepcopy(hit.metadata.get('source_refs', [])),
+                         'asset_ids': list(hit.metadata.get('asset_ids', []))}}
+                    for hit in group] for name, group in (
+                        ('candidates', retrieved_candidates), ('reranked', ranked), ('context', pack.selected))}
+            emit('citation.selected', {'citations': citations}, fields=evaluation_fields | {'citations': citations, 'stage': stage,
                 'retrieval_trace': pack.trace(), 'expansion_policy': expansion_policy.model_dump(),
                 'expansion_excluded': expansion.excluded, 'evidence_groups': expansion.groups,
                 'prompt_budget':state['prompt_budget'], 'missing_evidence_models':missing_models,

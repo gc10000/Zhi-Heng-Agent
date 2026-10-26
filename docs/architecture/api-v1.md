@@ -1,6 +1,6 @@
 # 统一API v1 · M2底座与M5支持扩展
 
-日期：2026-10-24。实际实现见[OpenAPI](openapi-v1.json)、[事件示例](run-events-example.json)和[公共契约](../plans/DEVELOPMENT_CONTRACTS.md)。OpenAPI从create_app().openapi()离线导出，当前33个路径/39个操作（M2交付时24个路径/27个操作）；事件文件为明确标注的合成协议示例，不是执行证据。M0至M4已通过，M5实施自验中，M6未授权。
+日期：2026-10-26。实际实现见[OpenAPI](openapi-v1.json)、[事件示例](run-events-example.json)和[公共契约](../plans/DEVELOPMENT_CONTRACTS.md)。OpenAPI从create_app().openapi()离线导出，当前40个路径/48个操作（M2交付时24个路径/27个操作）；事件文件为明确标注的合成协议示例，不是执行证据。M0至M5已通过，M6-03执行自验完成，阶段仍实施中，M7未授权。
 
 M3-08兼容补充：引用返回可空`original`，包含精确修订已登记原件的asset_id/media_type/name/url；与引用同权限复核，不公开对象键或签名URL，旧未登记原件返回null。PDF前端按物理页与已知normalized_top_left坐标定位，无bbox只跳页。
 
@@ -54,3 +54,8 @@ M4-08不改变公开问答API。退出仍先撤销会话，再清该用户查询
 | POST `/feedback` | run/citation_ids/category/note/client_request_id；五类pending_review，幂等冲突409，不发布知识 |
 
 支持聚合state独立于问答run.state，不借用执行租约伪造人工等待。刷新读取支持快照，不改SSE序号；原型号确认/取消/消息补偿仍沿M2/M3协议。新run冻结support_snapshot，旧run迟到引用更新须核对context_version；已取消/已解决不复活。support/case读取包含嵌套历史和工具输出的资料重新授权，撤权404不返回内容。可选外网MCP不注册，详见[支持恢复手册](../runbooks/support-recovery.md)。
+# M6评测接口补充
+
+评测API均要求登录和maintainer/admin，具体资源再次按owner/current kb核验；写操作沿用同源与CSRF。`GET /eval-catalog?kb_id=`只给维护者受控登记选项；`GET/POST /eval-sets`读取/登记私有题集版本；`GET/POST /experiments`列表/创建；`GET /experiments/{id}`读取真实状态；`GET /experiments/{id}/results?cursor=&limit=`按题身份分页，最大100；`POST /experiments/{id}/cancel`与`/retry`带`expected_version`，重试返回202。基线ID只接受同所有者/知识范围/冻结题集的已完成实验。未知成本/标准语义分保持null。
+
+创建仅接受题集/配置ID版本、可选基线和client_request_id，拒绝路径、伪造结果等额外字段。相同请求重发保持身份，相同请求ID内容变化409。取消在题边界合作完成，不中断已发出的供应商请求。题级对比仅表示文本/状态差异，不能当质量提升。登记后冻结指纹漂移或目录错误明确拒绝；错误不回显路径/配置正文。OpenAPI及前端声明已同步，详见[评测工作台](../evaluation/workbench.md)。

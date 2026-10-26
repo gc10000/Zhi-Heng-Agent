@@ -1848,6 +1848,409 @@
         }
       }
     },
+    "/api/v1/eval-catalog": {
+      "get": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Catalog",
+        "operationId": "catalog_api_v1_eval_catalog_get",
+        "parameters": [
+          {
+            "name": "kb_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Kb Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/eval-sets": {
+      "get": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "List Sets",
+        "operationId": "list_sets_api_v1_eval_sets_get",
+        "parameters": [
+          {
+            "name": "kb_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Kb Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Register",
+        "operationId": "register_api_v1_eval_sets_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterSetInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/experiments": {
+      "get": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "List Experiments",
+        "operationId": "list_experiments_api_v1_experiments_get",
+        "parameters": [
+          {
+            "name": "kb_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Kb Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Create",
+        "operationId": "create_api_v1_experiments_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExperimentInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/experiments/{eid}": {
+      "get": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Get",
+        "operationId": "get_api_v1_experiments__eid__get",
+        "parameters": [
+          {
+            "name": "eid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Eid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/experiments/{eid}/results": {
+      "get": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Results",
+        "operationId": "results_api_v1_experiments__eid__results_get",
+        "parameters": [
+          {
+            "name": "eid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Eid"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 128
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/experiments/{eid}/cancel": {
+      "post": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Cancel",
+        "operationId": "cancel_api_v1_experiments__eid__cancel_post",
+        "parameters": [
+          {
+            "name": "eid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Eid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VersionInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/experiments/{eid}/retry": {
+      "post": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Retry",
+        "operationId": "retry_api_v1_experiments__eid__retry_post",
+        "parameters": [
+          {
+            "name": "eid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Eid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VersionInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/health": {
       "get": {
         "tags": [
@@ -2045,6 +2448,69 @@
         ],
         "title": "ConversationPatch"
       },
+      "ExperimentInput": {
+        "properties": {
+          "kb_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Kb Id"
+          },
+          "eval_set_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Eval Set Id"
+          },
+          "eval_set_version": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Eval Set Version"
+          },
+          "config_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Config Id"
+          },
+          "config_version": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Config Version",
+            "default": "v1"
+          },
+          "baseline_experiment_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 128
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Baseline Experiment Id"
+          },
+          "client_request_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Client Request Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "kb_id",
+          "eval_set_id",
+          "eval_set_version",
+          "config_id",
+          "client_request_id"
+        ],
+        "title": "ExperimentInput"
+      },
       "FeedbackInput": {
         "properties": {
           "run_id": {
@@ -2238,6 +2704,36 @@
           "expected_active_revision_id"
         ],
         "title": "PublishInput"
+      },
+      "RegisterSetInput": {
+        "properties": {
+          "kb_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Kb Id"
+          },
+          "eval_set_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Eval Set Id"
+          },
+          "version": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Version"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "kb_id",
+          "eval_set_id",
+          "version"
+        ],
+        "title": "RegisterSetInput"
       },
       "RollbackInput": {
         "properties": {

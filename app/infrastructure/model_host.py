@@ -9,6 +9,7 @@ from app.api.errors import APIError, install
 
 app = FastAPI(title='本机模型桥接')
 lock = threading.Lock()
+evaluation_slot = threading.BoundedSemaphore(1)
 
 
 def authorize(x_model_token: str = Header('')):
@@ -27,6 +28,24 @@ class TextBatch(BaseModel):
 @app.get('/health', dependencies=[Depends(authorize)])
 def health():
     return {'ready': True}
+
+
+@app.post('/evaluation-jobs/{experiment_id}', dependencies=[Depends(authorize)])
+def evaluation_job(experiment_id: str):
+    from uuid import UUID
+    from fastapi import HTTPException
+    try:
+        UUID(experiment_id)
+    except ValueError:
+        raise HTTPException(422, '实验ID无效') from None
+    if not evaluation_slot.acquire(blocking=False):
+        raise HTTPException(429, '独立评测预算已占用')
+    try:
+        from app.evaluation.jobs import run_local_job
+        run_local_job(experiment_id)
+        return {'accepted': True}
+    finally:
+        evaluation_slot.release()
 
 
 @app.post('/embeddings', dependencies=[Depends(authorize)])

@@ -195,6 +195,14 @@ MODEL_HOST_PORT默认8011，MODEL_HOST_URL为worker可达宿主地址，MODEL_HO
 
 `API_PROXY_TARGET`仅Vite开发代理使用，默认`http://127.0.0.1:8000`；通过进程环境设置，不进入浏览器bundle。后端`API_ALLOWED_ORIGINS`须明确加入`http://127.0.0.1:5173`，本机HTTP用`API_COOKIE_SECURE=false`，HTTPS保持true。前端不读取根.env、不向VITE_变量复制任何供应商密钥。依赖、启动和隔离浏览器验证见[前端说明](../frontend/README.md)。
 
+## M6评测目录与独立预算
+
+`M6_EVALUATION_CATALOG`为API和模型宿主共同读取的本机catalog JSON路径，目录项只接受相对该文件目录的受控文件。未填写时仅关闭评测登记/创建入口，不影响问答。`M6_EVALUATION_WORK_DIR`为模型宿主的独立持久输出根目录，实验按UUID建立子目录，保留manifest/attempts/results和崩溃现场；不得指向课程原件或解析缓存，不提交Git。
+
+`M6_QUEUE_NAME`默认knowledge-evaluation，必须非空且与`M2_QUEUE_NAME`不同。专用Linux worker并发1/prefetch1，只接收实验ID，调用已有`MODEL_HOST_URL`和`MODEL_HOST_TOKEN`保护的宿主接口；不向Linux安装PyTorch或复制权重。API/宿主共享`M2_DB_NAME`与catalog，模型宿主仍使用当前`.venv`核验真实运行版本和完整语料。根`.env`不自动修改，新增变量均不进入前端bundle。
+
+每所有者最多1个活动实验，宿主每进程最多1个评测；运行租约120秒、心跳10秒、派发扫描15秒、未领取消息60秒后可重投为当前固定协议。排队久不回收有效占用；未形成任务的预算预留60秒后才可回收，迟到插入不可领取。此预算隔离消费槽，不保证共享GPU零竞争。完整catalog示例、启动、取消/重试与恢复见[评测工作台手册](evaluation/workbench.md)。
+
 ## M4按能力供应商策略
 
 在根目录.env配置`PROVIDER_POLICIES_ENABLED`，默认false保留原SDK参数，不提前改变原链路基线。true后按下表独立加载，仅所用能力缺配置/配置错误时失败；不因缺VL_MODEL或MCP工具阻断本地文本问答。SDK内部重试只处理其可重试网络/HTTP状态；流已开始后不重新打开流。修改后重启API/worker；不自动改写.env，不升级模型或依赖。

@@ -25,6 +25,7 @@ services:
       context: .
       dockerfile: deploy/worker/Dockerfile
     restart: unless-stopped
+    command: [celery, -A, 'app.infrastructure.queue.celery_app:celery_app', worker, '--loglevel=WARNING', '--concurrency=1', -Q, '${M2_QUEUE_NAME:-knowledge-import}']
     env_file:
       - .env
     environment:
@@ -41,6 +42,26 @@ services:
       - "host.docker.internal:host-gateway"
     volumes:
       - worker-cache:/var/lib/knowledge-worker
+
+  evaluation-worker:
+    # 只消费评测ID，实际模型执行沿受控宿主，避免Linux重复安装CUDA模型。
+    image: product-knowledge-worker:m2
+    profiles: [evaluation]
+    build:
+      context: .
+      dockerfile: deploy/worker/Dockerfile
+    restart: unless-stopped
+    command: [celery, -A, 'app.infrastructure.queue.celery_app:celery_app', worker, '--loglevel=WARNING', '--concurrency=1', -Q, '${M6_QUEUE_NAME:-knowledge-evaluation}']
+    environment:
+      REDIS_URL: redis://redis:6379/0
+      M6_QUEUE_NAME: ${M6_QUEUE_NAME:-knowledge-evaluation}
+      MODEL_HOST_URL: http://host.docker.internal:${MODEL_HOST_PORT:-8011}
+      MODEL_HOST_TOKEN: ${MODEL_HOST_TOKEN:-}
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    depends_on:
+      redis:
+        condition: service_healthy
   etcd:
     # Milvus 的元数据存储，只在容器网络中使用，无需对外发布端口。
     image: quay.io/coreos/etcd:v3.5.25

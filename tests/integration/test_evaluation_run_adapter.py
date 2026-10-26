@@ -97,3 +97,34 @@ def test_configured_strategy_controls_real_execution_ports_and_budget(evaluation
     assert seen and all(row['policy']['fusion']=='rrf' for row in seen)
     assert result['prompt_budget']['policy']['output_tokens']==128
     assert len(prompts)==1 and result['citations']
+
+
+def test_m6_full_query_preserves_ranked_source_identity_without_candidate_text(evaluation_context):
+    cfg, factory, resources, prompts, question, _ = evaluation_context
+    cfg['metric_schema_version'] = 1
+    with RealQueryExecutor(cfg, resource_factory=factory) as execute:
+        result = execute(question)
+    assert set(result.get('retrieval_candidates', {})) == {'candidates', 'reranked', 'context'}
+    for stage in result['retrieval_candidates'].values():
+        assert len(stage) == 1 and stage[0]['sources'][0]['document_sha256'] == 'a'*64
+        assert stage[0]['sources'][0]['page'] == 2
+        assert set(stage[0]) == {'candidate_id', 'sources'}
+
+
+def test_explicit_m6_failed_question_retry_creates_one_new_run_then_reuses_it(evaluation_context):
+    from app.infrastructure.providers.policy import ProviderFailure
+    cfg, factory, resources, prompts, question, _ = evaluation_context
+    cfg['metric_schema_version'] = 1
+    original = resources['query_runner'].llm_factory
+    class Failing:
+        def stream(self, *args, **kwargs): raise ProviderFailure('upstream_timeout', True)
+    resources['query_runner'].llm_factory = Failing
+    with RealQueryExecutor(cfg, resource_factory=factory) as execute:
+        with pytest.raises(ProviderFailure): execute(question)
+    resources['query_runner'].llm_factory = original
+    with RealQueryExecutor(cfg, resource_factory=factory) as execute:
+        execute.retry_key = 'explicit-retry-one'
+        result = execute(question)
+        again = execute(question)
+    assert result == again and result['state'] == 'completed'
+    assert len(prompts) == 1 and resources['runs'].runs.count_documents({}) == 2

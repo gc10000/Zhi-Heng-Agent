@@ -80,6 +80,7 @@ class RealQueryExecutor:
         strategy_policies(config)
         self.config = copy.deepcopy(config)
         self.factory = resource_factory or open_evaluation_resources
+        self.retry_key = None
 
     def __enter__(self):
         self.stack = ExitStack()
@@ -89,6 +90,7 @@ class RealQueryExecutor:
             policies=strategy_policies(self.config)
             runner=self.resources.get('query_runner')
             if runner is not None:
+                runner.capture_evaluation = self.config.get('metric_schema_version') == 1
                 runner.retrieval_policy=policies.retrieval;runner.expansion_policy=policies.expansion
                 runner.answer_budget=policies.answer_budget;runner.enhancement_policy=policies.enhancement
             self.check_corpus()
@@ -150,17 +152,29 @@ class RealQueryExecutor:
             conv.append_message(self.user, cid, run_id=fingerprint([key, 'history', index]), role=message['role'],
                                 text=message['text'], product_snapshot={'product_ids': [], 'version': 0})
         from app.runs.models import RunInput
-        run = self.resources['run_service'].create(self.user, cid, RunInput(kb_id=kb, question=inputs['question'], client_request_id=key))
+        request_key = saved.get('request_key', key)
+        if self.retry_key and self.config.get('metric_schema_version') == 1 and saved.get('run_id'):
+            previous = self.resources['runs'].get(self.user, saved['run_id'])
+            if previous['state'] == 'failed' and previous.get('error', {}).get('retryable') is True:
+                request_key = fingerprint([key, 'explicit_retry', self.retry_key])
+        run = self.resources['run_service'].create(self.user, cid, RunInput(kb_id=kb, question=inputs['question'], client_request_id=request_key))
         rid = run['run_id']
-        self.checkpoints.update_one({'_id': key}, {'$set': {'run_id': rid}})
+        self.checkpoints.update_one({'_id': key}, {'$set': {'run_id': rid, 'request_key': request_key}})
         if run['state'] == 'pending':
             self.resources['query_runner'].execute(rid)
         row = self.resources['runs'].get(self.user, rid)
         if row['state'] == 'awaiting_input':
             return {'run_id': rid, 'state': row['state'], 'behavior': 'clarify', 'answer': '', 'citations': [],
-                    'candidates': row.get('candidates', []), 'logical_provider_calls':{k:v-counts_before[k] for k,v in counts.snapshot().items()} if counts else {}}
+                    'candidates': row.get('candidates', []), 'logical_provider_calls':{k:v-counts_before[k] for k,v in counts.snapshot().items()} if counts else {}} | (
+                        {'retrieval_candidates': {'candidates': [], 'reranked': [], 'context': []}}
+                        if self.config.get('metric_schema_version') == 1 else {})
         if row['state'] != 'completed':
             # 不自动新建run重付费，保留持久账本供恢复/明确重试。
+            if self.config.get('metric_schema_version') == 1 and row.get('error', {}).get('retryable') is not None:
+                from app.infrastructure.providers.policy import ProviderFailure
+                failure = ProviderFailure(row['error']['code'], row['error']['retryable'])
+                failure.stage = row['error'].get('stage', 'unknown')
+                raise failure
             raise ValueError('真实运行未完成；请按本机检查点核对运行状态')
         citations = []
         g = self.resources['knowledge']()
@@ -178,7 +192,19 @@ class RealQueryExecutor:
                     for ref in asset['source_refs']:
                         if ref.get('page'):
                             citations.append({'document_sha256': source['original_sha256'], 'page': ref['page'], 'asset_sha256': asset['sha256']})
-        return {'run_id': rid, 'state': row['state'], 'behavior': 'answer' if citations else 'insufficient',
+        extra = {}
+        if self.config.get('metric_schema_version') == 1:
+            from app.retrieval.models import RetrievalHit
+            from .retrieval_grid import ranked_source_candidates
+            groups = row.get('evaluation_candidates')
+            if groups is None:
+                raise ValueError('M6正式运行缺少分阶段来源，不能伪造检索指标')
+            assets = {a['asset_id']: a for a in g.db.knowledge_assets.find({
+                'document_id': {'$in': list(self.documents)}})}
+            extra['retrieval_candidates'] = {name: ranked_source_candidates(
+                [RetrievalHit(**item, text='') for item in group], self.documents, assets)
+                for name, group in groups.items()}
+        return extra | {'run_id': rid, 'state': row['state'], 'behavior': 'answer' if citations else 'insufficient',
                 'answer': row['answer'], 'citations': citations,
                 'behavior_notice': '行为为协议与证据的保守辅助判定；部分回答/比较须人工复核',
                 'answer_support':row.get('answer_support'), 'prompt_budget':row.get('prompt_budget'),

@@ -10,7 +10,7 @@ export const router = createRouter({
       { path: 'products', component: () => import('@/features/products/ProductsPage.vue') },
       { path: 'documents', component: () => import('@/features/documents/DocumentsPage.vue') },
       { path: 'cases', component: () => import('@/features/cases/CasesPage.vue') },
-      { path: 'evaluations', component: () => import('./DeferredPage.vue'), props: { title: '评测工作台', message: '评测管理尚未开放，当前没有可展示的评测结果。' } },
+      { path: 'evaluations', component: () => import('@/features/evaluation/ExperimentsPage.vue') },
     ] },
     { path: '/:pathMatch(.*)*', redirect: '/chat' },
   ],

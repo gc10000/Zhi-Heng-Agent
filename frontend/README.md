@@ -8,7 +8,9 @@ Windows运行Node 22.17.1（`.node-version`）、pnpm 11.25.0；本机独立pnpm
 
 独立真实小样：`.venv/Scripts/python.exe scripts/verification/m3_environment.py --config docs/development/evidence/<新名字>.json`。建立随机m1_test库、集合和对象前缀，运行真实模型桥接/Linux worker/API/Vite；保留数据，结束时创建同名`.stop`文件，仅停止自己的进程。真实问答产生费用。原课程数据、原桶策略与旧入口不改。复用许可见根目录THIRD_PARTY_NOTICES.md。
 
-正式工作台已接会话目录/历史、设备范围确认、可恢复SSE、授权图文引用/PDF原件、资料上传与修订发布。处理记录和评测入口明确未开放，未伪造数据。CompatibilityPage纵向试验页已由正式组件替代，历史提交与原始验收证据保留。
+正式工作台已接会话目录/历史、设备范围确认、可恢复SSE、授权图文引用/PDF原件、资料上传与修订发布、M5处理记录及M6实验页面。CompatibilityPage纵向试验页已由正式组件替代，历史提交与原始验收证据保留。
+
+M6实验页只允许维护者选择服务端已登记的题集/配置，查看私有实验状态、逐题来源/答案和基线差异；取消及失败重试带版本，空数据不生成假指标。前端不能提交本机路径或heldout，未知费用/语义正确性保持未知。`pnpm -C frontend test:e2e -- experiments.spec.ts`为离线协议交互测试，真实成功评测仍需独立端到端验收。后台配置与恢复见[评测工作台](../docs/evaluation/workbench.md)。
 
 默认test:e2e仅选择离线/合成PDF用例，真实登录和阶段链路以配置选择，选择排除不是测试通过。在项目根设置`$env:M3_LIVE_CONFIG='../docs/development/evidence/<新名字>.json'`后运行`pnpm -C frontend test:e2e -- support-flow.spec.ts`。配置路径相对frontend，含临时凭据，严禁输出/上传。录屏工具用`pnpm -C frontend exec playwright install ffmpeg`安装，仅工具二进制，未改Python环境。
 

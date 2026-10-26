@@ -231,6 +231,36 @@ def test_existing_output_lock_rejects_before_execution(tmp_path):
     assert (out / '.runner.lock').read_text(encoding='utf-8') == 'occupied'
 
 
+def test_cancelled_experiment_stops_at_question_boundary_and_keeps_completed_results(tmp_path):
+    rows = [case('q1'), case('q2', group='g2')]
+    data, manifest, cfg = freeze(tmp_path, rows)
+    cfg.update(metric_schema_version=1, seed=11)
+    calls = []
+
+    def execute(row):
+        calls.append(row['id'])
+        return {'answer': '24 V', 'citations': []}
+
+    report = run_experiment(data, manifest, cfg, tmp_path / 'cancelled', execute,
+                            should_cancel=lambda: len(calls) >= 1)
+    assert calls == ['q1']
+    assert report['status'] == 'cancelled'
+    assert report['completed'] == 1 and report['failed'] == 0
+    assert report['summary']['missing_results'] == 1
+
+
+def test_m6_timeout_keeps_safe_retry_classification_and_no_private_error_text(tmp_path):
+    data, manifest, cfg = freeze(tmp_path, [case()])
+    cfg.update(metric_schema_version=1, seed=11)
+    def fail(row): raise TimeoutError('private-token=never-persist')
+    report = run_experiment(data, manifest, cfg, tmp_path/'out', fail)
+    row = json.loads((tmp_path/'out/results.jsonl').read_text(encoding='utf-8'))
+    assert report['status'] == 'incomplete'
+    assert row['error'].get('code') == 'upstream_timeout'
+    assert row['error'].get('retryable') is True
+    assert 'never-persist' not in json.dumps(row)
+
+
 def test_torn_last_attempt_is_preserved_and_does_not_repeat_completed_work(tmp_path):
     data, manifest, cfg = freeze(tmp_path, [case()])
     out = tmp_path / 'out'

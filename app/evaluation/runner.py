@@ -142,7 +142,7 @@ def read_attempts(path):
     return [json.loads(line) for line in raw[:committed].splitlines()]
 
 
-def run_experiment(dataset, manifest, config, output, executor):
+def run_experiment(dataset, manifest, config, output, executor, *, should_cancel=None):
     rows = validate_dataset(dataset, manifest=manifest, minimum=1)
     frozen = json.loads(Path(manifest).read_text(encoding='utf-8'))
     check_split(config, frozen)
@@ -180,6 +180,7 @@ def run_experiment(dataset, manifest, config, output, executor):
             report['reproducibility_sha256'] = fingerprint(m6_reproducibility)
         atomic_json(report_path, report)
         by_id = {}
+        cancelled = False
         if attempts_path.exists():
             for record in read_attempts(attempts_path):
                 if record['config_sha256'] != digest or record['id'] not in report['selected_ids']:
@@ -188,6 +189,9 @@ def run_experiment(dataset, manifest, config, output, executor):
         for question in selected:
             qid = question['id']
             if by_id.get(qid, {}).get('status') == 'completed': continue
+            if should_cancel is not None and should_cancel():
+                cancelled = True
+                break
             started = time.perf_counter()
             record = {'id': qid, 'config_sha256': digest, 'category': question['category'],
                       'attempt': by_id.get(qid, {}).get('attempt', 0) + 1}
@@ -231,6 +235,9 @@ def run_experiment(dataset, manifest, config, output, executor):
             except Exception as exc:
                 record.update(status='failed', error={'type': type(exc).__name__})
                 if config.get('metric_schema_version') == 1:
+                    from app.infrastructure.providers.policy import classify
+                    code, retryable = classify(exc)
+                    record['error'].update(code=code, retryable=retryable)
                     stage = getattr(exc, 'stage', getattr(exc, 'failure_stage', None))
                     safe_stages = {'validation', 'planning', 'retrieval', 'rerank', 'generation', 'persistence'}
                     if not isinstance(stage, str) or stage not in safe_stages:
@@ -244,12 +251,16 @@ def run_experiment(dataset, manifest, config, output, executor):
             by_id[qid] = record
             results = [by_id[r['id']] for r in selected if r['id'] in by_id]
             save_results(output, results)
-        results = [by_id[r['id']] for r in selected]
+        results = [by_id[r['id']] for r in selected if r['id'] in by_id]
         # 尝试日志已落盘而汇总尚未替换时退出，也可无需重调模型重建结果。
         save_results(output, results)
         timings = [r['seconds'] for r in results if r['status'] == 'completed']
-        report.update(status='completed' if len(timings) == len(selected) else 'incomplete', completed=len(timings),
-                      failed=len(selected) - len(timings), p50_seconds=percentile(timings, .5), p95_seconds=percentile(timings, .95))
+        failed = sum(row.get('status') == 'failed' for row in results)
+        if should_cancel is not None and should_cancel():
+            cancelled = True
+        report.update(status='cancelled' if cancelled else 'completed' if len(results) == len(selected) and not failed else 'incomplete',
+                      completed=sum(row.get('status') == 'completed' for row in results),
+                      failed=failed, p50_seconds=percentile(timings, .5), p95_seconds=percentile(timings, .95))
         if config.get('metric_schema_version') == 1:
             from .metrics import summarize_experiment
             report['summary'] = summarize_experiment(results, selected)
