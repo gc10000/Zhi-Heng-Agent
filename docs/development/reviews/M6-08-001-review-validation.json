@@ -1,0 +1,106 @@
+{
+  "date": "2026-10-26",
+  "scope": "M6-08 / 001定向修复复核，非阶段总审查",
+  "reviewed_implementation": "baa70759690e7c4bfc02e0d2abd6ba241a03a7d0",
+  "reviewed_head": "1930bfc07802b115186a66929758a785e0f51f91",
+  "conclusion": "需修复",
+  "findings": [
+    {
+      "id": "R001-1",
+      "priority": 1,
+      "file": "app/products/resolver.py",
+      "line": 38,
+      "reason": "未经来源/别名确认的字母后缀也被判为catalog_exact并调用模型回答",
+      "examples": [
+        "LA2608-ZZ",
+        "型号：LA2608-FAKE"
+      ]
+    }
+  ],
+  "independent_targeted": {
+    "passed": 46,
+    "failed": 0,
+    "exit_code": 0,
+    "seconds": 21.05,
+    "evidence_mode": "本轮终端实际输出"
+  },
+  "independent_new_boundaries": {
+    "tests": 5,
+    "passed": 3,
+    "failed": 2,
+    "errors": 0,
+    "skipped": 0,
+    "exit_code": 1,
+    "mode": "真实随机隔离Mongo、正式RunService/QueryRunner，检索及模型端口注入",
+    "provider_calls": 0
+  },
+  "submitted_evidence": {
+    "matched_hashes": 4,
+    "reported_backend_passed": 916,
+    "reported_deselected": 2,
+    "reported_skipped": 0,
+    "reported_reimport_passed": 3,
+    "composition": {
+      "unit": 566,
+      "contract": 135,
+      "integration": 215
+    },
+    "full_suite_reexecuted_this_review": false
+  },
+  "business_code_modified_this_review": false,
+  "human_review_written": false,
+  "new_paid_calls": 0,
+  "acceptance": {
+    "M6-04": false,
+    "M6-05": false,
+    "M6-08": false,
+    "M7_authorized": false
+  },
+  "raw_evidence": [
+    {
+      "path": "output/m6-08/001-independent-review-20261026/boundaries.txt",
+      "bytes": 2431,
+      "sha256": "858090d437bca8bb66b41262ae1e0b10071196c829be9f4cba13ace3ff951787"
+    },
+    {
+      "path": "output/m6-08/001-independent-review-20261026/boundaries.xml",
+      "bytes": 2627,
+      "sha256": "1a86b773dcb19e9c1d9b08f1e5321210eb04b44ea2b9488a4c76551a1e815a16"
+    },
+    {
+      "path": "output/m6-08/001-independent-review-20261026/LA2608-FAKE-explicit.json",
+      "bytes": 972,
+      "sha256": "3eec00c681b880b9e97c196eee435cee38ed37eaf8f11124a442193e1a14b460"
+    },
+    {
+      "path": "output/m6-08/001-independent-review-20261026/LA2608-GM_GU-explicit.json",
+      "bytes": 970,
+      "sha256": "df52a5302d9aa0ea17c0a62b3f8219473997a71228b43bafbd35ded4fbc04be1"
+    },
+    {
+      "path": "output/m6-08/001-independent-review-20261026/LA2608-GM_GU-plain.json",
+      "bytes": 943,
+      "sha256": "63e9e687ca7e79369fef84e6295acf224b396b3a5b38392091e72b6c04c666e3"
+    },
+    {
+      "path": "output/m6-08/001-independent-review-20261026/LA2608-ZZ-plain.json",
+      "bytes": 939,
+      "sha256": "ec59df0b6de7e2aeebbd5a4267dddafe616430e8e9f4ffba121f9c5c7be4d425"
+    },
+    {
+      "path": "output/m6-08/001-independent-review-20261026/LA2609-GM_GU-plain.json",
+      "bytes": 766,
+      "sha256": "3f3a725ff9f29962dea5aef36ddfb510f7c896b544e83a65abf2c8c75885b486"
+    },
+    {
+      "path": "output/m6-08/001-independent-review-20261026/resolver-before-after.json",
+      "bytes": 1628,
+      "sha256": "ad2776dce71e1004b4940fc7d25d194245bc9e89a784ff0791fa4168a151246f"
+    },
+    {
+      "path": "output/m6-08/001-independent-review-20261026/test_variant_boundaries.py",
+      "bytes": 2364,
+      "sha256": "7bb5280b835e1a10bff68a631ffbda34ceb99b29c5e509b5c709c8ae0c71e2eb"
+    }
+  ]
+}
