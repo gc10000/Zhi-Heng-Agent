@@ -1,0 +1,380 @@
+{
+  "date": "2026-10-26",
+  "scope": "R001-1第二次总控定向复审，非M6阶段总审查",
+  "reviewed_commit": "c64e573815e3616c6ecb35718dfb91668a2afa1c",
+  "baseline_commit": "e295db53f354c2715e1754460ecb7b0873ec75be",
+  "remote_main_verified": "c64e573815e3616c6ecb35718dfb91668a2afa1c",
+  "conclusion": "通过",
+  "closed_findings": [
+    "R001-1"
+  ],
+  "remaining_blocking_findings_for_this_fix": [],
+  "independent_checks": {
+    "targeted": {
+      "passed": 63,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 25.436,
+      "exit_code": 0
+    },
+    "original_probe_copy": {
+      "passed": 5,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 13.571,
+      "exit_code": 0
+    },
+    "query_runs": {
+      "passed": 14,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 19.252,
+      "exit_code": 0
+    },
+    "counts_notice": "组合与探针有覆盖重叠，不相加为唯一覆盖总数",
+    "original_probe_byte_identical": true,
+    "commands": {
+      "database_prefix": "m1_test_m4_m6_r001_review_65170156",
+      "checks": [
+        {
+          "name": "targeted",
+          "command": [
+            "D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\.venv\\Scripts\\python.exe",
+            "-m",
+            "pytest",
+            "tests/unit/test_product_resolution.py",
+            "tests/unit/test_query_plans.py",
+            "tests/integration/test_query_planning.py",
+            "-q",
+            "--tb=short",
+            "--junitxml=output\\m6-08\\001-independent-review-r2-20261026\\targeted.xml"
+          ],
+          "exit_code": 0,
+          "seconds": 29.672
+        },
+        {
+          "name": "original-probe",
+          "command": [
+            "D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\.venv\\Scripts\\python.exe",
+            "-m",
+            "pytest",
+            "output\\m6-08\\001-independent-review-r2-20261026\\test_variant_boundaries.py",
+            "-q",
+            "--tb=short",
+            "--junitxml=output\\m6-08\\001-independent-review-r2-20261026\\original-probe.xml"
+          ],
+          "exit_code": 0,
+          "seconds": 17.172
+        },
+        {
+          "name": "query-runs",
+          "command": [
+            "D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\.venv\\Scripts\\python.exe",
+            "-m",
+            "pytest",
+            "tests/integration/test_query_runs.py",
+            "-q",
+            "--tb=short",
+            "--junitxml=output\\m6-08\\001-independent-review-r2-20261026\\query-runs.xml"
+          ],
+          "exit_code": 0,
+          "seconds": 22.437
+        }
+      ]
+    }
+  },
+  "formal_original_probe_observations": [
+    {
+      "question": "型号：LA2608-FAKE能否与任意品牌无线控制器互通？",
+      "expected_state": "awaiting_input",
+      "actual_state": "awaiting_input",
+      "plan": {
+        "original_query": "型号：LA2608-FAKE能否与任意品牌无线控制器互通？",
+        "search_queries": [
+          "型号：LA2608-FAKE能否与任意品牌无线控制器互通？"
+        ],
+        "product_ids": [],
+        "revision_ids": [],
+        "route": "clarify",
+        "slots": {},
+        "scope_groups": [],
+        "candidates": [
+          "627d72ac-ebf5-461b-82c7-718a298d995e"
+        ],
+        "unconfirmed_tokens": [
+          "LA2608-FAKE"
+        ],
+        "reason": "unconfirmed_model",
+        "rewritten_query": null
+      },
+      "answer": "",
+      "citation_count": 0,
+      "injected_model_calls": 0,
+      "provider_calls": 0
+    },
+    {
+      "question": "型号：LA2608-GM/GU能否与任意品牌无线控制器互通？",
+      "expected_state": "completed",
+      "actual_state": "completed",
+      "plan": {
+        "original_query": "型号：LA2608-GM/GU能否与任意品牌无线控制器互通？",
+        "search_queries": [
+          "型号：LA2608-GM/GU能否与任意品牌无线控制器互通？"
+        ],
+        "product_ids": [
+          "217ebe50-3261-4d53-a9ea-ee8bb7564284"
+        ],
+        "revision_ids": [
+          "cad1c52e-3a35-5296-a086-6c33cc4c86f2"
+        ],
+        "route": "answer",
+        "slots": {
+          "device": "H3C LA2608"
+        },
+        "scope_groups": [
+          [
+            "217ebe50-3261-4d53-a9ea-ee8bb7564284"
+          ]
+        ],
+        "candidates": [],
+        "unconfirmed_tokens": [],
+        "reason": "catalog_exact",
+        "rewritten_query": null
+      },
+      "answer": "LA2608仅支持与H3C公司的无线控制器互通。[1]",
+      "citation_count": 1,
+      "injected_model_calls": 1,
+      "provider_calls": 0
+    },
+    {
+      "question": "LA2608-GM/GU能否与任意品牌无线控制器互通？",
+      "expected_state": "completed",
+      "actual_state": "completed",
+      "plan": {
+        "original_query": "LA2608-GM/GU能否与任意品牌无线控制器互通？",
+        "search_queries": [
+          "LA2608-GM/GU能否与任意品牌无线控制器互通？"
+        ],
+        "product_ids": [
+          "79195aed-4298-4376-98b9-ec0a0a5c5189"
+        ],
+        "revision_ids": [
+          "cad1c52e-3a35-5296-a086-6c33cc4c86f2"
+        ],
+        "route": "answer",
+        "slots": {
+          "device": "H3C LA2608"
+        },
+        "scope_groups": [
+          [
+            "79195aed-4298-4376-98b9-ec0a0a5c5189"
+          ]
+        ],
+        "candidates": [],
+        "unconfirmed_tokens": [],
+        "reason": "catalog_exact",
+        "rewritten_query": null
+      },
+      "answer": "LA2608仅支持与H3C公司的无线控制器互通。[1]",
+      "citation_count": 1,
+      "injected_model_calls": 1,
+      "provider_calls": 0
+    },
+    {
+      "question": "LA2608-ZZ能否与任意品牌无线控制器互通？",
+      "expected_state": "awaiting_input",
+      "actual_state": "awaiting_input",
+      "plan": {
+        "original_query": "LA2608-ZZ能否与任意品牌无线控制器互通？",
+        "search_queries": [
+          "LA2608-ZZ能否与任意品牌无线控制器互通？"
+        ],
+        "product_ids": [],
+        "revision_ids": [],
+        "route": "clarify",
+        "slots": {},
+        "scope_groups": [],
+        "candidates": [
+          "dedcc46e-ab2e-46c2-b2dc-d499aacfc47c"
+        ],
+        "unconfirmed_tokens": [
+          "LA2608-ZZ"
+        ],
+        "reason": "unconfirmed_model",
+        "rewritten_query": null
+      },
+      "answer": "",
+      "citation_count": 0,
+      "injected_model_calls": 0,
+      "provider_calls": 0
+    },
+    {
+      "question": "LA2609-GM/GU能否与任意品牌无线控制器互通？",
+      "expected_state": "awaiting_input",
+      "actual_state": "awaiting_input",
+      "plan": {
+        "original_query": "LA2609-GM/GU能否与任意品牌无线控制器互通？",
+        "search_queries": [
+          "LA2609-GM/GU能否与任意品牌无线控制器互通？"
+        ],
+        "product_ids": [],
+        "revision_ids": [],
+        "route": "clarify",
+        "slots": {},
+        "scope_groups": [],
+        "candidates": [
+          "9ee6accd-c1da-498b-bfed-ed8e06ea0057"
+        ],
+        "unconfirmed_tokens": [
+          "LA2609-GM/GU"
+        ],
+        "reason": "unconfirmed_model",
+        "rewritten_query": null
+      },
+      "answer": "",
+      "citation_count": 0,
+      "injected_model_calls": 0,
+      "provider_calls": 0
+    }
+  ],
+  "source_readonly": {
+    "sha256": "72983cc9b60f7f165bf89d3f6cbe39d56c4db148fd4b894c70c37378f8be5c8e",
+    "sha256_matches": true,
+    "physical_page": 4,
+    "variant_and_abbreviation_present": true,
+    "h3c_controller_limit_present": true,
+    "pages": 6,
+    "source_read_only": true
+  },
+  "submitted_snapshot": {
+    "manifest": "docs/development/reviews/M6-08-001-manifest-r2-final.json",
+    "manifest_sha256": "c82e27ca22c30e5791251885e8219f4aff005a00414e757e0f50c6ded5bd4a57",
+    "file_hashes_matched": 16,
+    "python_syntax_files": 4,
+    "local_links": 296,
+    "local_secret_scan": "pass",
+    "submission_evidence_hashes_matched": 35,
+    "prior_review_evidence_hashes_matched": 9,
+    "checked_before_review_edits": true
+  },
+  "submitted_stage_evidence": {
+    "backend_passed": 933,
+    "deselected": 2,
+    "skipped": 0,
+    "by_directory": {
+      "unit": 574,
+      "contract": 135,
+      "integration": 224
+    },
+    "backend_exit_code": 0,
+    "reimport_passed": 3,
+    "reimport_exit_code": 0,
+    "reexecuted_full_suite_this_review": false,
+    "notice": "仅核对提交方JUnit/逐命令账本及hash，本轮独立执行范围见independent_checks"
+  },
+  "boundaries": {
+    "business_code_modified_this_review": false,
+    "new_paid_calls": 0,
+    "human_score_writes": 0,
+    "real_001_rerun": false,
+    "frontend_rerun": false,
+    "heldout_rerun": false,
+    "untracked_tmp_preserved": true,
+    "raw_evidence_uploaded": false
+  },
+  "acceptance": {
+    "M6-04": false,
+    "M6-05": false,
+    "M6-08": false,
+    "m6_stage_review_status": "未提交",
+    "m6_core_completed": 4,
+    "m6_core_total": 7,
+    "m7_authorized": false
+  },
+  "next_action": "按既有M6授权在修复代码指纹/新隔离版本继续真实001与人工/反馈接续，不覆盖旧失败或代填human",
+  "raw_evidence": [
+    {
+      "path": "output/m6-08/001-independent-review-r2-20261026/commands.json",
+      "bytes": 1500,
+      "sha256": "33058cf1c0c021815b35fdf624f7121e27a33431a61edf5053fcfe8068059c60"
+    },
+    {
+      "path": "output/m6-08/001-independent-review-r2-20261026/LA2608-FAKE-explicit.json",
+      "bytes": 792,
+      "sha256": "60c97720bba3cfdc538824bd21702f681cbc49b6d83432827d4faeaa3d5240e6"
+    },
+    {
+      "path": "output/m6-08/001-independent-review-r2-20261026/LA2608-GM_GU-explicit.json",
+      "bytes": 970,
+      "sha256": "4e63a2e7854f79dd3f56a3c00fa00a408d29e76cd0647689ee538543e75e2cd1"
+    },
+    {
+      "path": "output/m6-08/001-independent-review-r2-20261026/LA2608-GM_GU-plain.json",
+      "bytes": 943,
+      "sha256": "6e431a5bb7fe2f377f00dcc6be9aa8157edc6deef56330a9a48cfc69537b83da"
+    },
+    {
+      "path": "output/m6-08/001-independent-review-r2-20261026/LA2608-ZZ-plain.json",
+      "bytes": 757,
+      "sha256": "4b73f7ce2022bfff23906d9dc46d5c04a80d015b89425259ceedcace7fb911b6"
+    },
+    {
+      "path": "output/m6-08/001-independent-review-r2-20261026/LA2609-GM_GU-plain.json",
+      "bytes": 769,
+      "sha256": "b7a46b1740288cbdd4c02a64d937342c8f7bd3399e9ef3d49bb7ddcc5cf118db"
+    },
+    {
+      "path": "output/m6-08/001-independent-review-r2-20261026/original-probe.txt",
+      "bytes": 243,
+      "sha256": "61417c3136138af216658c37ed0b29e9e899ff1b521f6becf0635094fac0d757"
+    },
+    {
+      "path": "output/m6-08/001-independent-review-r2-20261026/original-probe.xml",
+      "bytes": 1138,
+      "sha256": "cd7f64e56032768b4eaa54128223509288ea20aa7420f524d0ce343dce0b2b5f"
+    },
+    {
+      "path": "output/m6-08/001-independent-review-r2-20261026/query-runs.txt",
+      "bytes": 240,
+      "sha256": "ae45f915f86325e454d61b06b53912c02bdb2d13d2bf4e5584444f2e65439a90"
+    },
+    {
+      "path": "output/m6-08/001-independent-review-r2-20261026/query-runs.xml",
+      "bytes": 2197,
+      "sha256": "e26d901950cab730213a1941812769d32d90555332ea6e60890fcb6569c68373"
+    },
+    {
+      "path": "output/m6-08/001-independent-review-r2-20261026/source-page-4.png",
+      "bytes": 145561,
+      "sha256": "7aac76cca1cf9c32a0ed84ce0cfc0b43a0ea09048ca0c27b89cb6877ccc0517a"
+    },
+    {
+      "path": "output/m6-08/001-independent-review-r2-20261026/source-readonly.json",
+      "bytes": 264,
+      "sha256": "d1f933b1f9d90105df17a9f731d6eb48b1b3446bcd60eb9c23732aa04e2e0081"
+    },
+    {
+      "path": "output/m6-08/001-independent-review-r2-20261026/submission-audit.json",
+      "bytes": 3241,
+      "sha256": "89e2de83bd90bd6797e0c66d403ac946ba983728e0c0562cc44a3e7ca6e20d17"
+    },
+    {
+      "path": "output/m6-08/001-independent-review-r2-20261026/targeted.txt",
+      "bytes": 238,
+      "sha256": "57b0dc99883b8a94f41da98b7eee5488acdccbd4a8f6d48a42200747a655ab7d"
+    },
+    {
+      "path": "output/m6-08/001-independent-review-r2-20261026/targeted.xml",
+      "bytes": 10000,
+      "sha256": "f03bf203c343ff85dc89af21ef1d6b8a951b1045bc9ad6dab1ca584c7b715412"
+    },
+    {
+      "path": "output/m6-08/001-independent-review-r2-20261026/test_variant_boundaries.py",
+      "bytes": 2364,
+      "sha256": "7bb5280b835e1a10bff68a631ffbda34ceb99b29c5e509b5c709c8ae0c71e2eb"
+    }
+  ]
+}
