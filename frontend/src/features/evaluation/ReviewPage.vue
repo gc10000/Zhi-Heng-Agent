@@ -14,23 +14,28 @@ const dimensions={factuality:'事实正确性',citation_support:'引用支持',a
 const scores=reactive<Record<keyof typeof dimensions,Score>>({factuality:'unknown',citation_support:'unknown',actionability:'unknown',image_relevance:'unknown'})
 const kind=ref('assistant'),round=ref(1),attested=ref(false),checked=ref(false),rationale=ref(''),unauthorized=ref(false),wrongModel=ref(false)
 const calibrationNote=ref(''),calibrationId=ref(''),gate=ref<{status:string;reasons:string[]}>()
-type Review={review_id:string;question_id:string;reviewer_id:string;reviewer_kind:string;round:number;scores:typeof scores;rationale:string}
+type Review={review_id:string;question_id:string;subject_sha256:string;reviewer_id:string;reviewer_kind:string;round:number;scores:typeof scores;rationale:string}
 const reviews=useQuery({queryKey:computed(()=>['scope',...scope.value,'reviews']),enabled:allowed,retry:false,
   queryFn:({signal})=>api.request<{subjects:{question_id:string;subject_sha256:string}[];items:Review[]}>('/experiments/'+encodeURIComponent(eid.value)+'/reviews',{signal})})
 const results=useInfiniteQuery({queryKey:computed(()=>['scope',...scope.value,'review-results']),enabled:allowed,retry:false,initialPageParam:'',
   queryFn:({pageParam,signal})=>api.request<Page<QuestionResult>>('/experiments/'+encodeURIComponent(eid.value)+'/results?limit=50'+(pageParam?'&cursor='+encodeURIComponent(pageParam):''),{signal}),getNextPageParam:page=>page.next_cursor||undefined})
 const rows=computed(()=>results.data.value?.pages.flatMap(p=>p.items)||[]),current=computed(()=>rows.value.find(q=>q.question_id===qid.value))
+const savedIdentity=ref('')
+const reviewIdentity=computed(()=>JSON.stringify([eid.value,qid.value,kind.value,round.value,auth.user?.user_id,reviews.data.value?.subjects.find(s=>s.question_id===qid.value)?.subject_sha256]))
+const alreadySaved=computed(()=>savedIdentity.value===reviewIdentity.value||!!reviews.data.value?.items.some(r=>
+  r.question_id===qid.value&&r.round===round.value&&r.reviewer_kind===kind.value&&r.reviewer_id===auth.user?.user_id&&
+  r.subject_sha256===reviews.data.value?.subjects.find(s=>s.question_id===qid.value)?.subject_sha256))
 watch(rows,()=>{if(!qid.value)qid.value=rows.value[0]?.question_id||''})
 let epoch=0,pending:{identity:string;key:string}|undefined
-watch(scope,()=>{epoch++;qid.value='';error.value='';gate.value=undefined;calibrationId.value='';pending=undefined;reset()})
+watch(scope,()=>{epoch++;savedIdentity.value='';qid.value='';error.value='';gate.value=undefined;calibrationId.value='';pending=undefined;reset()})
 function reset(){rationale.value='';attested.value=false;checked.value=false;unauthorized.value=false;wrongModel.value=false;for(const key of Object.keys(dimensions) as (keyof typeof dimensions)[])scores[key]='unknown'}
 watch(qid,reset)
 async function perform(action:()=>Promise<void>){if(busy.value)return;const generation=epoch;busy.value=true;error.value='';try{await action()}catch(e){if(generation===epoch)error.value=(e as Error).message}finally{busy.value=false}}
-async function submit(){const subject=reviews.data.value?.subjects.find(s=>s.question_id===qid.value);if(!subject)return;const generation=epoch
+async function submit(){const subject=reviews.data.value?.subjects.find(s=>s.question_id===qid.value);if(!subject||alreadySaved.value)return;const generation=epoch,savingIdentity=reviewIdentity.value
   const data={question_id:qid.value,subject_sha256:subject.subject_sha256,round:round.value,reviewer_kind:kind.value,human_attested:kind.value==='human'&&attested.value,source_checked:checked.value,scores:{...scores},critical_errors:[...(unauthorized.value?['unauthorized']:[]),...(wrongModel.value?['wrong_model']:[])],rationale:rationale.value}
   const identity=JSON.stringify(data);if(pending?.identity!==identity)pending={identity,key:crypto.randomUUID()}
   await api.post('/experiments/'+encodeURIComponent(eid.value)+'/reviews',{...data,client_request_id:pending.key})
-  if(generation===epoch){pending=undefined;await reviews.refetch()}}
+  if(generation===epoch){savedIdentity.value=savingIdentity;pending=undefined;await reviews.refetch()}}
 async function calibrate(){const generation=epoch;const row=await api.post<{calibration_id:string}>('/experiments/'+encodeURIComponent(eid.value)+'/calibrations',{client_request_id:crypto.randomUUID(),rationale:calibrationNote.value});if(generation===epoch)calibrationId.value=row.calibration_id}
 async function checkGate(){const generation=epoch;const result=await api.request<{status:string;reasons:string[]}>('/experiments/'+encodeURIComponent(eid.value)+'/release-gate?calibration_id='+encodeURIComponent(calibrationId.value));if(generation===epoch)gate.value=result}
 </script>
@@ -42,12 +47,13 @@ async function checkGate(){const generation=epoch;const result=await api.request
 <article v-if="current"><h2>{{current.question}}</h2><p v-if="current.result.behavior==='clarify'" role="status">本轮请求确认设备型号，未生成答案。请核对澄清行为是否符合问题；无法确认的维度保留未知。</p><p v-else-if="!current.result.answer" role="status">当前结果没有答案正文，请核对运行状态与原始资料，无法确认的维度保留未知。</p><p class="answer">{{current.result.answer}}</p><ul><li v-for="(source,index) in current.result.citations" :key="index">原件 SHA256 {{source.document_sha256}} · 物理页 {{source.page??'未知'}} · 图片 {{source.asset_sha256??'无图像标识'}}</li></ul></article>
 <form v-if="current" @submit.prevent="perform(submit)">
 <label>审阅身份<select v-model="kind" aria-label="审阅身份"><option value="assistant">独立助手辅助审阅</option><option value="model">模型辅助评分</option><option value="human">人工本人核对</option></select></label>
-<label>复核轮次<select v-model.number="round"><option :value="1">第一轮</option><option :value="2">第二轮</option></select></label>
+<label>复核轮次<select v-model.number="round" aria-label="复核轮次"><option :value="1">第一轮</option><option :value="2">第二轮</option></select></label>
+<p v-if="alreadySaved" role="status">{{qid}} 第{{round}}轮审阅已保存，无需再次提交。历史记录见下方；另一轮须重新核对后单独保存。</p>
 <label v-for="(name,key) in dimensions" :key="key">{{name}}<select v-model="scores[key]" :aria-label="name"><option value="unknown">未知</option><option :value="0">0 · 错误</option><option :value="1">1 · 部分支持</option><option :value="2">2 · 完整支持</option><option v-if="key!=='factuality'" value="not_applicable">不适用（需说明）</option></select></label>
 <label><input v-model="checked" type="checkbox">已核对原始资料与来源</label><label v-if="kind==='human'"><input v-model="attested" type="checkbox">确认我是执行本次原件核对的人工本人</label>
 <label><input v-model="unauthorized" type="checkbox">存在越权关键错误</label><label><input v-model="wrongModel" type="checkbox">存在型号关键错误</label>
 <label>核对依据或未知原因<textarea v-model="rationale" required maxlength="4000"/></label>
-<button :disabled="busy||!rationale.trim()||(kind==='human'&&(!attested||!checked))">保存本轮审阅</button></form>
+<button :disabled="busy||alreadySaved||!rationale.trim()||(kind==='human'&&(!attested||!checked))">保存本轮审阅</button></form>
 <h2>不可变审阅记录</h2><ul><li v-for="row in reviews.data.value?.items.filter(r=>r.question_id===qid)" :key="row.review_id">{{row.reviewer_kind}} · {{row.reviewer_id}} · 第{{row.round}}轮 · {{JSON.stringify(row.scores)}}<p>{{row.rationale}}</p></li></ul>
 <h2>基线校准与质量门槛</h2><p>先在基线完成两轮人工核对并冻结零退化门槛，再创建候选实验。关键越权和型号错误零容忍；该检查不自动发布知识或授权下一阶段。</p>
 <label>基线校准说明<textarea v-model="calibrationNote" maxlength="4000"/></label><button :disabled="busy||!calibrationNote.trim()" @click="perform(calibrate)">冻结基线门槛</button>

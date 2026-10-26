@@ -1,6 +1,36 @@
 import { test, expect } from '@playwright/test'
 import { mockApi } from './helpers'
 
+test('已保存轮次明确提示并拦住重复提交，切轮次保留独立身份',async({page})=>{
+  let submitted:any,posts=0
+  const saved:any[]=[]
+  await mockApi(page,async route=>{
+    const path=new URL(route.request().url()).pathname
+    if(path.endsWith('/reviews')){
+      if(route.request().method()==='POST'){
+        posts++;submitted=route.request().postDataJSON()
+        const row={...submitted,review_id:'saved-'+posts,reviewer_id:'offline-user'}
+        saved.push(row);await route.fulfill({status:201,json:row})
+      }else await route.fulfill({json:{subjects:[{question_id:'q1',subject_sha256:'a'.repeat(64)}],items:saved,next_cursor:null}})
+      return true
+    }
+    if(path.endsWith('/results')){await route.fulfill({json:{items:[{question_id:'q1',question:'合成待审问题',result:{answer:'合成答案',citations:[]}}],next_cursor:null}});return true}
+    return false
+  })
+  await page.goto('/evaluations/reviews/exp-rounds')
+  await page.getByLabel('核对依据或未知原因').fill('辅助界面测试，不是本人评分')
+  await page.getByRole('button',{name:'保存本轮审阅',exact:true}).click()
+  await expect(page.getByRole('status')).toContainText('第1轮审阅已保存')
+  await expect(page.getByRole('button',{name:'保存本轮审阅',exact:true})).toBeDisabled()
+  await page.reload()
+  await expect(page.getByRole('status')).toContainText('第1轮审阅已保存')
+  await page.getByLabel('复核轮次',{exact:true}).selectOption('2')
+  await page.getByLabel('核对依据或未知原因').fill('第二轮辅助界面测试')
+  await page.getByRole('button',{name:'保存本轮审阅',exact:true}).click()
+  await expect(page.getByRole('status')).toContainText('第2轮审阅已保存')
+  expect(submitted.round).toBe(2);expect(posts).toBe(2)
+})
+
 test('真实协议澄清结果不显示为空白答案且保留未知评分',async({page})=>{
   await mockApi(page,async route=>{
     const path=new URL(route.request().url()).pathname
