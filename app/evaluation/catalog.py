@@ -120,7 +120,8 @@ class EvaluationCatalog:
                 config.get('execution_mode') != 'real_query_runner' or
                 config.get('metric_schema_version') != 1):
             raise ValueError('评测配置与冻结开发题集不匹配')
-        selected = [row for row in rows if row['split'] == 'dev']
+        from .runner import select_questions
+        selected = select_questions(rows, config)
         return {'dataset_path': dataset, 'manifest_path': manifest, 'config_path': config_path,
                 'dataset_sha256': file_sha(dataset), 'manifest_sha256': file_sha(manifest),
                 'config_sha256': file_sha(config_path), 'config': config,

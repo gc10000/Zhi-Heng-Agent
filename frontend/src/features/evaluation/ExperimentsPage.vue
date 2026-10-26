@@ -32,7 +32,7 @@ async function create(){if(!set.value)return;const cfg=set.value.configs.find(c=
 async function change(action:string){const row=current.data.value;if(!row)return;const generation=epoch;await api.post('/experiments/'+encodeURIComponent(row.experiment_id)+'/'+action,{expected_version:row.version});if(generation===epoch){await current.refetch();await experiments.refetch()}}
 const accounting=computed(()=>current.data.value?.summary?.accounting)
 </script>
-<template><section class="evaluation-page"><h1>评测实验</h1><p>固定版本开发集实验。来源命中不等于答案正确；未审核标签不计标准质量分。</p>
+<template><section class="evaluation-page"><h1>评测实验</h1><RouterLink v-if="allowed" to="/evaluations/feedback">反馈审核队列</RouterLink><p>固定版本开发集实验。来源命中不等于答案正确；未审核标签不计标准质量分。</p>
 <p v-if="!allowed" role="status">当前角色没有评测维护权限。</p>
 <template v-else>
 <p v-if="error||sets.error.value||catalog.error.value||experiments.error.value||current.error.value||results.error.value" role="alert">{{error||sets.error.value?.message||catalog.error.value?.message||experiments.error.value?.message||current.error.value?.message||results.error.value?.message}}</p>

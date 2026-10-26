@@ -13,6 +13,18 @@ from app.knowledge.repository import fingerprint
 ACTIVE = {'pending', 'running', 'cancel_requested'}
 
 
+def corpus_binding(resolved):
+    """只保存受控配置授予的候选身份，客户端不得提交发布证明。"""
+    config = resolved.get('config') or {}
+    candidates = config.get('corpus', {}).get('candidate_revisions', [])
+    if not candidates:
+        return None
+    return dict(database=config['target']['database'],
+        is_full_dev=not config.get('question_ids'),
+        candidate_revisions=[dict(document_id=r['document_id'], revision_id=r['revision_id'],
+            validation_sha256=fingerprint(r['validation'])) for r in candidates])
+
+
 def public_set(row):
     return {key: deepcopy(row[key]) for key in (
         'eval_set_id', 'version', 'kb_id', 'dataset_sha256', 'manifest_sha256',
@@ -121,6 +133,7 @@ class EvaluationRepository:
             'manifest_sha256': descriptor['manifest_sha256'], 'config_id': data['config_id'],
             'config_version': data['config_version'], 'config_sha256': resolved['config_sha256'],
             'baseline_experiment_id': data.get('baseline_experiment_id'),
+            'corpus_binding': corpus_binding(resolved),
             'selected_questions': resolved['selected_questions'], 'eligible_questions': resolved['eligible_questions'],
             'state': 'pending', 'attempt': 0, 'version': 0, 'retryable': False, 'dispatch_pending': True,
             'output_key': experiment_id, 'created_at': now, 'updated_at': now,

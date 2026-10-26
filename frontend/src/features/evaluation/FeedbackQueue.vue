@@ -1,0 +1,34 @@
+<script setup lang="ts">
+import { computed, reactive, ref, watch } from 'vue'
+import { useInfiniteQuery } from '@tanstack/vue-query'
+import { api } from '@/lib/api/client'
+import { useAuthStore } from '@/stores/auth'
+import type { Page } from '@/lib/api/types'
+const auth=useAuthStore(),allowed=computed(()=>['maintainer','admin'].includes(auth.user?.role||'')),scope=computed(()=>[auth.user?.user_id,auth.kb])
+type Feedback={feedback_id:string;run_id:string;note:string;category:string;state:string;version?:number;rationale?:string;citations?:{document_id:string;revision_id:string}[];draft?:{draft_id:string;kind?:string;annotation_status:string;run_id:string;source_revisions:{document_id:string;revision_id:string}[];publication_state:string;target_revision_id?:string;affected_question_ids?:string[];quality_proofs?:Record<string,{experiment_id:string}>}}
+const error=ref(''),busy=ref(false),chosen=ref(''),form=reactive({rationale:'',question:'',expectation:'',destination:'regression'})
+const binding=reactive({document:'',revision:'',questions:'',experiment:'',calibration:'',stage:'affected'})
+let epoch=0,pending:{identity:string;key:string}|undefined
+const queue=useInfiniteQuery({queryKey:computed(()=>['scope',...scope.value,'feedback-queue']),enabled:computed(()=>allowed.value&&!!auth.kb),retry:false,initialPageParam:'',queryFn:({pageParam,signal})=>api.request<Page<Feedback>>('/feedback?kb_id='+encodeURIComponent(auth.kb)+'&limit=30'+(pageParam?'&cursor='+encodeURIComponent(pageParam):''),{signal}),getNextPageParam:page=>page.next_cursor||undefined})
+const rows=computed(()=>queue.data.value?.pages.flatMap(p=>p.items)||[]),current=computed(()=>rows.value.find(r=>r.feedback_id===chosen.value))
+watch(rows,()=>{if(!chosen.value)chosen.value=rows.value[0]?.feedback_id||''})
+watch(chosen,()=>{form.rationale='';form.question='';form.expectation='';pending=undefined})
+watch(scope,()=>{epoch++;chosen.value='';error.value='';pending=undefined;for(const k of Object.keys(binding) as (keyof typeof binding)[])binding[k]='';binding.stage='affected'})
+async function command(action:string){if(!current.value||busy.value)return;const generation=epoch;busy.value=true;error.value='';const data=action==='bind-revision'?{expected_version:current.value.version??0,document_id:binding.document,revision_id:binding.revision,affected_question_ids:binding.questions.split(/[\s,，]+/).filter(Boolean)}:{expected_version:current.value.version??0,stage:binding.stage,experiment_id:binding.experiment,calibration_id:binding.calibration};try{await api.post('/feedback/'+encodeURIComponent(current.value.feedback_id)+'/'+action,data);if(generation===epoch)await queue.refetch()}catch(e){if(generation===epoch)error.value=(e as Error).message}finally{busy.value=false}}
+async function review(decision:string){if(!current.value||busy.value)return;const generation=epoch;busy.value=true;error.value='';const row=current.value
+  const data={expected_version:row.version??0,decision,destination:decision==='confirm'?form.destination:null,rationale:form.rationale,proposed_question:decision==='confirm'?form.question:null,proposed_expectation:decision==='confirm'?form.expectation:null}
+  const identity=JSON.stringify({id:row.feedback_id,...data});if(pending?.identity!==identity)pending={identity,key:crypto.randomUUID()}
+  try{await api.post('/feedback/'+encodeURIComponent(row.feedback_id)+'/review',{...data,client_request_id:pending.key});if(generation===epoch){pending=undefined;await queue.refetch()}}catch(e){if(generation===epoch)error.value=(e as Error).message}finally{busy.value=false}}
+</script>
+<template><section class="feedback-page"><h1>反馈审核</h1><RouterLink to="/evaluations">返回实验</RouterLink><p>确认后仅生成待复核草稿。反馈不是标准答案，也不会直接修改资料或发布知识。</p><p v-if="!allowed" role="status">当前角色没有反馈审核权限。</p><template v-else>
+<p v-if="error||queue.error.value" role="alert">{{error||queue.error.value?.message}}</p><p v-if="!queue.isPending.value&&!rows.length">暂无反馈。</p>
+<label>反馈条目<select v-model="chosen" aria-label="反馈条目"><option v-for="row in rows" :key="row.feedback_id" :value="row.feedback_id">{{row.feedback_id}} · {{row.state}}</option></select></label><button v-if="queue.hasNextPage.value" :disabled="queue.isFetchingNextPage.value" @click="queue.fetchNextPage()">更多反馈</button>
+<article v-if="current"><h2>{{current.category}} · {{current.state}}</h2><p>{{current.note}}</p><p>原运行 {{current.run_id}}</p><ul><li v-for="source in current.citations" :key="source.document_id+'/'+source.revision_id">资料 {{source.document_id}} · 修订 {{source.revision_id}}</li></ul>
+<form v-if="current.state==='pending_review'" @submit.prevent="review('confirm')"><label>审核理由<textarea v-model="form.rationale" maxlength="4000" required/></label>
+<label>草稿类型<select v-model="form.destination"><option value="regression">回归题草稿</option><option value="revision">资料修订建议草稿</option></select></label><label>草稿问题<textarea v-model="form.question" maxlength="4000"/></label><label>草稿预期<textarea v-model="form.expectation" maxlength="4000"/></label>
+<button :disabled="busy||!form.rationale.trim()||!form.question.trim()||!form.expectation.trim()">确认并保存草稿</button><button type="button" :disabled="busy||!form.rationale.trim()" @click="review('reject')">驳回反馈</button></form>
+<p v-if="current.rationale">审核理由：{{current.rationale}}</p><section v-if="current.draft"><h2>待复核草稿</h2><p>{{current.draft.draft_id}} · {{current.draft.annotation_status}}</p><p>来源运行 {{current.draft.run_id}}</p><ul><li v-for="source in current.draft.source_revisions" :key="source.revision_id">{{source.document_id}} · {{source.revision_id}}</li></ul><p>新资料须走正式修订；发布前先验证受影响题，再跑发布回归。</p>
+<template v-if="current.draft.kind==='revision'"><form v-if="!current.draft.target_revision_id" @submit.prevent="command('bind-revision')"><label>新资料 ID<input v-model="binding.document" required></label><label>待发布修订 ID<input v-model="binding.revision" required></label><label>受影响题 ID（空格分隔）<textarea v-model="binding.questions" required/></label><button :disabled="busy">绑定修订与受影响题</button></form>
+<template v-else><p>待发布修订 {{current.draft.target_revision_id}} · 受影响题 {{current.draft.affected_question_ids?.join('、')}}</p><p>已有回归证明 {{JSON.stringify(current.draft.quality_proofs||{})}}</p><form @submit.prevent="command('quality-proof')"><label>回归阶段<select v-model="binding.stage"><option value="affected">受影响题</option><option value="full">完整发布回归</option></select></label><label>已完成实验 ID<input v-model="binding.experiment" required></label><label>基线校准 ID<input v-model="binding.calibration" required></label><button :disabled="busy">核验并保存回归证明</button></form></template></template></section></article>
+</template></section></template>
+<style scoped>.feedback-page{padding:1.5rem;max-width:65rem;overflow-wrap:anywhere}h1{font-size:1.7rem}h2{font-size:1.2rem;margin:1rem 0}p{line-height:1.7;margin:.6rem 0}label{display:grid;gap:.4rem;margin:.7rem 0}select,textarea{max-width:100%;min-width:0}button{margin:.5rem}</style>

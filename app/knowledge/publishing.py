@@ -57,6 +57,9 @@ class RevisionPublisher:
     def publish(self,revision_id,*,expected_active,after_pointer=None):
         r=self.repo.get_revision(revision_id)
         if r['status'] not in ('validated','published') or r.get('validation')!=self.inspect(r):raise ConflictError('修订未验证或验证已失效')
+        if r.get('feedback_gate'):
+            from app.evaluation.revision_gates import check_feedback_gate
+            check_feedback_gate(self.repo, r)
         transition={'id':str(uuid4()),'revision_id':revision_id,'expected_active':expected_active,'validation':r['validation']}
         result=self.repo.documents.update_one(self.repo.scope|{'document_id':r['document_id'],'active_revision_id':expected_active},
             {'$set':{'active_revision_id':revision_id,'publish_outbox':transition},'$inc':{'active_generation':1}})

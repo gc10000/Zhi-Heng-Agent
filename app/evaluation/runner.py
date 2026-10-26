@@ -146,7 +146,7 @@ def run_experiment(dataset, manifest, config, output, executor, *, should_cancel
     rows = validate_dataset(dataset, manifest=manifest, minimum=1)
     frozen = json.loads(Path(manifest).read_text(encoding='utf-8'))
     check_split(config, frozen)
-    selected = [row for row in rows if row['split'] == config['split']]
+    selected = select_questions(rows, config)
     if not selected: raise ValueError('选定划分没有题目')
     config = json.loads(json.dumps(config))
     digest = fingerprint(config)
@@ -266,6 +266,18 @@ def run_experiment(dataset, manifest, config, output, executor, *, should_cancel
             report['summary'] = summarize_experiment(results, selected)
         atomic_json(report_path, report)
         return report
+
+
+def select_questions(rows, config):
+    selected = [row for row in rows if row['split'] == config['split']]
+    if 'question_ids' not in config:
+        return selected
+    ids = config['question_ids']
+    if (config['split'] != 'dev' or not isinstance(ids, list) or not ids or
+            any(not isinstance(q, str) or not q for q in ids) or len(ids) != len(set(ids)) or
+            not set(ids) <= {r['id'] for r in selected}):
+        raise ValueError('受影响题子集只允许冻结开发集内非空且不重复的题目')
+    return [r for r in selected if r['id'] in ids]
 
 
 def main():

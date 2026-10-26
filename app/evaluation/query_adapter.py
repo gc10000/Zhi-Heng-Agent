@@ -114,11 +114,29 @@ class RealQueryExecutor:
             raise ValueError('真实基线须冻结非空语料快照')
         expected = {(r['document_id'], r['revision_id']) for r in self.documents.values()}
         current = {(r['document_id'], r['active_revision_id']) for r in repo.get_active_revisions()}
-        if expected != current:
+        candidates = self.config['corpus'].get('candidate_revisions', [])
+        overrides = {r['document_id']: r for r in candidates}
+        if len(overrides) != len(candidates) or (candidates and self.config.get('metric_schema_version') != 1):
+            raise ValueError('候选修订须显式使用M6评测模式且每资料唯一')
+        comparison = set(current)
+        for candidate in candidates:
+            old = (candidate['document_id'], candidate['expected_active_revision_id'])
+            new = (candidate['document_id'], candidate['revision_id'])
+            if old not in current or new not in expected or old == new:
+                raise ValueError('候选修订不属于冻结活动资料')
+            revision = repo.get_revision(candidate['revision_id'])
+            if (revision['document_id'] != candidate['document_id'] or revision['status'] != 'validated' or
+                    revision.get('validation') != candidate['validation'] or
+                    g.publisher(self.config['target']['kb_id']).inspect(revision) != candidate['validation']):
+                raise ValueError('候选修订验证失效，拒绝评测')
+            comparison.remove(old)
+            comparison.add(new)
+        if expected != comparison:
             raise ValueError('活动修订与冻结语料不一致，拒绝混入其他知识')
         for item in self.documents.values():
             revision = repo.get_revision(item['revision_id'])
-            if revision['original_sha256'] != item['original_sha256'] or revision['status'] != 'published':
+            allowed_status = 'validated' if item['document_id'] in overrides else 'published'
+            if revision['original_sha256'] != item['original_sha256'] or revision['status'] != allowed_status:
                 raise ValueError('冻结语料原件指纹/发布状态不符')
         if 'snapshot' in self.config['corpus']:
             from .corpus import corpus_snapshot, validate_asset_equivalences
@@ -127,6 +145,9 @@ class RealQueryExecutor:
             if fingerprint(actual) != fingerprint(self.config['corpus']['snapshot']):
                 raise ValueError('实际语料完整载荷/向量/图片/产品与冻结快照不一致')
             validate_asset_equivalences(actual, self.config['corpus'].get('asset_equivalences', []))
+        if candidates and self.resources.get('query_runner') is not None:
+            self.resources['query_runner'].evaluation_revisions = [
+                {'document_id': d, 'active_revision_id': r} for d, r in sorted(expected)]
         self.products = {p['model']: p['product_id'] for p in g.products.collection.find({'owner_id': g.owner_id})}
 
     def __call__(self, question):

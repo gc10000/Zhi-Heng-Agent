@@ -544,7 +544,8 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get?: never;
+        /** Feedback Queue */
+        get: operations["feedback_queue_api_v1_feedback_get"];
         put?: never;
         /** Feedback */
         post: operations["feedback_api_v1_feedback_post"];
@@ -727,6 +728,57 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/feedback/{feedback_id}/review": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Triage Feedback */
+        post: operations["triage_feedback_api_v1_feedback__feedback_id__review_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/feedback/{feedback_id}/bind-revision": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Bind Feedback Revision */
+        post: operations["bind_feedback_revision_api_v1_feedback__feedback_id__bind_revision_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/feedback/{feedback_id}/quality-proof": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Feedback Quality Proof */
+        post: operations["feedback_quality_proof_api_v1_feedback__feedback_id__quality_proof_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/health": {
         parameters: {
             query?: never;
@@ -748,6 +800,17 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** BindRevisionInput */
+        BindRevisionInput: {
+            /** Expected Version */
+            expected_version: number;
+            /** Document Id */
+            document_id: string;
+            /** Revision Id */
+            revision_id: string;
+            /** Affected Question Ids */
+            affected_question_ids: string[];
+        };
         /** CalibrationInput */
         CalibrationInput: {
             /** Client Request Id */
@@ -884,6 +947,20 @@ export interface components {
             /** Expected Active Revision Id */
             expected_active_revision_id: string | null;
         };
+        /** QualityProofInput */
+        QualityProofInput: {
+            /** Expected Version */
+            expected_version: number;
+            /**
+             * Stage
+             * @enum {string}
+             */
+            stage: "affected" | "full";
+            /** Experiment Id */
+            experiment_id: string;
+            /** Calibration Id */
+            calibration_id: string;
+        };
         /** RegisterSetInput */
         RegisterSetInput: {
             /** Kb Id */
@@ -997,6 +1074,26 @@ export interface components {
             tool: "lookup_product" | "read_evidence" | "search_manual";
             /** Arguments */
             arguments?: Record<string, never>;
+        };
+        /** TriageInput */
+        TriageInput: {
+            /** Expected Version */
+            expected_version: number;
+            /**
+             * Decision
+             * @enum {string}
+             */
+            decision: "confirm" | "reject";
+            /** Destination */
+            destination?: ("regression" | "revision") | null;
+            /** Rationale */
+            rationale: string;
+            /** Proposed Question */
+            proposed_question?: string | null;
+            /** Proposed Expectation */
+            proposed_expectation?: string | null;
+            /** Client Request Id */
+            client_request_id: string;
         };
         /** ValidationError */
         ValidationError: {
@@ -2229,6 +2326,39 @@ export interface operations {
             };
         };
     };
+    feedback_queue_api_v1_feedback_get: {
+        parameters: {
+            query: {
+                kb_id: string;
+                cursor?: string | null;
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     feedback_api_v1_feedback_post: {
         parameters: {
             query?: never;
@@ -2669,6 +2799,111 @@ export interface operations {
             cookie?: never;
         };
         requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    triage_feedback_api_v1_feedback__feedback_id__review_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                feedback_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TriageInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    bind_feedback_revision_api_v1_feedback__feedback_id__bind_revision_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                feedback_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BindRevisionInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    feedback_quality_proof_api_v1_feedback__feedback_id__quality_proof_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                feedback_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["QualityProofInput"];
+            };
+        };
         responses: {
             /** @description Successful Response */
             200: {

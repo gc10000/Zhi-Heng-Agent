@@ -60,6 +60,7 @@ class QueryRunner:
         self.pool = ThreadPoolExecutor(max_workers=4, thread_name_prefix='持久问答')
         self.futures, self.lock, self.stopping = {}, threading.Lock(), threading.Event()
         self.capture_evaluation = False
+        self.evaluation_revisions = None
 
     def scan(self):
         with self.lock:
@@ -169,6 +170,9 @@ class QueryRunner:
             stage = 'retrieve'
             repo = g.repo(row['kb_id'])
             revisions = repo.get_active_revisions()
+            # 仅由隔离评测适配器在完整校验validated候选后授予，不修改线上活动指针。
+            if self.capture_evaluation and self.evaluation_revisions is not None:
+                revisions = copy.deepcopy(self.evaluation_revisions)
             emit('stage.changed', {'stage': stage, 'revision_count': len(revisions)}, fields={'revision_snapshot': revisions})
             from app.retrieval.adapters import from_index_hits, stable_key
             from app.retrieval.models import EvidencePack

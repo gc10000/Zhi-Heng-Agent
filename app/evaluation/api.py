@@ -4,6 +4,9 @@ from pydantic import BaseModel, ConfigDict, Field
 from app.api.errors import APIError
 from app.identity.api import principal, require_writer, require_kb
 from .reviews import ReviewInput, CalibrationInput, ReviewService
+from .feedback_triage import TriageInput, authorized_feedback, public_feedback, review_feedback
+from .feedback_triage import BindRevisionInput, bind_revision
+from .feedback_triage import QualityProofInput, save_quality_proof
 
 router = APIRouter(prefix='/api/v1', tags=['评测'])
 
@@ -120,3 +123,35 @@ def calibrate(eid: str, data: CalibrationInput, request: Request, user=Depends(p
 def release_gate(eid: str, calibration_id: str, request: Request, user=Depends(principal)):
     require_writer(user)
     return ReviewService(service(request).repo).gate(user, eid, calibration_id)
+
+
+@router.get('/feedback')
+def feedback_queue(request: Request, kb_id: str, cursor: str | None = Query(None, max_length=128),
+                   limit: int = Query(50, ge=1, le=100), user=Depends(principal)):
+    require_writer(user)
+    require_kb(user, kb_id)
+    query = {'kb_id': kb_id}
+    if cursor:
+        query['feedback_id'] = {'$gt': cursor}
+    rows = list(request.app.state.resources['db'].support_feedback.find(query).sort('feedback_id', 1).limit(limit + 1))
+    # 任一来源撤权则整页拒绝，不能回显反馈笔记或旧答案快照。
+    items = [public_feedback(authorized_feedback(request, user, r['feedback_id'])) for r in rows[:limit]]
+    return {'items': items, 'next_cursor': rows[limit - 1]['feedback_id'] if len(rows) > limit else None}
+
+
+@router.post('/feedback/{feedback_id}/review')
+def triage_feedback(feedback_id: str, data: TriageInput, request: Request, user=Depends(principal)):
+    require_writer(user)
+    return review_feedback(request, user, feedback_id, data)
+
+
+@router.post('/feedback/{feedback_id}/bind-revision')
+def bind_feedback_revision(feedback_id: str, data: BindRevisionInput, request: Request, user=Depends(principal)):
+    require_writer(user)
+    return bind_revision(request, user, feedback_id, data)
+
+
+@router.post('/feedback/{feedback_id}/quality-proof')
+def feedback_quality_proof(feedback_id: str, data: QualityProofInput, request: Request, user=Depends(principal)):
+    require_writer(user)
+    return save_quality_proof(request, user, feedback_id, data)

@@ -85,9 +85,9 @@
 **文件：**`app/evaluation/feedback_triage.py`; `frontend/src/features/evaluation/FeedbackQueue.vue`; `tests/contract/test_feedback_triage.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M6-05.1** 待审→确认/驳回→测试或新资料草稿。
-- [ ] **M6-05.2** 关联 revision 与受影响题。
-- [ ] **M6-05.3** 新修订发布前先受影响题、再发布回归。
+- [x] **M6-05.1** 待审→确认/驳回→可追溯草稿，单文档CAS/不可覆盖，不写标准题集或知识。
+- [x] **M6-05.2** 精确原run/revision及待发布新修订/受影响题绑定，validated候选隔离评测不改活动指针。
+- [x] **M6-05.3** Publisher最终门禁要求先受影响题、再完整开发集回归，证明绑定实验/校准/当前修订验证内容，缺真实人工拒绝。
 - [ ] **M6-05.V** 验证：.venv/Scripts/python.exe -m pytest tests/contract/test_feedback_triage.py -q。
 - [ ] **M6-05.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 

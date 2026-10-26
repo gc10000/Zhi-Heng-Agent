@@ -82,6 +82,35 @@ def test_changed_active_corpus_rejected_before_generation(evaluation_context):
     assert prompts == [] and resources['runs'].runs.count_documents({}) == 0
 
 
+def test_validated_candidate_can_be_evaluated_without_changing_active_pointer(evaluation_context):
+    cfg, factory, resources, prompts, question, scoped = evaluation_context
+    from copy import deepcopy
+    original = cfg['corpus']['documents'][0]
+    candidate = scoped.create_revision(original['document_id'], 'candidate', original_sha256='a'*64, object_key='m4-test/adapter/candidate')
+    validation = {'fixture': 'validated-candidate'}
+    scoped.revisions.update_one({'revision_id':candidate.revision_id},{'$set':{'status':'validated','validation':validation}})
+    cfg['metric_schema_version'] = 1
+    cfg['corpus']['documents'][0] = dict(original, revision_id=candidate.revision_id)
+    cfg['corpus']['candidate_revisions'] = [dict(document_id=original['document_id'], revision_id=candidate.revision_id, expected_active_revision_id=original['revision_id'], validation=validation)]
+    gateway=resources['knowledge']()
+    from types import SimpleNamespace
+    gateway.publisher=lambda kb:SimpleNamespace(inspect=lambda r:validation)
+    old_factory=gateway.index_factory
+    class CandidateIndex:
+        def search(self,*args,**kw):
+            rows=deepcopy(old_factory().search(*args,**kw))
+            for row in rows:
+                row['entity']['revision_id']=candidate.revision_id
+                for ref in row['entity']['metadata']['source_refs']:ref['revision_id']=candidate.revision_id
+            return rows
+    gateway.index_factory=CandidateIndex
+    with RealQueryExecutor(cfg,resource_factory=factory) as execute:
+        result=execute(question)
+    assert result['state']=='completed' and result['citations'][0]['revision_id']==candidate.revision_id
+    assert scoped.get_document(original['document_id'])['active_revision_id']==original['revision_id']
+    assert scoped.get_revision(candidate.revision_id)['status']=='validated'
+
+
 def test_configured_strategy_controls_real_execution_ports_and_budget(evaluation_context):
     cfg,factory,resources,prompts,question,_=evaluation_context
     cfg.update(strategy='m4-configured',parameters=dict(retrieval=dict(fusion='rrf'),answer_budget=dict(output_tokens=128)))
