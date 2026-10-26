@@ -2251,6 +2251,193 @@
         }
       }
     },
+    "/api/v1/experiments/{eid}/reviews": {
+      "get": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Reviews",
+        "operationId": "reviews_api_v1_experiments__eid__reviews_get",
+        "parameters": [
+          {
+            "name": "eid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Eid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Review",
+        "operationId": "review_api_v1_experiments__eid__reviews_post",
+        "parameters": [
+          {
+            "name": "eid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Eid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/experiments/{eid}/calibrations": {
+      "post": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Calibrate",
+        "operationId": "calibrate_api_v1_experiments__eid__calibrations_post",
+        "parameters": [
+          {
+            "name": "eid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Eid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CalibrationInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/experiments/{eid}/release-gate": {
+      "get": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Release Gate",
+        "operationId": "release_gate_api_v1_experiments__eid__release_gate_get",
+        "parameters": [
+          {
+            "name": "eid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Eid"
+            }
+          },
+          {
+            "name": "calibration_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Calibration Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/health": {
       "get": {
         "tags": [
@@ -2273,6 +2460,29 @@
   },
   "components": {
     "schemas": {
+      "CalibrationInput": {
+        "properties": {
+          "client_request_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Client Request Id"
+          },
+          "rationale": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Rationale"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "client_request_id",
+          "rationale"
+        ],
+        "title": "CalibrationInput"
+      },
       "CaseInput": {
         "properties": {
           "run_id": {
@@ -2735,6 +2945,86 @@
         ],
         "title": "RegisterSetInput"
       },
+      "ReviewInput": {
+        "properties": {
+          "question_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Question Id"
+          },
+          "subject_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Subject Sha256"
+          },
+          "client_request_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Client Request Id"
+          },
+          "round": {
+            "type": "integer",
+            "maximum": 2.0,
+            "minimum": 1.0,
+            "title": "Round"
+          },
+          "reviewer_kind": {
+            "type": "string",
+            "enum": [
+              "human",
+              "assistant",
+              "model"
+            ],
+            "title": "Reviewer Kind"
+          },
+          "human_attested": {
+            "type": "boolean",
+            "title": "Human Attested",
+            "default": false
+          },
+          "source_checked": {
+            "type": "boolean",
+            "title": "Source Checked"
+          },
+          "scores": {
+            "$ref": "#/components/schemas/Scores"
+          },
+          "critical_errors": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "unauthorized",
+                "wrong_model"
+              ]
+            },
+            "type": "array",
+            "maxItems": 2,
+            "title": "Critical Errors"
+          },
+          "rationale": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Rationale"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "question_id",
+          "subject_sha256",
+          "client_request_id",
+          "round",
+          "reviewer_kind",
+          "source_checked",
+          "scores",
+          "critical_errors",
+          "rationale"
+        ],
+        "title": "ReviewInput"
+      },
       "RollbackInput": {
         "properties": {
           "expected_active_revision_id": {
@@ -2799,6 +3089,59 @@
           "kb_id"
         ],
         "title": "RunInput"
+      },
+      "Scores": {
+        "properties": {
+          "factuality": {
+            "enum": [
+              0,
+              1,
+              2,
+              "unknown",
+              "not_applicable"
+            ],
+            "title": "Factuality"
+          },
+          "citation_support": {
+            "enum": [
+              0,
+              1,
+              2,
+              "unknown",
+              "not_applicable"
+            ],
+            "title": "Citation Support"
+          },
+          "actionability": {
+            "enum": [
+              0,
+              1,
+              2,
+              "unknown",
+              "not_applicable"
+            ],
+            "title": "Actionability"
+          },
+          "image_relevance": {
+            "enum": [
+              0,
+              1,
+              2,
+              "unknown",
+              "not_applicable"
+            ],
+            "title": "Image Relevance"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "factuality",
+          "citation_support",
+          "actionability",
+          "image_relevance"
+        ],
+        "title": "Scores"
       },
       "SupportInput": {
         "properties": {

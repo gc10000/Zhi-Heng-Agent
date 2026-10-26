@@ -3,6 +3,7 @@ from fastapi import APIRouter, Depends, Query, Request
 from pydantic import BaseModel, ConfigDict, Field
 from app.api.errors import APIError
 from app.identity.api import principal, require_writer, require_kb
+from .reviews import ReviewInput, CalibrationInput, ReviewService
 
 router = APIRouter(prefix='/api/v1', tags=['评测'])
 
@@ -95,3 +96,27 @@ def cancel(eid: str, data: VersionInput, request: Request, user=Depends(principa
 def retry(eid: str, data: VersionInput, request: Request, user=Depends(principal)):
     require_writer(user)
     return service(request).retry(user, eid, data.expected_version)
+
+
+@router.get('/experiments/{eid}/reviews')
+def reviews(eid: str, request: Request, user=Depends(principal)):
+    require_writer(user)
+    return ReviewService(service(request).repo).list(user, eid)
+
+
+@router.post('/experiments/{eid}/reviews', status_code=201)
+def review(eid: str, data: ReviewInput, request: Request, user=Depends(principal)):
+    require_writer(user)
+    return ReviewService(service(request).repo).submit(user, eid, data)
+
+
+@router.post('/experiments/{eid}/calibrations', status_code=201)
+def calibrate(eid: str, data: CalibrationInput, request: Request, user=Depends(principal)):
+    require_writer(user)
+    return ReviewService(service(request).repo).calibrate(user, eid, data)
+
+
+@router.get('/experiments/{eid}/release-gate')
+def release_gate(eid: str, calibration_id: str, request: Request, user=Depends(principal)):
+    require_writer(user)
+    return ReviewService(service(request).repo).gate(user, eid, calibration_id)

@@ -675,6 +675,58 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/experiments/{eid}/reviews": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Reviews */
+        get: operations["reviews_api_v1_experiments__eid__reviews_get"];
+        put?: never;
+        /** Review */
+        post: operations["review_api_v1_experiments__eid__reviews_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/experiments/{eid}/calibrations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Calibrate */
+        post: operations["calibrate_api_v1_experiments__eid__calibrations_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/experiments/{eid}/release-gate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Release Gate */
+        get: operations["release_gate_api_v1_experiments__eid__release_gate_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/health": {
         parameters: {
             query?: never;
@@ -696,6 +748,13 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** CalibrationInput */
+        CalibrationInput: {
+            /** Client Request Id */
+            client_request_id: string;
+            /** Rationale */
+            rationale: string;
+        };
         /** CaseInput */
         CaseInput: {
             /** Run Id */
@@ -834,6 +893,34 @@ export interface components {
             /** Version */
             version: string;
         };
+        /** ReviewInput */
+        ReviewInput: {
+            /** Question Id */
+            question_id: string;
+            /** Subject Sha256 */
+            subject_sha256: string;
+            /** Client Request Id */
+            client_request_id: string;
+            /** Round */
+            round: number;
+            /**
+             * Reviewer Kind
+             * @enum {string}
+             */
+            reviewer_kind: "human" | "assistant" | "model";
+            /**
+             * Human Attested
+             * @default false
+             */
+            human_attested: boolean;
+            /** Source Checked */
+            source_checked: boolean;
+            scores: components["schemas"]["Scores"];
+            /** Critical Errors */
+            critical_errors: ("unauthorized" | "wrong_model")[];
+            /** Rationale */
+            rationale: string;
+        };
         /** RollbackInput */
         RollbackInput: {
             /** Expected Active Revision Id */
@@ -851,6 +938,29 @@ export interface components {
             kb_id: string;
             /** Product Ids */
             product_ids?: string[];
+        };
+        /** Scores */
+        Scores: {
+            /**
+             * Factuality
+             * @enum {unknown}
+             */
+            factuality: 0 | 1 | 2 | "unknown" | "not_applicable";
+            /**
+             * Citation Support
+             * @enum {unknown}
+             */
+            citation_support: 0 | 1 | 2 | "unknown" | "not_applicable";
+            /**
+             * Actionability
+             * @enum {unknown}
+             */
+            actionability: 0 | 1 | 2 | "unknown" | "not_applicable";
+            /**
+             * Image Relevance
+             * @enum {unknown}
+             */
+            image_relevance: 0 | 1 | 2 | "unknown" | "not_applicable";
         };
         /** SupportInput */
         SupportInput: {
@@ -2428,6 +2538,140 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    reviews_api_v1_experiments__eid__reviews_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                eid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    review_api_v1_experiments__eid__reviews_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                eid: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReviewInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    calibrate_api_v1_experiments__eid__calibrations_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                eid: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CalibrationInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    release_gate_api_v1_experiments__eid__release_gate_get: {
+        parameters: {
+            query: {
+                calibration_id: string;
+            };
+            header?: never;
+            path: {
+                eid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
                 headers: {
                     [name: string]: unknown;
                 };

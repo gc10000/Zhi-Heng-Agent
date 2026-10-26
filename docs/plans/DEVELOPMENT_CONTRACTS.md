@@ -67,6 +67,7 @@ M1-01已冻结Pydantic实体契约，具体字段及UUID/SourceRef规则见[知�
 | `GET/POST /eval-sets`、`POST /experiments` | 数据/配置版本 | 有权限的评测任务，独立队列预算 | M6-01/03 |
 | `GET /experiments`、`GET /experiments/{id}`、`GET /experiments/{id}/results` | 当前所有者/kb、实验ID和题级游标 | 真实状态/统计/题级结果与同题集基线差异 | M6-03 |
 | `GET /eval-catalog`、`POST /experiments/{id}/cancel`、`POST /experiments/{id}/retry` | 目录ID或expected_version | 受控登记选项；取消意图/可重试失败门禁 | M6-03 |
+| `GET/POST /experiments/{id}/reviews`、`POST /experiments/{id}/calibrations`、`GET /experiments/{id}/release-gate` | 题级结果指纹、审核身份/轮次、校准ID | 私有不可变分维审阅、基线零退化校准及pending/blocked/passed结论；不自动发布 | M6-04 |
 | `POST /feedback/{id}/review` | 审核结论/回归题或修订链接 | 只有维护者审核，记录理由 | M6-05 |
 
 鉴权约定：未登录 401；已登录但无功能权限 403；访问不属于自己或无知识范围权限的具体资源返回不泄露存在性的 404；版本/占用/幂等内容冲突 409；游标过期 410；超限大小 413；不支持媒体 415；格式校验 422。前端显式处理，不将所有失败包装为“网络错误”。

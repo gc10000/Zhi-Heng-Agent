@@ -11,6 +11,7 @@ export const router = createRouter({
       { path: 'documents', component: () => import('@/features/documents/DocumentsPage.vue') },
       { path: 'cases', component: () => import('@/features/cases/CasesPage.vue') },
       { path: 'evaluations', component: () => import('@/features/evaluation/ExperimentsPage.vue') },
+      { path: 'evaluations/reviews/:eid', component: () => import('@/features/evaluation/ReviewPage.vue') },
     ] },
     { path: '/:pathMatch(.*)*', redirect: '/chat' },
   ],
