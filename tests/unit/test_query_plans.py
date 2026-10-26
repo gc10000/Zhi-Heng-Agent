@@ -50,6 +50,17 @@ def test_numeric_brand_is_series_scope_not_a_confirmed_model():
     assert plan.route == 'series'
 
 
+@pytest.mark.parametrize('question', [
+    '依据6W100版手册，LA2608-GM/GU可以与任意品牌无线控制器互通吗？',
+    '型号：LA2608-GM/GU，能否与任意品牌无线控制器互通？',
+])
+def test_documented_model_variant_suffix_does_not_trigger_unknown_model_clarification(question):
+    products = [{'product_id': 'a', 'model': 'H3C LA2608', 'aliases': [], 'brand': 'H3C'}]
+    plan = plan_query(question, products)
+    assert plan.route == 'answer' and plan.product_ids == ('a',)
+    assert not plan.unconfirmed_tokens
+
+
 def test_series_general_and_comparison_have_distinct_scopes(directory):
     series = plan_query('AX电源系列供电', directory)
     general = plan_query('不限定型号，通用问题', directory, selected_ids=['a'])

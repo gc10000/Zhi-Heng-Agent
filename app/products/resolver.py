@@ -23,6 +23,24 @@ def occurrences(question, term):
     return list(re.finditer(pattern, unicodedata.normalize('NFKC', question).casefold()))
 
 
+def _is_known_variant_token(token, *, known_terms, exact_spans, question, start):
+    """将已命中标准型号的文档变体后缀归入同一主体，不放行独立近型号。"""
+    normalized_token = normalized(token)
+    for term in known_terms:
+        if not normalized_token.startswith(term) or normalized_token == term:
+            continue
+        suffix = normalized_token[len(term):]
+        if not re.fullmatch(r'[a-z]{1,4}(?:[a-z]{1,4})*', suffix):
+            continue
+        if not any(a <= start < b for a, b in exact_spans):
+            continue
+        # 只接受型号后以连字符/下划线分隔的字母后缀，例如 LA2608-GM/GU。
+        raw_prefix = unicodedata.normalize('NFKC', question)[start:start + len(token)]
+        if re.match(r'^[A-Za-z0-9]+[-_][A-Za-z]{1,4}(?:/[A-Za-z]{1,4})?$', raw_prefix):
+            return True
+    return False
+
+
 @dataclass(frozen=True)
 class Resolution:
     exact: tuple[str, ...]
@@ -48,6 +66,8 @@ def resolve_catalog(question, products):
     # 同一出现位置优先完整型号，避免AX24增强版也命中短型号AX24。
     exact = {pid for start, end, pid in found if not any(
         a <= start and b >= end and b-a > end-start for a, b, _ in found)}
+    exact_spans = [(start, end) for start, end, _ in found if any(
+        a <= start and b >= end and b-a == end-start for a, b, _ in found)]
     prefixes = {re.match(r'[a-z]+', name).group() for names in all_terms.values() for name in names
                 if re.match(r'[a-z]+\d', name)}
     tokens = list(re.finditer(r'[A-Za-z]+[-_ ]?\d[A-Za-z0-9_.-]*', question))
@@ -60,6 +80,9 @@ def resolve_catalog(question, products):
         if interface_identifier(question,match.start(),match.end()):continue
         if re.search(r'(?:错误码|报错|故障码|端口|寄存器)\s*[:：]?\s*$', question[:match.start()]):
             continue
+        if _is_known_variant_token(token, known_terms=known, exact_spans=exact_spans,
+                                    question=question, start=match.start()):
+            continue
         name = normalized(token); prefix = re.match(r'[a-z]+', name).group()
         protocol = prefix in {'ipv', 'http', 'tcp', 'udp', 'rs', 'rj', 'ieee', 'cat',
                               'ubuntu', 'windows', 'debian', 'centos', 'rhel', 'python', 'linux', 'macos'}
@@ -68,7 +91,9 @@ def resolve_catalog(question, products):
             unknown.append(token)
     for match in re.finditer(r'型号(?:是|为)?\s*[:：]?\s*([A-Za-z0-9][A-Za-z0-9_.-]*)', question):
         token = match[1].rstrip('.-_')
-        if normalized(token) not in known: unknown.append(token)
+        if normalized(token) not in known and not _is_known_variant_token(
+                token, known_terms=known, exact_spans=exact_spans, question=question, start=match.start(1)):
+            unknown.append(token)
     uncertain = re.search(r'型号(?:不确定|不清楚|未知|未确认)|不知道(?:设备)?型号', question)
     if uncertain: unknown.append(uncertain[0])
     series = {p['product_id'] for p in products if any(occurrences(question, normalized(p[k]))

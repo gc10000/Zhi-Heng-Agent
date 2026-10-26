@@ -1,3 +1,7 @@
+## M6-08 001 失败修复接续（2026-10-26）
+
+用户不提交001网页审阅：题目已写明 `LA2608-GM/GU`，原固定运行却无答案、无引用并进入型号澄清；用户已核对PDF第4页原文。已保存用户人工观察（不写入 `evaluation_reviews`），修复已命中的基础型号对同一词位字母变体后缀的误判；真实001未重跑。新增定向规划/持久入口回归及共享后端 **916 passed、2 deselected、0 skipped**、重导入3项通过。M6-04/05/08仍未验收，M7未授权。详见[M6-08记录](records/M6-08.md)。
+
 ## M5第五轮总控独立复审：通过（2026-10-26）
 
 关闭R3，R1/R2保持关闭；M5核心7/7、总核心60/76。独立完整后端802 passed/2 deselected/0 skipped/7 warnings，重导入3项通过；前端37单元、28离线浏览器、类型检查和构建通过；R3正式入口84项通过。第五轮临时API复核连接拒绝，不当作本轮真实HTTP通过；本轮付费0。M5-06可选MCP延期。M6未授权、未启动。详见[第五轮总控复审](reviews/M5-review-r5.md)和[独立摘要](reviews/M5-review-validation-r5.json)。
@@ -38,7 +42,7 @@ M4执行自验10/10、核心53/76，现提交待审查，未自行标记总控�
 | M3 | 通过 | 第2轮总控关闭R1/R2；独立346后端/37单元/24离线浏览器/既有3/只读8及原反例2项、新交错通过；11/11、核心43/76，本轮付费0 | [第二轮总控结论](reviews/M3-review-r2.md) · [独立摘要](reviews/M3-review-validation-r2.json) · [第二轮提交](reviews/M3-submission-r2.md) · [本轮快照](reviews/M3-artifact-manifest-r2.json) · [首轮审查](reviews/M3-review.md) |
 | M4 | 通过 | 第2轮关闭R1，10/10、核心53/76；独立717后端/原3反例/前端37单元24浏览器/既有3/类型/构建、新dev140题次实际输入与诊断、旧真实产物只读通过；本轮新增付费0，未生成新答案/heldout | [第2轮总控结论](reviews/M4-review-r2.md) · [独立摘要](reviews/M4-review-validation-r2.json) · [第二次提交](reviews/M4-submission-r2.md) · [提交快照](reviews/M4-artifact-manifest-r2.json) · [首轮结论](reviews/M4-review.md) |
 | M5 | 通过 | 第五轮总控关闭R3，R1/R2保持关闭；核心7/7、总核心60/76；06延期，M6仍未授权 | [第五轮总控结论](reviews/M5-review-r5.md) · [独立摘要](reviews/M5-review-validation-r5.json) · [第五轮提交](reviews/M5-submission-r5.md) · [第四轮总控](reviews/M5-review-r4.md) |
-| M6 | 未提交 | 核心4/7：01/02/03/07完成自验，04/05/08待真实人工与反馈闭环。913后端/37单元35离线浏览器/既有3/类型构建通过，2题真实小样15只读检查及0新增调用检查点复用通过；用户本人审阅入口已就绪，fresh heldout未运行，06延期 | [部分接续](reviews/M6-partial-submission.md) · [M6-08记录](records/M6-08.md) · [固定质量报告](../evaluation/release-report.md) |
+| M6 | 未提交 | 核心4/7：01/02/03/07完成自验，04/05/08待真实人工与反馈闭环。历史913后端；本轮最终共享回归916 passed/2 deselected/0 skipped、重导入3项；2题真实小样15只读检查及0新增调用检查点复用通过。001真实失败观察已记录并修复规划误判，未重跑真实题，用户本人审阅入口已就绪，fresh heldout未运行，06延期 | [部分接续](reviews/M6-partial-submission.md) · [M6-08记录](records/M6-08.md) · [固定质量报告](../evaluation/release-report.md) |
 | M7 | 未提交 | 等待前置阶段与总控授权；不包含自动公开发布 | 尚无 |
 
 审查状态仅使用：未提交、待审查、需修复、通过。开发会话可提交“待审查”，不得自行改成总控“通过”。总控的阻塞项修复后，开发会话重新提交，保留前次审查及验证历史。

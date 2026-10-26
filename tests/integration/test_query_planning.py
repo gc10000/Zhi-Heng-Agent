@@ -107,3 +107,31 @@ def test_general_question_clears_inherited_device_for_next_pronoun(planning_cont
     second = service.create(user, cid, request(key='second', question='它具体如何供电'))['run_id']
     runner.execute(second)
     assert repo.get(user, second)['state'] == 'awaiting_input' and calls == [()]
+
+
+def test_documented_model_variant_reaches_answer_with_citation(query_context):
+    """正式持久入口不得把已登记基础型号的文档变体误判为陌生设备。"""
+    user, cid, conv, repo, service, g, runner, entity, product = query_context
+    g.products.collection.update_one(
+        {'product_id': product['product_id']},
+        {'$set': {'model': 'H3C LA2608', 'brand': 'H3C'}},
+    )
+    entity['text'] = '目前，LA2608 只支持与H3C公司的无线控制器互通。'
+
+    class Model:
+        def stream(self, prompt, **options):
+            assert 'H3C LA2608' in prompt
+            yield SimpleNamespace(content='不支持任意品牌，仅支持与H3C公司的无线控制器互通。[1]')
+
+    runner.llm_factory = Model
+    rid = service.create(
+        user,
+        cid,
+        request(question='依据6W100版手册，LA2608-GM/GU可以与任意品牌无线控制器互通吗？'),
+    )['run_id']
+    runner.execute(rid)
+    row = repo.get(user, rid)
+    assert row['state'] == 'completed'
+    assert row['query_plan']['product_ids'] == [product['product_id']]
+    assert row['answer'] == '不支持任意品牌，仅支持与H3C公司的无线控制器互通。[1]'
+    assert row['citations'] and row['citations'][0]['text'] == entity['text']
