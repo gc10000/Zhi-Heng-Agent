@@ -1,0 +1,285 @@
+{
+  "stage": "M6",
+  "scope": "R001-1定向修复部分交付，非M6阶段验收",
+  "review_status": "未提交",
+  "baseline_head": "e295db53f354c2715e1754460ecb7b0873ec75be",
+  "completed": [
+    "M6-01",
+    "M6-02",
+    "M6-03",
+    "M6-07"
+  ],
+  "incomplete": [
+    "M6-04",
+    "M6-05",
+    "M6-08"
+  ],
+  "deferred": [
+    {
+      "id": "M6-06",
+      "reason": "可选Ragas无独立模型/外发范围/预算证据，延期"
+    }
+  ],
+  "human_acceptance_complete": false,
+  "human_quality_passed": null,
+  "human_acceptance_actor": "用户本人在审阅页操作",
+  "tests": [
+    {
+      "junit": "output/m6-08/r001-1-r2-stage/backend.xml",
+      "passed": 933,
+      "exit_code": 0,
+      "by_directory": {
+        "unit": 574,
+        "contract": 135,
+        "integration": 224
+      },
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "junit": "output/m6-08/r001-1-r2/targeted.xml",
+      "passed": 63,
+      "exit_code": 0,
+      "by_directory": {
+        "unit": 47,
+        "integration": 16
+      },
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "excluded_live_provider": 2,
+  "command_ledgers": [
+    "output/m6-08/r001-1-r2-stage/commands.json"
+  ],
+  "frontend": {
+    "unit_report": "output/m6-08/frontend-final/unit.json",
+    "unit_passed": 37,
+    "browser_report": "output/m6-08/frontend-final/browser.json",
+    "browser_passed": 35,
+    "mode": "offline_protocol_mock",
+    "typecheck_exit_code": 0,
+    "build_exit_code": 0,
+    "executed_this_round": false,
+    "evidence_age": "历史原件，仅核对完整性"
+  },
+  "legacy_reimport": {
+    "report": "output/m6-08/r001-1-r2-stage/reimport.txt",
+    "passed": 3,
+    "exit_code": 0
+  },
+  "real_sample": {
+    "report": "output/m6-08/review-r2/readonly-r2.json",
+    "checks_passed": 15,
+    "questions": 2,
+    "logical_provider_calls": {
+      "invoke_started": 0,
+      "stream_started": 1
+    },
+    "exact_http_calls": null,
+    "exact_cost": null,
+    "human_review_records_at_check": 0,
+    "executed_this_round": false,
+    "evidence_age": "历史原件，仅核对完整性"
+  },
+  "checkpoint_replay": {
+    "report": "output/m6-08/review-r2/checkpoint-replay-report.json",
+    "new_calls": 0,
+    "independent_new_generation": false,
+    "executed_this_round": false,
+    "evidence_age": "历史原件，仅核对完整性"
+  },
+  "real_browser": {
+    "report": "output/m6-08/review-r2/browser-ready.json",
+    "checks_passed": 6,
+    "human_records_submitted": 0,
+    "executed_this_round": false,
+    "evidence_age": "历史原件，仅核对完整性"
+  },
+  "heldout_runs": 0,
+  "data_boundary": "新增正式入口为真实隔离Mongo+注入检索/模型；未改课程知识/索引/原运行或评分。共享阶段测试使用独立m1_test前缀。",
+  "raw_evidence": [
+    {
+      "path": "output/m6-07/regression-final-r2.xml",
+      "sha256": "659adf09a81baa0a533f4d2b36d7ae034dc9821c1a67a280880ff65a34f640f0"
+    },
+    {
+      "path": "output/m6-08/frontend-final/browser.json",
+      "sha256": "fc453eedcf78c7c2ae0d9db5ef9637bea083b215d77aae75370399d40d864aae"
+    },
+    {
+      "path": "output/m6-08/frontend-final/build.txt",
+      "sha256": "cefcdd4bc2d1eade95bbc642b11928f1e138057d3e76ae6edd6de3eb7e6695c7"
+    },
+    {
+      "path": "output/m6-08/frontend-final/commands.json",
+      "sha256": "c8e5d2cf331467f4eef99f83a99b90811e8f18c6408674173374fbd5676495d1"
+    },
+    {
+      "path": "output/m6-08/frontend-final/typecheck.txt",
+      "sha256": "aacdfedc485449151e8f0cedfb8264a7d15047256a7b3c3a4a9e848e28e7b178"
+    },
+    {
+      "path": "output/m6-08/frontend-final/unit.json",
+      "sha256": "aa5bc52d649d3fed547281852b037bccae47552bac5a4d82198c464aca7dad03"
+    },
+    {
+      "path": "output/m6-08/r001-1-r2-stage/backend.txt",
+      "sha256": "b624068e97ea94acf79a0f25496ebef528fdf733d60596e8ede87be8f76b46e9"
+    },
+    {
+      "path": "output/m6-08/r001-1-r2-stage/backend.xml",
+      "sha256": "3e11b4da02c610366f08776ad0d75d18433fd9af710780044ffc258e8f3e9cc3"
+    },
+    {
+      "path": "output/m6-08/r001-1-r2-stage/commands.json",
+      "sha256": "3ae701fe13d63d2054ecd0552c46c5f7191d4a80ba2fcf890bc52706db482510"
+    },
+    {
+      "path": "output/m6-08/r001-1-r2-stage/reimport.txt",
+      "sha256": "ad09e3ebe5b474cf1c9bb5924d0bcde01ab6e65f9cc3511fbdb771fdb46ab974"
+    },
+    {
+      "path": "output/m6-08/r001-1-r2/LA2608-FAKE-explicit.json",
+      "sha256": "37da576897eafec70ae1184ef6a6ecc7216fd11b24aaa65206b83d7a590bb827"
+    },
+    {
+      "path": "output/m6-08/r001-1-r2/LA2608-GM_GU-explicit.json",
+      "sha256": "7f81aa41ebb37e2a35a1ecc9fca02a7cd0c51e0ad4aabd4da3299be976e8cc51"
+    },
+    {
+      "path": "output/m6-08/r001-1-r2/LA2608-GM_GU-plain.json",
+      "sha256": "73f69dc368b9b5ca41a70d7838135d737cd8ade59d9d1ea6e0041dc454c6b780"
+    },
+    {
+      "path": "output/m6-08/r001-1-r2/LA2608-ZZ-plain.json",
+      "sha256": "9f577fdb7a67de3bcebdc5bfef2a2c9e168f7f4b594a481276db5b6016f8c266"
+    },
+    {
+      "path": "output/m6-08/r001-1-r2/LA2609-GM_GU-plain.json",
+      "sha256": "2ad7266d74a8f5d7c5000816599966f84ab15f1961712bd68e85dba6a17eff4f"
+    },
+    {
+      "path": "output/m6-08/r001-1-r2/original-integrity.json",
+      "sha256": "9685150a00e55a28abacdccfbc3faa6c9b6681b996eb652bd4322e5640f1d9e0"
+    },
+    {
+      "path": "output/m6-08/r001-1-r2/probe.txt",
+      "sha256": "912f05c05e21f731e5b24ff8cb25bc970d007efb913271941d916b0c32c1ca3d"
+    },
+    {
+      "path": "output/m6-08/r001-1-r2/probe.xml",
+      "sha256": "5b47c51028e63e12e1ecd906ab13fdfc8038625c0d0a0d4a29bd52ab25922c7a"
+    },
+    {
+      "path": "output/m6-08/r001-1-r2/red.txt",
+      "sha256": "34b49a30ce24b7e5de9876e235918ad2fee1dfa184a831b076773bdd3ee3b13d"
+    },
+    {
+      "path": "output/m6-08/r001-1-r2/red.xml",
+      "sha256": "498ab004eed62ae2b2ced465bbe124c943d1bf57315d07715da31c4edbccce33"
+    },
+    {
+      "path": "output/m6-08/r001-1-r2/targeted.txt",
+      "sha256": "edfbd431d34a2f7297f6509c711895ce18bbb8d5594a72f673198f6e4623d294"
+    },
+    {
+      "path": "output/m6-08/r001-1-r2/targeted.xml",
+      "sha256": "a32b52f5d5bf476b688d09c77a079e8769114789a1a73b64bb6fe118009a4b47"
+    },
+    {
+      "path": "output/m6-08/r001-1-r2/test_variant_boundaries.py",
+      "sha256": "7bb5280b835e1a10bff68a631ffbda34ceb99b29c5e509b5c709c8ae0c71e2eb"
+    },
+    {
+      "path": "output/m6-08/r001-1-r2/unit-red.txt",
+      "sha256": "cf6e0f1b7a30aef3ec925baf9b1a85d15c2b56daad0eb3a4be960fa551e1f4fe"
+    },
+    {
+      "path": "output/m6-08/r001-1-r2/unit-red.xml",
+      "sha256": "c383f59799150c573401e8cadba8fb2bf7888978cb359da665ac42cacd8b4430"
+    },
+    {
+      "path": "output/m6-08/review-clarify-red.txt",
+      "sha256": "5dd3a38b777385fcfe0b14e3b6ad73bed997d1d32b68d12def5ffdfe340876cf"
+    },
+    {
+      "path": "output/m6-08/review-green-r2.txt",
+      "sha256": "c00116f0181e125f437a47672a315a840232e35080a8ee3445026d1b8d55076b"
+    },
+    {
+      "path": "output/m6-08/review-r2/browser-ready.json",
+      "sha256": "2c8a9b7f440c628641719bcac3f6ccef62564b6ac3f9fe9bbae3ce0741a7b597"
+    },
+    {
+      "path": "output/m6-08/review-r2/checkpoint-replay-report.json",
+      "sha256": "c77bfa3f30fe8af1ca77011ed25a7dad2eea45dee389edac9f5d9a462b741fe3"
+    },
+    {
+      "path": "output/m6-08/review-r2/preparation.json",
+      "sha256": "55261caae69d878e2a67ab7ddacbe43f37926cbaaf851bbb639331a23acbaa5b"
+    },
+    {
+      "path": "output/m6-08/review-r2/readonly-r2.json",
+      "sha256": "441d19a9d645ba3062adf85993a0cd2548945243720a0ca5111a6a4e348ee04d"
+    },
+    {
+      "path": "output/m6-stage-r1/backend.txt",
+      "sha256": "cc36bda799e1ac851fec6273e15a1d26212b73ae4e42e5edb86146166fd8deb1"
+    },
+    {
+      "path": "output/m6-stage-r1/backend.xml",
+      "sha256": "dc809ff83db4a17e883765c2060a0575b6e44cba1bd8279731321eee07db6f8f"
+    },
+    {
+      "path": "output/m6-stage-r1/commands.json",
+      "sha256": "f6daa2703ec45e262d7d9575dd45f59c868772bcea1abb29c97106fc734f5693"
+    },
+    {
+      "path": "output/m6-stage-r1/reimport.txt",
+      "sha256": "8b6d3d985fc25df455abb9a3af74824ceabc2415468aa456acae7cd9234ae917"
+    }
+  ],
+  "targeted_review_status": "待审查",
+  "new_paid_calls": 0,
+  "human_review_written": false,
+  "historical_evidence_notice": "frontend/real_sample/checkpoint_replay/real_browser均为历史结果，本轮仅核对原件，不代表本轮重新执行。",
+  "formal_red": {
+    "junit": "output/m6-08/r001-1-r2/red.xml",
+    "passed": 5,
+    "exit_code": 1,
+    "by_directory": {
+      "integration": 9
+    },
+    "failed": 4,
+    "errors": 0,
+    "skipped": 0
+  },
+  "unit_red": {
+    "junit": "output/m6-08/r001-1-r2/unit-red.xml",
+    "passed": 2,
+    "exit_code": 1,
+    "by_directory": {
+      "unit": 8
+    },
+    "failed": 6,
+    "errors": 0,
+    "skipped": 0
+  },
+  "original_probe_replay": {
+    "passed": 5,
+    "exit_code": 0,
+    "junit": "output/m6-08/r001-1-r2/probe.xml",
+    "copied_to_new_directory": true,
+    "provider_calls": 0
+  },
+  "source_equivalence": {
+    "canonical_model": "H3C LA2608",
+    "variant": "LA2608-GM/GU",
+    "sha256": "72983cc9b60f7f165bf89d3f6cbe39d56c4db148fd4b894c70c37378f8be5c8e",
+    "physical_page": 4,
+    "section": "1.1概述"
+  }
+}

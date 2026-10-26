@@ -70,6 +70,31 @@ def test_series_general_and_comparison_have_distinct_scopes(directory):
     assert compare.route == 'compare' and compare.scope_groups == (('a',), ('b',))
 
 
+@pytest.mark.parametrize('question', [
+    'LA2608-ZZ如何接入', '型号：LA2608-FAKE如何接入',
+    'LA2608-GM/FAKE如何接入', '型号：LA2608-GM/GU/FAKE如何接入',
+    'LA2608-GM/GU2如何接入', 'LA2609-GM/GU如何接入',
+])
+def test_unregistered_full_variant_requires_confirmation(question):
+    products = [{'product_id': 'a', 'model': 'H3C LA2608', 'aliases': [], 'brand': 'H3C'}]
+    plan = plan_query(question, products, selected_ids=['a'])
+    assert plan.route == 'clarify' and not plan.product_ids
+    assert plan.unconfirmed_tokens
+
+
+def test_full_slash_alias_is_used_without_confusing_its_prefix_with_unknown_model():
+    products = [{'product_id': 'a', 'model': 'AX-24', 'aliases': ['AX-24-M/N']}]
+    plan = plan_query('型号：AX-24-M/N如何接线', products)
+    assert plan.route == 'answer' and plan.product_ids == ('a',)
+    assert not plan.unconfirmed_tokens
+
+
+def test_source_equivalence_does_not_apply_to_other_brand_catalog():
+    products = [{'product_id': 'a', 'model': 'Other LA2608', 'aliases': [], 'brand': 'Other'}]
+    plan = plan_query('LA2608-GM/GU如何接入', products)
+    assert plan.route == 'clarify' and not plan.product_ids
+
+
 def test_followup_rewrite_only_adds_confirmed_device_and_preserves_original(directory):
     history = [{'role': 'user', 'text': '我使用乙型', 'product_snapshot': {'product_ids': ['b'], 'version': 1}},
                {'role': 'assistant', 'text': '猜测在Ubuntu且电压220V。', 'product_snapshot': {'product_ids': ['b'], 'version': 1}}]

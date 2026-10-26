@@ -135,3 +135,50 @@ def test_documented_model_variant_reaches_answer_with_citation(query_context):
     assert row['query_plan']['product_ids'] == [product['product_id']]
     assert row['answer'] == '不支持任意品牌，仅支持与H3C公司的无线控制器互通。[1]'
     assert row['citations'] and row['citations'][0]['text'] == entity['text']
+
+
+@pytest.mark.parametrize('model,explicit,expected_state', [
+    ('LA2608-GM/GU', False, 'completed'),
+    ('LA2608-GM/GU', True, 'completed'),
+    ('LA2608-ZZ', False, 'awaiting_input'),
+    ('LA2608-FAKE', True, 'awaiting_input'),
+    ('LA2608-GM/FAKE', False, 'awaiting_input'),
+    ('LA2608-GM/GU/FAKE', True, 'awaiting_input'),
+    ('LA2608-GM/GU2', False, 'awaiting_input'),
+    ('LA2609-GM/GU', False, 'awaiting_input'),
+    ('AX-42', False, 'awaiting_input'),
+])
+def test_only_source_confirmed_full_variant_can_answer(query_context, model, explicit, expected_state):
+    """未经确认的完整型号不得调用生成、保存引用或创建助手消息。"""
+    user, cid, conv, repo, service, g, runner, entity, product = query_context
+    g.products.collection.update_one({'product_id': product['product_id']},
+        {'$set': {'model': 'H3C LA2608', 'brand': 'H3C', 'aliases': []}})
+    entity['text'] = '目前，LA2608只支持与H3C公司的无线控制器互通。'
+    prompts = []
+    class Model:
+        def stream(self, prompt, **options):
+            prompts.append(prompt)
+            yield SimpleNamespace(content='仅支持与H3C公司的无线控制器互通。[1]')
+    runner.llm_factory = Model
+    question = ('型号：' if explicit else '') + model + '能否与任意品牌无线控制器互通？'
+    rid = service.create(user, cid, request(question=question))['run_id']
+    runner.execute(rid)
+    row = repo.get(user, rid)
+    assert row['state'] == expected_state, row.get('query_plan')
+    messages = conv.history(user, cid)['items']
+    events = runner.events.read(user, rid)
+    if expected_state == 'awaiting_input':
+        assert row['query_plan']['reason'] == 'unconfirmed_model'
+        assert row['query_plan']['product_ids'] == []
+        assert not prompts and not row['answer'] and not row['citations']
+        assert [m['role'] for m in messages] == ['user']
+        assert any(e['type'] == 'product.candidates' for e in events)
+        assert not any(e['type'] == 'run.completed' for e in events)
+    else:
+        assert len(prompts) == 1
+        assert row['query_plan']['product_ids'] == [product['product_id']]
+        assert row['citations'][0]['text'] == entity['text']
+        assert row['answer'] == '仅支持与H3C公司的无线控制器互通。[1]'
+        assert [m['role'] for m in messages] == ['user', 'assistant']
+        assert messages[-1]['citations'] == row['citations']
+        assert any(e['type'] == 'run.completed' for e in events)

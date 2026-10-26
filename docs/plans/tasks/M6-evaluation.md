@@ -126,6 +126,8 @@
 <a id="m6-08"></a>
 ### M6-08：M6 阶段验收
 
+2026-10-26 R001-1接续：仅进行型号边界修复，取消通用后缀放行，登记有原件来源的完整LA2608-GM/GU映射并保留完整斜线校验；新增正式RunService→QueryRunner未知后缀红绿回归。验收项仍未勾选，不修改真实001与人工评分；实际结果见[新定向提交](../../development/reviews/M6-08-001-submission-r2.md)。
+
 **依赖：**M6-05,M6-07。
 **文件：**`docs/development/records/M6-08.md`; `docs/evaluation/release-report.md`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。

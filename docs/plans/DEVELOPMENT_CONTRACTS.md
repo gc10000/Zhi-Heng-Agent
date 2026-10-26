@@ -292,6 +292,8 @@ V2Index.search新增trace=True（默认）补同向量/同范围分路排名，�
 
 目录按NFKC/大小写/分隔符规范化的完整标准名/别名精确匹配，数字品牌不当单一设备，近/未知型号（含显式纯数字及全角）只给待确认候选。可选本机目录向量最多50项/前三候选，精确命中不编码，向量分不当确认概率；不可用仍澄清，超过50要求UI目录先选。错误码、协议编号和环境版本不当设备。用户确认后按同run/版本门禁恢复，不再解析原未知名强迫重复确认。
 
+M6-08 R001-1补充：不能仅凭基础型号命中和字母后缀确认变体。完整目录别名或受控来源等价记录才可确认；当前仅登记 H3C LA2608 对 LA2608-GM/GU 的完整关系，原件SHA256/物理页/节号/引文随源码登记，不推导其他后缀。记录须匹配完整标准名及非空品牌；不适用于其他品牌。斜线参与完整身份检查，ZZ/FAKE及GM/FAKE、GM/GU/FAKE、GM/GU2仍为未知，正式运行须awaiting_input且无模型生成、答案、引用或助手消息。显式型号扫描遵守同一规则，已确认接口语境的编号规则保持原边界。
+
 QueryPlan增加rewritten_query/slots/scope_groups/candidates/unconfirmed_tokens/reason，route区分answer/clarify/compare/insufficient/general/series。原问题不变，指代改写只加本目录已确认设备，槽位来自用户原文，不信助手猜测。比较每个产品独立过滤取证、共用权限与修订快照；后续证据缺失/预算仍须M4-06/07约束。内部requested_product_ids保留请求显式选择；旧run缺字段兼容旧输入快照。product_snapshot.context_route为可选新增字段，general表示继承清空边界；只从成功助手消息继承有效设备，取消/失败的用户快照不能覆盖，UI明确选择与指代冲突需澄清。不修改旧消息、ordinal或原始问题。
 
 
