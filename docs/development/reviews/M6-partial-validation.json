@@ -1,0 +1,156 @@
+{
+  "stage": "M6",
+  "scope": "partial",
+  "review_status": "未提交",
+  "baseline_head": "bc5acded28f49a43623861fa916a6c3e5b171243",
+  "completed": [
+    "M6-01",
+    "M6-02",
+    "M6-03",
+    "M6-07"
+  ],
+  "incomplete": [
+    "M6-04",
+    "M6-05",
+    "M6-08"
+  ],
+  "deferred": [
+    {
+      "id": "M6-06",
+      "reason": "可选Ragas无独立模型/外发范围/预算证据，延期"
+    }
+  ],
+  "human_acceptance_complete": false,
+  "human_quality_passed": null,
+  "human_acceptance_actor": "用户本人在审阅页操作",
+  "tests": [
+    {
+      "junit": "output/m6-stage-r1/backend.xml",
+      "passed": 913,
+      "exit_code": 0,
+      "by_directory": {
+        "unit": 564,
+        "contract": 135,
+        "integration": 214
+      }
+    },
+    {
+      "junit": "output/m6-07/regression-final-r2.xml",
+      "passed": 20,
+      "exit_code": 0,
+      "by_directory": {
+        "unit": 9,
+        "integration": 11
+      }
+    }
+  ],
+  "excluded_live_provider": 2,
+  "command_ledgers": [
+    "output/m6-stage-r1/commands.json",
+    "output/m6-08/frontend-final/commands.json"
+  ],
+  "frontend": {
+    "unit_report": "output/m6-08/frontend-final/unit.json",
+    "unit_passed": 37,
+    "browser_report": "output/m6-08/frontend-final/browser.json",
+    "browser_passed": 35,
+    "mode": "offline_protocol_mock",
+    "typecheck_exit_code": 0,
+    "build_exit_code": 0
+  },
+  "legacy_reimport": {
+    "report": "output/m6-stage-r1/reimport.txt",
+    "passed": 3,
+    "exit_code": 0
+  },
+  "real_sample": {
+    "report": "output/m6-08/review-r2/readonly-r2.json",
+    "checks_passed": 15,
+    "questions": 2,
+    "logical_provider_calls": {
+      "invoke_started": 0,
+      "stream_started": 1
+    },
+    "exact_http_calls": null,
+    "exact_cost": null,
+    "human_review_records_at_check": 0
+  },
+  "checkpoint_replay": {
+    "report": "output/m6-08/review-r2/checkpoint-replay-report.json",
+    "new_calls": 0,
+    "independent_new_generation": false
+  },
+  "real_browser": {
+    "report": "output/m6-08/review-r2/browser-ready.json",
+    "checks_passed": 6,
+    "human_records_submitted": 0
+  },
+  "heldout_runs": 0,
+  "data_boundary": "随机独立Mongo小样与原已验收测试索引/对象只读复用；原始配置/题集/证据留本机，不上传，不改课程知识。",
+  "raw_evidence": [
+    {
+      "path": "output/m6-stage-r1/commands.json",
+      "sha256": "f6daa2703ec45e262d7d9575dd45f59c868772bcea1abb29c97106fc734f5693"
+    },
+    {
+      "path": "output/m6-stage-r1/backend.xml",
+      "sha256": "dc809ff83db4a17e883765c2060a0575b6e44cba1bd8279731321eee07db6f8f"
+    },
+    {
+      "path": "output/m6-stage-r1/backend.txt",
+      "sha256": "cc36bda799e1ac851fec6273e15a1d26212b73ae4e42e5edb86146166fd8deb1"
+    },
+    {
+      "path": "output/m6-stage-r1/reimport.txt",
+      "sha256": "8b6d3d985fc25df455abb9a3af74824ceabc2415468aa456acae7cd9234ae917"
+    },
+    {
+      "path": "output/m6-08/frontend-final/commands.json",
+      "sha256": "c8e5d2cf331467f4eef99f83a99b90811e8f18c6408674173374fbd5676495d1"
+    },
+    {
+      "path": "output/m6-08/frontend-final/unit.json",
+      "sha256": "aa5bc52d649d3fed547281852b037bccae47552bac5a4d82198c464aca7dad03"
+    },
+    {
+      "path": "output/m6-08/frontend-final/browser.json",
+      "sha256": "fc453eedcf78c7c2ae0d9db5ef9637bea083b215d77aae75370399d40d864aae"
+    },
+    {
+      "path": "output/m6-08/frontend-final/typecheck.txt",
+      "sha256": "aacdfedc485449151e8f0cedfb8264a7d15047256a7b3c3a4a9e848e28e7b178"
+    },
+    {
+      "path": "output/m6-08/frontend-final/build.txt",
+      "sha256": "cefcdd4bc2d1eade95bbc642b11928f1e138057d3e76ae6edd6de3eb7e6695c7"
+    },
+    {
+      "path": "output/m6-07/regression-final-r2.xml",
+      "sha256": "659adf09a81baa0a533f4d2b36d7ae034dc9821c1a67a280880ff65a34f640f0"
+    },
+    {
+      "path": "output/m6-08/review-r2/readonly-r2.json",
+      "sha256": "441d19a9d645ba3062adf85993a0cd2548945243720a0ca5111a6a4e348ee04d"
+    },
+    {
+      "path": "output/m6-08/review-r2/checkpoint-replay-report.json",
+      "sha256": "c77bfa3f30fe8af1ca77011ed25a7dad2eea45dee389edac9f5d9a462b741fe3"
+    },
+    {
+      "path": "output/m6-08/review-r2/browser-ready.json",
+      "sha256": "2c8a9b7f440c628641719bcac3f6ccef62564b6ac3f9fe9bbae3ce0741a7b597"
+    },
+    {
+      "path": "output/m6-08/review-r2/preparation.json",
+      "sha256": "55261caae69d878e2a67ab7ddacbe43f37926cbaaf851bbb639331a23acbaa5b"
+    },
+    {
+      "path": "output/m6-08/review-clarify-red.txt",
+      "sha256": "5dd3a38b777385fcfe0b14e3b6ad73bed997d1d32b68d12def5ffdfe340876cf"
+    },
+    {
+      "path": "output/m6-08/review-green-r2.txt",
+      "sha256": "c00116f0181e125f437a47672a315a840232e35080a8ee3445026d1b8d55076b"
+    }
+  ]
+}

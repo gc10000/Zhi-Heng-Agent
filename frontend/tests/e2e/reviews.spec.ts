@@ -1,6 +1,19 @@
 import { test, expect } from '@playwright/test'
 import { mockApi } from './helpers'
 
+test('真实协议澄清结果不显示为空白答案且保留未知评分',async({page})=>{
+  await mockApi(page,async route=>{
+    const path=new URL(route.request().url()).pathname
+    if(path.endsWith('/reviews')){await route.fulfill({json:{subjects:[{question_id:'q-clarify',subject_sha256:'a'.repeat(64)}],items:[],next_cursor:null}});return true}
+    if(path.endsWith('/results')){await route.fulfill({json:{items:[{question_id:'q-clarify',question:'未明确设备的查询',status:'completed',result:{behavior:'clarify',answer:'',citations:[]}}],next_cursor:null}});return true}
+    return false
+  })
+  await page.goto('/evaluations/reviews/exp-clarify')
+  await expect(page.getByRole('status')).toContainText('本轮请求确认设备型号，未生成答案')
+  await expect(page.getByLabel('事实正确性',{exact:true})).toHaveValue('unknown')
+  await expect(page.getByRole('button',{name:'保存本轮审阅',exact:true})).toBeDisabled()
+})
+
 test('审阅绑定题级结果、分离辅助身份，未知不会伪装通过',async({page})=>{
   let submitted:any, calibration=0
   await mockApi(page,async route=>{

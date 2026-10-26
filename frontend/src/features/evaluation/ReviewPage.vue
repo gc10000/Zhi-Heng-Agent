@@ -37,13 +37,13 @@ async function checkGate(){const generation=epoch;const result=await api.request
 <template><section class="review-page"><h1>答案审阅</h1><RouterLink to="/evaluations">返回实验</RouterLink><p>实验 {{eid}}。0 错误、1 部分支持、2 完整支持。无法核对标未知；人工须本人对照原件。保存后不可覆盖，复核请选第二轮。</p>
 <p v-if="!allowed" role="status">当前角色没有评测维护权限。</p><template v-else>
 <p v-if="error||reviews.error.value||results.error.value" role="alert">{{error||reviews.error.value?.message||results.error.value?.message}}</p>
-<label>待审问题<select v-model="qid"><option v-for="row in rows" :key="row.question_id" :value="row.question_id">{{row.question_id}} · {{row.question}}</option></select></label>
+<label>待审问题<select v-model="qid" aria-label="待审问题"><option v-for="row in rows" :key="row.question_id" :value="row.question_id">{{row.question_id}} · {{row.question}}</option></select></label>
 <button v-if="results.hasNextPage.value" :disabled="results.isFetchingNextPage.value" @click="results.fetchNextPage()">更多问题</button>
-<article v-if="current"><h2>{{current.question}}</h2><p class="answer">{{current.result.answer}}</p><ul><li v-for="(source,index) in current.result.citations" :key="index">原件 SHA256 {{source.document_sha256}} · 物理页 {{source.page??'未知'}} · 图片 {{source.asset_sha256??'无图像标识'}}</li></ul></article>
+<article v-if="current"><h2>{{current.question}}</h2><p v-if="current.result.behavior==='clarify'" role="status">本轮请求确认设备型号，未生成答案。请核对澄清行为是否符合问题；无法确认的维度保留未知。</p><p v-else-if="!current.result.answer" role="status">当前结果没有答案正文，请核对运行状态与原始资料，无法确认的维度保留未知。</p><p class="answer">{{current.result.answer}}</p><ul><li v-for="(source,index) in current.result.citations" :key="index">原件 SHA256 {{source.document_sha256}} · 物理页 {{source.page??'未知'}} · 图片 {{source.asset_sha256??'无图像标识'}}</li></ul></article>
 <form v-if="current" @submit.prevent="perform(submit)">
 <label>审阅身份<select v-model="kind" aria-label="审阅身份"><option value="assistant">独立助手辅助审阅</option><option value="model">模型辅助评分</option><option value="human">人工本人核对</option></select></label>
 <label>复核轮次<select v-model.number="round"><option :value="1">第一轮</option><option :value="2">第二轮</option></select></label>
-<label v-for="(name,key) in dimensions" :key="key">{{name}}<select v-model="scores[key]"><option value="unknown">未知</option><option :value="0">0 · 错误</option><option :value="1">1 · 部分支持</option><option :value="2">2 · 完整支持</option><option v-if="key!=='factuality'" value="not_applicable">不适用（需说明）</option></select></label>
+<label v-for="(name,key) in dimensions" :key="key">{{name}}<select v-model="scores[key]" :aria-label="name"><option value="unknown">未知</option><option :value="0">0 · 错误</option><option :value="1">1 · 部分支持</option><option :value="2">2 · 完整支持</option><option v-if="key!=='factuality'" value="not_applicable">不适用（需说明）</option></select></label>
 <label><input v-model="checked" type="checkbox">已核对原始资料与来源</label><label v-if="kind==='human'"><input v-model="attested" type="checkbox">确认我是执行本次原件核对的人工本人</label>
 <label><input v-model="unauthorized" type="checkbox">存在越权关键错误</label><label><input v-model="wrongModel" type="checkbox">存在型号关键错误</label>
 <label>核对依据或未知原因<textarea v-model="rationale" required maxlength="4000"/></label>
