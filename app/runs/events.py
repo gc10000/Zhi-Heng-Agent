@@ -44,6 +44,12 @@ class EventLedger:
             event = {'run_id': rid, 'seq': row['seq'] + 1, 'type': kind, 'at': now.isoformat(),
                      'payload': copy.deepcopy(payload), 'expires_at': deadline}
             updates = copy.deepcopy(fields or {})
+            from app.runs.telemetry import advance
+            updates['telemetry'] = advance(row, kind, payload, now)
+            if fields and 'telemetry_measurements' in fields:
+                updates['telemetry']['logical_provider_calls'] = fields['telemetry_measurements'].get('logical_provider_calls')
+                updates['telemetry']['token_usage'] = fields['telemetry_measurements'].get('token_usage')
+                updates['telemetry']['models'] = fields['telemetry_measurements'].get('models')
             updates['replay_expires_at'] = deadline
             updates['first_event_seq'] = row.get('first_event_seq', event['seq'])
             if state:

@@ -115,11 +115,11 @@
 **文件：**`app/runs/telemetry.py`; `frontend/src/features/evaluation/RunsPage.vue`; `tests/unit/test_telemetry_redaction.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M6-07.1** run/stage 耗时、模型、token、失败/降级和修订统计。
-- [ ] **M6-07.2** 区分未采集与 0。
-- [ ] **M6-07.3** 默认不存完整私有内容。
-- [ ] **M6-07.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_telemetry_redaction.py -q。
-- [ ] **M6-07.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M6-07.1** run/stage 耗时、模型、token、失败/降级和修订统计；评测题级保留stage_timings/token_usage。
+- [x] **M6-07.2** 缺失/失败/未观测保持null，明确0不被改写。
+- [x] **M6-07.3** 默认不存完整私有内容，模型和错误只过安全白名单。
+- [x] **M6-07.V** 验证：最终20项遥测/正式适配器回归通过；完整阶段913后端、37前端单元/34离线浏览器、既有重导入3项及typecheck/build通过，退出均0。
+- [x] **M6-07.D** 已保存任务记录，同步总清单、进度、变更、契约、OpenAPI/类型及遥测手册；真实供应商费用/GPU仍未知。
 
 **验收：**失败能定位阶段和策略；日志无密钥/签名 URL；面板指标可追到真实 run；采样不会伪装全量。
 

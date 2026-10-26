@@ -140,6 +140,26 @@ def test_m6_full_query_preserves_ranked_source_identity_without_candidate_text(e
         assert set(stage[0]) == {'candidate_id', 'sources'}
 
 
+def test_actual_query_records_usage_and_resumes_without_extra_calls(evaluation_context):
+    from types import SimpleNamespace
+    cfg,factory,resources,prompts,question,_=evaluation_context
+    cfg['metric_schema_version']=1
+    class Measured:
+        model_name='synthetic-model'
+        def stream(self,*args,**kwargs):
+            prompts.append('合成测试调用')
+            yield SimpleNamespace(content='24 V。',usage_metadata={'input_tokens':9,'output_tokens':3})
+    resources['query_runner'].llm_factory=Measured
+    with RealQueryExecutor(cfg,resource_factory=factory) as execute:
+        result=execute(question)
+        again=execute(question)
+    assert result['token_usage']=={'input':9,'output':3}
+    assert result==again and len(prompts)==1
+    row=resources['runs'].runs.find_one({'run_id':result['run_id']})
+    assert row['telemetry']['logical_provider_calls']=={'invoke_started':0,'stream_started':1}
+    assert row['telemetry']['models']==['synthetic-model']
+
+
 def test_explicit_m6_failed_question_retry_creates_one_new_run_then_reuses_it(evaluation_context):
     from app.infrastructure.providers.policy import ProviderFailure
     cfg, factory, resources, prompts, question, _ = evaluation_context

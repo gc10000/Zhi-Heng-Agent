@@ -21,6 +21,21 @@ def get_run(rid: str, request: Request, user=Depends(principal)):
     return snapshot(request.app.state.resources['runs'].get(user, rid))
 
 
+@router.get('/runs/{rid}/telemetry')
+def run_telemetry(rid: str, request: Request, user=Depends(principal)):
+    from .telemetry import run_telemetry as project
+    return project(request.app.state.resources['runs'], user, rid)
+
+
+@router.get('/run-telemetry')
+def telemetry_page(kb_id: str, request: Request, cursor: str | None = Query(None, max_length=128),
+                   limit: int = Query(50, ge=1, le=100), user=Depends(principal)):
+    from app.identity.api import require_kb
+    require_kb(user, kb_id)
+    from .telemetry import page
+    return page(request.app.state.resources['runs'], user, kb_id, cursor=cursor, limit=limit)
+
+
 @router.post('/runs/{rid}/confirm-product')
 def confirm(rid: str, data: ConfirmInput, request: Request, user=Depends(principal)):
     return request.app.state.resources['commands'].confirm(user, rid, data)

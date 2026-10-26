@@ -215,6 +215,10 @@ class RealQueryExecutor:
                             citations.append({'document_sha256': source['original_sha256'], 'page': ref['page'], 'asset_sha256': asset['sha256']})
         extra = {}
         if self.config.get('metric_schema_version') == 1:
+            telemetry = row.get('telemetry') or {}
+            if telemetry.get('schema_version') == 1:
+                extra['stage_timings'] = dict(telemetry.get('stage_seconds', {}))
+                extra['token_usage'] = telemetry.get('token_usage', {'input': None, 'output': None})
             from app.retrieval.models import RetrievalHit
             from .retrieval_grid import ranked_source_candidates
             groups = row.get('evaluation_candidates')

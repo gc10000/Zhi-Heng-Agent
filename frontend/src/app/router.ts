@@ -13,6 +13,7 @@ export const router = createRouter({
       { path: 'evaluations', component: () => import('@/features/evaluation/ExperimentsPage.vue') },
       { path: 'evaluations/reviews/:eid', component: () => import('@/features/evaluation/ReviewPage.vue') },
       { path: 'evaluations/feedback', component: () => import('@/features/evaluation/FeedbackQueue.vue') },
+      { path: 'evaluations/runs', component: () => import('@/features/evaluation/RunsPage.vue') },
     ] },
     { path: '/:pathMatch(.*)*', redirect: '/chat' },
   ],

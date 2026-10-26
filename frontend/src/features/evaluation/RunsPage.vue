@@ -1,0 +1,13 @@
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useInfiniteQuery } from '@tanstack/vue-query'
+import { api } from '@/lib/api/client'
+import { useAuthStore } from '@/stores/auth'
+import type { Page } from '@/lib/api/types'
+const auth=useAuthStore(),allowed=computed(()=>['maintainer','admin'].includes(auth.user?.role||'')),scope=computed(()=>[auth.user?.user_id,auth.kb])
+type Telemetry={run_id:string;state:string;total_seconds:number|null;stage_seconds:Record<string,number>;failure_stage:string|null;failure_code:string|null;model:string|null;token_usage:{input:number|null;output:number|null};logical_provider_calls:Record<string,number>|null;coverage:string}
+const query=useInfiniteQuery({queryKey:computed(()=>['scope',...scope.value,'run-telemetry']),enabled:computed(()=>allowed.value&&!!auth.kb),retry:false,initialPageParam:'',queryFn:({pageParam,signal})=>api.request<Page<Telemetry>>('/run-telemetry?kb_id='+encodeURIComponent(auth.kb)+'&limit=30'+(pageParam?'&cursor='+encodeURIComponent(pageParam):''),{signal}),getNextPageParam:p=>p.next_cursor||undefined})
+const rows=computed(()=>query.data.value?.pages.flatMap(p=>p.items)||[]),error=ref('')
+</script>
+<template><section class="runs-page"><h1>运行质量统计</h1><RouterLink to="/evaluations">返回评测</RouterLink><p>仅当前已加载分页；不代表全部运行。</p><p>只显示当前知识范围的安全统计；未采集的模型、token、调用和费用保持未知，不从日志正文推算。</p><p v-if="!allowed" role="status">当前角色没有统计查看权限。</p><p v-if="error||query.error.value" role="alert">{{error||query.error.value?.message}}</p><p v-if="!query.isPending.value&&!rows.length">暂无运行统计。</p><table v-if="rows.length"><thead><tr><th>运行</th><th>状态</th><th>总耗时</th><th>阶段</th><th>失败</th><th>模型</th><th>token</th></tr></thead><tbody><tr v-for="row in rows" :key="row.run_id"><td>{{row.run_id}}</td><td>{{row.state}}</td><td>{{row.total_seconds==null?'未采集':row.total_seconds+' 秒'}}</td><td>{{Object.entries(row.stage_seconds).map(([key,value])=>key+' '+value+' 秒').join('、')||'未采集'}}</td><td>{{row.failure_code||'无'}}</td><td>{{row.model||'未采集'}}</td><td>{{row.token_usage.input==null&&row.token_usage.output==null?'未采集':(row.token_usage.input??'未采集')+' / '+(row.token_usage.output??'未采集')}}</td></tr></tbody></table><button v-if="query.hasNextPage.value" :disabled="query.isFetchingNextPage.value" @click="query.fetchNextPage()">更多运行</button></section></template>
+<style scoped>.runs-page{padding:1.5rem;max-width:75rem;overflow:auto}.runs-page h1{font-size:1.7rem}.runs-page p{line-height:1.7}.runs-page table{border-collapse:collapse;min-width:55rem;margin:1rem 0}.runs-page th,.runs-page td{border-bottom:1px solid #cbd5e1;padding:.55rem;text-align:left;vertical-align:top}.runs-page button{margin:.5rem 0}</style>

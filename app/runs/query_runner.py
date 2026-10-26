@@ -114,6 +114,8 @@ class QueryRunner:
                     return
         thread = threading.Thread(target=heartbeat, daemon=True)
         thread.start()
+        from app.runs.telemetry import ProviderTelemetry, ObservedClient
+        telemetry = ProviderTelemetry()
         def emit(kind, payload, **kwargs):
             boundary()
             return self.events.emit(user, rid, kind, payload, expected_token=token, expected_states={'running'}, **kwargs)
@@ -194,7 +196,7 @@ class QueryRunner:
                 from app.core.load_prompt import load_prompt
                 from app.lm.lm_utils import get_llm_client
                 from app.infrastructure.providers.clients import output_limit_options
-                client=self.llm_factory() if self.llm_factory else get_llm_client()
+                client=ObservedClient(self.llm_factory() if self.llm_factory else get_llm_client(), telemetry)
                 result=client.invoke(load_prompt('hyde_prompt',rewritten_query=query),
                     timeout=enhancement.timeout_seconds,**output_limit_options(client,enhancement.hyde_output_tokens,self.answer_budget.output_token_field))
                 return result.content
@@ -290,7 +292,11 @@ class QueryRunner:
             binding = run_event_sink.set(sink)
             try:
                 if used:
-                    client = self.llm_factory() if self.llm_factory else None
+                    if self.llm_factory:
+                        client = ObservedClient(self.llm_factory(), telemetry)
+                    else:
+                        from app.lm.lm_utils import get_llm_client
+                        client = ObservedClient(get_llm_client(), telemetry)
                     step_3_generate_response(state, prompt, client=client)
                 else:
                     state['answer'] = '当前授权知识库中没有找到可用证据，请补充资料或明确设备型号。'
@@ -310,7 +316,8 @@ class QueryRunner:
             self.commands.finish(user, rid, token, 'completed', {'answer': answer, 'citations': citations, 'message_id': row['assistant_message_id']},
                 fields={'answer': answer, 'citations': citations, 'stage': 'completed', 'completion_snapshot': completion,
                     'output_truncated':bool(state.get('output_truncated'))} |
-                    ({'answer_support':'partial_output'} if state.get('output_truncated') else {}))
+                    ({'answer_support':'partial_output'} if state.get('output_truncated') else {}) |
+                    {'telemetry_measurements': telemetry.snapshot()})
         except ExecutionStopped:
             # 合作取消已由boundary落终态；关机/失联由原租约扫描收敛interrupted。
             pass
@@ -333,7 +340,8 @@ class QueryRunner:
                     error = {'code': code, 'stage': stage}
                     if retryable is not None and code != 'query_execution_failed':
                         error['retryable'] = retryable
-                    self.commands.finish(user, rid, token, 'failed', {'error': error}, fields={'error': error, 'stage': stage})
+                    self.commands.finish(user, rid, token, 'failed', {'error': error}, fields={'error': error, 'stage': stage,
+                        'telemetry_measurements': telemetry.snapshot()})
             except Exception:
                 # 存储/租约失败不伪造终态，保留账本供恢复扫描。
                 logging.getLogger(__name__).error('问答终态暂未收敛，阶段：%s', stage)
