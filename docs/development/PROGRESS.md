@@ -1,5 +1,9 @@
 # 开发进度与接续点
 
+## M5第五轮总控独立复审：通过
+
+2026-10-26 独立复核提交 `a98e12d` 与交接 `c102603`，本地及 fetch 后 `origin/main` 完整SHA一致。关闭R3，R1/R2保持关闭；M5核心7/7、总核心60/76，M5-06可选MCP延期。正式入口定向84 passed；完整后端802 passed/2 deselected/0 skipped/7 warnings（500单元/128契约/174集成），重导入3 passed；前端37单元、28离线浏览器、类型检查和构建通过。提交8项证据hash通过，15文件/2 Python语法/277本地链接/敏感值扫描通过。R5临时API复核未完成，不冒称本轮真实HTTP通过；本轮新增付费调用0。M6未授权、未启动。详见[M5第五轮总控结论](reviews/M5-review-r5.md)和[独立验证摘要](reviews/M5-review-validation-r5.json)。工作区仅保留未跟踪 `evals/`，不上传原始产物。
+
 ## M5第五轮 R3 修复交付：等待总控审查
 
 第四轮仅剩 R3：设备撤回后重新确认 AX-48，当前确认事实仍被历史撤回记录覆盖，正式下一轮重复澄清。先在真实隔离 Mongo、正式 `SupportRepository` + `QueryRunner.execute()` 路径建立红测：新格式和旧 r2 格式各1项失败，7项对照通过，证据 `output/m5-r5-r3-red.txt`，退出码1；中间测试夹具构造错误未计业务红测。最小修复 `app/support/commands.py::subject_withdrawn()` 以当前非空且已确认设备优先，保留当前未知撤回、标记和旧历史兼容；再次撤回及未确认候选仍澄清，不改写历史消息、旧run或草稿。

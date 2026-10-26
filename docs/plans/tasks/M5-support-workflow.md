@@ -160,4 +160,6 @@
 
 第三轮执行结果：R2/R3正式反例先3项失败，修复后定向77项及补充10项通过；阶段后端795 passed/2 deselected/0 skipped、既有重导入3项、前端37单元/28离线浏览器及类型/构建通过。R2覆盖归档preparing与claimed/pending恢复、跨会话扫描和旧占用保护；R3覆盖撤回设备后的正式QueryRunner澄清、旧历史/唯一目录阻断及显式新型号恢复。新增付费0，M5待总控审查，M6未授权。详见[M5第三轮提交](../../development/reviews/M5-submission-r3.md)、[摘要](../../development/reviews/M5-validation-summary-r3.json)、[快照](../../development/reviews/M5-artifact-manifest-r3.json)及[记录](../../development/records/M5-05.md)。
 
-第五轮执行结果：R3正式新旧格式重新确认反例先2项失败/7项对照通过，修复后定向84项通过；阶段后端802 tests（另排除2项live_provider）、既有重导入3项、前端37单元/28离线浏览器、类型/构建通过。当前已确认设备优先覆盖历史撤回，再次撤回和未确认候选仍澄清；真实HTTP重查因历史临时API停止连接拒绝，沿用历史16项只读产物，不新增付费调用。M5待总控审查，M6未授权。详见[M5第五轮提交](../../development/reviews/M5-submission-r5.md)、[摘要](../../development/reviews/M5-validation-summary-r5.json)、[快照](../../development/reviews/M5-artifact-manifest-r5.json)及[记录](../../development/records/M5-05.md)。
+第五轮执行结果：R3正式新旧格式重新确认反例先2项失败/7项对照通过，修复后定向84项通过；阶段后端802 tests（另排除2项live_provider）、既有重导入3项、前端37单元/28离线浏览器、类型/构建通过。当前已确认设备优先覆盖历史撤回，再次撤回和未确认候选仍澄清；真实HTTP重查因历史临时API停止连接拒绝，沿用历史16项只读产物，不新增付费调用。详见[M5第五轮提交](../../development/reviews/M5-submission-r5.md)、[摘要](../../development/reviews/M5-validation-summary-r5.json)、[快照](../../development/reviews/M5-artifact-manifest-r5.json)及[记录](../../development/records/M5-05.md)。
+
+第五轮总控复审：独立关闭R3，R1/R2保持关闭，M5核心7/7、总核心60/76；M5-06延期，M6未授权。正式入口84项、完整后端802项、既有重导入3项、前端37单元/28离线浏览器及类型/构建均独立通过。真实API只读复核未完成，不记为本轮通过；本轮新增付费0。详见[第五轮总控结论](../../development/reviews/M5-review-r5.md)和[独立摘要](../../development/reviews/M5-review-validation-r5.json)。
