@@ -1,6 +1,6 @@
 # 开发公共契约与任务交接边界
 
-日期：2026-10-24。状态：M0/M1/M2/M3总控通过；M4总控通过，M5获准按依赖执行，M6及以后未授权。关联：[开发总清单](DEVELOPMENT_TODO.md)、[原始优化方案](2026-10-22-technical-support-optimization.md)。
+日期：2026-10-26。状态：M0至M5总控通过；M6-01执行自验完成，M6-02按授权执行，M7未授权。关联：[开发总清单](DEVELOPMENT_TODO.md)、[原始优化方案](2026-10-22-technical-support-optimization.md)。
 
 ## 1. 稳定接口和文件归属
 
@@ -384,3 +384,9 @@ POST /feedback：run_id/citation_ids/category(model/evidence/missing_material/op
 ### M5-08 阶段边界补强
 
 支持上下文、处理记录的读取及变更前递归收集嵌套历史/工具输出的document_id+revision_id，重新核对精确修订访问；撤权时拒绝整份回显，不以最新引用列表代替历史授权。所有现有步骤均由用户自报无效时进入handoff/all_steps_ineffective，不声称已解决。接线前断电等原文保持整段前提；清单是待人工核对建议。前端反馈只选择对应run引用，跨记录/身份切换丢弃旧下载结果；确认必须先保存编辑。M5-06未启用，不存在外网工具注册。本阶段真实验收范围仅新隔离账本单样例，不能替代生产规模/答案质量评价。
+
+### M6 题集、评测指标与运行报告（执行中）
+
+M6-01允许证据使用稳定`source_span`：原件SHA256、物理页、引文SHA256及可选图像资产SHA256；映射结果带当前`document_id/revision_id/chunk_uid`，未映射来源标为invalid，不计检索失败。标签修订须有版本、理由、前后指纹，修订后回到draft；标准资格只接受有身份的`independent_assistant_review/reviewed`或`human_reviewed/reviewed`，两种身份分别统计，draft/feedback不是真值。历史曝光、fresh dev、fresh heldout必须互斥穷尽；heldout不能复用历史来源或fresh-dev来源，策略冻结前不得运行。
+
+M6-02需定义多证据组规则：外层`allowed_evidence`每组是一个必需目标，组内证据为正确替代项，同一组在排名前缀中最多计一次命中；无必需证据题的检索指标为`null`而非0。来源召回/排序不等于答案质量或人工正确率。实验manifest绑定数据、代码、模型、prompt、策略和seed；成本/供应商逻辑调用与精确HTTP请求/费用分开，未采集字段记null而非0。各指标公式与执行范围在对应任务记录中补齐。

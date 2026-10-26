@@ -22,14 +22,14 @@
 ### M6-01：题集扩充与证据映射
 
 **依赖：**M4-10。
-**文件：**`evals/datasets/support-v2.jsonl`; `app/evaluation/datasets.py`; `tests/unit/test_eval_labels.py`。
+**文件：**本机冻结题集 `evals/datasets/support-v2-r2.jsonl` 与 manifest；`app/evaluation/datasets.py`; `scripts/verification/build_m6_dataset.py`; `scripts/verification/map_m6_dataset_chunks.py`; `tests/unit/test_eval_labels.py`。首个 `r1` 候选保留作修订证据，权威文件名因此使用 `r2`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
 
-- [ ] **M6-01.1** 从 50 扩约 150 题，覆盖已见失败/长文/图表/拒答。
-- [ ] **M6-01.2** 引用标签基于稳定来源跨度，可映射新切片。
-- [ ] **M6-01.3** 冻结 heldout。
-- [ ] **M6-01.V** 验证：.venv/Scripts/python.exe -m pytest tests/unit/test_eval_labels.py -q。
-- [ ] **M6-01.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
+- [x] **M6-01.1** 从 50 扩约 150 题，覆盖已见失败/长文/图表/拒答；新增 100 条保持 `source_checked_assistant_draft/draft`，不计入标准真值。
+- [x] **M6-01.2** 引用标签基于稳定来源跨度，可映射新切片；127 条文本跨度用真实 PDF 与 M1 `chunk_document` 离线映射通过，3 条图像跨度绑定资产哈希/物理页并完成领域对象投影复验。
+- [x] **M6-01.3** 冻结 heldout；`support-v2-draft-r2` 固定 50 条 fresh heldout，使用未进入历史题集的 P5 原件，未运行、不用于调参。
+- [x] **M6-01.V** 验证：定向回归 55 项通过；题集 CLI、冻结 manifest 和离线来源映射均通过。
+- [x] **M6-01.D** 已保存 `docs/development/records/M6-01.md`，同步总清单、进度、变更、决策、公共契约和标注手册；原件、评测数据和运行证据仍仅本机。
 
 **验收：**不把所有反馈直接当真值；改标签需理由与版本；无法映射的题明确失效而非按错算。
 

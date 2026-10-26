@@ -1,5 +1,6 @@
 """本机JSONL题集的来源、冻结指纹及分组划分校验；不触发模型或服务。"""
 import argparse
+import copy
 from collections import Counter
 import hashlib
 import json
@@ -20,8 +21,24 @@ def file_sha(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def source_span_fingerprint(document_sha256, page, quote_sha256, *, kind, asset_sha256=None):
+    """来源跨度只绑定原件版本、物理位置、规范引文内容和可选图像资产。"""
+    return fingerprint({'document_sha256': document_sha256, 'page': page, 'quote_sha256': quote_sha256,
+                        'kind': kind, 'asset_sha256': asset_sha256})
+
+
 class Strict(BaseModel):
     model_config = ConfigDict(extra='forbid', strict=True)
+
+
+class SourceSpan(Strict):
+    span_id: Digest
+    kind: Literal['text', 'image']
+    document_sha256: Digest
+    page: int = Field(ge=1)
+    quote: Text
+    quote_sha256: Digest
+    asset_sha256: Digest | None = None
 
 
 class Evidence(Strict):
@@ -29,6 +46,23 @@ class Evidence(Strict):
     page: int = Field(ge=1)
     quote: Text
     asset_sha256: Digest | None = None
+    source_span: SourceSpan | None = None
+
+    @model_validator(mode='after')
+    def span_matches_evidence(self):
+        if self.source_span is None:
+            return self
+        span = self.source_span
+        expected_kind = 'image' if self.asset_sha256 else 'text'
+        quote_sha256 = hashlib.sha256(self.quote.encode('utf-8')).hexdigest()
+        if (span.document_sha256 != self.document_sha256 or span.page != self.page or
+                span.quote != self.quote or span.quote_sha256 != quote_sha256 or span.asset_sha256 != self.asset_sha256 or
+                span.kind != expected_kind):
+            raise ValueError('来源跨度必须与原件、物理页、引文及图像指纹一致')
+        if span.span_id != source_span_fingerprint(self.document_sha256, self.page, quote_sha256,
+                                                    kind=expected_kind, asset_sha256=self.asset_sha256):
+            raise ValueError('来源跨度身份指纹不一致')
+        return self
 
 
 class Message(Strict):
@@ -67,6 +101,21 @@ class Annotation(Strict):
         return self
 
 
+class LabelRevision(Strict):
+    version: Text
+    reason: Text
+    previous_label_sha256: Digest
+    current_label_sha256: Digest
+
+    @model_validator(mode='after')
+    def meaningful_change(self):
+        if not self.reason.strip():
+            raise ValueError('标签修订必须说明原因')
+        if self.previous_label_sha256 == self.current_label_sha256:
+            raise ValueError('标签修订前后内容相同')
+        return self
+
+
 class Question(Strict):
     id: Text
     category: Literal['parameter', 'configuration', 'troubleshooting', 'ambiguity', 'diagram', 'cross_model', 'unanswerable']
@@ -79,6 +128,7 @@ class Question(Strict):
     allowed_evidence: list[list[Evidence]]
     source_scope: list[Digest] = Field(min_length=1)
     annotation: Annotation
+    label_revisions: list[LabelRevision] = Field(default_factory=list)
 
     @model_validator(mode='before')
     @classmethod
@@ -88,7 +138,13 @@ class Question(Strict):
             annotation = value.get('annotation')
             if (isinstance(annotation, dict) and annotation.get('method') == 'independent_assistant_review'
                     and annotation.get('status') == 'reviewed' and isinstance(annotation.get('review'), dict)):
-                content = {k: v for k, v in value.items() if k != 'annotation'}
+                content = copy.deepcopy({k: v for k, v in value.items() if k != 'annotation'})
+                # source_span 是从原有 document/page/quote/asset 指纹可验证的派生定位，
+                # 不改变已审阅的语义标签；允许版本化题集补充该映射而不伪造重新审核。
+                for group in content.get('allowed_evidence', []):
+                    for evidence in group:
+                        if isinstance(evidence, dict):
+                            evidence.pop('source_span', None)
                 if annotation['review'].get('subject_sha256') != fingerprint(content):
                     raise ValueError('审阅内容指纹不一致：修改后须退回草稿并重新审阅')
         return value
@@ -103,6 +159,21 @@ class Question(Strict):
             raise ValueError('每个必需证据组至少有一个可替代的正确来源')
         if any(e.document_sha256 not in self.source_scope for g in self.allowed_evidence for e in g):
             raise ValueError('允许证据超出题目来源范围')
+        label_sha = fingerprint({'expected': self.expected.model_dump(mode='json'),
+                                 'allowed_evidence': [
+                                     [e.model_dump(mode='json', exclude_none=True) for e in group]
+                                     for group in self.allowed_evidence]})
+        prior_current = None
+        versions = set()
+        for revision in self.label_revisions:
+            if revision.version in versions:
+                raise ValueError('标签修订版本重复')
+            versions.add(revision.version)
+            if prior_current is not None and revision.previous_label_sha256 != prior_current:
+                raise ValueError('标签修订指纹链不连续')
+            prior_current = revision.current_label_sha256
+        if prior_current is not None and prior_current != label_sha:
+            raise ValueError('最新标签指纹与题目当前标签不一致')
         return self
 
 
@@ -133,15 +204,34 @@ def validate_dataset(path, *, manifest=None, minimum=50):
         expected = [{'id': r['id'], 'split': r['split'], 'group_id': r['group_id'], 'sha256': fingerprint(r)} for r in raw]
         if declared != expected:
             raise ValueError('逐题指纹或划分与冻结版本不一致')
+        if 'evaluation_cohorts' in frozen:
+            from .datasets import validate_evaluation_cohorts
+            validate_evaluation_cohorts(raw, frozen['evaluation_cohorts'])
+            if any(evidence.get('source_span') is None
+                   for row in raw for group in row['allowed_evidence'] for evidence in group):
+                raise ValueError('M6冻结题集中的允许证据缺少稳定来源跨度')
         sources = {s['sha256']: s['pages'] for s in frozen['sources']}
         if len(sources) != len(frozen['sources']):
             raise ValueError('来源清单重复')
+        assets = frozen.get('assets', [])
+        asset_keys = set()
+        for asset in assets:
+            key = (asset['document_sha256'], asset['page'], asset['sha256'])
+            if (key in asset_keys or asset['document_sha256'] not in sources or
+                    not 1 <= asset['page'] <= sources[asset['document_sha256']]):
+                raise ValueError('冻结图像资产身份重复或超出原件范围')
+            asset_keys.add(key)
         for row in raw:
             if not set(row['source_scope']) <= sources.keys():
                 raise ValueError('来源未登记到冻结清单')
             for group in row['allowed_evidence']:
                 if any(e['page'] > sources[e['document_sha256']] for e in group):
                     raise ValueError('证据物理页码超出原件')
+                if 'evaluation_cohorts' in frozen and any(
+                        e.get('asset_sha256') is not None and
+                        (e['document_sha256'], e['page'], e['asset_sha256']) not in asset_keys
+                        for e in group):
+                    raise ValueError('冻结图像证据缺少精确资产登记')
     return raw
 
 

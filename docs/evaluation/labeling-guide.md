@@ -1,5 +1,13 @@
 # M4题集标注与冻结规则
 
+## M6-01 题集扩充与来源跨度
+
+M6 本机候选 `support-v2-draft-r2` 以 `support-v1-r2` 为不可变父版本：150 题包含50条历史曝光、50条 fresh dev 与50条 fresh heldout。新增100题保持 `source_checked_assistant_draft/draft`，不进入标准真值；旧43条独立助手审核保留其身份，真实人工审核仍为0。fresh heldout 来自历史题集中未出现的 P5 原件，仅冻结不运行，也不用于开发策略选择。
+
+允许证据绑定原件 SHA256、物理页与稳定文本/图像来源跨度；文本跨度按生产 M1 切片边界映射，来源无法映射时标为无效，不能计作检索失败。标签修改必须使用新版本、说明理由并保留前后指纹，修订后的标签恢复草稿状态。映射工具只读核验原件、M1 切片与图像文件哈希；它不访问数据库/对象存储，也不证明图像已进入持久索引。真实答案正确率不能从来源命中或助手审阅身份推导。
+
+M6-01 定向验证和精确本机数据指纹见[任务记录](../development/records/M6-01.md)；JSONL/manifest 和原始映射报告由 Git 忽略规则保留在本机，不提交。
+
 M4-10配置策略通过`m4-configured`与严格parameters接入正式QueryRunner；原`m3-baseline`不接受参数覆盖。`python -m app.evaluation.quality_grid --dataset <JSONL> --manifest <划分> --config <YAML> --output <新目录>`仅用于dev真实检索单因素/组合，输出不是生成答案。阶段缓存绑定完整执行版本与语料；原始耗时继续约束可选分支，命中不能把超时变为质量收益。所有复用、原耗时与逻辑供应商invoke/stream计数单列；不缓存答案、不将复用后的wall当生产时延，精确SDK重试数/金额未知。宽窗口字符兜底是当前模板对照，不能冒称历史原链路。先dev报告/默认选择冻结，再最终heldout；来源指标、人类正确率和助手答案抽检分别报告。
 
 恢复实验时保持原JSONL/划分/配置/接受结论/完整语料和执行字节一致。成功attempt及持久run按原请求复用；失败run不能通过换request_id绕过账本重新付费，应先只读定位状态并按既有重试门禁处理。`.runner.lock`存在时拒绝另进程执行，先核对PID与存活进程；不自动删除占用。中断的缓存写入或任何payload/seconds指纹损坏都拒绝使用，保留原目录并另建清楚标注的新实验，不能手改结果伪装恢复。源码变化后冻结新版本，不能继续向旧输出追加。`scripts/verification/recheck_m4_evaluation.py --config <本轮YAML> --output <真实问答结果目录> --report <新JSON>`只读核对实际消息顺序、答案、唯一终态、准确引用/图片和完整语料；不构造写入仓储、加载权重或调用模型。
