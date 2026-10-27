@@ -16,6 +16,25 @@ from app.runs.query_runner import QueryRunner
 pytestmark = pytest.mark.integration
 
 
+def test_answer_image_usage_survives_formal_adapter_and_result_storage(evaluation_context):
+    from app.evaluation.repository import EvaluationRepository
+    cfg,factory,resources,prompts,question,scoped=evaluation_context
+    g=resources['knowledge']()
+    entity=g.index_factory().search()[0]['entity']
+    entity['metadata']['asset_ids']=['diagram']
+    g.db.knowledge_assets.insert_one(dict(asset_id='diagram',document_id=entity['document_id'],
+        revision_id=entity['revision_id'],sha256='b'*64,source_refs=[dict(kind='pdf',page=2)]))
+    with RealQueryExecutor(cfg,resource_factory=factory) as execute:
+        result=execute(question)
+    images=[c for c in result['citations'] if c.get('asset_sha256')]
+    assert images and images[0]['image_usage']=='context'
+    assert result['image_selection_version']==1
+    repo=EvaluationRepository(g.db)
+    repo.save_results('adapter-new',1,[question|{'category':'parameter'}],[dict(id='q1',status='completed',result=result)])
+    stored=repo.results.find_one({'experiment_id':'adapter-new'})['result']
+    assert stored['image_selection_version']==1 and stored['citations']==result['citations']
+
+
 @pytest.fixture
 def evaluation_context(mongo_db):
     owner, kb = 'm4-test-owner', 'm4-test-kb'

@@ -1,6 +1,57 @@
 import { test, expect } from '@playwright/test'
 import { mockApi } from './helpers'
 
+test('新版按题意保存适用性，聊天来源可引用但不预填分数和本人声明',async({page})=>{
+  let submitted:any
+  await mockApi(page,async route=>{
+    const path=new URL(route.request().url()).pathname
+    if(path.endsWith('/observations')){await route.fulfill({json:{items:[{observation_id:'o1',question_id:'q1',source_message_id:'chat-one',statement:'无需步骤，两图无关',scores:{factuality:2,citation_support:2,actionability:'not_applicable',image_relevance:0},transcriber_kind:'assistant'}]}});return true}
+    if(path.endsWith('/reviews')){
+      if(route.request().method()==='POST'){submitted=route.request().postDataJSON();await route.fulfill({status:201,json:{...submitted,review_id:'r1'}})}
+      else await route.fulfill({json:{subjects:[{question_id:'q1',subject_sha256:'a'.repeat(64)}],items:[]}})
+      return true
+    }
+    if(path.endsWith('/results')){await route.fulfill({json:{items:[{question_id:'q1',question:'兼容性判断',result:{answer:'不可以 [1]',citations:[]}}],next_cursor:null}});return true}
+    return false
+  })
+  await page.goto('/evaluations/reviews/exp-purpose')
+  await expect(page.getByLabel('审阅规则',{exact:true})).toHaveValue('question-purpose-v1')
+  await expect(page.getByText('无需步骤，两图无关',{exact:true})).toBeVisible()
+  await page.getByLabel('引用聊天反馈（不代填评分或本人声明）').selectOption('o1')
+  await expect(page.getByLabel('事实正确性',{exact:true})).toHaveValue('unknown')
+  await expect(page.getByLabel('已核对原始资料与来源')).not.toBeChecked()
+  await page.getByLabel('本题步骤是否适用',{exact:true}).selectOption('no')
+  await page.getByLabel('步骤适用性依据',{exact:true}).fill('合成兼容性判断，无配置操作目标。')
+  await page.getByLabel('步骤可执行性',{exact:true}).selectOption('not_applicable')
+  await page.getByLabel('核对依据或未知原因').fill('合成助手复核，非人工双轮')
+  await page.getByRole('button',{name:'保存本轮审阅',exact:true}).click()
+  await expect.poll(()=>submitted?.observation_id).toBe('o1')
+  expect(submitted.rubric_version).toBe('question-purpose-v1')
+  expect(submitted.actionability_applicable).toBe(false)
+  expect(submitted.human_attested).toBe(false)
+  expect(submitted.reviewer_kind).toBe('assistant')
+})
+
+test('新版只默认展示答案图片，关联图展开后才读取，不当作答案配图',async({page})=>{
+  const requests:string[]=[]
+  await mockApi(page,async route=>{
+    const path=new URL(route.request().url()).pathname
+    if(path.includes('/images/')){requests.push(path);await route.fulfill({contentType:'image/gif',body:Buffer.from('R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=','base64')});return true}
+    if(path.endsWith('/reviews')){await route.fulfill({json:{subjects:[{question_id:'q1',subject_sha256:'a'.repeat(64)}],items:[]}});return true}
+    if(path.endsWith('/results')){await route.fulfill({json:{items:[{question_id:'q1',question:'兼容性判断',result:{answer:'仅支持本厂控制器 [1]',image_selection_version:1,citations:[{document_sha256:'b'.repeat(64),page:4,asset_sha256:'c'.repeat(64),image_usage:'context'}]}}],next_cursor:null}});return true}
+    return false
+  })
+  await page.goto('/evaluations/reviews/exp-selection')
+  await page.getByLabel('审阅规则',{exact:true}).selectOption('legacy-v1')
+  await expect(page.locator('article')).toContainText('当前答案没有使用配图')
+  await expect(page.locator('article img')).toHaveCount(0)
+  expect(requests).toEqual([])
+  await expect(page.getByLabel('配图相关性',{exact:true}).locator('option[value="not_applicable"]')).toHaveCount(1)
+  await page.getByText('检索关联图（未用于答案）',{exact:true}).click()
+  await expect(page.locator('article img')).toBeVisible()
+  await expect.poll(()=>requests.length).toBe(1)
+})
+
 test('原审核者逐轮追加未知结论，旧记录和确定分数保留，刷新可见',async({page})=>{
   const originals=[1,2].map(round=>({review_id:'original-'+round,question_id:'q1',subject_sha256:'a'.repeat(64),round,
     reviewer_kind:'human',reviewer_id:'offline-user',human_attested:true,source_checked:true,
@@ -19,6 +70,7 @@ test('原审核者逐轮追加未知结论，旧记录和确定分数保留，�
     return false
   })
   await page.goto('/evaluations/reviews/exp-followups')
+  await page.getByLabel('审阅规则',{exact:true}).selectOption('legacy-v1')
   await page.getByLabel('审阅身份',{exact:true}).selectOption('human')
   await expect(page.getByText('步骤是否适用',{exact:true})).toBeVisible()
   await expect(page.getByRole('button',{name:'保存本轮审阅',exact:true})).toBeDisabled()
@@ -43,6 +95,7 @@ test('原审核者逐轮追加未知结论，旧记录和确定分数保留，�
     expect(submitted.reviewer_id).toBeUndefined()
   }
   await page.reload()
+  await page.getByLabel('审阅规则',{exact:true}).selectOption('legacy-v1')
   await page.getByLabel('审阅身份',{exact:true}).selectOption('human')
   await expect(page.getByRole('region',{name:'未知项追加复核'}).getByRole('status')).toContainText('追加复核已保存')
   expect(followups.length).toBe(2)
@@ -66,6 +119,10 @@ test('审阅页显示绑定结果的配图，并解释本轮提交禁用原因',
     return false
   })
   await page.goto('/evaluations/reviews/exp-image')
+  await page.getByLabel('审阅规则',{exact:true}).selectOption('legacy-v1')
+  await expect(page.locator('article img')).toHaveCount(0)
+  expect(imageRequests).toEqual([])
+  await page.getByText('历史图像来源（答案使用关系未记录）',{exact:true}).click()
   const visual=page.getByRole('img',{name:'资料第4页引用配图'})
   await expect(visual).toBeVisible()
   await expect.poll(()=>visual.evaluate(node=>(node as HTMLImageElement).naturalWidth)).toBe(1)
@@ -102,6 +159,7 @@ test('已保存轮次明确提示并拦住重复提交，切轮次保留独立�
     return false
   })
   await page.goto('/evaluations/reviews/exp-rounds')
+  await page.getByLabel('审阅规则',{exact:true}).selectOption('legacy-v1')
   await page.getByLabel('核对依据或未知原因').fill('辅助界面测试，不是本人评分')
   await page.getByRole('button',{name:'保存本轮审阅',exact:true}).click()
   await expect(page.locator('#review-saved-notice')).toContainText('第1轮审阅已保存')
@@ -109,6 +167,7 @@ test('已保存轮次明确提示并拦住重复提交，切轮次保留独立�
   await expect(page.locator('#review-submit-help')).toContainText('不可覆盖')
   await page.reload()
   await expect(page.locator('#review-saved-notice')).toContainText('第1轮审阅已保存')
+  await page.getByLabel('审阅规则',{exact:true}).selectOption('legacy-v1')
   await page.getByLabel('复核轮次',{exact:true}).selectOption('2')
   await page.getByLabel('核对依据或未知原因').fill('第二轮辅助界面测试')
   await page.getByRole('button',{name:'保存本轮审阅',exact:true}).click()
@@ -124,6 +183,7 @@ test('真实协议澄清结果不显示为空白答案且保留未知评分',asy
     return false
   })
   await page.goto('/evaluations/reviews/exp-clarify')
+  await page.getByLabel('审阅规则',{exact:true}).selectOption('legacy-v1')
   await expect(page.locator('article').getByRole('status')).toContainText('本轮请求确认设备型号，未生成答案')
   await expect(page.getByLabel('事实正确性',{exact:true})).toHaveValue('unknown')
   await expect(page.getByRole('button',{name:'保存本轮审阅',exact:true})).toBeDisabled()
@@ -143,6 +203,7 @@ test('审阅绑定题级结果、分离辅助身份，未知不会伪装通过',
     return false
   })
   await page.goto('/evaluations/reviews/exp-1')
+  await page.getByLabel('审阅规则',{exact:true}).selectOption('legacy-v1')
   await expect(page.getByRole('heading',{name:'答案审阅',exact:true})).toBeVisible()
   await expect(page.getByText('合成待审答案',{exact:true})).toBeVisible()
   await page.getByLabel('审阅身份',{exact:true}).selectOption('assistant')

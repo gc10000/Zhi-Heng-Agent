@@ -261,6 +261,8 @@ class QueryRunner:
                 return (g.db.knowledge_assets.find_one({'asset_id':aid}) or
                     g.db.knowledge_legacy_assets.find_one({'asset_id':aid}))
             validate_citation_sources(citations,revisions,asset_lookup=asset_lookup)
+            from app.answering.image_selection import select_answer_images
+            citations = select_answer_images('', citations)
             covered={pid for d in state['prompt_used_docs'] for pid in d.get('metadata',{}).get('product_ids',[])}
             missing_models=[p['model'] for p in products if p['product_id'] in plan.product_ids and p['product_id'] not in covered] if plan.route=='compare' else []
             evaluation_fields = {}
@@ -312,6 +314,7 @@ class QueryRunner:
             answer = safe_answer.answer
             if not answer.strip():
                 raise ValueError('模型没有生成有效答案')
+            citations = select_answer_images(answer, citations)
             completion = {'text': answer, 'citations': citations, 'product_snapshot': product_snapshot}
             self.commands.finish(user, rid, token, 'completed', {'answer': answer, 'citations': citations, 'message_id': row['assistant_message_id']},
                 fields={'answer': answer, 'citations': citations, 'stage': 'completed', 'completion_snapshot': completion,

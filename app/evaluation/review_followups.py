@@ -8,6 +8,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator, model_valida
 from pymongo.errors import DuplicateKeyError
 from app.api.errors import APIError
 from app.knowledge.repository import fingerprint
+from app.answering.image_selection import has_review_images
 
 Dimension = Literal['factuality', 'citation_support', 'actionability', 'image_relevance']
 
@@ -65,8 +66,11 @@ class FollowupLedger:
         if set(data.resolutions) != unknown:
             raise APIError(422, 'review_resolution_dimensions', '须逐项解决该轮全部未知项；确定维度不能修改。')
         image = data.resolutions.get('image_relevance')
-        if image and image.score == 'not_applicable' and any(
-                c.get('asset_sha256') or c.get('asset_ids') for c in result.get('citations', [])):
+        action = data.resolutions.get('actionability')
+        if (action and original.get('rubric_version') == 'question-purpose-v1' and
+                ((action.score == 'not_applicable') == original['actionability_applicable'])):
+            raise APIError(422, 'review_applicability_changed', '追加未知结论不能改变原审阅按题意确定的步骤适用性；须保留原规则。')
+        if image and image.score == 'not_applicable' and has_review_images(result):
             raise APIError(422, 'image_review_required', '含配图来源须核对用途与相关性，不能直接跳过图片。')
         identity = fingerprint(dict(experiment_id=eid, review_id=original['review_id'], **data.model_dump()))
         row = dict(experiment_id=eid, review_id=original['review_id'],

@@ -63,3 +63,9 @@ M4-08不改变公开问答API。退出仍先撤销会话，再清该用户查询
 评测API均要求登录和maintainer/admin，具体资源再次按owner/current kb核验；写操作沿用同源与CSRF。`GET /eval-catalog?kb_id=`只给维护者受控登记选项；`GET/POST /eval-sets`读取/登记私有题集版本；`GET/POST /experiments`列表/创建；`GET /experiments/{id}`读取真实状态；`GET /experiments/{id}/results?cursor=&limit=`按题身份分页，最大100；`POST /experiments/{id}/cancel`与`/retry`带`expected_version`，重试返回202。基线ID只接受同所有者/知识范围/冻结题集的已完成实验。未知成本/标准语义分保持null。
 
 创建仅接受题集/配置ID版本、可选基线和client_request_id，拒绝路径、伪造结果等额外字段。相同请求重发保持身份，相同请求ID内容变化409。取消在题边界合作完成，不中断已发出的供应商请求。题级对比仅表示文本/状态差异，不能当质量提升。登记后冻结指纹漂移或目录错误明确拒绝；错误不回显路径/配置正文。OpenAPI及前端声明已同步，详见[评测工作台](../evaluation/workbench.md)。
+
+## M6聊天来源、适用性与图片使用关系（2026-10-27）
+
+GET/POST `/experiments/{eid}/observations`：维护者、owner/kb、同源/CSRF；仅completed当前题结果可写。请求`question_id/subject_sha256/source_message_id/statement/scores/rubric_version/actionability_applicable/applicability_rationale`，拒绝`round/reviewer_id/human_attested`等额外字段。同来源同内容幂等、冲突409、校准仍要求独立human。`ReviewInput.observation_id`可引用同账号当前结果来源，不能自动继承评分。新版审阅`question-purpose-v1`要求逐题步骤适用性及理由并与分值一致，省略版本兼容legacy-v1；新校准绑定版本，跨版本pending。
+
+新run引用增加`image_selection_version=1/answer_asset_ids`；原asset_ids保留全部检索关联，生成前事件为空答案图，终态/完成快照/历史一致。评测结果增加image_selection_version和图像citation.image_usage=answer/context，完整进入题级指纹。旧结果不迁移，前端标为历史关系未知并折叠图像来源；旧配图门禁保守保留。详见[审阅与恢复协议](../evaluation/release-gates.md)。OpenAPI和生成类型已同步，无新增环境变量或依赖。

@@ -222,7 +222,7 @@ class EvaluationRepository:
     def save_results(self, experiment_id, attempt, questions, results):
         by_id = {row['id']: row for row in results}
         public_keys = {'answer', 'citations', 'behavior', 'route', 'retrieval_candidates',
-                       'stage_metrics', 'stage_timings', 'logical_provider_calls', 'token_usage'}
+                       'stage_metrics', 'stage_timings', 'logical_provider_calls', 'token_usage', 'image_selection_version'}
         for question in questions:
             record = by_id.get(question['id'])
             if record is None:

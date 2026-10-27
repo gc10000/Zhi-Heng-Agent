@@ -405,3 +405,9 @@ M6-02需定义多证据组规则：外层`allowed_evidence`每组是一个必需
 M6-02实现使用`metric_schema_version=1`启用新报告契约；M4既有配置不带该字段时维持旧输出。每个M6运行清单包含`manifest_schema_version=1`、数据/划分/配置/策略hash、策略参数、代码/模型/prompt版本及seed，并对复现对象另存SHA256。seed是固定配置的复核元数据，不保证控制供应商SDK或模型内部所有随机性。真实检索候选按`candidates/reranked/context`持久化稳定候选身份和授权来源指纹，不重复保存候选正文；单位测试使用合成候选不代表真实检索验收。
 
 对符合资格的已审题，Recall@k=前k候选命中的必需证据组数/必需组数；组内任一正确替代来源即可命中，同组只计一次。MRR取首个命中任意必需组的倒数排名。组级nDCG的gain为该候选首次命中的新证据组数、折扣为`log2(rank+1)`，再除以必需组数；一个候选可用多个来源满足多个组。草稿/反馈题和空`allowed_evidence`题的标准检索指标均为null；`human_answer_correctness`始终不由来源指标生成。报告按类别汇总成功/失败、缺失结果、失败阶段、检索均值及供应商调用/token/精确费用；字段不完整时不把缺失值当0。
+
+## M6-04/05/08补修：答案图、聊天来源、步骤规则（2026-10-27）
+
+本轮保留所有旧评测结果及账本，新增image_selection_version=1，asset_ids与answer_asset_ids分离；答案图仅由受控显式图片语法选出，不代替语义相关性评价。评测citation.image_usage明确answer/context，版本和来源持久化并参与题指纹。Vue仅默认加载新答案图，其他及历史图像通过展开溯源；历史0分保留，折叠不是得分变更。
+
+聊天observations不可变、当前题级指纹绑定、同转录者source_message_id唯一且幂等；只能是assistant转录，不得写human声明/轮次、不进入校准。后续独立ReviewInput可引用observation_id，不自动复制语义分或声明。question-purpose-v1显式记录步骤适用性和理由，false须N/A，true不可N/A；追加未知不能改变适用性。混合版本不完整，跨版本/适用性变化门槛pending；legacy请求指纹及已冻结校准不回写。重新采用规则必须先形成新基线独立审阅和校准，再创建候选。详见[审阅协议](../evaluation/release-gates.md)。M6三项与全dev仍未验收，M7未授权。

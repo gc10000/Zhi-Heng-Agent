@@ -212,8 +212,13 @@ class RealQueryExecutor:
                 if asset:
                     for ref in asset['source_refs']:
                         if ref.get('page'):
-                            citations.append({'document_sha256': source['original_sha256'], 'page': ref['page'], 'asset_sha256': asset['sha256']})
+                            image = {'document_sha256': source['original_sha256'], 'page': ref['page'], 'asset_sha256': asset['sha256']}
+                            if c.get('image_selection_version') == 1:
+                                image['image_usage'] = 'answer' if aid in c['answer_asset_ids'] else 'context'
+                            citations.append(image)
         extra = {}
+        if row['citations'] and all(c.get('image_selection_version') == 1 for c in row['citations']):
+            extra['image_selection_version'] = 1
         if self.config.get('metric_schema_version') == 1:
             telemetry = row.get('telemetry') or {}
             if telemetry.get('schema_version') == 1:

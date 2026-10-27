@@ -1,0 +1,393 @@
+{
+  "stage": {
+    "passed": 982,
+    "deselected": 2,
+    "skipped": 0,
+    "exit_code": 0,
+    "composition": {
+      "unit": 588,
+      "contract": 135,
+      "integration": 259
+    },
+    "evidence": "output/m6-protocol-r1/stage-final/backend.xml"
+  },
+  "notice": "局部补修；完整阶段启动后新增2项在最终95项定向组合通过，去重覆盖984项，不冒称一次984全量通过。",
+  "supplemental_unique_tests": 2,
+  "distinct_backend_tests_verified": 984,
+  "baseline_commit": "806e4ca676614754939ba3fa10e9f659c763ed87",
+  "branch": "main",
+  "stage_commands": "output/m6-protocol-r1/stage-final/commands.json",
+  "command_exits": {
+    "backend": 0,
+    "reimport": 0,
+    "typecheck": 0,
+    "unit": 0,
+    "build": 0,
+    "browser": 0
+  },
+  "targeted": {
+    "passed": 95,
+    "exit_code": 0
+  },
+  "legacy_reimport": {
+    "passed": 3,
+    "exit_code": 0
+  },
+  "frontend": {
+    "unit_passed": 37,
+    "browser_passed": 41,
+    "skipped": 0,
+    "typecheck_exit_code": 0,
+    "build_exit_code": 0,
+    "browser_exit_code": 0
+  },
+  "live": {
+    "api_checks": 13,
+    "browser_checks": 10,
+    "mode": "已有答案只读重放与新增单条聊天来源，不是新生成",
+    "experiment_id": "f0ac6186-b204-4987-bb14-0089f3b73996",
+    "subject_sha256": "3d2ea7704c2e076979835c3ccae0cb72319d822fe5ca7e53a80a12a8a87ced39",
+    "observation_id": "8e3262fc-a4c6-44a0-b087-df1355533f3c",
+    "gate": {
+      "status": "pending",
+      "reasons": [
+        "review_pending_or_changed"
+      ],
+      "regressions": [],
+      "calibration_id": "789deda3-ada9-4497-8263-799cd3da263b",
+      "candidate_experiment_id": "f0ac6186-b204-4987-bb14-0089f3b73996",
+      "human_review_count": 0,
+      "automatic_publish": false
+    },
+    "chat_records_added": 1
+  },
+  "human_writes": 0,
+  "new_calibrations": 0,
+  "model_calls": 0,
+  "heldout_runs": 0,
+  "M6_acceptance": false,
+  "M7_authorized": false,
+  "review_status": "局部补修待总控定向审查，M6阶段未验收",
+  "pytest_reports": [
+    {
+      "path": "output/m6-protocol-r1/followup-red.xml",
+      "counts": {
+        "tests": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "path": "output/m6-protocol-r1/green-initial.xml",
+      "counts": {
+        "tests": 17,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "path": "output/m6-protocol-r1/initial-selection-red.xml",
+      "counts": {
+        "tests": 3,
+        "failures": 3,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "path": "output/m6-protocol-r1/red.xml",
+      "counts": {
+        "tests": 12,
+        "failures": 12,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "path": "output/m6-protocol-r1/target-final.xml",
+      "counts": {
+        "tests": 95,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "path": "output/m6-protocol-r1/target-r2.xml",
+      "counts": {
+        "tests": 93,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "path": "output/m6-protocol-r1/target.xml",
+      "counts": {
+        "tests": 93,
+        "failures": 9,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "path": "output/m6-protocol-r1/stage-final/backend.xml",
+      "counts": {
+        "tests": 982,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    }
+  ],
+  "raw_evidence": [
+    {
+      "path": "output/m6-08/001-candidate-chat-review-r1-20261027/readonly.json",
+      "sha256": "acf69d7d7335c53a9e6a29d84cf25023434e20926005fbe48af17c9796da7da0"
+    },
+    {
+      "path": "output/m6-08/001-candidate-chat-review-r1-20261027/user-statement.json",
+      "sha256": "f0e17f4ff1b8405cf50efdcfaad98ecc0ce820007844b963cca52c0bba0fdb9b"
+    },
+    {
+      "path": "output/m6-protocol-r1/browser-green/.last-run.json",
+      "sha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "path": "output/m6-protocol-r1/browser-green-r2/.last-run.json",
+      "sha256": "07b37060fea67623147881aaa3631390985cd29c0c5661bc25f3c36e111125e3"
+    },
+    {
+      "path": "output/m6-protocol-r1/browser-green-r2/reviews-审阅绑定题级结果、分离辅助身份，未知不会伪装通过/error-context.md",
+      "sha256": "4499fe4e130db3a808024542cadcc18321a10ccede9d50b34ec86bcf8e8a98ce"
+    },
+    {
+      "path": "output/m6-protocol-r1/browser-green-r2/reviews-审阅绑定题级结果、分离辅助身份，未知不会伪装通过/test-failed-1.png",
+      "sha256": "855df3393c60cef34f12bb4b656451db740e2f8ca6c942221fbc61a998243a31"
+    },
+    {
+      "path": "output/m6-protocol-r1/browser-green-r2/reviews-审阅绑定题级结果、分离辅助身份，未知不会伪装通过/trace.zip",
+      "sha256": "96c1c06446a3fd7363e7613c13889f0d0f04f796f7337b20f6f7c887a8009945"
+    },
+    {
+      "path": "output/m6-protocol-r1/browser-green-r2/reviews-已保存轮次明确提示并拦住重复提交，切轮次保留独立身份/error-context.md",
+      "sha256": "7b4889e786e293d1c2b7eaa0acfec71c2c1c547636cce7ed9bf217e846513509"
+    },
+    {
+      "path": "output/m6-protocol-r1/browser-green-r2/reviews-已保存轮次明确提示并拦住重复提交，切轮次保留独立身份/test-failed-1.png",
+      "sha256": "a32a5f7ef16dd7f2a91fab88e2d7a71a6660ad8d5c2a1664ab06664485466981"
+    },
+    {
+      "path": "output/m6-protocol-r1/browser-green-r2/reviews-已保存轮次明确提示并拦住重复提交，切轮次保留独立身份/trace.zip",
+      "sha256": "f42704a967456556771a829955fa784016b842f0d9363c633fe8404dd53e9572"
+    },
+    {
+      "path": "output/m6-protocol-r1/browser-red/.last-run.json",
+      "sha256": "ef512d5fa1701ce2fa7dbcecad7ce0f5a98708f73e04f11639e178d8a13647d9"
+    },
+    {
+      "path": "output/m6-protocol-r1/browser-red/reviews-新版只默认展示答案图片，关联图展开后才读取，不当作答案配图/error-context.md",
+      "sha256": "c2821b40b90ee1c0e5918fcd7bfecf28ffe6fe7e880f3d0f0cc2daa92797f513"
+    },
+    {
+      "path": "output/m6-protocol-r1/browser-red/reviews-新版只默认展示答案图片，关联图展开后才读取，不当作答案配图/test-failed-1.png",
+      "sha256": "e4ed59d1e2d2461500881b72ce4bc3db9ab0dac8ed245ab899be4e6af88fd62c"
+    },
+    {
+      "path": "output/m6-protocol-r1/browser-red/reviews-新版只默认展示答案图片，关联图展开后才读取，不当作答案配图/trace.zip",
+      "sha256": "331dfbff4d71a991794c6b0560c1082293bc2666efafa16841d986c7541269c8"
+    },
+    {
+      "path": "output/m6-protocol-r1/browser-target-final/.last-run.json",
+      "sha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "path": "output/m6-protocol-r1/browser-target-r3/.last-run.json",
+      "sha256": "f6ca0fc2caec9171c341f01438fbbe6bc68b1a8bd269cd9e3893883bcecbe890"
+    },
+    {
+      "path": "output/m6-protocol-r1/browser-target-r3/reviews-已保存轮次明确提示并拦住重复提交，切轮次保留独立身份/error-context.md",
+      "sha256": "128a43c2173af5344642eedf48ece5b3b1f4134d0dcd0286bf2efd00d02190e2"
+    },
+    {
+      "path": "output/m6-protocol-r1/browser-target-r3/reviews-已保存轮次明确提示并拦住重复提交，切轮次保留独立身份/test-failed-1.png",
+      "sha256": "a047fc71e391eb92363cf094d6487c4d5496736af644924207df46e937802917"
+    },
+    {
+      "path": "output/m6-protocol-r1/browser-target-r3/reviews-已保存轮次明确提示并拦住重复提交，切轮次保留独立身份/trace.zip",
+      "sha256": "305f7b7156d11958cabe6d2b01dff5dc75dca22977c67d63a059a627183ba17b"
+    },
+    {
+      "path": "output/m6-protocol-r1/evidence-red/.last-run.json",
+      "sha256": "26cd790667c540d04c61e81dab88be159bcd3a99a6f1026e7080dc4f20f5bf71"
+    },
+    {
+      "path": "output/m6-protocol-r1/evidence-red/citations-引用工作台区分答案使用图与仅检索关联图/error-context.md",
+      "sha256": "7ba52b1ba9316239fd6a43663089846f3970f69feb920a25d64eb39f20759ef0"
+    },
+    {
+      "path": "output/m6-protocol-r1/evidence-red/citations-引用工作台区分答案使用图与仅检索关联图/test-failed-1.png",
+      "sha256": "5b113d6c43922fa8c896595fed675e328c21b1a3a99547a72b8ccf653dbf864f"
+    },
+    {
+      "path": "output/m6-protocol-r1/evidence-red/citations-引用工作台区分答案使用图与仅检索关联图/trace.zip",
+      "sha256": "15c8352ae9bf91a8c3532997ba46a960415a1a2de50091d630bb4c4587ee722c"
+    },
+    {
+      "path": "output/m6-protocol-r1/followup-red.xml",
+      "sha256": "bdf6c2b9064766c26de3449c42deba9bec5f59d831e751d17eb03b30d6e78ebc"
+    },
+    {
+      "path": "output/m6-protocol-r1/green-initial.xml",
+      "sha256": "32fbc96e562151d298d0804b44af38f2363c23c4507400ba657db390fe91b201"
+    },
+    {
+      "path": "output/m6-protocol-r1/initial-selection-red.xml",
+      "sha256": "9075d0e52261740d733d336f201ad89b78f899917b483da812141fdef09fc5a6"
+    },
+    {
+      "path": "output/m6-protocol-r1/legacy-display-red/.last-run.json",
+      "sha256": "d44e7081171aed2b316e16b1ba490aaaf08f89e3e15a8f97a9e0e8675f06dadf"
+    },
+    {
+      "path": "output/m6-protocol-r1/legacy-display-red/reviews-审阅页显示绑定结果的配图，并解释本轮提交禁用原因/error-context.md",
+      "sha256": "b8a4c436562f3915a408b08c56bae035e8cb1239a16b4f39b69e123d4e434489"
+    },
+    {
+      "path": "output/m6-protocol-r1/legacy-display-red/reviews-审阅页显示绑定结果的配图，并解释本轮提交禁用原因/test-failed-1.png",
+      "sha256": "2e9342226bb5b025f58b291deecd1fce485bf26defb579b607d00959bba6d23c"
+    },
+    {
+      "path": "output/m6-protocol-r1/legacy-display-red/reviews-审阅页显示绑定结果的配图，并解释本轮提交禁用原因/trace.zip",
+      "sha256": "1d0310866a9a6cfdbf1d7fdfe4558ce6cea70201339f1e813a260ef98b048492"
+    },
+    {
+      "path": "output/m6-protocol-r1/live/browser.json",
+      "sha256": "dbe8d09cab599930f411b683551f545bbc2506e01981522026ece00416320ef0"
+    },
+    {
+      "path": "output/m6-protocol-r1/live/image-projection.json",
+      "sha256": "69f42e76afd7a58b469b4325dd7ecf43de223b5878496be835c3201bae1a6a99"
+    },
+    {
+      "path": "output/m6-protocol-r1/live/observation.json",
+      "sha256": "b685899c49ec9d9b48a7e29ddfe5100f8811d0726a2f8015cbc32608f7512423"
+    },
+    {
+      "path": "output/m6-protocol-r1/live/readonly-ui.png",
+      "sha256": "6b8a62c9ca68a0f01b344b3153231182ea126ade2fe9a71c390207e8bd4dc159"
+    },
+    {
+      "path": "output/m6-protocol-r1/live/report.json",
+      "sha256": "77279649b86b6e9b161ca260a48a9c9f4efdf414f6cc29b39680acbf331e8787"
+    },
+    {
+      "path": "output/m6-protocol-r1/live/startup.json",
+      "sha256": "02bbfbfdc9443250a8cccb2080c4b7f2c6c80e9ea8703d518671da91047325a5"
+    },
+    {
+      "path": "output/m6-protocol-r1/red.xml",
+      "sha256": "176b55e63f0058201fad36ba310e88cf3f4e0043fc90f13aff3cc20c7d260a70"
+    },
+    {
+      "path": "output/m6-protocol-r1/stage-final/backend.txt",
+      "sha256": "32c82eccb265c08c2d25d9213e1709b8225fdb2de238e146a0f2b1f88fd00bcb"
+    },
+    {
+      "path": "output/m6-protocol-r1/stage-final/backend.xml",
+      "sha256": "e1ec6b1ee436fb49130f661013f27b85a3b5da14267e5b78d358c8d40709fd0a"
+    },
+    {
+      "path": "output/m6-protocol-r1/stage-final/browser-artifacts/.last-run.json",
+      "sha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "path": "output/m6-protocol-r1/stage-final/browser.json",
+      "sha256": "29cedd79012b4472ecdf705e423954bf51dafe84f98b6214a1c4009038fbd0a9"
+    },
+    {
+      "path": "output/m6-protocol-r1/stage-final/browser.txt",
+      "sha256": "2cb77a07c4405d18d409a0e3ad12f65e3adb63ddf8ca07b634b959063e428740"
+    },
+    {
+      "path": "output/m6-protocol-r1/stage-final/build.txt",
+      "sha256": "cbce4a67552322b8f485f8492563063afcb4a3d3deb067215a1bfd00c6cfd68f"
+    },
+    {
+      "path": "output/m6-protocol-r1/stage-final/commands.json",
+      "sha256": "706d5ff44a03a74fcfc761a2d4ffbcad8441884b0d726e85772b8e21acc625b7"
+    },
+    {
+      "path": "output/m6-protocol-r1/stage-final/reimport.txt",
+      "sha256": "e8e6fa70a9bf4e1da5021800b291930c1daba2db6e9f83fc04f5bd447e7a30c0"
+    },
+    {
+      "path": "output/m6-protocol-r1/stage-final/typecheck.txt",
+      "sha256": "aacdfedc485449151e8f0cedfb8264a7d15047256a7b3c3a4a9e848e28e7b178"
+    },
+    {
+      "path": "output/m6-protocol-r1/stage-final/unit.json",
+      "sha256": "a0e72a586616ac7a0f1fb76158e3e83b8f5e51d24320c479824ff56594531a81"
+    },
+    {
+      "path": "output/m6-protocol-r1/stage-final/unit.txt",
+      "sha256": "b27a40ea1e2d869c6d46517f3ec422d34634bdf80d8443a70517cdbaf512c85e"
+    },
+    {
+      "path": "output/m6-protocol-r1/target-final.xml",
+      "sha256": "f8431c3c306f9df8f4e22b2d6edc389a610128a62404a12c724627f203d16cbc"
+    },
+    {
+      "path": "output/m6-protocol-r1/target-r2.xml",
+      "sha256": "30b51b404781a9b819b5b56b85ce95272e2231d5a928b3d947e776c676c19fa0"
+    },
+    {
+      "path": "output/m6-protocol-r1/target.xml",
+      "sha256": "adec7f669db08c2856151e5d34a515f173472bce5d22781c905099465265becd"
+    }
+  ],
+  "snapshot_paths": [
+    "app/answering/image_selection.py",
+    "app/evaluation/api.py",
+    "app/evaluation/query_adapter.py",
+    "app/evaluation/repository.py",
+    "app/evaluation/review_followups.py",
+    "app/evaluation/review_protocol.py",
+    "app/evaluation/reviews.py",
+    "app/runs/query_runner.py",
+    "docs/architecture/api-v1.md",
+    "docs/architecture/openapi-v1.json",
+    "docs/development/CHANGELOG.md",
+    "docs/development/DECISIONS.md",
+    "docs/development/PROGRESS.md",
+    "docs/development/REVIEW_STATUS.md",
+    "docs/development/records/M6-04.md",
+    "docs/development/records/M6-05.md",
+    "docs/development/records/M6-08.md",
+    "docs/development/reviews/M6-04-relevance-chat-protocol-manifest-r1.json",
+    "docs/development/reviews/M6-04-relevance-chat-protocol-r1.md",
+    "docs/development/reviews/M6-04-relevance-chat-protocol-validation-r1.json",
+    "docs/evaluation/labeling-guide.md",
+    "docs/evaluation/release-gates.md",
+    "docs/plans/DEVELOPMENT_CONTRACTS.md",
+    "docs/plans/DEVELOPMENT_TODO.md",
+    "docs/plans/tasks/M6-evaluation.md",
+    "frontend/src/features/evaluation/ReviewPage.vue",
+    "frontend/src/features/evaluation/ReviewSources.vue",
+    "frontend/src/features/evaluation/types.ts",
+    "frontend/src/features/evidence/components/EvidenceCard.vue",
+    "frontend/src/lib/api/schema.d.ts",
+    "frontend/src/lib/api/types.ts",
+    "frontend/tests/e2e/citations.spec.ts",
+    "frontend/tests/e2e/reviews.spec.ts",
+    "scripts/verification/check_m6_protocol_artifacts.py",
+    "tests/integration/test_answer_grounding_run.py",
+    "tests/integration/test_evaluation_run_adapter.py",
+    "tests/integration/test_review_protocol_v2.py",
+    "tests/unit/test_answer_image_selection.py"
+  ],
+  "final_manifest": "docs/development/reviews/M6-04-relevance-chat-protocol-manifest-r1-final.json",
+  "preparation_manifest_notice": "首份快照保留；末尾空行整理后的r1-final为本轮最终提交快照，未改变行为或测试断言。"
+}

@@ -4,7 +4,7 @@ from fastapi.responses import Response
 from pydantic import BaseModel, ConfigDict, Field
 from app.api.errors import APIError
 from app.identity.api import principal, require_writer, require_kb
-from .reviews import ReviewInput, CalibrationInput, ReviewService
+from .reviews import ReviewInput, CalibrationInput, ObservationInput, ReviewService
 from .review_images import load_review_image
 from .review_followups import FollowupInput
 from .feedback_triage import TriageInput, authorized_feedback, public_feedback, review_feedback
@@ -132,6 +132,18 @@ def reviews(eid: str, request: Request, user=Depends(principal)):
 def review(eid: str, data: ReviewInput, request: Request, user=Depends(principal)):
     require_writer(user)
     return ReviewService(service(request).repo).submit(user, eid, data)
+
+
+@router.get('/experiments/{eid}/observations')
+def observations(eid: str, request: Request, user=Depends(principal)):
+    require_writer(user)
+    return ReviewService(service(request).repo).list_observations(user, eid)
+
+
+@router.post('/experiments/{eid}/observations', status_code=201)
+def observe(eid: str, data: ObservationInput, request: Request, user=Depends(principal)):
+    require_writer(user)
+    return ReviewService(service(request).repo).observe(user, eid, data)
 
 
 @router.post('/experiments/{eid}/reviews/{review_id}/followups', status_code=201)

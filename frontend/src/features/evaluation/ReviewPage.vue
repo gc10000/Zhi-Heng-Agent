@@ -7,6 +7,7 @@ import { api } from '@/lib/api/client'
 import type { Page } from '@/lib/api/types'
 import type { QuestionResult } from './types'
 import ReviewFollowup from './ReviewFollowup.vue'
+import ReviewSources from './ReviewSources.vue'
 import type { Followup } from './ReviewFollowup.vue'
 const auth=useAuthStore(),route=useRoute(),eid=computed(()=>String(route.params.eid))
 const allowed=computed(()=>['maintainer','admin'].includes(auth.user?.role||''))
@@ -16,9 +17,12 @@ const dimensions={factuality:'事实正确性',citation_support:'引用支持',a
 const scores=reactive<Record<keyof typeof dimensions,Score>>({factuality:'unknown',citation_support:'unknown',actionability:'unknown',image_relevance:'unknown'})
 const kind=ref('assistant'),round=ref(1),attested=ref(false),checked=ref(false),rationale=ref(''),unauthorized=ref(false),wrongModel=ref(false)
 const calibrationNote=ref(''),calibrationId=ref(''),gate=ref<{status:string;reasons:string[]}>()
+const rubric=ref('question-purpose-v1'),applicable=ref(''),purpose=ref('')
+type Observation={observation_id:string;question_id:string;statement:string;source_message_id:string;scores:typeof scores;transcriber_kind:string}
+const observations=useQuery({queryKey:computed(()=>['scope',...scope.value,'observations']),enabled:allowed,retry:false,
+  queryFn:({signal})=>api.request<{items:Observation[]}>('/experiments/'+encodeURIComponent(eid.value)+'/observations',{signal})})
+const observationId=ref('')
 type Review={review_id:string;question_id:string;subject_sha256:string;reviewer_id:string;reviewer_kind:string;round:number;scores:typeof scores;rationale:string}
-type Citation={document_sha256:string;page?:number;asset_sha256?:string}
-const failedImages=ref(new Set<string>())
 const reviews=useQuery({queryKey:computed(()=>['scope',...scope.value,'reviews']),enabled:allowed,retry:false,
   queryFn:({signal})=>api.request<{subjects:{question_id:string;subject_sha256:string}[];items:Review[];followups?:Followup[]}>('/experiments/'+encodeURIComponent(eid.value)+'/reviews',{signal})})
 const results=useInfiniteQuery({queryKey:computed(()=>['scope',...scope.value,'review-results']),enabled:allowed,retry:false,initialPageParam:'',
@@ -31,13 +35,17 @@ const alreadySaved=computed(()=>savedIdentity.value===reviewIdentity.value||!!re
   r.subject_sha256===reviews.data.value?.subjects.find(s=>s.question_id===qid.value)?.subject_sha256))
 const originalHuman=computed(()=>kind.value==='human'?reviews.data.value?.items.find(r=>r.question_id===qid.value&&r.round===round.value&&r.reviewer_kind==='human'&&r.reviewer_id===auth.user?.user_id&&r.subject_sha256===reviews.data.value?.subjects.find(s=>s.question_id===qid.value)?.subject_sha256):undefined)
 const priorFollowup=computed(()=>reviews.data.value?.followups?.find(f=>f.review_id===originalHuman.value?.review_id))
-const hasImages=computed(()=>!!current.value?.result.citations?.some(s=>s.asset_sha256))
+const hasImages=computed(()=>!!current.value?.result.citations?.some(s=>s.asset_sha256&&!(current.value?.result.image_selection_version===1&&s.image_usage==='context')))
 const submitBlockers=computed(()=>{
   const blockers:string[]=[]
   if(!reviews.data.value?.subjects.some(s=>s.question_id===qid.value))blockers.push('正在读取本题的结果绑定，请等待加载完成或刷新页面')
   if(alreadySaved.value)return [`第${round.value}轮本审阅身份已保存且不可覆盖；如需补充未知项，请选择“人工本人核对”和该原记录轮次，使用下方“未知项追加复核”`]
-  if(busy.value)blockers.push('正在保存，请稍候')
   if(!rationale.value.trim())blockers.push('填写“核对依据或未知原因”')
+  if(rubric.value==='question-purpose-v1'){
+    if(!applicable.value||!purpose.value.trim())blockers.push('按题意选择步骤适用性并填写依据')
+    if(applicable.value==='no'&&scores.actionability!=='not_applicable')blockers.push('步骤不适用须明确选择不适用分值')
+    if(applicable.value==='yes'&&scores.actionability==='not_applicable')blockers.push('步骤适用时不能选择不适用分值')
+  }
   if(kind.value==='human'&&!checked.value)blockers.push('勾选“已核对原始资料与来源”')
   if(kind.value==='human'&&!attested.value)blockers.push('勾选“确认我是执行本次原件核对的人工本人”')
   return blockers
@@ -45,17 +53,13 @@ const submitBlockers=computed(()=>{
 watch(rows,()=>{if(!qid.value)qid.value=rows.value[0]?.question_id||''})
 let epoch=0,pending:{identity:string;key:string}|undefined
 watch(scope,()=>{epoch++;savedIdentity.value='';qid.value='';error.value='';gate.value=undefined;calibrationId.value='';pending=undefined;reset()})
-function reset(){rationale.value='';attested.value=false;checked.value=false;unauthorized.value=false;wrongModel.value=false;failedImages.value.clear();for(const key of Object.keys(dimensions) as (keyof typeof dimensions)[])scores[key]='unknown'}
-watch(qid,reset)
-function reviewImageUrl(source:Citation){
-  if(!source.asset_sha256||!source.page||source.page<1||! /^[0-9a-f]{64}$/.test(source.document_sha256)||! /^[0-9a-f]{64}$/.test(source.asset_sha256))return ''
-  return '/api/v1/experiments/'+encodeURIComponent(eid.value)+'/results/'+encodeURIComponent(qid.value)+'/images/'+source.document_sha256+'/'+source.page+'/'+source.asset_sha256
-}
-function imageKey(source:Citation){return [qid.value,source.document_sha256,source.page,source.asset_sha256].join('/')}
-function imageFailed(source:Citation){failedImages.value.add(imageKey(source))}
+function reset(){rationale.value='';attested.value=false;checked.value=false;unauthorized.value=false;wrongModel.value=false;for(const key of Object.keys(dimensions) as (keyof typeof dimensions)[])scores[key]='unknown'}
+watch(qid,()=>{reset();applicable.value='';purpose.value='';observationId.value=''})
 async function perform(action:()=>Promise<void>){if(busy.value)return;const generation=epoch;busy.value=true;error.value='';try{await action()}catch(e){if(generation===epoch)error.value=(e as Error).message}finally{busy.value=false}}
-async function submit(){const subject=reviews.data.value?.subjects.find(s=>s.question_id===qid.value);if(!subject||alreadySaved.value)return;const generation=epoch,savingIdentity=reviewIdentity.value
-  const data={question_id:qid.value,subject_sha256:subject.subject_sha256,round:round.value,reviewer_kind:kind.value,human_attested:kind.value==='human'&&attested.value,source_checked:checked.value,scores:{...scores},critical_errors:[...(unauthorized.value?['unauthorized']:[]),...(wrongModel.value?['wrong_model']:[])],rationale:rationale.value}
+async function submit(){const subject=reviews.data.value?.subjects.find(s=>s.question_id===qid.value);if(!subject||alreadySaved.value||submitBlockers.value.length)return;const generation=epoch,savingIdentity=reviewIdentity.value
+  const data={question_id:qid.value,subject_sha256:subject.subject_sha256,round:round.value,reviewer_kind:kind.value,human_attested:kind.value==='human'&&attested.value,source_checked:checked.value,scores:{...scores},critical_errors:[...(unauthorized.value?['unauthorized']:[]),...(wrongModel.value?['wrong_model']:[])],rationale:rationale.value,
+    ...(observationId.value?{observation_id:observationId.value}:{}),
+    ...(rubric.value==='question-purpose-v1'?{rubric_version:rubric.value,actionability_applicable:applicable.value==='yes',applicability_rationale:purpose.value}:{})}
   const identity=JSON.stringify(data);if(pending?.identity!==identity)pending={identity,key:crypto.randomUUID()}
   await api.post('/experiments/'+encodeURIComponent(eid.value)+'/reviews',{...data,client_request_id:pending.key})
   if(generation===epoch){savedIdentity.value=savingIdentity;pending=undefined;await reviews.refetch()}}
@@ -69,13 +73,14 @@ async function checkGate(){const generation=epoch;const result=await api.request
 <label>待审问题<select v-model="qid" aria-label="待审问题"><option v-for="row in rows" :key="row.question_id" :value="row.question_id">{{row.question_id}} · {{row.question}}</option></select></label>
 <button v-if="results.hasNextPage.value" :disabled="results.isFetchingNextPage.value" @click="results.fetchNextPage()">更多问题</button>
 <article v-if="current"><h2>{{current.question}}</h2><p v-if="current.result.behavior==='clarify'" role="status">本轮请求确认设备型号，未生成答案。请核对澄清行为是否符合问题；无法确认的维度保留未知。</p><p v-else-if="!current.result.answer" role="status">当前结果没有答案正文，请核对运行状态与原始资料，无法确认的维度保留未知。</p><p class="answer">{{current.result.answer}}</p>
-<h3>引用与配图</h3><ul class="citations"><li v-for="(source,index) in current.result.citations" :key="index"><p>原件 SHA256 {{source.document_sha256}} · 物理页 {{source.page??'未知'}}<template v-if="source.asset_sha256"> · 图片 SHA256 {{source.asset_sha256}}</template></p>
-<figure v-if="reviewImageUrl(source)&&!failedImages.has(imageKey(source))"><img :src="reviewImageUrl(source)" :alt="'资料第'+source.page+'页引用配图'" loading="lazy" decoding="async" @error="imageFailed(source)"><figcaption>由当前实验结果、原件、物理页和图片指纹绑定的受控图片</figcaption></figure>
-<p v-else-if="source.asset_sha256" class="muted" role="status">这条结果记录了图片来源，但当前图片未能安全读取或缺少物理页映射；请联系维护者核对，图片维度保留未知。</p></li></ul></article>
+<ReviewSources :eid="eid" :qid="qid" :sources="current.result.citations||[]" :version="current.result.image_selection_version"/></article>
 <aside v-if="current" aria-label="审阅判定依据"><h2>审阅判定依据</h2>
 <h3>步骤是否适用</h3><p>先按题意判断是否要求执行配置、排查或操作。兼容性、参数事实判断题若不需要操作步骤，可以说明理由后选择不适用；不能因为未找到步骤就自动跳过。要求操作时，核对前提、顺序、命令与风险，再评0/1/2；尚未核实保留未知。</p>
-<h3>配图用途与相关性</h3><p>逐张核对原件页和图像：图片是否属于当前型号、说明什么、与问题或答案哪句话相关。图片直接展示且便于理解题目涉及内容评2，只有次要/间接关系评1，无关或误导评0；不要把图像存在或哈希一致当作正确性证明。有配图来源不能标不适用，尚未看图保留未知。下列标识用于对应原件/图像，请结合来源工作台或本机对照页核对。</p></aside>
+<h3>配图用途与相关性</h3><p>逐张核对原件页和图像：图片是否属于当前型号、说明什么、与问题或答案哪句话相关。图片直接展示且便于理解题目涉及内容评2，只有次要/间接关系评1，无关或误导评0；不要把图像存在或哈希一致当作正确性证明。答案含配图时不能标不适用，尚未看图保留未知。新版未用于答案的检索关联图可展开溯源；历史记录未区分，保守保留。下列标识用于对应原件/图像，请结合来源工作台或本机对照页核对。</p></aside>
 <form v-if="current" @submit.prevent="perform(submit)">
+<label>审阅规则<select v-model="rubric" aria-label="审阅规则"><option value="question-purpose-v1">question-purpose-v1 · 按题意确定步骤适用性</option><option value="legacy-v1">legacy-v1 · 原有规则（不改历史）</option></select></label>
+<template v-if="rubric==='question-purpose-v1'"><label>本题步骤是否适用<select v-model="applicable" aria-label="本题步骤是否适用"><option value="">待明确</option><option value="yes">适用：需要操作、配置或排查</option><option value="no">不适用：仅事实或兼容性判断</option></select></label><label>步骤适用性依据<textarea v-model="purpose" maxlength="4000"/></label></template>
+<label v-if="observations.data.value?.items.some(o=>o.question_id===qid)">引用聊天反馈（不代填评分或本人声明）<select v-model="observationId"><option value="">不引用</option><option v-for="o in observations.data.value?.items.filter(o=>o.question_id===qid)" :value="o.observation_id" :key="o.observation_id">{{o.source_message_id}}</option></select></label>
 <label>审阅身份<select v-model="kind" aria-label="审阅身份"><option value="assistant">独立助手辅助审阅</option><option value="model">模型辅助评分</option><option value="human">人工本人核对</option></select></label>
 <label>复核轮次<select v-model.number="round" aria-label="复核轮次"><option :value="1">第一轮</option><option :value="2">第二轮</option></select></label>
 <p v-if="alreadySaved" id="review-saved-notice" role="status">{{qid}} 第{{round}}轮审阅已保存，无需再次提交。历史记录见下方；另一轮须重新核对后单独保存。<a v-if="originalHuman&&Object.values(originalHuman.scores).includes('unknown')" href="#review-followup">查看未完成的追加复核</a></p>
@@ -84,9 +89,10 @@ async function checkGate(){const generation=epoch;const result=await api.request
 <label><input v-model="unauthorized" type="checkbox">存在越权关键错误</label><label><input v-model="wrongModel" type="checkbox">存在型号关键错误</label>
 <label>核对依据或未知原因<textarea v-model="rationale" required maxlength="4000"/></label>
 <p v-if="submitBlockers.length" id="review-submit-help" role="status">暂不能保存本轮审阅：{{submitBlockers.join('；')}}。</p>
-<button :disabled="busy||alreadySaved||!rationale.trim()||(kind==='human'&&(!attested||!checked))" :aria-describedby="submitBlockers.length?'review-submit-help':undefined">保存本轮审阅</button></form>
+<button :disabled="busy||submitBlockers.length>0" :aria-describedby="submitBlockers.length?'review-submit-help':undefined">保存本轮审阅</button></form>
 <ReviewFollowup v-if="originalHuman&&Object.values(originalHuman.scores).includes('unknown')" :key="originalHuman.review_id+originalHuman.subject_sha256" :eid="eid" :review="originalHuman" :prior="priorFollowup" :has-images="hasImages" @saved="reviews.refetch()"/>
 <h2>不可变审阅记录</h2><ul><li v-for="row in reviews.data.value?.items.filter(r=>r.question_id===qid)" :key="row.review_id">{{row.reviewer_kind}} · {{row.reviewer_id}} · 第{{row.round}}轮 · {{JSON.stringify(row.scores)}}<p>{{row.rationale}}</p></li></ul>
+<h2>聊天反馈来源记录</h2><p>一次聊天只记一次，执行助手转录不等于人工两轮；后续独立审阅可引用来源，但须自行判断。用户无需重复填写已有反馈。</p><p v-if="observations.error.value" role="status">聊天记录暂不可读，请联系维护者核对。</p><ul><li v-for="o in observations.data.value?.items.filter(o=>o.question_id===qid)" :key="o.observation_id">{{o.source_message_id}} · {{o.transcriber_kind}} 转录<p class="answer">{{o.statement}}</p><p>语义记录 {{JSON.stringify(o.scores)}}，不计入双轮人工。</p></li></ul>
 <h2>基线校准与质量门槛</h2><p>先在基线完成两轮人工核对并冻结零退化门槛，再创建候选实验。关键越权和型号错误零容忍；该检查不自动发布知识或授权下一阶段。</p>
 <label>基线校准说明<textarea v-model="calibrationNote" maxlength="4000"/></label><button :disabled="busy||!calibrationNote.trim()" @click="perform(calibrate)">冻结基线门槛</button>
 <label>校准 ID<input v-model="calibrationId"></label><button :disabled="busy||!calibrationId" @click="perform(checkGate)">检查当前候选</button><p v-if="gate" role="status">{{{passed:'通过门槛',pending:'待审或不可比较',blocked:'阻止发布'}[gate.status]||gate.status}} · {{gate.reasons.join('、')}}</p>

@@ -9,6 +9,8 @@ from pymongo.errors import DuplicateKeyError
 from app.api.errors import APIError
 from app.knowledge.repository import fingerprint
 from .review_followups import FollowupLedger
+from .review_protocol import Applicability, ObservationLedger, review_dump
+from app.answering.image_selection import has_review_images
 
 Score = Literal[0, 1, 2, 'unknown', 'not_applicable']
 DIMENSIONS = ('factuality', 'citation_support', 'actionability', 'image_relevance')
@@ -38,7 +40,7 @@ class Scores(BaseModel):
         return self
 
 
-class ReviewInput(BaseModel):
+class ReviewInput(Applicability):
     model_config = ConfigDict(extra='forbid', strict=True)
     question_id: str = Field(min_length=1, max_length=128)
     subject_sha256: str = Field(pattern=r'^[0-9a-f]{64}$')
@@ -50,6 +52,7 @@ class ReviewInput(BaseModel):
     scores: Scores
     critical_errors: list[Literal['unauthorized', 'wrong_model']] = Field(max_length=2)
     rationale: str = Field(min_length=1, max_length=4000)
+    observation_id: str | None = Field(default=None, min_length=1, max_length=128)
 
     @model_validator(mode='after')
     def attribution(self):
@@ -68,6 +71,21 @@ class CalibrationInput(BaseModel):
     rationale: str = Field(min_length=1, max_length=4000)
 
 
+class ObservationInput(Applicability):
+    model_config = ConfigDict(extra='forbid', strict=True)
+    question_id: str = Field(min_length=1, max_length=128)
+    subject_sha256: str = Field(pattern=r'^[0-9a-f]{64}$')
+    source_message_id: str = Field(min_length=1, max_length=128)
+    statement: str = Field(min_length=1, max_length=8000)
+    scores: Scores
+
+    @model_validator(mode='after')
+    def nonblank(self):
+        if not self.statement.strip() or not self.source_message_id.strip():
+            raise ValueError('须保留原话和稳定的聊天来源标识')
+        return self
+
+
 def public(row):
     return {k: deepcopy(v) for k, v in row.items() if k not in {'_id', 'request_sha256', 'owner_id'}}
 
@@ -83,6 +101,18 @@ class ReviewService:
         self.calibrations.create_index('calibration_id', unique=True)
         self.calibrations.create_index([('owner_id', 1), ('client_request_id', 1)], unique=True)
         self.followups = FollowupLedger(repo.db)
+        self.observations = ObservationLedger(repo.db)
+
+    def list_observations(self, user, eid):
+        self._subjects(user, eid)
+        return {'items': [public(r) for r in self.observations.rows.find({'experiment_id': eid})], 'next_cursor': None}
+
+    def observe(self, user, eid, data):
+        _, subjects = self._subjects(user, eid)
+        subject = subjects.get(data.question_id)
+        if not subject or subject[0] != data.subject_sha256:
+            raise APIError(409, 'review_subject_changed', '聊天反馈须绑定当前已完成结果。')
+        return public(self.observations.append(user, eid, data))
 
     def _subjects(self, user, eid):
         experiment = self.repo.get_experiment(user, eid)
@@ -118,13 +148,14 @@ class ReviewService:
         if not subject or subject[0] != data.subject_sha256:
             raise APIError(409, 'review_subject_changed', '结果内容已改变，请刷新后对新结果审阅。')
         result = subject[1].get('result') or {}
-        if data.scores.image_relevance == 'not_applicable' and any(
-                c.get('asset_sha256') or c.get('asset_ids') for c in result.get('citations', [])):
+        if data.scores.image_relevance == 'not_applicable' and has_review_images(result):
             raise APIError(422, 'image_review_required', '含配图来源的结果须审核图片，可标未知。')
-        identity = fingerprint({'experiment_id': eid, **data.model_dump()})
+        self.observations.require_reference(user, eid, data)
+        fields = review_dump(data)
+        identity = fingerprint({'experiment_id': eid, **fields})
         row = dict(experiment_id=eid, owner_id=user.user_id, reviewer_id=user.user_id,
                    review_id=str(uuid4()), created_at=datetime.now(timezone.utc).isoformat(),
-                   request_sha256=identity, **data.model_dump())
+                   request_sha256=identity, **fields)
         try:
             self.reviews.insert_one(row)
         except DuplicateKeyError:
@@ -139,7 +170,7 @@ class ReviewService:
         originals = [{k: v for k, v in r.items() if k != '_id'} for r in self.reviews.find({'experiment_id': eid})]
         reviews, followup_ids = self.followups.effective(originals,
             list(self.followups.rows.find({'experiment_id': eid})))
-        critical, incomplete, values, bound = [], [], {}, []
+        critical, incomplete, values, bound, rubrics = [], [], {}, [], {}
         if not subjects or len(subjects) != experiment.get('selected_questions'):
             incomplete.append('incomplete_question_set')
         for qid, (sha, result) in subjects.items():
@@ -147,6 +178,11 @@ class ReviewService:
             if any(r['critical_errors'] for r in current):
                 critical.append(qid)
             humans = [r for r in current if r['reviewer_kind'] == 'human' and r['human_attested'] and r['source_checked']]
+            versions = {r.get('rubric_version', 'legacy-v1') for r in humans}
+            if versions - {'legacy-v1'}:
+                rubrics[qid] = sorted(versions)
+            if len(versions) > 1:
+                incomplete.append(qid)
             # 两名审核者可各负责一轮；同一人必须分轮提交，不改写旧分。
             if {r['round'] for r in humans} != {1, 2} or result['status'] != 'completed':
                 incomplete.append(qid)
@@ -166,6 +202,8 @@ class ReviewService:
         # 无追加记录时保留旧校准结构，已冻结的历史证明不因升级无条件失效。
         if followup_ids:
             quality['followup_ids'] = followup_ids
+        if rubrics:
+            quality['rubrics'] = rubrics
         return experiment, quality
 
     def calibrate(self, user, eid, data):
@@ -197,6 +235,8 @@ class ReviewService:
             raise APIError(404, 'not_found', '校准不存在或不在授权范围。')
         baseline, live_baseline = self._quality(user, calibration['experiment_id'])
         reasons = []
+        if current.get('rubrics', {}) != calibration['baseline'].get('rubrics', {}):
+            reasons.append('rubric_changed')
         if (calibration['baseline'] != live_baseline or current['incomplete']):
             reasons.append('review_pending_or_changed')
         if (experiment['dataset_sha256'] != calibration['dataset_sha256'] or

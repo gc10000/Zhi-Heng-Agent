@@ -2595,6 +2595,94 @@
         }
       }
     },
+    "/api/v1/experiments/{eid}/observations": {
+      "get": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Observations",
+        "operationId": "observations_api_v1_experiments__eid__observations_get",
+        "parameters": [
+          {
+            "name": "eid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Eid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Observe",
+        "operationId": "observe_api_v1_experiments__eid__observations_post",
+        "parameters": [
+          {
+            "name": "eid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Eid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ObservationInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/experiments/{eid}/reviews/{review_id}/followups": {
       "post": {
         "tags": [
@@ -3373,6 +3461,79 @@
         ],
         "title": "LoginInput"
       },
+      "ObservationInput": {
+        "properties": {
+          "rubric_version": {
+            "type": "string",
+            "enum": [
+              "legacy-v1",
+              "question-purpose-v1"
+            ],
+            "title": "Rubric Version",
+            "default": "legacy-v1"
+          },
+          "actionability_applicable": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Actionability Applicable"
+          },
+          "applicability_rationale": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 4000,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Applicability Rationale"
+          },
+          "question_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Question Id"
+          },
+          "subject_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Subject Sha256"
+          },
+          "source_message_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Source Message Id"
+          },
+          "statement": {
+            "type": "string",
+            "maxLength": 8000,
+            "minLength": 1,
+            "title": "Statement"
+          },
+          "scores": {
+            "$ref": "#/components/schemas/Scores"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "question_id",
+          "subject_sha256",
+          "source_message_id",
+          "statement",
+          "scores"
+        ],
+        "title": "ObservationInput"
+      },
       "OperationReport": {
         "properties": {
           "expected_version": {
@@ -3577,6 +3738,39 @@
       },
       "ReviewInput": {
         "properties": {
+          "rubric_version": {
+            "type": "string",
+            "enum": [
+              "legacy-v1",
+              "question-purpose-v1"
+            ],
+            "title": "Rubric Version",
+            "default": "legacy-v1"
+          },
+          "actionability_applicable": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Actionability Applicable"
+          },
+          "applicability_rationale": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 4000,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Applicability Rationale"
+          },
           "question_id": {
             "type": "string",
             "maxLength": 128,
@@ -3638,6 +3832,19 @@
             "maxLength": 4000,
             "minLength": 1,
             "title": "Rationale"
+          },
+          "observation_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 128,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Observation Id"
           }
         },
         "additionalProperties": false,

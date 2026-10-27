@@ -748,6 +748,24 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/experiments/{eid}/observations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Observations */
+        get: operations["observations_api_v1_experiments__eid__observations_get"];
+        put?: never;
+        /** Observe */
+        post: operations["observe_api_v1_experiments__eid__observations_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/experiments/{eid}/reviews/{review_id}/followups": {
         parameters: {
             query?: never;
@@ -1005,6 +1023,28 @@ export interface components {
             /** Password */
             password: string;
         };
+        /** ObservationInput */
+        ObservationInput: {
+            /**
+             * Rubric Version
+             * @default legacy-v1
+             * @enum {string}
+             */
+            rubric_version: "legacy-v1" | "question-purpose-v1";
+            /** Actionability Applicable */
+            actionability_applicable?: boolean | null;
+            /** Applicability Rationale */
+            applicability_rationale?: string | null;
+            /** Question Id */
+            question_id: string;
+            /** Subject Sha256 */
+            subject_sha256: string;
+            /** Source Message Id */
+            source_message_id: string;
+            /** Statement */
+            statement: string;
+            scores: components["schemas"]["Scores"];
+        };
         /** OperationReport */
         OperationReport: {
             /** Expected Version */
@@ -1070,6 +1110,16 @@ export interface components {
         };
         /** ReviewInput */
         ReviewInput: {
+            /**
+             * Rubric Version
+             * @default legacy-v1
+             * @enum {string}
+             */
+            rubric_version: "legacy-v1" | "question-purpose-v1";
+            /** Actionability Applicable */
+            actionability_applicable?: boolean | null;
+            /** Applicability Rationale */
+            applicability_rationale?: string | null;
             /** Question Id */
             question_id: string;
             /** Subject Sha256 */
@@ -1095,6 +1145,8 @@ export interface components {
             critical_errors: ("unauthorized" | "wrong_model")[];
             /** Rationale */
             rationale: string;
+            /** Observation Id */
+            observation_id?: string | null;
         };
         /** RollbackInput */
         RollbackInput: {
@@ -2926,6 +2978,72 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": components["schemas"]["ReviewInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    observations_api_v1_experiments__eid__observations_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                eid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    observe_api_v1_experiments__eid__observations_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                eid: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ObservationInput"];
             };
         };
         responses: {

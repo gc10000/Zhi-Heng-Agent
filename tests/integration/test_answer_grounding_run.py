@@ -7,6 +7,31 @@ from tests.integration.test_query_runs import query_context
 pytestmark=pytest.mark.integration
 
 
+@pytest.mark.parametrize('answer,expected', [('仅支持H3C [1]。', []),
+    ('接线如下 [1]：![接线](asset://image-one)', ['image-one']),
+    ('语法示例 `![图](asset://image-one)` [1]', [])])
+def test_answer_images_are_distinguished_from_context_in_run_final_and_history(query_context, answer, expected):
+    user,cid,conv,repo,service,g,runner,entity,product=query_context
+    entity['metadata']['asset_ids']=['image-one']
+    g.db.knowledge_assets.insert_one(dict(asset_id='image-one',document_id=entity['document_id'],revision_id=entity['revision_id']))
+    class Model:
+        def stream(self,prompt,**kwargs):
+            for part in [answer[:10],answer[10:]]:yield SimpleNamespace(content=part)
+    runner.llm_factory=Model
+    rid=service.create(user,cid,request())['run_id'];runner.execute(rid)
+    row=repo.get(user,rid)
+    assert row['state']=='completed'
+    assert row['citations'][0]['asset_ids']==['image-one']
+    assert row['citations'][0].get('answer_asset_ids')==expected
+    assert row['citations'][0]['image_selection_version']==1
+    assert row['completion_snapshot']['citations']==row['citations']
+    assert conv.history(user,cid)['items'][-1]['citations']==row['citations']
+    final=[e for e in runner.events.read(user,rid) if e['type']=='run.completed'][-1]
+    assert final['payload']['citations']==row['citations']
+    initial=[e for e in runner.events.read(user,rid) if e['type']=='citation.selected'][0]
+    assert initial['payload']['citations'][0].get('answer_asset_ids')==[]
+
+
 def test_question_overflow_never_calls_model_or_saves_assistant(query_context):
     user,cid,conv,repo,service,g,runner,entity,product=query_context
     runner.answer_budget=dict(context_window=512,output_tokens=64,reserve_tokens=16,max_chars=12000)
