@@ -1,0 +1,113 @@
+{
+  "stage": "M6",
+  "scope": "001用户双轮追加只读核对",
+  "date": "2026-10-27",
+  "baseline_commit": "5d98ebfa623c3424c2f84125eb027577ea21c653",
+  "review_status": "未提交",
+  "human_acceptance_complete": false,
+  "human_quality_passed": null,
+  "verification": {
+    "passed": true,
+    "mode": "read_only_http_and_persistent_ledger_quality_projection",
+    "http_statuses": {
+      "experiment": 200,
+      "results": 200,
+      "reviews": 200
+    },
+    "checks": {
+      "three_http_reads_ok": true,
+      "experiment_completed_current_001": true,
+      "two_original_human_rounds": true,
+      "two_followups_rounds": true,
+      "same_original_reviewer": true,
+      "human_source_attestations": true,
+      "all_bound_current_subject": true,
+      "original_hash_and_only_unknown_resolved": true,
+      "each_resolution_has_evidence": true,
+      "both_effectively_applied": true,
+      "effective_no_unknown": true,
+      "quality_no_incomplete": true,
+      "quality_no_critical": true
+    },
+    "checks_passed": 13,
+    "checks_total": 13,
+    "original_human_reviews": 2,
+    "followups": 2,
+    "rounds": [
+      {
+        "round": 1,
+        "scores": {
+          "factuality": 2,
+          "citation_support": 1,
+          "actionability": 1,
+          "image_relevance": 0
+        },
+        "critical_errors": [],
+        "submitted_at": "2026-10-27T07:06:45.865753+00:00",
+        "evidence_dimensions": [
+          "actionability",
+          "image_relevance"
+        ],
+        "evidence_sha256": {
+          "actionability": "2738b47da292e61c161aaf6266ec6a973e1f3a7f1d1df5bafdb641ba87b0799e",
+          "image_relevance": "8f18b36b7b5dae7fcc6fb94838ac731a7354d9c843cf932df653906dbfd86942"
+        }
+      },
+      {
+        "round": 2,
+        "scores": {
+          "factuality": 2,
+          "citation_support": 1,
+          "actionability": 1,
+          "image_relevance": 0
+        },
+        "critical_errors": [],
+        "submitted_at": "2026-10-27T07:07:41.854618+00:00",
+        "evidence_dimensions": [
+          "actionability",
+          "image_relevance"
+        ],
+        "evidence_sha256": {
+          "actionability": "ec3fca91a949de2556b5ee6b374ea3164063b17dafc0b9b5322585e7e5cbc779",
+          "image_relevance": "13524df84dd1950f8845da8ec9e600c96fc2c0a66aafad2a5f782b4e7630fd37"
+        }
+      }
+    ],
+    "original_unknown_preserved": true,
+    "quality_values": {
+      "support-v1-001": {
+        "factuality": 2,
+        "citation_support": 1,
+        "actionability": 1,
+        "image_relevance": 0
+      }
+    },
+    "quality_incomplete": [],
+    "quality_critical": [],
+    "existing_calibrations": 0,
+    "calibration_created": false,
+    "scoring_writes": 0,
+    "model_calls": 0,
+    "notice": "仅单题本人双轮追加及正式只读质量投影核对；不代表固定报告、反馈后复评或阶段通过。"
+  },
+  "command": ".venv/Scripts/python.exe -m tmp.verify_001_user_followups",
+  "exit_code": 0,
+  "automated_regression_rerun": false,
+  "source_code_modified": false,
+  "raw_evidence": [
+    {
+      "path": "output/m6-review-ui/user-followups-20261027-150842/readonly.json",
+      "sha256": "98098f1f32bacaafe23e08d35294fccb3b68424d916fe0c1d14289572be7b99b"
+    }
+  ],
+  "next_steps": [
+    "保留真实配图0分及所有旧记录",
+    "校准与候选按既有计划另行执行，不能冒称本次已创建",
+    "真实反馈后复评及完整开发集回归未完成"
+  ],
+  "git": {
+    "branch": "main",
+    "base_commit": "5d98ebfa623c3424c2f84125eb027577ea21c653",
+    "commit_and_push": "自身提交与远程核头在最终交接补记"
+  }
+}
