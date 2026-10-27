@@ -1,0 +1,226 @@
+{
+  "stage": "M6",
+  "scope": "human_review_followup_partial",
+  "review_status": "未提交",
+  "baseline_head": "bef9cb14728323c5445e044a1bdc777f7ce9d874",
+  "completed": [
+    "M6-01",
+    "M6-02",
+    "M6-03",
+    "M6-07"
+  ],
+  "incomplete": [
+    "M6-04",
+    "M6-05",
+    "M6-08"
+  ],
+  "deferred": [
+    {
+      "id": "M6-06",
+      "reason": "可选Ragas无独立模型/外发范围/预算证据，延期"
+    }
+  ],
+  "human_acceptance_complete": false,
+  "human_quality_passed": null,
+  "human_acceptance_actor": "用户本人在审阅页操作",
+  "tests": [],
+  "excluded_live_provider": 2,
+  "command_ledgers": [],
+  "frontend": {
+    "unit_report": "output/m6-08/frontend-final/unit.json",
+    "unit_passed": 37,
+    "browser_report": "output/m6-08/frontend-final/browser.json",
+    "browser_passed": 35,
+    "mode": "offline_protocol_mock",
+    "typecheck_exit_code": 0,
+    "build_exit_code": 0,
+    "executed_this_round": false
+  },
+  "legacy_reimport": {
+    "report": "output/m6-stage-r1/reimport.txt",
+    "passed": 3,
+    "exit_code": 0,
+    "executed_this_round": false
+  },
+  "real_sample": {
+    "report": "output/m6-08/001-repaired-r1-20261026/readonly-r2-restored.json",
+    "checks_passed": 15,
+    "questions": 1,
+    "logical_provider_calls": {
+      "invoke_started": 0,
+      "stream_started": 1
+    },
+    "exact_http_calls": null,
+    "exact_cost": null,
+    "human_review_records_at_check": 0
+  },
+  "checkpoint_replay": {
+    "report": "output/m6-08/001-repaired-r1-20261026/checkpoint-replay-report.json",
+    "new_calls": 0,
+    "independent_new_generation": false
+  },
+  "real_browser": {
+    "report": "output/m6-08/001-repaired-r1-20261026/browser-final.json",
+    "checks_passed": 8,
+    "human_records_submitted": 0,
+    "exit_code": 0
+  },
+  "heldout_runs": 0,
+  "data_boundary": "随机独立Mongo小样与原已验收测试索引/对象只读复用；原始配置/题集/证据留本机，不上传，不改课程知识。",
+  "raw_evidence": [
+    {
+      "path": "output/m6-08/001-repaired-r1-20261026/001-source-review-20261026-230755/verification.json",
+      "sha256": "f1da24ceafe66f68b5951680a0cd1f21ff8877bf91740b5d1f341c243849f148"
+    },
+    {
+      "path": "output/m6-08/001-repaired-r1-20261026/baseline-identity.json",
+      "sha256": "e3e9982c6e0526b9cd8bfbdc5a94ecd379209f3fb864a4be1502834e6ff5eb56"
+    },
+    {
+      "path": "output/m6-08/001-repaired-r1-20261026/browser-ready.json",
+      "sha256": "5daccdf913b82cfa542da668ec6a5da3b14e977591b51ffeb357fdf8b645b12a"
+    },
+    {
+      "path": "output/m6-08/001-repaired-r1-20261026/browser-restored.json",
+      "sha256": "5daccdf913b82cfa542da668ec6a5da3b14e977591b51ffeb357fdf8b645b12a"
+    },
+    {
+      "path": "output/m6-08/001-repaired-r1-20261026/catalog/control.json",
+      "sha256": "63a936ff01effa29662e6bef56362b18aa59bd6013cbac529ec5907b27289f42"
+    },
+    {
+      "path": "output/m6-08/001-repaired-r1-20261026/catalog/support-v2-r2-manifest.json",
+      "sha256": "02adab8ab9346c3d6b22c7a15a0a6aae2c7d65ad1deefc9722400b2e477e6b92"
+    },
+    {
+      "path": "output/m6-08/001-repaired-r1-20261026/catalog/support-v2-r2.jsonl",
+      "sha256": "1d1f785c3303adcaf4b964bf6d5bedeee8cf418ff0f0748704a7bccbe2a86d36"
+    },
+    {
+      "path": "output/m6-08/001-repaired-r1-20261026/checkpoint-replay-r1/attempts.jsonl",
+      "sha256": "59f352511794efca00347a784a7aeb742daf3691edbaa35a40bb496b8ae5847c"
+    },
+    {
+      "path": "output/m6-08/001-repaired-r1-20261026/checkpoint-replay-r1/manifest.json",
+      "sha256": "125f19aeaf2f2542990777f4c80513542449fa592a946ff3994ffc6c7c019ca3"
+    },
+    {
+      "path": "output/m6-08/001-repaired-r1-20261026/checkpoint-replay-r1/results.jsonl",
+      "sha256": "59f352511794efca00347a784a7aeb742daf3691edbaa35a40bb496b8ae5847c"
+    },
+    {
+      "path": "output/m6-08/001-repaired-r1-20261026/checkpoint-replay-report.json",
+      "sha256": "bc80bde19ce8617f26f2feabd686847689ebaf6f46d3b29cc9a6c47bf788152a"
+    },
+    {
+      "path": "output/m6-08/001-repaired-r1-20261026/feedback-transcription.json",
+      "sha256": "f4e77883ef5fd0aa14467305e8e3653b7ebf099a0538ce6da53ff47330a98c72"
+    },
+    {
+      "path": "output/m6-08/001-repaired-r1-20261026/preparation.json",
+      "sha256": "b0f8d3f3787e6d8b6a4dcae2ce578cf69e6f7894e673556f616781c3fe103bcc"
+    },
+    {
+      "path": "output/m6-08/001-repaired-r1-20261026/private-session.json",
+      "sha256": "8e4beb492ad326be6d38c5d0f26d79fcec871fe92fd0247a7f67eb8c4fd96373"
+    },
+    {
+      "path": "output/m6-08/001-repaired-r1-20261026/readonly-r1.json",
+      "sha256": "4adbb0e186a611c17fd17e71826a629dcca0d4598d213b60377863b166ec1e33"
+    },
+    {
+      "path": "output/m6-08/001-repaired-r1-20261026/readonly-r2-restored.json",
+      "sha256": "4adbb0e186a611c17fd17e71826a629dcca0d4598d213b60377863b166ec1e33"
+    },
+    {
+      "path": "output/m6-08/001-repaired-r1-20261026/restore-20261026-231359.json",
+      "sha256": "ed03c054f50259f58f79424c8826a2f83a2f8bb6592c0e1372785bd4c8e0c084"
+    },
+    {
+      "path": "output/m6-08/001-repaired-r1-20261026/results/878abb8c-6d55-483e-b1a1-b7458c19d0e0/attempts.jsonl",
+      "sha256": "f8e4e9f20eca13b125200e40410e893704fa7c9b6338cc65ff83de9632a493df"
+    },
+    {
+      "path": "output/m6-08/001-repaired-r1-20261026/results/878abb8c-6d55-483e-b1a1-b7458c19d0e0/manifest.json",
+      "sha256": "a89de498cb8af5c2fdb32b5fd3306916cd5265d30347a7efc2f5e2f9c9ab9638"
+    },
+    {
+      "path": "output/m6-08/001-repaired-r1-20261026/results/878abb8c-6d55-483e-b1a1-b7458c19d0e0/results.jsonl",
+      "sha256": "f8e4e9f20eca13b125200e40410e893704fa7c9b6338cc65ff83de9632a493df"
+    },
+    {
+      "path": "output/m6-08/001-user-observation-20261026.json",
+      "sha256": "77a34f76522f0191875fc4ab0d6ffd2f13d320413087bba4f6b51b7521cc932f"
+    },
+    {
+      "path": "output/m6-08/frontend-final/browser.json",
+      "sha256": "fc453eedcf78c7c2ae0d9db5ef9637bea083b215d77aae75370399d40d864aae"
+    },
+    {
+      "path": "output/m6-08/frontend-final/unit.json",
+      "sha256": "aa5bc52d649d3fed547281852b037bccae47552bac5a4d82198c464aca7dad03"
+    },
+    {
+      "path": "output/m6-stage-r1/reimport.txt",
+      "sha256": "8b6d3d985fc25df455abb9a3af74824ceabc2415468aa456acae7cd9234ae917"
+    },
+    {
+      "path": "output/m6-08/001-repaired-r1-20261026/browser-final.json",
+      "sha256": "5daccdf913b82cfa542da668ec6a5da3b14e977591b51ffeb357fdf8b645b12a"
+    },
+    {
+      "path": "output/m6-08/001-repaired-r1-20261026/human-review-r1.json",
+      "sha256": "cfcd8410b1a80ec701a74eb7a63e7634e31028acc8c1a46448c97d35e74185bc"
+    }
+  ],
+  "historical_results_notice": "933后端/3重导入及前端均为历史；本轮未运行pytest或前端离线全回归，以下历史前端/重导入仅校验原件。",
+  "human_records_written_this_round": 0,
+  "feedback_closed_loop_complete": false,
+  "source_verification": {
+    "report": "output/m6-08/001-repaired-r1-20261026/001-source-review-20261026-230755/verification.json",
+    "selected_chunks": 10,
+    "images_fully_decoded": 2,
+    "exit_code": 0
+  },
+  "real_feedback": {
+    "report": "output/m6-08/001-repaired-r1-20261026/feedback-transcription.json",
+    "checks_passed": 6,
+    "actor": "execution_assistant_transcription_and_triage",
+    "closed_loop_complete": false,
+    "exit_code": 0
+  },
+  "verification_script_errors": [
+    {
+      "command": "node tmp/m6_001_restored_browser.cjs",
+      "exit_code": 1,
+      "reason": "页面8检查为true；wx拒绝覆盖已存在报告，非业务红测",
+      "corrected_command": "node tmp/m6_001_final_browser.cjs",
+      "corrected_exit_code": 0
+    }
+  ],
+  "human_followup": {
+    "report": "output/m6-08/001-repaired-r1-20261026/human-review-r1.json",
+    "http_statuses": {
+      "reviews": 200,
+      "experiment": 200,
+      "results": 200
+    },
+    "question_ids": [
+      "support-v1-001"
+    ],
+    "experiment_state": "completed",
+    "human_review_count": 2,
+    "rounds": [
+      1,
+      2
+    ],
+    "reviewers": 1,
+    "human_attested": true,
+    "source_checked": true,
+    "bound_to_current_subject": true,
+    "calibration_attempted": false,
+    "unknown_blocks_calibration": true,
+    "review_records_changed_by_executor": 0,
+    "model_calls": 0
+  }
+}
