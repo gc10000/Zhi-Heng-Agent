@@ -1,5 +1,9 @@
 # M6：评测、质量中心与反馈闭环开发 ToDo
 
+## 2026-10-27 · 完整dev后续组合技术结果，阶段未验收
+
+恢复协议81定向通过，原失败与未知费用保留；新后续实验85条completed（19继承+66执行），本轮新增stream61/invoke0。独立继承66、持久1975、检索/图像9838、离线报告9检查通过且原语料SHA不变，固定对照报告已保存；不能当85题同代码新生成或质量达标。人工双轮、预校准、候选比较和反馈后复评仍缺，04/05/08保持未勾选、M6为4/7，M7未授权。见[r3报告](../../development/reviews/M6-08-full-dev-baseline-r3.md)。
+
 ## 2026-10-27 · Full dev租约恢复接续，阶段未验收
 
 基础容器/Mongo已恢复；RunCommands.recover正式收敛020过期Run。实验在核查期间转为不可重试failed/attempt2，原因provider_invalid_response，调用/费用未知；不重跑，不篡改retryable。原19题检查点备份一致，剩余65题未运行。先设计新的有来源尝试协议；M6-04/05/08仍不勾选、M7未授权。见[接续报告](../../development/reviews/M6-08-full-dev-baseline-r2.md)。

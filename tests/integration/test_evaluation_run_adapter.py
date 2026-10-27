@@ -196,3 +196,52 @@ def test_explicit_m6_failed_question_retry_creates_one_new_run_then_reuses_it(ev
         again = execute(question)
     assert result == again and result['state'] == 'completed'
     assert len(prompts) == 1 and resources['runs'].runs.count_documents({}) == 2
+
+
+def test_explicit_m6_followup_after_interrupted_run_creates_one_new_run_then_reuses_it(evaluation_context):
+    from datetime import datetime, timedelta, timezone
+    cfg, factory, resources, prompts, question, _ = evaluation_context
+    cfg['metric_schema_version'] = 1
+    with RealQueryExecutor(cfg, resource_factory=factory) as execute:
+        original = execute(question)
+    resources['runs'].runs.update_one({'run_id': original['run_id']}, {'$set': {
+        'state': 'running', 'execution_token': 'expired-worker-token',
+        'execution_lease': datetime.now(timezone.utc) - timedelta(seconds=1)}, '$inc': {'version': 1}})
+    recovered = resources['commands'].recover()
+    interrupted = resources['runs'].runs.find_one({'run_id': original['run_id']})
+    assert original['run_id'] in recovered and interrupted['state'] == 'interrupted'
+
+    with RealQueryExecutor(cfg, resource_factory=factory) as execute:
+        with pytest.raises(ValueError):
+            execute(question)
+    assert len(prompts) == 1 and resources['runs'].runs.count_documents({}) == 1
+
+    with RealQueryExecutor(cfg, resource_factory=factory) as execute:
+        execute.retry_key = 'followup-from-source-experiment'
+        followup = execute(question)
+        repeated = execute(question)
+    assert followup['run_id'] != original['run_id']
+    assert followup == repeated and followup['state'] == 'completed'
+    assert len(prompts) == 2 and resources['runs'].runs.count_documents({}) == 2
+    assert resources['runs'].runs.find_one({'run_id': original['run_id']})['state'] == 'interrupted'
+
+
+def test_explicit_m6_followup_does_not_retry_nonretryable_failed_run(evaluation_context):
+    from app.infrastructure.providers.policy import ProviderFailure
+    cfg, factory, resources, prompts, question, _ = evaluation_context
+    cfg['metric_schema_version'] = 1
+    class InvalidResponse:
+        def stream(self, *args, **kwargs):
+            raise ProviderFailure('provider_invalid_response', False)
+    resources['query_runner'].llm_factory = InvalidResponse
+    with RealQueryExecutor(cfg, resource_factory=factory) as execute:
+        with pytest.raises(ProviderFailure) as error:
+            execute(question)
+    assert error.value.retryable is False
+    resources['query_runner'].llm_factory = lambda: InvalidResponse()
+    with RealQueryExecutor(cfg, resource_factory=factory) as execute:
+        execute.retry_key = 'followup-from-source-experiment'
+        with pytest.raises(ProviderFailure) as followup_error:
+            execute(question)
+    assert followup_error.value.retryable is False
+    assert prompts == [] and resources['runs'].runs.count_documents({}) == 1

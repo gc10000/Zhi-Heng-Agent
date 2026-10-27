@@ -176,7 +176,9 @@ class RealQueryExecutor:
         request_key = saved.get('request_key', key)
         if self.retry_key and self.config.get('metric_schema_version') == 1 and saved.get('run_id'):
             previous = self.resources['runs'].get(self.user, saved['run_id'])
-            if previous['state'] == 'failed' and previous.get('error', {}).get('retryable') is True:
+            if previous['state'] == 'interrupted':
+                request_key = fingerprint([key, 'interrupted_followup', previous['run_id'], self.retry_key])
+            elif previous['state'] == 'failed' and previous.get('error', {}).get('retryable') is True:
                 request_key = fingerprint([key, 'explicit_retry', self.retry_key])
         run = self.resources['run_service'].create(self.user, cid, RunInput(kb_id=kb, question=inputs['question'], client_request_id=request_key))
         rid = run['run_id']

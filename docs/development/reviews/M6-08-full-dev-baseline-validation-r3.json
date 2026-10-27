@@ -1,0 +1,334 @@
+{
+  "stage": "M6",
+  "review_status": "未提交",
+  "stage_accepted": false,
+  "m6_core": "4/7",
+  "total_core": "64/76",
+  "m7_authorized": false,
+  "baseline_commit": "5fa74ebbacbe6a91749ea635490166f2c7669f86",
+  "source_experiment_id": "a5607e05-de22-4b24-9570-e85b7e09b521",
+  "experiment_id": "79b3cc58-cfd4-4da5-84c0-890d92a9be06",
+  "full_dev_complete": true,
+  "full_dev_independently_regenerated": false,
+  "notice": "完整dev组合技术结果：19继承+66执行，不是质量达标或M6验收，不是85题同代码独立重生成。",
+  "original_attempt2": {
+    "state": "failed",
+    "attempt": 2,
+    "retryable": false,
+    "error_code": "provider_invalid_response",
+    "persisted_results": 0,
+    "trigger_source_correction": "本聊天工具记录确认上一轮执行助手调用正式execute_job，漏传首次离线环境覆盖，在执行器初始化校验失败；原报告另存勘误。",
+    "exact_provider_calls": null,
+    "exact_cost": null
+  },
+  "execution": {
+    "captured_at_utc": "2026-10-27T15:53:18.127003+00:00",
+    "experiment_id": "79b3cc58-cfd4-4da5-84c0-890d92a9be06",
+    "state": "completed",
+    "attempt": 1,
+    "result_attempt": 1,
+    "results": 85,
+    "worker_token_present": false,
+    "lease_present": false,
+    "owner_slot_active": false,
+    "active_runs": 5,
+    "total_runs": 86,
+    "run_state_counts": {
+      "completed": 80,
+      "interrupted": 1,
+      "awaiting_input": 5
+    },
+    "source_experiment": {
+      "state": "failed",
+      "attempt": 2,
+      "retryable": false,
+      "error": {
+        "code": "provider_invalid_response"
+      },
+      "persisted_results": 0
+    },
+    "inherited_questions": 19,
+    "followup_executed_questions": 66,
+    "inherited_logical_calls": {
+      "stream_started": 19,
+      "invoke_started": 0
+    },
+    "new_logical_calls": {
+      "stream_started": 61,
+      "invoke_started": 0
+    },
+    "behavior_counts": {
+      "answer": 80,
+      "clarify": 5
+    },
+    "protected_record_counts": {
+      "evaluation_reviews": 0,
+      "evaluation_review_followups": 0,
+      "evaluation_observations": 0,
+      "evaluation_calibrations": 0
+    },
+    "heldout_executed": false,
+    "exact_sdk_http_requests": null,
+    "exact_cost": null
+  },
+  "dataset": {
+    "selected_dev": 85,
+    "reviewed_labels": 31,
+    "auxiliary_drafts": 54,
+    "heldout": 65,
+    "heldout_executed": false
+  },
+  "config": {
+    "derived_code_version": "bfcab0dd427b5d79da5095fc2de397e82772e59ff7cabc15c66cc55b58b76a63",
+    "derived_config_file_sha256": "564348b6d4d72b2e9b7bf97ff35923e8009f41bbbf77ca101d414052155fd020",
+    "dataset_model_prompt_parameters_corpus_unchanged": true,
+    "source_config_preserved": true
+  },
+  "verification": {
+    "targeted_tests": {
+      "passed": 81,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "junit": "output/m6-dev-readiness-r2-followup/targeted-tests.xml"
+    },
+    "inheritance": {
+      "passed": true,
+      "checks": 66,
+      "exit_code": 0
+    },
+    "persistent": {
+      "passed": true,
+      "checks": 1975,
+      "exit_code": 0
+    },
+    "retrieved_sources": {
+      "passed": true,
+      "checks": 9838,
+      "exit_code": 0,
+      "candidate_occurrences": 4020,
+      "text_citations": 800,
+      "image_citations": 139,
+      "unique_cited_chunks": 238,
+      "unique_images": 36
+    },
+    "fixed_report_browser": {
+      "passed": true,
+      "checks": 9,
+      "images": 139,
+      "exit_code": 0
+    },
+    "groups_overlap": true,
+    "unique_test_total": null
+  },
+  "corpus_sha256": "81cd5d7583f6671a3ed66f85f4fa81e37cada0a79ae4d6d612533b4f81bb1481",
+  "source_evidence_unchanged": true,
+  "human_writes": 0,
+  "observation_writes": 0,
+  "calibration_writes": 0,
+  "heldout_executed": false,
+  "full_backend_rerun": false,
+  "frontend_full_rerun": false,
+  "legacy_reimport_rerun": false,
+  "remaining": [
+    "新规则独立人工双轮",
+    "预校准",
+    "候选比较",
+    "反馈后人工复评",
+    "总控审查本轮恢复协议和组合技术报告"
+  ],
+  "raw_evidence": [
+    {
+      "path": "output/m6-dev-readiness-r2-followup/audit_inheritance.py",
+      "sha256": "c836226a7af31feb2c2f9698206a242a36e04ffab1b5f80b25055d340221a2c2",
+      "bytes": 4244
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/build_validation.py",
+      "sha256": "aa612cb84b0e5f1fa7c427ea2eb075668d60ba8fae263a7da5402f59540e10e8",
+      "bytes": 4609
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/catalog/baseline.json",
+      "sha256": "564348b6d4d72b2e9b7bf97ff35923e8009f41bbbf77ca101d414052155fd020",
+      "bytes": 375677
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/catalog/catalog.json",
+      "sha256": "14fe03ce7c4567e53818caa56e54ee30dbda1974c5da7fd759abe82860745bc8",
+      "bytes": 383
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/catalog/support-v2-r2-manifest.json",
+      "sha256": "02adab8ab9346c3d6b22c7a15a0a6aae2c7d65ad1deefc9722400b2e477e6b92",
+      "bytes": 35109
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/catalog/support-v2-r2.jsonl",
+      "sha256": "1d1f785c3303adcaf4b964bf6d5bedeee8cf418ff0f0748704a7bccbe2a86d36",
+      "bytes": 290318
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/checkpoint-inheritance.json",
+      "sha256": "f613dd5e5635c4eee908b85e1595dd4f40dd61ae155d878b18a5a0ff36e6267f",
+      "bytes": 1526
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/experiment-private.json",
+      "sha256": "c3a1ebacb5c809950ec5999d342fb3414c971e58fee4d000e90cc2bf7ca1d648",
+      "bytes": 1337
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/experiments/79b3cc58-cfd4-4da5-84c0-890d92a9be06/attempts.jsonl",
+      "sha256": "df9a7db01e616cc44dd00ef8592ac99c880f4dc07df0f0e65d3713cfcce8a2c9",
+      "bytes": 1612924
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/experiments/79b3cc58-cfd4-4da5-84c0-890d92a9be06/manifest.json",
+      "sha256": "4ee76b54644c3a81285c01edbf1487acd40b326849654e53fe2675850ed92c5c",
+      "bytes": 405007
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/experiments/79b3cc58-cfd4-4da5-84c0-890d92a9be06/results.jsonl",
+      "sha256": "3820adbf9c9a8669d998387a69e752980d4fe48da1d39bf64a24f03d14bc6a84",
+      "bytes": 1612943
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/export-full-dev.log",
+      "sha256": "dd6ff6db9bf63ccaedfa29ef50d6515704154f56af9ad3e147393f7c287baf93",
+      "bytes": 91
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/export_full_dev.py",
+      "sha256": "9effd875c5ccef3c0a21ee0e326626a5a6f557fe6ff8f99b0c317cfdc59ac64e",
+      "bytes": 5752
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/fixed-report-browser.json",
+      "sha256": "2b243f4973dc180ff13b57f3324ae6b039d87bc21ad7d7452923103c40016af4",
+      "bytes": 431
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/fixed-report-browser.log",
+      "sha256": "4c84a5dbac6215f62ca4204222e6ab9d5583cc8f8c4fee7de71d336bdf5893be",
+      "bytes": 351
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/fixed-report-top.png",
+      "sha256": "4dbc846321a2176dbd8f87e5b6db31f1cf10a3ab834637bdecc0f7743fb74125",
+      "bytes": 133138
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/fixed-report.json",
+      "sha256": "193d2789dd72832d28391ee7d8933dbaab3a4278f00d66797cfdf69f9363a567",
+      "bytes": 421
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/followup-execution-result.json",
+      "sha256": "3950aedab0fbae2a5a7cc566006fe90570a66449b9e883fb278420b199f734aa",
+      "bytes": 12031
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/full-dev-readonly.json",
+      "sha256": "8bcfb6718e0d146e7d1d6caffa8d04249285e8896fc6bbd4c30964df5dbe66c8",
+      "bytes": 198943
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/full-dev-readonly.log",
+      "sha256": "cc0985aa06fe9de14bbfaea38d5b84919296388347f8cf3fac5c6b7a1190cadf",
+      "bytes": 191
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/inheritance-readonly.json",
+      "sha256": "d28b6628043e43b560b5e98ec13a51d4046dcc847d15011d5da52c6f49722c23",
+      "bytes": 10120
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/inheritance-readonly.log",
+      "sha256": "172ee196d206cfbc2f2f2c10cad5d3228bee1413012151f8f8167dfd13702975",
+      "bytes": 500
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/retrieved-sources-readonly.json",
+      "sha256": "aa142c15b4422767453a3524f9236ef676341861e9198d3b616f0960faa0789b",
+      "bytes": 1019326
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/retrieved-sources-readonly.log",
+      "sha256": "779507ce7ef9f360af0e677f28b7d1907d587ca6358c88ce37bd9d28a6dd6742",
+      "bytes": 577
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/targeted-tests.log",
+      "sha256": "d676ade0a0a9779989c48362e6c634670f9bb2034d08f1c8c36512c22867040b",
+      "bytes": 313
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/targeted-tests.xml",
+      "sha256": "79997a5db922c9e160ed0a52fd3e1d32d390d3b3ef8ae0d57f93d4decaeb382b",
+      "bytes": 12560
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/terminal-readonly.json",
+      "sha256": "609ba2a3c1bfb2d0073517ddf6e32637c357b1b342180a1b8bf2a3ead3341476",
+      "bytes": 1209
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/verify_fixed_report.cjs",
+      "sha256": "cb56825820b94ef5d6f6e05c80b66a8c855eb4cec3dd8fda3b0a1fe84a79673b",
+      "bytes": 2840
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/verify_full_dev.py",
+      "sha256": "4126c9ae98d085fb861f55994825d562850c992f1e9d4debd90b8e56b82c416a",
+      "bytes": 6782
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/verify_retrieved_sources.py",
+      "sha256": "4f7def318ac977940c832f5b3e9ad3f4786d4a85d8c1159f26243b557f13eb2d",
+      "bytes": 4760
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/完整dev基线回答与切片对照.html",
+      "sha256": "baf91d2c3b6f1625837aacc51a51072bd735ca7ab0ae848dba52a22d7d264548",
+      "bytes": 6488574
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/prepare_followup_r2.py",
+      "sha256": "c95a2acb218811f6e5e137365e5b2578acf901d4605bd1025b1b40736fad9c00",
+      "bytes": 5310
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/migrate_followup_checkpoints_r2.py",
+      "sha256": "4af476832d97c426a75f238eca5ca7eed94a40baee63f12d1aab78f3cb45676f",
+      "bytes": 8510
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/run_followup_r2.py",
+      "sha256": "b36504cc9731ae9cff8c97e7b4fb263ad1a73c27cdb4ad81c6632ed18dba97f7",
+      "bytes": 3593
+    }
+  ],
+  "snapshot_paths": [
+    "app/evaluation/jobs.py",
+    "app/evaluation/query_adapter.py",
+    "docs/development/CHANGELOG.md",
+    "docs/development/DECISIONS.md",
+    "docs/development/PROGRESS.md",
+    "docs/development/REVIEW_STATUS.md",
+    "docs/development/records/M6-04.md",
+    "docs/development/records/M6-05.md",
+    "docs/development/records/M6-08.md",
+    "docs/development/reviews/M6-08-full-dev-baseline-r3.md",
+    "docs/development/reviews/M6-08-full-dev-baseline-validation-r3.json",
+    "docs/evaluation/feedback-loop.md",
+    "docs/evaluation/release-report.md",
+    "docs/evaluation/workbench.md",
+    "docs/plans/DEVELOPMENT_CONTRACTS.md",
+    "docs/plans/DEVELOPMENT_TODO.md",
+    "docs/plans/tasks/M6-evaluation.md",
+    "tests/integration/test_evaluation_jobs.py",
+    "tests/integration/test_evaluation_run_adapter.py"
+  ]
+}

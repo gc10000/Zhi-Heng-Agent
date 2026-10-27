@@ -1,5 +1,13 @@
 # 开发进度与接续点
 
+## 当前M6-08接续：020中断Run的有来源后续尝试（2026-10-27）
+
+起点`5fa74ebbacbe6a91749ea635490166f2c7669f86`，Docker/Mongo已恢复；原实验`a5607e05-de22-4b24-9570-e85b7e09b521`保留`failed/attempt 2`、`retryable=false`、结果0，attempt2实际供应商调用及费用保持未知。此前报告记状态触发来源未知；本轮回溯本聊天工具记录确认，执行助手在上一轮调用过一次正式`execute_job`，由过期租约领取attempt2后在执行器初始化时报`provider_invalid_response`，没有新增题目尝试/结果。原报告保留，后续报告另记勘误，不据此将费用写成零。本地19个成功检查点保持原样，020 Run已由正式`RunCommands.recover()`持久化为`interrupted`，65题无检查点。语料不重备，heldout/人工/校准不运行。
+
+本轮已完成：来源执行键及interrupted Run显式后续路径，81定向通过。派生配置仅更新代码身份/实验名称，原参数/题集/语料/模型/prompt不变；19成功检查点经66只读检查继承。新实验`79b3cc58-cfd4-4da5-84c0-890d92a9be06`正式completed/attempt1/result_attempt1，85持久结果completed，80 answer/5 clarify；19继承+66后续执行，不是85题同版本独立重生成。本轮新增stream61/invoke0，继承历史stream19，精确HTTP/费用及原失败窗口仍未知。独立持久1975、检索切片/图像9838、Edge离线9检查通过，含800文本/139图片引用、238切片/36唯一图，语料SHA不变。原失败与旧020 interrupted保留；评测slot/token/lease释放，5 awaiting_input澄清Run按正式等待语义保留。固定对照报告已生成，不提供答案正确率或语义相关性评分。见[r3交付](reviews/M6-08-full-dev-baseline-r3.md)。
+
+下一步：审阅本轮源码/测试/脱敏材料，正常提交推送并交总控审查恢复协议与组合技术结果；不得再跑派生创建/迁移脚本。新规则独立人工双轮、预校准、候选比较及反馈后复评仍缺，不复制已有聊天、不要求重填。M6保持4/7，M6-04/05/08未验收，M7未授权。
+
 ## 2026-10-27 · Docker/Mongo已恢复，完整dev attempt需明确新尝试协议
 
 Docker Engine 29.5.2及Mongo恢复，六容器均运行（Mongo/Milvus/MinIO/Redis/etcd健康，Attu运行中）；只读核账时原实验由running/attempt1转为failed/attempt2，retryable=false、provider_invalid_response、结果行0，状态变化来源及外部调用/费用未知。原本地manifest/attempts/results已哈希备份且未改。唯一过期的020 Run已通过正式RunCommands.recover转为interrupted，持久run.interrupted事件写入、会话占用释放；保留过期执行token/lease字段不手工清除。当前19个completed Run、020 interrupted、其余65无检查点，owner slot为空，DB无活动Run。因实验失败不可重试且attempt2调用未知，本轮不再生成或改retryable。详见[第二轮接续](reviews/M6-08-full-dev-baseline-r2.md)及[验证摘要](reviews/M6-08-full-dev-baseline-validation-r2.json)。M6仍4/7，04/05/08未验收，M7未授权。

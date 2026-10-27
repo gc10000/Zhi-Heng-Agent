@@ -111,7 +111,7 @@ def test_terminal_result_pagination_and_pending_cancel_release(mongo_db):
     assert repo.results_page(second['experiment_id'], cursor=page['next_cursor'])['items'][0]['question_id'] == 'q2'
 
 
-def test_worker_runs_frozen_dev_only_and_reuses_completed_file_checkpoint(mongo_db, tmp_path):
+def test_worker_runs_frozen_dev_only_and_reuses_completed_file_checkpoint(mongo_db, tmp_path, monkeypatch):
     import importlib.util
     assert importlib.util.find_spec('app.evaluation.jobs') is not None, '需要正式评测任务执行入口'
     from app.evaluation.jobs import execute_job
@@ -127,20 +127,23 @@ def test_worker_runs_frozen_dev_only_and_reuses_completed_file_checkpoint(mongo_
     data = dict(kb_id='kb-test', eval_set_id='support-dev', eval_set_version='r1',
                 config_id='control', config_version='v1', client_request_id='dev-job')
     row = service.create_experiment(user, data)
-    calls = []
+    calls, retry_keys = [], []
     class Executor:
-        def __init__(self, config): pass
+        def __init__(self, config): self.retry_key = None
         def __enter__(self): return self
         def __exit__(self, *args): pass
         def __call__(self, question):
             calls.append(question['id'])
+            retry_keys.append(self.retry_key)
             assert question['split'] == 'dev'
             return dict(answer='合成测试答案，不是真实生成', citations=[])
-    execute_job(repo, catalog, tmp_path/'out', row['experiment_id'], executor_factory=Executor)
+    monkeypatch.setattr('app.evaluation.query_adapter.RealQueryExecutor', Executor)
+    execute_job(repo, catalog, tmp_path/'out', row['experiment_id'])
     result = service.get_experiment(user, row['experiment_id'])
     assert result['state'] == 'completed' and result['completed'] == 35
     assert len(calls) == 35
-    execute_job(repo, catalog, tmp_path/'out', row['experiment_id'], executor_factory=Executor)
+    assert set(retry_keys) == {f"dev-job:{row['experiment_id']}:1"}
+    execute_job(repo, catalog, tmp_path/'out', row['experiment_id'])
     assert len(calls) == 35
     assert service.results_page(user, row['experiment_id'])['items'][0]['result']['answer'].startswith('合成测试')
 

@@ -1,5 +1,10 @@
 # 开发变更记录
 
+## 2026-10-27 · M6-08有来源后续执行（阶段未验收）
+
+- 正式M6任务对每个执行代次传入来源请求键；显式执行可为已按协议收敛的interrupted Run建立独立请求，completed仍复用、不可重试失败仍拒绝。
+- 增加adapter interrupted与非retryable边界、job首attempt来源键回归；本轮81项定向通过。新派生配置保持题集/语料/模型/prompt/参数，逐题继承19完成检查点、旧失败及费用未知保留；后续实验85条completed（19继承+66执行），本轮新增逻辑stream61/invoke0。独立继承66、持久1975、检索/图像9838和离线报告9检查通过；非质量达标或M6验收，人工双轮/校准/比较/复评仍缺。见[r3报告](reviews/M6-08-full-dev-baseline-r3.md)。
+
 ## 2026-10-27 · M6完整dev服务恢复与正式租约收敛
 
 Docker/Mongo恢复；保全原19题本地检查点。正式RunCommands.recover将唯一过期020 Run持久化为interrupted并释放会话占用。核查竞态中评测实验已成为failed/attempt2且不可自动重试，结果行0，外部调用/费用未知；未改retryable、未重新生成。详见[第二轮接续报告](reviews/M6-08-full-dev-baseline-r2.md)。M6仍未验收，M7未授权。
