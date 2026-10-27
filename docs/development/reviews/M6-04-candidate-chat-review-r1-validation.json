@@ -1,0 +1,52 @@
+{
+  "stage": "M6",
+  "scope": "候选001用户聊天一次判断留证",
+  "review_status": "未提交",
+  "human_acceptance_complete": false,
+  "baseline_commit": "6ee72167d374df53319287c6ea908830986ec92d",
+  "candidate_experiment_id": "f0ac6186-b204-4987-bb14-0089f3b73996",
+  "subject_sha256": "3d2ea7704c2e076979835c3ccae0cb72319d822fe5ca7e53a80a12a8a87ced39",
+  "semantic_scores": {
+    "factuality": 2,
+    "citation_support": 2,
+    "actionability": "not_applicable",
+    "image_relevance": 0
+  },
+  "chat_judgments": 1,
+  "web_human_records": 0,
+  "formal_gate": {
+    "status": "pending",
+    "reasons": [
+      "review_pending_or_changed"
+    ],
+    "regressions": [],
+    "calibration_id": "789deda3-ada9-4497-8263-799cd3da263b",
+    "candidate_experiment_id": "f0ac6186-b204-4987-bb14-0089f3b73996",
+    "human_review_count": 0,
+    "automatic_publish": false
+  },
+  "checks": {
+    "current_candidate_bound": true,
+    "current_answer_with_citation": true,
+    "two_exact_image_sources": true,
+    "one_chat_judgment_only": true,
+    "no_web_human_or_followup_writes": true,
+    "formal_gate_still_pending": true
+  },
+  "checks_passed": 6,
+  "exit_code": 0,
+  "human_api_writes": 0,
+  "new_calibrations": 0,
+  "model_calls": 0,
+  "automated_tests_rerun": false,
+  "raw_evidence": [
+    {
+      "path": "output/m6-08/001-candidate-chat-review-r1-20261027/user-statement.json",
+      "sha256": "f0e17f4ff1b8405cf50efdcfaad98ecc0ce820007844b963cca52c0bba0fdb9b"
+    },
+    {
+      "path": "output/m6-08/001-candidate-chat-review-r1-20261027/readonly.json",
+      "sha256": "acf69d7d7335c53a9e6a29d84cf25023434e20926005fbe48af17c9796da7da0"
+    }
+  ]
+}
