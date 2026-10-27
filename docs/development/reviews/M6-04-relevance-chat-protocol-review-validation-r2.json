@@ -1,0 +1,197 @@
+{
+  "date": "2026-10-27",
+  "scope": "M6-04图片协议R1/R2总控第二轮定向复审",
+  "reviewed_commit": "4fec42889794de05f1bc89d7f6d02c3824836def",
+  "conclusion": "targeted_fixes_accepted",
+  "findings": [],
+  "closed_findings": [
+    {
+      "id": "R1",
+      "priority": 1
+    },
+    {
+      "id": "R2",
+      "priority": 2
+    }
+  ],
+  "m6_accepted": false,
+  "m6_core": "4/7",
+  "total_core": "64/76",
+  "m7_authorized": false,
+  "independent_commands": [
+    {
+      "command": ".venv/Scripts/python.exe -m pytest tests/unit/test_answer_image_selection.py tests/integration/test_rendered_image_review.py tests/integration/test_evaluation_reviews.py tests/integration/test_review_protocol_v2.py -q --tb=short --junitxml=output/m6-protocol-review-r2/target.xml",
+      "passed": 94,
+      "failed": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "seconds": 93.18,
+      "data_scope": "随机前缀隔离测试库、合成结果与审阅；不写真实账本"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pytest output/m6-protocol-review-r2/test_image_usage_probe.py output/m6-protocol-review-r2/test_image_gate_probe.py -q --tb=short --junitxml=output/m6-protocol-review-r2/original-probes.xml",
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "seconds": 35.8,
+      "data_scope": "随机前缀隔离测试库、合成结果与审阅；不写真实账本"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pytest output/m6-protocol-review-r2/test_historical_na_probe.py -q --tb=short --junitxml=output/m6-protocol-review-r2/historical-probes.xml",
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "seconds": 10.2,
+      "data_scope": "随机前缀隔离测试库、合成结果与审阅；不写真实账本"
+    },
+    {
+      "command": "pnpm -C frontend exec playwright test reviews.spec.ts citations.spec.ts --reporter=list --output=../output/m6-protocol-review-r2/browser",
+      "passed": 12,
+      "exit_code": 0,
+      "seconds": 27.5,
+      "mode": "offline_browser"
+    },
+    {
+      "command": "pnpm -C frontend exec playwright test --config=../output/m6-protocol-review-r2/playwright.config.cjs",
+      "passed": 4,
+      "exit_code": 0,
+      "seconds": 11.3,
+      "mode": "offline_browser"
+    },
+    {
+      "command": "pnpm -C frontend exec vitest run tests/unit/answer-image-contract.test.ts --reporter=json --outputFile=../output/m6-protocol-review-r2/frontend-contract.json",
+      "passed": 25,
+      "exit_code": 0
+    },
+    {
+      "command": ".venv/Scripts/python.exe -c \"import runpy;runpy.run_path('output/m6-protocol-review-r2/recheck_live_readonly.py')\"",
+      "checks_passed": 11,
+      "exit_code": 0,
+      "mode": "real_existing_service_readonly"
+    }
+  ],
+  "submission_audit_before_document_edits": {
+    "exit_code": 0,
+    "stdout": "{\"passed\": true, \"files\": 31, \"python_syntax\": 5, \"links\": 430, \"evidence_hashes\": 116, \"stage_passed\": 1015, \"human_writes\": 0, \"model_calls\": 0}\n",
+    "dependency_audit": {
+      "existing_nonroot_records": 193,
+      "added": [
+        "markdown-it-py",
+        "mdurl"
+      ],
+      "removed": [],
+      "modified": []
+    },
+    "frontend_contract": {
+      "numTotalTests": 25,
+      "numPassedTests": 25,
+      "numFailedTests": 0,
+      "success": true
+    }
+  },
+  "submitted_full_results_evidence_only": {
+    "backend_passed": 1015,
+    "backend_deselected": 2,
+    "backend_skipped": 0,
+    "reimport_passed": 3,
+    "frontend_unit_passed": 62,
+    "frontend_browser_passed": 44,
+    "typecheck_exit_code": 0,
+    "build_exit_code": 0,
+    "independently_rerun": false
+  },
+  "copy_note": "运行/审阅Python原探针逐字节复制；浏览器探针仅截图目的地、真实只读脚本仅报告目的地从r1改到r2。probe-copies.json记录修改目的地前的复制hash，raw_evidence记录本轮实际文件hash。",
+  "original_calibration_probe": "未复跑：该原探针前提要求错误N/A在入口被接受201，当前正确返回422；新增8项历史窗口/合法路径探针与正式集成测试验证后续校准及冻结门槛。",
+  "real_service_restarted": false,
+  "deployed_gate_verified": false,
+  "new_gate_verified_by": "isolated_formal_http",
+  "model_calls": 0,
+  "real_human_writes": 0,
+  "real_observation_writes": 0,
+  "real_calibration_writes": 0,
+  "raw_evidence": [
+    {
+      "path": "output/m6-protocol-review-r2/target.xml",
+      "sha256": "2241645ae146cbc99ee904a46388f5d79f6e5c3050f8226355373de97372c690",
+      "bytes": 15160
+    },
+    {
+      "path": "output/m6-protocol-review-r2/original-probes.xml",
+      "sha256": "081049b6f35450ca0083324beaa936be33240eec021dccbe25e0e1f884854b89",
+      "bytes": 1246
+    },
+    {
+      "path": "output/m6-protocol-review-r2/historical-probes.xml",
+      "sha256": "faa53ea2ef29d85ebefb273c7a2937acad23a458ad8e21ffbcd427a09f971427",
+      "bytes": 2134
+    },
+    {
+      "path": "output/m6-protocol-review-r2/frontend-contract.json",
+      "sha256": "71e4338920d708e2ca7d36eef2b3b067856b91f98f96047694888cd083a39e0a",
+      "bytes": 6750
+    },
+    {
+      "path": "output/m6-protocol-review-r2/live-readonly.json",
+      "sha256": "310b0d84fc3dbb0468e8a5c16bb5d8435acff629a20c1a29d4037c8d607795fd",
+      "bytes": 530
+    },
+    {
+      "path": "output/m6-protocol-review-r2/probe-copies.json",
+      "sha256": "913bc407d3b8b377cdfdd805688af80c5c27b6554256143bb6c686200d33693a",
+      "bytes": 1180
+    },
+    {
+      "path": "output/m6-protocol-review-r2/submission-audit.json",
+      "sha256": "87424deac27919cb26722cd63c2d85ace130dccbf8b878c2c3a132e095098c25",
+      "bytes": 510
+    },
+    {
+      "path": "output/m6-protocol-review-r2/test_image_usage_probe.py",
+      "sha256": "498e85136cf33003ea0447b8c9b45724c50db1c93f86700d3eb25955e4cd21d5",
+      "bytes": 1311
+    },
+    {
+      "path": "output/m6-protocol-review-r2/test_image_gate_probe.py",
+      "sha256": "c52a3f017658f27b2eaeb6a50fa383e889ddb42b4ddf34a3fcfa0c9f6ab13845",
+      "bytes": 1820
+    },
+    {
+      "path": "output/m6-protocol-review-r2/test_historical_na_probe.py",
+      "sha256": "1e12d23025ec9474a411ad67414b9b16536e7a525aef835b70d2e282e2dfd363",
+      "bytes": 4031
+    },
+    {
+      "path": "output/m6-protocol-review-r2/image-display-probe.spec.ts",
+      "sha256": "91426e702f304c75b5c2afef89883a62f74962aed848b92eeb819ece69641e50",
+      "bytes": 2907
+    },
+    {
+      "path": "output/m6-protocol-review-r2/playwright.config.cjs",
+      "sha256": "7de5740e8647e61ab6922926ba6775bbddeef8e315d9e2289784d6e9f4da871b",
+      "bytes": 631
+    },
+    {
+      "path": "output/m6-protocol-review-r2/recheck_live_readonly.py",
+      "sha256": "8cba4622395f6b69a2009259eb8957f9ca78960a1b387092512fa8a1b20e7d7a",
+      "bytes": 3813
+    },
+    {
+      "path": "output/m6-protocol-review-r2/browser/.last-run.json",
+      "sha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903",
+      "bytes": 45
+    },
+    {
+      "path": "output/m6-protocol-review-r2/browser-probes/.last-run.json",
+      "sha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903",
+      "bytes": 45
+    },
+    {
+      "path": "frontend/output/m6-protocol-review-r2/legacy-citation.png",
+      "sha256": "a05c128a9ecc9dfe12aa8ed139ab91083d5177fc5b41afb3ca24da953f0410a8",
+      "bytes": 67053
+    }
+  ],
+  "browser_screenshot_note": "Playwright从frontend目录运行，截图实际保存于frontend/output/m6-protocol-review-r2/legacy-citation.png；新旧截图均保留。"
+}
