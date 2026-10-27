@@ -728,6 +728,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/experiments/{eid}/reviews/{review_id}/followups": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Review Followup */
+        post: operations["review_followup_api_v1_experiments__eid__reviews__review_id__followups_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/experiments/{eid}/calibrations": {
         parameters: {
             query?: never;
@@ -939,6 +956,23 @@ export interface components {
             /** Client Request Id */
             client_request_id: string;
         };
+        /** FollowupInput */
+        FollowupInput: {
+            /** Subject Sha256 */
+            subject_sha256: string;
+            /** Client Request Id */
+            client_request_id: string;
+            /** Human Attested */
+            human_attested: boolean;
+            /** Source Checked */
+            source_checked: boolean;
+            /** Resolutions */
+            resolutions: {
+                [key: string]: components["schemas"]["Resolution"];
+            };
+            /** Critical Errors */
+            critical_errors?: ("unauthorized" | "wrong_model")[];
+        };
         /** HTTPValidationError */
         HTTPValidationError: {
             /** Detail */
@@ -1003,6 +1037,16 @@ export interface components {
             eval_set_id: string;
             /** Version */
             version: string;
+        };
+        /** Resolution */
+        Resolution: {
+            /**
+             * Score
+             * @enum {unknown}
+             */
+            score: 0 | 1 | 2 | "not_applicable";
+            /** Evidence */
+            evidence: string;
         };
         /** ReviewInput */
         ReviewInput: {
@@ -2827,6 +2871,42 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": components["schemas"]["ReviewInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    review_followup_api_v1_experiments__eid__reviews__review_id__followups_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                eid: string;
+                review_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["FollowupInput"];
             };
         };
         responses: {

@@ -1,0 +1,242 @@
+{
+  "stage": "M6",
+  "scope": "partial",
+  "title": "M6-04 未知项不可变追加复核机制",
+  "date": "2026-10-27",
+  "review_status": "未提交",
+  "baseline_commit": "5bf243a34b16ee361a6f25bc5c6e2eca6b459369",
+  "implemented": [
+    "M6-04 未知维度不可变追加复核API/账本/UI及测试"
+  ],
+  "still_incomplete": [
+    "M6-04 真实001未知维度需原审核者本人追加",
+    "M6-04 固定报告人工抽检",
+    "M6-05 真实反馈与复评",
+    "M6-08 完整阶段验收"
+  ],
+  "deferred": [
+    {
+      "id": "M6-06",
+      "reason": "可选Ragas，未启用"
+    }
+  ],
+  "human_acceptance_complete": false,
+  "human_quality_passed": null,
+  "user_reported_human_reviews": {
+    "question": "support-v1-001",
+    "rounds_saved": 2,
+    "unknown_dimensions": [
+      "actionability",
+      "image_relevance"
+    ],
+    "execution_agent_modified": false
+  },
+  "tests": [
+    {
+      "name": "完整后端阶段回归",
+      "junit": "output/m6-04/followup-stage-r2/backend.xml",
+      "passed": 951,
+      "deselected": 2,
+      "skipped": 0,
+      "exit_code": 0,
+      "by_directory": {
+        "unit": 574,
+        "contract": 135,
+        "integration": 242
+      }
+    },
+    {
+      "name": "正式追加复核入口回归",
+      "junit": "output/m6-04/followup-regression-final-r5.xml",
+      "passed": 34,
+      "deselected": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "by_directory": {
+        "integration": 34
+      }
+    }
+  ],
+  "excluded_live_provider": 2,
+  "command_ledgers": [
+    "output/m6-04/followup-stage-r2/commands.json",
+    "output/m6-04/followup-stage-r2-frontend/commands.json"
+  ],
+  "frontend": {
+    "unit_report": "output/m6-04/followup-stage-r2-frontend/unit.json",
+    "unit_passed": 37,
+    "browser_report": "output/m6-04/followup-stage-r2-frontend/browser.json",
+    "browser_passed": 37,
+    "mode": "offline protocol browser tests",
+    "typecheck_exit_code": 0,
+    "build_exit_code": 0,
+    "targeted_review_browser_passed": 4,
+    "targeted_review_browser_exit_code": 0,
+    "targeted_review_browser_output": "output/m6-04/followup-ui-final-r2-artifacts"
+  },
+  "legacy_reimport": {
+    "report": "output/m6-04/followup-stage-r2/reimport.txt",
+    "passed": 3,
+    "exit_code": 0
+  },
+  "real_sample": {
+    "report": "output/m6-08/review-r2/readonly-r2.json",
+    "checks_passed": 15,
+    "questions": 2,
+    "logical_provider_calls": {
+      "invoke_started": 0,
+      "stream_started": 1
+    },
+    "exact_http_calls": null,
+    "exact_cost": null,
+    "note": "历史只读报告；不是本轮新执行。"
+  },
+  "checkpoint_replay": {
+    "report": "output/m6-08/review-r2/checkpoint-replay-report.json",
+    "new_calls": 0,
+    "logical_provider_calls": {
+      "invoke_started": 0,
+      "stream_started": 0
+    },
+    "actual_results_equal": true,
+    "independent_new_generation": false,
+    "note": "历史检查点报告；不是本轮新执行。"
+  },
+  "real_browser_read_only": {
+    "report": "output/m6-08/001-repaired-r1-20261026/browser-followup-ready.json",
+    "note": "历史页面就绪只读检查；本轮未向真实页面发起写请求。"
+  },
+  "heldout_runs": 0,
+  "new_model_calls": 0,
+  "data_boundary": "正式集成回归使用随机m1_test_隔离Mongo库与合成结果；浏览器单测使用离线API协议模拟。未访问真实001账本、课程知识集合、Milvus或MinIO；未提交真实追加/校准、无模型或供应商调用；原始output保留本机。",
+  "rollback": "反向本轮代码/API/UI变更；保留原审阅、追加账本记录和本机证据，不删除Mongo集合、不改写真实审阅、不触碰知识或对象存储。",
+  "command_issues": [
+    {
+      "evidence": "output/m6-04/followup-regression-final-r4.xml",
+      "classification": "测试启动前置错误",
+      "detail": "遗漏M1_TEST_DB导致34项fixture setup error；不计业务红测或通过，补显式随机隔离库后r5为34 passed。"
+    },
+    {
+      "classification": "检查器输出目录参数错误",
+      "detail": "曾将前端阶段检查输出写到已经由后端检查创建的目录，检查器拒绝覆盖；改用新目录后全部前端检查通过。"
+    }
+  ],
+  "raw_evidence": [
+    {
+      "path": "output/m6-04/followup-red-r1.xml",
+      "sha256": "c458f16c419581e2bae86faee414b129f2dca731f45d5bf59772643310595403"
+    },
+    {
+      "path": "output/m6-04/followup-green-r1.xml",
+      "sha256": "b2cb1a3708a04ab2860ce137fc058bbeebcf0ed7b1b0051b0ca1a54cd6d559e8"
+    },
+    {
+      "path": "output/m6-04/followup-ui-red.txt",
+      "sha256": "7978cae2ad33e533676256c2450f2bb1f8fe8862e66a1b7d1f25545067b2a536"
+    },
+    {
+      "path": "output/m6-04/followup-ui-final.txt",
+      "sha256": "e0623035f03d8f609b287e311400254d519d286b5b167bddb374f8fa192c556c"
+    },
+    {
+      "path": "output/m6-04/followup-regression-final-r4.xml",
+      "sha256": "6dabe9d401b2812014def95cfb89203eba1baa442de3bf184f7b7084f4e98a90"
+    },
+    {
+      "path": "output/m6-04/followup-regression-final-r5.xml",
+      "sha256": "d2a9d6c5eeeb98235b2fef05a3c4c4f58555d0eac88d00fd3e17d054593fbc72"
+    },
+    {
+      "path": "output/m6-04/followup-stage-r2/commands.json",
+      "sha256": "1159c55e3c548dc90cdbdd01ad058c360248f7cfc404838cb66068ba4c9c28ee"
+    },
+    {
+      "path": "output/m6-04/followup-stage-r2/backend.xml",
+      "sha256": "fa16b31b5200cacd961cdfa2a59075ff2dba92b68b3ac64434e3532c5cb621ad"
+    },
+    {
+      "path": "output/m6-04/followup-stage-r2/backend.txt",
+      "sha256": "b9fefef068ac248a294ab18bf88b434dfdaa1deb6305ff1f12d19209901100d7"
+    },
+    {
+      "path": "output/m6-04/followup-stage-r2/reimport.txt",
+      "sha256": "ead279d2973d386f303c5f0745f4573defc5a07c36fa1e865a93f05b75ee383f"
+    },
+    {
+      "path": "output/m6-04/followup-stage-r2-frontend/commands.json",
+      "sha256": "d896fb1962380071b22456a4fceb9ee41b2c1926a6ce0114eb8f98bc5d149534"
+    },
+    {
+      "path": "output/m6-04/followup-stage-r2-frontend/unit.json",
+      "sha256": "72e4aa0bbe34a920814269ab9940d2c4083843dcb9fcd3d59658c6e0682bef70"
+    },
+    {
+      "path": "output/m6-04/followup-stage-r2-frontend/typecheck.txt",
+      "sha256": "aacdfedc485449151e8f0cedfb8264a7d15047256a7b3c3a4a9e848e28e7b178"
+    },
+    {
+      "path": "output/m6-04/followup-stage-r2-frontend/build.txt",
+      "sha256": "bcd06a3c6ad168405216466c3f3b6accc3615ca8b412545e387a6071fca40c6a"
+    },
+    {
+      "path": "output/m6-04/followup-stage-r2-frontend/browser.json",
+      "sha256": "1e89b8800b17429c176efbd80aa6c4689d7b620d019b215975e7d08ae41c6c0e"
+    },
+    {
+      "path": "output/m6-08/review-r2/private-session.json",
+      "sha256": "307c45213a8fed86bd27bcf62e29b85c8bd60104b63c27a77ca7f1d5a3b79676"
+    },
+    {
+      "path": "output/m6-08/review-r2/baseline-identity.json",
+      "sha256": "e7a3ee1ab4c8de5f153c590b850ec03c20098d6bcca61c7857d55bac964a8198"
+    },
+    {
+      "path": "output/m6-08/review-r2/catalog/control.json",
+      "sha256": "56c8303151ec6632e2c4a4b7c3fff260a4370a337f5ae20f15890b3694181e39"
+    },
+    {
+      "path": "output/m6-08/review-r2/catalog/support-v2-r2.jsonl",
+      "sha256": "1d1f785c3303adcaf4b964bf6d5bedeee8cf418ff0f0748704a7bccbe2a86d36"
+    },
+    {
+      "path": "output/m6-08/review-r2/catalog/support-v2-r2-manifest.json",
+      "sha256": "02adab8ab9346c3d6b22c7a15a0a6aae2c7d65ad1deefc9722400b2e477e6b92"
+    },
+    {
+      "path": "output/m6-08/review-r2/results/beef1d1c-6b52-41b4-a0bc-d02f96f22f06/attempts.jsonl",
+      "sha256": "4ab0b09688043f489505fa4c04c2d3fc90d79643037319ac63f2c63281cb95c5"
+    },
+    {
+      "path": "output/m6-08/review-r2/results/beef1d1c-6b52-41b4-a0bc-d02f96f22f06/manifest.json",
+      "sha256": "df82c8bc457d319adfd52b79ec415806bd8d147379592827efc6f3687a672164"
+    },
+    {
+      "path": "output/m6-08/review-r2/results/beef1d1c-6b52-41b4-a0bc-d02f96f22f06/results.jsonl",
+      "sha256": "4ab0b09688043f489505fa4c04c2d3fc90d79643037319ac63f2c63281cb95c5"
+    },
+    {
+      "path": "output/m6-08/review-r2/checkpoint-replay-r1/attempts.jsonl",
+      "sha256": "d0a3ac515e07c1328674e9a7f05b1a5fca0ca187f7e3a0f5e3acff96a76556c4"
+    },
+    {
+      "path": "output/m6-08/review-r2/checkpoint-replay-r1/manifest.json",
+      "sha256": "28c92b8e97fd823f28a4ca039ad14156f5b4c50cede5bea4fb44928e7424dc82"
+    },
+    {
+      "path": "output/m6-08/review-r2/checkpoint-replay-r1/results.jsonl",
+      "sha256": "d0a3ac515e07c1328674e9a7f05b1a5fca0ca187f7e3a0f5e3acff96a76556c4"
+    },
+    {
+      "path": "output/m6-08/review-r2/readonly-r2.json",
+      "sha256": "441d19a9d645ba3062adf85993a0cd2548945243720a0ca5111a6a4e348ee04d"
+    },
+    {
+      "path": "output/m6-08/review-r2/checkpoint-replay-report.json",
+      "sha256": "c77bfa3f30fe8af1ca77011ed25a7dad2eea45dee389edac9f5d9a462b741fe3"
+    },
+    {
+      "path": "output/m6-08/001-repaired-r1-20261026/browser-followup-ready.json",
+      "sha256": "8565ec6501fb8281035d7a86d497172cd219528aea6b88f5009e3e631c9b9913"
+    }
+  ]
+}

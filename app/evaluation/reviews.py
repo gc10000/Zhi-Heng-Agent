@@ -8,6 +8,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator, model_valida
 from pymongo.errors import DuplicateKeyError
 from app.api.errors import APIError
 from app.knowledge.repository import fingerprint
+from .review_followups import FollowupLedger
 
 Score = Literal[0, 1, 2, 'unknown', 'not_applicable']
 DIMENSIONS = ('factuality', 'citation_support', 'actionability', 'image_relevance')
@@ -81,6 +82,7 @@ class ReviewService:
                                    ('reviewer_kind', 1), ('round', 1)], unique=True)
         self.calibrations.create_index('calibration_id', unique=True)
         self.calibrations.create_index([('owner_id', 1), ('client_request_id', 1)], unique=True)
+        self.followups = FollowupLedger(repo.db)
 
     def _subjects(self, user, eid):
         experiment = self.repo.get_experiment(user, eid)
@@ -96,7 +98,19 @@ class ReviewService:
     def list(self, user, eid):
         _, subjects = self._subjects(user, eid)
         return {'subjects': [dict(question_id=q, subject_sha256=s[0]) for q, s in sorted(subjects.items())],
-                'items': [public(r) for r in self.reviews.find({'experiment_id': eid})], 'next_cursor': None}
+                'items': [public(r) for r in self.reviews.find({'experiment_id': eid})],
+                'followups': [public(r) for r in self.followups.rows.find({'experiment_id': eid})], 'next_cursor': None}
+
+    def followup(self, user, eid, review_id, data):
+        _, subjects = self._subjects(user, eid)
+        original = self.reviews.find_one({'experiment_id': eid, 'review_id': review_id, 'reviewer_id': user.user_id})
+        if original is None:
+            raise APIError(404, 'not_found', '原审阅不存在或不是当前审核者的记录。')
+        subject = subjects.get(original['question_id'])
+        if not subject or subject[0] != original['subject_sha256'] or subject[0] != data.subject_sha256:
+            raise APIError(409, 'review_subject_changed', '答案或来源已变化，不能对旧结果追加结论。')
+        clean = {k: deepcopy(v) for k, v in original.items() if k != '_id'}
+        return public(self.followups.append(user, eid, clean, data, subject[1].get('result') or {}))
 
     def submit(self, user, eid, data):
         _, subjects = self._subjects(user, eid)
@@ -122,7 +136,9 @@ class ReviewService:
 
     def _quality(self, user, eid):
         experiment, subjects = self._subjects(user, eid)
-        reviews = list(self.reviews.find({'experiment_id': eid}))
+        originals = [{k: v for k, v in r.items() if k != '_id'} for r in self.reviews.find({'experiment_id': eid})]
+        reviews, followup_ids = self.followups.effective(originals,
+            list(self.followups.rows.find({'experiment_id': eid})))
         critical, incomplete, values, bound = [], [], {}, []
         if not subjects or len(subjects) != experiment.get('selected_questions'):
             incomplete.append('incomplete_question_set')
@@ -145,8 +161,12 @@ class ReviewService:
                 else:
                     values[qid][dimension] = min(scores)
             bound.extend(r['review_id'] for r in humans)
-        return experiment, dict(critical=critical, incomplete=sorted(set(incomplete)), values=values,
+        quality = dict(critical=critical, incomplete=sorted(set(incomplete)), values=values,
             subjects={q: s[0] for q, s in subjects.items()}, review_ids=sorted(bound))
+        # 无追加记录时保留旧校准结构，已冻结的历史证明不因升级无条件失效。
+        if followup_ids:
+            quality['followup_ids'] = followup_ids
+        return experiment, quality
 
     def calibrate(self, user, eid, data):
         identity = fingerprint({'experiment_id': eid, **data.model_dump()})

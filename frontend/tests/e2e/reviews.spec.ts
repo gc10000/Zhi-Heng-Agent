@@ -1,6 +1,49 @@
 import { test, expect } from '@playwright/test'
 import { mockApi } from './helpers'
 
+test('原审核者逐轮追加未知结论，旧记录和确定分数保留，刷新可见',async({page})=>{
+  const originals=[1,2].map(round=>({review_id:'original-'+round,question_id:'q1',subject_sha256:'a'.repeat(64),round,
+    reviewer_kind:'human',reviewer_id:'offline-user',human_attested:true,source_checked:true,
+    scores:{factuality:2,citation_support:1,actionability:'unknown',image_relevance:'unknown'},rationale:'原始未知判断'}))
+  const followups:any[]=[];let submitted:any
+  await mockApi(page,async route=>{
+    const path=new URL(route.request().url()).pathname
+    if(path.endsWith('/followups')){
+      submitted=route.request().postDataJSON()
+      const review_id=path.split('/').at(-2)
+      const row={...submitted,review_id,followup_id:'followup-'+review_id}
+      followups.push(row);await route.fulfill({status:201,json:row});return true
+    }
+    if(path.endsWith('/reviews')){await route.fulfill({json:{subjects:[{question_id:'q1',subject_sha256:'a'.repeat(64)}],items:originals,followups,next_cursor:null}});return true}
+    if(path.endsWith('/results')){await route.fulfill({json:{items:[{question_id:'q1',question:'设备能与任意品牌互通吗？',result:{answer:'合成待审答案',citations:[{document_sha256:'b'.repeat(64),page:4,asset_sha256:'c'.repeat(64)}]}}],next_cursor:null}});return true}
+    return false
+  })
+  await page.goto('/evaluations/reviews/exp-followups')
+  await page.getByLabel('审阅身份',{exact:true}).selectOption('human')
+  await expect(page.getByText('步骤是否适用',{exact:true})).toBeVisible()
+  for(const round of [1,2]){
+    await page.getByLabel('复核轮次',{exact:true}).selectOption(String(round))
+    const section=page.getByRole('region',{name:'未知项追加复核',exact:true})
+    await expect(section.getByRole('button',{name:'保存追加复核'})).toBeDisabled()
+    await section.getByLabel('复核结论：步骤可执行性',{exact:true}).selectOption('not_applicable')
+    await section.getByLabel('复核依据：步骤可执行性',{exact:true}).fill('合成兼容性判断题，不涉及操作步骤；未据此认定真实001得分')
+    await section.getByLabel('复核结论：配图相关性',{exact:true}).selectOption('1')
+    await section.getByLabel('复核依据：配图相关性',{exact:true}).fill('合成示意图，间接相关；不是实际人工评分')
+    await section.getByLabel('本人已重新核对原件与上述依据',{exact:true}).check()
+    await section.getByLabel('确认由原审核者本人追加复核',{exact:true}).check()
+    await section.getByRole('button',{name:'保存追加复核'}).click()
+    await expect(section.getByRole('status')).toContainText('追加复核已保存')
+    expect(submitted.resolutions.factuality).toBeUndefined()
+    expect(submitted.reviewer_id).toBeUndefined()
+  }
+  await page.reload()
+  await page.getByLabel('审阅身份',{exact:true}).selectOption('human')
+  await expect(page.getByRole('region',{name:'未知项追加复核'}).getByRole('status')).toContainText('追加复核已保存')
+  expect(followups.length).toBe(2)
+  expect(originals[0].scores.actionability).toBe('unknown')
+  expect(originals[1].scores.citation_support).toBe(1)
+})
+
 test('已保存轮次明确提示并拦住重复提交，切轮次保留独立身份',async({page})=>{
   let submitted:any,posts=0
   const saved:any[]=[]

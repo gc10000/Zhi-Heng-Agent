@@ -49,6 +49,155 @@ def rounds(client, headers, eid='baseline'):
         assert post(client, headers, payload(sha, str(n), n), eid).status_code == 201
 
 
+def unknown_rounds(client, headers):
+    """正式入口先保存两轮未知，不直接写入人工账本。"""
+    originals = []
+    for n in (1, 2):
+        data = payload(subject(client), 'unknown-'+str(n), n)
+        data['scores'].update(actionability='unknown', image_relevance='unknown')
+        response = post(client, headers, data)
+        assert response.status_code == 201
+        originals.append(response.json())
+    return originals
+
+
+def followup_data(original, key='followup'):
+    return dict(subject_sha256=original['subject_sha256'], client_request_id=key,
+        human_attested=True, source_checked=True,
+        resolutions=dict(actionability=dict(score='not_applicable', evidence='合成兼容性判断题，无操作目标或配置步骤，故步骤不适用。'),
+                         image_relevance=dict(score=1, evidence='已对照原件与图片：示意连接关系，仅部分支持兼容性结论。')))
+
+
+def followup(client, headers, original, data=None, eid='baseline'):
+    return client.post(f"/api/v1/experiments/{eid}/reviews/{original['review_id']}/followups",
+                       headers=headers, json=data or followup_data(original))
+
+
+def test_unknown_followups_preserve_originals_and_unblock_calibration_after_both_rounds(review_client):
+    client, headers, repo, _ = review_client
+    originals = unknown_rounds(client, headers)
+    before = list(repo.db.evaluation_reviews.find({}))
+    cal = lambda: client.post('/api/v1/experiments/baseline/calibrations', headers=headers,
+                              json=dict(client_request_id='cal-followup', rationale='合成门禁验证'))
+    assert cal().status_code == 409
+    for index, original in enumerate(originals):
+        response = followup(client, headers, original, followup_data(original, 'fix-'+str(index)))
+        assert response.status_code == 201, response.text
+        assert response.json()['review_id'] == original['review_id']
+        if index == 0:
+            assert cal().status_code == 409
+    result = cal()
+    assert result.status_code == 201, result.text
+    assert result.json()['baseline']['values']['q1']['actionability'] is None
+    assert result.json()['baseline']['values']['q1']['image_relevance'] == 1
+    assert list(repo.db.evaluation_reviews.find({})) == before
+    listing = client.get('/api/v1/experiments/baseline/reviews').json()
+    assert listing['items'] == originals
+    assert len(listing['followups']) == 2
+    assert all(r['scores']['actionability'] == 'unknown' for r in listing['items'])
+
+
+def test_followup_idempotent_after_instance_rebuild_but_changed_request_or_second_writer_conflicts(review_client):
+    client, headers, repo, _ = review_client
+    original = unknown_rounds(client, headers)[0]
+    data = followup_data(original)
+    first = followup(client, headers, original, data)
+    assert first.status_code == 201, first.text
+    client.app.state.resources['evaluations'] = EvaluationService(EvaluationRepository(repo.db), None)
+    assert followup(client, headers, original, data).json() == first.json()
+    data['resolutions']['image_relevance']['score'] = 2
+    assert followup(client, headers, original, data).status_code == 409
+    data['client_request_id'] = 'other'
+    assert followup(client, headers, original, data).status_code == 409
+    assert repo.db.evaluation_review_followups.count_documents({}) == 1
+
+
+@pytest.mark.parametrize('mode,status', [('stale',409),('other_actor',404),('other_experiment',404),
+    ('assistant',409),('no_unknown',409),('known_dimension',422),('incomplete',422),
+    ('image_na',422),('bad_score',422),('blank_evidence',422),('no_attest',422),('no_source',422)])
+def test_followup_rejects_stale_identity_scope_and_invalid_judgments_without_writes(review_client, mode, status):
+    client, headers, repo, experiment = review_client
+    if mode in ('assistant','no_unknown'):
+        data = payload(subject(client), kind='assistant' if mode=='assistant' else 'human')
+        original = post(client, headers, data).json()
+    else:
+        original = unknown_rounds(client, headers)[0]
+    data = followup_data(original)
+    if mode == 'stale':
+        repo.results.update_one({'experiment_id':'baseline'},{'$set':{'result.answer':'新结果'}})
+    if mode == 'other_actor':
+        repo.db.evaluation_reviews.update_one({'review_id':original['review_id']},{'$set':{'reviewer_id':'other'}})
+    if mode == 'other_experiment': experiment('other')
+    if mode == 'known_dimension': data['resolutions']['factuality'] = dict(score=2,evidence='不能改确定分数')
+    if mode == 'incomplete': data['resolutions'].pop('image_relevance')
+    if mode == 'image_na':
+        repo.results.update_one({'experiment_id':'baseline'},{'$set':{'result.citations':[{'asset_sha256':'c'*64}]}})
+        # 新来源指纹与原审阅一起绑定，单独验证配图不适用的业务拒绝。
+        sha = subject(client)
+        repo.db.evaluation_reviews.update_one({'review_id':original['review_id']},{'$set':{'subject_sha256':sha}})
+        data['subject_sha256'] = sha
+        data['resolutions']['image_relevance']['score'] = 'not_applicable'
+    if mode == 'bad_score': data['resolutions']['actionability']['score'] = True
+    if mode == 'blank_evidence': data['resolutions']['image_relevance']['evidence'] = ' '
+    if mode == 'no_attest': data['human_attested'] = False
+    if mode == 'no_source': data['source_checked'] = False
+    response = followup(client, headers, original, data, eid='other' if mode=='other_experiment' else 'baseline')
+    assert response.status_code == status, response.text
+    assert repo.db.evaluation_review_followups.count_documents({}) == 0
+    assert repo.db.evaluation_calibrations.count_documents({}) == 0
+
+
+def test_concurrent_followups_have_one_immutable_winner(review_client):
+    client, headers, repo, _ = review_client
+    original = unknown_rounds(client, headers)[0]
+    def save(n):
+        return followup(client, headers, original, followup_data(original, 'race-'+str(n))).status_code
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        assert sorted(pool.map(save,(1,2))) == [201,409]
+    assert repo.db.evaluation_review_followups.count_documents({}) == 1
+
+
+def test_followup_keeps_maintainer_permission_boundary(review_client):
+    client, headers, repo, _ = review_client
+    original = unknown_rounds(client, headers)[0]
+    user_id = client.get('/api/v1/me').json()['user']['user_id']
+    repo.db.users.update_one({'user_id':user_id},{'$set':{'role':'viewer'}})
+    response = followup(client, headers, original)
+    assert response.status_code == 403
+    assert repo.db.evaluation_review_followups.count_documents({}) == 0
+
+
+def test_quality_rechecks_persisted_followup_attestation_and_evidence(review_client):
+    client, headers, repo, _ = review_client
+    originals = unknown_rounds(client, headers)
+    saved = [followup(client, headers, original, followup_data(original, 'audit-'+str(n)))
+             for n, original in enumerate(originals)]
+    assert all(row.status_code == 201 for row in saved)
+    from app.evaluation.reviews import ReviewService
+    user = Principal(**client.get('/api/v1/me').json()['user'])
+    service = ReviewService(repo)
+    assert service._quality(user,'baseline')[1]['incomplete'] == []
+    repo.db.evaluation_review_followups.update_one({'followup_id':saved[0].json()['followup_id']},
+        {'$set':{'source_checked':False}})
+    assert service._quality(user,'baseline')[1]['incomplete'] == ['q1']
+
+
+def test_followups_never_erase_critical_error_or_other_reviewers_unknown(review_client):
+    client, headers, repo, _ = review_client
+    originals = unknown_rounds(client, headers)
+    for n, original in enumerate(originals):
+        assert followup(client, headers, original, followup_data(original, 'fixed-'+str(n))).status_code == 201
+    from app.evaluation.reviews import ReviewService
+    user = Principal(**client.get('/api/v1/me').json()['user'])
+    service = ReviewService(repo)
+    repo.db.evaluation_reviews.update_one({'review_id':originals[0]['review_id']}, {'$set':{'critical_errors':['wrong_model']}})
+    assert service._quality(user,'baseline')[1]['critical'] == ['q1']
+    other = dict(repo.db.evaluation_reviews.find_one({'review_id':originals[0]['review_id']}))
+    other.pop('_id'); other.update(review_id='different-reviewer',reviewer_id='other',owner_id='other',client_request_id='other',critical_errors=[])
+    repo.db.evaluation_reviews.insert_one(other)
+    assert service._quality(user,'baseline')[1]['incomplete'] == ['q1']
+
+
 def test_persistent_rounds_bind_actual_answer_and_are_idempotent(review_client):
     client, headers, repo, _ = review_client
     data = payload(subject(client))

@@ -67,10 +67,12 @@ M1-01已冻结Pydantic实体契约，具体字段及UUID/SourceRef规则见[知�
 | `GET/POST /eval-sets`、`POST /experiments` | 数据/配置版本 | 有权限的评测任务，独立队列预算 | M6-01/03 |
 | `GET /experiments`、`GET /experiments/{id}`、`GET /experiments/{id}/results` | 当前所有者/kb、实验ID和题级游标 | 真实状态/统计/题级结果与同题集基线差异 | M6-03 |
 | `GET /eval-catalog`、`POST /experiments/{id}/cancel`、`POST /experiments/{id}/retry` | 目录ID或expected_version | 受控登记选项；取消意图/可重试失败门禁 | M6-03 |
-| `GET/POST /experiments/{id}/reviews`、`POST /experiments/{id}/calibrations`、`GET /experiments/{id}/release-gate` | 题级结果指纹、审核身份/轮次、校准ID | 私有不可变分维审阅、基线零退化校准及pending/blocked/passed结论；不自动发布 | M6-04 |
+| `GET/POST /experiments/{id}/reviews`、`POST /experiments/{id}/reviews/{review_id}/followups`、`POST /experiments/{id}/calibrations`、`GET /experiments/{id}/release-gate` | 原题级结果指纹、原审核者/审阅ID/轮次、未知维度及逐项证据、校准ID | 原审阅不可变；原审核者仅对该轮全部unknown追加一次不可变结论；幂等及原审阅唯一键拒绝覆盖/并发竞争；仅当前结果匹配且无其他未解unknown时校准 | M6-04 |
 | `POST /feedback/{id}/review` | 审核结论/回归题或修订链接 | 只有维护者审核，记录理由 | M6-05 |
 | `GET /feedback`、`POST /feedback/{id}/bind-revision`、`POST /feedback/{id}/quality-proof` | 知识库、版本、新修订/受影响题、实际实验/校准 | 重新授权的审核队列、修订门禁绑定及有序回归证明；不接受客户端质量分 | M6-05 |
 | `GET /runs/{id}/telemetry`、`GET /run-telemetry` | 当前owner/kb、run或分页游标 | 安全耗时/阶段/失败/降级/修订/逻辑调用统计；私有正文和未采集计量不外泄 | M6-07 |
+
+M6审阅追加复核契约：`POST /experiments/{eid}/reviews/{review_id}/followups`仅接受原reviewer_id对应的已登录维护者、当前完整结果指纹和原human记录。请求须包含本人重新核对原件声明、`resolutions`（恰好覆盖该轮全部且仅全部`unknown`维度，每项含0/1/2或`not_applicable`与非空依据）、不可变幂等键及可追加的关键错误。服务端以`(experiment_id, review_id)`唯一键仲裁竞争，原审阅不更新；重复相同幂等请求回原追加记录，异内容或第二追加方409。结果变化409、他人/他题404、无维护权限403、结构/依据错误422。审阅查询附带追加记录。质量门槛只将同一原审核者、原结果指纹、原审阅内容hash均匹配的追加结论应用于该条unknown；确定分数和关键错误不可撤回。其他审阅的unknown仍pending；双轮对not_applicable适用性不一致仍pending；新增追加记录会改变冻结校准指纹并要求重新校准。没有业务步骤的兼容性题可由本人说明“不适用”，含图像来源必须核对其用途及相关性，不能自动免审。此能力不重新执行模型、不自动发布知识。
 
 鉴权约定：未登录 401；已登录但无功能权限 403；访问不属于自己或无知识范围权限的具体资源返回不泄露存在性的 404；版本/占用/幂等内容冲突 409；游标过期 410；超限大小 413；不支持媒体 415；格式校验 422。前端显式处理，不将所有失败包装为“网络错误”。
 

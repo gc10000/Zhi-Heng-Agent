@@ -2515,6 +2515,65 @@
         }
       }
     },
+    "/api/v1/experiments/{eid}/reviews/{review_id}/followups": {
+      "post": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Review Followup",
+        "operationId": "review_followup_api_v1_experiments__eid__reviews__review_id__followups_post",
+        "parameters": [
+          {
+            "name": "eid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Eid"
+            }
+          },
+          {
+            "name": "review_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Review Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FollowupInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/experiments/{eid}/calibrations": {
       "post": {
         "tags": [
@@ -3136,6 +3195,68 @@
         ],
         "title": "FeedbackInput"
       },
+      "FollowupInput": {
+        "properties": {
+          "subject_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Subject Sha256"
+          },
+          "client_request_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Client Request Id"
+          },
+          "human_attested": {
+            "type": "boolean",
+            "title": "Human Attested"
+          },
+          "source_checked": {
+            "type": "boolean",
+            "title": "Source Checked"
+          },
+          "resolutions": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Resolution"
+            },
+            "propertyNames": {
+              "enum": [
+                "factuality",
+                "citation_support",
+                "actionability",
+                "image_relevance"
+              ]
+            },
+            "type": "object",
+            "maxProperties": 4,
+            "minProperties": 1,
+            "title": "Resolutions"
+          },
+          "critical_errors": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "unauthorized",
+                "wrong_model"
+              ]
+            },
+            "type": "array",
+            "maxItems": 2,
+            "title": "Critical Errors"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "subject_sha256",
+          "client_request_id",
+          "human_attested",
+          "source_checked",
+          "resolutions"
+        ],
+        "title": "FollowupInput"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -3347,6 +3468,32 @@
           "version"
         ],
         "title": "RegisterSetInput"
+      },
+      "Resolution": {
+        "properties": {
+          "score": {
+            "enum": [
+              0,
+              1,
+              2,
+              "not_applicable"
+            ],
+            "title": "Score"
+          },
+          "evidence": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 1,
+            "title": "Evidence"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "score",
+          "evidence"
+        ],
+        "title": "Resolution"
       },
       "ReviewInput": {
         "properties": {

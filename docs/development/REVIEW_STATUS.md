@@ -66,7 +66,7 @@ M4执行自验10/10、核心53/76，现提交待审查，未自行标记总控�
 | M3 | 通过 | 第2轮总控关闭R1/R2；独立346后端/37单元/24离线浏览器/既有3/只读8及原反例2项、新交错通过；11/11、核心43/76，本轮付费0 | [第二轮总控结论](reviews/M3-review-r2.md) · [独立摘要](reviews/M3-review-validation-r2.json) · [第二轮提交](reviews/M3-submission-r2.md) · [本轮快照](reviews/M3-artifact-manifest-r2.json) · [首轮审查](reviews/M3-review.md) |
 | M4 | 通过 | 第2轮关闭R1，10/10、核心53/76；独立717后端/原3反例/前端37单元24浏览器/既有3/类型/构建、新dev140题次实际输入与诊断、旧真实产物只读通过；本轮新增付费0，未生成新答案/heldout | [第2轮总控结论](reviews/M4-review-r2.md) · [独立摘要](reviews/M4-review-validation-r2.json) · [第二次提交](reviews/M4-submission-r2.md) · [提交快照](reviews/M4-artifact-manifest-r2.json) · [首轮结论](reviews/M4-review.md) |
 | M5 | 通过 | 第五轮总控关闭R3，R1/R2保持关闭；核心7/7、总核心60/76；06延期，M6仍未授权 | [第五轮总控结论](reviews/M5-review-r5.md) · [独立摘要](reviews/M5-review-validation-r5.json) · [第五轮提交](reviews/M5-submission-r5.md) · [第四轮总控](reviews/M5-review-r4.md) |
-| M6 | 未提交 | 核心4/7：01/02/03/07完成自验，04/05/08待真实人工与反馈闭环。历史913后端；本轮最终共享回归916 passed/2 deselected/0 skipped、重导入3项；2题真实小样15只读检查及0新增调用检查点复用通过。001真实失败观察已记录并修复规划误判，未重跑真实题，用户本人审阅入口已就绪，fresh heldout未运行，06延期 | [部分接续](reviews/M6-partial-submission.md) · [M6-08记录](records/M6-08.md) · [固定质量报告](../evaluation/release-report.md) |
+| M6 | 未提交 | 核心4/7：01/02/03/07完成自验，04追加复核机制已实现但真实unknown尚待本人逐轮追加，05真实反馈/复评、08完整阶段验收未完成。当前阶段回归951 passed/2 deselected/0 skipped，3重导入、前端37单元/37离线浏览器及typecheck/build通过；本轮未重调模型，heldout未运行，06延期。 | [M6-04追加复核交付](reviews/M6-04-unknown-followup-r1.md) · [验证摘要](reviews/M6-04-unknown-followup-validation-r1.json) · [独立快照](reviews/M6-04-unknown-followup-manifest-r1.json) · [M6-08记录](records/M6-08.md) · [固定质量报告](../evaluation/release-report.md) |
 | M7 | 未提交 | 等待前置阶段与总控授权；不包含自动公开发布 | 尚无 |
 
 审查状态仅使用：未提交、待审查、需修复、通过。开发会话可提交“待审查”，不得自行改成总控“通过”。总控的阻塞项修复后，开发会话重新提交，保留前次审查及验证历史。

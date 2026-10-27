@@ -4,6 +4,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from app.api.errors import APIError
 from app.identity.api import principal, require_writer, require_kb
 from .reviews import ReviewInput, CalibrationInput, ReviewService
+from .review_followups import FollowupInput
 from .feedback_triage import TriageInput, authorized_feedback, public_feedback, review_feedback
 from .feedback_triage import BindRevisionInput, bind_revision
 from .feedback_triage import QualityProofInput, save_quality_proof
@@ -111,6 +112,12 @@ def reviews(eid: str, request: Request, user=Depends(principal)):
 def review(eid: str, data: ReviewInput, request: Request, user=Depends(principal)):
     require_writer(user)
     return ReviewService(service(request).repo).submit(user, eid, data)
+
+
+@router.post('/experiments/{eid}/reviews/{review_id}/followups', status_code=201)
+def review_followup(eid: str, review_id: str, data: FollowupInput, request: Request, user=Depends(principal)):
+    require_writer(user)
+    return ReviewService(service(request).repo).followup(user, eid, review_id, data)
 
 
 @router.post('/experiments/{eid}/calibrations', status_code=201)
