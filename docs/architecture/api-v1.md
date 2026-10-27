@@ -1,5 +1,9 @@
 # 统一API v1 · M2底座与M5支持扩展
 
+## M6图片判定R1/R2兼容补充（2026-10-27）
+
+无新增路由或字段，沿用image_selection_version=1。列表/转义反引号中的实际图片按同源Markdown解析记入answer_asset_ids及image_usage=answer，终态、历史与评测一致。正文存在受控图时，配图N/A写入返回422；即使旧context误标也复核正文，历史N/A导致新校准409/质量pending，旧账本不修改。无新版标记的聊天引用图默认折叠且提示关系未知，展开后才读取。新增两个纯Python包，安装要求见[配置说明](../CONFIGURATION.md)；OpenAPI结构未变，未重新生成无差异类型。
+
 日期：2026-10-27。实际实现见[OpenAPI](openapi-v1.json)、[事件示例](run-events-example.json)和[公共契约](../plans/DEVELOPMENT_CONTRACTS.md)。OpenAPI从create_app().openapi()离线导出，当前50个路径/60个操作（M2交付时24个路径/27个操作）；事件文件为明确标注的合成协议示例，不是执行证据。M0至M5已通过，M6仍实施，M7未授权。
 
 M3-08兼容补充：引用返回可空`original`，包含精确修订已登记原件的asset_id/media_type/name/url；与引用同权限复核，不公开对象键或签名URL，旧未登记原件返回null。PDF前端按物理页与已知normalized_top_left坐标定位，无bbox只跳页。

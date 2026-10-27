@@ -190,6 +190,10 @@ class ReviewService:
             values[qid] = {}
             for dimension in DIMENSIONS:
                 scores = [r['scores'][dimension] for r in humans]
+                if dimension == 'image_relevance' and 'not_applicable' in scores and has_review_images(result.get('result') or {}):
+                    # 历史误标不改写，但不能将实际可见答案图冻结为null或通过旧门槛。
+                    incomplete.append(qid)
+                    continue
                 if 'unknown' in scores or ('not_applicable' in scores and set(scores) != {'not_applicable'}):
                     incomplete.append(qid)
                 elif set(scores) == {'not_applicable'}:

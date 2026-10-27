@@ -29,3 +29,5 @@ SOFTWARE.
 ```
 
 PDF.js 5.4.296使用Apache-2.0，分发时保留包内LICENSE和构建产物许可注释；本地worker随应用提供。Vue、Vue Router、Pinia、TanStack Vue Query、VueUse、Reka UI、Tailwind CSS、markdown-it等按其包内MIT许可证使用；包管理安装时保留各自LICENSE，未复制其产品源树。开发工具Vite、Vitest、Playwright、TypeScript、vue-tsc和openapi-typescript仅用于开发与构建，许可见对应包。后续M3新增实际封装文件在同一清单补记。
+
+M6图片选择使用markdown-it-py 4.0.0（MIT，Copyright (c) 2020 ExecutableBookProject）和mdurl 0.1.2（MIT，Copyright (c) 2015 Vitaly Puzrin, Alex Kocharin; (c) 2021 Taneli Hukkinen，另含Joyent URL解析许可）。仅包管理依赖，不vendoring；分发/安装保留两包随附的完整LICENSE，包括mdurl的Joyent归属。固定包与完整性见uv.lock，实际映射与同源前端版本见[复用清单](docs/reuse/manifest.json)。

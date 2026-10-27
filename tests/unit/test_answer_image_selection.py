@@ -1,6 +1,15 @@
 """真实语法边界，不使用数据库或模型。"""
 import pytest
+import json
+from pathlib import Path
 from app.answering.image_selection import answer_assets, select_answer_images
+
+CASES=json.loads((Path(__file__).parents[1]/'fixtures/answer-image-markdown.json').read_text('utf-8'))
+
+
+@pytest.mark.parametrize('case',CASES,ids=lambda c:c['id'])
+def test_selection_matches_shared_visible_image_contract(case):
+    assert answer_assets(case['body'],{'diagram'})==set(case['assets'])
 
 
 @pytest.mark.parametrize('body,expected',[

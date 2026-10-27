@@ -1,5 +1,9 @@
 # 配置核对与填写说明
 
+## M6图片解析补修依赖（2026-10-27）
+
+新增固定运行依赖markdown-it-py 4.0.0及其mdurl 0.1.2，用于与前端Markdown规则对齐，不新增环境变量，无需修改.env或.env.example。pyproject.toml/uv.lock与Linux worker requirements同步；现有环境安装前dry-run确认仅新增这两个纯Python包，原193个非根锁记录不变，不升级PyTorch/CUDA或模型。uv lock --check --offline已通过。现有常驻API需在维护窗口重启才加载新解析和门禁；本轮真实001仅只读复核，未重启其服务，不将只读检查说成新版API真实部署验证。
+
 请编辑项目根目录的 `.env`。`.env.example` 仅提供无密钥模板，不能代替实际配置。系统中同名环境变量优先于 `.env`，这是原代码 `load_dotenv()` 的行为。
 
 当前本机 `.env` 已由用户填写两个个人凭据，并通过真实 PDF 导入、带图引用问答、多轮追问及浏览器验证；核心链路无需继续补必填配置，见 [完整链路验收记录](E2E_VALIDATION.md)。下文“需填写”也适用于在新机器从模板重新配置的情况。MCP 联网服务仍未配置。

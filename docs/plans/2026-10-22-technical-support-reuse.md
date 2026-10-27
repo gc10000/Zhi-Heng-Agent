@@ -1,5 +1,9 @@
 # 技术支持工作台：GitHub 源码复用清单
 
+## M6图片判定R1/R2实际复用（2026-10-27）
+
+新增包依赖markdown-it-py 4.0.0（MIT，https://github.com/executablebooks/markdown-it-py）和mdurl 0.1.2（MIT，https://github.com/executablebooks/mdurl），不复制上游源码。映射app/answering/image_selection.py、pyproject.toml、uv.lock、deploy/worker/requirements.txt；与前端已固定markdown-it 14.1.0共享25例可见性契约。固定发行包以uv.lock URL/哈希识别，不将发行包伪称某源码commit；许可见THIRD_PARTY_NOTICES及包内LICENSE。新依赖均纯Python，既有模型/torch/CUDA不动；后续任一端版本升级需重验共享矩阵。
+
 M1实际实施说明（2026-10-23）：保留课程底座来源，Git真实基线0a409294c173601898c847ee962938b155f98d45可追踪；未将课程/批脚本经验描述为全部原创。新领域适配器借鉴已验证分段offset/批次、OpenXML和缓存经验，不导入批脚本全局客户端或其monkeypatch。未增加第三方源码副本/依赖；沿用本机PyMuPDF 1.24.14、Pillow 12.1.1、pymilvus 2.6.10、pymongo 4.16.0、OpenAI SDK 2.28.0、requests 2.32.5，dev pytest 8.4.2。各库原授权保留，课程来源见NOTICE.md；前端复用项仍是后续计划，未声称已集成。实际文件映射及改造行为见records/M1-01至11和阶段manifest，原始模型/课程文件不上传。
 
 日期：2026-10-22。前端已按项目决策统一为 Vue 3 + TypeScript + Vite。关联：[主计划](2026-10-22-technical-support-optimization.md)。

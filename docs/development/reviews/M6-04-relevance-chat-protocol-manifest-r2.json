@@ -1,0 +1,1887 @@
+{
+  "notice": "M6局部补修快照；不表示人工校准、答案质量或阶段验收通过。",
+  "summary": "docs/development/reviews/M6-04-relevance-chat-protocol-validation-r2.json",
+  "baseline_commit": "6cea5f332d503b2185cf23cbf49807fbf915e56d",
+  "file_count": 31,
+  "python_syntax_files": 5,
+  "checked_markdown_links": 430,
+  "files": [
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "sha256": "6af1f6e3514ca9a261a1a7005008d956c8ea824bc425051d194d366035723421",
+      "bytes": 2507
+    },
+    {
+      "path": "app/answering/image_selection.py",
+      "sha256": "67aa74918b2a25a6f566db6db17f56d193bdf7f8b5401692acab13d9b012fbb5",
+      "bytes": 1938
+    },
+    {
+      "path": "app/evaluation/reviews.py",
+      "sha256": "ba91663aacdc0e3c5cab1597400f819561d0343f576483187f25cddb1dce912e",
+      "bytes": 14673
+    },
+    {
+      "path": "deploy/worker/requirements.txt",
+      "sha256": "2021931752a83dc4c93a09cdbde5501a18e51d257a4159bc19574b9bec2afc2e",
+      "bytes": 313
+    },
+    {
+      "path": "docs/CONFIGURATION.md",
+      "sha256": "ed26f6833205ccfa8dd4859ea8ca4174526d77f6f040cc1ba5996e7d7e93f102",
+      "bytes": 38565
+    },
+    {
+      "path": "docs/architecture/api-v1.md",
+      "sha256": "6f0fda53a29fc475b7af1b60ea5ec025dc0d9747472048c154ade1f4887b0a92",
+      "bytes": 14678
+    },
+    {
+      "path": "docs/development/CHANGELOG.md",
+      "sha256": "a86ce45a6a125698078c1ecf08150cfa1c6842567afec6ab060f95d9ba69489a",
+      "bytes": 81954
+    },
+    {
+      "path": "docs/development/DECISIONS.md",
+      "sha256": "f0021387bb3d2e95bcadabd0a15d3b2912e35a0d47be050255b1d5692386a74a",
+      "bytes": 54680
+    },
+    {
+      "path": "docs/development/PROGRESS.md",
+      "sha256": "3110aa81111eb95b1c89be644892fc78e87688225f22fab0b3ed7301e023c5b2",
+      "bytes": 77959
+    },
+    {
+      "path": "docs/development/REVIEW_STATUS.md",
+      "sha256": "8d329879f42bf70d9b035ab7a2b401064585978a08d2e1a6c54aaa37e8bdcd1f",
+      "bytes": 26967
+    },
+    {
+      "path": "docs/development/records/M6-04.md",
+      "sha256": "31cb643d947b7879924607af2b055a405c4afb3fa544636d751fa37a51e3f220",
+      "bytes": 23225
+    },
+    {
+      "path": "docs/development/records/M6-05.md",
+      "sha256": "3b39b9c554ded2f25a93fc1a5b8a43060fba37914ba75e2e478fee1bdb213cbe",
+      "bytes": 10831
+    },
+    {
+      "path": "docs/development/records/M6-08.md",
+      "sha256": "016008a606b5a15ad3ba8b5f20fc9694abccf8935a34fbaac10e6f581b402673",
+      "bytes": 25331
+    },
+    {
+      "path": "docs/development/reviews/M6-04-relevance-chat-protocol-r2.md",
+      "sha256": "3c4a4c1c64494a7872f87fde9ddead97c39a8c3b814348abd578a81a1a31f1b3",
+      "bytes": 9197
+    },
+    {
+      "path": "docs/development/reviews/M6-04-relevance-chat-protocol-validation-r2.json",
+      "sha256": "637fe9d2999962a86ab121a423e95ac08a497e5063bbbcb84fb30105e8def560",
+      "bytes": 25723
+    },
+    {
+      "path": "docs/evaluation/release-gates.md",
+      "sha256": "6c2126c8911ac4a14a5a5284015c9d4fcd0ed0a506dd2b430f459dfbc55739f0",
+      "bytes": 14675
+    },
+    {
+      "path": "docs/plans/2026-10-22-technical-support-reuse.md",
+      "sha256": "20bdf00257d04ec84de66c5ba2ef5880157ad03ab7bbbb4671b711a1a0378c80",
+      "bytes": 15116
+    },
+    {
+      "path": "docs/plans/DEVELOPMENT_CONTRACTS.md",
+      "sha256": "2ffe1310243a6e251ca8cfbaa46c84a9ef8b9e85a6ab59037f580c699f11e6b8",
+      "bytes": 68402
+    },
+    {
+      "path": "docs/plans/DEVELOPMENT_TODO.md",
+      "sha256": "e8ba7c1604390ed396123098a3a0f61abbc3f006996d0b25a57867b5af4664d0",
+      "bytes": 23229
+    },
+    {
+      "path": "docs/plans/tasks/M6-evaluation.md",
+      "sha256": "f4d847abe57a5b8656100edd1edc6c946d77cb10330be105853336881c5b3dac",
+      "bytes": 19886
+    },
+    {
+      "path": "docs/reuse/manifest.json",
+      "sha256": "dc6643e37c21811cbd33cb8849a593efe654809462757248f1725f44afbd7912",
+      "bytes": 4700
+    },
+    {
+      "path": "frontend/src/features/evidence/components/EvidenceCard.vue",
+      "sha256": "43cc9dd37adedcf2f102e3c9810e6bc6e11371127c7914fb49bff8d0497c1bf9",
+      "bytes": 3827
+    },
+    {
+      "path": "frontend/tests/e2e/citations.spec.ts",
+      "sha256": "94970fef1e9352d57c50b524bbbda5f9060db67cf44db77c4470a53f5f6e33ae",
+      "bytes": 5716
+    },
+    {
+      "path": "frontend/tests/e2e/edge-states.spec.ts",
+      "sha256": "fd82184a7ef9cf10641bd4d3cec5f2f031d4abde27532bff3be04ccfd71bf832",
+      "bytes": 6631
+    },
+    {
+      "path": "frontend/tests/unit/answer-image-contract.test.ts",
+      "sha256": "bce97414fc95ae3edc8700aa956e9958ee9112136d3bc2e4c5f9af8cdbd72baf",
+      "bytes": 517
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "1bf763956b98a5eef898d14a06e8de461b24968bc5e02ded6a3feca35e5d65ed",
+      "bytes": 1320
+    },
+    {
+      "path": "scripts/verification/check_m6_protocol_artifacts.py",
+      "sha256": "08a25e79669e00793452ff6eaea81b6f88435d868c9f34711984d5b2daf22296",
+      "bytes": 2564
+    },
+    {
+      "path": "tests/fixtures/answer-image-markdown.json",
+      "sha256": "90020026d6e91ad25df64e25d9e9293c46d797d6e3eefd601cf4409b4e948e0d",
+      "bytes": 2316
+    },
+    {
+      "path": "tests/integration/test_rendered_image_review.py",
+      "sha256": "a75b200a53a7528c529014e5266cb43f89dda2ff0f6a742a381658c239fd9ff0",
+      "bytes": 5253
+    },
+    {
+      "path": "tests/unit/test_answer_image_selection.py",
+      "sha256": "197152a5d6118c226edd9fb88225efa1b2be3e8e8057ff735c5728ccde595cc1",
+      "bytes": 1499
+    },
+    {
+      "path": "uv.lock",
+      "sha256": "0a4573ea21ea3cd6932a7709e8950eb0baf0613850ab7fb83c6aa7da241af66c",
+      "bytes": 972101
+    }
+  ],
+  "links": [
+    {
+      "source": "THIRD_PARTY_NOTICES.md",
+      "target": "NOTICE.md"
+    },
+    {
+      "source": "THIRD_PARTY_NOTICES.md",
+      "target": "docs/reuse/manifest.json"
+    },
+    {
+      "source": "THIRD_PARTY_NOTICES.md",
+      "target": "frontend/pnpm-lock.yaml"
+    },
+    {
+      "source": "THIRD_PARTY_NOTICES.md",
+      "target": "docs/reuse/manifest.json"
+    },
+    {
+      "source": "docs/CONFIGURATION.md",
+      "target": "E2E_VALIDATION.md"
+    },
+    {
+      "source": "docs/CONFIGURATION.md",
+      "target": "WINDOWS_DOCKER.md"
+    },
+    {
+      "source": "docs/CONFIGURATION.md",
+      "target": "runbooks/worker-recovery.md"
+    },
+    {
+      "source": "docs/CONFIGURATION.md",
+      "target": "../frontend/README.md"
+    },
+    {
+      "source": "docs/CONFIGURATION.md",
+      "target": "evaluation/workbench.md"
+    },
+    {
+      "source": "docs/architecture/api-v1.md",
+      "target": "../CONFIGURATION.md"
+    },
+    {
+      "source": "docs/architecture/api-v1.md",
+      "target": "openapi-v1.json"
+    },
+    {
+      "source": "docs/architecture/api-v1.md",
+      "target": "run-events-example.json"
+    },
+    {
+      "source": "docs/architecture/api-v1.md",
+      "target": "../plans/DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/architecture/api-v1.md",
+      "target": "../CONFIGURATION.md"
+    },
+    {
+      "source": "docs/architecture/api-v1.md",
+      "target": "../development/reviews/M2-submission.md"
+    },
+    {
+      "source": "docs/architecture/api-v1.md",
+      "target": "../runbooks/support-recovery.md"
+    },
+    {
+      "source": "docs/architecture/api-v1.md",
+      "target": "../evaluation/workbench.md"
+    },
+    {
+      "source": "docs/architecture/api-v1.md",
+      "target": "../evaluation/release-gates.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M6-04-relevance-chat-protocol-r2.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M6-04-relevance-chat-protocol-review-r1.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M6-04-relevance-chat-protocol-r1.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M6-04-candidate-chat-review-r1.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M6-08-calibrated-candidate-r1.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M6-04-001-followups-readonly-r1.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M6-04.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M6-04-unknown-followup-review-r1.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M6-04-unknown-followup-r1.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M6-08-001-human-review-r1.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M6-08-001-live-continuation.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M6-08-001-submission-r2.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M6-08.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M6-07.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M6-05.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M6-04.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M6-03.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M6-02.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M6-01.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M5-review-r4.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M5-review-validation-r4.json"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M5-review-r3.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M5-review-validation-r3.json"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M5-review-r2.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M5-review-validation-r2.json"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "../development/reviews/M5-submission-r2.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M5-review.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M5-review-validation.json"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M5-submission.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M5-08.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M4-review-r2.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M4-review-validation-r2.json"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M4-review.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M4-review-validation.json"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M4-submission.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M4-01-dataset-review-r2.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M4-01-dataset-revision-r2.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M4-01-dataset-review.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M4-01.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M3-review-r2.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M3-review.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M3-09.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M3-08.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M3-07.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M3-06.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M3-05.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M3-04.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M3-03.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M3-02.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M3-01.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M2-review-r2.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M2-review.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M2-08.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M2-07.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M2-06.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M2-05.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M2-04.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M2-03.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M1-review-r2.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M1-review.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "GIT_WORKFLOW.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M0-review-r3.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M0-submission-r3.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M0-review-r2.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M0-review.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "evidence/M0-review-probes.json"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "reviews/M0-submission.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/M0-09.md"
+    },
+    {
+      "source": "docs/development/CHANGELOG.md",
+      "target": "records/PLAN-01.md"
+    },
+    {
+      "source": "docs/development/DECISIONS.md",
+      "target": "reviews/M6-04-relevance-chat-protocol-r1.md"
+    },
+    {
+      "source": "docs/development/DECISIONS.md",
+      "target": "records/M6-04.md"
+    },
+    {
+      "source": "docs/development/DECISIONS.md",
+      "target": "reviews/M6-04-unknown-followup-r1.md"
+    },
+    {
+      "source": "docs/development/DECISIONS.md",
+      "target": "reviews/M6-08-001-submission-r2.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M6-04-relevance-chat-protocol-r2.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M6-04-relevance-chat-protocol-validation-r2.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M6-04-relevance-chat-protocol-review-r1.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M6-04-relevance-chat-protocol-review-validation-r1.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M6-04-candidate-chat-review-r1.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M6-08-calibrated-candidate-r1.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M6-04-001-followups-readonly-r1.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "records/M6-04.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M6-04-review-ui-validation-r1.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M6-04-review-ui-manifest-r1.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M6-04-unknown-followup-review-r1.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M6-04-unknown-followup-review-validation-r1.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M6-04-unknown-followup-r1.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M6-04-unknown-followup-validation-r1.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M6-04-unknown-followup-manifest-r1.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M6-08-001-human-review-r1.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M6-08-001-human-review-validation-r1.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M6-08-001-live-continuation.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M6-08-001-live-validation.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M6-08-001-live-manifest-final.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M6-08-001-review-r2.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M6-08-001-review-validation-r2.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M6-08-001-submission-r2.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M6-08-001-validation-r2.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M6-08-001-manifest-r2-final.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M6-08-001-review.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M6-08-001-review-validation.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M6-partial-submission.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "records/M6-08.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M5-review-r5.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M5-review-validation-r5.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M5-review-r4.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M5-review-validation-r4.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M5-review-r3.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M5-review-validation-r3.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M5-review-r2.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M5-review-validation-r2.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M5-submission-r2.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M5-validation-summary-r2.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M5-artifact-manifest-r2.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M5-submission.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M5-validation-summary.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M5-artifact-manifest.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "records/M5-08.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M4-review-r2.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M4-review-validation-r2.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M4-submission-r2.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M4-validation-summary-r2.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M4-artifact-manifest-r2.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M4-review.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M4-review-validation.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M4-submission.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M4-validation-summary.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M4-artifact-manifest.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "records/M4-03.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M4-03-validation.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M4-01-dataset-review-r2.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M4-01-dataset-review-validation-r2.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M4-01-dataset-revision-r2.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "records/M4-01.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "records/M4-09.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "../evaluation/labeling-guide.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M4-partial-validation.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M4-partial-manifest.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M3-review-r2.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M3-review-validation-r2.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M3-review.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M3-review-validation.json"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M1-review-r2.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M1-review.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "GIT_WORKFLOW.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M0-review-r3.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "reviews/M0-review-r2.md"
+    },
+    {
+      "source": "docs/development/PROGRESS.md",
+      "target": "REVIEW_STATUS.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M6-04-relevance-chat-protocol-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M6-04-relevance-chat-protocol-validation-r2.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M6-04-relevance-chat-protocol-review-r1.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M6-04-relevance-chat-protocol-review-validation-r1.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M6-04-relevance-chat-protocol-r1.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M6-04-candidate-chat-review-r1.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M6-08-calibrated-candidate-r1.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M6-04-001-followups-readonly-r1.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "records/M6-04.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M6-04-unknown-followup-review-r1.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M6-04-unknown-followup-review-validation-r1.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M6-08-001-human-review-r1.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M6-08-001-live-continuation.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M6-08-001-review-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M6-08-001-review-validation-r2.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M6-08-001-submission-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M6-08-001-validation-r2.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M6-08-001-manifest-r2-final.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M6-08-001-review.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M6-08-001-review-validation.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "records/M6-08.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M5-review-r5.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M5-review-validation-r5.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M5-submission-r5.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M4-review-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M4-review-validation-r2.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M4-submission-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M4-validation-summary-r2.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M4-review.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M4-review-validation.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M4-submission.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "GIT_WORKFLOW.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M0-review-r3.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M0-submission-r3.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M0-review-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M0-review.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M1-review-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M1-submission-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M1-validation-summary-r2.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M1-review.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M2-review-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M2-submission-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M2-validation-summary-r2.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M2-review.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M3-review-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M3-review-validation-r2.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M3-submission-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M3-artifact-manifest-r2.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M3-review.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M4-review-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M4-review-validation-r2.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M4-submission-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M4-artifact-manifest-r2.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M4-review.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M5-review-r5.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M5-review-validation-r5.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M5-submission-r5.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M5-review-r4.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M6-04-unknown-followup-r1.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M6-04-unknown-followup-validation-r1.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M6-04-unknown-followup-manifest-r1.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "records/M6-08.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "../evaluation/release-report.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M4-01-dataset-review-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M4-01-dataset-review-validation-r2.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M4-01-dataset-review.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M4-partial-validation.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M4-partial-manifest.json"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M3-review-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M3-submission-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M3-review.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M2-review-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M2-submission-r2.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M2-review.md"
+    },
+    {
+      "source": "docs/development/REVIEW_STATUS.md",
+      "target": "reviews/M1-review-r2.md"
+    },
+    {
+      "source": "docs/development/records/M6-04.md",
+      "target": "../reviews/M6-04-relevance-chat-protocol-r2.md"
+    },
+    {
+      "source": "docs/development/records/M6-04.md",
+      "target": "../reviews/M6-04-relevance-chat-protocol-validation-r2.json"
+    },
+    {
+      "source": "docs/development/records/M6-04.md",
+      "target": "../reviews/M6-04-relevance-chat-protocol-r1.md"
+    },
+    {
+      "source": "docs/development/records/M6-04.md",
+      "target": "../reviews/M6-04-relevance-chat-protocol-validation-r1.json"
+    },
+    {
+      "source": "docs/development/records/M6-04.md",
+      "target": "../reviews/M6-04-candidate-chat-review-r1.md"
+    },
+    {
+      "source": "docs/development/records/M6-04.md",
+      "target": "../reviews/M6-08-calibrated-candidate-r1.md"
+    },
+    {
+      "source": "docs/development/records/M6-04.md",
+      "target": "../reviews/M6-04-001-followups-readonly-r1.md"
+    },
+    {
+      "source": "docs/development/records/M6-04.md",
+      "target": "../reviews/M6-04-review-ui-validation-r1.json"
+    },
+    {
+      "source": "docs/development/records/M6-04.md",
+      "target": "../reviews/M6-04-review-ui-manifest-r1.json"
+    },
+    {
+      "source": "docs/development/records/M6-04.md",
+      "target": "../reviews/M6-04-unknown-followup-r1.md"
+    },
+    {
+      "source": "docs/development/records/M6-04.md",
+      "target": "../reviews/M6-04-unknown-followup-r1.md"
+    },
+    {
+      "source": "docs/development/records/M6-04.md",
+      "target": "../reviews/M6-08-001-human-review-r1.md"
+    },
+    {
+      "source": "docs/development/records/M6-04.md",
+      "target": "../../evaluation/release-gates.md"
+    },
+    {
+      "source": "docs/development/records/M6-04.md",
+      "target": "../reviews/M6-04-unknown-followup-review-r1.md"
+    },
+    {
+      "source": "docs/development/records/M6-04.md",
+      "target": "../reviews/M6-04-unknown-followup-review-validation-r1.json"
+    },
+    {
+      "source": "docs/development/records/M6-04.md",
+      "target": "../reviews/M6-04-relevance-chat-protocol-review-r1.md"
+    },
+    {
+      "source": "docs/development/records/M6-04.md",
+      "target": "../reviews/M6-04-relevance-chat-protocol-review-validation-r1.json"
+    },
+    {
+      "source": "docs/development/records/M6-05.md",
+      "target": "../reviews/M6-04-relevance-chat-protocol-r2.md"
+    },
+    {
+      "source": "docs/development/records/M6-05.md",
+      "target": "../reviews/M6-04-relevance-chat-protocol-validation-r2.json"
+    },
+    {
+      "source": "docs/development/records/M6-05.md",
+      "target": "../reviews/M6-04-relevance-chat-protocol-r1.md"
+    },
+    {
+      "source": "docs/development/records/M6-05.md",
+      "target": "../reviews/M6-04-relevance-chat-protocol-validation-r1.json"
+    },
+    {
+      "source": "docs/development/records/M6-05.md",
+      "target": "../reviews/M6-04-candidate-chat-review-r1.md"
+    },
+    {
+      "source": "docs/development/records/M6-05.md",
+      "target": "../reviews/M6-08-calibrated-candidate-r1.md"
+    },
+    {
+      "source": "docs/development/records/M6-05.md",
+      "target": "../reviews/M6-08-001-live-continuation.md"
+    },
+    {
+      "source": "docs/development/records/M6-05.md",
+      "target": "../../evaluation/feedback-loop.md"
+    },
+    {
+      "source": "docs/development/records/M6-08.md",
+      "target": "../reviews/M6-04-relevance-chat-protocol-r2.md"
+    },
+    {
+      "source": "docs/development/records/M6-08.md",
+      "target": "../reviews/M6-04-relevance-chat-protocol-validation-r2.json"
+    },
+    {
+      "source": "docs/development/records/M6-08.md",
+      "target": "../reviews/M6-04-relevance-chat-protocol-r1.md"
+    },
+    {
+      "source": "docs/development/records/M6-08.md",
+      "target": "../reviews/M6-04-relevance-chat-protocol-validation-r1.json"
+    },
+    {
+      "source": "docs/development/records/M6-08.md",
+      "target": "../reviews/M6-04-candidate-chat-review-r1.md"
+    },
+    {
+      "source": "docs/development/records/M6-08.md",
+      "target": "../reviews/M6-08-calibrated-candidate-r1.md"
+    },
+    {
+      "source": "docs/development/records/M6-08.md",
+      "target": "../reviews/M6-04-001-followups-readonly-r1.md"
+    },
+    {
+      "source": "docs/development/records/M6-08.md",
+      "target": "M6-04.md"
+    },
+    {
+      "source": "docs/development/records/M6-08.md",
+      "target": "../reviews/M6-04-unknown-followup-r1.md"
+    },
+    {
+      "source": "docs/development/records/M6-08.md",
+      "target": "../reviews/M6-08-001-human-review-r1.md"
+    },
+    {
+      "source": "docs/development/records/M6-08.md",
+      "target": "../reviews/M6-08-001-human-review-validation-r1.json"
+    },
+    {
+      "source": "docs/development/records/M6-08.md",
+      "target": "../reviews/M6-08-001-live-continuation.md"
+    },
+    {
+      "source": "docs/development/records/M6-08.md",
+      "target": "../reviews/M6-08-001-review-r2.md"
+    },
+    {
+      "source": "docs/development/records/M6-08.md",
+      "target": "../reviews/M6-08-001-review-validation-r2.json"
+    },
+    {
+      "source": "docs/development/records/M6-08.md",
+      "target": "../reviews/M6-08-001-submission-r2.md"
+    },
+    {
+      "source": "docs/development/records/M6-08.md",
+      "target": "../reviews/M6-08-001-validation-r2.json"
+    },
+    {
+      "source": "docs/development/records/M6-08.md",
+      "target": "../reviews/M6-08-001-review.md"
+    },
+    {
+      "source": "docs/development/records/M6-08.md",
+      "target": "../reviews/M6-08-001-review-validation.json"
+    },
+    {
+      "source": "docs/development/records/M6-08.md",
+      "target": "../reviews/M6-partial-submission.md"
+    },
+    {
+      "source": "docs/evaluation/release-gates.md",
+      "target": "../development/reviews/M6-04-relevance-chat-protocol-r2.md"
+    },
+    {
+      "source": "docs/evaluation/release-gates.md",
+      "target": "../development/reviews/M6-04-relevance-chat-protocol-r1.md"
+    },
+    {
+      "source": "docs/evaluation/release-gates.md",
+      "target": "../development/reviews/M6-04-candidate-chat-review-r1.md"
+    },
+    {
+      "source": "docs/evaluation/release-gates.md",
+      "target": "../development/reviews/M6-08-calibrated-candidate-r1.md"
+    },
+    {
+      "source": "docs/evaluation/release-gates.md",
+      "target": "../development/reviews/M6-04-001-followups-readonly-r1.md"
+    },
+    {
+      "source": "docs/evaluation/release-gates.md",
+      "target": "../development/DECISIONS.md"
+    },
+    {
+      "source": "docs/evaluation/release-gates.md",
+      "target": "../development/reviews/M6-08-001-human-review-r1.md"
+    },
+    {
+      "source": "docs/evaluation/release-gates.md",
+      "target": "../development/records/M6-08.md"
+    },
+    {
+      "source": "docs/plans/2026-10-22-technical-support-reuse.md",
+      "target": "2026-10-22-technical-support-optimization.md"
+    },
+    {
+      "source": "docs/plans/2026-10-22-technical-support-reuse.md",
+      "target": "../brainstorming/2026-10-22/support-research/vue3/repositories.json"
+    },
+    {
+      "source": "docs/plans/2026-10-22-technical-support-reuse.md",
+      "target": "../brainstorming/2026-10-22/support-research/vue3/source-files.json"
+    },
+    {
+      "source": "docs/plans/2026-10-22-technical-support-reuse.md",
+      "target": "../brainstorming/2026-10-22/support-research/reuse-source-files.json"
+    },
+    {
+      "source": "docs/plans/2026-10-22-technical-support-reuse.md",
+      "target": "../brainstorming/2026-10-22/support-research/reuse-repositories.json"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_CONTRACTS.md",
+      "target": "DEVELOPMENT_TODO.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_CONTRACTS.md",
+      "target": "2026-10-22-technical-support-optimization.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_CONTRACTS.md",
+      "target": "../architecture/knowledge-schema.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_CONTRACTS.md",
+      "target": "../development/DECISIONS.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_CONTRACTS.md",
+      "target": "../evaluation/labeling-guide.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_CONTRACTS.md",
+      "target": "../CONFIGURATION.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_CONTRACTS.md",
+      "target": "../development/reviews/M4-review.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_CONTRACTS.md",
+      "target": "../evaluation/release-gates.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "../development/reviews/M6-04-relevance-chat-protocol-r2.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "../development/reviews/M6-04-relevance-chat-protocol-r1.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "../development/reviews/M6-04-candidate-chat-review-r1.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "../development/reviews/M6-08-calibrated-candidate-r1.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "../development/reviews/M6-04-001-followups-readonly-r1.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "../development/records/M6-04.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "2026-10-22-technical-support-optimization.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "2026-10-22-technical-support-code-audit.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "2026-10-22-technical-support-reuse.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "../development/PROGRESS.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "../development/REVIEW_STATUS.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "../development/GIT_WORKFLOW.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M5-support-workflow.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M6-evaluation.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M0-baseline.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M1-knowledge.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M2-api-runs.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M3-vue-workbench.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M4-rag-quality.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M5-support-workflow.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M5-support-workflow.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M5-support-workflow.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M5-support-workflow.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M5-support-workflow.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M5-support-workflow.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M5-support-workflow.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M5-support-workflow.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M6-evaluation.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M6-evaluation.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M6-evaluation.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M6-evaluation.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M6-evaluation.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M6-evaluation.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M6-evaluation.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M6-evaluation.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "../development/reviews/M6-08-001-review-r2.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/DEVELOPMENT_TODO.md",
+      "target": "tasks/M7-delivery.md"
+    },
+    {
+      "source": "docs/plans/tasks/M6-evaluation.md",
+      "target": "../../development/reviews/M6-04-relevance-chat-protocol-r2.md"
+    },
+    {
+      "source": "docs/plans/tasks/M6-evaluation.md",
+      "target": "../../development/reviews/M6-04-relevance-chat-protocol-r1.md"
+    },
+    {
+      "source": "docs/plans/tasks/M6-evaluation.md",
+      "target": "../../development/reviews/M6-04-candidate-chat-review-r1.md"
+    },
+    {
+      "source": "docs/plans/tasks/M6-evaluation.md",
+      "target": "../../development/reviews/M6-08-calibrated-candidate-r1.md"
+    },
+    {
+      "source": "docs/plans/tasks/M6-evaluation.md",
+      "target": "../../development/reviews/M6-04-001-followups-readonly-r1.md"
+    },
+    {
+      "source": "docs/plans/tasks/M6-evaluation.md",
+      "target": "../../development/reviews/M6-08-001-human-review-r1.md"
+    },
+    {
+      "source": "docs/plans/tasks/M6-evaluation.md",
+      "target": "../../development/reviews/M6-08-001-live-continuation.md"
+    },
+    {
+      "source": "docs/plans/tasks/M6-evaluation.md",
+      "target": "../2026-10-22-technical-support-optimization.md"
+    },
+    {
+      "source": "docs/plans/tasks/M6-evaluation.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M6-evaluation.md",
+      "target": "../DEVELOPMENT_TODO.md"
+    },
+    {
+      "source": "docs/plans/tasks/M6-evaluation.md",
+      "target": "../DEVELOPMENT_TODO.md"
+    },
+    {
+      "source": "docs/plans/tasks/M6-evaluation.md",
+      "target": "../../development/PROGRESS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M6-evaluation.md",
+      "target": "../../development/CHANGELOG.md"
+    },
+    {
+      "source": "docs/plans/tasks/M6-evaluation.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M6-evaluation.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M6-evaluation.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M6-evaluation.md",
+      "target": "../../development/records/M6-04.md"
+    },
+    {
+      "source": "docs/plans/tasks/M6-evaluation.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M6-evaluation.md",
+      "target": "../../development/reviews/M6-04-unknown-followup-r1.md"
+    },
+    {
+      "source": "docs/plans/tasks/M6-evaluation.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M6-evaluation.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M6-evaluation.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M6-evaluation.md",
+      "target": "../../development/reviews/M6-08-001-submission-r2.md"
+    },
+    {
+      "source": "docs/plans/tasks/M6-evaluation.md",
+      "target": "../DEVELOPMENT_CONTRACTS.md"
+    },
+    {
+      "source": "docs/plans/tasks/M6-evaluation.md",
+      "target": "../../development/records/M6-08.md"
+    }
+  ]
+}

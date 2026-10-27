@@ -3,31 +3,23 @@ from copy import deepcopy
 import re
 
 
-def answer_assets(answer, allowed):
-    """只认受控行内图片；代码块、代码跨度、转义语法不构成图片使用。"""
-    lines, fence = [], None
-    for line in answer.splitlines(keepends=True):
-        marker = re.match(r' {0,3}(`{3,}|~{3,})(.*)', line)
-        if fence:
-            if marker and marker[1][0] == fence[0] and len(marker[1]) >= len(fence) and not marker[2].strip():
-                fence = None
-            lines.append('\n')
-        elif marker:
-            fence = marker[1]
-            lines.append('\n')
-        elif line.startswith(('    ', '\t')):
-            lines.append('\n')
-        else:
-            lines.append(line)
-    text = ''.join(lines)
-    # 仅成对等长反引号是代码跨度；未闭合反引号不吞掉后续正常正文。
-    text = re.sub(r'(`+)(?!`)(.*?)(?<!`)\1(?!`)', '', text, flags=re.S)
+def answer_assets(answer, allowed=None):
+    """与Vue markdown-it同源解析；只读取实际image token，不递归图片alt。"""
+    from markdown_it import MarkdownIt
+    parser = MarkdownIt('default', {'html': False, 'linkify': False, 'breaks': True})
     found = set()
-    for match in re.finditer(r'!\[[^\]\n]*\]\((?:asset://|/api/v1/assets/)([^\s)]+)\)', text):
-        before = text[:match.start()]
-        slashes = len(before) - len(before.rstrip('\\'))
-        if slashes % 2 == 0 and match[1] in allowed:
-            found.add(match[1])
+    for block in parser.parse(answer):
+        if block.type != 'inline':
+            continue
+        for token in block.children or []:
+            if token.type != 'image':
+                continue
+            target = token.attrGet('src') or ''
+            aid = (target[8:] if target.startswith('asset://') else
+                   target[15:] if target.startswith('/api/v1/assets/') else '')
+            # 与前端受控image renderer使用相同的ID白名单及大小写规则。
+            if re.fullmatch(r'[A-Za-z0-9_-]+', aid) and (allowed is None or aid in allowed):
+                found.add(aid)
     return found
 
 
@@ -42,6 +34,9 @@ def select_answer_images(answer, citations):
 
 def has_review_images(result):
     """旧结果保守保留全部图像；新协议仅答案图参与配图维度。缺标记不跳过。"""
+    # 重新解析正文，防止早期选择器错误写入context后让实际图片免审。
+    if answer_assets(result.get('answer') or ''):
+        return True
     return any((c.get('asset_sha256') or c.get('asset_ids')) and
         not (result.get('image_selection_version') == 1 and c.get('image_usage') == 'context')
         for c in result.get('citations', []))

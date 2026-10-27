@@ -1,6 +1,6 @@
 {
-  "updated": "2026-10-24",
-  "scope": "M3前端实际依赖与组件源码；课程底座来源继续见NOTICE.md",
+  "updated": "2026-10-27",
+  "scope": "前端实际依赖与组件源码、M6后端Markdown解析依赖；课程底座来源继续见NOTICE.md",
   "entries": [
     {
       "name": "shadcn-vue",
@@ -86,6 +86,36 @@
       ],
       "changes": "禁HTML/危险协议及未知图像，引用编号只绑定稳定citation_id",
       "integrity": "frontend/pnpm-lock.yaml"
+    },
+    {
+      "name": "markdown-it-py",
+      "version": "4.0.0",
+      "license": "MIT",
+      "mode": "包依赖",
+      "repository": "https://github.com/executablebooks/markdown-it-py",
+      "integrity": "uv.lock",
+      "files": [
+        "app/answering/image_selection.py",
+        "pyproject.toml",
+        "uv.lock",
+        "deploy/worker/requirements.txt"
+      ],
+      "changes": "同源Markdown解析依赖，不复制源码；与前端markdown-it 14.1.0共享25例图片可见性契约"
+    },
+    {
+      "name": "mdurl",
+      "version": "0.1.2",
+      "license": "MIT",
+      "mode": "包依赖",
+      "repository": "https://github.com/executablebooks/mdurl",
+      "integrity": "uv.lock",
+      "files": [
+        "app/answering/image_selection.py",
+        "pyproject.toml",
+        "uv.lock",
+        "deploy/worker/requirements.txt"
+      ],
+      "changes": "同源Markdown解析依赖，不复制源码；与前端markdown-it 14.1.0共享25例图片可见性契约"
     }
   ],
   "note": "reference_commit仅为已读示例来源，不冒充npm发布包commit；发布包身份按固定版本与锁文件integrity核对。未安装React或assistant-ui。"
