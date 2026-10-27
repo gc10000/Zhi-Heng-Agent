@@ -1,0 +1,217 @@
+{
+  "date": "2026-10-27",
+  "scope": "M6-04图片使用关系/聊天来源/步骤规则总控定向审查",
+  "reviewed_commit": "5c90dc98b9d462ab51aa598bf2ec36dfeec8ee8d",
+  "conclusion": "changes_requested",
+  "findings": [
+    {
+      "id": "R1",
+      "priority": 1,
+      "file": "app/answering/image_selection.py",
+      "lines": [
+        18,
+        24
+      ],
+      "problem": "列表缩进和转义反引号内真实渲染图片被误记context，配图N/A与双轮校准均被正式接口接受"
+    },
+    {
+      "id": "R2",
+      "priority": 2,
+      "file": "frontend/src/features/evidence/components/EvidenceCard.vue",
+      "line": 10,
+      "problem": "旧引用卡片全部资产默认加载，无使用关系未知标注或折叠"
+    }
+  ],
+  "m6_accepted": false,
+  "m6_core": "4/7",
+  "total_core": "64/76",
+  "m7_authorized": false,
+  "independent_commands": [
+    {
+      "command": ".venv/Scripts/python.exe -m pytest tests/integration/test_review_protocol_v2.py tests/integration/test_answer_grounding_run.py tests/integration/test_evaluation_run_adapter.py tests/integration/test_evaluation_reviews.py tests/unit/test_answer_image_selection.py tests/unit/test_review_scores.py tests/contract/test_answer_filter.py -q --tb=short --junitxml=output/m6-protocol-review-r1/target.xml",
+      "passed": 95,
+      "failed": 0,
+      "exit_code": 0,
+      "seconds": 112.15,
+      "database_prefix": "m1_test_m4_m6_protocol_review_*"
+    },
+    {
+      "command": "pnpm -C frontend exec playwright test reviews.spec.ts citations.spec.ts --reporter=list --output=../output/m6-protocol-review-r1/browser",
+      "passed": 9,
+      "failed": 0,
+      "exit_code": 0,
+      "seconds": 29.5,
+      "mode": "offline_browser"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pytest output/m6-protocol-review-r1/test_image_usage_probe.py -q --tb=short --junitxml=output/m6-protocol-review-r1/image-usage-probes.xml",
+      "passed": 1,
+      "failed": 2,
+      "exit_code": 1,
+      "seconds": 41.48,
+      "database_prefix": "m1_test_m4_m6_image_probe_*"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pytest output/m6-protocol-review-r1/test_image_gate_probe.py -q --tb=short --junitxml=output/m6-protocol-review-r1/image-gate-probes.xml",
+      "passed": 0,
+      "failed": 2,
+      "exit_code": 1,
+      "seconds": 24.13,
+      "database_prefix": "m1_test_m4_m6_gate_probe_*"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pytest output/m6-protocol-review-r1/test_image_calibration_probe.py -q --tb=short --junitxml=output/m6-protocol-review-r1/image-calibration-probes.xml",
+      "passed": 0,
+      "failed": 2,
+      "exit_code": 1,
+      "seconds": 21.86,
+      "database_prefix": "m1_test_m4_m6_cal_probe_*"
+    },
+    {
+      "command": "pnpm -C frontend exec playwright test --config=../output/m6-protocol-review-r1/playwright.config.cjs",
+      "passed": 3,
+      "failed": 1,
+      "exit_code": 1,
+      "seconds": 40.8,
+      "mode": "offline_browser"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m output.m6-protocol-review-r1.recheck_live_readonly",
+      "checks_passed": 11,
+      "exit_code": 0,
+      "model_calls": 0,
+      "observation_writes": 0,
+      "human_writes": 0,
+      "real_calibration_writes": 0
+    }
+  ],
+  "submission_audit_before_document_edits": {
+    "command": [
+      ".venv/Scripts/python.exe",
+      "-m",
+      "scripts.verification.check_m6_protocol_artifacts",
+      "--summary",
+      "docs/development/reviews/M6-04-relevance-chat-protocol-validation-r1.json",
+      "--manifest",
+      "docs/development/reviews/M6-04-relevance-chat-protocol-manifest-r1-final.json"
+    ],
+    "exit_code": 0,
+    "result": {
+      "passed": true,
+      "files": 38,
+      "python_syntax": 13,
+      "links": 403,
+      "evidence_hashes": 51,
+      "stage_passed": 982,
+      "human_writes": 0,
+      "model_calls": 0
+    },
+    "notice": "审查文档修改前核对；修改后旧快照保留为历史"
+  },
+  "submitted_stage_evidence_not_rerun": {
+    "backend": 982,
+    "deselected": 2,
+    "skipped": 0,
+    "reimport": 3,
+    "frontend_unit": 37,
+    "frontend_browser": 41,
+    "command_exits": 0,
+    "supplemental_unique_tests_in_targeted": 2
+  },
+  "boundaries": {
+    "business_code_changed": false,
+    "real_human_writes": 0,
+    "real_observation_writes": 0,
+    "real_calibrations_created": 0,
+    "new_model_calls": 0,
+    "heldout_runs": 0,
+    "test_calibrations": "仅新随机测试库中的合成审阅/校准，不是用户人工审阅"
+  },
+  "raw_evidence": [
+    {
+      "path": "output/m6-protocol-review-r1/__pycache__/recheck_live_readonly.cpython-312.pyc",
+      "sha256": "20a12a55ced340c4abd344d12c357908d897d7b717cb3e4330f51ca883584598"
+    },
+    {
+      "path": "output/m6-protocol-review-r1/__pycache__/test_image_calibration_probe.cpython-312-pytest-8.4.2.pyc",
+      "sha256": "89baae4d604f65abb80865a94beb938310bbd1076772b1959dea3f9958f4d0fd"
+    },
+    {
+      "path": "output/m6-protocol-review-r1/__pycache__/test_image_gate_probe.cpython-312-pytest-8.4.2.pyc",
+      "sha256": "457690e36fffc74573ef9e6ce751ac16b0080e1f03ed82350a53b8d5e504ab78"
+    },
+    {
+      "path": "output/m6-protocol-review-r1/__pycache__/test_image_usage_probe.cpython-312-pytest-8.4.2.pyc",
+      "sha256": "c98d60f6758943f868f3a64e6bef3b27ee10e6ccba59759dccfb8bd7fedca2ff"
+    },
+    {
+      "path": "output/m6-protocol-review-r1/browser/.last-run.json",
+      "sha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "path": "output/m6-protocol-review-r1/browser-probes/.last-run.json",
+      "sha256": "fd12e359703953761e3713290c965c138d6a9db58108036d6235fb80342a4205"
+    },
+    {
+      "path": "output/m6-protocol-review-r1/browser-probes/image-display-probe-历史引用工作台应标明使用关系未记录并折叠图片/error-context.md",
+      "sha256": "7ba52b1ba9316239fd6a43663089846f3970f69feb920a25d64eb39f20759ef0"
+    },
+    {
+      "path": "output/m6-protocol-review-r1/browser-probes/image-display-probe-历史引用工作台应标明使用关系未记录并折叠图片/test-failed-1.png",
+      "sha256": "b01afebe5392fd24265aa649f67343a5d7034b73c777afec3dfdf1b13b3785f8"
+    },
+    {
+      "path": "output/m6-protocol-review-r1/browser-probes/image-display-probe-历史引用工作台应标明使用关系未记录并折叠图片/trace.zip",
+      "sha256": "7f62374ec97042885deff8dd86508b1edacd85e665bedac0c153b88173412986"
+    },
+    {
+      "path": "output/m6-protocol-review-r1/image-calibration-probes.xml",
+      "sha256": "35da9f5e1d8f59c42f3f472ef3449bc4d50ffd62b0f3cce4ef63fdefd0c47794"
+    },
+    {
+      "path": "output/m6-protocol-review-r1/image-display-probe.spec.ts",
+      "sha256": "7b65d9c4ccbd056c8fbabe3375a09d820e4dd2ba851d4f379526cfe82c3eb629"
+    },
+    {
+      "path": "output/m6-protocol-review-r1/image-gate-probes.xml",
+      "sha256": "426b3498bb05a9c9969629cf0e4fb907b13ba44346118ed2736f3f2811f3ac11"
+    },
+    {
+      "path": "output/m6-protocol-review-r1/image-usage-probes.xml",
+      "sha256": "839772231f2a5ce96bc74f22ec6e8731931c423a9dc9e47cea4940ee6c955555"
+    },
+    {
+      "path": "output/m6-protocol-review-r1/live-readonly.json",
+      "sha256": "310b0d84fc3dbb0468e8a5c16bb5d8435acff629a20c1a29d4037c8d607795fd"
+    },
+    {
+      "path": "output/m6-protocol-review-r1/playwright.config.cjs",
+      "sha256": "7de5740e8647e61ab6922926ba6775bbddeef8e315d9e2289784d6e9f4da871b"
+    },
+    {
+      "path": "output/m6-protocol-review-r1/recheck_live_readonly.py",
+      "sha256": "995f6debf7c0e79221d9a792fef5fdde07f0fffb67db0672b531d5ea437dace4"
+    },
+    {
+      "path": "output/m6-protocol-review-r1/submission-audit.json",
+      "sha256": "baed1594e4472b17c598a96ca622e2ea0c5b20e9378dca1063ad0573965bf5bc"
+    },
+    {
+      "path": "output/m6-protocol-review-r1/target.xml",
+      "sha256": "cab45cee8d3344653f5542a63e8226ab5ef5bc570f51f5987cbf29d0e93a838d"
+    },
+    {
+      "path": "output/m6-protocol-review-r1/test_image_calibration_probe.py",
+      "sha256": "1eecaa96daae830e4924cf90de91cb1e6cd295c75cb05f0664aedae164a016d0"
+    },
+    {
+      "path": "output/m6-protocol-review-r1/test_image_gate_probe.py",
+      "sha256": "c52a3f017658f27b2eaeb6a50fa383e889ddb42b4ddf34a3fcfa0c9f6ab13845"
+    },
+    {
+      "path": "output/m6-protocol-review-r1/test_image_usage_probe.py",
+      "sha256": "498e85136cf33003ea0447b8c9b45724c50db1c93f86700d3eb25955e4cd21d5"
+    }
+  ],
+  "document_check_tool_note": "通用旧链接检查器将围栏示例asset://diagram误认本地路径；使用跳过围栏代码并识别URI的独立检查，不修改业务或原示例。"
+}
