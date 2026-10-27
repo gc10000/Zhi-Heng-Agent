@@ -1,0 +1,340 @@
+{
+  "stage": "M6",
+  "scope": "单题真实校准→低分反馈草稿→新候选；部分接续",
+  "review_status": "未提交",
+  "baseline_commit": "7de85ceaaf9779cfa33b76b089d3c8caa82dc036",
+  "human_acceptance_complete": false,
+  "human_quality_passed": null,
+  "baseline_experiment_id": "878abb8c-6d55-483e-b1a1-b7458c19d0e0",
+  "calibration_id": "789deda3-ada9-4497-8263-799cd3da263b",
+  "feedback_id": "c34496c4-c065-5765-93a5-4ba9a9167e55",
+  "candidate_experiment_id": "f0ac6186-b204-4987-bb14-0089f3b73996",
+  "baseline_scores": {
+    "support-v1-001": {
+      "factuality": 2,
+      "citation_support": 1,
+      "actionability": 1,
+      "image_relevance": 0
+    }
+  },
+  "tests": {
+    "passed": 41,
+    "skipped": 0,
+    "by_directory": {
+      "integration": 41
+    },
+    "exit_code": 0,
+    "junit": "output/m6-08/001-calibrated-r2-20261027/targeted.xml"
+  },
+  "commands": [
+    {
+      "command": ".venv/Scripts/python.exe -m tmp.m6_001_calibrated_prepare",
+      "exit_code": 0,
+      "scope": "正式API创建校准/低分反馈草稿/第一候选；无模型调用"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m tmp.m6_001_calibrated_execute",
+      "exit_code": 1,
+      "scope": "真实宿主torch_cpu.dll原生异常；保留失败，不计业务红测或复评通过"
+    },
+    {
+      "command": "本机取消请求及 execute_job(cancelled_only) 取消恢复脚本，见报告",
+      "exit_code": 0,
+      "scope": "取消恢复，无模型执行；旧锁确认原PID退出后保留移动"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m tmp.m6_001_calibrated_prepare_r2",
+      "exit_code": 0,
+      "scope": "幂等复用原校准/反馈，建立独立第二候选"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m tmp.m6_001_calibrated_execute_r2",
+      "exit_code": 0,
+      "scope": "主线程预加载真实模型后Linux队列真实生成；非正常冷启动证据"
+    },
+    {
+      "command": "$env:M1_TEST_DB=\"m1_test_m6_calibration_followup_20261027\"; .venv/Scripts/python.exe -m pytest tests/integration/test_evaluation_reviews.py tests/integration/test_feedback_triage_workflow.py -q --junitxml=output/m6-08/001-calibrated-r2-20261027/targeted.xml",
+      "exit_code": 0,
+      "scope": "41真实隔离Mongo/HTTP；生成/评分为注入或合成，非真实人工"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m tmp.export_m6_001_calibrated_sources_r2",
+      "exit_code": 0,
+      "scope": "10切片正文/来源与2图片hash/完整解码，无模型调用"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m tmp.m6_001_calibrated_verify",
+      "exit_code": 0,
+      "scope": "15正式API/持久账本只读检查"
+    },
+    {
+      "command": "node tmp/m6_001_calibrated_browser.cjs",
+      "exit_code": 0,
+      "scope": "10真实Edge只读检查；无评分写入"
+    }
+  ],
+  "readonly_checks": {
+    "all_http_200": true,
+    "experiment_completed": true,
+    "isolated_one_dev_question": true,
+    "calibration_low_scores_preserved": true,
+    "calibration_bound_reviews_and_followups": true,
+    "feedback_confirmed_draft": true,
+    "candidate_after_calibration_and_feedback": true,
+    "baseline_pointer_bound": true,
+    "result_answer_persisted": true,
+    "formal_messages_once": true,
+    "one_completed_terminal": true,
+    "images_http_hash_decode": true,
+    "no_candidate_human_scores": true,
+    "release_gate_pending": true,
+    "budget_released": true
+  },
+  "readonly_checks_passed": 15,
+  "browser_checks": {
+    "real_login": true,
+    "no_clarification": true,
+    "answer_visible": true,
+    "one_question": true,
+    "cited_answer": true,
+    "source_page4": true,
+    "default_assistant_identity": true,
+    "human_unchecked": true,
+    "question_visible": true,
+    "two_images_decoded": true
+  },
+  "browser_checks_passed": 10,
+  "source_checks": {
+    "selected_chunks": 10,
+    "images_verified_decoded": 2
+  },
+  "logical_provider_calls": {
+    "stream_started": 1,
+    "invoke_started": 0
+  },
+  "exact_provider_http_calls": null,
+  "exact_cost": null,
+  "crash": {
+    "observed": true,
+    "module": "torch_cpu.dll",
+    "exception": "0xc0000005",
+    "original_experiment_cancelled": true,
+    "old_lock_preserved": true,
+    "root_cause_proven": false,
+    "normal_cold_start_passed": false,
+    "successful_candidate_used_main_thread_reranker_preload": true
+  },
+  "human_score_writes": 0,
+  "heldout_runs": 0,
+  "full_dev_complete": false,
+  "release_gate": {
+    "status": "pending",
+    "reasons": [
+      "review_pending_or_changed"
+    ],
+    "regressions": [],
+    "calibration_id": "789deda3-ada9-4497-8263-799cd3da263b",
+    "candidate_experiment_id": "f0ac6186-b204-4987-bb14-0089f3b73996",
+    "human_review_count": 0,
+    "automatic_publish": false
+  },
+  "source_corpus_sha256": "dd01944db688807c158923c0d21d272f1f45aa4304aa9012efada71c2c18b810",
+  "raw_evidence": [
+    {
+      "path": "output/m6-08/001-calibrated-r1-20261027/calibration.json",
+      "sha256": "c405a89f2e64b6d0d5c33d6bdda040aa9bdf2a4adbae1bce29fe92d51a2f5a8a"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r1-20261027/cancel-recovered.json",
+      "sha256": "5eaca5ee888280ab378e034bb01d366eb03368794b59af11e064c924d3087c61"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r1-20261027/cancel-request.json",
+      "sha256": "432b62a669e472ed85bfc2e68e2c80649ef4d3c4ca8bb911952e905012af1d4b"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r1-20261027/candidate-created.json",
+      "sha256": "d843965d395d5cd9617beb1833233d5f532af56352e872305ef950111561c513"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r1-20261027/feedback-created.json",
+      "sha256": "bbe1b9454f8d2f51d1f1ed09e007c85ee10efe3dbff4c2ea50c650988ec31616"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r1-20261027/feedback-reviewed.json",
+      "sha256": "d2b7c7f19dff42d3d8c00d00db3486e081ba9c043d655070efb7a5d49d8c5f81"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r1-20261027/host.log",
+      "sha256": "ede55728a95007c04b6fb95c67505bd00c700ce0414eaff8fc516e0685075c45"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r1-20261027/native-crash-runner-lock.json",
+      "sha256": "8539b9fa1f425bd9c64d83e662afdf460829e7c691fe577c55aa02a2a2c1ddb5"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r1-20261027/native-crash.json",
+      "sha256": "d74b51244e89cf227d9bebd2638011dac55f60de767234255130ead78af56eeb"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r1-20261027/preparation.json",
+      "sha256": "11aac578cecefb648dbee65bd5b65eb8f7533988c3e7c0cfe531e39b7ea1e9e6"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r1-20261027/windows-event.json",
+      "sha256": "5e8e5a3df6721e633a1142555512d97e28dd9f9dc91df37764f5524604456e83"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r1-20261027/worker.log",
+      "sha256": "b70f2d2ebb72bac3b662a41e73970f6ce2bcfb3662684f2c8d9ec43385ebab5a"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r2-20261027/001-source-review-20261027-153932/001回答与切片对照.html",
+      "sha256": "a42ffa0a2272701a9708be8d1203578e590c45d8c15ad160a1670a04eb5a055d"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r2-20261027/001-source-review-20261027-153932/001回答与切片对照.md",
+      "sha256": "701cf5848676e789dc245c6b3b6eaf354ad9c7cd0ad5ca5e9e227d72a6d3d2ec"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r2-20261027/001-source-review-20261027-153932/93124808-dc82-521d-9002-6ebf8abad8f5.jpg",
+      "sha256": "eae9659759d836da4ae8897f0509f88545e464b7c550179a0eae1310bd479ebd"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r2-20261027/001-source-review-20261027-153932/97b2dbde-eca7-5770-840f-8c0a9febbd8b.jpg",
+      "sha256": "1c6c5f2e20783d7dc14631772cc04ae178410203b37ca9807fad82873c4b2f07"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r2-20261027/001-source-review-20261027-153932/verification.json",
+      "sha256": "8f02640e195fe3cd280b6cdaa55f77351db9b68899272215f710bfa9f2687a49"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r2-20261027/browser-ready.json",
+      "sha256": "bab27aedaf894bdf0d8d3caa5d61436e63283cd5763a752841a47f885be2fddd"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r2-20261027/calibration.json",
+      "sha256": "c405a89f2e64b6d0d5c33d6bdda040aa9bdf2a4adbae1bce29fe92d51a2f5a8a"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r2-20261027/candidate-created.json",
+      "sha256": "e257d3dbacc2d58c29ffb267e54759310d64ea6533bbc5313965a6a276373324"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r2-20261027/catalog/candidate.json",
+      "sha256": "810761240d6b22073d72848105d235a5a6da046bb7a14abd3c332d776b683afb"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r2-20261027/catalog/catalog.json",
+      "sha256": "1669748a26ae55d212fb74cba09fd3042ff1566ac464aeb11e6db6e3c51440db"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r2-20261027/catalog/support-v2-r2-manifest.json",
+      "sha256": "02adab8ab9346c3d6b22c7a15a0a6aae2c7d65ad1deefc9722400b2e477e6b92"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r2-20261027/catalog/support-v2-r2.jsonl",
+      "sha256": "1d1f785c3303adcaf4b964bf6d5bedeee8cf418ff0f0748704a7bccbe2a86d36"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r2-20261027/corpus-after.json",
+      "sha256": "924e9ce33a54622e4076736a5e201ee3284ff049510c6cb68fe5762b022ade8c"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r2-20261027/execution.json",
+      "sha256": "a0df8d5a64c185a480981c13090912a08e1c613d9c028dfe771aaa9fc4f4f67e"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r2-20261027/feedback-created.json",
+      "sha256": "d95e08fe17b61eda3fc41327273ddbda98dfe7c40e1e318d6967d46cc3d9089c"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r2-20261027/feedback-reviewed.json",
+      "sha256": "d2b7c7f19dff42d3d8c00d00db3486e081ba9c043d655070efb7a5d49d8c5f81"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r2-20261027/host.log",
+      "sha256": "ab99538df105d813e026cc7025e4940b3a5393240fa3699ecf927778f59f0192"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r2-20261027/preparation.json",
+      "sha256": "f8e0d88911ffcbf2085ba3f8a033866300d6a037e9ef8a5ece0ba97274b56e01"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r2-20261027/readonly.json",
+      "sha256": "cd28ea33d3a3bea3f2829ce73abbcf87572dd410211f01b00f0ab96618f46243"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r2-20261027/targeted-command.json",
+      "sha256": "bfd3c2f11be78057e4f45dc6c3aed529105bfbdaecf77fddd47a886e6da26178"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r2-20261027/targeted.log",
+      "sha256": "a81fa7258a821e75fc0c4568f709b9cb50df62579c06dca48b2ff27f40686b0c"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r2-20261027/targeted.xml",
+      "sha256": "391601e05a2846bf959f848fae15c67bf39fca56e7bee4009ba11cc86702ba5e"
+    },
+    {
+      "path": "output/m6-08/001-calibrated-r2-20261027/worker.log",
+      "sha256": "819c6af2651f34df09421fed8da5f364d180fd4dbbed839420df16bf9799c188"
+    },
+    {
+      "path": "output/m6-08/001-repaired-r1-20261026/results/f0ac6186-b204-4987-bb14-0089f3b73996/attempts.jsonl",
+      "sha256": "807bbea851c60e8c4dd18dbfddfe65a229d05130e1876a4472d50f6c47aa9169"
+    },
+    {
+      "path": "output/m6-08/001-repaired-r1-20261026/results/f0ac6186-b204-4987-bb14-0089f3b73996/manifest.json",
+      "sha256": "3d9921c4e00c4747916ec8d5c0af3b87e888fc67dff8db2021f5388595bb7a26"
+    },
+    {
+      "path": "output/m6-08/001-repaired-r1-20261026/results/f0ac6186-b204-4987-bb14-0089f3b73996/results.jsonl",
+      "sha256": "807bbea851c60e8c4dd18dbfddfe65a229d05130e1876a4472d50f6c47aa9169"
+    },
+    {
+      "path": "tmp/export_m6_001_calibrated_sources_r2.py",
+      "sha256": "b84fa5a30294789caccc10a9f9f0e7351c65aa32821d8a2eb36c9fe7eef67fa0"
+    },
+    {
+      "path": "tmp/m6_001_calibrated_browser.cjs",
+      "sha256": "24a8af081ae95feed8f5ef9c50a3ab86b59cf936afb4a465b56ace15886b7f11"
+    },
+    {
+      "path": "tmp/m6_001_calibrated_execute.py",
+      "sha256": "1685fec14ecdf5147685311780a53f3320f71daa3eb94b0c1eace490be60efbb"
+    },
+    {
+      "path": "tmp/m6_001_calibrated_execute_r2.py",
+      "sha256": "f1f34730a36e70657781a40fc5b12f1c489f066ca8ca54a0ed63eb975fe76c25"
+    },
+    {
+      "path": "tmp/m6_001_calibrated_prepare.py",
+      "sha256": "25bd9957dd7aaa6e5fba986f30645a924048f1bde1a86df09330a4cf1713294b"
+    },
+    {
+      "path": "tmp/m6_001_calibrated_prepare_r2.py",
+      "sha256": "d2e169cd7a714a33a81af7b43f119d1e8fb536d352812c8c1108d0c3fd0e3eb2"
+    },
+    {
+      "path": "tmp/m6_001_calibrated_verify.py",
+      "sha256": "66e1877eb2ca9e1a73b077fb29c2b0a11963712dcb248d3c916ca1b5f3e610c9"
+    },
+    {
+      "path": "tmp/m6_preloaded_host.py",
+      "sha256": "7275d7db16a3164cb93e83b17a77e9749e683e189d5096108ed4eaa875330e8f"
+    }
+  ],
+  "automated_full_regression_rerun": false,
+  "frontend_unit_typecheck_build_rerun": false,
+  "incomplete": [
+    "候选本人双轮复评及质量比较",
+    "完整开发集基线/校准与回归",
+    "M6固定报告与阶段验收"
+  ],
+  "git": {
+    "branch": "main",
+    "base_commit": "7de85ceaaf9779cfa33b76b089d3c8caa82dc036",
+    "commit_and_push": "自身SHA和远程核头在最终交接补记"
+  }
+}
