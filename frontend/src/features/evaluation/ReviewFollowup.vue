@@ -13,6 +13,17 @@ const evidence=reactive<Partial<Record<Dimension,string>>>({})
 const checked=ref(false),attested=ref(false),busy=ref(false),error=ref(''),saved=ref(false)
 const unauthorized=ref(false),wrongModel=ref(false)
 const ready=computed(()=>unknown.value.length>0&&checked.value&&attested.value&&unknown.value.every(key=>choices[key]!==undefined&&choices[key]!==''&&!!evidence[key]?.trim()))
+const blockers=computed(()=>{
+  const missing:string[]=[]
+  if(busy.value)missing.push('正在保存追加复核，请稍候')
+  for(const key of unknown.value){
+    if(choices[key]===undefined||choices[key]==='')missing.push(`选择“${names[key]}”的复核结论`)
+    if(!evidence[key]?.trim())missing.push(`填写“${names[key]}”的复核依据`)
+  }
+  if(!checked.value)missing.push('勾选“本人已重新核对原件与上述依据”')
+  if(!attested.value)missing.push('勾选“确认由原审核者本人追加复核”')
+  return missing
+})
 let pending:{identity:string;key:string}|undefined,active=true
 onBeforeUnmount(()=>{active=false})
 async function save(){
@@ -29,7 +40,7 @@ async function save(){
   }catch(e){if(active)error.value=(e as Error).message}finally{if(active)busy.value=false}
 }
 </script>
-<template><section aria-label="未知项追加复核" class="followup">
+<template><section id="review-followup" aria-label="未知项追加复核" class="followup">
 <h2>未知项追加复核</h2>
 <p>保留原审阅，只追加该轮全部未知项的结论。必须由原审核者本人重新核对并逐项说明依据；确定分数及原关键错误保留。尚无法确定时请暂不提交，原未知保持有效。</p>
 <p v-if="prior||saved" role="status">本轮追加复核已保存，原始审阅仍保留。该轮不能再次覆盖；另一轮须独立核对。</p>
@@ -44,6 +55,7 @@ async function save(){
 <label><input v-model="checked" type="checkbox">本人已重新核对原件与上述依据</label>
 <label><input v-model="attested" type="checkbox">确认由原审核者本人追加复核</label>
 <label><input v-model="unauthorized" type="checkbox">本次发现越权关键错误</label><label><input v-model="wrongModel" type="checkbox">本次发现型号关键错误</label>
-<p v-if="error" role="alert">{{error}}</p><button :disabled="busy||!ready">保存追加复核</button>
+<p v-if="error" role="alert">{{error}}</p><p v-if="blockers.length" id="followup-submit-help" role="status" aria-live="polite">暂不能保存追加复核：{{blockers.join('；')}}。</p>
+<button :disabled="busy||!ready" :aria-describedby="blockers.length?'followup-submit-help':undefined">保存追加复核</button>
 </form></section></template>
 <style scoped>.followup{margin:1rem 0;padding:1rem;border:1px solid var(--border,#aaa)}label{display:grid;gap:.4rem;margin:.7rem 0}input[type=checkbox]{justify-self:start}p{margin:.6rem 0;line-height:1.7}textarea,select{max-width:100%}</style>

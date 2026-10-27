@@ -1,9 +1,11 @@
 """维护者评测工作台；浏览器只提交服务端登记身份。"""
 from fastapi import APIRouter, Depends, Query, Request
+from fastapi.responses import Response
 from pydantic import BaseModel, ConfigDict, Field
 from app.api.errors import APIError
 from app.identity.api import principal, require_writer, require_kb
 from .reviews import ReviewInput, CalibrationInput, ReviewService
+from .review_images import load_review_image
 from .review_followups import FollowupInput
 from .feedback_triage import TriageInput, authorized_feedback, public_feedback, review_feedback
 from .feedback_triage import BindRevisionInput, bind_revision
@@ -88,6 +90,24 @@ def results(eid: str, request: Request, cursor: str | None = Query(None, max_len
             limit: int = Query(50, ge=1, le=100), user=Depends(principal)):
     require_writer(user)
     return service(request).results_page(user, eid, cursor=cursor, limit=limit)
+
+
+@router.get('/experiments/{eid}/results/{question_id}/images/{document_sha256}/{page}/{asset_sha256}',
+            response_class=Response, summary='读取评测结果中已授权的配图',
+            responses={200: {'description': '当前结果引用且原件、物理页、图像哈希完全匹配的私有图片',
+                'content': {'image/*': {'schema': {'type': 'string', 'format': 'binary'}}}}})
+def review_image(eid: str, question_id: str, document_sha256: str, page: int,
+                 asset_sha256: str, request: Request, user=Depends(principal)):
+    """返回已授权且精确绑定到当前已完成评测来源的图像字节。"""
+    require_writer(user)
+    evaluations = service(request)
+    data, media_type = load_review_image(evaluations.repo, user,
+        request.app.state.resources['knowledge'], eid, question_id,
+        document_sha256, page, asset_sha256)
+    return Response(data, media_type=media_type, headers={
+        'Cache-Control': 'private, no-store', 'ETag': '"' + asset_sha256 + '"',
+        'X-Content-Type-Options': 'nosniff',
+    })
 
 
 @router.post('/experiments/{eid}/cancel')

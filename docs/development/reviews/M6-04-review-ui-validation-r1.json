@@ -1,0 +1,155 @@
+{
+  "stage": "M6",
+  "scope": "M6-04审阅页局部补修",
+  "date": "2026-10-27",
+  "review_status": "未提交",
+  "baseline_commit": "36e391cddd88c850f8978a55912487a69f837bb2",
+  "human_acceptance_complete": false,
+  "human_quality_passed": null,
+  "incomplete": [
+    "M6-04真实未知项本人追加与固定报告验收",
+    "M6-05真实反馈后复评",
+    "M6-08完整阶段验收"
+  ],
+  "business_red": [
+    {
+      "name": "正式HTTP图片入口",
+      "failed": 1,
+      "exit_code": 1,
+      "reason": "登录与夹具成立，图片入口404",
+      "evidence_notice": "首红仅会话工具原始输出，无单独JUnit，不将后续绿测XML冒称红测"
+    },
+    {
+      "name": "浏览器图片显示",
+      "failed": 1,
+      "exit_code": 1,
+      "reason": "页面没有图片元素",
+      "artifact": "output/m6-review-ui/browser-red-artifacts"
+    },
+    {
+      "name": "含图N/A边界",
+      "failed": 1,
+      "exit_code": 1,
+      "reason": "服务端禁止的配图N/A仍出现在控件",
+      "artifact": "output/m6-review-ui/n-a-red-artifacts"
+    }
+  ],
+  "test_probe_errors": [
+    "browser-reviews-r1:2项严格定位多status错误，原证据保留",
+    "browser-reviews-r2:1项测试只记录最后请求URL错误，原证据保留"
+  ],
+  "backend": {
+    "mode": "真实隔离HTTP与Mongo，合成来源和PNG，注入对象客户端",
+    "passed": 35,
+    "skipped": 0,
+    "exit_code": 0,
+    "junit": "output/m6-review-ui/reviews-http-final.xml",
+    "full_stage_rerun": false,
+    "legacy_reimport_rerun": false
+  },
+  "frontend": {
+    "unit_passed": 37,
+    "browser_passed": 38,
+    "skipped": 0,
+    "typecheck_exit_code": 0,
+    "build_exit_code": 0,
+    "command_ledger": "output/m6-review-ui/frontend-final/commands.json"
+  },
+  "real_readonly": {
+    "checks_passed": 12,
+    "images": 2,
+    "hash_and_decode": true,
+    "original_reviews": 2,
+    "followups": 0,
+    "ledger_unchanged": true,
+    "report": "output/m6-review-ui/live-2026-10-27T06-35-28-070Z/readonly.json",
+    "human_writes": 0,
+    "model_calls": 0
+  },
+  "api": {
+    "new_paths": 1,
+    "paths": 50,
+    "operations": 60,
+    "new_config": false,
+    "new_dependencies": false,
+    "existing_result_fingerprint_changed": false
+  },
+  "git": {
+    "branch": "main",
+    "commit_and_push": "自身提交与推送结果在最终交接补记"
+  },
+  "raw_evidence": [
+    {
+      "path": "output/m6-review-ui/reviews-http-final.xml",
+      "sha256": "7c625a13ec21e63114d4eed846fd2e1f23edc9b3c0c79efe86f8b7022cdd88c1"
+    },
+    {
+      "path": "output/m6-review-ui/frontend-final/commands.json",
+      "sha256": "007f11daeb6f872e53a1be218686580aa11a9ca831ecd72e5b19a87810801130"
+    },
+    {
+      "path": "output/m6-review-ui/frontend-final/unit.json",
+      "sha256": "9ae5597d631bef7d85ea18e11383578b1f4502c1aabee18447fa6bc9cd50ed40"
+    },
+    {
+      "path": "output/m6-review-ui/frontend-final/browser.json",
+      "sha256": "b22e77bbedd4b0867de25bdb35ddb585e46911394a0e93e1c1f6df6a184fe54a"
+    },
+    {
+      "path": "output/m6-review-ui/live-2026-10-27T06-35-28-070Z/readonly.json",
+      "sha256": "8a6091a69c3fb188a614cfe532074962758f4a97c964c8979e03503e42146a58"
+    },
+    {
+      "path": "output/m6-review-ui/live-2026-10-27T06-35-28-070Z/review.png",
+      "sha256": "816e4fbc868724d9a4c51d74ac9bb31de38bd5f4488c9010699e74e9bc05e5c4"
+    },
+    {
+      "path": "output/m6-review-ui/frontend-final/browser.txt",
+      "sha256": "ef1b2df5f2b25ee5edbfd3855791255ee42830367541e813fc1e0f44cabff3c4"
+    },
+    {
+      "path": "output/m6-review-ui/frontend-final/build.txt",
+      "sha256": "2de9654bece25c5a9216a6b069d9867983b7f75f77e6150e51af01552bc858c8"
+    },
+    {
+      "path": "output/m6-review-ui/frontend-final/typecheck.txt",
+      "sha256": "aacdfedc485449151e8f0cedfb8264a7d15047256a7b3c3a4a9e848e28e7b178"
+    },
+    {
+      "path": "output/m6-review-ui/frontend-final/unit.txt",
+      "sha256": "a5c57686ba986b3c371d986bbeb9b174cb8d476f08030453d4720627b7c433e2"
+    },
+    {
+      "path": "output/m6-review-ui/browser-red-artifacts/.last-run.json",
+      "sha256": "d44e7081171aed2b316e16b1ba490aaaf08f89e3e15a8f97a9e0e8675f06dadf"
+    },
+    {
+      "path": "output/m6-review-ui/browser-red-artifacts/reviews-审阅页显示绑定结果的配图，并解释本轮提交禁用原因/error-context.md",
+      "sha256": "c53fca5f8da8d5ef360373e9bb91dc15128100c255055cdc2b8127e27d2debbb"
+    },
+    {
+      "path": "output/m6-review-ui/browser-red-artifacts/reviews-审阅页显示绑定结果的配图，并解释本轮提交禁用原因/test-failed-1.png",
+      "sha256": "b3dd8775ea5e8dfb70725f33227b1550b6e93f97675ed5f0c7b0515c668e0051"
+    },
+    {
+      "path": "output/m6-review-ui/browser-red-artifacts/reviews-审阅页显示绑定结果的配图，并解释本轮提交禁用原因/trace.zip",
+      "sha256": "f6af78c0cf2f410304df34cee94709cba8a40d408d1e8949689cd74c79463585"
+    },
+    {
+      "path": "output/m6-review-ui/n-a-red-artifacts/.last-run.json",
+      "sha256": "d44e7081171aed2b316e16b1ba490aaaf08f89e3e15a8f97a9e0e8675f06dadf"
+    },
+    {
+      "path": "output/m6-review-ui/n-a-red-artifacts/reviews-审阅页显示绑定结果的配图，并解释本轮提交禁用原因/error-context.md",
+      "sha256": "9e1db9db10119af5a75e120ca5dae2c36cf0248be44e3a889a6464a6ddf9abe9"
+    },
+    {
+      "path": "output/m6-review-ui/n-a-red-artifacts/reviews-审阅页显示绑定结果的配图，并解释本轮提交禁用原因/test-failed-1.png",
+      "sha256": "303dde593459089dfcb01b5d37b31c83fc1f239d6bd5a02dc9dcaa28d73a2a09"
+    },
+    {
+      "path": "output/m6-review-ui/n-a-red-artifacts/reviews-审阅页显示绑定结果的配图，并解释本轮提交禁用原因/trace.zip",
+      "sha256": "2a0627d51f6133f086cc0232a27672367e346f42dc12c2b0ed06ed883dfa49fc"
+    }
+  ]
+}

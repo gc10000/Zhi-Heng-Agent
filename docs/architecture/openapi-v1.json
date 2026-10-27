@@ -2327,6 +2327,86 @@
         }
       }
     },
+    "/api/v1/experiments/{eid}/results/{question_id}/images/{document_sha256}/{page}/{asset_sha256}": {
+      "get": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "读取评测结果中已授权的配图",
+        "description": "返回已授权且精确绑定到当前已完成评测来源的图像字节。",
+        "operationId": "review_image_api_v1_experiments__eid__results__question_id__images__document_sha256___page___asset_sha256__get",
+        "parameters": [
+          {
+            "name": "eid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Eid"
+            }
+          },
+          {
+            "name": "question_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Question Id"
+            }
+          },
+          {
+            "name": "document_sha256",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Document Sha256"
+            }
+          },
+          {
+            "name": "page",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Page"
+            }
+          },
+          {
+            "name": "asset_sha256",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Asset Sha256"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "当前结果引用且原件、物理页、图像哈希完全匹配的私有图片",
+            "content": {
+              "image/*": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/experiments/{eid}/cancel": {
       "post": {
         "tags": [

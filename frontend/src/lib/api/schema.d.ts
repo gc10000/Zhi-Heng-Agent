@@ -676,6 +676,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/experiments/{eid}/results/{question_id}/images/{document_sha256}/{page}/{asset_sha256}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 读取评测结果中已授权的配图
+         * @description 返回已授权且精确绑定到当前已完成评测来源的图像字节。
+         */
+        get: operations["review_image_api_v1_experiments__eid__results__question_id__images__document_sha256___page___asset_sha256__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/experiments/{eid}/cancel": {
         parameters: {
             query?: never;
@@ -2745,6 +2765,41 @@ export interface operations {
                 };
                 content: {
                     "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    review_image_api_v1_experiments__eid__results__question_id__images__document_sha256___page___asset_sha256__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                eid: string;
+                question_id: string;
+                document_sha256: string;
+                page: number;
+                asset_sha256: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 当前结果引用且原件、物理页、图像哈希完全匹配的私有图片 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "image/*": string;
                 };
             };
             /** @description Validation Error */

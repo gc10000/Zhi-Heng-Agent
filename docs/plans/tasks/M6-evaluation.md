@@ -78,6 +78,8 @@
 <a id="m6-04"></a>
 ### M6-04：人工审阅与发布质量门槛
 
+2026-10-27可用性补修：审阅页直接显示当前结果绑定的受控图片，主审阅/追加复核按钮说明禁用原因，已保存人工轮次提供追加入口；精确来源图片读取不改旧结果指纹。35项隔离HTTP、5项审阅离线浏览器通过，真实001只读12检查通过且2图片HTTP/hash/浏览器解码成功；真实审阅/追加/校准写入0、模型调用0。M6-04整体仍未验收，详见[M6-04记录](../../development/records/M6-04.md)。
+
 **依赖：**M6-03。
 **文件：**`app/evaluation/reviews.py`; `frontend/src/features/evaluation/ReviewPage.vue`; `docs/evaluation/release-gates.md`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。

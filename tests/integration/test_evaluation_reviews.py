@@ -73,6 +73,98 @@ def followup(client, headers, original, data=None, eid='baseline'):
                        headers=headers, json=data or followup_data(original))
 
 
+def test_review_image_requires_exact_result_source_and_authorized_revision(review_client):
+    """审阅图片只能从当前题结果的精确来源读取，且不向客户端暴露对象键。"""
+    from io import BytesIO
+    from types import SimpleNamespace
+    from PIL import Image
+    from app.knowledge.gateway import KnowledgeGateway
+    from app.knowledge.models import content_hash
+
+    client, _, repo, _ = review_client
+    resources = client.app.state.resources
+    user = Principal(**client.get('/api/v1/me').json()['user'])
+
+    output = BytesIO()
+    Image.new('RGB', (12, 8), 'navy').save(output, format='PNG')
+    image_bytes = output.getvalue()
+    image_sha = content_hash(image_bytes)
+    document_sha = 'd' * 64
+    object_key = 'm6-review-image-private/isolated-topology.png'
+
+    class ObjectResponse:
+        def __init__(self, data): self.data = BytesIO(data)
+        def read(self): return self.data.read()
+        def close(self): self.data.close()
+        def release_conn(self): pass
+
+    class ObjectClient:
+        def __init__(self): self.reads = []
+        def get_object(self, bucket, key):
+            self.reads.append((bucket, key))
+            return ObjectResponse(image_bytes)
+
+    object_client = ObjectClient()
+    originals = SimpleNamespace(client=object_client, bucket='m6-test-images')
+    gateway = KnowledgeGateway(repo.db, originals, owner_id='m6-review-image-owner')
+    knowledge_repo = gateway.repo('k')
+    document = knowledge_repo.register_document('review-image-doc', name='隔离图像手册.pdf')
+    revision = knowledge_repo.create_revision(document.document_id, 'review-image-rev',
+        original_sha256=document_sha, object_key='m6-test/original.pdf')
+    repo.db.knowledge_assets.insert_one(dict(asset_id='m6-image-asset', document_id=document.document_id,
+        revision_id=revision.revision_id, sha256=image_sha, object_key=object_key,
+        media_type='image/png', source_refs=[{'page': 4, 'document_id': document.document_id,
+                                              'revision_id': revision.revision_id}], kind='image'))
+    resources['knowledge'] = lambda: gateway
+    repo.results.update_one({'experiment_id': 'baseline', 'attempt': 1, 'question_id': 'q1'},
+        {'$set': {'result.citations': [dict(document_sha256=document_sha, page=4, asset_sha256=image_sha)]}})
+
+    base = f'/api/v1/experiments/baseline/results/q1/images/{document_sha}/4/'
+    visible = client.get(base + image_sha)
+    assert visible.status_code == 200, visible.text
+    assert visible.content == image_bytes
+    assert visible.headers['content-type'].startswith('image/png')
+    assert visible.headers['cache-control'] == 'private, no-store'
+    assert object_client.reads == [('m6-test-images', object_key)]
+    repo.experiments.update_one({'experiment_id': 'baseline'}, {'$set': {'result_attempt': 2}})
+    stale_attempt = client.get(base + image_sha)
+    assert stale_attempt.status_code == 404
+    assert object_client.reads == [('m6-test-images', object_key)]
+    repo.experiments.update_one({'experiment_id': 'baseline'}, {'$set': {'result_attempt': 1}})
+
+    # 同一账号若同时可访问两个知识库，结果也只能取实验绑定知识库中的资产。
+    other_repo = gateway.repo('other-kb')
+    other_document = other_repo.register_document('review-image-other-doc', name='其他库同哈希手册.pdf')
+    other_revision = other_repo.create_revision(other_document.document_id, 'review-image-other-rev',
+        original_sha256='e' * 64, object_key='m6-test/other-original.pdf')
+    repo.db.knowledge_assets.insert_one(dict(asset_id='m6-image-other-kb', document_id=other_document.document_id,
+        revision_id=other_revision.revision_id, sha256=image_sha,
+        object_key='m6-review-image-private/other.png', media_type='image/png',
+        source_refs=[{'page': 4, 'document_id': other_document.document_id,
+                      'revision_id': other_revision.revision_id}], kind='image'))
+    resources['identity'].store.users.update_one({'user_id': user.user_id}, {'$set': {'kb_ids': ['k', 'other-kb']}})
+    repo.results.update_one({'experiment_id': 'baseline', 'attempt': 1, 'question_id': 'q1'},
+        {'$set': {'result.citations': [dict(document_sha256='e' * 64, page=4, asset_sha256=image_sha)]}})
+    other_scope = client.get(f'/api/v1/experiments/baseline/results/q1/images/{"e" * 64}/4/{image_sha}')
+    assert other_scope.status_code == 404
+    assert object_client.reads == [('m6-test-images', object_key)]
+
+    resources['identity'].store.users.update_one({'user_id': user.user_id}, {'$set': {'kb_ids': ['k']}})
+    repo.results.update_one({'experiment_id': 'baseline', 'attempt': 1, 'question_id': 'q1'},
+        {'$set': {'result.citations': [dict(document_sha256=document_sha, page=4, asset_sha256=image_sha)]}})
+
+    # 图片散列虽存在于知识库，若没有绑定到当前结果的精确来源，不能被该路由读取。
+    assert client.get(base + 'e' * 64).status_code == 404
+    assert client.get(f'/api/v1/experiments/baseline/results/q1/images/{document_sha}/5/{image_sha}').status_code == 404
+    assert object_client.reads == [('m6-test-images', object_key)]
+
+    # 撤销该账号的知识库授权后，历史结果不能绕过原件/修订权限读取图片。
+    resources['identity'].store.users.update_one({'user_id': user.user_id}, {'$set': {'kb_ids': []}})
+    denied = client.get(base + image_sha)
+    assert denied.status_code == 404
+    assert object_client.reads == [('m6-test-images', object_key)]
+
+
 def test_unknown_followups_preserve_originals_and_unblock_calibration_after_both_rounds(review_client):
     client, headers, repo, _ = review_client
     originals = unknown_rounds(client, headers)
