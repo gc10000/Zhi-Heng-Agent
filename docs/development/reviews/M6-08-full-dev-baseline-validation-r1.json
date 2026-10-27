@@ -1,0 +1,341 @@
+{
+  "stage": "M6",
+  "review_status": "未提交",
+  "notice": "部分接续材料；不是M6通过或完整dev通过，原始内容仅本机。",
+  "baseline_commit": "bde79d14b82aeaa6d1cfe59be0417b80e1688c91",
+  "incomplete": [
+    "M6-04",
+    "M6-05",
+    "M6-08"
+  ],
+  "core_complete": "4/7",
+  "m7_authorized": false,
+  "corpus_ready": {
+    "passed": true,
+    "documents": 4,
+    "dev_questions": 85,
+    "g540_chunks": 272,
+    "g540_images": 14,
+    "source_corpus_sha256": "dd01944db688807c158923c0d21d272f1f45aa4304aa9012efada71c2c18b810",
+    "target_corpus_sha256": "81cd5d7583f6671a3ed66f85f4fa81e37cada0a79ae4d6d612533b4f81bb1481",
+    "source_unchanged": true,
+    "provider_calls": 0,
+    "historical_summary_provenance": "14张图精确字节与旧Markdown alt/摘要账本对应，非新云模型生成",
+    "preparation_exit_code": 1,
+    "preparation_failure": "准备脚本末尾在仍打开的源只读上下文中改写其config对象，使源核对误用目标G540身份；无源写入。新进程分别加载独立配置只读复验，不重导入。",
+    "verification_exit_code": 0,
+    "heldout_executed": false
+  },
+  "preflight": {
+    "passed": true,
+    "questions": 85,
+    "eligible": 31,
+    "draft": 54,
+    "source_documents": 4,
+    "corpus_sha256": "81cd5d7583f6671a3ed66f85f4fa81e37cada0a79ae4d6d612533b4f81bb1481",
+    "versions": {
+      "code": "cbfb1c272b9624e86f9d4f6f7c1d181c779c7964d880ace0001b4ff0116b3fc9",
+      "prompt": "26534c884d5f9b222cd73bed840325532abff238157108d16e8d44f80ee736f8",
+      "model": "565fbfe4c795fb52f84183f7b2708491fd7824fa07f2de9fd546e9d6d6e5bb90"
+    },
+    "provider_calls": 0,
+    "heldout_executed": false,
+    "execution_mode": "正式应用服务创建和execute_job，RealQueryExecutor真实运行；本轮非HTTP/队列传输复验"
+  },
+  "experiment_id": "a5607e05-de22-4b24-9570-e85b7e09b521",
+  "full_dev_complete": false,
+  "execution": {
+    "process_exit_code": 1,
+    "selected": 85,
+    "completed": 19,
+    "failed": 1,
+    "missing": 65,
+    "disk_state": "cancelled",
+    "database_final_state": "未核实：Mongo不可用",
+    "slot_released": null,
+    "observed_successful_logical_provider_calls": {
+      "stream_started": 19,
+      "invoke_started": 0
+    },
+    "failed_window_calls": null,
+    "exact_sdk_http_requests": null,
+    "exact_cost": null
+  },
+  "verification": {
+    "old_001_formal_http": {
+      "passed": true,
+      "checks": 12,
+      "exit_code": 0,
+      "timing": "基础服务故障前"
+    },
+    "partial_artifacts_offline": {
+      "passed": true,
+      "checks": 20,
+      "exit_code": 0
+    },
+    "partial_edge_offline": {
+      "passed": true,
+      "checks": 5,
+      "exit_code": 0
+    },
+    "unique_test_total": null,
+    "groups_overlap": true
+  },
+  "pytest_rerun": false,
+  "legacy_reimport_rerun": false,
+  "frontend_full_rerun": false,
+  "human_writes": 0,
+  "calibration_writes": 0,
+  "observation_writes": 0,
+  "heldout_executed": false,
+  "commands": "output/m6-dev-readiness-r1/commands-final.json",
+  "raw_evidence": [
+    {
+      "path": "output/m6-dev-readiness-r1/baseline-created.json",
+      "sha256": "9c3d881615a750032139a14d420931221217c09e91f096ffbdc5f58cf10115ad"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/build_summary.py",
+      "sha256": "77664059425400411285c5db3bebf65f33869b1483ac23a9f2359c2a011a4fe3"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/cache-audit.json",
+      "sha256": "fe4859068ed3456d6e82f2ea809e419fcaf7fda60a765b7dad33dbbc17db9203"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/cache-link-audit.json",
+      "sha256": "22dd1c2ab4ade349bc0fce96255535d2b5b87d54b6bb0ebfa18080b8f8fddc19"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/cache-links-private.json",
+      "sha256": "40c6811200cf2104151b40da25575e6dfc167511fee21a6321650e50fb9df219"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/cache_audit.py",
+      "sha256": "a79f2165b363bf7a261c243c79f15709efe50341c64fc35935e1b91c10c2cd67"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/cache_link_audit.py",
+      "sha256": "8a9017cf08efe3207064da06e4e9a8be35d54d89b45dc16708b8dc6404f7fd59"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/catalog/baseline.json",
+      "sha256": "59d4bf1f943ce299e58871ace19f75f5a42ccac5ca5659e8312300c7c9377e9a"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/catalog/catalog.json",
+      "sha256": "6febaf02422ae4cdbe9f75b268847afcf988f073b7a52a426b8d129c66c750be"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/catalog/support-v2-r2-manifest.json",
+      "sha256": "02adab8ab9346c3d6b22c7a15a0a6aae2c7d65ad1deefc9722400b2e477e6b92"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/catalog/support-v2-r2.jsonl",
+      "sha256": "1d1f785c3303adcaf4b964bf6d5bedeee8cf418ff0f0748704a7bccbe2a86d36"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/commands-final.json",
+      "sha256": "99864765afe977c115c79b2eedf7e764e7b9a70eb81e0290fef9a819c0213702"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/commands-start.json",
+      "sha256": "ddefb5e2362d3410cc94004c19ca3c2405160433a334fa475e37066558145539"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/copied-corpus.json",
+      "sha256": "e2aaf81e868248f7cf08a99191a4cd457557ada80f393c5467808819ea5c45f5"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/corpus-ready.json",
+      "sha256": "0ea509e41a541e334df05ea43d755762d6a9b3ef9c8412a60f6c54b86f3c2c2c"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/docker-after-restart-r1.json",
+      "sha256": "812ebaac0e10fdeb9afe644262c15456b8ad0d1fc1e23387cd7125059ae1d43a"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/docker-engine-diagnostic.json",
+      "sha256": "ddfc56e34192c585b7c48be2e022d45437a052f3b0b19b1866fd73d32e8d0e2f"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/docker-final-probe.json",
+      "sha256": "3a4a60e2151d774a020470db88dbb32f9fc5f3a9063cc158f69f1713e09848db"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/docker-recovery-r2.json",
+      "sha256": "4e64808a3be0191cebfb3170bb39a98cdf19906e40040ed537ba8ea423a06bcc"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/docker-restart.log",
+      "sha256": "e1de23c874c61ad9ff96a505668a298a387ba31239055e4e31db50bdde925941"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/execution-session-private.json",
+      "sha256": "45f59168f6f8b0cd0dcef3c8341278019b992c29936b0d95cca09cf059b95ab3"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/experiments/a5607e05-de22-4b24-9570-e85b7e09b521/attempts.jsonl",
+      "sha256": "63dad8dc9da98fdd6a83a304f0f43d2e6fba3f6c8cedea10b38548ee9a3b74d3"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/experiments/a5607e05-de22-4b24-9570-e85b7e09b521/manifest.json",
+      "sha256": "48694069fdc006bd7ca05d1ce4b4745a160b954749b4748cf573ad54e4b7c509"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/experiments/a5607e05-de22-4b24-9570-e85b7e09b521/results.jsonl",
+      "sha256": "63dad8dc9da98fdd6a83a304f0f43d2e6fba3f6c8cedea10b38548ee9a3b74d3"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/export_full_dev.py",
+      "sha256": "9289c77edc4ffc6c472f32ccc65df0be6014f18f35a01f0b6b404e08ff06d9aa"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/full-dev-config-private.json",
+      "sha256": "59d4bf1f943ce299e58871ace19f75f5a42ccac5ca5659e8312300c7c9377e9a"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/full-dev-failure-r1.json",
+      "sha256": "b000e4e5afae26c2ed9899c5e918f6bd6b6a5457a366b99547e091b19bb538bd"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/full-dev-preflight.json",
+      "sha256": "ad0c26a978960e339184a897a760b7b77e79459fc0f6f3770472e4dcbf69699b"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/infrastructure-failure.json",
+      "sha256": "46956ab6d6b067cb6639617ac836872c877f5af404356399b31d9335b04342cd"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/inspect_sources.py",
+      "sha256": "bae3d88b96c0d1f0c1b8726015f3141fcd98f4ca438a300031e5992bfabd88ed"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/old-001-readonly.json",
+      "sha256": "8d8ccbcd764657a565cc9091115ff45ae28964485ed37febd0a84c5dd0f96ee5"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/old-001-readonly.log",
+      "sha256": "998fd5302f3d433ddb6f8a9c644c6769614e249a50ee363dfe85597def25dce0"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/partial-browser.json",
+      "sha256": "0b52e44ae1576bbefe0d23c0ea113b7286e90ee2706e0c0aa5cdaf2decadf5ba"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/partial-browser.log",
+      "sha256": "1baa2c1d4732b692b16776db1a15f94b56382abec60d4e30b346f52c2615924f"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/partial-readonly.json",
+      "sha256": "6eb290f86902e401f3f4ca91484badf8323ddd8cdfc499f60c29e3ae0977d996"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/partial-readonly.log",
+      "sha256": "625da6061ca4122b7b6ea3a884233139a1486c2262fac63f40539f53a95fd3d7"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/partial-report-top.png",
+      "sha256": "2958cced09fd4d9253f0c3879e90066a1040b581ea774c4d48ac1ec7b8406c0b"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/pdf-cache/3c4b95d7-3e72-599d-8d91-02490d98cfdb/0/segment.json",
+      "sha256": "37659b5d5631b57bf4067a699f9c3138753a2e1b2d0a990302e01b331e867451"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/preload.json",
+      "sha256": "8e5a3b5be12ddfc542a767339e563fc2624a8605a0972a822e6f976fe9f9099c"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/prepare-corpus.log",
+      "sha256": "9fa2ecfc037a4ce181d5ce6c76ce9bfd9566188f60254dc8c19290bedf5e2326"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/prepare_corpus.py",
+      "sha256": "690214b4b82c0de2af33cc8f57f44beb9d535f10f5744f3f35565d3c8a8314cd"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/progress.py",
+      "sha256": "cc7691ed8a99c03e4ca8a7bf6a02ec4dc462d935b2581e3a7e42f0f9dc03c944"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/recheck_old_001.py",
+      "sha256": "a40422d41e6491747daadbf206303c6b9246977c33e37af37094a80a83f76187"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/run-full-dev.log",
+      "sha256": "95afe29c559b7898be87829a9a40d5ceadde66c7ee190ec92cff4949a9f62fd3"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/run_full_dev.py",
+      "sha256": "dde52fb00a6dd674cce7738d9f9ebd8a56724e72d6ade9b98e72587559a99a56"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/source-matches-private.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/target-private.json",
+      "sha256": "766aa18f3fdfc6facf0c2661ad2f36ae65e569d3884152dc9651744462ed887b"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/update_docs_final.py",
+      "sha256": "c579a873b4f9638326b2308f93f29f4c52075124ad4e5601942e301d0f02fa92"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/verify-corpus.log",
+      "sha256": "a27faac0508a3f95259efa46fc94076e65efcbcf786f8fb3272dd790dd1c9813"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/verify_fixed_report.cjs",
+      "sha256": "1b4f2e63e4a71bfe2cf955ad9a8ff27e1513e944fcaa306dc8fabdbbe15714a0"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/verify_full_dev.py",
+      "sha256": "3fa2b528ab83fb4a247321135e2ad05e160343c1d386a26183f39c8e310553e6"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/verify_partial_artifacts.py",
+      "sha256": "2c584d2edcaaee469f50c5870a554fac5b9e7453752fb7c928cca3287cd5e927"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/verify_partial_browser.cjs",
+      "sha256": "76299112fcc810036160308ecf834cf243316a5e6549be5a0e4d30fb4ede930a"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/verify_prepared_corpus.py",
+      "sha256": "eed46ac8fffd080ff4dc0db803f26e88df27fb631d495ddfa570bdc4f611fcdf"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/首次运行中断记录.html",
+      "sha256": "d9f9291c89dfd2dbc48828f1121364c43f8dbe6fbc3bcf27c1d54662f8bfa8b8"
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/audit_submission.py",
+      "sha256": "78be744d3270a6a9f4454ce43e630d1503f8eef064e953e59a97fb8b9ebd0ab2"
+    }
+  ],
+  "snapshot_paths": [
+    "docs/development/CHANGELOG.md",
+    "docs/development/DECISIONS.md",
+    "docs/development/PROGRESS.md",
+    "docs/development/REVIEW_STATUS.md",
+    "docs/development/records/M6-04.md",
+    "docs/development/records/M6-05.md",
+    "docs/development/records/M6-08.md",
+    "docs/development/reviews/M6-08-full-dev-baseline-r1.md",
+    "docs/development/reviews/M6-08-full-dev-baseline-validation-r1.json",
+    "docs/evaluation/feedback-loop.md",
+    "docs/evaluation/release-report.md",
+    "docs/evaluation/workbench.md",
+    "docs/plans/DEVELOPMENT_TODO.md",
+    "docs/plans/tasks/M6-evaluation.md"
+  ],
+  "unexecuted_scripts": [
+    "verify_full_dev.py",
+    "export_full_dev.py",
+    "verify_fixed_report.cjs"
+  ],
+  "blocker": "Docker引擎/Mongo不可用；官方恢复超时，需恢复现有服务后按正式协议核账本再续验。",
+  "remaining": "新规则独立人工双轮、预校准、校准后候选/反馈复评及完整dev固定报告；不要求重复已有聊天判断，不复制human。"
+}
