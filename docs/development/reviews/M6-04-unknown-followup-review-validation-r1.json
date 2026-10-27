@@ -1,0 +1,108 @@
+{
+  "date": "2026-10-27",
+  "scope": "M6-04未知项不可变追加复核总控定向审查",
+  "reviewed_commit": "70f137553db55f1a4dfb898f007e38279e302676",
+  "conclusion": "passed_targeted_review",
+  "stage_accepted": false,
+  "m6_core": "4/7",
+  "total_core": "64/76",
+  "m7_authorized": false,
+  "independent_checks": [
+    {
+      "command": ".venv/Scripts/python.exe -m pytest tests/integration/test_evaluation_reviews.py -q --tb=short --junitxml=output/m6-04/unknown-followup-independent-20261027/reviews.xml",
+      "passed": 34,
+      "exit_code": 0,
+      "seconds": 27.83,
+      "database_prefix": "m1_test_m6_followup_review_*"
+    },
+    {
+      "command": "pnpm -C frontend exec playwright test reviews.spec.ts --output=../output/m6-04/unknown-followup-independent-20261027/browser-artifacts --reporter=list",
+      "passed": 4,
+      "exit_code": 0,
+      "seconds": 12.9,
+      "mode": "offline_browser_mock_http"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pytest output/m6-04/unknown-followup-independent-20261027/test_followup_probe_v2.py -q --tb=short --junitxml=output/m6-04/unknown-followup-independent-20261027/probes-v2.xml",
+      "passed": 10,
+      "exit_code": 0,
+      "seconds": 9.54,
+      "database_prefix": "m1_test_m6_followup_probe_v2_*"
+    }
+  ],
+  "probe_correction": {
+    "initial_result": {
+      "failed": 1,
+      "passed": 8,
+      "exit_code": 1
+    },
+    "reason": "初版错把提高一轮而最低分不变视为质量变化；v2分开验证不变/变化。原脚本及XML保留。",
+    "business_code_changed": false
+  },
+  "submission_snapshot_checked_before_document_edits": {
+    "files": 22,
+    "python_syntax": 4,
+    "local_links": 336,
+    "submitted_evidence_hashes": 29,
+    "all_matched": true,
+    "audit": "output/m6-04/unknown-followup-independent-20261027/submission-audit.json"
+  },
+  "submitted_full_regression_not_rerun": {
+    "backend_passed": 951,
+    "deselected": 2,
+    "skipped": 0,
+    "reimport_passed": 3,
+    "frontend_unit_passed": 37,
+    "frontend_browser_passed": 37,
+    "typecheck_exit_code": 0,
+    "build_exit_code": 0,
+    "backend_exit_code": 0
+  },
+  "boundaries": {
+    "real_reviews_written": 0,
+    "real_followups_written": 0,
+    "real_calibrations_created": 0,
+    "new_model_calls": 0,
+    "heldout_runs": 0,
+    "real_review_services_restarted": false,
+    "test_data": "随机m1_test_独立库；合成题目/身份/审阅，不代表真实人工结论"
+  },
+  "raw_evidence": [
+    {
+      "path": "output/m6-04/unknown-followup-independent-20261027/__pycache__/test_followup_probe.cpython-312-pytest-8.4.2.pyc",
+      "sha256": "72d72fcebfa7a79734aa06e4a99f78ee17cc4959a0680f1acda8a9fdb9f5d6fb"
+    },
+    {
+      "path": "output/m6-04/unknown-followup-independent-20261027/__pycache__/test_followup_probe_v2.cpython-312-pytest-8.4.2.pyc",
+      "sha256": "3fb78c1bfa64220d239df145ff911141830ef037a05a24e3c27a77a6601fb20d"
+    },
+    {
+      "path": "output/m6-04/unknown-followup-independent-20261027/browser-artifacts/.last-run.json",
+      "sha256": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903"
+    },
+    {
+      "path": "output/m6-04/unknown-followup-independent-20261027/probes-v2.xml",
+      "sha256": "ca9bd625f6df8c41eb4e8dec62e382fed371b399e9b35bc69e2e5634a5c11dcd"
+    },
+    {
+      "path": "output/m6-04/unknown-followup-independent-20261027/probes.xml",
+      "sha256": "f460fdb7f22f2c64f3e049110bc8fcef1e8dd14e380c35799924e4ce6240517b"
+    },
+    {
+      "path": "output/m6-04/unknown-followup-independent-20261027/reviews.xml",
+      "sha256": "34aa2f404fc3befcf7189628b0fe65bc20a64dba2939b153179b3e1c53a475bd"
+    },
+    {
+      "path": "output/m6-04/unknown-followup-independent-20261027/submission-audit.json",
+      "sha256": "00adaf5fe86216ba7991d43589380660b3308ec19be0b28e505082172a0dd23c"
+    },
+    {
+      "path": "output/m6-04/unknown-followup-independent-20261027/test_followup_probe.py",
+      "sha256": "f8d359432f378fdfdc370ca557384aad446c822ab45a4401402d23d553e2744f"
+    },
+    {
+      "path": "output/m6-04/unknown-followup-independent-20261027/test_followup_probe_v2.py",
+      "sha256": "19bd784462c8e3d6064ccb3f9244210b589423f9db7a04b768c4244a09f9ebe0"
+    }
+  ]
+}
