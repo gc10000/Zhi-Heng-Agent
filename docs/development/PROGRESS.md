@@ -1,5 +1,11 @@
 # 开发进度与接续点
 
+## 2026-10-27 · Docker/Mongo已恢复，完整dev attempt需明确新尝试协议
+
+Docker Engine 29.5.2及Mongo恢复，六容器均运行（Mongo/Milvus/MinIO/Redis/etcd健康，Attu运行中）；只读核账时原实验由running/attempt1转为failed/attempt2，retryable=false、provider_invalid_response、结果行0，状态变化来源及外部调用/费用未知。原本地manifest/attempts/results已哈希备份且未改。唯一过期的020 Run已通过正式RunCommands.recover转为interrupted，持久run.interrupted事件写入、会话占用释放；保留过期执行token/lease字段不手工清除。当前19个completed Run、020 interrupted、其余65无检查点，owner slot为空，DB无活动Run。因实验失败不可重试且attempt2调用未知，本轮不再生成或改retryable。详见[第二轮接续](reviews/M6-08-full-dev-baseline-r2.md)及[验证摘要](reviews/M6-08-full-dev-baseline-validation-r2.json)。M6仍4/7，04/05/08未验收，M7未授权。
+
+下一步：先设计并审查可追溯的新尝试协议以处理020的interrupted检查点；保留旧attempt和19成功Run，不覆盖结果，不重跑heldout。现有用户聊天判断不要求重填。随后才继续完整dev和M6剩余验证。
+
 ## 当前M6-08：完整dev语料与新规则比较接续（2026-10-27）
 
 起点main bde79d14b82aeaa6d1cfe59be0417b80e1688c91，原tmp保留。四文档新隔离语料已覆盖dev85题（31已审核标签/54草稿），原三份595切片/56对象只读复制，G540历史解析/14图摘要精确复用、真实本机编码272切片；准备末尾工具配置错误退出1，独立续验退出0。真实完整dev实验a5607e05-de22-4b24-9570-e85b7e09b521退出1：19题成功、020题Mongo连接超时、65题未完成；已观测19次逻辑stream/0 invoke，失败窗口和精确费用未知，不能写本轮付费0。磁盘manifest因续租丢失为cancelled，数据库终态/slot未核实。Docker官方重启及定向WSL生命周期恢复后仍不可用，停止反复预检；不强杀、不删卷、不重建。本轮原001故障前只读12检查通过，中断本地20检查通过；业务源码/依赖/prompt/默认策略未改，未重复全量回归。

@@ -1,0 +1,70 @@
+{
+  "date": "2026-10-27",
+  "scope": "M6-08完整dev基础服务恢复及过期Run收敛",
+  "experiment_id": "a5607e05-de22-4b24-9570-e85b7e09b521",
+  "stage_accepted": false,
+  "m6_core": "4/7",
+  "total_core": "64/76",
+  "m7_authorized": false,
+  "docker": {
+    "engine": "29.5.2",
+    "containers_running": 6,
+    "mongo_ping": true,
+    "volumes_deleted": 0,
+    "containers_recreated": 0,
+    "corpus_reimported": false
+  },
+  "experiment": {
+    "state": "failed",
+    "attempt": 2,
+    "retryable": false,
+    "error_code": "provider_invalid_response",
+    "persisted_results": 0,
+    "owner_slot_active": false,
+    "attempt2_provider_calls": null,
+    "attempt2_cost": null,
+    "change_source_during_readonly_check": "unknown"
+  },
+  "run_recovery": {
+    "method": "app.runs.commands.RunCommands.recover",
+    "recovered_expired_question": "support-v1-020",
+    "state": "interrupted",
+    "run_interrupted_event_persisted": true,
+    "conversation_active_run_released": true,
+    "stale_execution_token_and_lease_fields_manually_cleared": false,
+    "active_runs_after": 0
+  },
+  "checkpoints": {
+    "selected_dev": 85,
+    "completed_runs": 19,
+    "question020": "interrupted",
+    "remaining_without_checkpoint": 65,
+    "local_checkpoint_files_unchanged": true,
+    "backup_sha256_verified": true
+  },
+  "prior_known_logical_stream_calls": 19,
+  "this_recovery_model_calls": 0,
+  "human_writes": 0,
+  "observation_writes": 0,
+  "calibration_writes": 0,
+  "heldout_executed": false,
+  "full_dev_complete": false,
+  "automatic_retry_performed": false,
+  "raw_evidence": [
+    {
+      "path": "output/m6-dev-readiness-r2/pre-recovery/before-recovery-attempt2.json",
+      "sha256": "10397bed80f70710f6d49896ee14d88902e73eb425d25be01eae620e72eab055",
+      "bytes": 820
+    },
+    {
+      "path": "output/m6-dev-readiness-r2/pre-recovery/recovery-result.json",
+      "sha256": "a7c70e8f317221f2a6f562334f3d776b7b3efae0322e53e5d4969ad38bfc9fa0",
+      "bytes": 347
+    },
+    {
+      "path": "output/m6-dev-readiness-r2/post-recovery-readonly.json",
+      "sha256": "43563dad98227d9dc063534b841a5660cae53edddc5266863c1d548549081641",
+      "bytes": 2482
+    }
+  ]
+}
