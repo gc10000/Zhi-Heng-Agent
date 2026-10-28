@@ -3,22 +3,31 @@ import re
 
 
 def readable_evidence(text):
-    """只改变生成用投影；原始证据/引用保持不变，不猜测丢失图标的含义。"""
+    """仅标注点击指令中结构明确的空导航；数学、操作符和代码原样保留。"""
     from markdown_it import MarkdownIt
-    protected=set()
-    for token in MarkdownIt('default').parse(text):
+    from markdown_it.rules_inline.backticks import backtick
+    md=MarkdownIt('default');protected=[]
+    offsets=[0]
+    for line in text.splitlines(keepends=True):offsets.append(offsets[-1]+len(line))
+    for token in md.parse(text):
         if token.type in {'fence','code_block'} and token.map:
-            protected.update(range(*token.map))
-    def prose(value):
-        value=re.sub(r'\\(?:emptyset|varnothing)\b','〔未识别图标〕',value)
-        return re.sub(r'(?:>\s*){2,}', '〔未识别图标路径〕',value)
-    result=[]
-    for i,line in enumerate(text.splitlines(keepends=True)):
-        if i in protected:result.append(line);continue
-        start=0;parts=[]
-        for match in re.finditer(r'(?<!`)(`+)(?!`)[^\n]*?(?<!`)\1(?!`)',line):
-            parts.extend((prose(line[start:match.start()]),match[0]));start=match.end()
-        result.append(''.join(parts)+prose(line[start:]))
+            protected.append((offsets[token.map[0]],offsets[token.map[1]]))
+    # 使用固定CommonMark解析器实际消费的源码跨度，包含跨行/变长行内代码。
+    def code_span(state,silent):
+        start=state.pos;count=len(state.tokens)
+        accepted=backtick(state,silent)
+        if not silent and len(state.tokens)>count and state.tokens[-1].type=='code_inline':
+            protected.append((start,state.pos))
+        return accepted
+    md.inline.ruler.at('backticks',code_span)
+    md.inline.parse(text,md,{},[])
+    navigation=re.compile(r'((?:依次)?点击[ \t]*)(\$?(?:>(?!>)[ \t]+(?:\\(?:emptyset|varnothing)\b[ \t]*)?){2,}\$?)')
+    def prose(value):return navigation.sub(r'\1〔未识别图标路径〕',value)
+    result=[];end=0
+    for start,stop in sorted(protected):
+        if start>end:result.append(prose(text[end:start]))
+        if stop>end:result.append(text[max(start,end):stop]);end=stop
+    result.append(prose(text[end:]))
     return ''.join(result)
 
 
@@ -28,7 +37,7 @@ def pack_prompt_inputs(docs, history, max_chars=12000):
     context_blocks, messages, ids, indices = [], [], [], []
     used = 0
     for index, doc in enumerate(docs):
-        text = readable_evidence((doc.get('text') or '').strip())
+        text = readable_evidence(doc.get('text') or '').strip()
         if not text:
             continue
         # 编号按实际入选证据连续生成，元信息和分隔符计入预算。

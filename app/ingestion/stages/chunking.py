@@ -3,19 +3,23 @@ import re
 from app.knowledge.models import Chunk,SourceRef,stable_id,content_hash
 from html.parser import HTMLParser
 
-VERSION = '3'
+VERSION = '4'
 
 
 class _TableReader(HTMLParser):
     def __init__(self):
-        super().__init__();self.rows=[];self.row=None;self.cell=None;self.has_header=False
+        super().__init__();self.rows=[];self.row=None;self.cell=None;self.header_rows=set();self.in_header=False
     def handle_starttag(self,tag,attrs):
-        if tag=='tr':self.row=[]
+        if tag=='thead':self.in_header=True
+        if tag=='tr':
+            self.row=[]
+            if self.in_header:self.header_rows.add(len(self.rows))
         if tag in {'th','td'}:self.cell=[]
-        if tag=='th':self.has_header=True
+        if tag=='th':self.header_rows.add(len(self.rows))
     def handle_data(self,data):
         if self.cell is not None:self.cell.append(data)
     def handle_endtag(self,tag):
+        if tag=='thead':self.in_header=False
         if tag in {'th','td'} and self.cell is not None:
             if self.row is not None:self.row.append(''.join(self.cell).strip())
             self.cell=None
@@ -34,13 +38,18 @@ def structured_blocks(document):
             parser=_TableReader();parser.feed(block.text)
             # 部分解析器把真正表头也输出成td；常见列名仍按表头处理。
             header=tuple(cell.strip().casefold() for cell in parser.rows[0]) if parser.rows else ()
-            labeled_header=(len(header)==2 and header[0] in {'参数','项目','名称','接口','parameter','item','name'}
-                            and header[1] in {'说明','描述','含义','值','description','value'})
-            if parser.rows and not parser.has_header and not labeled_header and all(len(row)==2 for row in parser.rows):
+            labels=tuple(re.split(r'[（(]',cell,maxsplit=1)[0].strip() for cell in header)
+            labeled_header=(len(labels)==2 and labels[0] in {'参数','项目','名称','接口','parameter','item','name'}
+                            and labels[1] in {'说明','描述','含义','值','限制','功率','description','value'})
+            if parser.rows and not parser.header_rows and not labeled_header and all(len(row)==2 for row in parser.rows):
                 # 无表头的键值/编号说明表：每行都是数据，不能把第一部件当所有后续行的表头。
                 for i,row in enumerate(parser.rows):
                     output.append(block.model_copy(update={'block_id':stable_id('table-row',document.revision_id,[block.block_id,i]),'rows':(row,)}))
-            else:output.append(block.model_copy(update={'rows':tuple(parser.rows)}))
+            else:
+                count=max(parser.header_rows)+1 if parser.header_rows else 1
+                if parser.header_rows and parser.header_rows!=set(range(count)):
+                    raise ChunkBoundaryError('表头不连续，禁止丢失表头条件')
+                output.append(block.model_copy(update={'rows':tuple(parser.rows),'table_header_rows':count}))
         else:output.append(block)
     for value in output:
         if not isinstance(value,tuple):yield value;continue
@@ -65,12 +74,28 @@ class ChunkBoundaryError(ValueError):pass
 
 def split_text(text,max_chars):
     if max_chars<1:raise ValueError('切片上限必须大于0')
-    # Markdown图片表达式保持原子；超限明确失败而非截断URL。
-    atoms=re.split(r'(^[ \t]*(?:`{3,}[^\n]*\n[\s\S]*?^[ \t]*`{3,}[ \t]*(?=\n|$)|~{3,}[^\n]*\n[\s\S]*?^[ \t]*~{3,}[ \t]*(?=\n|$))|!\[[^\]]*\]\([^)]*\))',text,flags=re.M)
+    from markdown_it import MarkdownIt
+    # 固定解析器负责同类/长度、缩进与未闭合围栏；按原始行跨度取值，不重渲染源码。
+    offsets=[0]
+    for line in text.splitlines(keepends=True):offsets.append(offsets[-1]+len(line))
+    ranges=[]
+    for token in MarkdownIt('default').parse(text):
+        if token.type in {'fence','code_block'} and token.map:
+            start,end=(offsets[i] for i in token.map)
+            end=start+len(text[start:end].rstrip('\r\n'))
+            ranges.append((start,end))
+    atoms=[]
+    def prose(value):
+        for part in re.split(r'(!\[[^\]]*\]\([^)]*\))',value):
+            if part:atoms.append((part,part.startswith('![')))
+    end=0
+    for start,stop in sorted(ranges):
+        prose(text[end:start]);atoms.append((text[start:stop],True));end=stop
+    prose(text[end:])
     chunks=[];current=''
-    for atom in atoms:
+    for atom,atomic in atoms:
         if not atom:continue
-        if atom.startswith('![') or re.match(r'^[ \t]*(?:`{3,}|~{3,})',atom):
+        if atomic:
             if len(atom)>max_chars:raise ChunkBoundaryError('单个图片引用或代码块超过切片上限')
             if len(current)+len(atom)>max_chars:chunks.append(current);current=''
             current+=atom
@@ -128,16 +153,18 @@ def chunk_document(document,*,max_chars=2000,default_product_ids=()):
         if block.kind=='table' and block.rows:
             # 分隔语法由格式解析器处理；此处所有行均为真实数据，表头每片重复。
             rows=list(block.rows)
-            header=' | '.join(rows[0])+'\n'
+            count=block.table_header_rows
+            if count>len(rows):raise ChunkBoundaryError('表头行数超出表格范围')
+            header='\n'.join(' | '.join(row) for row in rows[:count])+'\n'
             if len(header)>=max_chars:raise ChunkBoundaryError('表头超限，请人工结构化处理')
-            current=header;start=1;last=0
-            for i,row in enumerate(rows[1:],1):
+            current=header;start=count;last=count-1
+            for i,row in enumerate(rows[count:],count):
                 line=' | '.join(row)+'\n'
                 if len(header)+len(line)>max_chars:raise ChunkBoundaryError('单行表格超限，禁止截断单元格')
                 if len(current)+len(line)>max_chars:
                     parts.append((current.rstrip('\n'),start,last));current=header;start=i
                 current+=line;last=i
-            if current:parts.append((current.rstrip('\n'),start if len(rows)>1 else 0,last))
+            if current:parts.append((current.rstrip('\n'),start if len(rows)>count else 0,last))
         else:
             text=block.description if block.description is not None else block.text
             parts=[(text,None,None)] if len(text)<=max_chars else [(part,None,None) for part in split_text(text,max_chars)]

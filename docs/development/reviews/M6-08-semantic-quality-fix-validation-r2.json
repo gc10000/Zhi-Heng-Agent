@@ -1,0 +1,277 @@
+{
+  "date": "2026-10-28",
+  "base_commit": "1336493ca0ec935ce6de0f8f32f7f7f847e79f49",
+  "status": "补修自验完成，待独立复审",
+  "findings": [
+    {
+      "id": "SQ-R1",
+      "priority": 1,
+      "status": "fixed_pending_independent_review",
+      "scope": "结构明确的点击空导航投影，CommonMark源码跨度保护与实际prompt验证"
+    },
+    {
+      "id": "SQ-R2",
+      "priority": 2,
+      "status": "fixed_pending_independent_review",
+      "scope": "解析器真实围栏边界，代码整体原子与超限拒绝"
+    },
+    {
+      "id": "SQ-R3",
+      "priority": 2,
+      "status": "fixed_pending_independent_review",
+      "scope": "显式thead/th及多行表头限定随数据片保留"
+    }
+  ],
+  "verification": {
+    "red-independent.xml": {
+      "tests": 7,
+      "failures": 5,
+      "errors": 0,
+      "skipped": 0
+    },
+    "red-boundaries.xml": {
+      "tests": 12,
+      "failures": 8,
+      "errors": 0,
+      "skipped": 0
+    },
+    "red-extra-header.xml": {
+      "tests": 2,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0
+    },
+    "green-sq-r1.xml": {
+      "tests": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "green-sq-r2.xml": {
+      "tests": 7,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0
+    },
+    "green-three-items.xml": {
+      "tests": 46,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "offline-regression.xml": {
+      "tests": 251,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "green-independent.xml": {
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integration-regression.xml": {
+      "tests": 39,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "groups_are_not_unique_total": true,
+  "original_probe_copy_byte_identical": true,
+  "probe_sha256": "0c13c42c5a5d8e159d0b97a960b8305a0d669adf1716b1363f7d92c48cb6a5bf",
+  "intermediate_failure": "green-sq-r2初验2失败源于新增测试误要求代码块独占整片；改为整块在同片且拼接原样，原日志留存。",
+  "corpus": {
+    "chunker_version": "4",
+    "internal_block_field": "table_header_rows default=1",
+    "tables": 43,
+    "changed_tables": 0,
+    "content_preservation_checks": 1360,
+    "document_chunk_counts": [
+      18,
+      151,
+      64,
+      282
+    ],
+    "image_counts": [
+      4,
+      14,
+      20,
+      29
+    ],
+    "explicit_headers_in_real_cache": 0,
+    "published": false,
+    "real_retrieval_gain_proven": false,
+    "limitation": "四缓存无显式thead/th，显式表头修复用合成反例验证；实际表格差异核对不等于语义质量或召回改善"
+  },
+  "immutable": {
+    "protected_output_files": 232,
+    "protected_output_hashes_unchanged": true,
+    "protected_legacy_files": 145,
+    "prior_fix_evidence_files": 16,
+    "readonly_audit_checks_per_run": 179,
+    "source_supplements_unchanged": 3,
+    "frozen_chunks": 867,
+    "non_ttl_collections_equal_historical_snapshot": 21,
+    "audit_window_22_collections_equal": true,
+    "between_audits_equal": true,
+    "historical_events_count": 2315,
+    "current_events_count": 1675,
+    "exported_events": 2308,
+    "exported_events_missing": 634,
+    "missing_exported_all_expired": true,
+    "events_equal_historical_snapshot": false,
+    "ttl_limitation": "导出范围外缺失事件无法逐条归因，不声称跨交接22集合均相同"
+  },
+  "operations": {
+    "provider_model_calls": 0,
+    "embeddings": 0,
+    "real_rerank_model_calls": 0,
+    "real_dev_executed": false,
+    "heldout_executed": false,
+    "corpus_published": false,
+    "formal_scores_observations_calibrations_candidates_declarations_written": false,
+    "historical_state_lease_slot_retryable_or_links_modified": false,
+    "subagents_used": false,
+    "api_or_frontend_structure_changed": false
+  },
+  "historical": {
+    "r3_experiment": "79b3cc58-cfd4-4da5-84c0-890d92a9be06",
+    "results": 85,
+    "inherited": 19,
+    "executed": 66,
+    "inherited_stream": 19,
+    "new_stream": 61,
+    "exact_http": null,
+    "exact_cost": null,
+    "failed_experiment": "a5607e05-de22-4b24-9570-e85b7e09b521",
+    "state": "failed",
+    "attempt": 2,
+    "error": "provider_invalid_response",
+    "retryable": false,
+    "result_rows": 0,
+    "calls": null,
+    "cost": null,
+    "continuation_and_image_protocol_closures_retained": true
+  },
+  "limitations": [
+    "SQ三项只执行自验，未独立复审通过",
+    "真实检索和新答案质量未验证",
+    "任意无标记或合并单元格表头语义仍需核查",
+    "正式独立双轮/预校准/候选/反馈复评依赖未完成"
+  ],
+  "next": "执行方送总控独立复审，三项通过前不发布语料；之后新命名空间/修订真实检索与正式发布回切，不要求用户重查原PDF或重复判断。",
+  "stage": {
+    "m6_core": "4/7",
+    "unaccepted": [
+      "M6-04",
+      "M6-05",
+      "M6-08"
+    ],
+    "m7_authorized": false,
+    "accepted": false
+  },
+  "evidence": [
+    {
+      "path": "output/m6-semantic-fix-r2-20261028/test_independent_probes.py",
+      "sha256": "0c13c42c5a5d8e159d0b97a960b8305a0d669adf1716b1363f7d92c48cb6a5bf"
+    },
+    {
+      "path": "output/m6-semantic-fix-r2-20261028/red-independent.xml",
+      "sha256": "ac2730599f9cf635046c6d15f7c49c7c9a2eb607da4e365b77f05ceb38cc8da4"
+    },
+    {
+      "path": "output/m6-semantic-fix-r2-20261028/red-independent.log",
+      "sha256": "33cc8483e49f6be94cb2ca46e4b1a7053d4ca37c29832f67bba3f86280c4d9bf"
+    },
+    {
+      "path": "output/m6-semantic-fix-r2-20261028/red-boundaries.xml",
+      "sha256": "1101fc9c968d22599f28233371b9c61a3e49bb0dd203751ebcc78dfc4df7f78a"
+    },
+    {
+      "path": "output/m6-semantic-fix-r2-20261028/red-boundaries.log",
+      "sha256": "9b156441d716c664df86981e9428af74639df8a56898953d5f7c6a5201ba3a83"
+    },
+    {
+      "path": "output/m6-semantic-fix-r2-20261028/red-extra-header.xml",
+      "sha256": "b1ddb4721abb8da547266a7e1fab5adf9969d705012b2031d0bec52e74ebeb15"
+    },
+    {
+      "path": "output/m6-semantic-fix-r2-20261028/red-extra-header.log",
+      "sha256": "f829e9d4fee95f873173e63f926f9f2479ae2ca50076cad48ea33a85fc3e39ab"
+    },
+    {
+      "path": "output/m6-semantic-fix-r2-20261028/green-sq-r1.xml",
+      "sha256": "3384905843dc75ac358eb8782e1b0a9e1f71f7896a5e75f66a4a200ee2f554fb"
+    },
+    {
+      "path": "output/m6-semantic-fix-r2-20261028/green-sq-r2.xml",
+      "sha256": "d00f167fe58c860cc08e6ba4b6ad2abce8064427cb16d33b3c46bb982dd9c5d9"
+    },
+    {
+      "path": "output/m6-semantic-fix-r2-20261028/green-sq-r2.log",
+      "sha256": "b6d2d3272c8c62a9ab4f23e94b2d1e900ce2968ebd1145aea25910c8bde33ed4"
+    },
+    {
+      "path": "output/m6-semantic-fix-r2-20261028/green-three-items.xml",
+      "sha256": "73efe22140d9d6c7666c20b5fc65181ddab9e188a043d869e2863fe161fc2955"
+    },
+    {
+      "path": "output/m6-semantic-fix-r2-20261028/offline-regression.xml",
+      "sha256": "333d01846dd82eab34ad9186746ddddb05ae33e6f90b1430fdf991fd1367e118"
+    },
+    {
+      "path": "output/m6-semantic-fix-r2-20261028/offline-regression.log",
+      "sha256": "e6d939e00be23c78b58e757ef8a615077f33711621ebbe1ea3ceb054581ffe34"
+    },
+    {
+      "path": "output/m6-semantic-fix-r2-20261028/offline-command.json",
+      "sha256": "674216ce5df5326758b5cc50c3f9c1315a8efbccccc64b0ce0686d78d8950ef4"
+    },
+    {
+      "path": "output/m6-semantic-fix-r2-20261028/green-independent.xml",
+      "sha256": "7fe1762be5ecbbadee27d5575104441458ffd5c3c33ae90216fc9148e93ec192"
+    },
+    {
+      "path": "output/m6-semantic-fix-r2-20261028/green-independent.log",
+      "sha256": "e8164959b31c618497d63055968765d93d2f8a9b0b6e74123cd6fc6210bab106"
+    },
+    {
+      "path": "output/m6-semantic-fix-r2-20261028/integration-regression.xml",
+      "sha256": "630dc8efcf1666ac3ded5e872b5d4dd1c67de85a63e776f0bcd9165ac59893bf"
+    },
+    {
+      "path": "output/m6-semantic-fix-r2-20261028/integration-regression.log",
+      "sha256": "11a39815503c5c59adb850af15a124aeaa81e53a24fae0ec9fe39a42f398b4ef"
+    },
+    {
+      "path": "output/m6-semantic-fix-r2-20261028/integration-command.json",
+      "sha256": "1bfc29ecd06e128e291768f794d32c9428e0630bd97e53c973db69048fddf858"
+    },
+    {
+      "path": "output/m6-semantic-fix-r2-20261028/table-differences.json",
+      "sha256": "2e708349eeabed5e7e98a5bf14e849bc824017c0950dca7a6ab35d390f3f16d6"
+    },
+    {
+      "path": "output/m6-semantic-fix-r2-20261028/verify_table_differences.py",
+      "sha256": "22df27aa3f15354578d0f07634773c5ef9bc9de1553e11822f277b72d3ea70e1"
+    },
+    {
+      "path": "output/m6-semantic-fix-r2-20261028/immutability-before.json",
+      "sha256": "6007cb1be150daaaa1027cbea004a8dd8163b599ab5ca8960313f09754bf0a40"
+    },
+    {
+      "path": "output/m6-semantic-fix-r2-20261028/immutability-after.json",
+      "sha256": "6007cb1be150daaaa1027cbea004a8dd8163b599ab5ca8960313f09754bf0a40"
+    },
+    {
+      "path": "output/m6-semantic-fix-r2-20261028/audit_immutability.py",
+      "sha256": "9af7488f3de5ef2f9de8e082a6c0429d41ac998c028c75e2f846c5ca84769dfa"
+    },
+    {
+      "path": "output/m6-semantic-fix-r2-20261028/protected-before.json",
+      "sha256": "233de38dfa248e479d0205e32da9c90d5934979785c62042ebf9a9ded5db882c"
+    }
+  ]
+}

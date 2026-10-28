@@ -1,5 +1,11 @@
 # 开发公共契约与任务交接边界
 
+## SQ补修后证据完整性契约（2026-10-28）
+
+生成context不再全局替换大于号/emptyset；只标记点击指令中明确连续空导航，未知符号不猜填。使用已固定markdown-it-py块语法和backticks实际源跨度保护fenced/缩进/跨行/变长行内代码；先识别后strip，原引用与prompt_used_docs保持原值，预算计投影实际长度。固定解析器升级须重验源跨度回归。
+
+chunker4用固定Markdown fence/code_block行跨度保持代码原子，开闭符号/长度、缩进、未闭合规则由解析器决定，超限明确拒绝。HTML显式thead/th表头优先于无表头推断；内部Block.table_header_rows缺省1，多行连续表头的完整单位/版本/对象条件随每片数据重复，不连续表头拒绝。无thead常见列名可识别括号限定但输出原完整文本，任意无标记表头语义仍需发布前核查。新字段仅内部解析契约，旧缓存不迁移，正式导入版本指纹变化；原图/continuation协议及API不变。SQ三项自验不替代独立复审，通过前不发布语料；[补修范围](../development/reviews/M6-08-semantic-quality-fix-r2.md)。
+
 ## M6语义证据完整性补修契约（2026-10-28）
 
 独立复审状态：d1286e0尚未完整满足以下代码原子性、表头语义及代码保护目标；SQ-R1/P1、SQ-R2/P2、SQ-R3/P2需补修，通过前不发布新语料。具体反例与验收补充见[独立复审](../development/reviews/M6-08-semantic-quality-review-r1.md)。下文为应满足的契约，不能据此宣称当前实现全部通过。
