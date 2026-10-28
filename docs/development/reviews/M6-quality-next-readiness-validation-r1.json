@@ -1,0 +1,378 @@
+{
+  "date": "2026-10-28",
+  "base_commit": "5bd2a0ef602a33b5b9b5c116abc0ba7cc45a5917",
+  "scope": "技术审查关闭后质量接续只读准备，不是质量或阶段验收",
+  "m6_core": "4/7",
+  "unaccepted": [
+    "M6-04",
+    "M6-05",
+    "M6-08"
+  ],
+  "m7_authorized": false,
+  "technical_findings_closed": [
+    "R1",
+    "R2",
+    "R2-R"
+  ],
+  "new_stage_approval": false,
+  "verification": {
+    "readonly_checks": 49,
+    "passed": true,
+    "protected_databases": 3,
+    "database_collection_snapshots_unchanged": true,
+    "queue_questions": 85,
+    "navigation_links": 85,
+    "navigation_anchors_checked": true,
+    "browser_rerun": false,
+    "automated_regression_rerun": false,
+    "readonly_520_rerun": false
+  },
+  "quality_inventory": [
+    {
+      "scope": "历史两题审阅",
+      "experiment_id": "beef1d1c-6b52-41b4-a0bc-d02f96f22f06",
+      "selected_questions": 2,
+      "critical": [],
+      "human_reviews": 2,
+      "review_rubrics": {
+        "legacy-v1": 2
+      },
+      "followups": 0,
+      "observations": 0,
+      "calibrations": 0,
+      "incomplete_question_count": 2,
+      "quality_values": {
+        "support-v1-045": {
+          "factuality": 2,
+          "citation_support": 2,
+          "image_relevance": 2
+        }
+      }
+    },
+    {
+      "scope": "001既有基线候选",
+      "experiment_id": "878abb8c-6d55-483e-b1a1-b7458c19d0e0",
+      "selected_questions": 1,
+      "critical": [],
+      "human_reviews": 2,
+      "review_rubrics": {
+        "legacy-v1": 2
+      },
+      "followups": 2,
+      "observations": 0,
+      "calibrations": 1,
+      "incomplete_question_count": 0,
+      "quality_values": {
+        "support-v1-001": {
+          "factuality": 2,
+          "citation_support": 1,
+          "actionability": 1,
+          "image_relevance": 0
+        }
+      }
+    },
+    {
+      "scope": "001既有基线候选",
+      "experiment_id": "f0ac6186-b204-4987-bb14-0089f3b73996",
+      "selected_questions": 1,
+      "critical": [],
+      "human_reviews": 0,
+      "review_rubrics": {},
+      "followups": 0,
+      "observations": 1,
+      "calibrations": 0,
+      "incomplete_question_count": 1,
+      "quality_values": {}
+    },
+    {
+      "scope": "r3完整dev",
+      "experiment_id": "79b3cc58-cfd4-4da5-84c0-890d92a9be06",
+      "selected_questions": 85,
+      "critical": [],
+      "human_reviews": 0,
+      "review_rubrics": {},
+      "followups": 0,
+      "observations": 0,
+      "calibrations": 0,
+      "incomplete_question_count": 85,
+      "quality_values": {}
+    }
+  ],
+  "r3": {
+    "experiment_id": "79b3cc58-cfd4-4da5-84c0-890d92a9be06",
+    "results": 85,
+    "label_eligible": 31,
+    "draft": 54,
+    "inherited": 19,
+    "executed": 66,
+    "human_reviews": 0,
+    "calibrations": 0,
+    "pending_question_count": 85,
+    "current_runtime_recertified": false
+  },
+  "preserved_001": {
+    "candidate_experiment_id": "f0ac6186-b204-4987-bb14-0089f3b73996",
+    "observation_count": 1,
+    "observation_kind": "assistant",
+    "scores": {
+      "factuality": 2,
+      "citation_support": 2,
+      "actionability": "not_applicable",
+      "image_relevance": 0
+    },
+    "gate": {
+      "status": "pending",
+      "reasons": [
+        "review_pending_or_changed"
+      ],
+      "regressions": [],
+      "calibration_id": "789deda3-ada9-4497-8263-799cd3da263b",
+      "candidate_experiment_id": "f0ac6186-b204-4987-bb14-0089f3b73996",
+      "human_review_count": 0,
+      "automatic_publish": false
+    },
+    "old_baseline_values": {
+      "support-v1-001": {
+        "factuality": 2,
+        "citation_support": 1,
+        "actionability": 1,
+        "image_relevance": 0
+      }
+    }
+  },
+  "next_dependency": [
+    "新规则同范围独立双轮",
+    "正式预校准",
+    "冻结候选配置并核语料与调用记账",
+    "同范围独立候选",
+    "双轮/反馈后复评及正式gate"
+  ],
+  "constraints": [
+    "旧001原话不重复索取或复制",
+    "31审核标签不替代85题人工覆盖",
+    "抽检不冒充全题校准",
+    "不重跑历史首次/迁移脚本",
+    "新调用前说明幂等/来源/费用"
+  ],
+  "execution_scope": {
+    "provider_model_calls": 0,
+    "database_writes": 0,
+    "human_writes": 0,
+    "observation_writes": 0,
+    "calibration_writes": 0,
+    "experiments_created": 0,
+    "heldout_executed": false,
+    "services_restarted": false,
+    "run_recovery_performed": false
+  },
+  "raw_evidence": [
+    {
+      "path": "output/m6-quality-next-20261028/audit_quality_readiness.py",
+      "sha256": "74b830ffc68e6b3f30e16a403d9795f57fda94a19431bf77d764d67a5735ef0f",
+      "bytes": 10117
+    },
+    {
+      "path": "output/m6-quality-next-20261028/build_validation.py",
+      "sha256": "ca34a383c4c3db3c3d1043053af8d9424397d7f1bdbbd90128f5959c2821aff3",
+      "bytes": 4622
+    },
+    {
+      "path": "output/m6-quality-next-20261028/readiness.json",
+      "sha256": "17aecad13f1eb5510466443b957da2247746de7b35992fe22f30aaf75e95c1bc",
+      "bytes": 28151
+    },
+    {
+      "path": "output/m6-quality-next-20261028/review-queue.json",
+      "sha256": "9c836543c469a1f1535736e590383f5218de0b6f281e915034fd39656e156603",
+      "bytes": 47526
+    },
+    {
+      "path": "output/m6-quality-next-20261028/待审材料导航.html",
+      "sha256": "4ae4fe8011111d7c29e30b6c99126bde134efe7b357c94ac3c35eefe9a56a3f4",
+      "bytes": 27916
+    }
+  ],
+  "known_evidence_unchanged": [
+    {
+      "path": "output/m6-dev-readiness-r2-followup/audit_inheritance.py",
+      "sha256": "c836226a7af31feb2c2f9698206a242a36e04ffab1b5f80b25055d340221a2c2",
+      "bytes": 4244
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/build_validation.py",
+      "sha256": "aa612cb84b0e5f1fa7c427ea2eb075668d60ba8fae263a7da5402f59540e10e8",
+      "bytes": 4609
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/catalog/baseline.json",
+      "sha256": "564348b6d4d72b2e9b7bf97ff35923e8009f41bbbf77ca101d414052155fd020",
+      "bytes": 375677
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/catalog/catalog.json",
+      "sha256": "14fe03ce7c4567e53818caa56e54ee30dbda1974c5da7fd759abe82860745bc8",
+      "bytes": 383
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/catalog/support-v2-r2-manifest.json",
+      "sha256": "02adab8ab9346c3d6b22c7a15a0a6aae2c7d65ad1deefc9722400b2e477e6b92",
+      "bytes": 35109
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/catalog/support-v2-r2.jsonl",
+      "sha256": "1d1f785c3303adcaf4b964bf6d5bedeee8cf418ff0f0748704a7bccbe2a86d36",
+      "bytes": 290318
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/checkpoint-inheritance.json",
+      "sha256": "f613dd5e5635c4eee908b85e1595dd4f40dd61ae155d878b18a5a0ff36e6267f",
+      "bytes": 1526
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/experiment-private.json",
+      "sha256": "c3a1ebacb5c809950ec5999d342fb3414c971e58fee4d000e90cc2bf7ca1d648",
+      "bytes": 1337
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/experiments/79b3cc58-cfd4-4da5-84c0-890d92a9be06/attempts.jsonl",
+      "sha256": "df9a7db01e616cc44dd00ef8592ac99c880f4dc07df0f0e65d3713cfcce8a2c9",
+      "bytes": 1612924
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/experiments/79b3cc58-cfd4-4da5-84c0-890d92a9be06/manifest.json",
+      "sha256": "4ee76b54644c3a81285c01edbf1487acd40b326849654e53fe2675850ed92c5c",
+      "bytes": 405007
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/experiments/79b3cc58-cfd4-4da5-84c0-890d92a9be06/results.jsonl",
+      "sha256": "3820adbf9c9a8669d998387a69e752980d4fe48da1d39bf64a24f03d14bc6a84",
+      "bytes": 1612943
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/export-full-dev.log",
+      "sha256": "dd6ff6db9bf63ccaedfa29ef50d6515704154f56af9ad3e147393f7c287baf93",
+      "bytes": 91
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/export_full_dev.py",
+      "sha256": "9effd875c5ccef3c0a21ee0e326626a5a6f557fe6ff8f99b0c317cfdc59ac64e",
+      "bytes": 5752
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/fixed-report-browser.json",
+      "sha256": "2b243f4973dc180ff13b57f3324ae6b039d87bc21ad7d7452923103c40016af4",
+      "bytes": 431
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/fixed-report-browser.log",
+      "sha256": "4c84a5dbac6215f62ca4204222e6ab9d5583cc8f8c4fee7de71d336bdf5893be",
+      "bytes": 351
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/fixed-report-top.png",
+      "sha256": "4dbc846321a2176dbd8f87e5b6db31f1cf10a3ab834637bdecc0f7743fb74125",
+      "bytes": 133138
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/fixed-report.json",
+      "sha256": "193d2789dd72832d28391ee7d8933dbaab3a4278f00d66797cfdf69f9363a567",
+      "bytes": 421
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/followup-execution-result.json",
+      "sha256": "3950aedab0fbae2a5a7cc566006fe90570a66449b9e883fb278420b199f734aa",
+      "bytes": 12031
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/full-dev-readonly.json",
+      "sha256": "8bcfb6718e0d146e7d1d6caffa8d04249285e8896fc6bbd4c30964df5dbe66c8",
+      "bytes": 198943
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/full-dev-readonly.log",
+      "sha256": "cc0985aa06fe9de14bbfaea38d5b84919296388347f8cf3fac5c6b7a1190cadf",
+      "bytes": 191
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/inheritance-readonly.json",
+      "sha256": "d28b6628043e43b560b5e98ec13a51d4046dcc847d15011d5da52c6f49722c23",
+      "bytes": 10120
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/inheritance-readonly.log",
+      "sha256": "172ee196d206cfbc2f2f2c10cad5d3228bee1413012151f8f8167dfd13702975",
+      "bytes": 500
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/retrieved-sources-readonly.json",
+      "sha256": "aa142c15b4422767453a3524f9236ef676341861e9198d3b616f0960faa0789b",
+      "bytes": 1019326
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/retrieved-sources-readonly.log",
+      "sha256": "779507ce7ef9f360af0e677f28b7d1907d587ca6358c88ce37bd9d28a6dd6742",
+      "bytes": 577
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/targeted-tests.log",
+      "sha256": "d676ade0a0a9779989c48362e6c634670f9bb2034d08f1c8c36512c22867040b",
+      "bytes": 313
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/targeted-tests.xml",
+      "sha256": "79997a5db922c9e160ed0a52fd3e1d32d390d3b3ef8ae0d57f93d4decaeb382b",
+      "bytes": 12560
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/terminal-readonly.json",
+      "sha256": "609ba2a3c1bfb2d0073517ddf6e32637c357b1b342180a1b8bf2a3ead3341476",
+      "bytes": 1209
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/verify_fixed_report.cjs",
+      "sha256": "cb56825820b94ef5d6f6e05c80b66a8c855eb4cec3dd8fda3b0a1fe84a79673b",
+      "bytes": 2840
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/verify_full_dev.py",
+      "sha256": "4126c9ae98d085fb861f55994825d562850c992f1e9d4debd90b8e56b82c416a",
+      "bytes": 6782
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/verify_retrieved_sources.py",
+      "sha256": "4f7def318ac977940c832f5b3e9ad3f4786d4a85d8c1159f26243b557f13eb2d",
+      "bytes": 4760
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/完整dev基线回答与切片对照.html",
+      "sha256": "baf91d2c3b6f1625837aacc51a51072bd735ca7ab0ae848dba52a22d7d264548",
+      "bytes": 6488574
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/prepare_followup_r2.py",
+      "sha256": "c95a2acb218811f6e5e137365e5b2578acf901d4605bd1025b1b40736fad9c00",
+      "bytes": 5310
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/migrate_followup_checkpoints_r2.py",
+      "sha256": "4af476832d97c426a75f238eca5ca7eed94a40baee63f12d1aab78f3cb45676f",
+      "bytes": 8510
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/run_followup_r2.py",
+      "sha256": "b36504cc9731ae9cff8c97e7b4fb263ad1a73c27cdb4ad81c6632ed18dba97f7",
+      "bytes": 3593
+    },
+    {
+      "path": "output/m6-08/001-candidate-chat-review-r1-20261027/user-statement.json",
+      "sha256": "f0e17f4ff1b8405cf50efdcfaad98ecc0ce820007844b963cca52c0bba0fdb9b",
+      "bytes": 1732
+    },
+    {
+      "path": "output/m6-08/001-candidate-chat-review-r1-20261027/readonly.json",
+      "sha256": "acf69d7d7335c53a9e6a29d84cf25023434e20926005fbe48af17c9796da7da0",
+      "bytes": 953
+    }
+  ],
+  "notice": "原始私有材料仅本机保存；复用原结果导航不构成新生成、新审阅或质量改善"
+}
