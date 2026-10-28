@@ -64,6 +64,8 @@ M4-08不改变公开问答API。退出仍先撤销会话，再清该用户查询
 支持聚合state独立于问答run.state，不借用执行租约伪造人工等待。刷新读取支持快照，不改SSE序号；原型号确认/取消/消息补偿仍沿M2/M3协议。新run冻结support_snapshot，旧run迟到引用更新须核对context_version；已取消/已解决不复活。support/case读取包含嵌套历史和工具输出的资料重新授权，撤权404不返回内容。可选外网MCP不注册，详见[支持恢复手册](../runbooks/support-recovery.md)。
 # M6评测接口补充
 
+R1/R2补修：题级result新增可选`logical_provider_calls_scope=run_total`与`execution_logical_provider_calls`，原logical_provider_calls在新M6结果中读取持久Run累计；新增量只属当前adapter调用，未观测null，结果恢复不将累计覆盖为0。两个字段与结果一起持久化，未引入新请求字段或更改旧结果。正式continuation除实验级门禁外，在创建新Run前验证父experiment/attempt/question/input/config→Run执行或当次观察复用关联，历史缺失明确拒绝生成、不回填。细节见[工作台](../evaluation/workbench.md)。
+
 评测API均要求登录和maintainer/admin，具体资源再次按owner/current kb核验；写操作沿用同源与CSRF。`GET /eval-catalog?kb_id=`只给维护者受控登记选项；`GET/POST /eval-sets`读取/登记私有题集版本；`GET/POST /experiments`列表/创建；`GET /experiments/{id}`读取真实状态；`GET /experiments/{id}/results?cursor=&limit=`按题身份分页，最大100；`POST /experiments/{id}/cancel`与`/retry`带`expected_version`，重试返回202。基线ID只接受同所有者/知识范围/冻结题集的已完成实验。未知成本/标准语义分保持null。
 
 创建仅接受题集/配置ID版本、可选基线、可选continuation和client_request_id，拒绝路径、伪造结果等额外字段。continuation严格包含source_experiment_id/source_attempt/source_version/reason，服务端核对同owner/kb、终态、当前代际及相同dataset/manifest/config指纹；未知来源404、状态或身份不符409、字段不合法422。响应continuation追加父state/retryable/error和配置/请求hash快照。相同请求重发保持身份，相同请求ID内容变化409；continuation省略/null等价。取消在题边界合作完成，不中断已发出的供应商请求。题级对比仅表示文本/状态差异，不能当质量提升。登记后冻结指纹漂移或目录错误明确拒绝；错误不回显路径/配置正文。OpenAPI及前端声明已同步，详见[评测工作台](../evaluation/workbench.md)。

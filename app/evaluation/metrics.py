@@ -161,6 +161,7 @@ def _accounting_summary(records: Sequence[Mapping], *, expected_count: int) -> d
     costs, http_calls = [], []
     for row in records:
         result = row.get('result') if isinstance(row.get('result'), Mapping) else {}
+        # 新M6结果为持久Run累计；execution_logical_provider_calls仅属一次adapter调用，不能参与题级累计。
         call_counts = result.get('logical_provider_calls')
         if isinstance(call_counts, Mapping):
             has_calls = True

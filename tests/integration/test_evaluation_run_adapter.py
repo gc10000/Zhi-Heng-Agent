@@ -16,6 +16,37 @@ from app.runs.query_runner import QueryRunner
 pytestmark = pytest.mark.integration
 
 
+def begin_parent_execution(cfg, resources):
+    """正式隔离父实验身份；题级关联由真实adapter写入，不能由测试伪造。"""
+    from app.evaluation.repository import EvaluationRepository
+    from app.evaluation.validate_dataset import fingerprint
+    repo = EvaluationRepository(resources['db'])
+    target = cfg['target']
+    user = Principal(user_id=target['owner_id'], username='隔离执行来源', role='maintainer', kb_ids=(target['kb_id'],))
+    descriptor = dict(id='set', version='r1', kb_id=target['kb_id'], dataset_sha256=cfg['dataset_sha256'],
+        manifest_sha256='b'*64, question_count=50, dev_count=1, review_eligible_count=0,
+        configs=[dict(id='control', version='r1')])
+    repo.register_set(user, descriptor)
+    resolved = dict(config_sha256=fingerprint(cfg), config=cfg, selected_questions=1, eligible_questions=0)
+    data = dict(kb_id=target['kb_id'], eval_set_id='set', eval_set_version='r1',
+                config_id='control', config_version='r1', client_request_id='parent')
+    row = repo.create(user, data, descriptor=descriptor, resolved=resolved)
+    claim = repo.claim(row['experiment_id'])
+    context = {k: claim[k] for k in ('experiment_id', 'attempt', 'worker_token', 'config_sha256')}
+    return repo, user, descriptor, resolved, data, context
+
+
+def finish_parent_execution(parent):
+    repo, user, descriptor, resolved, data, execution = parent
+    failed = repo.fail(execution['experiment_id'], execution['attempt'], execution['worker_token'],
+                       error_code='provider_invalid_response', retryable=False)
+    child = repo.create(user, data | dict(client_request_id='child', continuation=dict(
+        source_experiment_id=failed['experiment_id'], source_attempt=failed['attempt'],
+        source_version=failed['version'], reason='恢复有题级关联的隔离中断题')),
+        descriptor=descriptor, resolved=resolved)
+    return dict(experiment_id=child['experiment_id'], source=child['continuation'])
+
+
 def test_answer_image_usage_survives_formal_adapter_and_result_storage(evaluation_context):
     from app.evaluation.repository import EvaluationRepository
     cfg,factory,resources,prompts,question,scoped=evaluation_context
@@ -202,7 +233,9 @@ def test_explicit_m6_followup_after_interrupted_run_creates_one_new_run_then_reu
     from datetime import datetime, timedelta, timezone
     cfg, factory, resources, prompts, question, _ = evaluation_context
     cfg['metric_schema_version'] = 1
+    parent = begin_parent_execution(cfg, resources)
     with RealQueryExecutor(cfg, resource_factory=factory) as execute:
+        execute.execution = parent[-1]
         original = execute(question)
     resources['runs'].runs.update_one({'run_id': original['run_id']}, {'$set': {
         'state': 'running', 'execution_token': 'expired-worker-token',
@@ -211,6 +244,7 @@ def test_explicit_m6_followup_after_interrupted_run_creates_one_new_run_then_reu
     interrupted = resources['runs'].runs.find_one({'run_id': original['run_id']})
     assert original['run_id'] in recovered and interrupted['state'] == 'interrupted'
     source_before = resources['runs'].runs.find_one({'run_id': original['run_id']})
+    context = finish_parent_execution(parent)
 
     with RealQueryExecutor(cfg, resource_factory=factory) as execute:
         with pytest.raises(ValueError):
@@ -221,9 +255,7 @@ def test_explicit_m6_followup_after_interrupted_run_creates_one_new_run_then_reu
         execute.retry_key = 'followup-from-source-experiment'
         with pytest.raises(ValueError):
             execute(question)
-        execute.continuation = dict(experiment_id='new-continuation', source=dict(
-            source_experiment_id='old-experiment', source_attempt=2, source_version=3,
-            reason='恢复020中断运行'))
+        execute.continuation = context
         real_execute = resources['query_runner'].execute
         def checked_execute(rid):
             prepared = resources['db'].evaluation_continuations.find_one({})
@@ -242,7 +274,7 @@ def test_explicit_m6_followup_after_interrupted_run_creates_one_new_run_then_reu
     ledger = resources['db'].evaluation_continuations.find_one({})
     assert ledger['source_run_id'] == original['run_id']
     assert ledger['run_id'] == followup['run_id']
-    assert ledger['source']['source_attempt'] == 2
+    assert ledger['source']['source_attempt'] == parent[-1]['attempt']
     assert ledger['exact_sdk_http_requests'] is None and ledger['exact_cost'] is None
     assert ledger['logical_provider_calls'] == {'invoke_started': 0, 'stream_started': 1}
     with RealQueryExecutor(cfg, resource_factory=factory) as reconstructed:
@@ -285,14 +317,15 @@ def test_continuation_recovers_crash_after_run_creation_before_checkpoint_bindin
     from datetime import datetime, timedelta, timezone
     cfg, factory, resources, prompts, question, _ = evaluation_context
     cfg['metric_schema_version'] = 1
+    parent = begin_parent_execution(cfg, resources)
     with RealQueryExecutor(cfg, resource_factory=factory) as execute:
+        execute.execution = parent[-1]
         original = execute(question)
     resources['runs'].runs.update_one({'run_id': original['run_id']}, {'$set': {
         'state': 'running', 'execution_token': 'expired-test-token',
         'execution_lease': datetime.now(timezone.utc) - timedelta(seconds=1)}})
     resources['commands'].recover()
-    context = dict(experiment_id='crash-child', source=dict(source_experiment_id='parent',
-        source_attempt=2, source_version=3, reason='测试创建Run后中断'))
+    context = finish_parent_execution(parent)
     create = resources['run_service'].create
     created = []
     def crash_after_create(*args, **kwargs):

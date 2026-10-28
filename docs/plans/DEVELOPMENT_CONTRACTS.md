@@ -1,5 +1,9 @@
 # 开发公共契约与任务交接边界
 
+## M6-08 continuation R1/R2补修契约（2026-10-28）
+
+正式job在模型前保存experiment/attempt/question/input/config/checkpoint→Run的不可变execution link，校验当代worker与租约，不存worker token。execution与observed_reuse分列，后者只证明当次观察复用。continuation须在新Run前核对指定父experiment/attempt/version及同题输入/配置/Run关联，后续账本绑定父link ID/hash；另一父实验、上一attempt、历史缺失来源明确拒绝，不回填旧记录。新M6题结果logical_provider_calls_scope=run_total、logical_provider_calls来自持久Run累计，execution_logical_provider_calls为当前adapter调用新增量，不参与累计汇总；缺测null。新澄清明确零值随等待事件持久化；结果尚未落盘时崩溃恢复保留累计，不重调或重复计数。旧r3与19继承+66执行不变，精确HTTP/费用未知，未变更API请求结构。
+
 ## M6-08显式continuation来源账本（2026-10-28）
 
 创建实验可选continuation严格绑定source_experiment_id/source_attempt/source_version/reason；由服务端校验同owner/kb、failed/cancelled/incomplete终态、当前代际和相同dataset/manifest/config字节hash。保存父state/retryable/error与配置/请求hash快照，父记录不改；省略/null兼容原幂等身份。普通首attempt不提供interrupted重生成键；只有正式continuation允许为中断题派生固定请求。evaluation_continuations用新experiment+checkpoint唯一身份，在调用前持久化父Run/输入hash/request_key，新Run先绑定再执行。重复领取/重建复用同一请求，后续Run再中断不自动新建第三条；completed复用、非retryable失败拒绝。精确HTTP/费用及未测遥测null，不承诺失败窗口exactly-once。只支持相同冻结config；源码身份变化不自动迁移旧检查点，r3历史组合结果不回填。详见[工作台](../evaluation/workbench.md)。

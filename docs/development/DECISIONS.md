@@ -1,5 +1,11 @@
 # 技术决策记录
 
+## ADR-071：Run累计计量与题级来源必须在进程退出后仍可核验（2026-10-28）
+
+R1补修将M6题级logical_provider_calls改取持久Run遥测，scope=run_total；当前adapter差值另列execution_logical_provider_calls，不能把恢复新增0覆盖已观测累计1或汇总两次。新澄清零值随等待事件保存，旧缺失仍null。R2新增模型前execution link，绑定正式experiment/attempt/question/input/config/checkpoint/Run，来源校验要求指定父代际与题级关联一致；后续账本绑定link ID/hash。execution与observed_reuse明确区分，后者只证明当次复用，不证明旧生成归属。拒绝历史缺链而保留未知，不提供自动回填入口；r3原独立继承证据和组合身份不变。
+
+替代方案是只用进程counter恢复（崩溃漏账）、用父实验同配置推断题级来源（错误关联），或对历史批量补认证（追认未知），均不采用。只增加私有账本及题级结果可选计数字段，无依赖/环境变量或API请求变化。回滚用正常反向提交停止新来源消费，保留所有数据与失败证据，不手工修改state/lease/slot/retryable。定向自验供原规划总控复审，不自行关闭阶段门槛。
+
 ## ADR-070：中断后续请求先持久来源，显式来源替代字符串约定（2026-10-28）
 
 收窄ADR-069的首attempt执行键：普通实验不再获得interrupted Run新请求资格；新实验须提交正式continuation来源，创建时保存已鉴权的终态父实验当前attempt/version与冻结题集/config身份。题级固定请求在模型前写入独立evaluation_continuations，以新实验/checkpoint唯一键保留父Run来源快照并绑定新Run；崩溃/重复领取复用同一请求，后续Run再次中断不能自动再付费。completed检查点复用、不可重试失败保持门禁，逻辑调用/token与未知HTTP/费用分列。替代方案是仅靠request字符串推断父实验（不可校验）或根据每次中断Run递归派生请求（重复领取可再付费），均不采用。本版仅相同冻结配置，源码改变仍须新版本与独立继承审计；旧r3不回填。回滚用正常反向提交关闭新入口，保留全部账本和本机证据，不清状态/lease/slot。

@@ -51,7 +51,7 @@ class RunCommands:
             return self.boundary(user, rid, token)
         return True
 
-    def wait_input(self, user, rid, token, *, candidates, resume_point):
+    def wait_input(self, user, rid, token, *, candidates, resume_point, telemetry_measurements=None):
         if not self.boundary(user, rid, token):
             return snapshot(self.repo.get(user, rid))
         row = self.repo.get(user, rid)
@@ -61,7 +61,8 @@ class RunCommands:
         self.events.emit(user, rid, 'product.candidates', {'candidates': candidates, 'expected_version': row['version'] + 1},
             state='awaiting_input', expected_version=row['version'], expected_states={'running'}, expected_token=token,
             fields={'candidates': candidates, 'resume_point': resume_point, 'execution_token': None, 'execution_lease': None,
-                    'input_expires_at': self.clock() + timedelta(seconds=self.input_wait_seconds)})
+                    'input_expires_at': self.clock() + timedelta(seconds=self.input_wait_seconds)} |
+                   ({'telemetry_measurements': telemetry_measurements} if telemetry_measurements is not None else {}))
         return snapshot(self.repo.get(user, rid))
 
     def confirm(self, user, rid, data):

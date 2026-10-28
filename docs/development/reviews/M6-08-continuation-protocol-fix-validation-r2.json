@@ -1,0 +1,490 @@
+{
+  "date": "2026-10-28",
+  "base_commit": "715f63992f12bd3a3dd3e5873f86710d926f02c0",
+  "scope": "R1/R2补修执行自验；隔离Mongo和合成模型，无历史来源回填",
+  "stage_accepted": false,
+  "controller_approval": false,
+  "m6_core": "4/7",
+  "m7_authorized": false,
+  "findings": [
+    {
+      "id": "R1",
+      "priority": "P1",
+      "status": "fixed_self_validated_pending_independent_review",
+      "behavior": "logical_provider_calls为持久Run累计，本次新增单列；缺测null，澄清测得0持久"
+    },
+    {
+      "id": "R2",
+      "priority": "P2",
+      "status": "fixed_self_validated_pending_independent_review",
+      "behavior": "模型前正式execution link；派生前核对父attempt/question/input/config/checkpoint/Run，历史缺失拒绝"
+    }
+  ],
+  "verification": {
+    "groups": {
+      "review-red": {
+        "tests": 3,
+        "failures": 2,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 1,
+        "exit_code": 1,
+        "junit": "output/m6-continuation-fix-20261028/review-red.xml"
+      },
+      "regressions-red": {
+        "tests": 6,
+        "failures": 5,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 1,
+        "exit_code": 1,
+        "junit": "output/m6-continuation-fix-20261028/regressions-red.xml"
+      },
+      "green": {
+        "tests": 33,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 32,
+        "exit_code": 1,
+        "junit": "output/m6-continuation-fix-20261028/green.xml"
+      },
+      "targeted": {
+        "tests": 107,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 107,
+        "exit_code": 0,
+        "junit": "output/m6-continuation-fix-20261028/targeted.xml"
+      },
+      "review-green": {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 3,
+        "exit_code": 0,
+        "junit": "output/m6-continuation-fix-20261028/review-green.xml"
+      },
+      "query-telemetry": {
+        "tests": 20,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 20,
+        "exit_code": 0,
+        "junit": "output/m6-continuation-fix-20261028/query-telemetry.xml"
+      }
+    },
+    "groups_overlap": true,
+    "unique_total": null,
+    "frontend_typecheck_exit_code": 0,
+    "openapi_matches": true,
+    "python_syntax_files": [
+      "app/evaluation/continuations.py",
+      "app/evaluation/execution_links.py",
+      "app/evaluation/jobs.py",
+      "app/evaluation/metrics.py",
+      "app/evaluation/query_adapter.py",
+      "app/evaluation/repository.py",
+      "app/runs/commands.py",
+      "app/runs/query_runner.py",
+      "tests/integration/test_evaluation_continuation_regressions.py",
+      "tests/integration/test_evaluation_run_adapter.py"
+    ],
+    "saved_results_readonly": {
+      "passed": true,
+      "checks": 520,
+      "historical_evidence_hashes": 45,
+      "target_collections_unchanged": true
+    },
+    "original_probes_unchanged": true,
+    "compatible_probes_are_independent_controller_review": false
+  },
+  "intermediate_failure": "首轮实现32通过1失败：测试夹具未给run_experiment冻结execution_mode，已补齐后最终组通过",
+  "historical_result": {
+    "experiment_id": "79b3cc58-cfd4-4da5-84c0-890d92a9be06",
+    "composition": {
+      "inherited": 19,
+      "newly_executed": 66
+    },
+    "state": {
+      "old": "failed/attempt2",
+      "composite": "completed/attempt1",
+      "results": 85,
+      "runs": {
+        "completed": 80,
+        "interrupted": 1,
+        "awaiting_input": 5
+      }
+    },
+    "logical_calls": {
+      "inherited": {
+        "invoke_started": 0,
+        "stream_started": 19
+      },
+      "new": {
+        "invoke_started": 0,
+        "stream_started": 61
+      }
+    },
+    "current_runtime_recertified": false,
+    "new_links_backfilled": false
+  },
+  "original_failure": {
+    "experiment_id": "a5607e05-de22-4b24-9570-e85b7e09b521",
+    "state": "failed",
+    "attempt": 2,
+    "retryable": false,
+    "error": "provider_invalid_response",
+    "evaluation_results": 0,
+    "exact_sdk_http_requests": null,
+    "exact_cost": null
+  },
+  "execution_scope": {
+    "provider_model_calls_this_fix": 0,
+    "real_dev_executed": false,
+    "heldout_executed": false,
+    "real_human_observation_calibration_writes": 0,
+    "real_target_database_writes": 0,
+    "corpus_reimported": false,
+    "services_restarted": false,
+    "historical_checkpoint_migrated": false
+  },
+  "raw_evidence": [
+    {
+      "path": "output/m6-continuation-fix-20261028/audit_saved_results_recheck.py",
+      "sha256": "e89d7391e5008f822c477e252f3b3fc3a4ed30e3c5304874acffc05418ce57d5",
+      "bytes": 8661
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/build_fix_validation.py",
+      "sha256": "213e1a8436912220995cf83d64607c672f3fdb5750392225858165087f7b3366",
+      "bytes": 5944
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/frontend-typecheck.log",
+      "sha256": "7cfa98bd8c2c791c959206a73ae07764c7d89ea8aaaac7719ebf41d19baeef3b",
+      "bytes": 62
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/green.log",
+      "sha256": "77baf1e406585d550784900ffde85abbe4f6d500b17b96a2a0cc0cbdcfe61e6d",
+      "bytes": 6233
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/green.xml",
+      "sha256": "e2c6ef4ec4707e5a1610c2a0202fb4bc69bcc5c051e777cd06366b0eab0a0b0b",
+      "bytes": 10491
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/prepare_recheck.py",
+      "sha256": "18aa271e8d3c605fdc4722b122e68b95181e5d0e49e417034ee6322a9ad4c8bf",
+      "bytes": 2460
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/query-telemetry.log",
+      "sha256": "0bbbcda9ab0895abb729301c9c91f382c0df62285de9ce49ad71dc9cd6357d8a",
+      "bytes": 233
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/query-telemetry.xml",
+      "sha256": "a25584ba1238ee31a4c41b2a888078cc10bf3e41b3d4154651af918ca4174d07",
+      "bytes": 3096
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/recheck-adaptations.json",
+      "sha256": "69be5c9abcd3ac1995748a4cfe91840f1080698ab7e80d43936af7415a11994a",
+      "bytes": 591
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/regressions-red.log",
+      "sha256": "6edc481c730983188f002a8c4540959120d75049334cb4d57474336acb695524",
+      "bytes": 17646
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/regressions-red.xml",
+      "sha256": "0a36cd5af21f2bf17ab530cce95ea602668c8220f158626e47dd8b1d65d28707",
+      "bytes": 15037
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/review-green.log",
+      "sha256": "5ab1cd822e6571b42f2b41c19faeb35f2c6e8f1dba6fc74271c42c8e6e90f0b5",
+      "bytes": 229
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/review-green.xml",
+      "sha256": "4def9be9e8e9ceb8983b6eac6892eeff6004e7c982db5473bb17170f0f2f9df9",
+      "bytes": 769
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/review-red.log",
+      "sha256": "32f3cfbecfd5ae30ae14c7fe72bf15d90154a9d9054282a1762720b9eff5e2a5",
+      "bytes": 7256
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/review-red.xml",
+      "sha256": "ea07be925dc933b50b5fb6587c68eaec87390cdaa6ee894daa87e5d0aa7179c5",
+      "bytes": 6608
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/saved-results-readonly.json",
+      "sha256": "526c2cef3a04250932f8828454c1091f4465d98766599449ff14f38ab9a01ce9",
+      "bytes": 56501
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/saved-results-readonly.log",
+      "sha256": "335ad4c363c19141ab7014bac93e60916e3030880ce00bc570cce8f0f3a44133",
+      "bytes": 427
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/targeted.log",
+      "sha256": "66e1886fbd2bffda93c7090506b6eed287e48f84e797c3a250896f31708b9c3c",
+      "bytes": 1037
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/targeted.xml",
+      "sha256": "e2dceb9dfae166cff62b7e91eeb125fbfa9a7b4c9f0423c9f6232ef9dbb0c9c9",
+      "bytes": 16581
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/test_review_probes_recheck.py",
+      "sha256": "04794fc4d8c81e43dfd60c97bd43fe67e4c59bbeaf78050bffa613d1254c41d6",
+      "bytes": 5673
+    }
+  ],
+  "unchanged_historical_evidence": [
+    {
+      "path": "output/m6-dev-readiness-r2-followup/audit_inheritance.py",
+      "sha256": "c836226a7af31feb2c2f9698206a242a36e04ffab1b5f80b25055d340221a2c2",
+      "bytes": 4244
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/build_validation.py",
+      "sha256": "aa612cb84b0e5f1fa7c427ea2eb075668d60ba8fae263a7da5402f59540e10e8",
+      "bytes": 4609
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/catalog/baseline.json",
+      "sha256": "564348b6d4d72b2e9b7bf97ff35923e8009f41bbbf77ca101d414052155fd020",
+      "bytes": 375677
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/catalog/catalog.json",
+      "sha256": "14fe03ce7c4567e53818caa56e54ee30dbda1974c5da7fd759abe82860745bc8",
+      "bytes": 383
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/catalog/support-v2-r2-manifest.json",
+      "sha256": "02adab8ab9346c3d6b22c7a15a0a6aae2c7d65ad1deefc9722400b2e477e6b92",
+      "bytes": 35109
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/catalog/support-v2-r2.jsonl",
+      "sha256": "1d1f785c3303adcaf4b964bf6d5bedeee8cf418ff0f0748704a7bccbe2a86d36",
+      "bytes": 290318
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/checkpoint-inheritance.json",
+      "sha256": "f613dd5e5635c4eee908b85e1595dd4f40dd61ae155d878b18a5a0ff36e6267f",
+      "bytes": 1526
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/experiment-private.json",
+      "sha256": "c3a1ebacb5c809950ec5999d342fb3414c971e58fee4d000e90cc2bf7ca1d648",
+      "bytes": 1337
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/experiments/79b3cc58-cfd4-4da5-84c0-890d92a9be06/attempts.jsonl",
+      "sha256": "df9a7db01e616cc44dd00ef8592ac99c880f4dc07df0f0e65d3713cfcce8a2c9",
+      "bytes": 1612924
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/experiments/79b3cc58-cfd4-4da5-84c0-890d92a9be06/manifest.json",
+      "sha256": "4ee76b54644c3a81285c01edbf1487acd40b326849654e53fe2675850ed92c5c",
+      "bytes": 405007
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/experiments/79b3cc58-cfd4-4da5-84c0-890d92a9be06/results.jsonl",
+      "sha256": "3820adbf9c9a8669d998387a69e752980d4fe48da1d39bf64a24f03d14bc6a84",
+      "bytes": 1612943
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/export-full-dev.log",
+      "sha256": "dd6ff6db9bf63ccaedfa29ef50d6515704154f56af9ad3e147393f7c287baf93",
+      "bytes": 91
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/export_full_dev.py",
+      "sha256": "9effd875c5ccef3c0a21ee0e326626a5a6f557fe6ff8f99b0c317cfdc59ac64e",
+      "bytes": 5752
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/fixed-report-browser.json",
+      "sha256": "2b243f4973dc180ff13b57f3324ae6b039d87bc21ad7d7452923103c40016af4",
+      "bytes": 431
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/fixed-report-browser.log",
+      "sha256": "4c84a5dbac6215f62ca4204222e6ab9d5583cc8f8c4fee7de71d336bdf5893be",
+      "bytes": 351
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/fixed-report-top.png",
+      "sha256": "4dbc846321a2176dbd8f87e5b6db31f1cf10a3ab834637bdecc0f7743fb74125",
+      "bytes": 133138
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/fixed-report.json",
+      "sha256": "193d2789dd72832d28391ee7d8933dbaab3a4278f00d66797cfdf69f9363a567",
+      "bytes": 421
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/followup-execution-result.json",
+      "sha256": "3950aedab0fbae2a5a7cc566006fe90570a66449b9e883fb278420b199f734aa",
+      "bytes": 12031
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/full-dev-readonly.json",
+      "sha256": "8bcfb6718e0d146e7d1d6caffa8d04249285e8896fc6bbd4c30964df5dbe66c8",
+      "bytes": 198943
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/full-dev-readonly.log",
+      "sha256": "cc0985aa06fe9de14bbfaea38d5b84919296388347f8cf3fac5c6b7a1190cadf",
+      "bytes": 191
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/inheritance-readonly.json",
+      "sha256": "d28b6628043e43b560b5e98ec13a51d4046dcc847d15011d5da52c6f49722c23",
+      "bytes": 10120
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/inheritance-readonly.log",
+      "sha256": "172ee196d206cfbc2f2f2c10cad5d3228bee1413012151f8f8167dfd13702975",
+      "bytes": 500
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/retrieved-sources-readonly.json",
+      "sha256": "aa142c15b4422767453a3524f9236ef676341861e9198d3b616f0960faa0789b",
+      "bytes": 1019326
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/retrieved-sources-readonly.log",
+      "sha256": "779507ce7ef9f360af0e677f28b7d1907d587ca6358c88ce37bd9d28a6dd6742",
+      "bytes": 577
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/targeted-tests.log",
+      "sha256": "d676ade0a0a9779989c48362e6c634670f9bb2034d08f1c8c36512c22867040b",
+      "bytes": 313
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/targeted-tests.xml",
+      "sha256": "79997a5db922c9e160ed0a52fd3e1d32d390d3b3ef8ae0d57f93d4decaeb382b",
+      "bytes": 12560
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/terminal-readonly.json",
+      "sha256": "609ba2a3c1bfb2d0073517ddf6e32637c357b1b342180a1b8bf2a3ead3341476",
+      "bytes": 1209
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/verify_fixed_report.cjs",
+      "sha256": "cb56825820b94ef5d6f6e05c80b66a8c855eb4cec3dd8fda3b0a1fe84a79673b",
+      "bytes": 2840
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/verify_full_dev.py",
+      "sha256": "4126c9ae98d085fb861f55994825d562850c992f1e9d4debd90b8e56b82c416a",
+      "bytes": 6782
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/verify_retrieved_sources.py",
+      "sha256": "4f7def318ac977940c832f5b3e9ad3f4786d4a85d8c1159f26243b557f13eb2d",
+      "bytes": 4760
+    },
+    {
+      "path": "output/m6-dev-readiness-r2-followup/完整dev基线回答与切片对照.html",
+      "sha256": "baf91d2c3b6f1625837aacc51a51072bd735ca7ab0ae848dba52a22d7d264548",
+      "bytes": 6488574
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/prepare_followup_r2.py",
+      "sha256": "c95a2acb218811f6e5e137365e5b2578acf901d4605bd1025b1b40736fad9c00",
+      "bytes": 5310
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/migrate_followup_checkpoints_r2.py",
+      "sha256": "4af476832d97c426a75f238eca5ca7eed94a40baee63f12d1aab78f3cb45676f",
+      "bytes": 8510
+    },
+    {
+      "path": "output/m6-dev-readiness-r1/run_followup_r2.py",
+      "sha256": "b36504cc9731ae9cff8c97e7b4fb263ad1a73c27cdb4ad81c6632ed18dba97f7",
+      "bytes": 3593
+    },
+    {
+      "path": "output/m6-continuation-protocol-20261028/final.log",
+      "sha256": "cdc3cb17af67f51e46901955043a2798f2d34d13e7a230ca8c0ea5cc6a1194d9",
+      "bytes": 309
+    },
+    {
+      "path": "output/m6-continuation-protocol-20261028/final.xml",
+      "sha256": "03befb1c1e38d2d2eda6909b428f7fd280cbf08fcdcaad86c9e34d934f00e379",
+      "bytes": 13586
+    },
+    {
+      "path": "output/m6-continuation-protocol-20261028/green.log",
+      "sha256": "e24aec4909a05e1b0bc04c006142aa645120414de72b34abeeee578d79396257",
+      "bytes": 5203
+    },
+    {
+      "path": "output/m6-continuation-protocol-20261028/green.xml",
+      "sha256": "1544ebe08e2a84d69cbfffb6952ecc352a436b071f75295bb6c3fc1ac919c3e4",
+      "bytes": 8222
+    },
+    {
+      "path": "output/m6-continuation-protocol-20261028/nonretryable-final.log",
+      "sha256": "ff4fbbe2c47bac627dd667fafc7164bcf395628e43641cec44722efbce01c9a9",
+      "bytes": 240
+    },
+    {
+      "path": "output/m6-continuation-protocol-20261028/nonretryable-final.xml",
+      "sha256": "ca72a6d887adbb3ca072ee917d309c3ba9fa7a2dd3bddc8356657fb640e54816",
+      "bytes": 399
+    },
+    {
+      "path": "output/m6-continuation-protocol-20261028/red.log",
+      "sha256": "964ba2201a8cdd52a38ad2062c7b5f6bcce4e4f22585c28db2b143475752bf73",
+      "bytes": 8848
+    },
+    {
+      "path": "output/m6-continuation-protocol-20261028/red.xml",
+      "sha256": "36c42782d453d5e0c783037e73d644b253ad36bb0f3932cf60aa4307b98a36fc",
+      "bytes": 8534
+    },
+    {
+      "path": "output/m6-continuation-protocol-20261028/summarize.py",
+      "sha256": "8a6bef2639a27a9ee918566149965347f44716e95d174eccaaf3a047f6c788d0",
+      "bytes": 3195
+    },
+    {
+      "path": "output/m6-continuation-protocol-20261028/targeted.log",
+      "sha256": "a887478b4d791b6e6cfb09b87482d762bb07d158baefdce50889e4fc77d4d7a5",
+      "bytes": 312
+    },
+    {
+      "path": "output/m6-continuation-protocol-20261028/targeted.xml",
+      "sha256": "008d8670b7fdb8b3b744f56a089c6acf75746521ff36df009ae773734b5cedb2",
+      "bytes": 13154
+    }
+  ],
+  "original_review_probes": {
+    "path": "output/m6-continuation-review-20261028/test_review_probes.py",
+    "sha256": "bb7eab1df20de837b912aec7efa792c738488d63dc0846960581fabe596fbc9c",
+    "bytes": 6087
+  },
+  "notice": "自验不关闭独立审查项；107/3/20各组不累计唯一数；未重跑历史1975/9838/浏览器全链路，不认证当前源码真实供应商执行或答案质量"
+}

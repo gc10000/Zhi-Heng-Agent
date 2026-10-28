@@ -82,6 +82,20 @@ class RealQueryExecutor:
         self.factory = resource_factory or open_evaluation_resources
         self.retry_key = None
         self.continuation = None
+        self.execution = None
+
+    def call_accounting(self, row, counts_before):
+        counts = self.resources.get('provider_counts')
+        local = {k: v-counts_before[k] for k, v in counts.snapshot().items()} if counts else None
+        if self.config.get('metric_schema_version') != 1:
+            return {'logical_provider_calls': local if local is not None else {}}
+        # 题级/实验累计来自Run，不可用恢复进程新增0覆盖已持久化的调用1。
+        persisted = (row.get('telemetry') or {}).get('logical_provider_calls')
+        keys = ('invoke_started', 'stream_started')
+        total = ({k: persisted[k] for k in keys} if isinstance(persisted, dict) and
+                 all(type(persisted.get(k)) is int and persisted[k] >= 0 for k in keys) else None)
+        return dict(logical_provider_calls=total, logical_provider_calls_scope='run_total',
+                    execution_logical_provider_calls=local)
 
     def __enter__(self):
         self.stack = ExitStack()
@@ -181,7 +195,7 @@ class RealQueryExecutor:
             previous = self.resources['runs'].get(self.user, saved['run_id'])
             followup = prepare_continuation(self.resources['db'], self.continuation,
                 checkpoint_key=key, input_sha256=saved['input_sha256'], previous=previous,
-                request_key=request_key)
+                request_key=request_key, question_id=question['id'], config=self.config)
             if followup:
                 request_key = followup['request_key']
         if not followup and self.retry_key and self.config.get('metric_schema_version') == 1 and saved.get('run_id'):
@@ -190,6 +204,10 @@ class RealQueryExecutor:
                 request_key = fingerprint([key, 'explicit_retry', self.retry_key])
         run = self.resources['run_service'].create(self.user, cid, RunInput(kb_id=kb, question=inputs['question'], client_request_id=request_key))
         rid = run['run_id']
+        if self.execution and run['state'] in {'pending', 'running', 'completed', 'awaiting_input'}:
+            from .execution_links import bind_execution
+            bind_execution(self.resources['db'], self.execution, self.config, question['id'], key,
+                           saved['input_sha256'], run)
         self.checkpoints.update_one({'_id': key}, {'$set': {'run_id': rid, 'request_key': request_key}})
         if followup:
             from .continuations import observe_continuation
@@ -201,9 +219,10 @@ class RealQueryExecutor:
             if followup:
                 observe_continuation(self.resources['db'], followup, self.resources['runs'].get(self.user, rid))
         row = self.resources['runs'].get(self.user, rid)
+        accounting = self.call_accounting(row, counts_before)
         if row['state'] == 'awaiting_input':
             return {'run_id': rid, 'state': row['state'], 'behavior': 'clarify', 'answer': '', 'citations': [],
-                    'candidates': row.get('candidates', []), 'logical_provider_calls':{k:v-counts_before[k] for k,v in counts.snapshot().items()} if counts else {}} | (
+                    'candidates': row.get('candidates', [])} | accounting | (
                         {'retrieval_candidates': {'candidates': [], 'reranked': [], 'context': []}}
                         if self.config.get('metric_schema_version') == 1 else {})
         if row['state'] != 'completed':
@@ -251,9 +270,8 @@ class RealQueryExecutor:
             extra['retrieval_candidates'] = {name: ranked_source_candidates(
                 [RetrievalHit(**item, text='') for item in group], self.documents, assets)
                 for name, group in groups.items()}
-        return extra | {'run_id': rid, 'state': row['state'], 'behavior': 'answer' if citations else 'insufficient',
+        return extra | accounting | {'run_id': rid, 'state': row['state'], 'behavior': 'answer' if citations else 'insufficient',
                 'answer': row['answer'], 'citations': citations,
                 'behavior_notice': '行为为协议与证据的保守辅助判定；部分回答/比较须人工复核',
                 'answer_support':row.get('answer_support'), 'prompt_budget':row.get('prompt_budget'),
-                'output_truncated':row.get('output_truncated'), 'retrieval_branches':row.get('retrieval_branches',[]),
-                'logical_provider_calls':{k:v-counts_before[k] for k,v in counts.snapshot().items()} if counts else {}}
+                'output_truncated':row.get('output_truncated'), 'retrieval_branches':row.get('retrieval_branches',[])}

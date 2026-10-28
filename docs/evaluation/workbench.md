@@ -45,6 +45,12 @@ docker compose --profile evaluation up -d --no-deps evaluation-worker
 
 ### 显式continuation来源（2026-10-28）
 
+R1/R2补修追加：正式job在模型执行之前写入私有`evaluation_execution_links`，唯一身份为experiment/attempt/question，内容绑定owner/kb、输入hash、完整config/checkpoint指纹、Run与conversation。写入校验当前任务worker/attempt/租约，worker token不存入来源记录；身份字段不可覆盖。`mode=execution`表示当次任务准备执行该Run，`mode=observed_reuse`表示当次任务实际观察并复用已有Run，不证明原始生成归属或新增计费。普通executor缺少正式执行身份时不创建已认证题级关联。
+
+continuation在新Run创建之前重新核对声明父experiment/attempt/version及上述同题/同输入/同配置/同checkpoint/同Run关联，并将父link ID和hash写入后续账本；父实验存在且同配置不足以放行。另一父实验、上一attempt、输入变化、历史缺link或旧continuation缺认证链均拒绝新增生成，明确报父题级来源未核实，走单独留证和审核流程；没有自动认证、回填或导入旧关联的入口。新实验对completed checkpoint的当次观察复用可以建立自己的observed_reuse记录，不向旧父实验回填。
+
+M6新结果`logical_provider_calls_scope=run_total`，`logical_provider_calls`读取持久Run累计遥测，供题级/实验汇总；`execution_logical_provider_calls`仅为当前adapter调用的进程counter差值，未观测null。Run完成但结果尚未落盘时退出，恢复可同时报告累计stream1和本次新增0；结果重复落盘/读取不能把累计改0或加为2。新澄清路径将当次明确测得的零值随等待事件持久化，历史缺测仍null；精确HTTP/费用继续未知。本次新增字段不改变旧结果内容或追认其计数范围，混合历史报告仍按原分列身份解释，不能把Run累计当本轮新费用。
+
 `POST /experiments`可带`continuation={source_experiment_id,source_attempt,source_version,reason}`。父实验由服务端按当前owner/kb读取，必须是failed/cancelled/incomplete终态且attempt/version、dataset/manifest/config字节指纹匹配；失败可重试标记不修改。已完成实验的质量比较继续用baseline，不使用continuation。省略与显式null等价，同client_request_id变更来源409；父来源缺失或越权404，活动/过期/冻结身份不匹配409。该协议只支持相同冻结配置；修改源码导致runtime code身份变化时，不能将新配置当旧版本续跑，也不自动迁移任何检查点。
 
 普通job首attempt不赋予中断重生成资格。只有显式continuation才能为已收敛interrupted Run派生新请求；已完成题仍按原config/question checkpoint复用，非retryable failed Run仍拒绝。调用之前在私有`evaluation_continuations`集合用新experiment/checkpoint稳定键`setOnInsert`保存父experiment/attempt/version快照、父Run/输入身份/固定request_key；RunService创建后先绑定新Run，再执行。创建Run后、checkpoint绑定前崩溃，原请求重发仍复用同一Run。重复/重新领取同一个continuation固定请求，后续Run再次interrupted时停止，不自动派生第三条付费Run。

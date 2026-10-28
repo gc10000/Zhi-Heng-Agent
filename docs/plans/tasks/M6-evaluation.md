@@ -1,5 +1,9 @@
 # M6：评测、质量中心与反馈闭环开发 ToDo
 
+## 2026-10-28 · continuation R1/R2补修自验完成，待独立复审
+
+R1恢复结果使用持久Run累计，另存adapter新增；R2由正式job在模型前保存题级execution link，后续派生核验父attempt/题目/输入/config/Run并绑定来源hash。107定向、原探针兼容副本3项、共享查询/遥测20项及前端typecheck通过；r3的520只读检查及45历史hash不变，历史无回填、无真实生成/heldout/评分/校准。下一步原规划总控独立定向复审，不自行关闭R1/R2；04/05/08未验收、4/7及M7未授权保持。详见[补修自验报告](../../development/reviews/M6-08-continuation-protocol-fix-r2.md)。
+
 ## 2026-10-28 · continuation执行端审查待修复
 
 原88定向重跑通过；新增隔离故障探针2失败/1通过，R1调用漏计（P1）、R2父实验与中断Run题级来源缺口（P2）待补修及复审。r3已存85题组合与证据520只读检查通过，45历史证据hash不变，不重新认证当前源码或答案质量。无源码、真实模型/heldout/评分/校准写入；04/05/08保持未验收，4/7与M7未授权不变。见[审查材料](../../development/reviews/M6-08-continuation-protocol-review-r1.md)。

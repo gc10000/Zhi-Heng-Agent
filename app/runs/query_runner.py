@@ -162,7 +162,7 @@ class QueryRunner:
                     raise APIError(422, 'product_selection_required', '请先在产品目录选择型号。')
                 self.commands.wait_input(user, rid, token, candidates=[{k: p[k] for k in ('product_id', 'model')}
                     for p in products if p['product_id'] in plan.candidates],
-                    resume_point={'stage': 'retrieve', 'reason': plan.reason})
+                    resume_point={'stage': 'retrieve', 'reason': plan.reason}, telemetry_measurements=telemetry.snapshot())
                 return
             selected = list(plan.product_ids)
             for pid in selected:
