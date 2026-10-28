@@ -1,0 +1,291 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-28",
+  "reviewed_commit": "c121cbc1a0967811d1585a015b4dfd33ac5a2493",
+  "review_role": "independent_controller",
+  "result": "formal_default_off_source_prerequisite_wiring_passed_within_declared_isolated_scope",
+  "new_blockers": [],
+  "validation": {
+    "shared": {
+      "passed": 133,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0
+    },
+    "replay": {
+      "passed": 25,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0
+    },
+    "integration": {
+      "passed": 69,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0
+    },
+    "probes": {
+      "passed": 4,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0
+    }
+  },
+  "readonly_checks": 1135,
+  "source_hashes_matched": 171,
+  "execution_sealed_files_unchanged": 62,
+  "groups_not_summed": true,
+  "boundaries": {
+    "identity": true,
+    "authorized_bounded_loader": true,
+    "groups_and_citations": true,
+    "disabled_rollback": true,
+    "public_http_unchanged": true,
+    "default_disabled": true
+  },
+  "quality": {
+    "answer_quality_proven": false,
+    "context_pdf_coverage": "21/25",
+    "original21_preserved": true,
+    "remaining": [
+      "support-v1-019",
+      "support-v1-021",
+      "support-v1-022",
+      "support-v1-048"
+    ],
+    "default_release_approved": false
+  },
+  "operations": {
+    "business_source_modified": false,
+    "real_model_calls": 0,
+    "real_dev_or_heldout": false,
+    "reimported": false,
+    "default_catalog_switched": false,
+    "official_quality_records_written": false,
+    "historical_state_or_links_modified": false,
+    "synthetic_isolated_test_writes": true,
+    "subagents_used": false,
+    "private_files_and_tmp_preserved": true
+  },
+  "next": {
+    "task": "同25题隔离新答案质量验证",
+    "real_calls_started_this_review": false,
+    "pre_call_identity_idempotency_lineage_and_ledger_required": true,
+    "assistant_analysis_not_human_scores": true,
+    "no_default_release": true,
+    "no_repeated_preparation": true
+  },
+  "historical": {
+    "r3_results": 85,
+    "inherited": 19,
+    "executed": 66,
+    "historical_stream": 19,
+    "new_stream": 61,
+    "exact_HTTP_and_cost": null,
+    "old_failed_results": 0,
+    "old_failed_calls_cost": null,
+    "nonTTL_equal_historical": 21,
+    "collections_equal_audit_window": 22,
+    "TTL_separate": true,
+    "existing_closures_retained": true
+  },
+  "stage": {
+    "M6": "4/7",
+    "unaccepted": [
+      "M6-04",
+      "M6-05",
+      "M6-08"
+    ],
+    "M7_authorized": false
+  },
+  "evidence": [
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/audit-command.json",
+      "sha256": "d015905c0f358dc30b0b3d4547980a3f995c1163b78fd69af23111c5b58e7240"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/audit.log",
+      "sha256": "567cb37cfc398060e11813cf741f8c122f16986f404956f3966e981c3bcad82f"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/audit.py",
+      "sha256": "5efa5e01045ce3a5053911ea8cbc56c70517343f218e234582cf192544e796cc"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/input-verification.json",
+      "sha256": "a452cbe8347548be14115875808ff0fe50fd6c0e3bf1a2f06abc78108a844b36"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/integration-command.json",
+      "sha256": "9f8c75770faa1d1bb7c303697760035d18065304c4b5ac15046887f73644ce1d"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/integration.log",
+      "sha256": "aba57abd500e4348a7a4c507710c3b8bf8fbf5a35b3f1b963d90751547fa2efc"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/integration.xml",
+      "sha256": "2fc93f3b0f15e245085cc27d20e86cf24307275d89a16a00e4eb2477056f6d88"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/probes-command.json",
+      "sha256": "7c04f0da4a847774deabc2ee417efd708aea3a8234cebd2f0218cac5a3fde101"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/probes.log",
+      "sha256": "ea841488bf6ab767b709577f5a66b98e4dec7a4ae7e2b223341e0aadf34705d6"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/probes.xml",
+      "sha256": "34323c5115b76624d669c1e1d85da2a804101e02cd621065d3f62132b8c75610"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/readonly-audit.json",
+      "sha256": "fd51d9754777fc4858ea6530e400fb14e5edef09c9060ccd484d6545ae50e65f"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/replay-command.json",
+      "sha256": "c9a27b545df703aaa496e4e6517488c7934abe904509e61e3a54b52402b583d9"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/replay-results/m6-g540-02-a.json",
+      "sha256": "e7f43795ec7856ed149ba5cfa0b7179a306024f91d47af9fdf6a856ca8e6cb0f"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/replay-results/m6-g540-02-b.json",
+      "sha256": "a27e211bb115127049e96ff493efe1238c0a6a270861e2a5e24614d6326eba88"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/replay-results/m6-g540-04-a.json",
+      "sha256": "445ab0998c4c20c2cbb1ffc7307eedb0f2dceef9d44561defdd0882c126dccd6"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/replay-results/m6-g540-04-b.json",
+      "sha256": "0fc007bd5d7ef3e22dc1d333669e9ef4e53c1715817111b227e969ebc841bfc8"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/replay-results/m6-g540-05-a.json",
+      "sha256": "d79a911e13ac3c69edfd35c0ee377fe40361b60636b07a83dc995acc692fc80d"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/replay-results/m6-g540-05-b.json",
+      "sha256": "5b284deab7bdfc96ca82460424400ea466547fc1531d6fc35420f84a41f29086"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/replay-results/m6-g540-17-a.json",
+      "sha256": "436f399cc2a246192177cf5b0d7a86920dd3d05e35445783e0a70b5bfa0afab7"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/replay-results/m6-g540-17-b.json",
+      "sha256": "0316ce07b9e453be8110668f0ebe16b3e0329e3219344df1beec50f83ff8ed18"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/replay-results/m6-g540-18-b.json",
+      "sha256": "6ab4c1ef6b23cca6e573a3574cbb71a3a62fb580aad0a1ebd5a2f912a4c91ee9"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/replay-results/m6-g540-20-a.json",
+      "sha256": "0ef12d0b25986a496a26c50944afdfcd4a730d9cf7acb91b5cb0526b4b87f1af"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/replay-results/support-v1-003.json",
+      "sha256": "a20247fdcc40ddc8b4b8845021e2bcca7b51430c6a2a24fb51695db13489f072"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/replay-results/support-v1-004.json",
+      "sha256": "15be1542c7d51e46fc28d642d17b48cd468f831a2a932a721b134d64e82d6cb1"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/replay-results/support-v1-006.json",
+      "sha256": "139fb93b623aaf24e9753464635c90281ebad8b98b779bdf450ba1140065c69a"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/replay-results/support-v1-007.json",
+      "sha256": "22b994dc5f72a545b066b25f26932135d7dc4e722c52473eed029dab0fc89670"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/replay-results/support-v1-008.json",
+      "sha256": "017aeec7c0a7cb9a1f8acd809812274e59b77c697b2849af61a67791d0107e28"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/replay-results/support-v1-009.json",
+      "sha256": "eec1aa9a9198ae823215c84cf87ae8b508c2ecfe76985ff2ee8a97e6fbad1d7d"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/replay-results/support-v1-010.json",
+      "sha256": "c30b719020666590f4e0584d915d92bf921325bd08584ddb0ae77a5c499f0fff"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/replay-results/support-v1-019.json",
+      "sha256": "7b198807da844464866f80d91e37a29f0db6e89b5e7ba758f8ee410af398f63d"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/replay-results/support-v1-020.json",
+      "sha256": "d4ccae2136d6222bd7cb4d8c68a64aef5d41998727f8b2bdf7067b8a5088ccfc"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/replay-results/support-v1-021.json",
+      "sha256": "db2332b259868ed3d845a974156fe9596ad10b74108c496142a42393acde71d0"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/replay-results/support-v1-022.json",
+      "sha256": "34d25ac396f746b458d9537458efaa2b903ea9d059e0052f936f969c71f92915"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/replay-results/support-v1-034.json",
+      "sha256": "2a2d5de7d122a622cec8753e066a48495dfdd467e4c0c4f8c5e7b2fec49cef42"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/replay-results/support-v1-037.json",
+      "sha256": "563d57e90ac8eb41c8641b4a8832c5a02f1c338c9c9527e1ba781acd9e97cdfb"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/replay-results/support-v1-038.json",
+      "sha256": "8842909c998345126c61ef63164d760a60afe3ad6d26bc4761d51a8319cec804"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/replay-results/support-v1-048.json",
+      "sha256": "8544105e5d4e211ebdb301067934d66b22acf8c28a64ed15e66ac80cacf927d4"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/replay.log",
+      "sha256": "f7032b201379905c9bd7c8e0e571db7d23d9fdbda3883472a443d29feceec0a0"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/replay.xml",
+      "sha256": "fdb2fc06aa91f8422f107673dfd5cf6b34968857cefb31aed4cd2835e457a5df"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/run_checks.py",
+      "sha256": "6524a42710abfb19382b054993945094467951633d8b3530b8053dfe1463a9da"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/shared-command.json",
+      "sha256": "e0b31d71f4f4f69e2e7a445d2c3e3972f07f3872bbf867a1b210231f48e2e58e"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/shared.log",
+      "sha256": "9ffcfde0c2bcce70caf86e816b9df1643ea5e3d32fb73d6486494c66659b2e41"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/shared.xml",
+      "sha256": "457a91436ec1d5e6aa350eef54b39d731e8d470231fb18bafc6c22609fc8e363"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/source-identity-verification.json",
+      "sha256": "869de3d78190e56f9f4956450a7c41d6c8b1157b0d126bef543f1ebb850f8ffc"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/test_independent_wiring.py",
+      "sha256": "60ce876197fe0adc1e67646d2ce29288e02cdd0bedf03e125e1aa130fd31e240"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-review-r1-20261028/test_saved_replay.py",
+      "sha256": "4039155c63f7e076bef4c231301b8bc6b3109c34d3e28009a4d7d11b29e5084f"
+    }
+  ]
+}

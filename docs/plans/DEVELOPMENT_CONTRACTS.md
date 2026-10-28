@@ -1,5 +1,9 @@
 # 开发公共契约与任务交接边界
 
+## M6来源前提正式接线独立状态（2026-10-28）
+
+本轮c121cbc的身份、授权装载、分组引用与关闭回切独立核验通过，范围限默认关闭的隔离配置；保留weighted，未授权默认发布或M7。下一步转已有25题的隔离新答案验证，首次真实调用前登记配置/源码/语料身份、来源关联、题级幂等和调用账本；不得复用配置不同的旧19条Run，不写human评分或绕过正式质量前置。见[独立结论](../development/reviews/M6-08-prerequisites-wiring-review-r1.md)。以下为历史契约时点。
+
 ## M6来源前提正式消费者内部接线契约（2026-10-28）
 
 SourcePrerequisitePolicy通过QueryRunner构造器或受信parameters.source_prerequisites显式传入，默认关闭；不从环境加载，不向HTTP RunInput开放。InternalRunInput规范化配置在prepare前进入请求身份，非缺省配置及SHA保存在新Run；默认旧身份不变。执行期对比配置/SHA，旧缺省Run不能在启用消费者执行，不回填历史。EvaluationStrategy和adapter把配置传至正式消费者/内部Run，完整config检查点身份包含开关、函数版本1、预算及scope。
