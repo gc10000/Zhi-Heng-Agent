@@ -1,0 +1,209 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-28",
+  "reviewed_commit": "5812df49cca6fd38d8e19cdd1fdbcfac827cff83",
+  "review_role": "independent_controller",
+  "result": "passed",
+  "closed_findings": [
+    "SQ-R1",
+    "SQ-R2",
+    "SQ-R3",
+    "SQ-R1-R",
+    "SQ-R2-R",
+    "SQ-R3-R"
+  ],
+  "new_blockers_within_review_scope": [],
+  "validation": {
+    "offline_regression": {
+      "passed": 269,
+      "failed": 0,
+      "exit_code": 0,
+      "files": 18
+    },
+    "original_independent_probes": {
+      "passed": 16,
+      "failed": 0,
+      "exit_code": 0,
+      "copies_byte_identical": true
+    },
+    "isolated_mongo_regression": {
+      "passed": 39,
+      "failed": 0,
+      "exit_code": 0,
+      "files": 5,
+      "test_db_prefix": "m1_test_m4_sqrev3",
+      "provider_and_index_injected": true
+    },
+    "groups_not_summed": true,
+    "real_cache": {
+      "tables": 43,
+      "changed_tables": 0,
+      "content_preservation_checks": 1360,
+      "chunk_counts": [
+        18,
+        151,
+        64,
+        282
+      ],
+      "explicit_headers_in_real_cache": 0,
+      "real_retrieval_gain_proven": false
+    },
+    "hashes": {
+      "fix_evidence": 21,
+      "protected_output_files": 297,
+      "unchanged": true
+    },
+    "readonly": {
+      "passed": true,
+      "checks": 179,
+      "legacy_protected_files": 145,
+      "early_fix_evidence": 16,
+      "source_supplements": 3,
+      "frozen_chunks": 867,
+      "non_ttl_collections_equal_historical_snapshot": 21,
+      "collections_equal_within_audit": 22
+    },
+    "old_21_49_520_rerun": false,
+    "frontend_typecheck_openapi_browser_rerun": false
+  },
+  "event_TTL": {
+    "historical_count": 2315,
+    "current_count": 1675,
+    "exported_events": 2308,
+    "missing_exported": 634,
+    "missing_exported_all_expired": true,
+    "ttl_index_present": true,
+    "equals_historical_snapshot": false,
+    "outside_export_cause": "unknown",
+    "surviving_event_payload_comparison": false
+  },
+  "operations": {
+    "business_source_modified": false,
+    "supplier_calls_this_review": 0,
+    "embeddings_or_real_rerank_calls": 0,
+    "corpus_published": false,
+    "real_dev_executed": false,
+    "heldout_executed": false,
+    "formal_scores_observations_calibrations_candidates_declarations_written": false,
+    "historical_state_lease_slot_retryable_links_modified": false,
+    "target_writes": 0,
+    "subagents_used": false,
+    "tmp_and_private_evidence_preserved": true
+  },
+  "historical": {
+    "r3_results": 85,
+    "inherited": 19,
+    "executed": 66,
+    "historical_stream": 19,
+    "new_stream": 61,
+    "exact_http_and_cost": null,
+    "old_failed_results": 0,
+    "old_failed_calls_and_cost": null,
+    "continuation_and_image_closures_retained": true
+  },
+  "acceptance_scope": "已登记SQ缺陷、两轮原始反例及直接相关回归；非阻塞相邻改进另记，不无限扩大当前前置。",
+  "next": {
+    "task": "新命名空间/新修订真实检索验证",
+    "questions": "既存25题问题清单",
+    "evidence": [
+      "candidate_retrieval",
+      "reranking",
+      "final_context",
+      "product_accessory_routing"
+    ],
+    "preserve_frozen_r3": true,
+    "automatic_old_checkpoints_inheritance": false,
+    "before_external_calls": [
+      "exact_scope",
+      "stable_idempotency_and_provenance",
+      "cache_identity",
+      "cost_estimate_or_cap",
+      "logical_calls_and_tokens_or_unknown_cost_record"
+    ],
+    "default_revision_switch_before_retrieval_validation": false
+  },
+  "limitations": [
+    "真实检索、新答案质量及正式双轮/预校准/候选/反馈复评尚未完成",
+    "复杂无标记表头/合并单元格不宣称通用解决",
+    "固定Markdown解析器升级需重验原文坐标约定"
+  ],
+  "stage": {
+    "M6": "4/7",
+    "unaccepted": [
+      "M6-04",
+      "M6-05",
+      "M6-08"
+    ],
+    "M7_authorized": false
+  },
+  "evidence": [
+    {
+      "path": "output/m6-semantic-review-r3-20261028/test_original_probes.py",
+      "sha256": "0c13c42c5a5d8e159d0b97a960b8305a0d669adf1716b1363f7d92c48cb6a5bf"
+    },
+    {
+      "path": "output/m6-semantic-review-r3-20261028/test_adjacent_probes.py",
+      "sha256": "64875f6060abfb6fd136cb37b3cdfad1af4ff2af910ec5dd67405ffe94e1f541"
+    },
+    {
+      "path": "output/m6-semantic-review-r3-20261028/independent-regression.xml",
+      "sha256": "daa7bd5b3837aa37181443654e4bd23b596151cbecf9e12b67e31d519d60e572"
+    },
+    {
+      "path": "output/m6-semantic-review-r3-20261028/independent-regression.log",
+      "sha256": "08ea7b72f71f7bbb36e073b5517b402fe9f8e1a8deddf303553e7b3f194af94d"
+    },
+    {
+      "path": "output/m6-semantic-review-r3-20261028/independent-command.json",
+      "sha256": "72236828fd5c3384e6c73ca8b26b6cecb9b098b9ffbdc8817a6327319988b110"
+    },
+    {
+      "path": "output/m6-semantic-review-r3-20261028/offline-regression.xml",
+      "sha256": "c29730df08c6cf13e7eb1d4fb02eff4125988e53f8a0ce95f5983e4829788119"
+    },
+    {
+      "path": "output/m6-semantic-review-r3-20261028/offline-regression.log",
+      "sha256": "549f971984cc9b5cb66be8fe7b0bb5e1a76b5c5b8d18c76cf7ac91b5464b0699"
+    },
+    {
+      "path": "output/m6-semantic-review-r3-20261028/offline-command.json",
+      "sha256": "f29a0963330ed7fc5a7dfba7ec66ae48b10792cf485b452de3c63727c197e78d"
+    },
+    {
+      "path": "output/m6-semantic-review-r3-20261028/integration-regression.xml",
+      "sha256": "cb0c8ed252abaed81e6bc7b4087e47e117ed19751d2a9b547d1ceb49f29f34d2"
+    },
+    {
+      "path": "output/m6-semantic-review-r3-20261028/integration-regression.log",
+      "sha256": "35eb70b09fcf0455c0099e89664f5529ca4a20a284c33a7c195157fb84085d86"
+    },
+    {
+      "path": "output/m6-semantic-review-r3-20261028/integration-command.json",
+      "sha256": "2938de869dcffc3e0b1ebcb4c21f325348033c41f9f530b15016d093610533ad"
+    },
+    {
+      "path": "output/m6-semantic-review-r3-20261028/evidence-and-protected-checks.json",
+      "sha256": "b49467e2edf81c6ba8bcd9bd32baaff3c5f20031436ff124090720b07849185e"
+    },
+    {
+      "path": "output/m6-semantic-review-r3-20261028/audit_immutability.py",
+      "sha256": "ccded22d35b2113a56ff22867d4af48514a7db30734b11e8236965ecbe51a787"
+    },
+    {
+      "path": "output/m6-semantic-review-r3-20261028/immutability-review.json",
+      "sha256": "6007cb1be150daaaa1027cbea004a8dd8163b599ab5ca8960313f09754bf0a40"
+    },
+    {
+      "path": "output/m6-semantic-review-r3-20261028/verify_table_differences.py",
+      "sha256": "a16d5d9e3494fa12bd225fe77ffb5b67e752f13c5786e54c92800a5dd18ebe5e"
+    },
+    {
+      "path": "output/m6-semantic-review-r3-20261028/table-differences.json",
+      "sha256": "2e708349eeabed5e7e98a5bf14e849bc824017c0950dca7a6ab35d390f3f16d6"
+    },
+    {
+      "path": "output/m6-semantic-review-r3-20261028/run_regression.py",
+      "sha256": "2cdbc398be480642de611b398d1f5df0b390272abdbba2b1cf7e3985b5143371"
+    }
+  ]
+}
