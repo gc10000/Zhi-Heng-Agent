@@ -1,0 +1,240 @@
+{
+  "date": "2026-10-28",
+  "base_commit": "a91432a36e9f712af4bfdcf1874f73e94233c52e",
+  "status": "SQ续审三项补修自验，待独立复审",
+  "findings": [
+    {
+      "id": "SQ-R1-R",
+      "priority": 2,
+      "status": "fixed_pending_independent_review"
+    },
+    {
+      "id": "SQ-R2-R",
+      "priority": 2,
+      "status": "fixed_pending_independent_review"
+    },
+    {
+      "id": "SQ-R3-R",
+      "priority": 2,
+      "status": "fixed_pending_independent_review"
+    }
+  ],
+  "verification": {
+    "red-adjacent.xml": {
+      "tests": 9,
+      "failures": 6,
+      "errors": 0,
+      "skipped": 0
+    },
+    "red-coordinates.xml": {
+      "tests": 18,
+      "failures": 16,
+      "errors": 0,
+      "skipped": 0
+    },
+    "green-boundaries.xml": {
+      "tests": 48,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0
+    },
+    "offline-regression.xml": {
+      "tests": 269,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "green-independent.xml": {
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integration-regression.xml": {
+      "tests": 39,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "groups_are_not_unique_total": true,
+  "original_7_pass_retained": true,
+  "new_probe_copy_byte_identical": true,
+  "new_probe_sha256": "64875f6060abfb6fd136cb37b3cdfad1af4ff2af910ec5dd67405ffe94e1f541",
+  "implementation": {
+    "shared_original_source_coordinates": true,
+    "commonmark_line_endings": [
+      "CRLF",
+      "CR",
+      "LF"
+    ],
+    "unicode_separators_preserved": true,
+    "recursive_image_alt_absolute_offset": true,
+    "row_and_rowgroup_headers_are_data": true,
+    "chunker_version": "5",
+    "new_dependency": false,
+    "api_frontend_change": false
+  },
+  "intermediate_failure": "green-boundaries初验2失败源于夹具预算40允许两数据行同片而断言3片，改预算35，原失败留存；未改业务凑片数。",
+  "corpus": {
+    "tables": 43,
+    "changed_tables": 0,
+    "content_preservation_checks": 1360,
+    "counts": [
+      18,
+      151,
+      64,
+      282
+    ],
+    "source_refs_preserved": true,
+    "explicit_headers_in_real_cache": 0,
+    "published": false,
+    "limitation": "真实表格用于验证已有路径无退化；scope/递归/Unicode边界由合成回归验证，不证明真实召回或新答案质量"
+  },
+  "immutable": {
+    "protected_output_files": 297,
+    "all_protected_output_hashes_unchanged": true,
+    "legacy_protected_files": 145,
+    "early_fix_evidence": 16,
+    "source_supplements": 3,
+    "readonly_checks_per_audit": 179,
+    "frozen_chunks": 867,
+    "non_ttl_collections_equal_historical_snapshot": 21,
+    "audit_window_22_collections_equal": true,
+    "between_audits_equal": true,
+    "historical_events_count": 2315,
+    "current_events_count": 1675,
+    "exported_events": 2308,
+    "missing_exported_events": 634,
+    "missing_exported_all_expired": true,
+    "events_equal_historical_snapshot": false,
+    "limitation": "导出外缺失不逐条归因，不声称历史交接22集合全相同"
+  },
+  "operations": {
+    "provider_model_calls": 0,
+    "embeddings": 0,
+    "real_rerank_model_calls": 0,
+    "real_dev_executed": false,
+    "heldout_executed": false,
+    "corpus_published": false,
+    "formal_quality_scores_observations_calibrations_candidates_declarations_written": false,
+    "historical_state_lease_slot_retryable_or_links_modified": false,
+    "subagents_used": false
+  },
+  "historical": {
+    "r3_experiment": "79b3cc58-cfd4-4da5-84c0-890d92a9be06",
+    "results": 85,
+    "inherited": 19,
+    "executed": 66,
+    "historical_stream": 19,
+    "new_stream": 61,
+    "http": null,
+    "cost": null,
+    "failed_experiment": "a5607e05-de22-4b24-9570-e85b7e09b521",
+    "state": "failed",
+    "attempt": 2,
+    "error": "provider_invalid_response",
+    "retryable": false,
+    "result_rows": 0,
+    "calls": null,
+    "failed_cost": null,
+    "continuation_and_image_closures_retained": true
+  },
+  "stage": {
+    "m6_core": "4/7",
+    "unaccepted": [
+      "M6-04",
+      "M6-05",
+      "M6-08"
+    ],
+    "m7_authorized": false,
+    "accepted": false
+  },
+  "next": "执行方送独立复审，通过前不发布语料；通过后新命名空间真实检索/正式发布回切，既定双轮/预校准/候选/复评依赖保留，不要求重查PDF或重填判断。",
+  "evidence": [
+    {
+      "path": "output/m6-semantic-fix-r3-20261028/test_adjacent_probes.py",
+      "sha256": "64875f6060abfb6fd136cb37b3cdfad1af4ff2af910ec5dd67405ffe94e1f541"
+    },
+    {
+      "path": "output/m6-semantic-fix-r3-20261028/red-adjacent.xml",
+      "sha256": "83c95b8a9a63099bf35c75ce9c45d4ee600cadb0ad5247d756f13582fc33d996"
+    },
+    {
+      "path": "output/m6-semantic-fix-r3-20261028/red-adjacent.log",
+      "sha256": "1004e8a57aca7f90761f511eea3055b15108f74239a6afbd54a0add68da5f262"
+    },
+    {
+      "path": "output/m6-semantic-fix-r3-20261028/red-coordinates.xml",
+      "sha256": "135e4d060f1b6d87bd86f14124de4b6faf1b4972469ba848ce8ee9085476cc70"
+    },
+    {
+      "path": "output/m6-semantic-fix-r3-20261028/red-coordinates.log",
+      "sha256": "492ff21b4fcde24399334a2569c9d409f4487191364a24bee3b45ec9ca69f917"
+    },
+    {
+      "path": "output/m6-semantic-fix-r3-20261028/green-boundaries.xml",
+      "sha256": "3d774090dfc34d3adbcbf56b180c80132ae35e75de04232487bba8c0faa9c0d0"
+    },
+    {
+      "path": "output/m6-semantic-fix-r3-20261028/green-boundaries.log",
+      "sha256": "9dbd2b3c0e94842fc90cfaeef6c9fd80237dd3ff885e35650a95539b5bc4d529"
+    },
+    {
+      "path": "output/m6-semantic-fix-r3-20261028/offline-regression.xml",
+      "sha256": "0f9de34514fe2fbada20e185379e5acd32db5467591817f24bc073e76e5d67f7"
+    },
+    {
+      "path": "output/m6-semantic-fix-r3-20261028/offline-regression.log",
+      "sha256": "ff436f7f099764383407cc4714ea0a73a40dda9c4a2beefc9ef745144678bd44"
+    },
+    {
+      "path": "output/m6-semantic-fix-r3-20261028/offline-command.json",
+      "sha256": "eb32544a9493ad1acad9afe07182d9054c53e99cc6d6d3e86d81ba00c73fd88f"
+    },
+    {
+      "path": "output/m6-semantic-fix-r3-20261028/green-independent.xml",
+      "sha256": "76e21d2a66a27c79539bf2805b3434a1fb0554fe8b8ef2c1f50c07485b1950e1"
+    },
+    {
+      "path": "output/m6-semantic-fix-r3-20261028/green-independent.log",
+      "sha256": "3c7b70ca6cc03798bc5be4c118861f0990c3f04c952e07607c84a981f3641eb0"
+    },
+    {
+      "path": "output/m6-semantic-fix-r3-20261028/integration-regression.xml",
+      "sha256": "b06caac031d81041dd74472f715b7c5aa8a7e7c628aefcfccd395cd20ea6d4fc"
+    },
+    {
+      "path": "output/m6-semantic-fix-r3-20261028/integration-regression.log",
+      "sha256": "cf8a5556363810f890218c32dcee21c1448c347174d022d7aff90df994292f90"
+    },
+    {
+      "path": "output/m6-semantic-fix-r3-20261028/integration-command.json",
+      "sha256": "c6d2ed04f5411449970996faf6e3db1ec6acbd594254f9c7ad5150e31af2201b"
+    },
+    {
+      "path": "output/m6-semantic-fix-r3-20261028/table-differences.json",
+      "sha256": "2e708349eeabed5e7e98a5bf14e849bc824017c0950dca7a6ab35d390f3f16d6"
+    },
+    {
+      "path": "output/m6-semantic-fix-r3-20261028/verify_table_differences.py",
+      "sha256": "a16d5d9e3494fa12bd225fe77ffb5b67e752f13c5786e54c92800a5dd18ebe5e"
+    },
+    {
+      "path": "output/m6-semantic-fix-r3-20261028/immutability-before.json",
+      "sha256": "6007cb1be150daaaa1027cbea004a8dd8163b599ab5ca8960313f09754bf0a40"
+    },
+    {
+      "path": "output/m6-semantic-fix-r3-20261028/immutability-after.json",
+      "sha256": "6007cb1be150daaaa1027cbea004a8dd8163b599ab5ca8960313f09754bf0a40"
+    },
+    {
+      "path": "output/m6-semantic-fix-r3-20261028/audit_immutability.py",
+      "sha256": "46cbe7997d5b8d1f66fbd4e0626fbb8de84508bd4dc175a82e1b6c912d12669e"
+    },
+    {
+      "path": "output/m6-semantic-fix-r3-20261028/protected-before.json",
+      "sha256": "27a34fa71c8aa252c9bc32f2c259322977d2d4aab19f483a663649c27f82a891"
+    }
+  ]
+}

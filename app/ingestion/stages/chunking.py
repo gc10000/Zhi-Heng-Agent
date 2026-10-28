@@ -3,7 +3,7 @@ import re
 from app.knowledge.models import Chunk,SourceRef,stable_id,content_hash
 from html.parser import HTMLParser
 
-VERSION = '4'
+VERSION = '5'
 
 
 class _TableReader(HTMLParser):
@@ -15,7 +15,8 @@ class _TableReader(HTMLParser):
             self.row=[]
             if self.in_header:self.header_rows.add(len(self.rows))
         if tag in {'th','td'}:self.cell=[]
-        if tag=='th':self.header_rows.add(len(self.rows))
+        if tag=='th' and dict(attrs).get('scope','').lower() not in {'row','rowgroup'}:
+            self.header_rows.add(len(self.rows))
     def handle_data(self,data):
         if self.cell is not None:self.cell.append(data)
     def handle_endtag(self,tag):
@@ -74,16 +75,12 @@ class ChunkBoundaryError(ValueError):pass
 
 def split_text(text,max_chars):
     if max_chars<1:raise ValueError('切片上限必须大于0')
-    from markdown_it import MarkdownIt
+    from app.core.markdown_source import block_code_ranges
     # 固定解析器负责同类/长度、缩进与未闭合围栏；按原始行跨度取值，不重渲染源码。
-    offsets=[0]
-    for line in text.splitlines(keepends=True):offsets.append(offsets[-1]+len(line))
     ranges=[]
-    for token in MarkdownIt('default').parse(text):
-        if token.type in {'fence','code_block'} and token.map:
-            start,end=(offsets[i] for i in token.map)
-            end=start+len(text[start:end].rstrip('\r\n'))
-            ranges.append((start,end))
+    for start,end in block_code_ranges(text):
+        end=start+len(text[start:end].rstrip('\r\n'))
+        ranges.append((start,end))
     atoms=[]
     def prose(value):
         for part in re.split(r'(!\[[^\]]*\]\([^)]*\))',value):

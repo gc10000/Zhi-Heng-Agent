@@ -1,5 +1,11 @@
 # 开发公共契约与任务交接边界
 
+## SQ续审原始源码坐标与行标题契约（2026-10-28）
+
+生成与chunker5共用app/core/markdown_source：块token.map仅按CRLF/CR/LF映射原文行偏移，不把分页符/U+2028/U+2029等当Markdown换行，不归一化或删除原文。inline代码坐标在图片alt递归时按固定image规则子串起点逐层累计，finally恢复父base，最终保护区相对同一原文。固定markdown-it-py 4.0.0升级须重验递归约定。邻接真空导航仍显式标注，预算计投影实际长度，原证据/引用不变。
+
+HTML th的scope=row/rowgroup是数据行标题，不增加列头；thead与scope=col列头及多行条件仍随数据重复，行标题和值不得分离，非连续列头仍拒绝。不改API/配置/依赖或冻结r3；chunker5区分正式导入新身份，旧解析产物不迁移。SQ-R1-R/R2-R/R3-R仅补修自验、待独立复审，通过前不发布语料，既定正式质量依赖保留。见[本轮报告](../development/reviews/M6-08-semantic-quality-fix-r3.md)。
+
 ## SQ补修后证据完整性契约（2026-10-28）
 
 独立复审8f16cdf状态：原7反例通过，但源码绝对坐标/换行映射及行标题识别尚有SQ-R1-R/R2-R/R3-R（P2）待补修，当前实现未完整满足以下目标，通过前不发布语料。见[续审要求](../development/reviews/M6-08-semantic-quality-review-r2.md)。

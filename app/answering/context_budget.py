@@ -4,23 +4,8 @@ import re
 
 def readable_evidence(text):
     """仅标注点击指令中结构明确的空导航；数学、操作符和代码原样保留。"""
-    from markdown_it import MarkdownIt
-    from markdown_it.rules_inline.backticks import backtick
-    md=MarkdownIt('default');protected=[]
-    offsets=[0]
-    for line in text.splitlines(keepends=True):offsets.append(offsets[-1]+len(line))
-    for token in md.parse(text):
-        if token.type in {'fence','code_block'} and token.map:
-            protected.append((offsets[token.map[0]],offsets[token.map[1]]))
-    # 使用固定CommonMark解析器实际消费的源码跨度，包含跨行/变长行内代码。
-    def code_span(state,silent):
-        start=state.pos;count=len(state.tokens)
-        accepted=backtick(state,silent)
-        if not silent and len(state.tokens)>count and state.tokens[-1].type=='code_inline':
-            protected.append((start,state.pos))
-        return accepted
-    md.inline.ruler.at('backticks',code_span)
-    md.inline.parse(text,md,{},[])
+    from app.core.markdown_source import block_code_ranges,inline_code_ranges
+    protected=block_code_ranges(text)+inline_code_ranges(text)
     navigation=re.compile(r'((?:依次)?点击[ \t]*)(\$?(?:>(?!>)[ \t]+(?:\\(?:emptyset|varnothing)\b[ \t]*)?){2,}\$?)')
     def prose(value):return navigation.sub(r'\1〔未识别图标路径〕',value)
     result=[];end=0
