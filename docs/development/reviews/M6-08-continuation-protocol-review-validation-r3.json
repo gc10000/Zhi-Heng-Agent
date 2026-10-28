@@ -1,0 +1,364 @@
+{
+  "date": "2026-10-28",
+  "reviewed_commit": "f92f6ec68999986fa1037294a4f57f0edca0d37e",
+  "scope": "R2/R2-R控制与Run分库接线及父来源/崩溃恢复独立定向复审",
+  "result": "targeted_review_passed",
+  "stage_accepted": false,
+  "controller_stage_approval": false,
+  "m6_core": "4/7",
+  "m7_authorized": false,
+  "findings": [
+    {
+      "id": "R1",
+      "status": "prior_independent_pass_retained"
+    },
+    {
+      "id": "R2",
+      "remaining_issue": "R2-R",
+      "priority": "P1",
+      "status": "closed_by_independent_targeted_review",
+      "behavior": "可信控制库显式传入、当前身份写入前及关联前校验、父实验/目标link分开查询、映射与hash固定、同Run恢复"
+    }
+  ],
+  "verification": {
+    "groups": {
+      "targeted": {
+        "tests": 121,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "original-probes": {
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "independent-sources": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "shared": {
+        "tests": 20,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "groups_overlap": true,
+    "unique_total": null,
+    "all_group_exit_codes": 0,
+    "frontend_typecheck_exit_code": 0,
+    "openapi_matches": true,
+    "python_syntax_files": 7,
+    "markdown_links": 445,
+    "review_documents": 9,
+    "fix_evidence_hashes": 19,
+    "original_topology_probe_unchanged": true,
+    "original_first_probes_unchanged": true,
+    "compatible_copy_exact": true,
+    "saved_results_readonly": {
+      "passed": true,
+      "checks": 520,
+      "historical_evidence_hashes": 45
+    },
+    "setup_failure": "首次复制新目录不存在而失败；两条重定向失败未启动pytest，包装码0不认通过；新建目录后重跑，实际组依据JUnit及退出0。"
+  },
+  "topology": {
+    "control_database": "正式job传入repo.db",
+    "target_database": "冻结config.target.database",
+    "parent_lookup_control": true,
+    "run_and_links_in_target": true,
+    "no_experiment_copy": true,
+    "prewrite_and_prebind_identity_check": true,
+    "cross_database_transaction": false,
+    "pending_window_uses_formal_recovery": true,
+    "exactly_once_claimed": false
+  },
+  "historical_result": {
+    "experiment_id": "79b3cc58-cfd4-4da5-84c0-890d92a9be06",
+    "composition": {
+      "inherited": 19,
+      "newly_executed": 66
+    },
+    "actual_state": {
+      "old": "failed/attempt2",
+      "composite": "completed/attempt1",
+      "results": 85,
+      "runs": {
+        "completed": 80,
+        "interrupted": 1,
+        "awaiting_input": 5
+      }
+    },
+    "calls": {
+      "inherited": {
+        "invoke_started": 0,
+        "stream_started": 19
+      },
+      "new": {
+        "invoke_started": 0,
+        "stream_started": 61
+      }
+    },
+    "exact_sdk_http_requests": null,
+    "exact_cost": null,
+    "current_runtime_recertified": false,
+    "source_trigger_recertified": false
+  },
+  "execution_scope": {
+    "docker_containers": 6,
+    "mongo_ping": true,
+    "business_source_changed": false,
+    "provider_calls": 0,
+    "real_dev_executed": false,
+    "heldout_executed": false,
+    "human_writes": 0,
+    "calibration_writes": 0,
+    "real_target_database_writes": 0,
+    "real_target_existing_collections_unchanged": true,
+    "historical_links_backfilled": false,
+    "service_restart": false,
+    "corpus_reimport": false,
+    "full_backend_rerun": false,
+    "frontend_units_browser_build_rerun": false
+  },
+  "raw_evidence": [
+    {
+      "path": "output/m6-split-review-20261028/audit_saved_results.py",
+      "sha256": "bd1706bb5142d1298b8ec82256f0c226eada8ecb9a97d8b3d5e587b6baf239a6",
+      "bytes": 8657
+    },
+    {
+      "path": "output/m6-split-review-20261028/build_summary.py",
+      "sha256": "08712dfb7110756989e683057253507e3165d97aab2cb7d32097f4460091f20c",
+      "bytes": 6809
+    },
+    {
+      "path": "output/m6-split-review-20261028/docker-status.txt",
+      "sha256": "2c4638a8b184f569d7d26c005b5a0ebfab60f48c593b9e1819fabcab8ae6e86e",
+      "bytes": 287
+    },
+    {
+      "path": "output/m6-split-review-20261028/frontend-typecheck.log",
+      "sha256": "7cfa98bd8c2c791c959206a73ae07764c7d89ea8aaaac7719ebf41d19baeef3b",
+      "bytes": 62
+    },
+    {
+      "path": "output/m6-split-review-20261028/independent-sources.log",
+      "sha256": "41f0bb7db1bc602de30170fc9c2b94363c5321152480ab27569a8b1cde305bf4",
+      "bytes": 232
+    },
+    {
+      "path": "output/m6-split-review-20261028/independent-sources.xml",
+      "sha256": "e1d1d713a2ae0ede613fb56dbaf8223d95d79d59e8c0bb350c10cedf564a85df",
+      "bytes": 954
+    },
+    {
+      "path": "output/m6-split-review-20261028/mongo-ping.txt",
+      "sha256": "09b18b9fb048816aef9d950fef1d02c750fc0ed863973afae20bccec670d9e7e",
+      "bytes": 10
+    },
+    {
+      "path": "output/m6-split-review-20261028/original-probes.log",
+      "sha256": "5dbf4b150a2f6584928e2af61b57ae14f3050eb479f1a3121438502db8b978eb",
+      "bytes": 2390
+    },
+    {
+      "path": "output/m6-split-review-20261028/original-probes.xml",
+      "sha256": "841419d8fa54ec5c8946ce0f557272bc4b5b633b390b7e51c01abca43e1e9dc2",
+      "bytes": 1156
+    },
+    {
+      "path": "output/m6-split-review-20261028/saved-results-readonly.json",
+      "sha256": "526c2cef3a04250932f8828454c1091f4465d98766599449ff14f38ab9a01ce9",
+      "bytes": 56501
+    },
+    {
+      "path": "output/m6-split-review-20261028/saved-results-readonly.log",
+      "sha256": "335ad4c363c19141ab7014bac93e60916e3030880ce00bc570cce8f0f3a44133",
+      "bytes": 427
+    },
+    {
+      "path": "output/m6-split-review-20261028/setup-note.json",
+      "sha256": "a4ff9947432b412ea7151061b6ff3c37e4d74f94251cc0be0b0285257b9e0eae",
+      "bytes": 328
+    },
+    {
+      "path": "output/m6-split-review-20261028/shared.log",
+      "sha256": "4d609e7404e2ba4b581a2f65ce91a1691553837f12627f7045e4c8ac005e4c8c",
+      "bytes": 220
+    },
+    {
+      "path": "output/m6-split-review-20261028/shared.xml",
+      "sha256": "c3162ffee2d4606c6cbe28688c70b1015e7b36bfc41e091289ee8180f421d0aa",
+      "bytes": 3097
+    },
+    {
+      "path": "output/m6-split-review-20261028/targeted.xml",
+      "sha256": "6c39c29300d7912e2e5dca6a2a67bacebb1bf9d9512ad0325840b7a35f047a23",
+      "bytes": 18933
+    },
+    {
+      "path": "output/m6-split-review-20261028/test_independent_sources.py",
+      "sha256": "a06ba20b33ad384d963b65b0c3a612077a70f52483654d2077f647460b52fb84",
+      "bytes": 4862
+    },
+    {
+      "path": "output/m6-split-review-20261028/test_original_probes_compatible.py",
+      "sha256": "93443f0b278137548b51f239309cab4079bb37897b7deaf628564d5a57ad68ae",
+      "bytes": 5857
+    },
+    {
+      "path": "output/m6-split-review-targeted-20261028.log",
+      "sha256": "7f44a2a29ee7896368d29f4533be2b95ceb783b8d1c14883d57859de724dbbda",
+      "bytes": 1033
+    }
+  ],
+  "fix_evidence_verified": [
+    {
+      "path": "output/m6-split-fix-20261028/audit_saved_results.py",
+      "sha256": "bd3feafe7e6f9fc80cbfb2d63376b7e94dde5da95f3489e8452f6e090e6a3ffc",
+      "bytes": 8654
+    },
+    {
+      "path": "output/m6-split-fix-20261028/build_validation.py",
+      "sha256": "b3646df860422b9b7709b3d954d459301f351705cc964d3d99d8cba04477d539",
+      "bytes": 7240
+    },
+    {
+      "path": "output/m6-split-fix-20261028/first-green.log",
+      "sha256": "d9d36f7f439a9fd10c550d2a30a062cb40af4ca0e40c14ea3f82e39478f40ffd",
+      "bytes": 221
+    },
+    {
+      "path": "output/m6-split-fix-20261028/first-green.xml",
+      "sha256": "c9c3d6f7a028c9df2a5794ec611df7debec70526f11dcfd7c03bb53fb91ab41c",
+      "bytes": 1714
+    },
+    {
+      "path": "output/m6-split-fix-20261028/frontend-typecheck.log",
+      "sha256": "7cfa98bd8c2c791c959206a73ae07764c7d89ea8aaaac7719ebf41d19baeef3b",
+      "bytes": 62
+    },
+    {
+      "path": "output/m6-split-fix-20261028/recheck-adaptations.json",
+      "sha256": "e39ce5f5b98ef86f36460043aa6ab6f758ec8e35d8e677f8be1416aef169381a",
+      "bytes": 415
+    },
+    {
+      "path": "output/m6-split-fix-20261028/regressions-red.log",
+      "sha256": "aed3da94005cb82d8e2012c30a97560050c14d38b9ed898e70b649bc4d6a281c",
+      "bytes": 25434
+    },
+    {
+      "path": "output/m6-split-fix-20261028/regressions-red.xml",
+      "sha256": "aaae187d7c55de10090a28fa81176f5753568064573417c38fa460a428d47def",
+      "bytes": 25320
+    },
+    {
+      "path": "output/m6-split-fix-20261028/review-green.log",
+      "sha256": "d9982868246727109c8641e174fdd3606b98177088932342bcab0ba7271959b6",
+      "bytes": 2384
+    },
+    {
+      "path": "output/m6-split-fix-20261028/review-green.xml",
+      "sha256": "69a181e0e6325c44467cfcad8078be754a9eb6784d031fe43799c89fa70c23b1",
+      "bytes": 1147
+    },
+    {
+      "path": "output/m6-split-fix-20261028/review-red.log",
+      "sha256": "6568bcaed95222c6b88beb341f7a81f378580bd26e4e607b41d3590aa751109c",
+      "bytes": 5419
+    },
+    {
+      "path": "output/m6-split-fix-20261028/review-red.xml",
+      "sha256": "8fbf6bc280692a01174f545ad2d4164f3207502ca47882f934b02432f425df2f",
+      "bytes": 5037
+    },
+    {
+      "path": "output/m6-split-fix-20261028/saved-results-readonly.json",
+      "sha256": "526c2cef3a04250932f8828454c1091f4465d98766599449ff14f38ab9a01ce9",
+      "bytes": 56501
+    },
+    {
+      "path": "output/m6-split-fix-20261028/saved-results-readonly.log",
+      "sha256": "335ad4c363c19141ab7014bac93e60916e3030880ce00bc570cce8f0f3a44133",
+      "bytes": 427
+    },
+    {
+      "path": "output/m6-split-fix-20261028/shared.log",
+      "sha256": "c4c44881013d83ba7e9ebcf871c981d36e2d11186ebb32c25e3404ee3379495d",
+      "bytes": 217
+    },
+    {
+      "path": "output/m6-split-fix-20261028/shared.xml",
+      "sha256": "94b0b3f169935568879978586e566f6ee9dbb8b7a4e97ca6368aa6a8c20711c8",
+      "bytes": 3096
+    },
+    {
+      "path": "output/m6-split-fix-20261028/targeted.log",
+      "sha256": "571ea71fd95d90eb2c2f179536d8b1ffaebe2e29a211af42eb7cde13d1bfaf95",
+      "bytes": 1030
+    },
+    {
+      "path": "output/m6-split-fix-20261028/targeted.xml",
+      "sha256": "7d3efd5998d27b3c403529504a084e35441885d7fc3bc23635698cd7492813c8",
+      "bytes": 18932
+    },
+    {
+      "path": "output/m6-split-fix-20261028/test_original_probes_compatible.py",
+      "sha256": "93443f0b278137548b51f239309cab4079bb37897b7deaf628564d5a57ad68ae",
+      "bytes": 5857
+    }
+  ],
+  "source_python_snapshots": [
+    {
+      "path": "app/evaluation/continuations.py",
+      "sha256": "8f9d941b5a1640278814d281b54203f0f7c3bb7523a21a602a551e5f44de8a92"
+    },
+    {
+      "path": "app/evaluation/execution_links.py",
+      "sha256": "bd8a2c46c92f0995c1dbd877ebc2359423c6496d71385ce2c16158ce8d4c5573"
+    },
+    {
+      "path": "app/evaluation/jobs.py",
+      "sha256": "703bec59c5ae72044f5d74e75fe9cf8d33bd4de48a434e35e9b7a294ce0b12ae"
+    },
+    {
+      "path": "app/evaluation/query_adapter.py",
+      "sha256": "93e84d517a60bb95671adaa9aa61037941c15ea48fd9bcac86973827bef5a985"
+    },
+    {
+      "path": "tests/integration/test_evaluation_continuation_regressions.py",
+      "sha256": "afd018cb1c707a10e3d74fea4b1722b642606055f608a0884e6119c59c5da2cd"
+    },
+    {
+      "path": "tests/integration/test_evaluation_run_adapter.py",
+      "sha256": "e8013423ed90dfaecbe82cd16f5044ef3c89232a83ff40e5818119e75f817203"
+    },
+    {
+      "path": "tests/integration/test_evaluation_split_ledger.py",
+      "sha256": "d8b2fc8b7f336f572f11267ea38fad22b701d631bf788f2a3d3bbfe2a0b8a845"
+    }
+  ],
+  "documents": [
+    "docs/development/CHANGELOG.md",
+    "docs/development/PROGRESS.md",
+    "docs/development/REVIEW_STATUS.md",
+    "docs/development/records/M6-08.md",
+    "docs/development/reviews/M6-08-continuation-protocol-review-r3.md",
+    "docs/evaluation/release-report.md",
+    "docs/plans/DEVELOPMENT_TODO.md",
+    "docs/plans/tasks/M6-evaluation.md"
+  ],
+  "remaining": [
+    "新规则独立人工双轮",
+    "预校准",
+    "候选比较",
+    "反馈后人工复评",
+    "M6原规划总控阶段审查"
+  ]
+}
