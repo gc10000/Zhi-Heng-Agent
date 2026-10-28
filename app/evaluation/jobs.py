@@ -57,6 +57,8 @@ def execute_job(repo, catalog, output_root, experiment_id, *, executor_factory=N
         output = Path(output_root).resolve() / experiment_id
         with factory(resolved['config']) as executor:
             if executor_factory is None and resolved['config'].get('metric_schema_version') == 1:
+                # 控制账本与config.target.database可分离；连接能力仅在进程内传递。
+                executor.control_db = repo.db
                 executor.execution = {k: row[k] for k in ('experiment_id', 'attempt', 'worker_token', 'config_sha256')}
                 if row.get('continuation'):
                     executor.continuation = dict(experiment_id=experiment_id, source=row['continuation'])

@@ -8,7 +8,7 @@ from pymongo.errors import DuplicateKeyError
 from .validate_dataset import fingerprint
 
 
-def prepare_continuation(db, context, *, checkpoint_key, input_sha256, previous, request_key, question_id, config):
+def prepare_continuation(db, context, *, checkpoint_key, input_sha256, previous, request_key, question_id, config, control_db):
     rows = db.evaluation_continuations
     key = fingerprint([context['experiment_id'], checkpoint_key])
     identity = dict(experiment_id=context['experiment_id'], source=deepcopy(context['source']),
@@ -17,7 +17,7 @@ def prepare_continuation(db, context, *, checkpoint_key, input_sha256, previous,
     if saved is None and previous['state'] != 'interrupted':
         return None
     from .execution_links import require_source_link
-    link = require_source_link(db, context, checkpoint_key=checkpoint_key, input_sha256=input_sha256,
+    link = require_source_link(db, control_db, context, checkpoint_key=checkpoint_key, input_sha256=input_sha256,
         run_id=saved['source_run_id'] if saved else previous['run_id'], question_id=question_id, config=config)
     link_sha256 = fingerprint({k: v for k, v in link.items() if k != '_id'})
     identity.update(source_link_id=link['_id'], source_link_sha256=link_sha256)

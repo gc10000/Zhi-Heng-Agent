@@ -1,5 +1,9 @@
 # 开发公共契约与任务交接边界
 
+## M6-08 R2控制/Run分库接线契约（2026-10-28）
+
+正式job显式传递现有控制库能力，API/宿主实验和租约在M2_DB_NAME核验；Run/知识/checkpoint/来源关联仍在冻结target.database。先校验当前控制身份再写conversation/checkpoint/Run，绑定前重验；link固定control_database/target_database映射，父实验读控制库、父题级link读目标库。缺能力/来源/映射明确拒绝，无target fallback、实验复制、旧关联回填或配置迁移。跨库窗口不保证原子性，校验后失效可留下pending，由正式恢复收敛；合法进程重建复用固定请求及Run。R1累计计量契约不变，R1已有独立通过不替代R2复审；M6仍4/7、04/05/08未验收、M7未授权。
+
 ## M6-08 continuation R1/R2补修契约（2026-10-28）
 
 正式job在模型前保存experiment/attempt/question/input/config/checkpoint→Run的不可变execution link，校验当代worker与租约，不存worker token。execution与observed_reuse分列，后者只证明当次观察复用。continuation须在新Run前核对指定父experiment/attempt/version及同题输入/配置/Run关联，后续账本绑定父link ID/hash；另一父实验、上一attempt、历史缺失来源明确拒绝，不回填旧记录。新M6题结果logical_provider_calls_scope=run_total、logical_provider_calls来自持久Run累计，execution_logical_provider_calls为当前adapter调用新增量，不参与累计汇总；缺测null。新澄清明确零值随等待事件持久化；结果尚未落盘时崩溃恢复保留累计，不重调或重复计数。旧r3与19继承+66执行不变，精确HTTP/费用未知，未变更API请求结构。

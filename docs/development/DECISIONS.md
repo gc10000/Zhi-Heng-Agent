@@ -1,5 +1,11 @@
 # 技术决策记录
 
+## ADR-072：控制账本能力显式接线，题级来源固定控制与目标库映射（2026-10-28）
+
+独立复审发现ADR-071的实现误从Run目标库读取实验，分库正式任务失败。决定由execute_job将现有repo.db作为进程内能力传给adapter；当前worker/attempt/lease与父实验读真实控制库，Run/checkpoint/link/continuation仍在冻结目标库，link固定control_database/target_database并在来源消费时核验。执行身份先于目标持久副作用校验，关联前再次核验。连接与worker token不序列化进来源、配置或队列；不增加环境变量或依赖，不改变API schema。
+
+不采用把控制实验复制到target、改target为控制库、绕过租约或隐式回退目标库的方式。跨库不提供事务，校验后失效仍可能留下pending Run；由正式recover补偿，不删Run或手改占用。合法重建固定请求复用；无旧映射时明确拒绝、不回填历史r3。正常反向提交可关闭新能力消费，保留所有账本和未知费用；修复自验不能关闭独立审查项。
+
 ## ADR-071：Run累计计量与题级来源必须在进程退出后仍可核验（2026-10-28）
 
 R1补修将M6题级logical_provider_calls改取持久Run遥测，scope=run_total；当前adapter差值另列execution_logical_provider_calls，不能把恢复新增0覆盖已观测累计1或汇总两次。新澄清零值随等待事件保存，旧缺失仍null。R2新增模型前execution link，绑定正式experiment/attempt/question/input/config/checkpoint/Run，来源校验要求指定父代际与题级关联一致；后续账本绑定link ID/hash。execution与observed_reuse明确区分，后者只证明当次复用，不证明旧生成归属。拒绝历史缺链而保留未知，不提供自动回填入口；r3原独立继承证据和组合身份不变。

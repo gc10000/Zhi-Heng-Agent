@@ -45,6 +45,10 @@ docker compose --profile evaluation up -d --no-deps evaluation-worker
 
 ### 显式continuation来源（2026-10-28）
 
+R2分库接线补修：API与模型宿主的实验控制账本沿`Settings.database/M2_DB_NAME`，Run/知识/checkpoint仍沿冻结`config.target.database`，二者不要求同库。正式job将现有控制库连接能力仅在进程内传给adapter，不从target推断控制库、不复制实验记录、不改冻结配置。当前experiment/attempt/worker/config/owner/kb及有效租约在控制库核验，先于conversation/checkpoint/Run写入；Run创建后、关联前再次检查租约。关联仍在Run目标库，并固定`control_database`与`target_database`；父实验在控制库查询，父题级关联在目标库查询，两个映射必须匹配。缺控制能力或历史缺映射拒绝，不回填。
+
+跨库校验与Run创建不具事务原子性。校验后租约失效或进程退出仍可能留下pending Run；不得手工清state/lease/slot，应由正式RunCommands.recover的pending超时协议收敛。来源账本与固定request_key保留，创建/关联后崩溃的合法重建沿同请求复用Run，不因分库增加模型调用；逻辑累计/本次新增与未知HTTP/费用契约保持。
+
 R1/R2补修追加：正式job在模型执行之前写入私有`evaluation_execution_links`，唯一身份为experiment/attempt/question，内容绑定owner/kb、输入hash、完整config/checkpoint指纹、Run与conversation。写入校验当前任务worker/attempt/租约，worker token不存入来源记录；身份字段不可覆盖。`mode=execution`表示当次任务准备执行该Run，`mode=observed_reuse`表示当次任务实际观察并复用已有Run，不证明原始生成归属或新增计费。普通executor缺少正式执行身份时不创建已认证题级关联。
 
 continuation在新Run创建之前重新核对声明父experiment/attempt/version及上述同题/同输入/同配置/同checkpoint/同Run关联，并将父link ID和hash写入后续账本；父实验存在且同配置不足以放行。另一父实验、上一attempt、输入变化、历史缺link或旧continuation缺认证链均拒绝新增生成，明确报父题级来源未核实，走单独留证和审核流程；没有自动认证、回填或导入旧关联的入口。新实验对completed checkpoint的当次观察复用可以建立自己的observed_reuse记录，不向旧父实验回填。

@@ -1,5 +1,9 @@
 # 设备技术支持工作台 · 开发 ToDo 总清单
 
+## 2026-10-28 · R2分库接线已补修自验，待独立复审
+
+job显式传控制库、身份校验前置与绑定前重验、来源固定控制/目标映射；121定向、原拓扑与兼容副本5项、共享20及typecheck通过，组间不累计。r3的520只读/45历史hash不变，保留19继承+66执行及未知费用；无真实生成/heldout/评分/校准或历史回填。R1原缺陷已独立通过，R2/P1不自行关闭，下一步原规划总控独立复审。04/05/08不勾选、M6仍4/7、M7未授权。见[本轮交接](../development/reviews/M6-08-continuation-protocol-fix-r3.md)。
+
 ## 2026-10-28 · continuation复审：R1通过，R2分库路径待修复
 
 107定向、兼容探针3、共享20及typecheck通过；新增分库组合1通过/1失败，R2错误将target Run库当实验控制库，正式分库任务误拒并遗留pending Run，按P1待补修复审。r3已存520检查/45历史hash不变，无真实模型/heldout/评分/校准或源码变更。M6仍4/7，04/05/08不勾选、M7未授权。见[复审材料](../development/reviews/M6-08-continuation-protocol-review-r2.md)。

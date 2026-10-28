@@ -23,6 +23,7 @@ def interrupted_source(ctx):
     resources['query_runner'].llm_factory = lambda: counts.wrap(model())
     parent = begin_parent_execution(cfg, resources)
     with RealQueryExecutor(cfg, resource_factory=factory) as execute:
+        execute.control_db = resources['db']
         execute.execution = parent[-1]
         original = execute(question)
     resources['runs'].runs.update_one({'run_id': original['run_id']}, {'$set': {
@@ -49,6 +50,7 @@ def test_completed_run_crash_recovery_preserves_observed_call_count(evaluation_c
         raise RuntimeError('合成退出：Run完成后、结果落盘前')
     monkeypatch.setattr(resources['query_runner'], 'execute', finish_then_crash)
     with RealQueryExecutor(cfg, resource_factory=factory) as execute:
+        execute.control_db = resources['db']
         execute.continuation = context
         with pytest.raises(RuntimeError, match='合成退出'):
             execute(question)
@@ -58,6 +60,7 @@ def test_completed_run_crash_recovery_preserves_observed_call_count(evaluation_c
     before = len(prompts)
     monkeypatch.setattr(resources['query_runner'], 'execute', real_execute)
     with RealQueryExecutor(cfg, resource_factory=factory) as execute:
+        execute.control_db = resources['db']
         execute.continuation = context
         result = execute(question)
         assert result['logical_provider_calls'] == ledger['logical_provider_calls']
@@ -75,6 +78,7 @@ def test_completed_run_crash_recovery_preserves_observed_call_count(evaluation_c
 def test_normal_completion_and_reuse_separate_run_total_from_invocation(evaluation_context):
     cfg, factory, resources, prompts, question, context, _ = interrupted_source(evaluation_context)
     with RealQueryExecutor(cfg, resource_factory=factory) as execute:
+        execute.control_db = resources['db']
         execute.continuation = context
         fresh = execute(question)
         replay = execute(question)
@@ -116,6 +120,7 @@ def test_declared_source_must_match_parent_question_link(evaluation_context, mis
     before = len(prompts)
     runs_before = resources['runs'].runs.count_documents({})
     with RealQueryExecutor(cfg, resource_factory=factory) as execute:
+        execute.control_db = resources['db']
         execute.continuation = context
         with pytest.raises(ValueError, match='来源|父|输入'):
             execute(question)
@@ -129,6 +134,7 @@ def test_current_parent_attempt_without_link_cannot_inherit_previous_attempt_run
     parent = begin_parent_execution(cfg, resources)
     repo, user, descriptor, resolved, data, execution = parent
     with RealQueryExecutor(cfg, resource_factory=factory) as execute:
+        execute.control_db = resources['db']
         execute.execution = execution
         original = execute(question)
     resources['runs'].runs.update_one({'run_id': original['run_id']}, {'$set': {
@@ -146,6 +152,7 @@ def test_current_parent_attempt_without_link_cannot_inherit_previous_attempt_run
         source_version=failed['version'], reason='当前父attempt未执行题目，不能继承上代来源')),
         descriptor=descriptor, resolved=resolved)
     with RealQueryExecutor(cfg, resource_factory=factory) as execute:
+        execute.control_db = resources['db']
         execute.continuation = dict(experiment_id=child['experiment_id'], source=child['continuation'])
         with pytest.raises(ValueError, match='父.*来源'):
             execute(question)

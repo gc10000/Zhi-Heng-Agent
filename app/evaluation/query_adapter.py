@@ -83,6 +83,7 @@ class RealQueryExecutor:
         self.retry_key = None
         self.continuation = None
         self.execution = None
+        self.control_db = None
 
     def call_accounting(self, row, counts_before):
         counts = self.resources.get('provider_counts')
@@ -166,6 +167,10 @@ class RealQueryExecutor:
         self.products = {p['model']: p['product_id'] for p in g.products.collection.find({'owner_id': g.owner_id})}
 
     def __call__(self, question):
+        if self.execution:
+            from .execution_links import validate_execution
+            # 先验明控制任务，再写conversation/checkpoint/Run；不把target当控制库。
+            validate_execution(self.control_db, self.execution, self.config)
         self.check_corpus()
         counts=self.resources.get('provider_counts')
         counts_before=counts.snapshot() if counts else {}
@@ -195,7 +200,8 @@ class RealQueryExecutor:
             previous = self.resources['runs'].get(self.user, saved['run_id'])
             followup = prepare_continuation(self.resources['db'], self.continuation,
                 checkpoint_key=key, input_sha256=saved['input_sha256'], previous=previous,
-                request_key=request_key, question_id=question['id'], config=self.config)
+                request_key=request_key, question_id=question['id'], config=self.config,
+                control_db=self.control_db)
             if followup:
                 request_key = followup['request_key']
         if not followup and self.retry_key and self.config.get('metric_schema_version') == 1 and saved.get('run_id'):
@@ -206,7 +212,7 @@ class RealQueryExecutor:
         rid = run['run_id']
         if self.execution and run['state'] in {'pending', 'running', 'completed', 'awaiting_input'}:
             from .execution_links import bind_execution
-            bind_execution(self.resources['db'], self.execution, self.config, question['id'], key,
+            bind_execution(self.resources['db'], self.control_db, self.execution, self.config, question['id'], key,
                            saved['input_sha256'], run)
         self.checkpoints.update_one({'_id': key}, {'$set': {'run_id': rid, 'request_key': request_key}})
         if followup:
