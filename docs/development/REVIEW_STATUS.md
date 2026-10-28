@@ -1,3 +1,7 @@
+## 2026-10-28 · continuation独立定向复审：R1原缺陷通过，R2分库接线未通过
+
+审查b7dfe03：107定向、原兼容探针3、共享查询/遥测20及typecheck通过；新增分库组合1通过/1失败，确认R2新关联查询错用Run目标库，正式控制账本分离时误拒有效任务，按P1保留待修复。R1累计/新增分列及崩溃恢复原缺陷核验通过；本轮不是M6阶段总控验收。r3的520只读检查、45历史证据hash及真实目标集合摘要不变，19继承+66执行保留，未写真实模型/human/校准/heldout。先补R2分库接线再定向复审，M6仍4/7、04/05/08未验收、M7未授权。见[复审材料](reviews/M6-08-continuation-protocol-review-r2.md)。
+
 ## 2026-10-28 · continuation R1/R2补修自验完成，待独立定向复审
 
 基于715f639修复R1持久Run累计/本次新增调用混用，以及R2父experiment/attempt/question与中断Run关联缺口。107项定向、原探针兼容副本3项、共享查询/遥测20项、前端typecheck通过；组间不累计唯一数。r3已存520只读检查、45历史证据hash及真实目标集合摘要不变，19继承+66执行与未知费用保留。无供应商/heldout/真实评分/校准、无历史关联回填；原红测留存。仅执行自验，R1/R2待原规划总控独立复审，不自行标记关闭。M6仍4/7，04/05/08未验收，M7未授权。见[补修报告](reviews/M6-08-continuation-protocol-fix-r2.md)和[验证摘要](reviews/M6-08-continuation-protocol-fix-validation-r2.json)。

@@ -1,0 +1,432 @@
+{
+  "date": "2026-10-28",
+  "reviewed_commit": "b7dfe03e0fbfb416b6a53bd348eca2f1d424dab3",
+  "scope": "独立定向复审与分库正式任务组合探针；合成模型、隔离Mongo，非M6阶段总控验收",
+  "stage_accepted": false,
+  "controller_stage_approval": false,
+  "m6_core": "4/7",
+  "m7_authorized": false,
+  "result": "changes_required",
+  "findings": [
+    {
+      "id": "R1",
+      "original_priority": "P1",
+      "status": "original_defect_verified_pass",
+      "behavior": "持久Run累计1/恢复adapter新增0，缺测null、澄清实测0；恢复及日志汇总定向通过"
+    },
+    {
+      "id": "R2",
+      "original_priority": "P2",
+      "status": "not_closed_changes_required",
+      "remaining_issue": {
+        "id": "R2-R",
+        "priority": "P1",
+        "file": "app/evaluation/execution_links.py",
+        "line": 12,
+        "problem": "正式控制账本与target Run库分离时，在target查询控制实验导致有效任务误拒",
+        "observed": {
+          "state": "failed",
+          "retryable": false,
+          "error_code": "provider_invalid_response",
+          "provider_calls": 0,
+          "pending_runs": 1,
+          "execution_links": 0
+        }
+      }
+    }
+  ],
+  "verification": {
+    "groups": {
+      "targeted": {
+        "tests": 107,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "original-probes": {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "topology": {
+        "tests": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0
+      },
+      "topology-final": {
+        "tests": 1,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0
+      },
+      "topology-comparison": {
+        "tests": 2,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0
+      },
+      "shared": {
+        "tests": 20,
+        "failures": 0,
+        "errors": 14,
+        "skipped": 0
+      },
+      "shared-final": {
+        "tests": 20,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "groups_overlap": true,
+    "unique_total": null,
+    "targeted_exit_code": 0,
+    "original_probes_exit_code": 0,
+    "topology_comparison_exit_code": 1,
+    "shared_final_exit_code": 0,
+    "frontend_typecheck_exit_code": 0,
+    "openapi_matches": true,
+    "python_syntax_files": 10,
+    "markdown_links": 431,
+    "review_documents": 9,
+    "fix_evidence_hashes": 20,
+    "original_probes_unchanged": true,
+    "compatible_copy_exact": true,
+    "saved_results_readonly": {
+      "passed": true,
+      "checks": 520,
+      "historical_evidence_hashes": 45
+    },
+    "initial_environment_failures": "初始分库与共享测试前缀过长，随机后缀令Mongo库名超63字符；保留日志，缩短后重跑；不算产品缺陷"
+  },
+  "historical_result": {
+    "experiment_id": "79b3cc58-cfd4-4da5-84c0-890d92a9be06",
+    "composition": {
+      "inherited": 19,
+      "newly_executed": 66
+    },
+    "actual_state": {
+      "old": "failed/attempt2",
+      "composite": "completed/attempt1",
+      "results": 85,
+      "runs": {
+        "completed": 80,
+        "interrupted": 1,
+        "awaiting_input": 5
+      }
+    },
+    "calls": {
+      "inherited": {
+        "invoke_started": 0,
+        "stream_started": 19
+      },
+      "new": {
+        "invoke_started": 0,
+        "stream_started": 61
+      }
+    },
+    "historical_evidence_count": 45,
+    "exact_sdk_http_requests": null,
+    "exact_cost": null,
+    "current_runtime_recertified": false,
+    "source_trigger_recertified": false
+  },
+  "execution_scope": {
+    "docker_containers": 6,
+    "mongo_ping": true,
+    "business_source_changed": false,
+    "provider_calls": 0,
+    "real_dev_executed": false,
+    "heldout_executed": false,
+    "human_writes": 0,
+    "calibration_writes": 0,
+    "real_target_database_writes": 0,
+    "real_target_existing_collections_unchanged": true,
+    "historical_links_backfilled": false,
+    "service_restart": false,
+    "corpus_reimport": false,
+    "full_backend_rerun": false,
+    "frontend_units_browser_build_rerun": false
+  },
+  "raw_evidence": [
+    {
+      "path": "output/m6-continuation-rereview-20261028/audit_saved_results.py",
+      "sha256": "fd30c3b6564cb50306eb225a13946e17b66946c2b5954450b5e2808b4e479259",
+      "bytes": 8666
+    },
+    {
+      "path": "output/m6-continuation-rereview-20261028/build_summary.py",
+      "sha256": "836e5d64d0f5e0a819be001d89e6707345b4efdd74d2dc4102877603cef83923",
+      "bytes": 6832
+    },
+    {
+      "path": "output/m6-continuation-rereview-20261028/docker-status.txt",
+      "sha256": "29e4bb67d14842c38e215bd91baa014dcea676ae46ca94fcacb4f76ddbfc26ce",
+      "bytes": 287
+    },
+    {
+      "path": "output/m6-continuation-rereview-20261028/frontend-typecheck.log",
+      "sha256": "7cfa98bd8c2c791c959206a73ae07764c7d89ea8aaaac7719ebf41d19baeef3b",
+      "bytes": 62
+    },
+    {
+      "path": "output/m6-continuation-rereview-20261028/mongo-ping.txt",
+      "sha256": "09b18b9fb048816aef9d950fef1d02c750fc0ed863973afae20bccec670d9e7e",
+      "bytes": 10
+    },
+    {
+      "path": "output/m6-continuation-rereview-20261028/original-probes.log",
+      "sha256": "d2c1805048e1e9ddfe60adae3679a8f091a5c741f8ee7a543e397ed4734f6bda",
+      "bytes": 237
+    },
+    {
+      "path": "output/m6-continuation-rereview-20261028/original-probes.xml",
+      "sha256": "e85c36b0d1dd311d31a724837a71ca1d4cd55be539a19c6f2cb20c3702969ecd",
+      "bytes": 800
+    },
+    {
+      "path": "output/m6-continuation-rereview-20261028/saved-results-readonly.json",
+      "sha256": "526c2cef3a04250932f8828454c1091f4465d98766599449ff14f38ab9a01ce9",
+      "bytes": 56501
+    },
+    {
+      "path": "output/m6-continuation-rereview-20261028/saved-results-readonly.log",
+      "sha256": "335ad4c363c19141ab7014bac93e60916e3030880ce00bc570cce8f0f3a44133",
+      "bytes": 427
+    },
+    {
+      "path": "output/m6-continuation-rereview-20261028/shared-final.log",
+      "sha256": "b5f616a8add7a56542646c65ae7e3404a696411cd2766eb466c10d1ea443dbdc",
+      "bytes": 235
+    },
+    {
+      "path": "output/m6-continuation-rereview-20261028/shared-final.xml",
+      "sha256": "52a2ce63134195e5fa01da0e4c239c8618c2f51f99ba3ed1692f2fe20114b29b",
+      "bytes": 3096
+    },
+    {
+      "path": "output/m6-continuation-rereview-20261028/shared.log",
+      "sha256": "c9bcd432aba945ca2726b70482621376833e11cdb88458411e1ae1b2d3427c13",
+      "bytes": 76002
+    },
+    {
+      "path": "output/m6-continuation-rereview-20261028/shared.xml",
+      "sha256": "787645860705190b5f59878aaa7e3f8aa1a2d9d077310d262f861443bd7d5bea",
+      "bytes": 79984
+    },
+    {
+      "path": "output/m6-continuation-rereview-20261028/targeted.xml",
+      "sha256": "521c4f2d7b3a759adb0a2d8d366bf0f9b4303fdbc1139fcacebcae1a98f7b442",
+      "bytes": 16581
+    },
+    {
+      "path": "output/m6-continuation-rereview-20261028/test_independent_boundaries.py",
+      "sha256": "b40ec23101e5d61e20743ceeb77301792984e005d1148a27b7455c055ca5c38d",
+      "bytes": 3780
+    },
+    {
+      "path": "output/m6-continuation-rereview-20261028/test_original_probes_compatible.py",
+      "sha256": "04794fc4d8c81e43dfd60c97bd43fe67e4c59bbeaf78050bffa613d1254c41d6",
+      "bytes": 5673
+    },
+    {
+      "path": "output/m6-continuation-rereview-20261028/topology-comparison.log",
+      "sha256": "0bf6e669dfca856880244bb8b71c1ae49ce3e3735015d3d5f1cae22331c45f5e",
+      "bytes": 5440
+    },
+    {
+      "path": "output/m6-continuation-rereview-20261028/topology-comparison.xml",
+      "sha256": "a89c4624501a0eab3a684a7d44a26acb44d6d9d8e3932121bf2eddb60953f7fc",
+      "bytes": 5036
+    },
+    {
+      "path": "output/m6-continuation-rereview-20261028/topology-final.log",
+      "sha256": "b124bf5b4cc734974f1467d4977a82bd00d873540c6cb50706e6557b757c610b",
+      "bytes": 4232
+    },
+    {
+      "path": "output/m6-continuation-rereview-20261028/topology-final.xml",
+      "sha256": "f4d87b24cb7b692a17fec88c6b3e6b8f8338a65fe40e3220aeadb700a882ada2",
+      "bytes": 4327
+    },
+    {
+      "path": "output/m6-continuation-rereview-20261028/topology.log",
+      "sha256": "85b04af4f5e282cda1b26da083899ccdfc893785fc26217155913cee5d3c720c",
+      "bytes": 7283
+    },
+    {
+      "path": "output/m6-continuation-rereview-20261028/topology.xml",
+      "sha256": "97d168956935fda0582650de3bfdeb0722d96bc09aa4134546c6e3a4c6dc753a",
+      "bytes": 7353
+    },
+    {
+      "path": "output/m6-continuation-rereview-targeted-20261028.log",
+      "sha256": "2a65d8623a4fe351386221e37becc4027b1cae910161ddfc4debeb6b51cc9959",
+      "bytes": 1042
+    }
+  ],
+  "fix_evidence_verified": [
+    {
+      "path": "output/m6-continuation-fix-20261028/audit_saved_results_recheck.py",
+      "sha256": "e89d7391e5008f822c477e252f3b3fc3a4ed30e3c5304874acffc05418ce57d5",
+      "bytes": 8661
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/build_fix_validation.py",
+      "sha256": "213e1a8436912220995cf83d64607c672f3fdb5750392225858165087f7b3366",
+      "bytes": 5944
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/frontend-typecheck.log",
+      "sha256": "7cfa98bd8c2c791c959206a73ae07764c7d89ea8aaaac7719ebf41d19baeef3b",
+      "bytes": 62
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/green.log",
+      "sha256": "77baf1e406585d550784900ffde85abbe4f6d500b17b96a2a0cc0cbdcfe61e6d",
+      "bytes": 6233
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/green.xml",
+      "sha256": "e2c6ef4ec4707e5a1610c2a0202fb4bc69bcc5c051e777cd06366b0eab0a0b0b",
+      "bytes": 10491
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/prepare_recheck.py",
+      "sha256": "18aa271e8d3c605fdc4722b122e68b95181e5d0e49e417034ee6322a9ad4c8bf",
+      "bytes": 2460
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/query-telemetry.log",
+      "sha256": "0bbbcda9ab0895abb729301c9c91f382c0df62285de9ce49ad71dc9cd6357d8a",
+      "bytes": 233
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/query-telemetry.xml",
+      "sha256": "a25584ba1238ee31a4c41b2a888078cc10bf3e41b3d4154651af918ca4174d07",
+      "bytes": 3096
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/recheck-adaptations.json",
+      "sha256": "69be5c9abcd3ac1995748a4cfe91840f1080698ab7e80d43936af7415a11994a",
+      "bytes": 591
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/regressions-red.log",
+      "sha256": "6edc481c730983188f002a8c4540959120d75049334cb4d57474336acb695524",
+      "bytes": 17646
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/regressions-red.xml",
+      "sha256": "0a36cd5af21f2bf17ab530cce95ea602668c8220f158626e47dd8b1d65d28707",
+      "bytes": 15037
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/review-green.log",
+      "sha256": "5ab1cd822e6571b42f2b41c19faeb35f2c6e8f1dba6fc74271c42c8e6e90f0b5",
+      "bytes": 229
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/review-green.xml",
+      "sha256": "4def9be9e8e9ceb8983b6eac6892eeff6004e7c982db5473bb17170f0f2f9df9",
+      "bytes": 769
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/review-red.log",
+      "sha256": "32f3cfbecfd5ae30ae14c7fe72bf15d90154a9d9054282a1762720b9eff5e2a5",
+      "bytes": 7256
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/review-red.xml",
+      "sha256": "ea07be925dc933b50b5fb6587c68eaec87390cdaa6ee894daa87e5d0aa7179c5",
+      "bytes": 6608
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/saved-results-readonly.json",
+      "sha256": "526c2cef3a04250932f8828454c1091f4465d98766599449ff14f38ab9a01ce9",
+      "bytes": 56501
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/saved-results-readonly.log",
+      "sha256": "335ad4c363c19141ab7014bac93e60916e3030880ce00bc570cce8f0f3a44133",
+      "bytes": 427
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/targeted.log",
+      "sha256": "66e1886fbd2bffda93c7090506b6eed287e48f84e797c3a250896f31708b9c3c",
+      "bytes": 1037
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/targeted.xml",
+      "sha256": "e2dceb9dfae166cff62b7e91eeb125fbfa9a7b4c9f0423c9f6232ef9dbb0c9c9",
+      "bytes": 16581
+    },
+    {
+      "path": "output/m6-continuation-fix-20261028/test_review_probes_recheck.py",
+      "sha256": "04794fc4d8c81e43dfd60c97bd43fe67e4c59bbeaf78050bffa613d1254c41d6",
+      "bytes": 5673
+    }
+  ],
+  "source_python_snapshots": [
+    {
+      "path": "app/evaluation/continuations.py",
+      "sha256": "642fbbb207cab72f1a3ad041e6ed1f02d88c51466d79d0748e6db3952c1c7274"
+    },
+    {
+      "path": "app/evaluation/execution_links.py",
+      "sha256": "002a7dcfa10f297d4bc7c2490492b5890dd0e391813a67c7cc9b0fa958b05760"
+    },
+    {
+      "path": "app/evaluation/jobs.py",
+      "sha256": "472f522c7920ce19474800b276187233d7d821bcdacf71d8dc518b16ca897102"
+    },
+    {
+      "path": "app/evaluation/metrics.py",
+      "sha256": "6f970d0c85ef49b1a7c03ba5e137f35f6f6d302692d81084506f27e2bd84d519"
+    },
+    {
+      "path": "app/evaluation/query_adapter.py",
+      "sha256": "52855c0adccefebbf3c8eff260aac6bf87bfee6b7bb97cc8dd02752d68f66b8c"
+    },
+    {
+      "path": "app/evaluation/repository.py",
+      "sha256": "68a857fb46ba4edf1684fee5df562d29439da348e223608027575f2405c66303"
+    },
+    {
+      "path": "app/runs/commands.py",
+      "sha256": "9d772b291e346dbd344d675fed78406e55f4a99d6f020b45f41f0d4ea38f766b"
+    },
+    {
+      "path": "app/runs/query_runner.py",
+      "sha256": "fc7d3b9ad7e873044882f9e73f3f27e3abca2ed8ea622c71a88ba4f17db5cd70"
+    },
+    {
+      "path": "tests/integration/test_evaluation_continuation_regressions.py",
+      "sha256": "2dcb391b00ff71898b623a26c1f6991c5a3e6f8268a9934cdb87f14fc8f2cc86"
+    },
+    {
+      "path": "tests/integration/test_evaluation_run_adapter.py",
+      "sha256": "9bf2d9991db59725ea6f822ad14d2be573df4033f4ac62a3a3cef342d65840b1"
+    }
+  ],
+  "documents": [
+    "docs/development/CHANGELOG.md",
+    "docs/development/PROGRESS.md",
+    "docs/development/REVIEW_STATUS.md",
+    "docs/development/records/M6-08.md",
+    "docs/development/reviews/M6-08-continuation-protocol-review-r2.md",
+    "docs/evaluation/release-report.md",
+    "docs/plans/DEVELOPMENT_TODO.md",
+    "docs/plans/tasks/M6-evaluation.md"
+  ],
+  "remaining": [
+    "R2控制/Run账本接线修复及独立复审",
+    "新规则独立人工双轮",
+    "预校准",
+    "候选比较",
+    "反馈后人工复评",
+    "M6原规划总控阶段审查"
+  ]
+}

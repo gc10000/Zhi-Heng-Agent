@@ -1,5 +1,9 @@
 # 开发进度与接续点
 
+## 当前M6-08：continuation R1/R2独立定向复审（2026-10-28）
+
+独立复审b7dfe03e0fbfb416b6a53bd348eca2f1d424dab3：107定向、原兼容探针3、共享查询/遥测20及typecheck通过；R1原缺陷定向核验通过，R2仍需修复。新增分库组合1通过/1失败：控制实验在M2_DB_NAME、Run在target.database时，新关联函数误到Run库查实验，任务变为failed/retryable=false、模型0，目标留下pending Run1/link0；同库对照正常。r3已存520只读核验通过、45历史hash不变，19继承+66执行及未知费用保留，真实目标全部集合摘要不变。测试库名前缀过长造成的中间setup错误原样留证，缩短后重跑。详见[独立复审材料](reviews/M6-08-continuation-protocol-review-r2.md)。本轮未改业务源码、未调用供应商/dev/heldout/真实human/校准，不改原证据。下一步修复并复审R2分库接线，再按既有门槛接续人工/预校准/候选/反馈复评；M6仍4/7，04/05/08未验收、M7未授权，已有判断不重复。原始output/tmp保留不上传。
+
 ## 当前M6-08：R1/R2补修自验完成，待原规划总控定向复审（2026-10-28）
 
 起点715f639，与origin/main一致，仅tmp未跟踪。R1已分列持久Run累计与本次adapter新增调用，完成后结果落盘前崩溃恢复保留累计，澄清零值持久化、缺测null；R2在模型前保存正式experiment/attempt/question/input/config到Run关联，派生前验证父题级关联并绑定link/hash，历史缺失拒绝、不回填。107项定向、原探针兼容副本3项、共享查询/遥测20项及前端typecheck通过，各组不累计唯一总数。r3重新520项只读检查通过，45历史证据hash及真实目标集合摘要不变，保留19继承+66执行和未知费用。原红测与中间失败保留；没有供应商模型/heldout/真实评分/校准或旧检查点写入。详见[补修自验报告](reviews/M6-08-continuation-protocol-fix-r2.md)及[验证摘要](reviews/M6-08-continuation-protocol-fix-validation-r2.json)。

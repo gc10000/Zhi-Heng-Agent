@@ -1,5 +1,9 @@
 # 设备技术支持工作台 · 开发 ToDo 总清单
 
+## 2026-10-28 · continuation复审：R1通过，R2分库路径待修复
+
+107定向、兼容探针3、共享20及typecheck通过；新增分库组合1通过/1失败，R2错误将target Run库当实验控制库，正式分库任务误拒并遗留pending Run，按P1待补修复审。r3已存520检查/45历史hash不变，无真实模型/heldout/评分/校准或源码变更。M6仍4/7，04/05/08不勾选、M7未授权。见[复审材料](../development/reviews/M6-08-continuation-protocol-review-r2.md)。
+
 ## 2026-10-28 · M6-08 continuation R1/R2已补修自验，待独立复审
 
 R1分列Run累计与本次新增、持久澄清零值；R2在模型前关联正式实验/attempt/题目/输入/config/Run，派生前核验父关联，历史缺失拒绝、不回填。107定向、兼容探针3项、共享查询/遥测20项及typecheck通过，不累计唯一数；r3的520只读检查与45证据hash通过，19继承+66执行不变。下一步交原规划总控独立复审R1/R2；M6-04/05/08继续不勾选、M6仍4/7、M7未授权。见[补修材料](../development/reviews/M6-08-continuation-protocol-fix-r2.md)。
