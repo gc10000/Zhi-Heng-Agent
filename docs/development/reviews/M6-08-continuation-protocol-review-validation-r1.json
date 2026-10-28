@@ -1,0 +1,193 @@
+{
+  "date": "2026-10-28",
+  "reviewed_commit": "636b1a2b7761c53184b4cd371fe2865a1dcaed66",
+  "scope": "执行端只读源码审查、隔离合成故障探针与已存r3直接只读核对；供原规划总控复核",
+  "stage_accepted": false,
+  "controller_approval": false,
+  "m6_core": "4/7",
+  "m7_authorized": false,
+  "findings": [
+    {
+      "id": "R1",
+      "priority": "P1",
+      "status": "open",
+      "file": "app/evaluation/query_adapter.py",
+      "line": 259,
+      "problem": "Run完成后、结果写入前退出，恢复结果计数0而持久Run/continuation计数1；汇总漏计"
+    },
+    {
+      "id": "R2",
+      "priority": "P2",
+      "status": "open",
+      "file": "app/evaluation/continuations.py",
+      "line": 17,
+      "problem": "声明父experiment/attempt与全局检查点所选中断Run未验证题级来源关联"
+    }
+  ],
+  "verification": {
+    "targeted": {
+      "tests": 88,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "targeted_exit_code": 0,
+    "independent_probes": {
+      "tests": 3,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0
+    },
+    "independent_probes_exit_code": 1,
+    "earlier_probes": {
+      "tests": 2,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    "saved_results_readonly": {
+      "passed": true,
+      "checks": 520,
+      "historical_evidence_hashes": 45
+    },
+    "groups_overlap": true,
+    "unique_total": null,
+    "source_python_syntax_files": 5
+  },
+  "historical_result": {
+    "experiment_id": "79b3cc58-cfd4-4da5-84c0-890d92a9be06",
+    "state": "completed",
+    "attempt": 1,
+    "result_attempt": 1,
+    "results": 85,
+    "inherited": 19,
+    "newly_executed": 66,
+    "reviewed_labels": 31,
+    "auxiliary_drafts": 54,
+    "heldout": 65,
+    "source_experiment_state": "failed",
+    "source_attempt": 2,
+    "source_retryable": false,
+    "source_results": 0,
+    "run_states": {
+      "completed": 80,
+      "interrupted": 1,
+      "awaiting_input": 5
+    },
+    "logical_calls": {
+      "inherited": {
+        "invoke_started": 0,
+        "stream_started": 19
+      },
+      "new": {
+        "invoke_started": 0,
+        "stream_started": 61
+      }
+    },
+    "existing_completed_call_counts_match_run_telemetry": true,
+    "continuation_not_backfilled": true,
+    "exact_sdk_http_requests": null,
+    "exact_cost": null
+  },
+  "docker_existing_container_count": 6,
+  "mongo_ping": true,
+  "provider_calls_this_review": 0,
+  "real_target_database_writes": 0,
+  "real_target_all_existing_collection_digests_unchanged": true,
+  "human_writes": 0,
+  "calibration_writes": 0,
+  "heldout_executed": false,
+  "business_source_changed": false,
+  "full_backend_rerun": false,
+  "frontend_rerun": false,
+  "typecheck_build_rerun": false,
+  "legacy_reimport_rerun": false,
+  "complete_corpus_images_browser_rerun": false,
+  "current_runtime_identity_recertified": false,
+  "source_attempt2_trigger_recertified": false,
+  "raw_evidence": [
+    {
+      "path": "output/m6-continuation-review-20261028/audit_saved_results.py",
+      "sha256": "cc2ac417f32c38a22b8ad39493511cc4bf225ae459676bd44bafa0282cd671d9",
+      "bytes": 8546
+    },
+    {
+      "path": "output/m6-continuation-review-20261028/build_review_summary.py",
+      "sha256": "9d4b66a9f13a361e87663fd96d03458a1da24ba41e6e46f5afe2e4dfd25c155d",
+      "bytes": 5194
+    },
+    {
+      "path": "output/m6-continuation-review-20261028/docker-status.txt",
+      "sha256": "6317fcc3f08491e94412fdbe47b508c93e858ae6f11b4a3bf73c2a889400e1aa",
+      "bytes": 287
+    },
+    {
+      "path": "output/m6-continuation-review-20261028/mongo-ping.txt",
+      "sha256": "09b18b9fb048816aef9d950fef1d02c750fc0ed863973afae20bccec670d9e7e",
+      "bytes": 10
+    },
+    {
+      "path": "output/m6-continuation-review-20261028/probes-final.log",
+      "sha256": "1cd7f6e8a2150c63d316f8f75632546c1bf9ad5eb1faa22bdc1855c425433d8f",
+      "bytes": 7261
+    },
+    {
+      "path": "output/m6-continuation-review-20261028/probes-final.xml",
+      "sha256": "ad99ad44644ed0697bf9b9de008f824609b82a2cab02275a81ebd9ef410a3aa1",
+      "bytes": 6607
+    },
+    {
+      "path": "output/m6-continuation-review-20261028/probes.log",
+      "sha256": "a2c37755b99b6f3d6bd3daf0e50f96050f5a19723ba4f3858e708a06d916fb95",
+      "bytes": 3701
+    },
+    {
+      "path": "output/m6-continuation-review-20261028/probes.xml",
+      "sha256": "0d076e91b572d35c7ec3b772ec4f2ec63a64dc0475c44217dcb2bcd2a151ede2",
+      "bytes": 3559
+    },
+    {
+      "path": "output/m6-continuation-review-20261028/saved-results-readonly.json",
+      "sha256": "526c2cef3a04250932f8828454c1091f4465d98766599449ff14f38ab9a01ce9",
+      "bytes": 56501
+    },
+    {
+      "path": "output/m6-continuation-review-20261028/saved-results-readonly.log",
+      "sha256": "335ad4c363c19141ab7014bac93e60916e3030880ce00bc570cce8f0f3a44133",
+      "bytes": 427
+    },
+    {
+      "path": "output/m6-continuation-review-20261028/targeted.xml",
+      "sha256": "a86a55d179f69c8bb29920e0ce2bc74801d2eb42faf69f1fac372841fb1d3ea6",
+      "bytes": 13586
+    },
+    {
+      "path": "output/m6-continuation-review-20261028/test_review_probes.py",
+      "sha256": "bb7eab1df20de837b912aec7efa792c738488d63dc0846960581fabe596fbc9c",
+      "bytes": 6087
+    },
+    {
+      "path": "output/m6-continuation-review-20261028-targeted.log",
+      "sha256": "c4cb8f67382f891d9ee04cdfe827a6ae77c8b80c71c36a293c5d195fbc3a93cb",
+      "bytes": 310
+    }
+  ],
+  "review_documents": [
+    "docs/development/CHANGELOG.md",
+    "docs/development/PROGRESS.md",
+    "docs/development/REVIEW_STATUS.md",
+    "docs/development/records/M6-08.md",
+    "docs/development/reviews/M6-08-continuation-protocol-review-r1.md",
+    "docs/evaluation/release-report.md",
+    "docs/plans/DEVELOPMENT_TODO.md",
+    "docs/plans/tasks/M6-evaluation.md"
+  ],
+  "remaining": [
+    "补修并定向复审R1/R2",
+    "新规则独立人工双轮",
+    "预校准",
+    "候选比较",
+    "反馈后复评",
+    "原规划总控审查"
+  ]
+}

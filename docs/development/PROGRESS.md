@@ -1,5 +1,9 @@
 # 开发进度与接续点
 
+## 当前M6-08：continuation与r3组合结果只读审查（2026-10-28）
+
+从已推送`636b1a2b7761c53184b4cd371fe2865a1dcaed66`接续，核实HEAD/origin/main/远程一致；六个既有容器运行且Mongo ping通过。88项原定向重跑通过；新增隔离探针2失败/1通过，确认R1完成后崩溃恢复漏计已观测调用（P1）、R2父experiment/attempt与所选中断Run缺少题级关联验证（P2）。r3已存结果/证据520项只读检查通过、45份证据hash未变，85条结果的19继承+66执行及历史19/新增61次stream保留，未发现已存r3受R1影响。真实目标所有现有集合前后摘要不变；未改源码、未调用供应商、不重跑准备/迁移/真实评测、不回填来源。详见[审查材料](reviews/M6-08-continuation-protocol-review-r1.md)。下一步修复并定向复审R1/R2，再接续独立人工/预校准/候选/反馈复评；M6仍4/7，04/05/08未验收，M7未授权，不要求重复聊天判断。原始输出和tmp保留不上传。
+
 ## 当前M6-08：正式continuation来源与题级账本补齐（2026-10-28）
 
 用户本轮仅授权协议实施与定向测试，不启动供应商模型调用。起点已为`33b120d1331bf25b8688337a7ebb8685704e4bd4`，与origin/main一致，仅tmp未跟踪。已补正式父experiment/attempt/version与冻结身份校验、调用前题级来源账本；普通任务不再隐式派生interrupted后续请求，同continuation固定请求、重复/崩溃复用，再中断停止。completed复用、非retryable失败保持门禁。88项定向通过，最终加强边界1通过（重叠不累计）；OpenAPI/前端类型生成及typecheck通过，原manifest/attempts/results与备份hash一致。原4项红测和中间23通过/1失败均留存。详见[本轮报告](reviews/M6-08-continuation-protocol-r1.md)。
