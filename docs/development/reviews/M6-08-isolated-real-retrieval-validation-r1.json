@@ -1,0 +1,4695 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-28",
+  "execution_kind": "real_retrieval_only_not_evaluation_candidate",
+  "source_commit": "53d78cf151e16925bae88b93bcf13c76cceafdc5",
+  "independent_SQ_closed": true,
+  "m6_core": "4/7",
+  "unaccepted": [
+    "M6-04",
+    "M6-05",
+    "M6-08"
+  ],
+  "m7_started": false,
+  "target": {
+    "database": "m1_test_m6_sq5_aad3135569bb44baaaf8f786cea680fd",
+    "collection": "m1_test_m6_sq5_aad3135569bb44baaaf8f786cea680fd",
+    "owner_id": "m6-sq5-aad3135569bb44baaaf8f786cea680fd",
+    "kb_id": "m6-sq5-aad3135569bb44baaaf8f786cea680fd",
+    "bucket": "product-knowledge",
+    "object_prefix": "m6-test/sq5-aad3135569bb44baaaf8f786cea680fd/"
+  },
+  "isolation_checked_before_writes": true,
+  "default_revision_switched": false,
+  "corpus": [
+    {
+      "source": "D1",
+      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+      "original_sha256": "72983cc9b60f7f165bf89d3f6cbe39d56c4db148fd4b894c70c37378f8be5c8e",
+      "cache_sha256": "113af69f33562d935beb9700dc1dc7e725978bfb583a766c43743b1d6ba806e7",
+      "chunks": 22,
+      "images": 4
+    },
+    {
+      "source": "D3",
+      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+      "original_sha256": "977b5522d45fb1d3dfe8ac330c37841ad2751ffdfcbdaa64847ca753e78eff83",
+      "cache_sha256": "969fa1dfe2dd183c33d60f5e0a0a27cf54fa3add467003277be51d88777be47e",
+      "chunks": 165,
+      "images": 14
+    },
+    {
+      "source": "D4",
+      "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+      "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+      "original_sha256": "9eda0af991762156befd5b6ac651730835c7b8732b0c48d8761574406298ebb9",
+      "cache_sha256": "e67c2f9264306a42c02c4ce289932f97eea29fc761a55dd099cd60fa1a5b0993",
+      "chunks": 84,
+      "images": 20
+    },
+    {
+      "source": "D5",
+      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+      "original_sha256": "aa246f20a8b2a059b9e2c67410d0eccc2d86f3c643cc71a7b3eff6d7acff1523",
+      "cache_sha256": "09c8e9c3f99f2e54f7d2e2e514257d1898194f022301a77aba9dd11af0ed36cd",
+      "chunks": 311,
+      "images": 29
+    }
+  ],
+  "versions": {
+    "code": "d2ac7274661410a8de6b34f85eb74934ea4b2217425075ff151cb22ee3e7f752",
+    "prompt": "b138e40d429529a9aa1cfdd2c30b64e64e1c68113d4a7a52767a252b630e3aa3",
+    "model": "565fbfe4c795fb52f84183f7b2708491fd7824fa07f2de9fd546e9d6d6e5bb90"
+  },
+  "chunker_version": "5",
+  "formal_pipeline_fingerprints_verified": true,
+  "models": {
+    "embedding": "BGE-M3",
+    "reranker": "BGE reranker large",
+    "files_sha256": "3995645af911d30aa3ec13c90c61919bfe52830a0611f3f3820b6097062520fc",
+    "device": {
+      "embedding": "cuda:0",
+      "embedding_fp16": true,
+      "reranker": "cpu",
+      "reranker_fp16": false
+    },
+    "downloads": false
+  },
+  "parameters": {
+    "retrieval": {
+      "dense_limit": 20,
+      "sparse_limit": 20,
+      "fusion_limit": 20,
+      "rerank_limit": 20,
+      "context_limit": 10,
+      "fusion": "weighted",
+      "dense_weight": 0.5,
+      "sparse_weight": 0.5,
+      "rrf_k": 60
+    },
+    "expansion": {
+      "enabled": false,
+      "max_chars": 6000,
+      "max_added": 4,
+      "radius": 1,
+      "max_seeds": 10
+    },
+    "enhancement": {
+      "hyde_enabled": false,
+      "decomposition_enabled": false,
+      "timeout_seconds": 8.0,
+      "max_queries": 3,
+      "hyde_max_chars": 2000,
+      "hyde_output_tokens": 512
+    },
+    "answer_budget": {
+      "context_window": 32768,
+      "output_tokens": 4096,
+      "reserve_tokens": 256,
+      "max_chars": 12000,
+      "output_token_field": "max_tokens"
+    },
+    "runtime": {
+      "embedding_batch_size": 4,
+      "rerank_batch_size": 8,
+      "cache_enabled": false,
+      "cache_max_entries": 128,
+      "cache_ttl_seconds": 60
+    }
+  },
+  "query_manifest_sha256": "b667b84781864c8595ab51a36e5e0fb1fb364caa8cde9958ad21200a7a77f8bc",
+  "source_supplement_manifest_sha256": "2075fdc717ad7e1e4326af205fee90874e649018f167f44c3344c6cd10f31f04",
+  "summary_cache": {
+    "exact_bytes_and_alt_links": 67,
+    "historical_model": null,
+    "historical_prompt": null,
+    "new_vision_calls": 0
+  },
+  "results": {
+    "executed": 25,
+    "expected": 25,
+    "stage_quote_complete": {
+      "corpus": 25,
+      "candidates": 21,
+      "reranked": 21,
+      "context": 21
+    },
+    "gaps": {
+      "fusion_excluded": 3,
+      "not_recalled": 1
+    },
+    "routes": {
+      "answer": 23,
+      "compare": 1,
+      "series": 1
+    },
+    "criteria_sha256": "e418ee40c2ec07b39b21aa86a38d40f7c1d59f72df11abea1c145acba3e61c6c",
+    "notice": "口径：每题已有原件判断所列摘录全部到达相应阶段；不是答案正确率、人工评分或完整执行充分性。",
+    "primary_source_only": true,
+    "observed_any_source_initial_count": {
+      "candidates": 22,
+      "reranked": 22,
+      "context": 21
+    },
+    "initial_count_superseded": true,
+    "necessary_excerpt_improved": 20,
+    "necessary_excerpt_retained_with_source_transcription": 1,
+    "necessary_excerpt_not_reached": 4,
+    "no_pre_retrieval_clarifications": true,
+    "complete_answer_quality_proven": false
+  },
+  "questions": [
+    {
+      "id": "support-v1-003",
+      "old_route": "answer",
+      "new_route": "answer",
+      "stage_complete": {
+        "corpus": true,
+        "candidates": true,
+        "reranked": true,
+        "context": true
+      },
+      "gaps": [],
+      "units": [
+        {
+          "source": "D1",
+          "physical_pages": [
+            4
+          ],
+          "quote_sha256": "8ce2bb64d60c687140aab585d2f4c1a4f63d3bf6680b0d1e4f448cc91079cb74",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+                  "ordinal": 10,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 4
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+                  "ordinal": 10,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 4
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+                  "ordinal": 10,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 4
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+                  "ordinal": 10,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 4
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 3,
+              "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+              "score": 0.6711218357086182
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 1,
+              "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+              "score": 0.24901483952999115
+            }
+          ],
+          "gap": null
+        }
+      ],
+      "candidate_count": 20,
+      "rerank_count": 20,
+      "context_count": 10,
+      "projected_context_sha256": "6ac2a9a6fb8fb6b195f3a55c4fa532c5d41013412899096ef9ec1ae08d13144b",
+      "scope_notes": [],
+      "answer_quality_proven": false
+    },
+    {
+      "id": "support-v1-004",
+      "old_route": "answer",
+      "new_route": "answer",
+      "stage_complete": {
+        "corpus": true,
+        "candidates": true,
+        "reranked": true,
+        "context": true
+      },
+      "gaps": [],
+      "units": [
+        {
+          "source": "D1",
+          "physical_pages": [
+            4
+          ],
+          "quote_sha256": "eb62aee588caadc13317d27272d3946edd8e7903254ca2725aef8b1fe1099a19",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+                  "ordinal": 10,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 4
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+                  "ordinal": 10,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 4
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+                  "ordinal": 10,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 4
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+                  "ordinal": 10,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 4
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 7,
+              "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+              "score": 0.6230050921440125
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 4,
+              "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+              "score": 0.15086908638477325
+            }
+          ],
+          "gap": null
+        }
+      ],
+      "candidate_count": 20,
+      "rerank_count": 20,
+      "context_count": 10,
+      "projected_context_sha256": "3df4b9cff839f33cea073e8fd067060b7789a270cda3e47342f72989922cbb03",
+      "scope_notes": [],
+      "answer_quality_proven": false
+    },
+    {
+      "id": "support-v1-006",
+      "old_route": "answer",
+      "new_route": "answer",
+      "stage_complete": {
+        "corpus": true,
+        "candidates": true,
+        "reranked": true,
+        "context": true
+      },
+      "gaps": [],
+      "units": [
+        {
+          "source": "D1",
+          "physical_pages": [
+            5
+          ],
+          "quote_sha256": "dd61468f167b6c754e716e6d247da73b09182a1b068dd778f7ab8e8a15aba7a9",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+                  "ordinal": 10,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 4
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+                  "ordinal": 10,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 4
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+                  "ordinal": 10,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 4
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+                  "ordinal": 10,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 4
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 6,
+              "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+              "score": 0.562213659286499
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 1,
+              "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+              "score": 0.1674046367406845
+            }
+          ],
+          "gap": null
+        }
+      ],
+      "candidate_count": 20,
+      "rerank_count": 20,
+      "context_count": 10,
+      "projected_context_sha256": "bd482d512f8e0e6cfc4bb59f8920e5e271997277effdbc207199c4973499a293",
+      "scope_notes": [],
+      "answer_quality_proven": false
+    },
+    {
+      "id": "support-v1-007",
+      "old_route": "answer",
+      "new_route": "answer",
+      "stage_complete": {
+        "corpus": true,
+        "candidates": true,
+        "reranked": true,
+        "context": true
+      },
+      "gaps": [],
+      "units": [
+        {
+          "source": "D1",
+          "physical_pages": [
+            5
+          ],
+          "quote_sha256": "0524939427e2a65744c87166fc5474cfc326e241c42696a249c27238cd2c6d45",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+                  "ordinal": 10,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 4
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+                  "ordinal": 10,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 4
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+                  "ordinal": 10,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 4
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+                  "ordinal": 10,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 4
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 12,
+              "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+              "score": 0.5387523174285889
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 3,
+              "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+              "score": 0.13830077648162842
+            }
+          ],
+          "gap": null
+        }
+      ],
+      "candidate_count": 20,
+      "rerank_count": 20,
+      "context_count": 10,
+      "projected_context_sha256": "a518fa50941a181d668acf39f95101ae8c73e4b6b53f71cfb6f1108a7e1ba01f",
+      "scope_notes": [],
+      "answer_quality_proven": false
+    },
+    {
+      "id": "support-v1-008",
+      "old_route": "answer",
+      "new_route": "answer",
+      "stage_complete": {
+        "corpus": true,
+        "candidates": true,
+        "reranked": true,
+        "context": true
+      },
+      "gaps": [],
+      "units": [
+        {
+          "source": "D1",
+          "physical_pages": [
+            5
+          ],
+          "quote_sha256": "537bd0d6dc23bfa8203b72270d91237cc28a95e2916cbf162a0d85d81e6c4089",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+                  "ordinal": 10,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 4
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+                  "ordinal": 10,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 4
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+                  "ordinal": 10,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 4
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+                  "ordinal": 10,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 4
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 15,
+              "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+              "score": 0.531227707862854
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 15,
+              "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+              "score": 0.10335719585418701
+            }
+          ],
+          "gap": null
+        }
+      ],
+      "candidate_count": 20,
+      "rerank_count": 20,
+      "context_count": 10,
+      "projected_context_sha256": "2eb4a254e3b70897dbcd9bd4c93395076f8498a6099f08bcd2c8ef220b92b61d",
+      "scope_notes": [
+        "AC示例地址命令保留；现场替换约束仍依赖既有提示词与后续答案核验，未生成新答案。"
+      ],
+      "answer_quality_proven": false
+    },
+    {
+      "id": "support-v1-009",
+      "old_route": "answer",
+      "new_route": "answer",
+      "stage_complete": {
+        "corpus": true,
+        "candidates": true,
+        "reranked": true,
+        "context": true
+      },
+      "gaps": [],
+      "units": [
+        {
+          "source": "D1",
+          "physical_pages": [
+            5
+          ],
+          "quote_sha256": "646ec5603d001d7977d486405d7c306a5173cc6e572e28285b428eec398d35af",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "59855add-3ced-5c96-af22-50b1cafecaf1",
+                  "ordinal": 15,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 6
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "59855add-3ced-5c96-af22-50b1cafecaf1",
+                  "ordinal": 15,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 6
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "59855add-3ced-5c96-af22-50b1cafecaf1",
+                  "ordinal": 15,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 6
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "59855add-3ced-5c96-af22-50b1cafecaf1",
+                  "ordinal": 15,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 6
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 11,
+              "chunk_uid": "59855add-3ced-5c96-af22-50b1cafecaf1",
+              "score": 0.5409535765647888
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 1,
+              "chunk_uid": "59855add-3ced-5c96-af22-50b1cafecaf1",
+              "score": 0.227292001247406
+            }
+          ],
+          "gap": null
+        },
+        {
+          "source": "D1",
+          "physical_pages": [
+            5
+          ],
+          "quote_sha256": "ad86bb2529b3d98bfc898306af497d6768b2fcded536eee9c321e5cb198ffe8f",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "59855add-3ced-5c96-af22-50b1cafecaf1",
+                  "ordinal": 15,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 6
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "59855add-3ced-5c96-af22-50b1cafecaf1",
+                  "ordinal": 15,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 6
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "59855add-3ced-5c96-af22-50b1cafecaf1",
+                  "ordinal": 15,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 6
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "59855add-3ced-5c96-af22-50b1cafecaf1",
+                  "ordinal": 15,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 6
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 11,
+              "chunk_uid": "59855add-3ced-5c96-af22-50b1cafecaf1",
+              "score": 0.5409535765647888
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 1,
+              "chunk_uid": "59855add-3ced-5c96-af22-50b1cafecaf1",
+              "score": 0.227292001247406
+            }
+          ],
+          "gap": null
+        }
+      ],
+      "candidate_count": 20,
+      "rerank_count": 20,
+      "context_count": 10,
+      "projected_context_sha256": "7c4073c8df4f088ca694ba1d322d783aedef966d4558486f7eb3a34bf823bf53",
+      "scope_notes": [],
+      "answer_quality_proven": false
+    },
+    {
+      "id": "support-v1-010",
+      "old_route": "answer",
+      "new_route": "answer",
+      "stage_complete": {
+        "corpus": true,
+        "candidates": true,
+        "reranked": true,
+        "context": true
+      },
+      "gaps": [],
+      "units": [
+        {
+          "source": "D1",
+          "physical_pages": [
+            5,
+            6
+          ],
+          "quote_sha256": "47ce5f63be0f82eb98770115b520a1800648420e67e7a75d668140f5858667fa",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "59855add-3ced-5c96-af22-50b1cafecaf1",
+                  "ordinal": 15,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 6
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "59855add-3ced-5c96-af22-50b1cafecaf1",
+                  "ordinal": 15,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 6
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "59855add-3ced-5c96-af22-50b1cafecaf1",
+                  "ordinal": 15,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 6
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "59855add-3ced-5c96-af22-50b1cafecaf1",
+                  "ordinal": 15,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 6
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 4,
+              "chunk_uid": "59855add-3ced-5c96-af22-50b1cafecaf1",
+              "score": 0.6618672013282776
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 1,
+              "chunk_uid": "59855add-3ced-5c96-af22-50b1cafecaf1",
+              "score": 0.26475414633750916
+            }
+          ],
+          "gap": null
+        },
+        {
+          "source": "D1",
+          "physical_pages": [
+            5,
+            6
+          ],
+          "quote_sha256": "456a65e75b16ce35bc64730c896c7737914ae147752b4e0ba1e25a308c5b99f7",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "59855add-3ced-5c96-af22-50b1cafecaf1",
+                  "ordinal": 15,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 6
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "59855add-3ced-5c96-af22-50b1cafecaf1",
+                  "ordinal": 15,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 6
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "59855add-3ced-5c96-af22-50b1cafecaf1",
+                  "ordinal": 15,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 6
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "59855add-3ced-5c96-af22-50b1cafecaf1",
+                  "ordinal": 15,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 5
+                    },
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 6
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 4,
+              "chunk_uid": "59855add-3ced-5c96-af22-50b1cafecaf1",
+              "score": 0.6618672013282776
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 1,
+              "chunk_uid": "59855add-3ced-5c96-af22-50b1cafecaf1",
+              "score": 0.26475414633750916
+            }
+          ],
+          "gap": null
+        }
+      ],
+      "candidate_count": 20,
+      "rerank_count": 20,
+      "context_count": 10,
+      "projected_context_sha256": "7f62e359a2387e6c2ad4b7cdb94ba0cdf489494b52a4892c0612c7a093593e02",
+      "scope_notes": [],
+      "answer_quality_proven": false
+    },
+    {
+      "id": "support-v1-019",
+      "old_route": "answer",
+      "new_route": "answer",
+      "stage_complete": {
+        "corpus": true,
+        "candidates": false,
+        "reranked": false,
+        "context": false
+      },
+      "gaps": [
+        "fusion_excluded"
+      ],
+      "units": [
+        {
+          "source": "D5",
+          "physical_pages": [
+            9,
+            10
+          ],
+          "quote_sha256": "6d04ccf2c1757c4015fde9d8280e2da82c12d8e6b565c4ed13df16ebbc7873eb",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "5fdb4ef4-4d85-54d6-974f-7279af494765",
+                  "ordinal": 66,
+                  "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                  "source_refs": [
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 9
+                    },
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 10
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": false,
+              "single_chunk": false,
+              "chunks": []
+            },
+            "reranked": {
+              "present": false,
+              "single_chunk": false,
+              "chunks": []
+            },
+            "context": {
+              "present": false,
+              "single_chunk": false,
+              "chunks": []
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "sparse_vector",
+              "rank": 7,
+              "chunk_uid": "5fdb4ef4-4d85-54d6-974f-7279af494765",
+              "score": 0.2774816155433655
+            }
+          ],
+          "gap": "fusion_excluded"
+        }
+      ],
+      "candidate_count": 20,
+      "rerank_count": 20,
+      "context_count": 10,
+      "projected_context_sha256": "37c206d1f8d901eed82d64b218676566f63514484630ecf00ba144e4a5524d71",
+      "scope_notes": [
+        "ping正文ord66仅在稀疏路第7，未进融合候选；入候选的是ord284图摘要（融合18→重排17），亦未进前10。正文与摘要分开，不能把图摘要命中冒充必要原文。"
+      ],
+      "answer_quality_proven": false
+    },
+    {
+      "id": "support-v1-020",
+      "old_route": "answer",
+      "new_route": "answer",
+      "stage_complete": {
+        "corpus": true,
+        "candidates": true,
+        "reranked": true,
+        "context": true
+      },
+      "gaps": [],
+      "units": [
+        {
+          "source": "D5",
+          "physical_pages": [
+            11
+          ],
+          "quote_sha256": "ab8c5f20b2833066fd5d3d8d471d3e22cd974ca633b3da5db78978132ead6e88",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "093ee2fb-793b-5cfe-978c-ea2c7da9cbe0",
+                  "ordinal": 74,
+                  "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                  "source_refs": [
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 10
+                    },
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 11
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "093ee2fb-793b-5cfe-978c-ea2c7da9cbe0",
+                  "ordinal": 74,
+                  "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                  "source_refs": [
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 10
+                    },
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 11
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "093ee2fb-793b-5cfe-978c-ea2c7da9cbe0",
+                  "ordinal": 74,
+                  "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                  "source_refs": [
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 10
+                    },
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 11
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "093ee2fb-793b-5cfe-978c-ea2c7da9cbe0",
+                  "ordinal": 74,
+                  "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                  "source_refs": [
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 10
+                    },
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 11
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 15,
+              "chunk_uid": "093ee2fb-793b-5cfe-978c-ea2c7da9cbe0",
+              "score": 0.6012245416641235
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 5,
+              "chunk_uid": "093ee2fb-793b-5cfe-978c-ea2c7da9cbe0",
+              "score": 0.20509132742881775
+            }
+          ],
+          "gap": null
+        },
+        {
+          "source": "D5",
+          "physical_pages": [
+            11
+          ],
+          "quote_sha256": "c25b678e870300881a599a11020e08ecda6d7128cda79dc13167e773113a756b",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "093ee2fb-793b-5cfe-978c-ea2c7da9cbe0",
+                  "ordinal": 74,
+                  "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                  "source_refs": [
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 10
+                    },
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 11
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "093ee2fb-793b-5cfe-978c-ea2c7da9cbe0",
+                  "ordinal": 74,
+                  "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                  "source_refs": [
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 10
+                    },
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 11
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "093ee2fb-793b-5cfe-978c-ea2c7da9cbe0",
+                  "ordinal": 74,
+                  "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                  "source_refs": [
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 10
+                    },
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 11
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "093ee2fb-793b-5cfe-978c-ea2c7da9cbe0",
+                  "ordinal": 74,
+                  "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                  "source_refs": [
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 10
+                    },
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 11
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 15,
+              "chunk_uid": "093ee2fb-793b-5cfe-978c-ea2c7da9cbe0",
+              "score": 0.6012245416641235
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 5,
+              "chunk_uid": "093ee2fb-793b-5cfe-978c-ea2c7da9cbe0",
+              "score": 0.20509132742881775
+            }
+          ],
+          "gap": null
+        }
+      ],
+      "candidate_count": 20,
+      "rerank_count": 20,
+      "context_count": 10,
+      "projected_context_sha256": "7095fcff58cc51327ed4330b0e59cd056250dd8d0528bfb2e161fe0e374c7f7e",
+      "scope_notes": [],
+      "answer_quality_proven": false
+    },
+    {
+      "id": "support-v1-021",
+      "old_route": "answer",
+      "new_route": "answer",
+      "stage_complete": {
+        "corpus": true,
+        "candidates": false,
+        "reranked": false,
+        "context": false
+      },
+      "gaps": [
+        "fusion_excluded"
+      ],
+      "units": [
+        {
+          "source": "D5",
+          "physical_pages": [
+            12
+          ],
+          "quote_sha256": "8cca37a573ef94ec7a4649a853b1fe193a59e338cb1d2e5f319f6db4d4c73dbe",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "2f9c529b-a885-566b-85c4-80459effb1e1",
+                  "ordinal": 79,
+                  "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                  "source_refs": [
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 12
+                    },
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 13
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": false,
+              "single_chunk": false,
+              "chunks": []
+            },
+            "reranked": {
+              "present": false,
+              "single_chunk": false,
+              "chunks": []
+            },
+            "context": {
+              "present": false,
+              "single_chunk": false,
+              "chunks": []
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "sparse_vector",
+              "rank": 9,
+              "chunk_uid": "2f9c529b-a885-566b-85c4-80459effb1e1",
+              "score": 0.16225482523441315
+            }
+          ],
+          "gap": "fusion_excluded"
+        },
+        {
+          "source": "D5",
+          "physical_pages": [
+            12
+          ],
+          "quote_sha256": "1da45ffaa7a8698fd2fb74a7d2e76fd1366c37a693cba10ad52749a4d37b5a1e",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "2f9c529b-a885-566b-85c4-80459effb1e1",
+                  "ordinal": 79,
+                  "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                  "source_refs": [
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 12
+                    },
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 13
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": false,
+              "single_chunk": false,
+              "chunks": []
+            },
+            "reranked": {
+              "present": false,
+              "single_chunk": false,
+              "chunks": []
+            },
+            "context": {
+              "present": false,
+              "single_chunk": false,
+              "chunks": []
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "sparse_vector",
+              "rank": 9,
+              "chunk_uid": "2f9c529b-a885-566b-85c4-80459effb1e1",
+              "score": 0.16225482523441315
+            }
+          ],
+          "gap": "fusion_excluded"
+        }
+      ],
+      "candidate_count": 20,
+      "rerank_count": 20,
+      "context_count": 10,
+      "projected_context_sha256": "84b7c8dc4bfdbe9d1f61ecd60d60767bcba72171b85669e911383e3d49e43148",
+      "scope_notes": [
+        "登录地址/admin正文ord79稀疏第9，被加权融合池排除；context虽含192.168.1.1但不是所需登录账号依据。"
+      ],
+      "answer_quality_proven": false
+    },
+    {
+      "id": "support-v1-022",
+      "old_route": "answer",
+      "new_route": "answer",
+      "stage_complete": {
+        "corpus": true,
+        "candidates": false,
+        "reranked": false,
+        "context": false
+      },
+      "gaps": [
+        "fusion_excluded"
+      ],
+      "units": [
+        {
+          "source": "D5",
+          "physical_pages": [
+            14,
+            26
+          ],
+          "quote_sha256": "efd06569710bd3d67415586b6f216b4d9b0ccf6d0114247b6961b3901337b49e",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "36084bbb-ce4c-5203-a4d8-dcb92cc9d299",
+                  "ordinal": 84,
+                  "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                  "source_refs": [
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 13
+                    },
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 14
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": false,
+              "single_chunk": false,
+              "chunks": []
+            },
+            "reranked": {
+              "present": false,
+              "single_chunk": false,
+              "chunks": []
+            },
+            "context": {
+              "present": false,
+              "single_chunk": false,
+              "chunks": []
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "sparse_vector",
+              "rank": 11,
+              "chunk_uid": "36084bbb-ce4c-5203-a4d8-dcb92cc9d299",
+              "score": 0.13542601466178894
+            }
+          ],
+          "gap": "fusion_excluded"
+        }
+      ],
+      "candidate_count": 20,
+      "rerank_count": 20,
+      "context_count": 10,
+      "projected_context_sha256": "108e99463f7095d7711ec1129bb1af22ee03ef67ad2500c392b726043bfac3c4",
+      "scope_notes": [
+        "首次改密码正文ord84稀疏第11，被加权融合池排除；WEP页面摘要反排第1，不能当首次登录建议。"
+      ],
+      "answer_quality_proven": false
+    },
+    {
+      "id": "support-v1-034",
+      "old_route": "answer",
+      "new_route": "answer",
+      "stage_complete": {
+        "corpus": true,
+        "candidates": true,
+        "reranked": true,
+        "context": true
+      },
+      "gaps": [],
+      "units": [
+        {
+          "source": "D5",
+          "physical_pages": [
+            27
+          ],
+          "quote_sha256": "62fd7d516873b79a67a3d645dfa0bd22e792f319d8f0547ae0047b5601d01cce",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "60b66e7f-eed2-5f89-b68d-599d23aa5466",
+                  "ordinal": 216,
+                  "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                  "source_refs": [
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 26
+                    },
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 27
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "60b66e7f-eed2-5f89-b68d-599d23aa5466",
+                  "ordinal": 216,
+                  "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                  "source_refs": [
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 26
+                    },
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 27
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "60b66e7f-eed2-5f89-b68d-599d23aa5466",
+                  "ordinal": 216,
+                  "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                  "source_refs": [
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 26
+                    },
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 27
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "60b66e7f-eed2-5f89-b68d-599d23aa5466",
+                  "ordinal": 216,
+                  "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                  "source_refs": [
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 26
+                    },
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 27
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 12,
+              "chunk_uid": "60b66e7f-eed2-5f89-b68d-599d23aa5466",
+              "score": 0.5924005508422852
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 4,
+              "chunk_uid": "60b66e7f-eed2-5f89-b68d-599d23aa5466",
+              "score": 0.21453075110912323
+            }
+          ],
+          "gap": null
+        },
+        {
+          "source": "D5",
+          "physical_pages": [
+            27
+          ],
+          "quote_sha256": "955bf0812b9976c247ca33e1a0e60d7168d03c188bb6fde610b712f5558bf650",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "60b66e7f-eed2-5f89-b68d-599d23aa5466",
+                  "ordinal": 216,
+                  "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                  "source_refs": [
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 26
+                    },
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 27
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "60b66e7f-eed2-5f89-b68d-599d23aa5466",
+                  "ordinal": 216,
+                  "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                  "source_refs": [
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 26
+                    },
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 27
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "60b66e7f-eed2-5f89-b68d-599d23aa5466",
+                  "ordinal": 216,
+                  "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                  "source_refs": [
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 26
+                    },
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 27
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "60b66e7f-eed2-5f89-b68d-599d23aa5466",
+                  "ordinal": 216,
+                  "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                  "source_refs": [
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 26
+                    },
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 27
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 12,
+              "chunk_uid": "60b66e7f-eed2-5f89-b68d-599d23aa5466",
+              "score": 0.5924005508422852
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 4,
+              "chunk_uid": "60b66e7f-eed2-5f89-b68d-599d23aa5466",
+              "score": 0.21453075110912323
+            }
+          ],
+          "gap": null
+        }
+      ],
+      "candidate_count": 20,
+      "rerank_count": 20,
+      "context_count": 10,
+      "projected_context_sha256": "1e9a83a4f6ecc2ff9b8d2533c24891318712f992da63355d9c4048a4b7817838",
+      "scope_notes": [],
+      "answer_quality_proven": false
+    },
+    {
+      "id": "support-v1-037",
+      "old_route": "answer",
+      "new_route": "answer",
+      "stage_complete": {
+        "corpus": true,
+        "candidates": true,
+        "reranked": true,
+        "context": true
+      },
+      "gaps": [],
+      "units": [
+        {
+          "source": "D4",
+          "physical_pages": [
+            3,
+            6
+          ],
+          "quote_sha256": "7de21c04a378270189802db723b351d2fe1ea868321b98a49425095f7e87629d",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "8f32d815-d879-54bd-b461-946e181924e7",
+                  "ordinal": 6,
+                  "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                  "source_refs": [
+                    {
+                      "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+                      "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                      "kind": "pdf",
+                      "page": 3
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "8f32d815-d879-54bd-b461-946e181924e7",
+                  "ordinal": 6,
+                  "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                  "source_refs": [
+                    {
+                      "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+                      "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                      "kind": "pdf",
+                      "page": 3
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "8f32d815-d879-54bd-b461-946e181924e7",
+                  "ordinal": 6,
+                  "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                  "source_refs": [
+                    {
+                      "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+                      "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                      "kind": "pdf",
+                      "page": 3
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "8f32d815-d879-54bd-b461-946e181924e7",
+                  "ordinal": 6,
+                  "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                  "source_refs": [
+                    {
+                      "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+                      "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                      "kind": "pdf",
+                      "page": 3
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 1,
+              "chunk_uid": "8f32d815-d879-54bd-b461-946e181924e7",
+              "score": 0.7348632216453552
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 1,
+              "chunk_uid": "8f32d815-d879-54bd-b461-946e181924e7",
+              "score": 0.4188615679740906
+            }
+          ],
+          "gap": null
+        },
+        {
+          "source": "D4",
+          "physical_pages": [
+            3,
+            6
+          ],
+          "quote_sha256": "3d5a82fdc5d217b404bc93d74e11f2519b13f2993f539a9b3c3b8829371fe06b",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "8f32d815-d879-54bd-b461-946e181924e7",
+                  "ordinal": 6,
+                  "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                  "source_refs": [
+                    {
+                      "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+                      "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                      "kind": "pdf",
+                      "page": 3
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "8f32d815-d879-54bd-b461-946e181924e7",
+                  "ordinal": 6,
+                  "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                  "source_refs": [
+                    {
+                      "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+                      "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                      "kind": "pdf",
+                      "page": 3
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "8f32d815-d879-54bd-b461-946e181924e7",
+                  "ordinal": 6,
+                  "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                  "source_refs": [
+                    {
+                      "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+                      "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                      "kind": "pdf",
+                      "page": 3
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "8f32d815-d879-54bd-b461-946e181924e7",
+                  "ordinal": 6,
+                  "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                  "source_refs": [
+                    {
+                      "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+                      "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                      "kind": "pdf",
+                      "page": 3
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 1,
+              "chunk_uid": "8f32d815-d879-54bd-b461-946e181924e7",
+              "score": 0.7348632216453552
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 1,
+              "chunk_uid": "8f32d815-d879-54bd-b461-946e181924e7",
+              "score": 0.4188615679740906
+            }
+          ],
+          "gap": null
+        }
+      ],
+      "candidate_count": 20,
+      "rerank_count": 20,
+      "context_count": 10,
+      "projected_context_sha256": "4e221fe39e4a8e55d2778f095b0558f72336688e1f928711d0ae90eb74dc9fb0",
+      "scope_notes": [
+        "所有现场局域网设备、电脑与禁用无关网卡步骤完整；2019由原题给定，源日期页未入context。"
+      ],
+      "answer_quality_proven": false
+    },
+    {
+      "id": "support-v1-038",
+      "old_route": "answer",
+      "new_route": "answer",
+      "stage_complete": {
+        "corpus": true,
+        "candidates": true,
+        "reranked": true,
+        "context": true
+      },
+      "gaps": [],
+      "units": [
+        {
+          "source": "D4",
+          "physical_pages": [
+            3,
+            4
+          ],
+          "quote_sha256": "3b2dcb4ed8c61abfb2bf9e08bddb35748b55e6307faef673a9341f785dbe9f6a",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "570804d9-a985-55ac-8f81-8dd8f0bd4e28",
+                  "ordinal": 12,
+                  "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                  "source_refs": [
+                    {
+                      "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+                      "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                      "kind": "pdf",
+                      "page": 3
+                    },
+                    {
+                      "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+                      "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "570804d9-a985-55ac-8f81-8dd8f0bd4e28",
+                  "ordinal": 12,
+                  "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                  "source_refs": [
+                    {
+                      "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+                      "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                      "kind": "pdf",
+                      "page": 3
+                    },
+                    {
+                      "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+                      "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "570804d9-a985-55ac-8f81-8dd8f0bd4e28",
+                  "ordinal": 12,
+                  "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                  "source_refs": [
+                    {
+                      "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+                      "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                      "kind": "pdf",
+                      "page": 3
+                    },
+                    {
+                      "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+                      "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "570804d9-a985-55ac-8f81-8dd8f0bd4e28",
+                  "ordinal": 12,
+                  "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                  "source_refs": [
+                    {
+                      "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+                      "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                      "kind": "pdf",
+                      "page": 3
+                    },
+                    {
+                      "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+                      "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 5,
+              "chunk_uid": "570804d9-a985-55ac-8f81-8dd8f0bd4e28",
+              "score": 0.7522081136703491
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 1,
+              "chunk_uid": "570804d9-a985-55ac-8f81-8dd8f0bd4e28",
+              "score": 0.3098909258842468
+            }
+          ],
+          "gap": null
+        },
+        {
+          "source": "D4",
+          "physical_pages": [
+            3,
+            4
+          ],
+          "quote_sha256": "d84b2fd591299e23a072389ed5a72ed19a2c74ae93e53a8e517b9cf10945dd9d",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "570804d9-a985-55ac-8f81-8dd8f0bd4e28",
+                  "ordinal": 12,
+                  "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                  "source_refs": [
+                    {
+                      "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+                      "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                      "kind": "pdf",
+                      "page": 3
+                    },
+                    {
+                      "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+                      "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "570804d9-a985-55ac-8f81-8dd8f0bd4e28",
+                  "ordinal": 12,
+                  "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                  "source_refs": [
+                    {
+                      "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+                      "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                      "kind": "pdf",
+                      "page": 3
+                    },
+                    {
+                      "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+                      "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "570804d9-a985-55ac-8f81-8dd8f0bd4e28",
+                  "ordinal": 12,
+                  "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                  "source_refs": [
+                    {
+                      "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+                      "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                      "kind": "pdf",
+                      "page": 3
+                    },
+                    {
+                      "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+                      "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "570804d9-a985-55ac-8f81-8dd8f0bd4e28",
+                  "ordinal": 12,
+                  "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                  "source_refs": [
+                    {
+                      "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+                      "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                      "kind": "pdf",
+                      "page": 3
+                    },
+                    {
+                      "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+                      "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 5,
+              "chunk_uid": "570804d9-a985-55ac-8f81-8dd8f0bd4e28",
+              "score": 0.7522081136703491
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 1,
+              "chunk_uid": "570804d9-a985-55ac-8f81-8dd8f0bd4e28",
+              "score": 0.3098909258842468
+            }
+          ],
+          "gap": null
+        }
+      ],
+      "candidate_count": 20,
+      "rerank_count": 20,
+      "context_count": 10,
+      "projected_context_sha256": "94d6e70c7259666bd3326a930ac6b59ce911da42be563bd3a9d1eb45bc15395a",
+      "scope_notes": [
+        "完整隐藏菜单步骤已入context，但源文档2019日期片未入本题prompt，问题亦未给年份。旧版范围应保留，不能据摘录命中宣称范围充分。"
+      ],
+      "answer_quality_proven": false
+    },
+    {
+      "id": "support-v1-048",
+      "old_route": "compare",
+      "new_route": "compare",
+      "stage_complete": {
+        "corpus": true,
+        "candidates": false,
+        "reranked": false,
+        "context": false
+      },
+      "gaps": [
+        "not_recalled"
+      ],
+      "units": [
+        {
+          "source": "D1",
+          "physical_pages": [
+            4
+          ],
+          "quote_sha256": "75cf870de43fe755e33bb70ecfd6fd2ba54ebb8daac6c4d1c9bdae772182de4d",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "42bced77-789b-5b10-88bc-c72993caca07",
+                  "ordinal": 6,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                },
+                {
+                  "chunk_uid": "d70abca9-f422-5790-9e13-fef023405efd",
+                  "ordinal": 8,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "d70abca9-f422-5790-9e13-fef023405efd",
+                  "ordinal": 8,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                },
+                {
+                  "chunk_uid": "42bced77-789b-5b10-88bc-c72993caca07",
+                  "ordinal": 6,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "42bced77-789b-5b10-88bc-c72993caca07",
+                  "ordinal": 6,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                },
+                {
+                  "chunk_uid": "d70abca9-f422-5790-9e13-fef023405efd",
+                  "ordinal": 8,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "42bced77-789b-5b10-88bc-c72993caca07",
+                  "ordinal": 6,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                },
+                {
+                  "chunk_uid": "d70abca9-f422-5790-9e13-fef023405efd",
+                  "ordinal": 8,
+                  "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                  "source_refs": [
+                    {
+                      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+                      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 8,
+              "chunk_uid": "d70abca9-f422-5790-9e13-fef023405efd",
+              "score": 0.4790020287036896
+            },
+            {
+              "channel": "dense_vector",
+              "rank": 10,
+              "chunk_uid": "42bced77-789b-5b10-88bc-c72993caca07",
+              "score": 0.47055578231811523
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 1,
+              "chunk_uid": "42bced77-789b-5b10-88bc-c72993caca07",
+              "score": 0.17880013585090637
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 2,
+              "chunk_uid": "d70abca9-f422-5790-9e13-fef023405efd",
+              "score": 0.17519709467887878
+            }
+          ],
+          "gap": null
+        },
+        {
+          "source": "D5",
+          "physical_pages": [
+            8,
+            30
+          ],
+          "quote_sha256": "c8f688e8e48512f2f346f9e73d4393a5b6b1de5569ff88716a75450867253592",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "7c3a7779-3e5a-5e01-b179-1980cf328a12",
+                  "ordinal": 268,
+                  "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                  "source_refs": [
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 30
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": false,
+              "single_chunk": false,
+              "chunks": []
+            },
+            "reranked": {
+              "present": false,
+              "single_chunk": false,
+              "chunks": []
+            },
+            "context": {
+              "present": false,
+              "single_chunk": false,
+              "chunks": []
+            }
+          },
+          "raw_branch_matches": [],
+          "gap": "not_recalled"
+        },
+        {
+          "source": "D5",
+          "physical_pages": [
+            8,
+            30
+          ],
+          "quote_sha256": "2b831d684d7d97707e42a248cf9bfc1bdbd08489e50bf5159979242f7f66037d",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "7c3a7779-3e5a-5e01-b179-1980cf328a12",
+                  "ordinal": 268,
+                  "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                  "source_refs": [
+                    {
+                      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+                      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+                      "kind": "pdf",
+                      "page": 30
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": false,
+              "single_chunk": false,
+              "chunks": []
+            },
+            "reranked": {
+              "present": false,
+              "single_chunk": false,
+              "chunks": []
+            },
+            "context": {
+              "present": false,
+              "single_chunk": false,
+              "chunks": []
+            }
+          },
+          "raw_branch_matches": [],
+          "gap": "not_recalled"
+        }
+      ],
+      "candidate_count": 40,
+      "rerank_count": 20,
+      "context_count": 10,
+      "projected_context_sha256": "af9f711789d3c6bff34b5ef9da8abd8ab3d73fa6f33dfd9bfc755ff9352518db",
+      "scope_notes": [
+        "双方产品均检索且LA移动网/AC已入context；CB Cable/EoC完整依据ord268未入双路20。概述有Cable字样但不足以替代同轴/EoC原文。"
+      ],
+      "answer_quality_proven": false
+    },
+    {
+      "id": "m6-g540-02-a",
+      "old_route": "answer",
+      "new_route": "answer",
+      "stage_complete": {
+        "corpus": true,
+        "candidates": true,
+        "reranked": true,
+        "context": true
+      },
+      "gaps": [],
+      "units": [
+        {
+          "source": "D3",
+          "physical_pages": [
+            3,
+            4
+          ],
+          "quote_sha256": "c466f8aeb2cd1c035ff52c20e5d2d2c8dca00644fd71ec903583633646bd4f48",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "935b5708-607d-5e59-a277-b9c65971161a",
+                  "ordinal": 10,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "935b5708-607d-5e59-a277-b9c65971161a",
+                  "ordinal": 10,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "935b5708-607d-5e59-a277-b9c65971161a",
+                  "ordinal": 10,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "935b5708-607d-5e59-a277-b9c65971161a",
+                  "ordinal": 10,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 1,
+              "chunk_uid": "935b5708-607d-5e59-a277-b9c65971161a",
+              "score": 0.6205724477767944
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 1,
+              "chunk_uid": "935b5708-607d-5e59-a277-b9c65971161a",
+              "score": 0.0985504761338234
+            }
+          ],
+          "gap": null
+        }
+      ],
+      "candidate_count": 20,
+      "rerank_count": 20,
+      "context_count": 10,
+      "projected_context_sha256": "4c4e78765b1a298047e04b320ae9a93a63b7b653f6ee0ced284a4c1af0096d2f",
+      "scope_notes": [],
+      "answer_quality_proven": false
+    },
+    {
+      "id": "m6-g540-02-b",
+      "old_route": "answer",
+      "new_route": "answer",
+      "stage_complete": {
+        "corpus": true,
+        "candidates": true,
+        "reranked": true,
+        "context": true
+      },
+      "gaps": [],
+      "units": [
+        {
+          "source": "D3",
+          "physical_pages": [
+            3,
+            4
+          ],
+          "quote_sha256": "c466f8aeb2cd1c035ff52c20e5d2d2c8dca00644fd71ec903583633646bd4f48",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "935b5708-607d-5e59-a277-b9c65971161a",
+                  "ordinal": 10,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "935b5708-607d-5e59-a277-b9c65971161a",
+                  "ordinal": 10,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "935b5708-607d-5e59-a277-b9c65971161a",
+                  "ordinal": 10,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "935b5708-607d-5e59-a277-b9c65971161a",
+                  "ordinal": 10,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 5,
+              "chunk_uid": "935b5708-607d-5e59-a277-b9c65971161a",
+              "score": 0.5753662586212158
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 13,
+              "chunk_uid": "935b5708-607d-5e59-a277-b9c65971161a",
+              "score": 0.05175668001174927
+            }
+          ],
+          "gap": null
+        }
+      ],
+      "candidate_count": 20,
+      "rerank_count": 20,
+      "context_count": 10,
+      "projected_context_sha256": "bdce89e25621d3fe5f2a6dadaf19e9e1eaf6c2464f47b8ca6276238067de0ffc",
+      "scope_notes": [],
+      "answer_quality_proven": false
+    },
+    {
+      "id": "m6-g540-04-a",
+      "old_route": "clarify",
+      "new_route": "answer",
+      "stage_complete": {
+        "corpus": true,
+        "candidates": true,
+        "reranked": true,
+        "context": true
+      },
+      "gaps": [],
+      "units": [
+        {
+          "source": "D3",
+          "physical_pages": [
+            5
+          ],
+          "quote_sha256": "1fca5e2fb3068e19bbba65e7970c79115b3a514f61aebc7865aeee00aa1f6e9a",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "772c95b4-c214-5e4f-b22b-ce7b5ea99155",
+                  "ordinal": 20,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "772c95b4-c214-5e4f-b22b-ce7b5ea99155",
+                  "ordinal": 20,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "772c95b4-c214-5e4f-b22b-ce7b5ea99155",
+                  "ordinal": 20,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "772c95b4-c214-5e4f-b22b-ce7b5ea99155",
+                  "ordinal": 20,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 1,
+              "chunk_uid": "772c95b4-c214-5e4f-b22b-ce7b5ea99155",
+              "score": 0.6763275861740112
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 1,
+              "chunk_uid": "772c95b4-c214-5e4f-b22b-ce7b5ea99155",
+              "score": 0.3246726989746094
+            }
+          ],
+          "gap": null
+        }
+      ],
+      "candidate_count": 20,
+      "rerank_count": 20,
+      "context_count": 10,
+      "projected_context_sha256": "d49110bda8055cd1b515db6f22722d1310f66cbde531a991673a7baa3812caa7",
+      "scope_notes": [],
+      "answer_quality_proven": false
+    },
+    {
+      "id": "m6-g540-04-b",
+      "old_route": "clarify",
+      "new_route": "answer",
+      "stage_complete": {
+        "corpus": true,
+        "candidates": true,
+        "reranked": true,
+        "context": true
+      },
+      "gaps": [],
+      "units": [
+        {
+          "source": "D3",
+          "physical_pages": [
+            5
+          ],
+          "quote_sha256": "1fca5e2fb3068e19bbba65e7970c79115b3a514f61aebc7865aeee00aa1f6e9a",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "772c95b4-c214-5e4f-b22b-ce7b5ea99155",
+                  "ordinal": 20,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "772c95b4-c214-5e4f-b22b-ce7b5ea99155",
+                  "ordinal": 20,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "772c95b4-c214-5e4f-b22b-ce7b5ea99155",
+                  "ordinal": 20,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "772c95b4-c214-5e4f-b22b-ce7b5ea99155",
+                  "ordinal": 20,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 1,
+              "chunk_uid": "772c95b4-c214-5e4f-b22b-ce7b5ea99155",
+              "score": 0.6818152666091919
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 1,
+              "chunk_uid": "772c95b4-c214-5e4f-b22b-ce7b5ea99155",
+              "score": 0.3418827950954437
+            }
+          ],
+          "gap": null
+        }
+      ],
+      "candidate_count": 20,
+      "rerank_count": 20,
+      "context_count": 10,
+      "projected_context_sha256": "10c18df9492c664bb19fe18cd87864848b669ce40e30031eb45f9623b7a516e5",
+      "scope_notes": [],
+      "answer_quality_proven": false
+    },
+    {
+      "id": "m6-g540-05-a",
+      "old_route": "answer",
+      "new_route": "answer",
+      "stage_complete": {
+        "corpus": true,
+        "candidates": true,
+        "reranked": true,
+        "context": true
+      },
+      "gaps": [],
+      "units": [
+        {
+          "source": "D3",
+          "physical_pages": [
+            3,
+            5
+          ],
+          "quote_sha256": "f0bf74092975d3c0bb37b9f7efac4fee998d5edcfd48fb271da4d945745c5e44",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "1908c880-6853-5028-8452-5e1b9495858a",
+                  "ordinal": 21,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "1908c880-6853-5028-8452-5e1b9495858a",
+                  "ordinal": 21,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "1908c880-6853-5028-8452-5e1b9495858a",
+                  "ordinal": 21,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "1908c880-6853-5028-8452-5e1b9495858a",
+                  "ordinal": 21,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 1,
+              "chunk_uid": "1908c880-6853-5028-8452-5e1b9495858a",
+              "score": 0.6143376231193542
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 2,
+              "chunk_uid": "1908c880-6853-5028-8452-5e1b9495858a",
+              "score": 0.15080907940864563
+            }
+          ],
+          "gap": null
+        }
+      ],
+      "candidate_count": 20,
+      "rerank_count": 20,
+      "context_count": 10,
+      "projected_context_sha256": "4e4bc5f86a0e820b1d2e1a0ff54d989249eec3786e9853957658cae33cd5f60d",
+      "scope_notes": [
+        "机身RJ45与扩展坞LAN两组文字均已选入；MateDock3名称前提未入上下文，坞的精确型号仍不可仅凭泛标题认定。"
+      ],
+      "answer_quality_proven": false
+    },
+    {
+      "id": "m6-g540-05-b",
+      "old_route": "answer",
+      "new_route": "answer",
+      "stage_complete": {
+        "corpus": true,
+        "candidates": true,
+        "reranked": true,
+        "context": true
+      },
+      "gaps": [],
+      "units": [
+        {
+          "source": "D3",
+          "physical_pages": [
+            3,
+            5
+          ],
+          "quote_sha256": "f0bf74092975d3c0bb37b9f7efac4fee998d5edcfd48fb271da4d945745c5e44",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "1908c880-6853-5028-8452-5e1b9495858a",
+                  "ordinal": 21,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "1908c880-6853-5028-8452-5e1b9495858a",
+                  "ordinal": 21,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "1908c880-6853-5028-8452-5e1b9495858a",
+                  "ordinal": 21,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "1908c880-6853-5028-8452-5e1b9495858a",
+                  "ordinal": 21,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 4
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 5,
+              "chunk_uid": "1908c880-6853-5028-8452-5e1b9495858a",
+              "score": 0.6602091789245605
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 2,
+              "chunk_uid": "1908c880-6853-5028-8452-5e1b9495858a",
+              "score": 0.0937606692314148
+            }
+          ],
+          "gap": null
+        }
+      ],
+      "candidate_count": 20,
+      "rerank_count": 20,
+      "context_count": 10,
+      "projected_context_sha256": "e9bddd73a2b0333409c58251551160ddee434ac16f5f17ae05d9f07aecf4be55",
+      "scope_notes": [
+        "机身RJ45与扩展坞LAN两组文字均已选入；MateDock3名称前提未入上下文，坞的精确型号仍不可仅凭泛标题认定。"
+      ],
+      "answer_quality_proven": false
+    },
+    {
+      "id": "m6-g540-17-a",
+      "old_route": "clarify",
+      "new_route": "answer",
+      "stage_complete": {
+        "corpus": true,
+        "candidates": true,
+        "reranked": true,
+        "context": true
+      },
+      "gaps": [],
+      "units": [
+        {
+          "source": "D3",
+          "physical_pages": [
+            14
+          ],
+          "quote_sha256": "4d1d4c72de28ddc1108685efa99e193b6f8ed7c84eff71cf8fc130646cd63bd1",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "5c7ac349-cbb1-501c-b219-3c5a3fccd0ac",
+                  "ordinal": 90,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 14
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "5c7ac349-cbb1-501c-b219-3c5a3fccd0ac",
+                  "ordinal": 90,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 14
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "5c7ac349-cbb1-501c-b219-3c5a3fccd0ac",
+                  "ordinal": 90,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 14
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "5c7ac349-cbb1-501c-b219-3c5a3fccd0ac",
+                  "ordinal": 90,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 14
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 1,
+              "chunk_uid": "5c7ac349-cbb1-501c-b219-3c5a3fccd0ac",
+              "score": 0.7025632858276367
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 2,
+              "chunk_uid": "5c7ac349-cbb1-501c-b219-3c5a3fccd0ac",
+              "score": 0.2635110318660736
+            }
+          ],
+          "gap": null
+        }
+      ],
+      "candidate_count": 20,
+      "rerank_count": 20,
+      "context_count": 10,
+      "projected_context_sha256": "6fc0bfbf8c15660a4d3114ea59ff275d0811383c81a0d12e4dec1905955e627a",
+      "scope_notes": [
+        "MateDock3名称前提ord86与充电口限制ord90均进入context；同时有机身多功能USB-C，应由后续生成保持对象区别。"
+      ],
+      "answer_quality_proven": false
+    },
+    {
+      "id": "m6-g540-17-b",
+      "old_route": "answer",
+      "new_route": "answer",
+      "stage_complete": {
+        "corpus": true,
+        "candidates": true,
+        "reranked": true,
+        "context": true
+      },
+      "gaps": [],
+      "units": [
+        {
+          "source": "D3",
+          "physical_pages": [
+            14
+          ],
+          "quote_sha256": "4d1d4c72de28ddc1108685efa99e193b6f8ed7c84eff71cf8fc130646cd63bd1",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "5c7ac349-cbb1-501c-b219-3c5a3fccd0ac",
+                  "ordinal": 90,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 14
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "5c7ac349-cbb1-501c-b219-3c5a3fccd0ac",
+                  "ordinal": 90,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 14
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "5c7ac349-cbb1-501c-b219-3c5a3fccd0ac",
+                  "ordinal": 90,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 14
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "5c7ac349-cbb1-501c-b219-3c5a3fccd0ac",
+                  "ordinal": 90,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 14
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 3,
+              "chunk_uid": "5c7ac349-cbb1-501c-b219-3c5a3fccd0ac",
+              "score": 0.6137521862983704
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 6,
+              "chunk_uid": "5c7ac349-cbb1-501c-b219-3c5a3fccd0ac",
+              "score": 0.15459080040454865
+            }
+          ],
+          "gap": null
+        }
+      ],
+      "candidate_count": 20,
+      "rerank_count": 20,
+      "context_count": 10,
+      "projected_context_sha256": "08d32b3e8bb3823242537d7c031a86ee87146bc00987a2c5d39cd6bf23874d6b",
+      "scope_notes": [
+        "充电口限制已到context，但MateDock3名称前提ord86未进融合候选；混有MateDock2和历史S520 Gen2图摘要，不具备可靠的完整型号对象链。"
+      ],
+      "answer_quality_proven": false
+    },
+    {
+      "id": "m6-g540-18-b",
+      "old_route": "clarify",
+      "new_route": "answer",
+      "stage_complete": {
+        "corpus": true,
+        "candidates": true,
+        "reranked": true,
+        "context": true
+      },
+      "gaps": [],
+      "units": [
+        {
+          "source": "D3",
+          "physical_pages": [
+            15
+          ],
+          "quote_sha256": "6d49540a1b8498a6ce2107b843fc966e89959716194c3d44a52e9d03a29f1672",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "2049d447-97f6-5443-9baf-79b7e87ebbca",
+                  "ordinal": 95,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 14
+                    },
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 15
+                    },
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 16
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "2049d447-97f6-5443-9baf-79b7e87ebbca",
+                  "ordinal": 95,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 14
+                    },
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 15
+                    },
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 16
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "2049d447-97f6-5443-9baf-79b7e87ebbca",
+                  "ordinal": 95,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 14
+                    },
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 15
+                    },
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 16
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "2049d447-97f6-5443-9baf-79b7e87ebbca",
+                  "ordinal": 95,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 14
+                    },
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 15
+                    },
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 16
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 2,
+              "chunk_uid": "2049d447-97f6-5443-9baf-79b7e87ebbca",
+              "score": 0.5914716720581055
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 1,
+              "chunk_uid": "2049d447-97f6-5443-9baf-79b7e87ebbca",
+              "score": 0.23021972179412842
+            }
+          ],
+          "gap": null
+        }
+      ],
+      "candidate_count": 20,
+      "rerank_count": 20,
+      "context_count": 10,
+      "projected_context_sha256": "2f72ec5ada0e0a94cea9a050f73bc754780572560a2ec59e5ed3ab26c5f671b6",
+      "scope_notes": [
+        "限制和以MateDock2为例在同一完整正文，不能泛化其他扩展坞；投影模式中的其他图标缺失另记非阻塞，不重开SQ。"
+      ],
+      "answer_quality_proven": false
+    },
+    {
+      "id": "m6-g540-20-a",
+      "old_route": "series",
+      "new_route": "series",
+      "stage_complete": {
+        "corpus": true,
+        "candidates": true,
+        "reranked": true,
+        "context": true
+      },
+      "gaps": [],
+      "units": [
+        {
+          "source": "D3",
+          "physical_pages": [
+            17
+          ],
+          "quote_sha256": "cf82e131d9b690678cc2415193bce1fb3c4102bacb996ac53b4d9f5c0899321a",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "491586b2-a4b3-5424-863d-720cd500daeb",
+                  "ordinal": 102,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 16
+                    },
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 17
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "491586b2-a4b3-5424-863d-720cd500daeb",
+                  "ordinal": 102,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 16
+                    },
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 17
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "491586b2-a4b3-5424-863d-720cd500daeb",
+                  "ordinal": 102,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 16
+                    },
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 17
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "491586b2-a4b3-5424-863d-720cd500daeb",
+                  "ordinal": 102,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 16
+                    },
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 17
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 2,
+              "chunk_uid": "491586b2-a4b3-5424-863d-720cd500daeb",
+              "score": 0.7157140970230103
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 2,
+              "chunk_uid": "491586b2-a4b3-5424-863d-720cd500daeb",
+              "score": 0.18451887369155884
+            }
+          ],
+          "gap": null
+        },
+        {
+          "source": "D3",
+          "physical_pages": [
+            17
+          ],
+          "quote_sha256": "6203c1106a84dbe8bbec859c9425e69678fcff62c61bb89bdff1ee16adf42c43",
+          "stages": {
+            "corpus": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "491586b2-a4b3-5424-863d-720cd500daeb",
+                  "ordinal": 102,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 16
+                    },
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 17
+                    }
+                  ]
+                }
+              ]
+            },
+            "candidates": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "491586b2-a4b3-5424-863d-720cd500daeb",
+                  "ordinal": 102,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 16
+                    },
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 17
+                    }
+                  ]
+                }
+              ]
+            },
+            "reranked": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "491586b2-a4b3-5424-863d-720cd500daeb",
+                  "ordinal": 102,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 16
+                    },
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 17
+                    }
+                  ]
+                }
+              ]
+            },
+            "context": {
+              "present": true,
+              "single_chunk": true,
+              "chunks": [
+                {
+                  "chunk_uid": "491586b2-a4b3-5424-863d-720cd500daeb",
+                  "ordinal": 102,
+                  "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                  "source_refs": [
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 16
+                    },
+                    {
+                      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+                      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+                      "kind": "pdf",
+                      "page": 17
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "raw_branch_matches": [
+            {
+              "channel": "dense_vector",
+              "rank": 2,
+              "chunk_uid": "491586b2-a4b3-5424-863d-720cd500daeb",
+              "score": 0.7157140970230103
+            },
+            {
+              "channel": "sparse_vector",
+              "rank": 2,
+              "chunk_uid": "491586b2-a4b3-5424-863d-720cd500daeb",
+              "score": 0.18451887369155884
+            }
+          ],
+          "gap": null
+        }
+      ],
+      "candidate_count": 20,
+      "rerank_count": 20,
+      "context_count": 10,
+      "projected_context_sha256": "4df8dae76dc7981ba306b4403c004a0b65d5695e364de3b72f084fdb5d6e29c2",
+      "scope_notes": [
+        "进入配对状态的蓝牙符号、3秒、指示灯已入context；蓝牙位置来自已保存助手原页转写，非PDF原生文字/人工审核。后续电脑点击路径仍有未识别图标投影，不声称全部配对过程可独立执行。"
+      ],
+      "answer_quality_proven": false
+    }
+  ],
+  "actual_calls": {
+    "logical_document_embedding": 147,
+    "document_inputs": 582,
+    "logical_query_embedding": 25,
+    "query_inputs": 25,
+    "logical_rerank": 25,
+    "rerank_pairs": 500,
+    "query_cache_hits": 2,
+    "summary_cache_reads": 67,
+    "exact_http_requests": null,
+    "token_usage": null,
+    "cost": null,
+    "local": true,
+    "supplier_answer_calls": 0,
+    "cloud_parse_or_vision_calls": 0,
+    "unsettled_windows": []
+  },
+  "failure_and_resume": {
+    "type": "private_executor_sparse_integer_key_JSON_roundtrip",
+    "before": {
+      "failed": 1,
+      "passed": 1
+    },
+    "after": {
+      "passed": 2
+    },
+    "existing_cache_files_verified": 162,
+    "crash_during_model": false,
+    "failed_before_new_call": true,
+    "old_files_rewritten": false,
+    "completed_questions_replayed": false,
+    "formal_import_replay_no_new_calls": true,
+    "question_resume_no_new_calls": true
+  },
+  "validation": {
+    "readonly_checks": 2049,
+    "content_checks": 1360,
+    "assets": 67,
+    "additional_scope_checks": 52,
+    "legacy_output_297_hashes_unchanged": true,
+    "legacy_protected_145_unchanged": true,
+    "frozen_chunks": 867,
+    "frozen_non_TTL_collections_unchanged": 21,
+    "run_events_TTL": {
+      "before": {
+        "count": 1675,
+        "sha256": "8a5cfe61f3b5fbbce3564ffaa81a1cc44bb72300c100bf51bec36b7b35f022ee"
+      },
+      "after": {
+        "count": 1675,
+        "sha256": "8a5cfe61f3b5fbbce3564ffaa81a1cc44bb72300c100bf51bec36b7b35f022ee"
+      },
+      "history_equal_claim": false
+    },
+    "groups_not_summed": true,
+    "actual_index_and_models": true,
+    "stub_quality_claim": false,
+    "frontend_or_API_changed": false,
+    "old_269_39_not_repeated": true,
+    "non_target_knowledge_collections_retrieval_window_unchanged": 12246,
+    "non_target_namespaces_retrieval_window_unchanged": 5554,
+    "local_html_browser": {
+      "passed": true,
+      "articles": 25,
+      "source_page_links": 36,
+      "source_image_loaded": true,
+      "script_errors": 0,
+      "horizontal_overflow": false,
+      "browser": "installed Edge",
+      "downloaded": false,
+      "first_bundled_browser_missing_log_preserved": true
+    }
+  },
+  "historical": {
+    "r3_results": 85,
+    "inherited": 19,
+    "executed": 66,
+    "historical_stream": 19,
+    "new_stream": 61,
+    "exact_http_and_cost": null,
+    "failed_experiment": {
+      "state": "failed",
+      "attempt": 2,
+      "error": "provider_invalid_response",
+      "retryable": false,
+      "results": 0,
+      "calls": null,
+      "cost": null
+    }
+  },
+  "operations": {
+    "answer_generation": false,
+    "real_dev": false,
+    "heldout": false,
+    "formal_scores": false,
+    "calibrations": false,
+    "candidates": false,
+    "assistant_observations": false,
+    "human_declarations": false,
+    "historical_state_lease_slot_retryable_links_modified": false,
+    "workbench_catalog_modified": false,
+    "subagents": false
+  },
+  "evidence": [
+    {
+      "path": "output/m6-real-retrieval-20261028/25题真实检索与原件对照.html",
+      "sha256": "5daa702a9b6bc7160c5a8558e7dafafb1a56b4d5fc4bc5d859ded1e0d8fc2e5d"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/after.json",
+      "sha256": "e39c961e8238008195bc7163d1cf3d38fb78a959d92897d40cba9d5637ec5581"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/analyze.py",
+      "sha256": "c692127d6f1412018a3f255bda8bb4749791f4701a50848d19df12196689ff81"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/assessment-any-source-r1.json",
+      "sha256": "7f2a03c4a3b270f360296974a07c0f4ac637896c36ea57f30e77b88c1b261245"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/assessment-criteria.json",
+      "sha256": "e418ee40c2ec07b39b21aa86a38d40f7c1d59f72df11abea1c145acba3e61c6c"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/assessment.json",
+      "sha256": "e4e63f0be25fe3394157bda8ad7db5045419f1cd78a414a5cfe217d29c1b91a2"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/before.json",
+      "sha256": "e39c961e8238008195bc7163d1cf3d38fb78a959d92897d40cba9d5637ec5581"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/cache-green.xml",
+      "sha256": "952d72c9e698a70cbeddcbf860c1ba81eaf651b027b568ea3d853fdd0d8e8b8a"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/cache-red.xml",
+      "sha256": "f493bd78ce82334e91b7ed4ef349f1a8bc705e89338f7c8960cdfbd6bcd4780a"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/cache-repair-validation.json",
+      "sha256": "3a80a5127d8a10f4827e0cdeb7f6d05d1c4fcbacc0eabda51f9d0d32475f3094"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/calls.jsonl",
+      "sha256": "81f6abbe975ecaec7685160b679892c8c47be68146facf3061e85c6097a91dac"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/corpus-snapshot.json",
+      "sha256": "add32959e62d02ff8bff5c37039303d380ae4464cc319ab1a84ad6dfc34ecd28"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/default-after-retrieval.json",
+      "sha256": "612302fd4eda3b0c8af1ea069789c02136c9e368dddfc51c3ab629793c3ba7cc"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/default-before-retrieval.json",
+      "sha256": "91e508a0e43d104a6cb49d036782174410f190c1021bbc455ce3261690db2cdd"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/execute.py",
+      "sha256": "67a8403da68b99673aa8461370029ec8c29b7db0f90b3058adc82eec4f239c5c"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/execution-identity.json",
+      "sha256": "b10a669de4efe1d8a1cb9b97b7ea85f06691dc767c5a17c49ca123965c329adf"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/finish_evidence.py",
+      "sha256": "2831ea42dc9810f52afff826b4cad55520acecb4b9c2e6b780866888f7cafd92"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/frozen.json",
+      "sha256": "ade1cdfc532838b63845d78bb7f3853f3586582b21a8f8feeb41d9bf200f7949"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/historical-297-checks.json",
+      "sha256": "80de021ac85bd952f43804fea4c4491d69b60fe4cd0c6f970e54ce97ab7fe771"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/import-complete.json",
+      "sha256": "4f2eae3368473bb2fa30b73ecf96bd43f4f759d10b7bcef17044a50825f30252"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/questions.json",
+      "sha256": "b667b84781864c8595ab51a36e5e0fb1fb364caa8cde9958ad21200a7a77f8bc"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/report-validation.txt",
+      "sha256": "a06711a6f73a375bb3feb38c01c17fe672198802863e241d90ec5b9b1b21625f"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/retrieval-execution-identity.json",
+      "sha256": "334017808d92f9af5c3668f662bb2c38d50a40111aba56a0fdcb796f7485d5a2"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/scope-analysis-r2.json",
+      "sha256": "168b6a4127947aca7b32d34deace3429dbbdb5e5716fa54658fd2c5f61e4cdd1"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/scope-validation-r2.json",
+      "sha256": "a2a3561648502581d4931f14f15a2da0bd9eeb839d961e51ea77551e90d57bd3"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/verification.json",
+      "sha256": "ce21f1ed68c4c445b0d31480d810e008d00724a50edf2457226ec01d8dbac3cf"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/verify.py",
+      "sha256": "0bd71ef28c9bdc81ae6942ee315409029cb39680685ad6f55c417b0c2b39ff3f"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/browser-validation.json",
+      "sha256": "06a8165e195c708d03bcba212e6fc6d1931278ba25197781157e0e5b60c8d64e"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/browser-console.txt",
+      "sha256": "04dd5a70e9cf11ebf23559105c90e25bf7c2be39e8e483e4006014e58472cf1f"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/browser-console-edge.txt",
+      "sha256": "43e40234d7cfedd7b5c7f3e03ad8d5eaa5d8b4a2473d1a19e7f48615547e91c3"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/report-browser.png",
+      "sha256": "332d7b89df3bc53b3b010e9d7d95af7d1c67bb1d215ef59d3454852a07d57e88"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/check-html.mjs",
+      "sha256": "5842438b81d1e503769b7422878d323764685dd4968b297a2216afcfa5c0f5ad"
+    },
+    {
+      "path": "output/m6-real-retrieval-20261028/scope-console-2.txt",
+      "sha256": "3810512d601127bbad7685c7b653053d3c429897825298dcb837cfb281dfb86a"
+    }
+  ],
+  "next_action": "执行方基于已保存原始双路结果，先验证一项通用候选融合及来源前提保留改动；保留本轮配置作对照，不扩大top-k，不切默认或生成答案。",
+  "local_evidence_manifest_files_total": 487
+}

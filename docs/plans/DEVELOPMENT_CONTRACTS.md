@@ -1,5 +1,13 @@
 # 开发公共契约与任务交接边界
 
+## M6新隔离真实检索证据边界（2026-10-28）
+
+正式同步导入指纹已实测包含chunker5。新命名空间/新document和revision使用现有校验/CAS发布，仅隔离内部激活，不切默认catalog；不得复用旧revision伪装新处理。67历史图摘要仅按字节+合并Markdown alt+摘要文件来源复用，历史视觉model/prompt未知保持null。三处助手图标转写保留前后hash/页/截图、human=false及pending_review身份。
+
+逐题真实链路要保留双路原始排名及融合响应、重排标题对象输入/输出、context排除和实际prompt。必要PDF原文与image_description分开计；原文21/25到达不等于答案正确率或对象前提完整。2019日期、MateDock精确名称及历史图摘要对象污染单列，不因字节匹配自动授予语义质量。模型调用先记started与稳定输入/模型键，缓存读回恢复稀疏整数键再验hash；未结算窗口停止，不盲重算。未知token/HTTP/费用保持null。
+
+本轮未改公共API/数据模型/默认策略；原参数保持，未生成答案/写正式质量记录，既定正式质量依赖保留。实际结果与唯一后续动作见[交接报告](../development/reviews/M6-08-isolated-real-retrieval-r1.md)。
+
 ## SQ续审原始源码坐标与行标题契约（2026-10-28）
 
 当前独立验收状态：5812df4的SQ原三项及续审三项已通过并关闭，原反例16、直接相关离线269及隔离Mongo39通过。此前“待独立复审”为历史状态。下一步可推进新命名空间真实检索验证，真实检索/答案质量与M6业务验收尚未完成。见[独立关闭范围](../development/reviews/M6-08-semantic-quality-review-r3.md)。
