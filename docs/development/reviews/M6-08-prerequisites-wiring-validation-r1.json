@@ -1,0 +1,869 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-28",
+  "source_commit": "302df6fd3ee1378ed3b2fab8f0d010d4c033e896",
+  "execution_kind": "formal_consumer_cached_replay_and_synthetic_isolated_integration",
+  "source_files": {
+    "app/retrieval/prerequisites.py": "8808dc9fc4d2d26ec000008450c1c5318fd5e59185732ae558d5884c225a13d2",
+    "app/runs/models.py": "f57bb60527954d0986a69b78379448caedc73463fc455e173dfb13efbaf2228e",
+    "app/runs/repository.py": "95d502eba0059855d97c22a809912c2dc8f29d4f7f6b90ba97cf1367041b00fc",
+    "app/runs/query_runner.py": "002e0d14fb380164346bd8ed13a92c17ba40c0fcf1eef75919ad2abfc7ad393f",
+    "app/knowledge/index.py": "3ccbcb1f554cd6802a27baf0d8a42411ef0cbaae000c46ddbe87b9ff4c73a7a7",
+    "app/evaluation/strategy.py": "b8ff7738b20fecb0c32f3d3fa1c8e7bed0c833f09e1d1bdf407ff9555de6528e",
+    "app/evaluation/query_adapter.py": "f89ba6202d3a07c64a02de24e949418d46bdf60113345868854ef0f1fc608013"
+  },
+  "source_function_unchanged": true,
+  "config": {
+    "enabled": false,
+    "function_version": "1",
+    "max_added": 4,
+    "max_chars": 6000,
+    "max_rows": 1000,
+    "scope": null
+  },
+  "configuration_transport": "internal constructor / parameters.source_prerequisites only; HTTP RunInput and environment cannot enable",
+  "scope": {
+    "required": [
+      "owner_id",
+      "kb_id",
+      "database",
+      "collection",
+      "revisions",
+      "product_ids"
+    ],
+    "database_collection_prefix": "m1_test_",
+    "max_revisions": 20,
+    "max_products": 50
+  },
+  "request_identity": {
+    "internal_payload_normalized_before_prepare": true,
+    "nondefault_payload_and_sha_stored": true,
+    "default_legacy_identity_unchanged": true,
+    "checkpoint_full_config_bound": true,
+    "changed_config_old_run_rejected": true
+  },
+  "composition": "source prerequisites and optional evidence expansion are mutually exclusive; weighted default policy required",
+  "retrieval": {
+    "fusion": "weighted",
+    "dense_limit": 20,
+    "sparse_limit": 20,
+    "fusion_limit": 20,
+    "rerank_limit": 20,
+    "context_limit": 10,
+    "dense_weight": 0.5,
+    "sparse_weight": 0.5
+  },
+  "replay": {
+    "expected": 25,
+    "completed": 25,
+    "necessary_PDF_reached": 21,
+    "original21_retained": true,
+    "ranking_recomputed": false,
+    "prompt_context_groups_budget_equal": true,
+    "citation_projection_checked": true,
+    "offline_socket_guard": true,
+    "rows": [
+      {
+        "id": "support-v1-003",
+        "necessary_PDF_reached": true,
+        "same_context": true,
+        "same_groups": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "citation_count": 10,
+        "source_checks": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": true,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "new_model_calls": 0,
+        "new_answer_generated": false
+      },
+      {
+        "id": "support-v1-004",
+        "necessary_PDF_reached": true,
+        "same_context": true,
+        "same_groups": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "citation_count": 10,
+        "source_checks": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": true,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "new_model_calls": 0,
+        "new_answer_generated": false
+      },
+      {
+        "id": "support-v1-006",
+        "necessary_PDF_reached": true,
+        "same_context": true,
+        "same_groups": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "citation_count": 10,
+        "source_checks": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": true,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "new_model_calls": 0,
+        "new_answer_generated": false
+      },
+      {
+        "id": "support-v1-007",
+        "necessary_PDF_reached": true,
+        "same_context": true,
+        "same_groups": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "citation_count": 10,
+        "source_checks": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": true,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "new_model_calls": 0,
+        "new_answer_generated": false
+      },
+      {
+        "id": "support-v1-008",
+        "necessary_PDF_reached": true,
+        "same_context": true,
+        "same_groups": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "citation_count": 10,
+        "source_checks": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": true,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "new_model_calls": 0,
+        "new_answer_generated": false
+      },
+      {
+        "id": "support-v1-009",
+        "necessary_PDF_reached": true,
+        "same_context": true,
+        "same_groups": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "citation_count": 10,
+        "source_checks": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": true,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "new_model_calls": 0,
+        "new_answer_generated": false
+      },
+      {
+        "id": "support-v1-010",
+        "necessary_PDF_reached": true,
+        "same_context": true,
+        "same_groups": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "citation_count": 10,
+        "source_checks": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": true,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "new_model_calls": 0,
+        "new_answer_generated": false
+      },
+      {
+        "id": "support-v1-019",
+        "necessary_PDF_reached": false,
+        "same_context": true,
+        "same_groups": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "citation_count": 10,
+        "source_checks": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "new_model_calls": 0,
+        "new_answer_generated": false
+      },
+      {
+        "id": "support-v1-020",
+        "necessary_PDF_reached": true,
+        "same_context": true,
+        "same_groups": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "citation_count": 10,
+        "source_checks": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "new_model_calls": 0,
+        "new_answer_generated": false
+      },
+      {
+        "id": "support-v1-021",
+        "necessary_PDF_reached": false,
+        "same_context": true,
+        "same_groups": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "citation_count": 10,
+        "source_checks": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "new_model_calls": 0,
+        "new_answer_generated": false
+      },
+      {
+        "id": "support-v1-022",
+        "necessary_PDF_reached": false,
+        "same_context": true,
+        "same_groups": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "citation_count": 10,
+        "source_checks": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "new_model_calls": 0,
+        "new_answer_generated": false
+      },
+      {
+        "id": "support-v1-034",
+        "necessary_PDF_reached": true,
+        "same_context": true,
+        "same_groups": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "citation_count": 10,
+        "source_checks": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "new_model_calls": 0,
+        "new_answer_generated": false
+      },
+      {
+        "id": "support-v1-037",
+        "necessary_PDF_reached": true,
+        "same_context": true,
+        "same_groups": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "citation_count": 11,
+        "source_checks": {
+          "cover_2019": true,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 11,
+          "prompt_omitted_documents": 0
+        },
+        "new_model_calls": 0,
+        "new_answer_generated": false
+      },
+      {
+        "id": "support-v1-038",
+        "necessary_PDF_reached": true,
+        "same_context": true,
+        "same_groups": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "citation_count": 11,
+        "source_checks": {
+          "cover_2019": true,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 11,
+          "prompt_omitted_documents": 0
+        },
+        "new_model_calls": 0,
+        "new_answer_generated": false
+      },
+      {
+        "id": "support-v1-048",
+        "necessary_PDF_reached": false,
+        "same_context": true,
+        "same_groups": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "citation_count": 10,
+        "source_checks": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "new_model_calls": 0,
+        "new_answer_generated": false
+      },
+      {
+        "id": "m6-g540-02-a",
+        "necessary_PDF_reached": true,
+        "same_context": true,
+        "same_groups": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "citation_count": 10,
+        "source_checks": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "new_model_calls": 0,
+        "new_answer_generated": false
+      },
+      {
+        "id": "m6-g540-02-b",
+        "necessary_PDF_reached": true,
+        "same_context": true,
+        "same_groups": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "citation_count": 10,
+        "source_checks": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "new_model_calls": 0,
+        "new_answer_generated": false
+      },
+      {
+        "id": "m6-g540-04-a",
+        "necessary_PDF_reached": true,
+        "same_context": true,
+        "same_groups": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "citation_count": 11,
+        "source_checks": {
+          "cover_2019": false,
+          "object_3": true,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 11,
+          "prompt_omitted_documents": 0
+        },
+        "new_model_calls": 0,
+        "new_answer_generated": false
+      },
+      {
+        "id": "m6-g540-04-b",
+        "necessary_PDF_reached": true,
+        "same_context": true,
+        "same_groups": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "citation_count": 11,
+        "source_checks": {
+          "cover_2019": false,
+          "object_3": true,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 11,
+          "prompt_omitted_documents": 0
+        },
+        "new_model_calls": 0,
+        "new_answer_generated": false
+      },
+      {
+        "id": "m6-g540-05-a",
+        "necessary_PDF_reached": true,
+        "same_context": true,
+        "same_groups": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "citation_count": 12,
+        "source_checks": {
+          "cover_2019": false,
+          "object_3": true,
+          "no_data": false,
+          "body_rj45": true,
+          "dock_lan": true,
+          "object_2_limitation": true,
+          "all_prerequisites_atomic": true,
+          "context_count": 12,
+          "prompt_omitted_documents": 0
+        },
+        "new_model_calls": 0,
+        "new_answer_generated": false
+      },
+      {
+        "id": "m6-g540-05-b",
+        "necessary_PDF_reached": true,
+        "same_context": true,
+        "same_groups": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "citation_count": 11,
+        "source_checks": {
+          "cover_2019": false,
+          "object_3": true,
+          "no_data": false,
+          "body_rj45": true,
+          "dock_lan": true,
+          "object_2_limitation": true,
+          "all_prerequisites_atomic": true,
+          "context_count": 11,
+          "prompt_omitted_documents": 0
+        },
+        "new_model_calls": 0,
+        "new_answer_generated": false
+      },
+      {
+        "id": "m6-g540-17-a",
+        "necessary_PDF_reached": true,
+        "same_context": true,
+        "same_groups": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "citation_count": 11,
+        "source_checks": {
+          "cover_2019": false,
+          "object_3": true,
+          "no_data": true,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 11,
+          "prompt_omitted_documents": 0
+        },
+        "new_model_calls": 0,
+        "new_answer_generated": false
+      },
+      {
+        "id": "m6-g540-17-b",
+        "necessary_PDF_reached": true,
+        "same_context": true,
+        "same_groups": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "citation_count": 11,
+        "source_checks": {
+          "cover_2019": false,
+          "object_3": true,
+          "no_data": true,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": true,
+          "all_prerequisites_atomic": true,
+          "context_count": 11,
+          "prompt_omitted_documents": 0
+        },
+        "new_model_calls": 0,
+        "new_answer_generated": false
+      },
+      {
+        "id": "m6-g540-18-b",
+        "necessary_PDF_reached": true,
+        "same_context": true,
+        "same_groups": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "citation_count": 10,
+        "source_checks": {
+          "cover_2019": false,
+          "object_3": true,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": true,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "new_model_calls": 0,
+        "new_answer_generated": false
+      },
+      {
+        "id": "m6-g540-20-a",
+        "necessary_PDF_reached": true,
+        "same_context": true,
+        "same_groups": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "citation_count": 10,
+        "source_checks": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "new_model_calls": 0,
+        "new_answer_generated": false
+      }
+    ]
+  },
+  "test_groups": {
+    "red-unit": {
+      "tests": 14,
+      "errors": 0,
+      "failures": 14,
+      "skipped": 0
+    },
+    "red-integration": {
+      "tests": 4,
+      "errors": 0,
+      "failures": 3,
+      "skipped": 0
+    },
+    "green-unit-first": {
+      "tests": 14,
+      "errors": 0,
+      "failures": 1,
+      "skipped": 0
+    },
+    "green-integration": {
+      "tests": 66,
+      "errors": 0,
+      "failures": 24,
+      "skipped": 0
+    },
+    "green-shared-final": {
+      "tests": 131,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "green-integration-final": {
+      "tests": 66,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "green-integration-extra": {
+      "tests": 15,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "contract": {
+      "tests": 2,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    },
+    "saved-replay-delivery": {
+      "tests": 25,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0
+    }
+  },
+  "counts_overlap_do_not_sum": true,
+  "readonly": {
+    "checks": 1135,
+    "new_live_chunks": 582,
+    "frozen_chunks": 867,
+    "asset_mappings": 67,
+    "nonTTL_frozen_collections": 21,
+    "TTL": {
+      "previous": {
+        "count": 1675,
+        "sha256": "8a5cfe61f3b5fbbce3564ffaa81a1cc44bb72300c100bf51bec36b7b35f022ee"
+      },
+      "current": {
+        "count": 1675,
+        "sha256": "8a5cfe61f3b5fbbce3564ffaa81a1cc44bb72300c100bf51bec36b7b35f022ee"
+      },
+      "historical_count": 2315
+    },
+    "default_or_target_writes": false,
+    "asset_bytes_rehashed_this_round": false,
+    "non_target_all_databases_rescanned": false
+  },
+  "calls": {
+    "real_model_calls": 0,
+    "external_supplier_calls": 0,
+    "embedding_calls": 0,
+    "real_rerank_calls": 0,
+    "real_answer_calls": 0,
+    "synthetic_provider_used": true,
+    "synthetic_results_are_quality_proof": false,
+    "real_call_http_token_cost": "not newly incurred or measured; historical unknown values retained"
+  },
+  "actual_corpus_target": {
+    "database": "m1_test_m6_sq5_aad3135569bb44baaaf8f786cea680fd",
+    "collection": "m1_test_m6_sq5_aad3135569bb44baaaf8f786cea680fd",
+    "owner_id": "m6-sq5-aad3135569bb44baaaf8f786cea680fd",
+    "kb_id": "m6-sq5-aad3135569bb44baaaf8f786cea680fd",
+    "bucket": "product-knowledge",
+    "object_prefix": "m6-test/sq5-aad3135569bb44baaaf8f786cea680fd/"
+  },
+  "corpus_revisions": [
+    {
+      "source": "D1",
+      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1"
+    },
+    {
+      "source": "D3",
+      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4"
+    },
+    {
+      "source": "D4",
+      "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+      "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723"
+    },
+    {
+      "source": "D5",
+      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4"
+    }
+  ],
+  "reimported": false,
+  "default_switched": false,
+  "real_dev_executed": false,
+  "heldout_executed": false,
+  "official_quality_records_written": false,
+  "SQ_reopened": false,
+  "m6_core": "4/7",
+  "unaccepted": [
+    "M6-04",
+    "M6-05",
+    "M6-08"
+  ],
+  "m7_started": false,
+  "failed_runs_preserved": true,
+  "failures_explained": {
+    "unit_first_failure": "14 missing feature red tests; first green 13 pass/1 invalid synthetic collection fixture",
+    "integration_first_regression": "42 pass/24 fail: 23 M4 adapter namespace launch prefix violations, 1 missing section_id in new synthetic Chunk; corrected fixtures/command only; original failed logs preserved"
+  },
+  "next_action": "原总控独立定向核验正式接线的内部身份/授权读取/groups/引用/关闭回切；不重开来源前提函数或SQ，不追加真实模型运行。",
+  "evidence": [
+    {
+      "path": "output/m6-prerequisites-wiring-20261028/red-unit.xml",
+      "sha256": "adf00af4b88cd24dd3d3caf9064e3c65592bb262cb93c6505ee34379fc541c3d"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-20261028/red-integration.xml",
+      "sha256": "c6b0615ecaa01a74fa8372a1bee5eee87ba1ac375f2db90e4f46862f076a57cd"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-20261028/green-unit-first.xml",
+      "sha256": "bd04f547c3beb8d0f70628bdde1c12ad69935ace3a309a8d85412b1e7f053f87"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-20261028/green-integration.xml",
+      "sha256": "07159b3904a7d3e0c57464a615db01caf922f136e3d6c99a840ea78dd3b682ca"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-20261028/green-shared-final.xml",
+      "sha256": "5e3bbcf85e304661491284908cc9472bed93ae68270a614a7f9e6d172284aa1d"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-20261028/green-integration-final.xml",
+      "sha256": "11fee90d11e557181b2a3641bbfec887064d06c99ea7c337cb4aed983d28a9f2"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-20261028/green-integration-extra.xml",
+      "sha256": "f1c4ba482feef2c19f40ab94507cea5e93294eae179723c58134553d058589b2"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-20261028/contract.xml",
+      "sha256": "c32749ff6a97b37fb007d397afbbef915ff9a60624d97e296c617cda7aa15949"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-20261028/saved-replay-delivery.xml",
+      "sha256": "61b80b6c6965e9bd70a58122ba073bbb8ecb41fc7c525296251220f1b0bf0117"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-20261028/red-unit.txt",
+      "sha256": "4ba4ba449c9f28045443dab61926196b6b4443fcbba775367aac4fac0bc2e6fe"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-20261028/red-integration.txt",
+      "sha256": "b040ac5352a3f28033f2911b3445d28fdea3c3c8578346cc62fe1b25b6ee3035"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-20261028/green-unit-first.txt",
+      "sha256": "7fa7464962fff616091fe87d98d7ed6cd0be2344c9c0b6d3d8e903fecce09647"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-20261028/green-integration.txt",
+      "sha256": "141d2be9fc9223f83493794db5469e066a60eeac6538480f2516d08c12f67583"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-20261028/green-shared-final.txt",
+      "sha256": "6270c67e885e183f0b74cf9585d455122400037eedbdebe1ce49b6d583586752"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-20261028/green-integration-final.txt",
+      "sha256": "e07162b4d3a5ba5f173927073953e2d2f9ec5edd59fb7cf0c65213c4090fa59b"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-20261028/green-integration-extra.txt",
+      "sha256": "2c54e6ccce6971edabc50f013477f688d0c21a3bff45387f72b2f0305f7ddd8f"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-20261028/contract.txt",
+      "sha256": "cfeff12bcc66caf95f84f10e089f0292ec2ebbc71e9e88e8f0dbd81cb3728e0b"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-20261028/saved-replay-delivery.txt",
+      "sha256": "e77094d1dded54f291126c6b19b9ad9af51edf476fae12182ca0cf184554ae57"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-20261028/saved-replay-offline.xml",
+      "sha256": "43cbb733eb6e9249d7a86c558c355c093428d62f42c9b3fcfc11b2be64a74d95"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-20261028/saved-replay-offline.txt",
+      "sha256": "a2408e8c8f46a9909f07c26edf5a274abcb7984cb3af90508540bd3af8c5c9a1"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-20261028/readonly-audit.json",
+      "sha256": "fd51d9754777fc4858ea6530e400fb14e5edef09c9060ccd484d6545ae50e65f"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-20261028/readonly-audit.txt",
+      "sha256": "567cb37cfc398060e11813cf741f8c122f16986f404956f3966e981c3bcad82f"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-20261028/audit.py",
+      "sha256": "5efa5e01045ce3a5053911ea8cbc56c70517343f218e234582cf192544e796cc"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-20261028/test_saved_replay.py",
+      "sha256": "4039155c63f7e076bef4c231301b8bc6b3109c34d3e28009a4d7d11b29e5084f"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-20261028/deliver.py",
+      "sha256": "706ed1aa8ac0f4dc10932f96964d044ea0f9e957509a2a8f3320b064518cb8d1"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-20261028/25题正式消费者回放对照.html",
+      "sha256": "f62a161746c749e1284bbaade5ed66a49213a73b7de18839f2974f2da6760613"
+    },
+    {
+      "path": "output/m6-prerequisites-wiring-20261028/execution-identity.json",
+      "sha256": "f05dd576b771a8d574cf23f6f95c6ee64ec2d445ef56bdf6735ffd287c3f8684"
+    }
+  ],
+  "final_manifest": "output/m6-prerequisites-wiring-20261028/final-evidence-files.json",
+  "manifest_count_timing": "seal.json records one-time final listing, excluding manifest and seal; no dynamic count copied into public summary",
+  "execution_code_fingerprint": "b74a782ad01f5e9fb000b5026d167c9c39d450cbfe5b1d867ea9037ed84f6aec",
+  "synthetic_database_inventory_count": 155
+}

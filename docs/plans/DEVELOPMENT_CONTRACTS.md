@@ -1,5 +1,13 @@
 # 开发公共契约与任务交接边界
 
+## M6来源前提正式消费者内部接线契约（2026-10-28）
+
+SourcePrerequisitePolicy通过QueryRunner构造器或受信parameters.source_prerequisites显式传入，默认关闭；不从环境加载，不向HTTP RunInput开放。InternalRunInput规范化配置在prepare前进入请求身份，非缺省配置及SHA保存在新Run；默认旧身份不变。执行期对比配置/SHA，旧缺省Run不能在启用消费者执行，不回填历史。EvaluationStrategy和adapter把配置传至正式消费者/内部Run，完整config检查点身份包含开关、函数版本1、预算及scope。
+
+scope绑定owner/kb、精确m1_test_数据库/集合、冻结doc→revision映射和产品；本次只支持原weighted默认预算，来源前提与旧可选邻接扩展互斥。装载只查本题种子doc/revision/product，并逐资料/产品授权；max_rows≤1000，读取端limit剩余+1超限拒绝，消费端重核行归属/source_refs，不能靠函数同资料关系代替租户授权。groups接正式最终预算/引用；trace保留关系，引用仍经资产/修订和图片关系校验。
+
+关闭回切须新配置/请求，不修改启用旧Run或历史状态；保留旧索引与catalog，不默认发布。当前正式接线131离线/2契约/25无模型回放/66及15隔离集成通过，各组重叠，仍待原总控独立核验；此前来源前提函数与SQ关闭保留，不冒称答案质量通过。[实际边界与证据](../development/reviews/M6-08-prerequisites-wiring-r1.md)。以下为历史契约时点。
+
 ## M6固定RRF及显式来源前提对照边界（2026-10-28）
 
 当前独立状态：58296be新增来源前提函数及weighted接线/回切方案通过定向核验，89离线/25实际prompt重放通过；原“仅自验”按历史时点阅读。正式QueryRunner接线仍未实现，下一步须将显式默认关闭配置纳入不可变请求/检查点身份，并兑现授权行读取、groups及引用边界；不追加模型或默认发布。见[独立核验与接线约束](../development/reviews/M6-08-rrf-prerequisites-review-r1.md)。

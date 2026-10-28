@@ -58,6 +58,7 @@ def open_evaluation_resources(config):
         provider_counts=LogicalProviderCounts()
         runner = QueryRunner(repo, commands, knowledge.get, retrieval_policy=policies.retrieval,
             expansion_policy=policies.expansion,answer_budget=policies.answer_budget,enhancement_policy=policies.enhancement,
+            source_prerequisites=policies.source_prerequisites,
             llm_factory=lambda:provider_counts.wrap(get_llm_client()))
         yield {'db': db, 'conversations': conv, 'runs': repo, 'run_service': RunService(repo),
                'commands': commands, 'query_runner': runner, 'knowledge': knowledge.get, 'provider_counts':provider_counts}
@@ -109,6 +110,7 @@ class RealQueryExecutor:
                 runner.capture_evaluation = self.config.get('metric_schema_version') == 1
                 runner.retrieval_policy=policies.retrieval;runner.expansion_policy=policies.expansion
                 runner.answer_budget=policies.answer_budget;runner.enhancement_policy=policies.enhancement
+                runner.source_prerequisites=policies.source_prerequisites
             self.check_corpus()
             from app.identity.models import Principal
             t = self.config['target']
@@ -192,7 +194,7 @@ class RealQueryExecutor:
         for index, message in enumerate(inputs['history']):
             conv.append_message(self.user, cid, run_id=fingerprint([key, 'history', index]), role=message['role'],
                                 text=message['text'], product_snapshot={'product_ids': [], 'version': 0})
-        from app.runs.models import RunInput
+        from app.runs.models import RunInput,InternalRunInput
         request_key = saved.get('request_key', key)
         followup = None
         if self.continuation and self.config.get('metric_schema_version') == 1 and saved.get('run_id'):
@@ -208,7 +210,9 @@ class RealQueryExecutor:
             previous = self.resources['runs'].get(self.user, saved['run_id'])
             if previous['state'] == 'failed' and previous.get('error', {}).get('retryable') is True:
                 request_key = fingerprint([key, 'explicit_retry', self.retry_key])
-        run = self.resources['run_service'].create(self.user, cid, RunInput(kb_id=kb, question=inputs['question'], client_request_id=request_key))
+        request_type=InternalRunInput if 'source_prerequisites' in self.config.get('parameters',{}) else RunInput
+        extra=({'source_prerequisites':self.config['parameters']['source_prerequisites']} if request_type is InternalRunInput else {})
+        run = self.resources['run_service'].create(self.user, cid, request_type(kb_id=kb, question=inputs['question'], client_request_id=request_key,**extra))
         rid = run['run_id']
         if self.execution and run['state'] in {'pending', 'running', 'completed', 'awaiting_input'}:
             from .execution_links import bind_execution

@@ -270,6 +270,18 @@ MODEL_HOST桥接新增可选input_type=query/document，省略仍document兼容�
 
 查询缓存只保存向量、默认关闭，范围键绑定用户/当前kb权限及角色/组织/kb/产品/活动修订/模型配置指纹/检索与查询计划/文本。TTL+LRU有界，重复miss共享计算且值深拷贝；退出清用户值并递增代际，迟到计算不能回填新代。权限/产品/修订/问题变更均重算，始终先鉴权；不缓存答案、检索正文或生成上下文。模型/权重不是热替换资源，变更后重启API/宿主，不能在原路径替换权重却沿用已加载单例。
 
+## M6显式隔离来源前提
+
+没有环境变量开关，不改实际.env；API/普通QueryRunner默认关闭。仅受信内部执行器可显式传`source_prerequisites`，公开HTTP的RunInput仍拒绝该字段。正式评测配置位置为`parameters.source_prerequisites`，进入现有完整config/request/checkpoint指纹；本次仅完成接线与合成验证，不授予运行新正式评测或模型的许可。
+
+缺省为`enabled=false,function_version="1",max_added=4,max_chars=6000,max_rows=1000,scope=null`。enabled须严格布尔，版本仅接受1，新增块0..4、总证据字符0..6000、装载行1..1000为严格整数，未知字段拒绝。启用须冻结scope的owner_id、kb_id、确切database/collection（均m1_test_隔离前缀）、document→revision映射（≤20且唯一）、product_ids（≤50且唯一）。本次固定weighted .5/.5、dense/sparse/fusion/rerank20和context10；旧可选邻接扩展不得同时启用，防止双重预算/分组混接。
+
+只有InternalRunInput可携带规范化配置；Run创建前配置参与幂等身份，非缺省配置及其SHA存入新Run，不回填旧Run。缺省关闭继续原RunInput身份；旧缺省Run不能在启用状态下消费，配置/预算/范围不同报execution_config_conflict，不能用相同请求键绕过。配置变更须新请求/新检查点，不能继承不同配置的旧19完成记录。执行期核对数据库/索引名、知识归属、实际冻结修订和本题产品范围，在任何前提读取前逐资料/产品鉴权。
+
+装载经V2Index.prerequisite_rows，只查本题种子所在doc/revision与本题产品，强制owner/kb过滤。每次query限剩余max_rows+1，检测到超限则拒绝而不截断关系空间；装载返回值再次校验owner/kb、修订/产品及source_refs。前提函数只补声明范围的PDF封面日期及表格最近对象正文，不改变源文或重排分数。最终groups传现有prompt预算，引用沿原资产/修订校验和图片使用协议；关系trace和排除原因保存在Run，不冒称新增模型相关分。
+
+关闭回切：新内部配置显式关闭（或移除本项）并使用新配置/请求身份，回到原weighted种子/旧扩展路径，不查询前提、不切换catalog或删除索引/历史记录。保留旧scope的显式关闭配置仍有独立身份；不能将旧启用Run直接交给关闭消费者冒称完成。源码回切使用正常反向提交。真实答案质量及默认发布仍须既定前置，本节不是启用默认或新增真实调用的授权。
+
 ## M4条件检索增强
 
 `RETRIEVAL_ENHANCEMENT_JSON`可选填写根目录.env，默认hyde_enabled=false、decomposition_enabled=false、timeout_seconds=8、max_queries=3、hyde_max_chars=2000、hyde_output_tokens=512。开关严格布尔；时间0.01..60秒有限数，查询数1..3、假设字符1..2000、输出token1..1024严格整数。未知字段/非法值拒绝且不打印内容。实际.env未改，未获dev质量支持前保持关闭。

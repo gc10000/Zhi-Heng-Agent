@@ -5,6 +5,7 @@ from app.retrieval.expansion import ExpansionPolicy
 from app.retrieval.routing import EnhancementPolicy
 from app.answering.service import AnswerBudget
 from app.lm.runtime import ModelRuntimePolicy
+from app.retrieval.prerequisites import SourcePrerequisitePolicy
 
 
 class EvaluationStrategy(BaseModel):
@@ -14,6 +15,7 @@ class EvaluationStrategy(BaseModel):
     enhancement:EnhancementPolicy=Field(default_factory=EnhancementPolicy)
     answer_budget:AnswerBudget=Field(default_factory=AnswerBudget)
     runtime:ModelRuntimePolicy=Field(default_factory=ModelRuntimePolicy)
+    source_prerequisites:SourcePrerequisitePolicy=Field(default_factory=SourcePrerequisitePolicy)
 
 
 def strategy_policies(config):

@@ -116,6 +116,27 @@ class V2Index:
         repo.save_stage(revision_id,attempt=attempt,stage='indexed',manifest=manifest)
         return manifest
 
+    def prerequisite_rows(self,repo,seeds,*,revision_snapshot,product_ids,max_rows=1000):
+        """只读冻结种子所在修订/产品，读取端有界；超限拒绝，不截断关系空间。"""
+        if type(max_rows) is not int or not 1<=max_rows<=1000 or len(seeds)>20 or not product_ids:
+            raise ValueError('来源前提读取范围/数量非法')
+        allowed={(r['document_id'],r['active_revision_id']) for r in revision_snapshot}
+        scopes=sorted({(h.document_id,h.revision_id) for h in seeds})
+        if any((h.document_id,h.revision_id) not in allowed or not h.metadata.get('product_ids') or
+               not set(h.metadata['product_ids'])<=set(product_ids) for h in seeds):
+            raise ValueError('来源前提读取种子超出冻结范围')
+        # 验明所有资料后才发第一条索引查询，避免部分读取后才发现越界。
+        for did,rid in scopes:
+            if repo.get_revision(rid)['document_id']!=did:raise ValueError('来源前提修订资料不一致')
+        rows=[]
+        for did,rid in scopes:
+            expr=scoped_filter(owner_id=repo.owner_id,kb_id=repo.kb_id,revision_ids=[rid],document_id=did,product_ids=product_ids)
+            found=self.client.query(collection_name=self.collection,filter=expr,limit=max_rows-len(rows)+1,
+                output_fields=['chunk_uid','owner_id','kb_id','document_id','revision_id','ordinal','text','metadata'],consistency_level='Strong')
+            if len(rows)+len(found)>max_rows:raise ValueError('来源前提行数超限，不能截断后猜关系')
+            rows.extend(found)
+        return rows
+
     def related_rows(self,repo,seeds,*,radius=1):
         from app.retrieval.filters import literal
         if type(radius) is not int or not 0<=radius<=2 or len(seeds)>20:

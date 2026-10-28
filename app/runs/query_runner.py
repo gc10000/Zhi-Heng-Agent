@@ -50,7 +50,7 @@ def rerank(question, docs):
 
 
 class QueryRunner:
-    def __init__(self, repo, commands, knowledge, *, identity_store=None, embedder=encode, ranker=rerank, llm_factory=None, retrieval_policy=None, expansion_policy=None, answer_budget=None, enhancement_policy=None):
+    def __init__(self, repo, commands, knowledge, *, identity_store=None, embedder=encode, ranker=rerank, llm_factory=None, retrieval_policy=None, expansion_policy=None, answer_budget=None, enhancement_policy=None, source_prerequisites=None):
         self.repo, self.commands, self.events, self.knowledge = repo, commands, commands.events, knowledge
         self.identity_store, self.embedder, self.ranker, self.llm_factory = identity_store, embedder, ranker, llm_factory
         from app.retrieval.search import RetrievalPolicy
@@ -61,6 +61,8 @@ class QueryRunner:
         self.answer_budget=AnswerBudget.load() if answer_budget is None else AnswerBudget.model_validate(answer_budget)
         from app.retrieval.routing import EnhancementPolicy
         self.enhancement_policy=EnhancementPolicy.load() if enhancement_policy is None else EnhancementPolicy.model_validate(enhancement_policy)
+        from app.retrieval.prerequisites import SourcePrerequisitePolicy
+        self.source_prerequisites=SourcePrerequisitePolicy.model_validate({} if source_prerequisites is None else source_prerequisites)
         self.pool = ThreadPoolExecutor(max_workers=4, thread_name_prefix='持久问答')
         self.futures, self.lock, self.stopping = {}, threading.Lock(), threading.Event()
         self.capture_evaluation = False
@@ -126,7 +128,19 @@ class QueryRunner:
         buffer = DeltaBuffer(lambda kind, payload: emit(kind, payload))
         try:
             boundary()
+            from app.retrieval.prerequisites import validate_run_policy
+            source_policy=validate_run_policy(row,self.source_prerequisites)
+            # 两种扩展不能隐式拼接预算或丢组；本次只授权weighted隔离路径。
+            if source_policy.enabled and (self.expansion_policy.enabled if hasattr(self.expansion_policy,'enabled') else self.expansion_policy.get('enabled',False)):
+                raise ValueError('来源前提与可选邻接扩展不能同时启用')
+            from app.retrieval.search import RetrievalPolicy
+            if source_policy.enabled:
+                frozen_retrieval=RetrievalPolicy.model_validate(self.retrieval_policy)
+                if frozen_retrieval!=RetrievalPolicy():
+                    raise ValueError('来源前提本轮固定weighted及原检索预算')
             g = self.knowledge()
+            if source_policy.enabled and g.db.name!=source_policy.scope.database:
+                raise ValueError('来源前提只允许显式隔离命名空间')
             current = self.repo.get(user, rid)
             stage = 'product'
             selected = list(current['product_snapshot']['product_ids'])
@@ -185,6 +199,9 @@ class QueryRunner:
             from app.retrieval.search import RetrievalPolicy, retrieve
             policy = RetrievalPolicy.model_validate(self.retrieval_policy)
             plan = plan.model_copy(update={'revision_ids': tuple(r['active_revision_id'] for r in revisions)})
+            if source_policy.enabled:
+                from app.retrieval.prerequisites import validate_scope
+                validate_scope(source_policy,owner_id=repo.owner_id,kb_id=repo.kb_id,revisions=revisions,product_ids=selected)
             from app.lm.runtime import ModelRuntimePolicy
             from app.retrieval.cache import QUERY_EMBEDDINGS,configured_model_identity
             runtime_policy=ModelRuntimePolicy.load()
@@ -229,11 +246,9 @@ class QueryRunner:
             from app.retrieval.rerank import rank_hits
             ranked = rank_hits(row['question'], candidates, ranker=self.ranker, policy=policy)
             pack = EvidencePack(plan=plan, candidates=candidates, reranked=ranked)
-            from app.retrieval.expansion import ExpansionPolicy, expand_evidence
+            from app.retrieval.expansion import ExpansionPolicy
             expansion_policy = ExpansionPolicy.model_validate(self.expansion_policy)
-            expansion = expand_evidence(ranked[:policy.context_limit],
-                loader=lambda seeds, **kw: g.index().related_rows(repo,seeds,**kw),
-                owner_id=repo.owner_id, kb_id=repo.kb_id, policy=expansion_policy)
+            expansion = self.select_evidence(g,user,repo,ranked[:policy.context_limit],revisions,selected,source_policy)
             for hit in expansion.expanded:
                 g.revision(user,hit.document_id,hit.revision_id)
                 if hit.identity not in {h.identity for h in candidates}:candidates.append(hit)
@@ -282,6 +297,8 @@ class QueryRunner:
             emit('citation.selected', {'citations': citations}, fields=evaluation_fields | {'citations': citations, 'stage': stage,
                 'retrieval_trace': pack.trace(), 'expansion_policy': expansion_policy.model_dump(),
                 'expansion_excluded': expansion.excluded, 'evidence_groups': expansion.groups,
+                'source_prerequisites_execution': source_policy.model_dump(mode='json'),
+                'source_prerequisites_excluded': expansion.excluded if source_policy.enabled else [],
                 'prompt_budget':state['prompt_budget'], 'missing_evidence_models':missing_models,
                 'answer_support':'insufficient' if not used else 'partial_scope' if missing_models else
                     'partial_context' if state['prompt_budget']['omitted_documents'] else 'evidence_available'})
@@ -355,6 +372,27 @@ class QueryRunner:
         finally:
             done.set()
             thread.join(timeout=2)
+
+    def select_evidence(self,g,user,repo,seeds,revisions,product_ids,source_policy=None):
+        """正式消费者共用选择边界；回放直接调用此入口，不另建一套选择逻辑。"""
+        from app.retrieval.prerequisites import SourcePrerequisitePolicy,authorized_source_selection
+        from app.retrieval.expansion import ExpansionPolicy,expand_evidence
+        source_policy=SourcePrerequisitePolicy.model_validate(self.source_prerequisites if source_policy is None else source_policy)
+        expansion_policy=ExpansionPolicy.model_validate(self.expansion_policy)
+        if source_policy.enabled:
+            if expansion_policy.enabled:raise ValueError('来源前提与可选扩展不能同时启用')
+            if g.db.name!=source_policy.scope.database:raise ValueError('来源前提只允许冻结隔离命名空间')
+            for did,rid in source_policy.scope.revisions.items():g.revision(user,did,rid)
+            for pid in product_ids:g.product(user,pid,repo.kb_id)
+            index=g.index()
+            if getattr(index,'collection',None)!=source_policy.scope.collection:
+                raise ValueError('来源前提索引必须等于冻结隔离集合')
+            result=authorized_source_selection(seeds,loader=lambda **kw:index.prerequisite_rows(repo,**kw),
+                policy=source_policy,owner_id=repo.owner_id,kb_id=repo.kb_id,revisions=revisions,product_ids=product_ids)
+            for h in result.expanded:g.revision(user,h.document_id,h.revision_id)
+            return result
+        return expand_evidence(seeds,loader=lambda seeds,**kw:g.index().related_rows(repo,seeds,**kw),
+            owner_id=repo.owner_id,kb_id=repo.kb_id,policy=expansion_policy)
 
     def _recent_messages(self, user, current):
         # 只取当前会话最近已持久消息；不读取旧课程history。

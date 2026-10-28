@@ -29,7 +29,13 @@ class RunRepository:
         if data.kb_id != conv['kb_id'] or conv['archived']:
             raise APIError(409, 'conversation_unavailable', '会话知识范围不匹配或已归档。')
         key = {'owner_id': user.user_id, 'conversation_id': cid, 'client_request_id': data.client_request_id}
-        identity = fingerprint(data.model_dump())
+        fields=data.model_dump(exclude={'source_prerequisites'})
+        from app.retrieval.prerequisites import policy_payload,SourcePrerequisitePolicy
+        source=policy_payload(getattr(data,'source_prerequisites',None))
+        # 缺省关闭维持历史请求指纹；显式非缺省配置（含scope/版本/预算）独立标识。
+        if source!=SourcePrerequisitePolicy().model_dump(mode='json'):
+            fields['source_prerequisites']=source
+        identity = fingerprint(fields)
         saved = self.runs.find_one(key)
         if saved is None:
             rid = str(uuid4())
@@ -41,6 +47,8 @@ class RunRepository:
                          'seq': 0, 'outbox': [], 'answer': '', 'citations': [],
                          'created_at': datetime.now(timezone.utc).isoformat()}
             row['input_product_snapshot'] = copy.deepcopy(row['product_snapshot'])
+            if 'source_prerequisites' in fields:
+                row.update(source_prerequisites=copy.deepcopy(source),source_prerequisites_sha256=fingerprint(source))
             row['requested_product_ids'] = list(data.product_ids)
             row['input_support_version'] = conv.get('support', {}).get('version', 0)
             from app.support.commands import freeze_support
