@@ -1,0 +1,159 @@
+{
+  "date": "2026-10-28",
+  "base_commit": "cc3b1606fb25f41d47713595caf5777a6b0d8d51",
+  "scope": "r3全部85题的单轮assistant原件核查；不冒称human或正式双轮/阶段验收",
+  "reviewer_kind": "assistant",
+  "review_rounds": 1,
+  "questions": 85,
+  "verdict_counts": {
+    "核心结论有原件支持": 59,
+    "原件可答但本次未答出": 11,
+    "部分正确但需补正": 10,
+    "澄清合理": 1,
+    "不必要的产品澄清": 4
+  },
+  "needs_correction": 25,
+  "issue_question_ids": [
+    "support-v1-003",
+    "support-v1-004",
+    "support-v1-006",
+    "support-v1-007",
+    "support-v1-008",
+    "support-v1-009",
+    "support-v1-010",
+    "support-v1-019",
+    "support-v1-020",
+    "support-v1-021",
+    "support-v1-022",
+    "support-v1-034",
+    "support-v1-037",
+    "support-v1-038",
+    "support-v1-048",
+    "m6-g540-02-a",
+    "m6-g540-02-b",
+    "m6-g540-04-a",
+    "m6-g540-04-b",
+    "m6-g540-05-a",
+    "m6-g540-05-b",
+    "m6-g540-17-a",
+    "m6-g540-17-b",
+    "m6-g540-18-b",
+    "m6-g540-20-a"
+  ],
+  "formal_accuracy_metric": false,
+  "composition": {
+    "inherited": 19,
+    "executed": 66
+  },
+  "label_eligible": 31,
+  "draft": 54,
+  "verification": {
+    "local_file_checks": 323,
+    "passed": true,
+    "original_quote_matches": 106,
+    "historical_evidence_hashes": 45,
+    "readiness_evidence_hashes": 5,
+    "source_pdf_hashes": 5,
+    "source_pdfs_used": 4,
+    "embedded_pdf_pages": 35,
+    "visual_asset_inspection": 36,
+    "image_references": 139,
+    "all_image_usage": "context",
+    "browser_checks": 10,
+    "browser_passed": true,
+    "initial_browser_failure": "移动端长指纹横向溢出；补充换行后10项通过，原失败摘要保留",
+    "old_failed_local_files_equal_pre_recovery": 3,
+    "prior_49_or_520_rerun": false,
+    "backend_or_frontend_regression_rerun": false,
+    "database_state_rechecked": false,
+    "stored_subject_hashes_referenced_not_recomputed": true
+  },
+  "execution_scope": {
+    "provider_model_calls": 0,
+    "database_access": false,
+    "business_source_changed": false,
+    "human_scores_written": 0,
+    "assistant_observations_written": 0,
+    "calibrations_created": 0,
+    "experiments_or_candidates_created": 0,
+    "real_dev_executed": false,
+    "heldout_executed": false,
+    "service_restart": false,
+    "historical_result_changed": false
+  },
+  "historical_calls": {
+    "inherited_stream_started": 19,
+    "new_stream_started": 61,
+    "exact_http": null,
+    "exact_cost": null
+  },
+  "next_action": "先定位并隔离补修25题上下文、产品路由与设备范围问题；不把逐题找原件交给用户、不重复旧判断。正式双轮/预校准/候选/反馈复评依赖保留。",
+  "technical_findings_closed": [
+    "R1",
+    "R2",
+    "R2-R"
+  ],
+  "m6_core": "4/7",
+  "unaccepted": [
+    "M6-04",
+    "M6-05",
+    "M6-08"
+  ],
+  "m7_authorized": false,
+  "stage_accepted": false,
+  "raw_evidence": [
+    {
+      "path": "output/m6-assistant-source-review-20261028/build_review.py",
+      "sha256": "6884c1d73d7b8fe2d6b335e126b164452225b3786ef8ee7740b67559f9e0cd52",
+      "bytes": 29251
+    },
+    {
+      "path": "output/m6-assistant-source-review-20261028/verify_local.py",
+      "sha256": "7adf4eb4cdbf22843f26f6186e4c3b337ddaa380184aabc0390505d3f10a62cf",
+      "bytes": 4176
+    },
+    {
+      "path": "output/m6-assistant-source-review-20261028/verify_report.cjs",
+      "sha256": "2d799396b3b9a713b09f626fbbff06870a177d4950a7bb97b99efd6f0ab35bfe",
+      "bytes": 2801
+    },
+    {
+      "path": "output/m6-assistant-source-review-20261028/assistant-review.json",
+      "sha256": "5693e45149ad5740ca28064497f6e30581a6c7a62f83966e087de4379137e7a6",
+      "bytes": 463095
+    },
+    {
+      "path": "output/m6-assistant-source-review-20261028/quote-checks.json",
+      "sha256": "3dd5e16dbca83c272a9668a9b3b52dd3640f3009de2abb73dcc09dd577e8778e",
+      "bytes": 13918
+    },
+    {
+      "path": "output/m6-assistant-source-review-20261028/85题直接判断与原件依据.html",
+      "sha256": "ab2d89bd28c14312410f5cb6c17b83af26f58e3415a51104181dbd4be77a1511",
+      "bytes": 6209679
+    },
+    {
+      "path": "output/m6-assistant-source-review-20261028/browser-validation.json",
+      "sha256": "f1388c516342a8609df0e219a2c9c73bda9292c2489ca314a325503a39225137",
+      "bytes": 400
+    },
+    {
+      "path": "output/m6-assistant-source-review-20261028/local-validation.json",
+      "sha256": "06bc80f7cdd72d302ab7e097c86840d84f521497a8efce85b7d49c4333a53b59",
+      "bytes": 36319
+    },
+    {
+      "path": "output/m6-assistant-source-review-20261028/browser-validation-r1.json",
+      "sha256": "67e014f76477d1eb95dbfc5a689350b57e1c743131b4cadc9c4b8dccf3f62e78",
+      "bytes": 402
+    }
+  ],
+  "private_report": "output/m6-assistant-source-review-20261028/85题直接判断与原件依据.html",
+  "limitations": [
+    "一轮助手原件核查，不冒称人工或两次独立审阅",
+    "不是质量gate或阶段验收",
+    "未现场读取设备实时状态",
+    "未证明入库/检索/生成中具体哪步失效",
+    "subject_sha256沿用已有只读清单，当前未重连数据库核指纹"
+  ]
+}
