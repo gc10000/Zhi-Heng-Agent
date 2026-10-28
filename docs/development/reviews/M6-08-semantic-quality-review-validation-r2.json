@@ -1,0 +1,272 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-28",
+  "reviewed_commit": "8f16cdf98c70f0189c57aaa784bae3953ce274df",
+  "role": "independent_controller",
+  "result": "original_probes_pass_residual_fixes_required",
+  "original_SQ_findings_closed": false,
+  "original_defect_verification": {
+    "passed": 7,
+    "failed": 0,
+    "original_global_operator_formula_corruption_fixed": true,
+    "original_short_inner_fence_defect_fixed": true,
+    "original_thead_td_qualification_defect_fixed": true,
+    "original_probe_byte_identical": true
+  },
+  "findings": [
+    {
+      "id": "SQ-R1-R",
+      "priority": "P2",
+      "parent": "SQ-R1",
+      "locations": [
+        {
+          "file": "app/answering/context_budget.py",
+          "line": 11
+        },
+        {
+          "file": "app/answering/context_budget.py",
+          "line": 20
+        }
+      ],
+      "summary": "Markdown行号与splitlines不一致，图片alt递归的相对子串坐标误用为全文坐标；实际prompt仍可改写合法代码",
+      "failed_probes": 3
+    },
+    {
+      "id": "SQ-R2-R",
+      "priority": "P2",
+      "parent": "SQ-R2",
+      "locations": [
+        {
+          "file": "app/ingestion/stages/chunking.py",
+          "line": 80
+        },
+        {
+          "file": "app/ingestion/stages/chunking.py",
+          "line": 84
+        }
+      ],
+      "summary": "非CommonMark换行字符使围栏原始跨度错位，超限代码进入普通切割路径",
+      "failed_probes": 2,
+      "shared_root_cause_with_SQ_R1_R": "block_line_offset_mapping"
+    },
+    {
+      "id": "SQ-R3-R",
+      "priority": "P2",
+      "parent": "SQ-R3",
+      "locations": [
+        {
+          "file": "app/ingestion/stages/chunking.py",
+          "line": 18
+        }
+      ],
+      "summary": "scope=row行标题误计为列头，合法表格报表头超限",
+      "failed_probes": 1,
+      "prior_1336493_same_input_chunks": 4,
+      "current_same_input": "ChunkBoundaryError"
+    }
+  ],
+  "validation": {
+    "offline_regression": {
+      "files": 17,
+      "passed": 251,
+      "failed": 0,
+      "exit_code": 0
+    },
+    "isolated_mongo_regression": {
+      "files": 5,
+      "passed": 39,
+      "failed": 0,
+      "exit_code": 0,
+      "test_db_prefix": "m1_test_m4_sqrev2",
+      "provider_and_index_injected": true
+    },
+    "original_probes": {
+      "passed": 7,
+      "failed": 0,
+      "exit_code": 0
+    },
+    "adjacent_probes": {
+      "passed": 3,
+      "failed": 6,
+      "exit_code": 1,
+      "formal_prompt_failures": 3,
+      "formal_chunk_failures": 3,
+      "offline_boundary_fixture": true
+    },
+    "groups_not_summed": true,
+    "tables": {
+      "count": 43,
+      "changed": 0,
+      "content_checks": 1360,
+      "document_chunk_counts": [
+        18,
+        151,
+        64,
+        282
+      ],
+      "explicit_headers_in_actual_cache": 0,
+      "real_retrieval_or_answer_quality_proven": false
+    },
+    "hashes": {
+      "execution_r2_evidence": 25,
+      "protected_output_files": 232,
+      "original_probe_byte_identical": true
+    },
+    "readonly_audit": {
+      "passed": true,
+      "checks": 179,
+      "protected_legacy_files": 145,
+      "execution_r1_evidence": 16,
+      "source_supplements": 3,
+      "frozen_chunks": 867,
+      "non_ttl_collections_equal_historical_snapshot": 21,
+      "collections_equal_within_audit": 22
+    },
+    "old_21_49_520_checks_rerun": false,
+    "typecheck_openapi_browser_rerun": false
+  },
+  "events": {
+    "historical_count": 2315,
+    "current_count": 1675,
+    "exported_events": 2308,
+    "missing_exported": 634,
+    "missing_exported_all_expired": true,
+    "ttl_index_present": true,
+    "equals_historical_snapshot": false,
+    "outside_export_cause": "unknown",
+    "surviving_event_payload_comparison": false
+  },
+  "operations": {
+    "business_source_modified": false,
+    "supplier_calls_this_review": 0,
+    "real_embeddings_or_rerank_calls": 0,
+    "real_dev_executed": false,
+    "heldout_executed": false,
+    "corpus_published": false,
+    "formal_scores_observations_calibrations_candidates_human_declarations_written": false,
+    "historical_state_lease_slot_retryable_links_modified": false,
+    "target_writes": 0,
+    "subagents_used": false,
+    "tmp_and_private_evidence_preserved": true,
+    "original_PDF_visual_recheck": false
+  },
+  "historical": {
+    "r3_results": 85,
+    "inherited": 19,
+    "executed": 66,
+    "historical_stream": 19,
+    "new_stream": 61,
+    "exact_http_and_cost": null,
+    "old_failed_results": 0,
+    "old_failed_calls_and_cost": null,
+    "continuation_and_image_protocol_closures_retained": true
+  },
+  "stage": {
+    "M6": "4/7",
+    "unaccepted": [
+      "M6-04",
+      "M6-05",
+      "M6-08"
+    ],
+    "M7_authorized": false
+  },
+  "next": "整体技术复审仍未通过，SQ三项保留待补修；执行方先统一两个消费者的原始源码坐标、处理递归偏移并区分行标题/列头，保留原失败，再送独立复审。通过前不发布语料或启动真实检索/模型验证。无业务源码、供应商/真实dev/heldout/正式质量或历史状态写入；不要求用户重查PDF或重填判断。原continuation及图片协议关闭结论、19继承+66执行及未知费用保留，M6仍4/7、04/05/08未验收、M7未授权。",
+  "evidence": [
+    {
+      "path": "output/m6-semantic-review-r2-20261028/test_adjacent_probes.py",
+      "sha256": "64875f6060abfb6fd136cb37b3cdfad1af4ff2af910ec5dd67405ffe94e1f541"
+    },
+    {
+      "path": "output/m6-semantic-review-r2-20261028/adjacent-probes.xml",
+      "sha256": "78d58809d798ddabf9dc7a3adb8833c7061e10670d946d234c04c70322b5046d"
+    },
+    {
+      "path": "output/m6-semantic-review-r2-20261028/adjacent-probes.log",
+      "sha256": "91cec3a4e9cb2a331b4e67f35a02e48088aa5a0f0cb82301dccab29cf202a95c"
+    },
+    {
+      "path": "output/m6-semantic-review-r2-20261028/adjacent-probes-command.json",
+      "sha256": "553037b17c7cf5b662831c079015d44d52d1efc10b11a734d4aaf7c412beb3ad"
+    },
+    {
+      "path": "output/m6-semantic-review-r2-20261028/original-probes.xml",
+      "sha256": "7b72d271816c242727aab9c49f8776c852020c707968d86ecbd920704ba1f5ec"
+    },
+    {
+      "path": "output/m6-semantic-review-r2-20261028/original-probes.log",
+      "sha256": "9481fc0db276b5b4321ed9c95a52363eaf892136c433b76e7c3f146c6bb0c4c9"
+    },
+    {
+      "path": "output/m6-semantic-review-r2-20261028/original-probes-command.json",
+      "sha256": "3f5aa352b706334cd6f928d7d54094be55df8db694409b282526b1e7ff996465"
+    },
+    {
+      "path": "output/m6-semantic-review-r2-20261028/offline-regression.xml",
+      "sha256": "8d6ddaf4b4425cbb246a50d5d3d684a67b77100b9e50b9b49f5783abf0979113"
+    },
+    {
+      "path": "output/m6-semantic-review-r2-20261028/offline-regression.log",
+      "sha256": "8e44657a1043f1339d7c84fa905c3632422b5b6c90efcaadaeec3ab02e7d58c4"
+    },
+    {
+      "path": "output/m6-semantic-review-r2-20261028/offline-command.json",
+      "sha256": "2d6b31c8d73c13b00b53b59d53a98b188e88762294c71a7769429169a5f547ec"
+    },
+    {
+      "path": "output/m6-semantic-review-r2-20261028/integration-regression.xml",
+      "sha256": "098e32dc1ab27a61d727f49d4592587f3996aea6520c0320b07406b359141dfb"
+    },
+    {
+      "path": "output/m6-semantic-review-r2-20261028/integration-regression.log",
+      "sha256": "ea1e6958d25cd80fc649c3ab3ce70f21a9f0c2e883c9d9d4977fc4b8a0b9c14b"
+    },
+    {
+      "path": "output/m6-semantic-review-r2-20261028/integration-command.json",
+      "sha256": "eaab8e33b734c538384f3036b74c279b5f7c442e584219b04722839f593312dc"
+    },
+    {
+      "path": "output/m6-semantic-review-r2-20261028/execution-evidence-checks.json",
+      "sha256": "e85b22f10f953a7b3728784b90ce072e38a81c1d085453317c9a57ff8d4922ef"
+    },
+    {
+      "path": "output/m6-semantic-review-r2-20261028/protected-files-checks.json",
+      "sha256": "aac12940b2c6bf162b08c5d73261ab59e2d6029de32a37cfd436784e55066982"
+    },
+    {
+      "path": "output/m6-semantic-review-r2-20261028/table-differences.json",
+      "sha256": "2e708349eeabed5e7e98a5bf14e849bc824017c0950dca7a6ab35d390f3f16d6"
+    },
+    {
+      "path": "output/m6-semantic-review-r2-20261028/verify_table_differences.py",
+      "sha256": "56f0583420007bfbb89d495b1c57748e1fadb15aab2e5f95dda1c3b582a761f6"
+    },
+    {
+      "path": "output/m6-semantic-review-r2-20261028/audit_immutability.py",
+      "sha256": "122a252d030d2b97ac99da0f999b56de9542b731c9b84e3a51976aef8a612689"
+    },
+    {
+      "path": "output/m6-semantic-review-r2-20261028/immutability-review.json",
+      "sha256": "6007cb1be150daaaa1027cbea004a8dd8163b599ab5ca8960313f09754bf0a40"
+    },
+    {
+      "path": "output/m6-semantic-review-r2-20261028/row-header-diagnostics.json",
+      "sha256": "a540005eadf4147b529ae7a93deafb16b84a64a60c794a1293e61815e124ec47"
+    },
+    {
+      "path": "output/m6-semantic-review-r2-20261028/line-mapping-diagnostics.json",
+      "sha256": "13543cd5746e0dac92c249c3ef08f3ab82c73b375c96ccbe8c6c15d2beab8283"
+    },
+    {
+      "path": "output/m6-semantic-review-r2-20261028/exploratory-projection.json",
+      "sha256": "dc482e6b7515c0dda7ecfd1279700bbc7cbc4b50318ca23643a2b04adcc032b4"
+    },
+    {
+      "path": "output/m6-semantic-review-r2-20261028/exploratory-fences.json",
+      "sha256": "90b38153ec785bc735890f7ffbb93df5614c0243fac23618f2d8dfa2e43ad20f"
+    },
+    {
+      "path": "output/m6-semantic-review-r2-20261028/run_regression.py",
+      "sha256": "00d46afbbea97d12791b0d6a2cff98f0614ceb66231f69c458aa56191b730f42"
+    }
+  ]
+}
