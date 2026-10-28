@@ -3180,6 +3180,42 @@
         ],
         "title": "ConfirmInput"
       },
+      "ContinuationInput": {
+        "properties": {
+          "source_experiment_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Source Experiment Id"
+          },
+          "source_attempt": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Source Attempt"
+          },
+          "source_version": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Source Version"
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 1,
+            "pattern": "\\S",
+            "title": "Reason"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "source_experiment_id",
+          "source_attempt",
+          "source_version",
+          "reason"
+        ],
+        "title": "ContinuationInput"
+      },
       "ConversationInput": {
         "properties": {
           "title": {
@@ -3294,6 +3330,16 @@
               }
             ],
             "title": "Baseline Experiment Id"
+          },
+          "continuation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ContinuationInput"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "client_request_id": {
             "type": "string",

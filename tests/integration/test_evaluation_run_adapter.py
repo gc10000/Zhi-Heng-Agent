@@ -210,6 +210,7 @@ def test_explicit_m6_followup_after_interrupted_run_creates_one_new_run_then_reu
     recovered = resources['commands'].recover()
     interrupted = resources['runs'].runs.find_one({'run_id': original['run_id']})
     assert original['run_id'] in recovered and interrupted['state'] == 'interrupted'
+    source_before = resources['runs'].runs.find_one({'run_id': original['run_id']})
 
     with RealQueryExecutor(cfg, resource_factory=factory) as execute:
         with pytest.raises(ValueError):
@@ -218,12 +219,100 @@ def test_explicit_m6_followup_after_interrupted_run_creates_one_new_run_then_reu
 
     with RealQueryExecutor(cfg, resource_factory=factory) as execute:
         execute.retry_key = 'followup-from-source-experiment'
+        with pytest.raises(ValueError):
+            execute(question)
+        execute.continuation = dict(experiment_id='new-continuation', source=dict(
+            source_experiment_id='old-experiment', source_attempt=2, source_version=3,
+            reason='恢复020中断运行'))
+        real_execute = resources['query_runner'].execute
+        def checked_execute(rid):
+            prepared = resources['db'].evaluation_continuations.find_one({})
+            assert prepared['run_id'] == rid and prepared['state'] == 'pending'
+            assert prepared['source_run_id'] == original['run_id']
+            assert prepared['logical_provider_calls'] is None
+            assert prepared['exact_cost'] is None
+            return real_execute(rid)
+        resources['query_runner'].execute = checked_execute
         followup = execute(question)
         repeated = execute(question)
     assert followup['run_id'] != original['run_id']
     assert followup == repeated and followup['state'] == 'completed'
     assert len(prompts) == 2 and resources['runs'].runs.count_documents({}) == 2
     assert resources['runs'].runs.find_one({'run_id': original['run_id']})['state'] == 'interrupted'
+    ledger = resources['db'].evaluation_continuations.find_one({})
+    assert ledger['source_run_id'] == original['run_id']
+    assert ledger['run_id'] == followup['run_id']
+    assert ledger['source']['source_attempt'] == 2
+    assert ledger['exact_sdk_http_requests'] is None and ledger['exact_cost'] is None
+    assert ledger['logical_provider_calls'] == {'invoke_started': 0, 'stream_started': 1}
+    with RealQueryExecutor(cfg, resource_factory=factory) as reconstructed:
+        reconstructed.continuation = execute.continuation
+        assert reconstructed(question) == followup
+    resources['runs'].runs.update_one({'run_id': followup['run_id']}, {'$set': {
+        'state': 'running', 'execution_token': 'second-expired-token',
+        'execution_lease': datetime.now(timezone.utc) - timedelta(seconds=1)}})
+    resources['commands'].recover()
+    with RealQueryExecutor(cfg, resource_factory=factory) as reconstructed:
+        reconstructed.continuation = execute.continuation
+        with pytest.raises(ValueError):
+            reconstructed(question)
+    assert resources['runs'].runs.count_documents({}) == 2
+    assert resources['db'].evaluation_continuations.find_one({})['source_run_id'] == original['run_id']
+    assert resources['runs'].runs.find_one({'run_id': original['run_id']}) == source_before
+    with RealQueryExecutor(cfg, resource_factory=factory) as reconstructed:
+        reconstructed.continuation = dict(execute.continuation, source=dict(
+            execute.continuation['source'], source_attempt=99))
+        with pytest.raises(ValueError, match='来源'):
+            reconstructed(question)
+    assert len(prompts) == 2
+
+
+def test_continuation_reuses_completed_checkpoint_without_new_ledger_or_model(evaluation_context):
+    cfg, factory, resources, prompts, question, _ = evaluation_context
+    cfg['metric_schema_version'] = 1
+    with RealQueryExecutor(cfg, resource_factory=factory) as execute:
+        original = execute(question)
+    with RealQueryExecutor(cfg, resource_factory=factory) as execute:
+        execute.continuation = dict(experiment_id='child', source=dict(
+            source_experiment_id='parent', source_attempt=1, source_version=2, reason='复用成功题'))
+        assert execute(question) == original
+    assert len(prompts) == 1
+    assert resources['runs'].runs.count_documents({}) == 1
+    assert resources['db'].evaluation_continuations.count_documents({}) == 0
+
+
+def test_continuation_recovers_crash_after_run_creation_before_checkpoint_binding(evaluation_context, monkeypatch):
+    from datetime import datetime, timedelta, timezone
+    cfg, factory, resources, prompts, question, _ = evaluation_context
+    cfg['metric_schema_version'] = 1
+    with RealQueryExecutor(cfg, resource_factory=factory) as execute:
+        original = execute(question)
+    resources['runs'].runs.update_one({'run_id': original['run_id']}, {'$set': {
+        'state': 'running', 'execution_token': 'expired-test-token',
+        'execution_lease': datetime.now(timezone.utc) - timedelta(seconds=1)}})
+    resources['commands'].recover()
+    context = dict(experiment_id='crash-child', source=dict(source_experiment_id='parent',
+        source_attempt=2, source_version=3, reason='测试创建Run后中断'))
+    create = resources['run_service'].create
+    created = []
+    def crash_after_create(*args, **kwargs):
+        created.append(create(*args, **kwargs)['run_id'])
+        raise RuntimeError('合成故障：创建Run后、检查点绑定前退出')
+    monkeypatch.setattr(resources['run_service'], 'create', crash_after_create)
+    with RealQueryExecutor(cfg, resource_factory=factory) as execute:
+        execute.continuation = context
+        with pytest.raises(RuntimeError):
+            execute(question)
+    assert len(prompts) == 1
+    prepared = resources['db'].evaluation_continuations.find_one({})
+    assert prepared['state'] == 'prepared' and prepared['run_id'] is None
+    assert prepared['logical_provider_calls'] is None and prepared['exact_cost'] is None
+    monkeypatch.setattr(resources['run_service'], 'create', create)
+    with RealQueryExecutor(cfg, resource_factory=factory) as execute:
+        execute.continuation = context
+        followup = execute(question)
+    assert followup['run_id'] == created[0]
+    assert len(prompts) == 2 and resources['runs'].runs.count_documents({}) == 2
 
 
 def test_explicit_m6_followup_does_not_retry_nonretryable_failed_run(evaluation_context):
@@ -241,7 +330,10 @@ def test_explicit_m6_followup_does_not_retry_nonretryable_failed_run(evaluation_
     resources['query_runner'].llm_factory = lambda: InvalidResponse()
     with RealQueryExecutor(cfg, resource_factory=factory) as execute:
         execute.retry_key = 'followup-from-source-experiment'
+        execute.continuation = dict(experiment_id='nonretryable-child', source=dict(
+            source_experiment_id='parent', source_attempt=2, source_version=3, reason='不能绕过不可重试失败'))
         with pytest.raises(ProviderFailure) as followup_error:
             execute(question)
     assert followup_error.value.retryable is False
     assert prompts == [] and resources['runs'].runs.count_documents({}) == 1
+    assert resources['db'].evaluation_continuations.count_documents({}) == 0

@@ -1,5 +1,9 @@
 # 开发公共契约与任务交接边界
 
+## M6-08显式continuation来源账本（2026-10-28）
+
+创建实验可选continuation严格绑定source_experiment_id/source_attempt/source_version/reason；由服务端校验同owner/kb、failed/cancelled/incomplete终态、当前代际和相同dataset/manifest/config字节hash。保存父state/retryable/error与配置/请求hash快照，父记录不改；省略/null兼容原幂等身份。普通首attempt不提供interrupted重生成键；只有正式continuation允许为中断题派生固定请求。evaluation_continuations用新experiment+checkpoint唯一身份，在调用前持久化父Run/输入hash/request_key，新Run先绑定再执行。重复领取/重建复用同一请求，后续Run再中断不自动新建第三条；completed复用、非retryable失败拒绝。精确HTTP/费用及未测遥测null，不承诺失败窗口exactly-once。只支持相同冻结config；源码身份变化不自动迁移旧检查点，r3历史组合结果不回填。详见[工作台](../evaluation/workbench.md)。
+
 ## M6图片协议R1/R2补修：渲染语义与免审门禁（2026-10-27）
 
 答案图判定采用固定markdown-it-py 4.0.0，与前端markdown-it 14.1.0同源；default规则、html=false/linkify=false/breaks=true。只读取实际inline子image token，不递归图片alt，目标协议、ID白名单及授权资产集合与前端一致。列表缩进、转义反引号及引用式图不因手写正则丢失；真正代码块/跨度、转义图、外链、HTML和未授权资产不成为答案图。25项共享字面期望矩阵在Python选择器和实际Vue渲染器分别验证；将来升级任一解析器须一起核对，不能宣称不同实现任意输入永远等价。

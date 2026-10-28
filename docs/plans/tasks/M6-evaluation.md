@@ -1,5 +1,9 @@
 # M6：评测、质量中心与反馈闭环开发 ToDo
 
+## 2026-10-28 · 正式continuation来源与题级账本定向验证
+
+本轮只实施协议和定向测试：创建绑定终态父experiment/attempt/version及冻结身份，调用前记录父Run与固定request_key；普通任务无中断派生权限，同continuation再中断停止。88定向及加强1项（重叠）通过，OpenAPI/前端类型生成和typecheck通过。原manifest/attempts/results与备份hash一致，真实模型/heldout/评分/校准/旧检查点迁移0；r3组合结果保留历史身份。04/05/08不勾选，M6仍4/7、M7未授权；不重复已有聊天判断。见[本轮报告](../../development/reviews/M6-08-continuation-protocol-r1.md)。
+
 ## 2026-10-27 · 完整dev后续组合技术结果，阶段未验收
 
 恢复协议81定向通过，原失败与未知费用保留；新后续实验85条completed（19继承+66执行），本轮新增stream61/invoke0。独立继承66、持久1975、检索/图像9838、离线报告9检查通过且原语料SHA不变，固定对照报告已保存；不能当85题同代码新生成或质量达标。人工双轮、预校准、候选比较和反馈后复评仍缺，04/05/08保持未勾选、M6为4/7，M7未授权。见[r3报告](../../development/reviews/M6-08-full-dev-baseline-r3.md)。

@@ -81,6 +81,7 @@ class RealQueryExecutor:
         self.config = copy.deepcopy(config)
         self.factory = resource_factory or open_evaluation_resources
         self.retry_key = None
+        self.continuation = None
 
     def __enter__(self):
         self.stack = ExitStack()
@@ -174,17 +175,31 @@ class RealQueryExecutor:
                                 text=message['text'], product_snapshot={'product_ids': [], 'version': 0})
         from app.runs.models import RunInput
         request_key = saved.get('request_key', key)
-        if self.retry_key and self.config.get('metric_schema_version') == 1 and saved.get('run_id'):
+        followup = None
+        if self.continuation and self.config.get('metric_schema_version') == 1 and saved.get('run_id'):
+            from .continuations import prepare_continuation
             previous = self.resources['runs'].get(self.user, saved['run_id'])
-            if previous['state'] == 'interrupted':
-                request_key = fingerprint([key, 'interrupted_followup', previous['run_id'], self.retry_key])
-            elif previous['state'] == 'failed' and previous.get('error', {}).get('retryable') is True:
+            followup = prepare_continuation(self.resources['db'], self.continuation,
+                checkpoint_key=key, input_sha256=saved['input_sha256'], previous=previous,
+                request_key=request_key)
+            if followup:
+                request_key = followup['request_key']
+        if not followup and self.retry_key and self.config.get('metric_schema_version') == 1 and saved.get('run_id'):
+            previous = self.resources['runs'].get(self.user, saved['run_id'])
+            if previous['state'] == 'failed' and previous.get('error', {}).get('retryable') is True:
                 request_key = fingerprint([key, 'explicit_retry', self.retry_key])
         run = self.resources['run_service'].create(self.user, cid, RunInput(kb_id=kb, question=inputs['question'], client_request_id=request_key))
         rid = run['run_id']
         self.checkpoints.update_one({'_id': key}, {'$set': {'run_id': rid, 'request_key': request_key}})
-        if run['state'] == 'pending':
-            self.resources['query_runner'].execute(rid)
+        if followup:
+            from .continuations import observe_continuation
+            observe_continuation(self.resources['db'], followup, self.resources['runs'].get(self.user, rid))
+        try:
+            if run['state'] == 'pending':
+                self.resources['query_runner'].execute(rid)
+        finally:
+            if followup:
+                observe_continuation(self.resources['db'], followup, self.resources['runs'].get(self.user, rid))
         row = self.resources['runs'].get(self.user, rid)
         if row['state'] == 'awaiting_input':
             return {'run_id': rid, 'state': row['state'], 'behavior': 'clarify', 'answer': '', 'citations': [],

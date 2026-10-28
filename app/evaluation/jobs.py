@@ -57,7 +57,10 @@ def execute_job(repo, catalog, output_root, experiment_id, *, executor_factory=N
         output = Path(output_root).resolve() / experiment_id
         with factory(resolved['config']) as executor:
             if executor_factory is None and resolved['config'].get('metric_schema_version') == 1:
-                executor.retry_key = ':'.join((row['client_request_id'], experiment_id, str(attempt)))
+                if row.get('continuation'):
+                    executor.continuation = dict(experiment_id=experiment_id, source=row['continuation'])
+                elif attempt > 1:
+                    executor.retry_key = ':'.join((row['client_request_id'], experiment_id, str(attempt)))
             def execute(question):
                 if authorize_owner:
                     authorize_owner(row)

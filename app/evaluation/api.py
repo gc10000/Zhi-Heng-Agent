@@ -21,6 +21,14 @@ class RegisterSetInput(BaseModel):
     version: str = Field(min_length=1, max_length=128)
 
 
+class ContinuationInput(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    source_experiment_id: str = Field(min_length=1, max_length=128)
+    source_attempt: int = Field(ge=1, strict=True)
+    source_version: int = Field(ge=0, strict=True)
+    reason: str = Field(min_length=1, max_length=500, pattern=r'\S')
+
+
 class ExperimentInput(BaseModel):
     model_config = ConfigDict(extra='forbid')
     kb_id: str = Field(min_length=1, max_length=128)
@@ -29,6 +37,7 @@ class ExperimentInput(BaseModel):
     config_id: str = Field(min_length=1, max_length=128)
     config_version: str = Field(default='v1', min_length=1, max_length=128)
     baseline_experiment_id: str | None = Field(default=None, max_length=128)
+    continuation: ContinuationInput | None = None
     client_request_id: str = Field(min_length=1, max_length=128)
 
 

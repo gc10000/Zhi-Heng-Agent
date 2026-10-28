@@ -72,6 +72,7 @@ def test_duplicate_requests_and_worker_claims_are_idempotent(mongo_db):
     user, descriptor, resolved, data = setup(repo)
     first = repo.create(user, data, descriptor=descriptor, resolved=resolved)
     assert repo.create(user, data, descriptor=descriptor, resolved=resolved) == first
+    assert repo.create(user, data | {'continuation': None}, descriptor=descriptor, resolved=resolved) == first
     with ThreadPoolExecutor(max_workers=2) as pool:
         claims = list(pool.map(repo.claim, [first['experiment_id']]*2))
     assert sum(row is not None for row in claims) == 1
@@ -142,10 +143,110 @@ def test_worker_runs_frozen_dev_only_and_reuses_completed_file_checkpoint(mongo_
     result = service.get_experiment(user, row['experiment_id'])
     assert result['state'] == 'completed' and result['completed'] == 35
     assert len(calls) == 35
-    assert set(retry_keys) == {f"dev-job:{row['experiment_id']}:1"}
+    assert set(retry_keys) == {None}
     execute_job(repo, catalog, tmp_path/'out', row['experiment_id'])
     assert len(calls) == 35
     assert service.results_page(user, row['experiment_id'])['items'][0]['result']['answer'].startswith('合成测试')
+
+
+def test_continuation_source_is_scoped_frozen_and_immutable(mongo_db):
+    from copy import deepcopy
+    repo = EvaluationRepository(mongo_db)
+    user, descriptor, resolved, data = setup(repo)
+    source = repo.create(user, data, descriptor=descriptor, resolved=resolved)
+    claim = repo.claim(source['experiment_id'])
+    repo.fail(source['experiment_id'], claim['attempt'], claim['worker_token'],
+              error_code='provider_invalid_response', retryable=False)
+    before = deepcopy(repo.get_experiment(user, source['experiment_id']))
+    continuation = dict(source_experiment_id=source['experiment_id'], source_attempt=before['attempt'],
+                        source_version=before['version'], reason='明确恢复中断题，保留未知费用')
+    data.update(client_request_id='continuation', continuation=continuation)
+    new = repo.create(user, data, descriptor=descriptor, resolved=resolved)
+    assert new['continuation']['source_experiment_id'] == source['experiment_id']
+    assert new['continuation']['source_state'] == 'failed'
+    assert new['continuation']['source_retryable'] is False
+    assert repo.create(user, data, descriptor=descriptor, resolved=resolved) == new
+    assert repo.get_experiment(user, source['experiment_id']) == before
+    repo.cancel(user, new['experiment_id'], new['version'])
+    for field, value in [('source_attempt', 99), ('source_version', 99),
+                         ('source_experiment_id', 'missing')]:
+        changed = data | {'client_request_id': 'bad-'+field,
+                          'continuation': continuation | {field: value}}
+        with pytest.raises(APIError):
+            repo.create(user, changed, descriptor=descriptor, resolved=resolved)
+    with pytest.raises(APIError):
+        repo.create(user, data | {'client_request_id': 'changed-config'}, descriptor=descriptor,
+                    resolved=resolved | {'config_sha256': 'd'*64})
+    other, _, _, _ = setup(repo, 'other')
+    with pytest.raises(APIError) as forbidden:
+        repo.create(other, data | {'client_request_id': 'other'}, descriptor=descriptor, resolved=resolved)
+    assert forbidden.value.status == 404
+    assert repo.get_experiment(user, source['experiment_id']) == before
+
+
+def test_continuation_rejects_active_source_before_reserving_budget(mongo_db):
+    repo = EvaluationRepository(mongo_db)
+    user, descriptor, resolved, data = setup(repo)
+    source = repo.create(user, data, descriptor=descriptor, resolved=resolved)
+    with pytest.raises(APIError) as error:
+        repo.create(user, data | {'client_request_id': 'active-source', 'continuation': dict(
+            source_experiment_id=source['experiment_id'], source_attempt=0, source_version=0,
+            reason='不应恢复仍在活动的任务')}, descriptor=descriptor, resolved=resolved)
+    assert error.value.code == 'continuation_source_invalid'
+    assert repo.slots.find_one({'_id': user.user_id})['active_experiment_id'] == source['experiment_id']
+
+
+def test_continuation_http_validation_and_job_source_propagation(m2_client, tmp_path, monkeypatch):
+    import json
+    from app.evaluation.jobs import execute_job
+    from app.evaluation.catalog import EvaluationCatalog
+    from app.evaluation.service import EvaluationService
+    from tests.unit.test_evaluation_catalog import create_catalog
+    client, headers, resources = m2_client
+    account = client.get('/api/v1/me').json()['user']
+    resources['db'].users.update_one({'user_id': account['user_id']}, {'$set': {'role': 'maintainer'}})
+    user = Principal(**(account | {'role': 'maintainer'}))
+    _, catalog_file, _, _ = create_catalog(tmp_path)
+    content = json.loads(catalog_file.read_text('utf-8'))
+    content['datasets'][0]['kb_ids'] = ['k']
+    catalog_file.write_text(json.dumps(content), encoding='utf-8')
+    catalog = EvaluationCatalog(catalog_file)
+    repo = EvaluationRepository(resources['db'])
+    service = EvaluationService(repo, catalog)
+    resources['evaluations'] = service
+    service.register_set(user, dict(kb_id='k', eval_set_id='support-dev', version='r1'))
+    data = dict(kb_id='k', eval_set_id='support-dev', eval_set_version='r1',
+                config_id='control', config_version='v1', client_request_id='parent')
+    parent = service.create_experiment(user, data)
+    claim = repo.claim(parent['experiment_id'])
+    parent = repo.fail(parent['experiment_id'], claim['attempt'], claim['worker_token'],
+                       error_code='provider_invalid_response', retryable=False)
+    source = dict(source_experiment_id=parent['experiment_id'], source_attempt=1,
+                  source_version=parent['version'], reason='明确后续尝试，保留父失败')
+    request = data | {'client_request_id': 'child', 'continuation': source}
+    for invalid in ({'source_attempt': True}, {'source_attempt': 0}, {'reason': '   '}, {'run_id': 'forged'}):
+        response = client.post('/api/v1/experiments', headers=headers,
+                               json=request | {'continuation': source | invalid})
+        assert response.status_code == 422
+    created = client.post('/api/v1/experiments', headers=headers, json=request)
+    assert created.status_code == 202
+    child = created.json()
+    assert child['continuation']['source_experiment_id'] == parent['experiment_id']
+    assert client.post('/api/v1/experiments', headers=headers, json=request).json() == child
+    captured = []
+    class Executor:
+        def __init__(self, config): self.retry_key = None; self.continuation = None
+        def __enter__(self): return self
+        def __exit__(self, *args): pass
+        def __call__(self, question):
+            captured.append((self.retry_key, self.continuation))
+            return dict(answer='合成测试', citations=[])
+    monkeypatch.setattr('app.evaluation.query_adapter.RealQueryExecutor', Executor)
+    execute_job(repo, catalog, tmp_path/'out', child['experiment_id'])
+    assert len(captured) == 35
+    assert all(retry is None and context == dict(experiment_id=child['experiment_id'],
+               source=child['continuation']) for retry, context in captured)
+    assert repo.get_experiment(user, parent['experiment_id']) == parent
 
 
 def test_dispatch_failure_keeps_pending_intent(mongo_db):

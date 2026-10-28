@@ -66,7 +66,7 @@ M4-08不改变公开问答API。退出仍先撤销会话，再清该用户查询
 
 评测API均要求登录和maintainer/admin，具体资源再次按owner/current kb核验；写操作沿用同源与CSRF。`GET /eval-catalog?kb_id=`只给维护者受控登记选项；`GET/POST /eval-sets`读取/登记私有题集版本；`GET/POST /experiments`列表/创建；`GET /experiments/{id}`读取真实状态；`GET /experiments/{id}/results?cursor=&limit=`按题身份分页，最大100；`POST /experiments/{id}/cancel`与`/retry`带`expected_version`，重试返回202。基线ID只接受同所有者/知识范围/冻结题集的已完成实验。未知成本/标准语义分保持null。
 
-创建仅接受题集/配置ID版本、可选基线和client_request_id，拒绝路径、伪造结果等额外字段。相同请求重发保持身份，相同请求ID内容变化409。取消在题边界合作完成，不中断已发出的供应商请求。题级对比仅表示文本/状态差异，不能当质量提升。登记后冻结指纹漂移或目录错误明确拒绝；错误不回显路径/配置正文。OpenAPI及前端声明已同步，详见[评测工作台](../evaluation/workbench.md)。
+创建仅接受题集/配置ID版本、可选基线、可选continuation和client_request_id，拒绝路径、伪造结果等额外字段。continuation严格包含source_experiment_id/source_attempt/source_version/reason，服务端核对同owner/kb、终态、当前代际及相同dataset/manifest/config指纹；未知来源404、状态或身份不符409、字段不合法422。响应continuation追加父state/retryable/error和配置/请求hash快照。相同请求重发保持身份，相同请求ID内容变化409；continuation省略/null等价。取消在题边界合作完成，不中断已发出的供应商请求。题级对比仅表示文本/状态差异，不能当质量提升。登记后冻结指纹漂移或目录错误明确拒绝；错误不回显路径/配置正文。OpenAPI及前端声明已同步，详见[评测工作台](../evaluation/workbench.md)。
 
 ## M6聊天来源、适用性与图片使用关系（2026-10-27）
 

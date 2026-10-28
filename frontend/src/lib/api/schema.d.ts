@@ -937,6 +937,17 @@ export interface components {
             /** Product Ids */
             product_ids: string[];
         };
+        /** ContinuationInput */
+        ContinuationInput: {
+            /** Source Experiment Id */
+            source_experiment_id: string;
+            /** Source Attempt */
+            source_attempt: number;
+            /** Source Version */
+            source_version: number;
+            /** Reason */
+            reason: string;
+        };
         /** ConversationInput */
         ConversationInput: {
             /**
@@ -975,6 +986,7 @@ export interface components {
             config_version: string;
             /** Baseline Experiment Id */
             baseline_experiment_id?: string | null;
+            continuation?: components["schemas"]["ContinuationInput"] | null;
             /** Client Request Id */
             client_request_id: string;
         };

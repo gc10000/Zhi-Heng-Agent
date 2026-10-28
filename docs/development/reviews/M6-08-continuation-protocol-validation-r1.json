@@ -1,0 +1,130 @@
+{
+  "date": "2026-10-28",
+  "baseline_commit": "33b120d1331bf25b8688337a7ebb8685704e4bd4",
+  "stage": "M6",
+  "stage_accepted": false,
+  "m6_core": "4/7",
+  "m7_authorized": false,
+  "scope": "正式continuation来源与调用前题级账本；仅隔离Mongo、合成模型、正式HTTP定向测试",
+  "suites": {
+    "red": {
+      "tests": 4,
+      "failures": 4,
+      "errors": 0,
+      "skipped": 0
+    },
+    "green": {
+      "tests": 24,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    "targeted": {
+      "tests": 85,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "final": {
+      "tests": 88,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "nonretryable-final": {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "counts_overlap": true,
+  "final_pytest_exit_code": 0,
+  "nonretryable_pytest_exit_code": 0,
+  "red_wrapper_exit_code": 0,
+  "red_notice": "红测4失败；PowerShell末尾Get-Content覆盖退出码，依据JUnit确认红测。",
+  "frontend_api_generation_exit_code": 0,
+  "frontend_typecheck_exit_code": 0,
+  "frontend_notice": "本会话实际npm generate:api和typecheck退出0；输出见本会话工具记录，未制造日志原件。",
+  "openapi_matches": true,
+  "python_syntax_files": 5,
+  "protected_original_files": {
+    "manifest.json": {
+      "original_sha256": "48694069fdc006bd7ca05d1ce4b4745a160b954749b4748cf573ad54e4b7c509",
+      "backup_sha256": "48694069fdc006bd7ca05d1ce4b4745a160b954749b4748cf573ad54e4b7c509"
+    },
+    "attempts.jsonl": {
+      "original_sha256": "63dad8dc9da98fdd6a83a304f0f43d2e6fba3f6c8cedea10b38548ee9a3b74d3",
+      "backup_sha256": "63dad8dc9da98fdd6a83a304f0f43d2e6fba3f6c8cedea10b38548ee9a3b74d3"
+    },
+    "results.jsonl": {
+      "original_sha256": "63dad8dc9da98fdd6a83a304f0f43d2e6fba3f6c8cedea10b38548ee9a3b74d3",
+      "backup_sha256": "63dad8dc9da98fdd6a83a304f0f43d2e6fba3f6c8cedea10b38548ee9a3b74d3"
+    }
+  },
+  "provider_model_calls": 0,
+  "real_evaluation_database_writes": 0,
+  "human_writes": 0,
+  "calibration_writes": 0,
+  "heldout_executed": false,
+  "original_attempt2_exact_http_requests": null,
+  "original_attempt2_exact_cost": null,
+  "source_r3_notice": "旧19继承+66执行仅按已存材料保留，本轮不重跑、不回填、不重新认证来源触发勘误。",
+  "raw_evidence": [
+    {
+      "path": "output/m6-continuation-protocol-20261028/final.log",
+      "sha256": "cdc3cb17af67f51e46901955043a2798f2d34d13e7a230ca8c0ea5cc6a1194d9",
+      "bytes": 309
+    },
+    {
+      "path": "output/m6-continuation-protocol-20261028/final.xml",
+      "sha256": "03befb1c1e38d2d2eda6909b428f7fd280cbf08fcdcaad86c9e34d934f00e379",
+      "bytes": 13586
+    },
+    {
+      "path": "output/m6-continuation-protocol-20261028/green.log",
+      "sha256": "e24aec4909a05e1b0bc04c006142aa645120414de72b34abeeee578d79396257",
+      "bytes": 5203
+    },
+    {
+      "path": "output/m6-continuation-protocol-20261028/green.xml",
+      "sha256": "1544ebe08e2a84d69cbfffb6952ecc352a436b071f75295bb6c3fc1ac919c3e4",
+      "bytes": 8222
+    },
+    {
+      "path": "output/m6-continuation-protocol-20261028/nonretryable-final.log",
+      "sha256": "ff4fbbe2c47bac627dd667fafc7164bcf395628e43641cec44722efbce01c9a9",
+      "bytes": 240
+    },
+    {
+      "path": "output/m6-continuation-protocol-20261028/nonretryable-final.xml",
+      "sha256": "ca72a6d887adbb3ca072ee917d309c3ba9fa7a2dd3bddc8356657fb640e54816",
+      "bytes": 399
+    },
+    {
+      "path": "output/m6-continuation-protocol-20261028/red.log",
+      "sha256": "964ba2201a8cdd52a38ad2062c7b5f6bcce4e4f22585c28db2b143475752bf73",
+      "bytes": 8848
+    },
+    {
+      "path": "output/m6-continuation-protocol-20261028/red.xml",
+      "sha256": "36c42782d453d5e0c783037e73d644b253ad36bb0f3932cf60aa4307b98a36fc",
+      "bytes": 8534
+    },
+    {
+      "path": "output/m6-continuation-protocol-20261028/summarize.py",
+      "sha256": "8a6bef2639a27a9ee918566149965347f44716e95d174eccaaf3a047f6c788d0",
+      "bytes": 3195
+    },
+    {
+      "path": "output/m6-continuation-protocol-20261028/targeted.log",
+      "sha256": "a887478b4d791b6e6cfb09b87482d762bb07d158baefdce50889e4fc77d4d7a5",
+      "bytes": 312
+    },
+    {
+      "path": "output/m6-continuation-protocol-20261028/targeted.xml",
+      "sha256": "008d8670b7fdb8b3b744f56a089c6acf75746521ff36df009ae773734b5cedb2",
+      "bytes": 13154
+    }
+  ]
+}

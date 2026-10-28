@@ -1,5 +1,11 @@
 # 开发进度与接续点
 
+## 当前M6-08：正式continuation来源与题级账本补齐（2026-10-28）
+
+用户本轮仅授权协议实施与定向测试，不启动供应商模型调用。起点已为`33b120d1331bf25b8688337a7ebb8685704e4bd4`，与origin/main一致，仅tmp未跟踪。已补正式父experiment/attempt/version与冻结身份校验、调用前题级来源账本；普通任务不再隐式派生interrupted后续请求，同continuation固定请求、重复/崩溃复用，再中断停止。completed复用、非retryable失败保持门禁。88项定向通过，最终加强边界1通过（重叠不累计）；OpenAPI/前端类型生成及typecheck通过，原manifest/attempts/results与备份hash一致。原4项红测和中间23通过/1失败均留存。详见[本轮报告](reviews/M6-08-continuation-protocol-r1.md)。
+
+保留r3已存的19继承+66执行历史组合结果及未知费用，不重跑任何首次/派生创建/迁移/执行脚本，不回填旧来源；原19成功、旧020、真实审阅和校准不写入。仅相同冻结config受支持，源码身份变化不自动继承。下一步正常审阅提交推送，再只读审查本轮协议与r3组合结果边界；不要求重复已保存聊天判断。M6仍4/7，04/05/08未验收、M7未授权。
+
 ## 当前M6-08接续：020中断Run的有来源后续尝试（2026-10-27）
 
 起点`5fa74ebbacbe6a91749ea635490166f2c7669f86`，Docker/Mongo已恢复；原实验`a5607e05-de22-4b24-9570-e85b7e09b521`保留`failed/attempt 2`、`retryable=false`、结果0，attempt2实际供应商调用及费用保持未知。此前报告记状态触发来源未知；本轮回溯本聊天工具记录确认，执行助手在上一轮调用过一次正式`execute_job`，由过期租约领取attempt2后在执行器初始化时报`provider_invalid_response`，没有新增题目尝试/结果。原报告保留，后续报告另记勘误，不据此将费用写成零。本地19个成功检查点保持原样，020 Run已由正式`RunCommands.recover()`持久化为`interrupted`，65题无检查点。语料不重备，heldout/人工/校准不运行。

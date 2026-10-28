@@ -43,6 +43,14 @@ docker compose --profile evaluation up -d --no-deps evaluation-worker
 
 ## 状态、取消和恢复
 
+### 显式continuation来源（2026-10-28）
+
+`POST /experiments`可带`continuation={source_experiment_id,source_attempt,source_version,reason}`。父实验由服务端按当前owner/kb读取，必须是failed/cancelled/incomplete终态且attempt/version、dataset/manifest/config字节指纹匹配；失败可重试标记不修改。已完成实验的质量比较继续用baseline，不使用continuation。省略与显式null等价，同client_request_id变更来源409；父来源缺失或越权404，活动/过期/冻结身份不匹配409。该协议只支持相同冻结配置；修改源码导致runtime code身份变化时，不能将新配置当旧版本续跑，也不自动迁移任何检查点。
+
+普通job首attempt不赋予中断重生成资格。只有显式continuation才能为已收敛interrupted Run派生新请求；已完成题仍按原config/question checkpoint复用，非retryable failed Run仍拒绝。调用之前在私有`evaluation_continuations`集合用新experiment/checkpoint稳定键`setOnInsert`保存父experiment/attempt/version快照、父Run/输入身份/固定request_key；RunService创建后先绑定新Run，再执行。创建Run后、checkpoint绑定前崩溃，原请求重发仍复用同一Run。重复/重新领取同一个continuation固定请求，后续Run再次interrupted时停止，不自动派生第三条付费Run。
+
+账本单列逻辑invoke/stream与token usage（只从实际Run遥测观察，缺失null），精确HTTP次数和费用保持null，不能把prepared或调用边界故障记为付费0。原失败/中断Run及旧结果不改，账本不是供应商计费明细，不承诺失败窗口exactly-once。r3已存的19继承+66执行材料保留历史身份，不为通过新门禁回填或重跑。本轮只运行隔离合成测试，未执行模型、heldout或人工评分。
+
 Mongo是任务状态事实来源。创建先持久化`pending/dispatch_pending`，API后台每15秒扫描；broker成功后确认，未领取的任务60秒后允许重投，重复消息由条件claim拒绝。运行保存attempt/token/租约，后台每10秒续120秒租约；过期`running/cancel_requested`可重新领取，旧代结果不能发布可见指针或释放新实验占用。
 
 取消带`expected_version`。排队直接取消并释放自身；运行中保留取消意图，在当前题结束边界停止，保留完成结果。浏览器退出不取消任务，同步模型请求无法硬中止，不能把已发送请求记成未计费。失败只保存安全错误码；超时/连接/429/5xx等已分类失败可以由维护者带版本重试，鉴权/格式/未知失败不自动重试。重试沿原输出和成功题尝试日志恢复；显式重试失败题用新的持久run请求身份，成功题不重复调用模型。供应商响应到检查点提交之间仍存在计费窗口，不承诺exactly-once。

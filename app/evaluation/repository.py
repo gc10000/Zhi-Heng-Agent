@@ -36,7 +36,7 @@ def public_experiment(row):
         'experiment_id', 'client_request_id', 'kb_id', 'eval_set_id', 'eval_set_version',
         'dataset_sha256', 'config_id', 'config_version', 'config_sha256', 'baseline_experiment_id',
         'state', 'attempt', 'version', 'retryable', 'error', 'summary', 'comparison',
-        'selected_questions', 'completed', 'failed', 'created_at', 'updated_at') if key in row}
+        'selected_questions', 'completed', 'failed', 'created_at', 'updated_at', 'continuation') if key in row}
 
 
 class EvaluationRepository:
@@ -110,6 +110,9 @@ class EvaluationRepository:
                               {'$set': {'active_experiment_id': None}, '$unset': {'lease_until': ''}})
 
     def create(self, user, data, *, descriptor, resolved, baseline=None):
+        # 新可选字段省略/显式null等价，兼容旧创建请求的幂等身份。
+        if data.get('continuation') is None:
+            data = {k: v for k, v in data.items() if k != 'continuation'}
         key = self._scope(user, data['kb_id']) | {'client_request_id': data['client_request_id']}
         identity = fingerprint({k: data[k] for k in data})
         prior = self.experiments.find_one(key)
@@ -117,6 +120,21 @@ class EvaluationRepository:
             if prior['request_sha256'] != identity:
                 raise APIError(409, 'idempotency_conflict', '相同请求标识已绑定其他实验参数。')
             return public_experiment(prior)
+        continuation = None
+        if data.get('continuation'):
+            source = data['continuation']
+            parent = self.get_experiment(user, source['source_experiment_id'])
+            if (parent['state'] not in {'failed', 'cancelled', 'incomplete'} or
+                    parent['attempt'] != source['source_attempt'] or
+                    parent['version'] != source['source_version'] or
+                    parent['kb_id'] != data['kb_id'] or
+                    any(parent.get(k) != descriptor[k] for k in ('dataset_sha256', 'manifest_sha256')) or
+                    parent['config_sha256'] != resolved['config_sha256'] or
+                    not isinstance(source.get('reason'), str) or not source['reason'].strip()):
+                raise APIError(409, 'continuation_source_invalid', '后续实验须绑定终态源任务的当前代际和相同冻结题集、配置。')
+            continuation = deepcopy(source) | dict(source_state=parent['state'],
+                source_retryable=parent['retryable'], source_error=deepcopy(parent.get('error')),
+                source_config_sha256=parent['config_sha256'], source_request_sha256=parent['request_sha256'])
         experiment_id = str(uuid4())
         if baseline is not None and (baseline.get('eval_set_id') != data['eval_set_id'] or
                                      baseline.get('eval_set_version') != data['eval_set_version'] or
@@ -133,6 +151,7 @@ class EvaluationRepository:
             'manifest_sha256': descriptor['manifest_sha256'], 'config_id': data['config_id'],
             'config_version': data['config_version'], 'config_sha256': resolved['config_sha256'],
             'baseline_experiment_id': data.get('baseline_experiment_id'),
+            'continuation': continuation,
             'corpus_binding': corpus_binding(resolved),
             'selected_questions': resolved['selected_questions'], 'eligible_questions': resolved['eligible_questions'],
             'state': 'pending', 'attempt': 0, 'version': 0, 'retryable': False, 'dispatch_pending': True,
