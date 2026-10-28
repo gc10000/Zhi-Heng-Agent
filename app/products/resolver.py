@@ -2,7 +2,7 @@
 from dataclasses import dataclass
 import re
 import unicodedata
-from app.products.equivalences import SOURCE_EQUIVALENCES
+from app.products.equivalences import SOURCE_EQUIVALENCES, SOURCE_ACCESSORIES
 
 
 def normalized(value):
@@ -14,6 +14,9 @@ def terms(product):
     values.extend(entry.variant for entry in SOURCE_EQUIVALENCES
                   if normalized(product['model']) == normalized(entry.canonical_model)
                   and (not product.get('brand') or normalized(product['brand']) == normalized(entry.brand)))
+    values.extend(entry.name for entry in SOURCE_ACCESSORIES
+                  if normalized(product['model']) == normalized(entry.canonical_model)
+                  and normalized(product.get('brand','')) == normalized(entry.brand))
     # 品牌+型号显示名中的独立型号也是确定的目录标识，不凭空生成近型号。
     values.extend(token for token in re.findall(r'[A-Za-z]+[-_ ]?\d[A-Za-z0-9_./-]*', product['model'])
                   if len(normalized(token)) >= 4)
@@ -66,6 +69,9 @@ def resolve_catalog(question, products):
         if re.search(r'(?:错误码|报错|故障码|端口|寄存器)\s*[:：]?\s*$', question[:match.start()]):
             continue
         name = normalized(token); prefix = re.match(r'[a-z]+', name).group()
+        # USB标准版本是接口规格；显式型号声明仍由下方严格扫描拒绝。
+        if re.fullmatch(r'usb[234](?:\.[012])?',name) and not re.search(r'型号\s*[:：]?\s*$',question[:match.start()]):
+            continue
         protocol = prefix in {'ipv', 'http', 'tcp', 'udp', 'rs', 'rj', 'ieee', 'cat',
                               'ubuntu', 'windows', 'debian', 'centos', 'rhel', 'python', 'linux', 'macos'}
         explicit = bool(re.search(r'型号\s*[:：]?\s*' + re.escape(token), question, re.I))

@@ -1,0 +1,344 @@
+{
+  "date": "2026-10-28",
+  "base_commit": "fc38668143be862cbb7941733c56cd087a827f13",
+  "status": "执行补修自验完成，待独立技术复审",
+  "question_ids": [
+    "support-v1-003",
+    "support-v1-004",
+    "support-v1-006",
+    "support-v1-007",
+    "support-v1-008",
+    "support-v1-009",
+    "support-v1-010",
+    "support-v1-019",
+    "support-v1-020",
+    "support-v1-021",
+    "support-v1-022",
+    "support-v1-034",
+    "support-v1-037",
+    "support-v1-038",
+    "support-v1-048",
+    "m6-g540-02-a",
+    "m6-g540-02-b",
+    "m6-g540-04-a",
+    "m6-g540-04-b",
+    "m6-g540-05-a",
+    "m6-g540-05-b",
+    "m6-g540-17-a",
+    "m6-g540-17-b",
+    "m6-g540-18-b",
+    "m6-g540-20-a"
+  ],
+  "root_cause_groups": [
+    {
+      "name": "原件命令缺冻结正文及当前code_body漏读",
+      "question_ids": [
+        "support-v1-003",
+        "support-v1-004",
+        "support-v1-006",
+        "support-v1-007",
+        "support-v1-008",
+        "support-v1-009",
+        "support-v1-010"
+      ]
+    },
+    {
+      "name": "正文已有但未到上下文，结构和标题补修后待真实检索",
+      "question_ids": [
+        "support-v1-019",
+        "support-v1-020",
+        "support-v1-021",
+        "support-v1-022",
+        "support-v1-034",
+        "support-v1-037",
+        "support-v1-038",
+        "support-v1-048",
+        "m6-g540-02-a",
+        "m6-g540-02-b",
+        "m6-g540-05-a",
+        "m6-g540-05-b",
+        "m6-g540-17-b"
+      ]
+    },
+    {
+      "name": "已复现并补修的检索前误澄清",
+      "question_ids": [
+        "m6-g540-04-a",
+        "m6-g540-04-b",
+        "m6-g540-17-a",
+        "m6-g540-18-b"
+      ]
+    },
+    {
+      "name": "上下文已有但源符号缺失，隔离来源转写待发布",
+      "question_ids": [
+        "m6-g540-20-a"
+      ]
+    }
+  ],
+  "offline": {
+    "tests": 237,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "integration": {
+    "tests": 39,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "groups_are_not_unique_total": true,
+  "red_groups": {
+    "red.xml": {
+      "tests": 19,
+      "failures": 9,
+      "errors": 0,
+      "skipped": 0
+    },
+    "red-second.xml": {
+      "tests": 21,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0
+    },
+    "red-boundaries.xml": {
+      "tests": 23,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0
+    },
+    "red-ranker.xml": {
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    "red-td-header.xml": {
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "cached_repair": {
+    "documents": [
+      {
+        "source": "D1",
+        "document_sha256": "72983cc9b60f7f165bf89d3f6cbe39d56c4db148fd4b894c70c37378f8be5c8e",
+        "cache_sha256": "113af69f33562d935beb9700dc1dc7e725978bfb583a766c43743b1d6ba806e7",
+        "old_revision": "5d6d6ca5-2ab2-5dea-9fa0-39535c7fe40e",
+        "new_local_revision": "b20d0ffb-4fbe-5a13-8922-7447a809ec93",
+        "frozen_count": 36,
+        "same_parsed_legacy_chunk_count": 39,
+        "new_count": 18,
+        "content_checks": 39,
+        "code_blocks": 7,
+        "assets": 4,
+        "published": false
+      },
+      {
+        "source": "D3",
+        "document_sha256": "977b5522d45fb1d3dfe8ac330c37841ad2751ffdfcbdaa64847ca753e78eff83",
+        "cache_sha256": "969fa1dfe2dd183c33d60f5e0a0a27cf54fa3add467003277be51d88777be47e",
+        "old_revision": "5a694197-46cd-59b9-8b35-b9f269f83abf",
+        "new_local_revision": "c1bbdba4-211d-5a42-bda7-2693fae5afb5",
+        "frozen_count": 272,
+        "same_parsed_legacy_chunk_count": 258,
+        "new_count": 151,
+        "content_checks": 355,
+        "code_blocks": 0,
+        "assets": 14,
+        "published": false
+      },
+      {
+        "source": "D4",
+        "document_sha256": "9eda0af991762156befd5b6ac651730835c7b8732b0c48d8761574406298ebb9",
+        "cache_sha256": "e67c2f9264306a42c02c4ce289932f97eea29fc761a55dd099cd60fa1a5b0993",
+        "old_revision": "ea19a424-fee3-5507-817a-95abcc8588c3",
+        "new_local_revision": "e9dc7b7c-b456-5b38-a479-a0b13b05c306",
+        "frozen_count": 185,
+        "same_parsed_legacy_chunk_count": 165,
+        "new_count": 64,
+        "content_checks": 170,
+        "code_blocks": 0,
+        "assets": 20,
+        "published": false
+      },
+      {
+        "source": "D5",
+        "document_sha256": "aa246f20a8b2a059b9e2c67410d0eccc2d86f3c643cc71a7b3eff6d7acff1523",
+        "cache_sha256": "09c8e9c3f99f2e54f7d2e2e514257d1898194f022301a77aba9dd11af0ed36cd",
+        "old_revision": "88a30414-88f5-54dc-9023-32293bb04829",
+        "new_local_revision": "bc5f0c99-c7d2-53b9-ba2b-8cee9145a6b2",
+        "frozen_count": 374,
+        "same_parsed_legacy_chunk_count": 345,
+        "new_count": 282,
+        "content_checks": 796,
+        "code_blocks": 0,
+        "assets": 29,
+        "published": false
+      }
+    ],
+    "content_preservation_checks": 1360,
+    "images_per_document": [
+      4,
+      14,
+      20,
+      29
+    ],
+    "source_supplements": 3,
+    "published": false,
+    "embeddings": 0,
+    "rerank_model_calls": 0
+  },
+  "adjacent_boundaries": {
+    "source_retention": 10,
+    "historical_runtime_answers": 10,
+    "current_ambiguous_route": 1,
+    "passed": true,
+    "new_generation_quality_proven": false
+  },
+  "immutable": {
+    "passed": true,
+    "protected_files": 145,
+    "frozen_collections": 22,
+    "frozen_chunks": 867,
+    "frozen_payload_sha256": "b5e0bc69a38447b0f747d11205bd1f974c08f5afcb380aeda46e2c92f65c0054",
+    "historical_writes": 0
+  },
+  "old_failed_files_equal_pre_recovery": 3,
+  "operations": {
+    "provider_model_calls": 0,
+    "real_dev_executed": false,
+    "heldout_executed": false,
+    "human_scores_written": 0,
+    "assistant_observations_written": 0,
+    "calibrations_created": 0,
+    "candidates_created": 0,
+    "human_declarations_written": 0,
+    "frozen_corpus_modified": false,
+    "subagents_used": false
+  },
+  "historical": {
+    "r3_experiment": "79b3cc58-cfd4-4da5-84c0-890d92a9be06",
+    "inherited": 19,
+    "executed": 66,
+    "inherited_stream": 19,
+    "new_stream": 61,
+    "exact_http": null,
+    "exact_cost": null,
+    "failed_experiment": "a5607e05-de22-4b24-9570-e85b7e09b521",
+    "state": "failed",
+    "attempt": 2,
+    "error": "provider_invalid_response",
+    "retryable": false,
+    "result_rows": 0,
+    "failed_calls": null,
+    "failed_cost": null
+  },
+  "m6_core": "4/7",
+  "unaccepted": [
+    "M6-04",
+    "M6-05",
+    "M6-08"
+  ],
+  "m7_authorized": false,
+  "stage_accepted": false,
+  "limitations": [
+    "本轮是技术自验，不是独立复审或真实模型质量证明",
+    "冻结语料未更新；召回与重排改善未知",
+    "旧导入转换脚本与更细向量召回根因未证实",
+    "两列td表头判断仍为启发式，发布前逐文档核差异",
+    "图标来源转写为执行助手待审资料修订，不是人工评分或观察",
+    "正式独立双轮、预校准、同范围候选和反馈复评仍未完成"
+  ],
+  "next_execution_actions": [
+    "独立技术复审及必要整改",
+    "核本机源修订与差异后，在新命名空间验证真实检索",
+    "沿正式发布/回切服务处理新修订，不改r3",
+    "遵守既定正式质量依赖，新调用前提交范围、来源、幂等与费用方案"
+  ],
+  "evidence": [
+    {
+      "path": "output/m6-quality-repair-20261028/red.xml",
+      "sha256": "9e248f6e664dbdc52872a17cb0150578c28f3ef5e14dceff58e5697e2f42e0eb",
+      "bytes": 13719
+    },
+    {
+      "path": "output/m6-quality-repair-20261028/red-second.xml",
+      "sha256": "0384f2ca2127cd33f1a736a5154e14699e30404b65b5200c2f0d59af548f303f",
+      "bytes": 6875
+    },
+    {
+      "path": "output/m6-quality-repair-20261028/red-boundaries.xml",
+      "sha256": "485f35a9fc839246d2aee6df62ce2e6bf1d3399671efb76684fa8d3c8568fb3a",
+      "bytes": 6735
+    },
+    {
+      "path": "output/m6-quality-repair-20261028/red-ranker.xml",
+      "sha256": "fb3737bc208bca08e39c70eb468faf8ece59c30874faad7ccfc02bf04115943d",
+      "bytes": 1472
+    },
+    {
+      "path": "output/m6-quality-repair-20261028/red-td-header.xml",
+      "sha256": "6b2b235114b0374387aa9a0225e6c3b24442f6542e7ac66a8e12967b218d1aa2",
+      "bytes": 1423
+    },
+    {
+      "path": "output/m6-quality-repair-20261028/offline-final-r2.xml",
+      "sha256": "9e56c75508812a731823aedc3178a7fa52e9292219d088597b9be9cded916e13",
+      "bytes": 35386
+    },
+    {
+      "path": "output/m6-quality-repair-20261028/integration-final.xml",
+      "sha256": "1bd5c81d9eceaacb5cf434f01a9f98bcba4d7ea48277643089b4cf4b61463534",
+      "bytes": 7052
+    },
+    {
+      "path": "output/m6-quality-repair-20261028/final-cache-r2/cached-repair-summary.json",
+      "sha256": "8783dadfacc376988925645f29eaaa87b60bb09c58a5d65e09e4585572cb6a64",
+      "bytes": 2406
+    },
+    {
+      "path": "output/m6-quality-repair-20261028/final-cache-r2/evidence-chain.json",
+      "sha256": "87062d721e78e62e23dadd01098eb5958cb58989d946146301da383cc2f24193",
+      "bytes": 97077
+    },
+    {
+      "path": "output/m6-quality-repair-20261028/adjacent-boundaries.json",
+      "sha256": "4765e3f07cc5d9e653c17a922a68db60a2f2e20cbf36de4775e248f2859137ee",
+      "bytes": 2942
+    },
+    {
+      "path": "output/m6-quality-repair-20261028/source-supplement-manifest.json",
+      "sha256": "2075fdc717ad7e1e4326af205fee90874e649018f167f44c3344c6cd10f31f04",
+      "bytes": 3393
+    },
+    {
+      "path": "output/m6-quality-repair-20261028/source-supplement-parsed.json",
+      "sha256": "2f44dfa83330cfbcbaa4235a7d5d9b373e7ca2e4a92ada02eca4a67d6b1fad55",
+      "bytes": 320241
+    },
+    {
+      "path": "output/m6-quality-repair-20261028/source-supplement-chunks.json",
+      "sha256": "9717f49cb669426bcd32191a501c3e869a02e9887a71bcc206faccb4616b4d56",
+      "bytes": 189480
+    },
+    {
+      "path": "output/m6-quality-repair-20261028/immutable-final.json",
+      "sha256": "5ec31ff6b090391a8f30f757e8170dc00cc0c54ddf542130b7108a3718a1f6e6",
+      "bytes": 226
+    },
+    {
+      "path": "output/m6-quality-repair-20261028/source-repair-first.log",
+      "sha256": "57cd8b3dcf2b3c2f93d88a024a00431b57050d4d27e66c6934fa284e79054c72",
+      "bytes": 644
+    },
+    {
+      "path": "output/m6-quality-repair-20261028/adjacent-boundaries-final.log",
+      "sha256": "5e15c279f0e2051f453ff3c93336350d12db567ae6e5d6db7ba729882db4a49d",
+      "bytes": 70
+    }
+  ]
+}

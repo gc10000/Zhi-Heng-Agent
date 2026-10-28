@@ -27,3 +27,22 @@ SOURCE_EQUIVALENCES = (
         excerpt='H3C LA2608-GM/GU 室内无线网关（以下简称LA2608）',
     ),
 )
+
+
+@dataclass(frozen=True)
+class SourceAccessory:
+    canonical_model: str
+    brand: str
+    name: str
+    source_sha256: str
+    physical_page: int
+    section: str
+
+
+# 只用于手册检索归属，不表示配件与机身同一产品或所有机型均兼容。
+SOURCE_ACCESSORIES = (
+    SourceAccessory('华为擎云 G540','华为','MateDock 3',
+        '977b5522d45fb1d3dfe8ac330c37841ad2751ffdfcbdaa64847ca753e78eff83',14,'扩展坞（可选配件）'),
+    SourceAccessory('华为擎云 G540','华为','MateDock 2',
+        '977b5522d45fb1d3dfe8ac330c37841ad2751ffdfcbdaa64847ca753e78eff83',15,'连接到电视、显示器或投影仪'),
+)

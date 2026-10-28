@@ -110,7 +110,7 @@ class MineruParser:
         self.max_pages=max_pages if max_pages is not None else int(os.getenv('MINERU_SEGMENT_MAX_PAGES','50'))
         self.max_bytes=max_bytes if max_bytes is not None else int(os.getenv('MINERU_SEGMENT_MAX_BYTES','100000000'))
         self.allow_native_fallback=allow_native_fallback
-        self.version=f'{provider.version}+structure-2/pages={self.max_pages}/bytes={self.max_bytes}/native={allow_native_fallback}'
+        self.version=f'{provider.version}+structure-3/pages={self.max_pages}/bytes={self.max_bytes}/native={allow_native_fallback}'
 
     def parse(self,path,*,document_id,revision_id):
         import fitz
@@ -149,6 +149,12 @@ class MineruParser:
                 bid=stable_id('block',revision_id,[segment['segment_offset'],index])
                 kind=item.get('type','text')
                 text=item.get('text','')
+                # MinerU代码正文有独立字段，不能把有效命令静默变成空文本块。
+                if kind=='code':
+                    text=item.get('code_body','') or text
+                    if not isinstance(text,str) or not text.strip():
+                        raise ProviderError('代码块缺少正文，禁止发布不完整解析')
+                    kind='steps'
                 if kind=='table': text=item.get('table_body','') or text
                 kind='heading' if kind=='text' and item.get('text_level') else kind
                 if kind not in {'text','heading','table','image','warning','steps'}: kind='text'
@@ -174,4 +180,4 @@ class MineruParser:
         with fitz.open(path) as pdf:
             pages=tuple(Page(number=i+1,width=p.rect.width,height=p.rect.height,rotation=p.rotation) for i,p in enumerate(pdf))
         return ParsedDocument(document_id=document_id,revision_id=revision_id,original_sha256=digest,parser='mineru',
-                              parser_version=self.provider.version+'+structure-2',quality_flags=tuple(sorted(set(flags))),pages=pages,blocks=tuple(blocks),images=tuple(images))
+                              parser_version=self.provider.version+'+structure-3',quality_flags=tuple(sorted(set(flags))),pages=pages,blocks=tuple(blocks),images=tuple(images))

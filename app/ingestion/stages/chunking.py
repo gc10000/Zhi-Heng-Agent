@@ -1,17 +1,18 @@
-"""结构化切片不跨块/型号合并；标题作为元数据，表格及图片边界明确。"""
+"""结构化切片按同章节相邻正文合并；保留型号、定位、表格及图片边界。"""
 import re
 from app.knowledge.models import Chunk,SourceRef,stable_id,content_hash
 from html.parser import HTMLParser
 
-VERSION = '2'
+VERSION = '3'
 
 
 class _TableReader(HTMLParser):
     def __init__(self):
-        super().__init__();self.rows=[];self.row=None;self.cell=None
+        super().__init__();self.rows=[];self.row=None;self.cell=None;self.has_header=False
     def handle_starttag(self,tag,attrs):
         if tag=='tr':self.row=[]
         if tag in {'th','td'}:self.cell=[]
+        if tag=='th':self.has_header=True
     def handle_data(self,data):
         if self.cell is not None:self.cell.append(data)
     def handle_endtag(self,tag):
@@ -31,7 +32,15 @@ def structured_blocks(document):
             groups[key].append(block)
         elif block.kind=='table' and not block.rows and '<table' in block.text.lower():
             parser=_TableReader();parser.feed(block.text)
-            output.append(block.model_copy(update={'rows':tuple(parser.rows)}))
+            # 部分解析器把真正表头也输出成td；常见列名仍按表头处理。
+            header=tuple(cell.strip().casefold() for cell in parser.rows[0]) if parser.rows else ()
+            labeled_header=(len(header)==2 and header[0] in {'参数','项目','名称','接口','parameter','item','name'}
+                            and header[1] in {'说明','描述','含义','值','description','value'})
+            if parser.rows and not parser.has_header and not labeled_header and all(len(row)==2 for row in parser.rows):
+                # 无表头的键值/编号说明表：每行都是数据，不能把第一部件当所有后续行的表头。
+                for i,row in enumerate(parser.rows):
+                    output.append(block.model_copy(update={'block_id':stable_id('table-row',document.revision_id,[block.block_id,i]),'rows':(row,)}))
+            else:output.append(block.model_copy(update={'rows':tuple(parser.rows)}))
         else:output.append(block)
     for value in output:
         if not isinstance(value,tuple):yield value;continue
@@ -57,12 +66,12 @@ class ChunkBoundaryError(ValueError):pass
 def split_text(text,max_chars):
     if max_chars<1:raise ValueError('切片上限必须大于0')
     # Markdown图片表达式保持原子；超限明确失败而非截断URL。
-    atoms=re.split(r'(!\[[^\]]*\]\([^)]*\))',text)
+    atoms=re.split(r'(^[ \t]*(?:`{3,}[^\n]*\n[\s\S]*?^[ \t]*`{3,}[ \t]*(?=\n|$)|~{3,}[^\n]*\n[\s\S]*?^[ \t]*~{3,}[ \t]*(?=\n|$))|!\[[^\]]*\]\([^)]*\))',text,flags=re.M)
     chunks=[];current=''
     for atom in atoms:
         if not atom:continue
-        if atom.startswith('!['):
-            if len(atom)>max_chars:raise ChunkBoundaryError('单个图片引用超过切片上限')
+        if atom.startswith('![') or re.match(r'^[ \t]*(?:`{3,}|~{3,})',atom):
+            if len(atom)>max_chars:raise ChunkBoundaryError('单个图片引用或代码块超过切片上限')
             if len(current)+len(atom)>max_chars:chunks.append(current);current=''
             current+=atom
         else:
@@ -80,9 +89,38 @@ def split_text(text,max_chars):
     return chunks
 
 
+def _coalesced_blocks(document,max_chars):
+    """同一章节的连续短步骤合并，跨页保留全部定位；不跨结构/型号/页码缺口。"""
+    pending=None;members=[]
+    def compatible(a,b):
+        if a.kind not in {'text','steps'} or b.kind not in {'text','steps'}:return False
+        if a.description is not None or b.description is not None or a.asset_ids or b.asset_ids:return False
+        if not a.heading_path or a.heading_path!=b.heading_path or a.product_ids!=b.product_ids:return False
+        if not a.source_refs or not b.source_refs:return False
+        left,right=a.source_refs[-1],b.source_refs[0]
+        if (left.document_id,left.revision_id,left.kind)!=(right.document_id,right.revision_id,right.kind):return False
+        if left.kind=='pdf':return left.page is not None and right.page is not None and 0<=right.page-left.page<=1
+        return False
+    for block in structured_blocks(document):
+        # 版面图可夹在同一句两段之间。保留独立图块，同时允许正文越过同范围图续接。
+        if pending is not None and block.kind=='image' and block.description is None and compatible(pending,block.model_copy(update={'kind':'text','asset_ids':()})):
+            yield block
+            continue
+        if pending is not None and compatible(pending,block) and len(pending.text)+2+len(block.text)<=max_chars:
+            members.append(block.block_id)
+            refs=tuple(dict.fromkeys((*pending.source_refs,*block.source_refs)))
+            pending=pending.model_copy(update={'block_id':stable_id('block-group',document.revision_id,members),
+                'text':pending.text+'\n\n'+block.text,'source_refs':refs,
+                'kind':'steps' if 'steps' in {pending.kind,block.kind} else 'text'})
+        else:
+            if pending is not None:yield pending
+            pending=block;members=[block.block_id]
+    if pending is not None:yield pending
+
+
 def chunk_document(document,*,max_chars=2000,default_product_ids=()):
     result=[]
-    for block in structured_blocks(document):
+    for block in _coalesced_blocks(document,max_chars):
         if any(ref.document_id!=document.document_id or ref.revision_id!=document.revision_id for ref in block.source_refs):
             raise ValueError('切片来源不能跨资料或修订')
         section_id=stable_id('section',document.revision_id,[block.block_id,block.heading_path])

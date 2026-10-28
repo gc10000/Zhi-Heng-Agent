@@ -1,5 +1,13 @@
 # 开发公共契约与任务交接边界
 
+## M6语义证据完整性补修契约（2026-10-28）
+
+MineruParser structure-3读取code_body，非法空代码显式拒绝；chunker3保持fenced CLI原子，单块超限不截断。同非空章节、同产品/修订、PDF连续页短正文可有界合并，可越过同范围独立版面图，保留所有source_refs与独立图资产；不跨表格/warning/章节/产品/页码缺口。无th两列键值/编号表按行索引，th、多列或常见td列标题继续带表头；表头语义推断有限，新语料发布前做差异核查。正式导入指纹通过parser/chunker版本区分，不覆盖旧修订。
+
+配件登记仅表达有源SHA/页码支持的检索归属，须目录品牌与完整型号匹配，不表示产品等价或兼容承诺。USB标准版本非设备型号，显式未知型号仍澄清。重排passage增加title/heading，不改原证据、分数类型或增加调用。生成context可读投影标识丢失图标，保护代码；引用与prompt_used_docs仍存原文，context图片不因此成为answer图。不新增API、配置或依赖，不回填历史结果/关联。
+
+冻结r3不重导入；本轮四份缓存及图标转写仅新本机修订待审，未embedding/发布/真实生成。不同源码/语料配置不自动继承旧检查点；未知HTTP/费用不补零，正式双轮/预校准/候选依赖不变。详见[边界与回切](../development/reviews/M6-08-semantic-quality-fix-r1.md)。
+
 ## M6-08 R2控制/Run分库接线契约（2026-10-28）
 
 正式job显式传递现有控制库能力，API/宿主实验和租约在M2_DB_NAME核验；Run/知识/checkpoint/来源关联仍在冻结target.database。先校验当前控制身份再写conversation/checkpoint/Run，绑定前重验；link固定control_database/target_database映射，父实验读控制库、父题级link读目标库。缺能力/来源/映射明确拒绝，无target fallback、实验复制、旧关联回填或配置迁移。跨库窗口不保证原子性，校验后失效可留下pending，由正式恢复收敛；合法进程重建复用固定请求及Run。R1累计计量契约不变，R1已有独立通过不替代R2复审；M6仍4/7、04/05/08未验收、M7未授权。

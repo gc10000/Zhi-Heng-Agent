@@ -32,7 +32,11 @@ def rerank(question, docs):
     with model_lock:
         from app.lm.reranker_utils import compute_rerank_scores
         from app.infrastructure.providers.clients import local_call
-        scores = local_call('rerank', lambda: compute_rerank_scores([[question, d['text']] for d in docs], normalize=True))
+        # 标题是证据对象范围，供重排区分机身/配件；不改写原正文、来源或评分含义。
+        def passage(doc):
+            title=doc.get('title') or '/'.join(doc.get('metadata',{}).get('heading_path',[]))
+            return ('章节：'+title+'\n' if title else '')+doc['text']
+        scores = local_call('rerank', lambda: compute_rerank_scores([[question, passage(d)] for d in docs], normalize=True))
     from app.infrastructure.providers.policy import ProviderFailure
     import math
     if isinstance(scores, (int, float)):
