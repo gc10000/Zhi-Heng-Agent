@@ -1,0 +1,317 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-28",
+  "source_commit": "0c06548d21f42858ae73b15c5deaf36e045d2d08",
+  "execution_id": "0f5eb69b860142f59080a31e93418876",
+  "config_sha256": "d49e5c5e0b70778e5477021944d5e043c69400993be1875e9c0ac5f275896d87",
+  "kind": "isolated_real_answers_single_assistant_analysis_not_official_quality",
+  "stage": {
+    "M6": "4/7",
+    "unaccepted": [
+      "M6-04",
+      "M6-05",
+      "M6-08"
+    ],
+    "M7_authorized": false
+  },
+  "namespace": {
+    "ledger": "m1_test_m6_answers_0f5eb69b860142f59080a31e93418876",
+    "readonly_corpus": "m1_test_m6_sq5_aad3135569bb44baaaf8f786cea680fd",
+    "readonly_collection": "m1_test_m6_sq5_aad3135569bb44baaaf8f786cea680fd"
+  },
+  "revisions": {
+    "D1": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+    "D3": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+    "D4": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+    "D5": "bbba1d67-2a74-52d1-8153-95060e8aede4"
+  },
+  "model": {
+    "alias": "qwen3.8-flash",
+    "reported_alias_matched": true,
+    "upstream_build_version": null,
+    "temperature": 0.1,
+    "sdk_max_retries": 0,
+    "timeout_seconds": 60,
+    "stream_usage": true,
+    "requested_max_tokens": 4096,
+    "requested_limit_is_not_verified_billing_cap": true,
+    "reasoning_usage_observed": true
+  },
+  "parameters": {
+    "fusion": "weighted",
+    "dense_weight": 0.5,
+    "sparse_weight": 0.5,
+    "dense": 20,
+    "sparse": 20,
+    "fusion_limit": 20,
+    "rerank": 20,
+    "context": 10,
+    "source_prerequisites_enabled_isolated": true,
+    "source_function_version": "1",
+    "global_default_enabled": false
+  },
+  "actual": {
+    "completed_runs": 25,
+    "new_answer_stream": 25,
+    "invoke": 0,
+    "token_usage": {
+      "input_tokens": 47093,
+      "output_tokens": 37464,
+      "total_tokens": 84557
+    },
+    "reasoning_included_in_output": 26946,
+    "exact_HTTP": null,
+    "cost": null,
+    "unsettled_real_calls_observed": 0,
+    "inherited_old_completed_runs": 0,
+    "new_embedding": 0,
+    "new_rerank": 0,
+    "new_vision": 0,
+    "query_vector_cache_reads": 26,
+    "rerank_cache_batches": 25,
+    "rerank_cache_pairs": 500,
+    "replay_new_calls": 0
+  },
+  "assistant_quality": {
+    "counts": {
+      "核心结论获原件支持": 15,
+      "部分正确需补正": 6,
+      "原件可答但本轮未答出": 4
+    },
+    "scope": "same_25_only",
+    "not_human": true,
+    "not_two_independent_rounds": true,
+    "not_formal_observation": true,
+    "remaining_retrieval": [
+      "support-v1-019",
+      "support-v1-021",
+      "support-v1-022",
+      "support-v1-048"
+    ],
+    "questions": [
+      {
+        "id": "support-v1-003",
+        "status": "核心结论获原件支持",
+        "chain": "necessary_text_reached_context_and_answer"
+      },
+      {
+        "id": "support-v1-004",
+        "status": "核心结论获原件支持",
+        "chain": "necessary_text_reached_context_and_answer"
+      },
+      {
+        "id": "support-v1-006",
+        "status": "核心结论获原件支持",
+        "chain": "necessary_text_reached_context_and_answer"
+      },
+      {
+        "id": "support-v1-007",
+        "status": "核心结论获原件支持",
+        "chain": "necessary_text_reached_context_and_answer"
+      },
+      {
+        "id": "support-v1-008",
+        "status": "部分正确需补正",
+        "chain": "provider_output_to_final_filter_content_loss"
+      },
+      {
+        "id": "support-v1-009",
+        "status": "核心结论获原件支持",
+        "chain": "necessary_text_reached_context_and_answer"
+      },
+      {
+        "id": "support-v1-010",
+        "status": "核心结论获原件支持",
+        "chain": "necessary_text_reached_context_and_answer"
+      },
+      {
+        "id": "support-v1-019",
+        "status": "原件可答但本轮未答出",
+        "chain": "necessary_body_missing_before_rerank"
+      },
+      {
+        "id": "support-v1-020",
+        "status": "核心结论获原件支持",
+        "chain": "necessary_text_reached_context_and_answer"
+      },
+      {
+        "id": "support-v1-021",
+        "status": "原件可答但本轮未答出",
+        "chain": "necessary_body_missing_before_rerank"
+      },
+      {
+        "id": "support-v1-022",
+        "status": "原件可答但本轮未答出",
+        "chain": "necessary_body_missing_before_rerank"
+      },
+      {
+        "id": "support-v1-034",
+        "status": "部分正确需补正",
+        "chain": "provider_output_to_final_filter_content_loss"
+      },
+      {
+        "id": "support-v1-037",
+        "status": "核心结论获原件支持",
+        "chain": "prerequisite_and_necessary_text_reached_answer"
+      },
+      {
+        "id": "support-v1-038",
+        "status": "核心结论获原件支持",
+        "chain": "prerequisite_and_necessary_text_reached_answer"
+      },
+      {
+        "id": "support-v1-048",
+        "status": "原件可答但本轮未答出",
+        "chain": "necessary_body_not_recalled"
+      },
+      {
+        "id": "m6-g540-02-a",
+        "status": "核心结论获原件支持",
+        "chain": "necessary_text_reached_context_and_answer"
+      },
+      {
+        "id": "m6-g540-02-b",
+        "status": "核心结论获原件支持",
+        "chain": "necessary_text_reached_context_and_answer"
+      },
+      {
+        "id": "m6-g540-04-a",
+        "status": "部分正确需补正",
+        "chain": "context_available_generation_scope_mismatch"
+      },
+      {
+        "id": "m6-g540-04-b",
+        "status": "核心结论获原件支持",
+        "chain": "necessary_text_reached_context_and_answer"
+      },
+      {
+        "id": "m6-g540-05-a",
+        "status": "部分正确需补正",
+        "chain": "prerequisite_in_context_accessory_name_omitted_in_answer"
+      },
+      {
+        "id": "m6-g540-05-b",
+        "status": "部分正确需补正",
+        "chain": "prerequisite_in_context_accessory_name_omitted_in_answer"
+      },
+      {
+        "id": "m6-g540-17-a",
+        "status": "核心结论获原件支持",
+        "chain": "necessary_text_reached_context_and_answer"
+      },
+      {
+        "id": "m6-g540-17-b",
+        "status": "部分正确需补正",
+        "chain": "prerequisite_in_context_accessory_name_omitted_in_answer"
+      },
+      {
+        "id": "m6-g540-18-b",
+        "status": "核心结论获原件支持",
+        "chain": "necessary_text_reached_context_and_answer"
+      },
+      {
+        "id": "m6-g540-20-a",
+        "status": "核心结论获原件支持",
+        "chain": "assistant_transcription_and_source_steps_reached_answer"
+      }
+    ]
+  },
+  "validation": {
+    "preflight_completed": 25,
+    "shared_passed": 74,
+    "audit_passed": 2046,
+    "browser": {
+      "passed": true,
+      "articles": 25,
+      "navigation": 25,
+      "sourceLinks": 36,
+      "overflow": false,
+      "uniqueSourceLinks": 21,
+      "pageErrors": []
+    },
+    "groups_not_summed": true,
+    "filter_defect_preservation_failures": 12,
+    "filter_defect_fixed": false
+  },
+  "preserved": {
+    "current_source_files": 179,
+    "protected_files": 821,
+    "new_chunks": 582,
+    "assets": 67,
+    "frozen_chunks": 867,
+    "frozen_nonTTL_collections": 21,
+    "audit_window_collections": 22,
+    "historical_TTL_count": 2315,
+    "current_TTL_count": 1674,
+    "source_or_default_pointers_changed": false,
+    "official_quality_writes": false
+  },
+  "known_failures_preserved": [
+    "initial_synthetic_preflight_interrupted_formal_recovery",
+    "audit_UTC_timezone_comparison",
+    "audit_extra_body_option_path",
+    "browser_packaged_chromium_absent_used_installed_Edge",
+    "final_filter_angle_tokens_lost",
+    "provider_usage_exceeds_requested_max_tokens"
+  ],
+  "historical": {
+    "r3_results": 85,
+    "inherited": 19,
+    "executed": 66,
+    "historical_stream": 19,
+    "new_stream": 61,
+    "exact_HTTP": null,
+    "cost": null,
+    "failed_experiment_state": "failed",
+    "failed_attempt": 2,
+    "failed_error": "provider_invalid_response",
+    "failed_retryable": false,
+    "failed_results": 0,
+    "failed_calls": null,
+    "failed_cost": null
+  },
+  "release_ready": false,
+  "formal_answer_quality_accepted": false,
+  "business_source_modified": false,
+  "new_formal_dev_or_heldout": false,
+  "subagents_used": false,
+  "next": "执行方补修最终AnswerFilter内容损失，使用合成红测及本轮25份供应商缓存离线重放；无新增调用，不覆盖本轮结果。",
+  "evidence": [
+    {
+      "path": "output\\m6-isolated-answers-20261028\\execution-r3.json",
+      "sha256": "5bb9cf7957146cedc5b7042e365904abbb8fa2eabad3b5ccdfc7896e70e4dfb1"
+    },
+    {
+      "path": "output\\m6-isolated-answers-20261028\\audit.json",
+      "sha256": "56a9f6242dbceab7275656088830e130d07d5be38f065649516e46f835053e74"
+    },
+    {
+      "path": "output\\m6-isolated-answers-20261028\\assistant-analysis.json",
+      "sha256": "479b65001269b51ad7c86d601f555512d839c033e38719a381f251657b92b7ff"
+    },
+    {
+      "path": "output\\m6-isolated-answers-20261028\\analysis-subject-bindings.json",
+      "sha256": "bb0bef04e6e0f5bbb9253a052861f7c353db21f25432f87669aa405f1e99a84c"
+    },
+    {
+      "path": "output\\m6-isolated-answers-20261028\\provider-final-diffs.json",
+      "sha256": "3e848e6bb4697f4b9cb7d1ee42f5583fc95666a22de822fc4a2546d9096a9138"
+    },
+    {
+      "path": "output\\m6-isolated-answers-20261028\\filter-probe.json",
+      "sha256": "3a2629548a2bee4a582805c51fff58ebf27ab09bad74ee674a3f5a731ead4a6a"
+    },
+    {
+      "path": "output\\m6-isolated-answers-20261028\\browser-validation.json",
+      "sha256": "c1a5b6dc25b2514a57e9129e6eb82455fa20770ba0bf7f2b6e5fc060c91d3d19"
+    },
+    {
+      "path": "output\\m6-isolated-answers-20261028\\final-evidence-files.json",
+      "sha256": "dc0819856f27ef6d47a745a220cdf0879f9751631b13f64be89204ad8a2a2b68"
+    },
+    {
+      "path": "output\\m6-isolated-answers-20261028\\seal.json",
+      "sha256": "fbf86172476409e37115d32fe2ebb4a2edd5aa8fee8dd22783ad152773257810"
+    }
+  ]
+}
