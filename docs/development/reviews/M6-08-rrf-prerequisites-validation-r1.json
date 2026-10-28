@@ -1,0 +1,2887 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-28",
+  "execution_kind": "isolated_real_retrieval_control_not_candidate",
+  "source_commit": "1eba5e733db7f8341bf5eecdbec17fb2e2f6eb81",
+  "versions": {
+    "code": "4a6f4e97267cf4dfe804c9885e3d14f505e70ed18b46199731b1df18f5963f62",
+    "prompt": "b138e40d429529a9aa1cfdd2c30b64e64e1c68113d4a7a52767a252b630e3aa3",
+    "model": "565fbfe4c795fb52f84183f7b2708491fd7824fa07f2de9fd546e9d6d6e5bb90"
+  },
+  "source_function_sha256": "ad9d46c6be3a28bb0c99602b5513728a193537daf177c9c3fa22d2260c1816d6",
+  "target": {
+    "database": "m1_test_m6_sq5_aad3135569bb44baaaf8f786cea680fd",
+    "collection": "m1_test_m6_sq5_aad3135569bb44baaaf8f786cea680fd",
+    "owner_id": "m6-sq5-aad3135569bb44baaaf8f786cea680fd",
+    "kb_id": "m6-sq5-aad3135569bb44baaaf8f786cea680fd",
+    "bucket": "product-knowledge",
+    "object_prefix": "m6-test/sq5-aad3135569bb44baaaf8f786cea680fd/"
+  },
+  "revisions": [
+    {
+      "source": "D1",
+      "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+      "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+      "original_sha256": "72983cc9b60f7f165bf89d3f6cbe39d56c4db148fd4b894c70c37378f8be5c8e",
+      "cache_sha256": "113af69f33562d935beb9700dc1dc7e725978bfb583a766c43743b1d6ba806e7"
+    },
+    {
+      "source": "D3",
+      "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+      "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+      "original_sha256": "977b5522d45fb1d3dfe8ac330c37841ad2751ffdfcbdaa64847ca753e78eff83",
+      "cache_sha256": "969fa1dfe2dd183c33d60f5e0a0a27cf54fa3add467003277be51d88777be47e"
+    },
+    {
+      "source": "D4",
+      "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+      "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+      "original_sha256": "9eda0af991762156befd5b6ac651730835c7b8732b0c48d8761574406298ebb9",
+      "cache_sha256": "e67c2f9264306a42c02c4ce289932f97eea29fc761a55dd099cd60fa1a5b0993"
+    },
+    {
+      "source": "D5",
+      "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+      "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+      "original_sha256": "aa246f20a8b2a059b9e2c67410d0eccc2d86f3c643cc71a7b3eff6d7acff1523",
+      "cache_sha256": "09c8e9c3f99f2e54f7d2e2e514257d1898194f022301a77aba9dd11af0ed36cd"
+    }
+  ],
+  "chunker": "5",
+  "corpus_changed": false,
+  "models": {
+    "embedding": "existing BGE-M3 vectors; no new encoding",
+    "reranker": "local BGE reranker large CPU FP32 normalize=True",
+    "historical_full_files_sha256": "3995645af911d30aa3ec13c90c61919bfe52830a0611f3f3820b6097062520fc"
+  },
+  "parameters": {
+    "retrieval": {
+      "dense_limit": 20,
+      "sparse_limit": 20,
+      "fusion_limit": 20,
+      "rerank_limit": 20,
+      "context_limit": 10,
+      "fusion": "rrf",
+      "dense_weight": 0.5,
+      "sparse_weight": 0.5,
+      "rrf_k": 60
+    },
+    "expansion": {
+      "enabled": false,
+      "max_chars": 6000,
+      "max_added": 4,
+      "radius": 1,
+      "max_seeds": 10
+    },
+    "enhancement": {
+      "hyde_enabled": false,
+      "decomposition_enabled": false,
+      "timeout_seconds": 8.0,
+      "max_queries": 3,
+      "hyde_max_chars": 2000,
+      "hyde_output_tokens": 512
+    },
+    "answer_budget": {
+      "context_window": 32768,
+      "output_tokens": 4096,
+      "reserve_tokens": 256,
+      "max_chars": 12000,
+      "output_token_field": "max_tokens"
+    },
+    "runtime": {
+      "embedding_batch_size": 4,
+      "rerank_batch_size": 8,
+      "cache_enabled": false,
+      "cache_max_entries": 128,
+      "cache_ttl_seconds": 60
+    }
+  },
+  "source_prerequisites": {
+    "max_added": 4,
+    "max_chars": 6000
+  },
+  "source_prerequisites_default_enabled": false,
+  "results": {
+    "executed": 25,
+    "expected": 25,
+    "primary_source_only": true,
+    "complete": {
+      "candidates": 24,
+      "reranked": 24,
+      "rrf": 21,
+      "rrf_prerequisites": 21,
+      "weighted_prerequisites": 21
+    },
+    "old_21_regressions": {
+      "rrf": [
+        "m6-g540-02-b"
+      ],
+      "rrf_prerequisites": [
+        "m6-g540-02-b"
+      ],
+      "weighted_prerequisites": []
+    },
+    "new_reached": {
+      "rrf": [
+        "support-v1-019"
+      ],
+      "rrf_prerequisites": [
+        "support-v1-019"
+      ],
+      "weighted_prerequisites": []
+    },
+    "still_missing": {
+      "rrf": [
+        "support-v1-021",
+        "support-v1-022",
+        "support-v1-048",
+        "m6-g540-02-b"
+      ],
+      "rrf_prerequisites": [
+        "support-v1-021",
+        "support-v1-022",
+        "support-v1-048",
+        "m6-g540-02-b"
+      ],
+      "weighted_prerequisites": [
+        "support-v1-019",
+        "support-v1-021",
+        "support-v1-022",
+        "support-v1-048"
+      ]
+    },
+    "answer_accuracy": null
+  },
+  "rows": [
+    {
+      "id": "support-v1-003",
+      "old_weighted_context": true,
+      "stages": {
+        "candidates": true,
+        "reranked": true,
+        "rrf": true,
+        "rrf_prerequisites": true,
+        "weighted_prerequisites": true
+      },
+      "necessary_source_rerank": {
+        "10": {
+          "rank": 1,
+          "score": 0.9930066697413048,
+          "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+          "source_refs": [
+            {
+              "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+              "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+              "kind": "pdf",
+              "page": 4,
+              "printed_page": null,
+              "section_path": [
+                "H3C LA2608 室内无线网关",
+                "1.2.1 配置LA2608"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            },
+            {
+              "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+              "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+              "kind": "pdf",
+              "page": 5,
+              "printed_page": null,
+              "section_path": [
+                "H3C LA2608 室内无线网关",
+                "1.2.1 配置LA2608"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        }
+      },
+      "source_checks": {
+        "rrf": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": true,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "rrf_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": true,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "weighted_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": true,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        }
+      },
+      "new_answer_generated": false,
+      "answer_quality_proven": false
+    },
+    {
+      "id": "support-v1-004",
+      "old_weighted_context": true,
+      "stages": {
+        "candidates": true,
+        "reranked": true,
+        "rrf": true,
+        "rrf_prerequisites": true,
+        "weighted_prerequisites": true
+      },
+      "necessary_source_rerank": {
+        "10": {
+          "rank": 1,
+          "score": 0.9929166193994747,
+          "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+          "source_refs": [
+            {
+              "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+              "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+              "kind": "pdf",
+              "page": 4,
+              "printed_page": null,
+              "section_path": [
+                "H3C LA2608 室内无线网关",
+                "1.2.1 配置LA2608"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            },
+            {
+              "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+              "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+              "kind": "pdf",
+              "page": 5,
+              "printed_page": null,
+              "section_path": [
+                "H3C LA2608 室内无线网关",
+                "1.2.1 配置LA2608"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        }
+      },
+      "source_checks": {
+        "rrf": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": true,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "rrf_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": true,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "weighted_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": true,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        }
+      },
+      "new_answer_generated": false,
+      "answer_quality_proven": false
+    },
+    {
+      "id": "support-v1-006",
+      "old_weighted_context": true,
+      "stages": {
+        "candidates": true,
+        "reranked": true,
+        "rrf": true,
+        "rrf_prerequisites": true,
+        "weighted_prerequisites": true
+      },
+      "necessary_source_rerank": {
+        "10": {
+          "rank": 1,
+          "score": 0.9456979903161599,
+          "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+          "source_refs": [
+            {
+              "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+              "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+              "kind": "pdf",
+              "page": 4,
+              "printed_page": null,
+              "section_path": [
+                "H3C LA2608 室内无线网关",
+                "1.2.1 配置LA2608"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            },
+            {
+              "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+              "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+              "kind": "pdf",
+              "page": 5,
+              "printed_page": null,
+              "section_path": [
+                "H3C LA2608 室内无线网关",
+                "1.2.1 配置LA2608"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        }
+      },
+      "source_checks": {
+        "rrf": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": true,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "rrf_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": true,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "weighted_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": true,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        }
+      },
+      "new_answer_generated": false,
+      "answer_quality_proven": false
+    },
+    {
+      "id": "support-v1-007",
+      "old_weighted_context": true,
+      "stages": {
+        "candidates": true,
+        "reranked": true,
+        "rrf": true,
+        "rrf_prerequisites": true,
+        "weighted_prerequisites": true
+      },
+      "necessary_source_rerank": {
+        "10": {
+          "rank": 2,
+          "score": 0.6115888062313605,
+          "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+          "source_refs": [
+            {
+              "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+              "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+              "kind": "pdf",
+              "page": 4,
+              "printed_page": null,
+              "section_path": [
+                "H3C LA2608 室内无线网关",
+                "1.2.1 配置LA2608"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            },
+            {
+              "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+              "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+              "kind": "pdf",
+              "page": 5,
+              "printed_page": null,
+              "section_path": [
+                "H3C LA2608 室内无线网关",
+                "1.2.1 配置LA2608"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        }
+      },
+      "source_checks": {
+        "rrf": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": true,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "rrf_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": true,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "weighted_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": true,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        }
+      },
+      "new_answer_generated": false,
+      "answer_quality_proven": false
+    },
+    {
+      "id": "support-v1-008",
+      "old_weighted_context": true,
+      "stages": {
+        "candidates": true,
+        "reranked": true,
+        "rrf": true,
+        "rrf_prerequisites": true,
+        "weighted_prerequisites": true
+      },
+      "necessary_source_rerank": {
+        "10": {
+          "rank": 2,
+          "score": 0.831839771934273,
+          "chunk_uid": "1ce4011e-1aa8-572b-bae0-94204be235b8",
+          "source_refs": [
+            {
+              "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+              "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+              "kind": "pdf",
+              "page": 4,
+              "printed_page": null,
+              "section_path": [
+                "H3C LA2608 室内无线网关",
+                "1.2.1 配置LA2608"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            },
+            {
+              "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+              "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+              "kind": "pdf",
+              "page": 5,
+              "printed_page": null,
+              "section_path": [
+                "H3C LA2608 室内无线网关",
+                "1.2.1 配置LA2608"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        }
+      },
+      "source_checks": {
+        "rrf": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": true,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "rrf_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": true,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "weighted_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": true,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        }
+      },
+      "new_answer_generated": false,
+      "answer_quality_proven": false
+    },
+    {
+      "id": "support-v1-009",
+      "old_weighted_context": true,
+      "stages": {
+        "candidates": true,
+        "reranked": true,
+        "rrf": true,
+        "rrf_prerequisites": true,
+        "weighted_prerequisites": true
+      },
+      "necessary_source_rerank": {
+        "15": {
+          "rank": 1,
+          "score": 0.9759500120548698,
+          "chunk_uid": "59855add-3ced-5c96-af22-50b1cafecaf1",
+          "source_refs": [
+            {
+              "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+              "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+              "kind": "pdf",
+              "page": 5,
+              "printed_page": null,
+              "section_path": [
+                "H3C LA2608 室内无线网关",
+                "(1) 创建业务 VLAN"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            },
+            {
+              "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+              "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+              "kind": "pdf",
+              "page": 6,
+              "printed_page": null,
+              "section_path": [
+                "H3C LA2608 室内无线网关",
+                "(1) 创建业务 VLAN"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        }
+      },
+      "source_checks": {
+        "rrf": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": true,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "rrf_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": true,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "weighted_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": true,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        }
+      },
+      "new_answer_generated": false,
+      "answer_quality_proven": false
+    },
+    {
+      "id": "support-v1-010",
+      "old_weighted_context": true,
+      "stages": {
+        "candidates": true,
+        "reranked": true,
+        "rrf": true,
+        "rrf_prerequisites": true,
+        "weighted_prerequisites": true
+      },
+      "necessary_source_rerank": {
+        "15": {
+          "rank": 1,
+          "score": 0.9856845030745035,
+          "chunk_uid": "59855add-3ced-5c96-af22-50b1cafecaf1",
+          "source_refs": [
+            {
+              "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+              "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+              "kind": "pdf",
+              "page": 5,
+              "printed_page": null,
+              "section_path": [
+                "H3C LA2608 室内无线网关",
+                "(1) 创建业务 VLAN"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            },
+            {
+              "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+              "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+              "kind": "pdf",
+              "page": 6,
+              "printed_page": null,
+              "section_path": [
+                "H3C LA2608 室内无线网关",
+                "(1) 创建业务 VLAN"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        }
+      },
+      "source_checks": {
+        "rrf": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": true,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "rrf_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": true,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "weighted_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": true,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        }
+      },
+      "new_answer_generated": false,
+      "answer_quality_proven": false
+    },
+    {
+      "id": "support-v1-019",
+      "old_weighted_context": false,
+      "stages": {
+        "candidates": true,
+        "reranked": true,
+        "rrf": true,
+        "rrf_prerequisites": true,
+        "weighted_prerequisites": false
+      },
+      "necessary_source_rerank": {
+        "66": {
+          "rank": 6,
+          "score": 0.9200697250362356,
+          "chunk_uid": "5fdb4ef4-4d85-54d6-974f-7279af494765",
+          "source_refs": [
+            {
+              "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+              "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+              "kind": "pdf",
+              "page": 9,
+              "printed_page": null,
+              "section_path": [
+                "3. 确认管理计算机和设备之间的网络是否连通"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            },
+            {
+              "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+              "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+              "kind": "pdf",
+              "page": 10,
+              "printed_page": null,
+              "section_path": [
+                "3. 确认管理计算机和设备之间的网络是否连通"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        }
+      },
+      "source_checks": {
+        "rrf": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "rrf_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "weighted_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        }
+      },
+      "new_answer_generated": false,
+      "answer_quality_proven": false
+    },
+    {
+      "id": "support-v1-020",
+      "old_weighted_context": true,
+      "stages": {
+        "candidates": true,
+        "reranked": true,
+        "rrf": true,
+        "rrf_prerequisites": true,
+        "weighted_prerequisites": true
+      },
+      "necessary_source_rerank": {
+        "74": {
+          "rank": 1,
+          "score": 0.8425989006756338,
+          "chunk_uid": "093ee2fb-793b-5cfe-978c-ea2c7da9cbe0",
+          "source_refs": [
+            {
+              "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+              "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+              "kind": "pdf",
+              "page": 10,
+              "printed_page": null,
+              "section_path": [
+                "说明"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            },
+            {
+              "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+              "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+              "kind": "pdf",
+              "page": 11,
+              "printed_page": null,
+              "section_path": [
+                "说明"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        }
+      },
+      "source_checks": {
+        "rrf": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "rrf_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "weighted_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        }
+      },
+      "new_answer_generated": false,
+      "answer_quality_proven": false
+    },
+    {
+      "id": "support-v1-021",
+      "old_weighted_context": false,
+      "stages": {
+        "candidates": true,
+        "reranked": true,
+        "rrf": false,
+        "rrf_prerequisites": false,
+        "weighted_prerequisites": false
+      },
+      "necessary_source_rerank": {
+        "79": {
+          "rank": 12,
+          "score": 0.19934675248591938,
+          "chunk_uid": "2f9c529b-a885-566b-85c4-80459effb1e1",
+          "source_refs": [
+            {
+              "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+              "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+              "kind": "pdf",
+              "page": 12,
+              "printed_page": null,
+              "section_path": [
+                "3.2 登录设备Web页面"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            },
+            {
+              "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+              "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+              "kind": "pdf",
+              "page": 13,
+              "printed_page": null,
+              "section_path": [
+                "3.2 登录设备Web页面"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        }
+      },
+      "source_checks": {
+        "rrf": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "rrf_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "weighted_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        }
+      },
+      "new_answer_generated": false,
+      "answer_quality_proven": false
+    },
+    {
+      "id": "support-v1-022",
+      "old_weighted_context": false,
+      "stages": {
+        "candidates": true,
+        "reranked": true,
+        "rrf": false,
+        "rrf_prerequisites": false,
+        "weighted_prerequisites": false
+      },
+      "necessary_source_rerank": {
+        "84": {
+          "rank": 13,
+          "score": 0.2565611147513738,
+          "chunk_uid": "36084bbb-ce4c-5203-a4d8-dcb92cc9d299",
+          "source_refs": [
+            {
+              "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+              "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+              "kind": "pdf",
+              "page": 13,
+              "printed_page": null,
+              "section_path": [
+                "3.3.1 Web设置页面概述"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            },
+            {
+              "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+              "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+              "kind": "pdf",
+              "page": 14,
+              "printed_page": null,
+              "section_path": [
+                "3.3.1 Web设置页面概述"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        }
+      },
+      "source_checks": {
+        "rrf": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "rrf_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "weighted_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        }
+      },
+      "new_answer_generated": false,
+      "answer_quality_proven": false
+    },
+    {
+      "id": "support-v1-034",
+      "old_weighted_context": true,
+      "stages": {
+        "candidates": true,
+        "reranked": true,
+        "rrf": true,
+        "rrf_prerequisites": true,
+        "weighted_prerequisites": true
+      },
+      "necessary_source_rerank": {
+        "216": {
+          "rank": 2,
+          "score": 0.6615716937115376,
+          "chunk_uid": "60b66e7f-eed2-5f89-b68d-599d23aa5466",
+          "source_refs": [
+            {
+              "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+              "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+              "kind": "pdf",
+              "page": 26,
+              "printed_page": null,
+              "section_path": [
+                "3. 更新备份配置"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            },
+            {
+              "document_id": "d73f314e-16de-5758-9e4c-a997e08ce51e",
+              "revision_id": "bbba1d67-2a74-52d1-8153-95060e8aede4",
+              "kind": "pdf",
+              "page": 27,
+              "printed_page": null,
+              "section_path": [
+                "3. 更新备份配置"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        }
+      },
+      "source_checks": {
+        "rrf": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "rrf_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "weighted_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        }
+      },
+      "new_answer_generated": false,
+      "answer_quality_proven": false
+    },
+    {
+      "id": "support-v1-037",
+      "old_weighted_context": true,
+      "stages": {
+        "candidates": true,
+        "reranked": true,
+        "rrf": true,
+        "rrf_prerequisites": true,
+        "weighted_prerequisites": true
+      },
+      "necessary_source_rerank": {
+        "6": {
+          "rank": 1,
+          "score": 0.9889777677741056,
+          "chunk_uid": "8f32d815-d879-54bd-b461-946e181924e7",
+          "source_refs": [
+            {
+              "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+              "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+              "kind": "pdf",
+              "page": 3,
+              "printed_page": null,
+              "section_path": [
+                "迅饶网关与小米产品通讯配置说明",
+                "1. 系统网络架构"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        }
+      },
+      "source_checks": {
+        "rrf": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "rrf_prerequisites": {
+          "cover_2019": true,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 11,
+          "prompt_omitted_documents": 0
+        },
+        "weighted_prerequisites": {
+          "cover_2019": true,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 11,
+          "prompt_omitted_documents": 0
+        }
+      },
+      "new_answer_generated": false,
+      "answer_quality_proven": false
+    },
+    {
+      "id": "support-v1-038",
+      "old_weighted_context": true,
+      "stages": {
+        "candidates": true,
+        "reranked": true,
+        "rrf": true,
+        "rrf_prerequisites": true,
+        "weighted_prerequisites": true
+      },
+      "necessary_source_rerank": {
+        "12": {
+          "rank": 1,
+          "score": 0.9636597885615594,
+          "chunk_uid": "570804d9-a985-55ac-8f81-8dd8f0bd4e28",
+          "source_refs": [
+            {
+              "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+              "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+              "kind": "pdf",
+              "page": 3,
+              "printed_page": null,
+              "section_path": [
+                "迅饶网关与小米产品通讯配置说明",
+                "2.2 开启绿米网关局域网协议"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            },
+            {
+              "document_id": "7a12c66a-86fe-5800-88d7-0e6b6fe186bb",
+              "revision_id": "04b8c155-a915-56a1-b281-8c28a1b1e723",
+              "kind": "pdf",
+              "page": 4,
+              "printed_page": null,
+              "section_path": [
+                "迅饶网关与小米产品通讯配置说明",
+                "2.2 开启绿米网关局域网协议"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        }
+      },
+      "source_checks": {
+        "rrf": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "rrf_prerequisites": {
+          "cover_2019": true,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 11,
+          "prompt_omitted_documents": 0
+        },
+        "weighted_prerequisites": {
+          "cover_2019": true,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 11,
+          "prompt_omitted_documents": 0
+        }
+      },
+      "new_answer_generated": false,
+      "answer_quality_proven": false
+    },
+    {
+      "id": "support-v1-048",
+      "old_weighted_context": false,
+      "stages": {
+        "candidates": false,
+        "reranked": false,
+        "rrf": false,
+        "rrf_prerequisites": false,
+        "weighted_prerequisites": false
+      },
+      "necessary_source_rerank": {
+        "6": {
+          "rank": 1,
+          "score": 0.547458809772532,
+          "chunk_uid": "42bced77-789b-5b10-88bc-c72993caca07",
+          "source_refs": [
+            {
+              "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+              "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+              "kind": "pdf",
+              "page": 4,
+              "printed_page": null,
+              "section_path": [
+                "H3C LA2608 室内无线网关",
+                "1.1 概述"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        },
+        "8": {
+          "rank": 8,
+          "score": 0.17740979485794853,
+          "chunk_uid": "d70abca9-f422-5790-9e13-fef023405efd",
+          "source_refs": [
+            {
+              "document_id": "6d8a2e2d-6678-5340-86cc-5930ce985004",
+              "revision_id": "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+              "kind": "pdf",
+              "page": 4,
+              "printed_page": null,
+              "section_path": [
+                "H3C LA2608 室内无线网关",
+                "1.2 配置LA2608与无线控制器互通"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        }
+      },
+      "source_checks": {
+        "rrf": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "rrf_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "weighted_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        }
+      },
+      "new_answer_generated": false,
+      "answer_quality_proven": false
+    },
+    {
+      "id": "m6-g540-02-a",
+      "old_weighted_context": true,
+      "stages": {
+        "candidates": true,
+        "reranked": true,
+        "rrf": true,
+        "rrf_prerequisites": true,
+        "weighted_prerequisites": true
+      },
+      "necessary_source_rerank": {
+        "10": {
+          "rank": 1,
+          "score": 0.35438000343363407,
+          "chunk_uid": "935b5708-607d-5e59-a277-b9c65971161a",
+          "source_refs": [
+            {
+              "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+              "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+              "kind": "pdf",
+              "page": 4,
+              "printed_page": null,
+              "section_path": [
+                "外观介绍"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        }
+      },
+      "source_checks": {
+        "rrf": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": false,
+          "object_2_limitation": true,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "rrf_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": false,
+          "object_2_limitation": true,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "weighted_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        }
+      },
+      "new_answer_generated": false,
+      "answer_quality_proven": false
+    },
+    {
+      "id": "m6-g540-02-b",
+      "old_weighted_context": true,
+      "stages": {
+        "candidates": true,
+        "reranked": true,
+        "rrf": false,
+        "rrf_prerequisites": false,
+        "weighted_prerequisites": true
+      },
+      "necessary_source_rerank": {
+        "10": {
+          "rank": 11,
+          "score": 0.004814717209805249,
+          "chunk_uid": "935b5708-607d-5e59-a277-b9c65971161a",
+          "source_refs": [
+            {
+              "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+              "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+              "kind": "pdf",
+              "page": 4,
+              "printed_page": null,
+              "section_path": [
+                "外观介绍"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        }
+      },
+      "source_checks": {
+        "rrf": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "rrf_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "weighted_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        }
+      },
+      "new_answer_generated": false,
+      "answer_quality_proven": false
+    },
+    {
+      "id": "m6-g540-04-a",
+      "old_weighted_context": true,
+      "stages": {
+        "candidates": true,
+        "reranked": true,
+        "rrf": true,
+        "rrf_prerequisites": true,
+        "weighted_prerequisites": true
+      },
+      "necessary_source_rerank": {
+        "20": {
+          "rank": 1,
+          "score": 0.8691572524883302,
+          "chunk_uid": "772c95b4-c214-5e4f-b22b-ce7b5ea99155",
+          "source_refs": [
+            {
+              "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+              "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+              "kind": "pdf",
+              "page": 4,
+              "printed_page": null,
+              "section_path": [
+                "外观介绍"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        }
+      },
+      "source_checks": {
+        "rrf": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "rrf_prerequisites": {
+          "cover_2019": false,
+          "object_3": true,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 11,
+          "prompt_omitted_documents": 0
+        },
+        "weighted_prerequisites": {
+          "cover_2019": false,
+          "object_3": true,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 11,
+          "prompt_omitted_documents": 0
+        }
+      },
+      "new_answer_generated": false,
+      "answer_quality_proven": false
+    },
+    {
+      "id": "m6-g540-04-b",
+      "old_weighted_context": true,
+      "stages": {
+        "candidates": true,
+        "reranked": true,
+        "rrf": true,
+        "rrf_prerequisites": true,
+        "weighted_prerequisites": true
+      },
+      "necessary_source_rerank": {
+        "20": {
+          "rank": 1,
+          "score": 0.9767963163547486,
+          "chunk_uid": "772c95b4-c214-5e4f-b22b-ce7b5ea99155",
+          "source_refs": [
+            {
+              "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+              "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+              "kind": "pdf",
+              "page": 4,
+              "printed_page": null,
+              "section_path": [
+                "外观介绍"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        }
+      },
+      "source_checks": {
+        "rrf": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "rrf_prerequisites": {
+          "cover_2019": false,
+          "object_3": true,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 11,
+          "prompt_omitted_documents": 0
+        },
+        "weighted_prerequisites": {
+          "cover_2019": false,
+          "object_3": true,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 11,
+          "prompt_omitted_documents": 0
+        }
+      },
+      "new_answer_generated": false,
+      "answer_quality_proven": false
+    },
+    {
+      "id": "m6-g540-05-a",
+      "old_weighted_context": true,
+      "stages": {
+        "candidates": true,
+        "reranked": true,
+        "rrf": true,
+        "rrf_prerequisites": true,
+        "weighted_prerequisites": true
+      },
+      "necessary_source_rerank": {
+        "21": {
+          "rank": 1,
+          "score": 0.858579107174096,
+          "chunk_uid": "1908c880-6853-5028-8452-5e1b9495858a",
+          "source_refs": [
+            {
+              "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+              "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+              "kind": "pdf",
+              "page": 4,
+              "printed_page": null,
+              "section_path": [
+                "外观介绍"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        }
+      },
+      "source_checks": {
+        "rrf": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": true,
+          "dock_lan": true,
+          "no_data": false,
+          "object_2_limitation": true,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "rrf_prerequisites": {
+          "cover_2019": false,
+          "object_3": true,
+          "body_rj45": true,
+          "dock_lan": true,
+          "no_data": false,
+          "object_2_limitation": true,
+          "all_prerequisites_atomic": true,
+          "context_count": 12,
+          "prompt_omitted_documents": 0
+        },
+        "weighted_prerequisites": {
+          "cover_2019": false,
+          "object_3": true,
+          "no_data": false,
+          "body_rj45": true,
+          "dock_lan": true,
+          "object_2_limitation": true,
+          "all_prerequisites_atomic": true,
+          "context_count": 12,
+          "prompt_omitted_documents": 0
+        }
+      },
+      "new_answer_generated": false,
+      "answer_quality_proven": false
+    },
+    {
+      "id": "m6-g540-05-b",
+      "old_weighted_context": true,
+      "stages": {
+        "candidates": true,
+        "reranked": true,
+        "rrf": true,
+        "rrf_prerequisites": true,
+        "weighted_prerequisites": true
+      },
+      "necessary_source_rerank": {
+        "21": {
+          "rank": 1,
+          "score": 0.7244651792219307,
+          "chunk_uid": "1908c880-6853-5028-8452-5e1b9495858a",
+          "source_refs": [
+            {
+              "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+              "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+              "kind": "pdf",
+              "page": 4,
+              "printed_page": null,
+              "section_path": [
+                "外观介绍"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        }
+      },
+      "source_checks": {
+        "rrf": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": true,
+          "dock_lan": true,
+          "no_data": false,
+          "object_2_limitation": true,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "rrf_prerequisites": {
+          "cover_2019": false,
+          "object_3": true,
+          "body_rj45": true,
+          "dock_lan": true,
+          "no_data": false,
+          "object_2_limitation": true,
+          "all_prerequisites_atomic": true,
+          "context_count": 12,
+          "prompt_omitted_documents": 0
+        },
+        "weighted_prerequisites": {
+          "cover_2019": false,
+          "object_3": true,
+          "no_data": false,
+          "body_rj45": true,
+          "dock_lan": true,
+          "object_2_limitation": true,
+          "all_prerequisites_atomic": true,
+          "context_count": 11,
+          "prompt_omitted_documents": 0
+        }
+      },
+      "new_answer_generated": false,
+      "answer_quality_proven": false
+    },
+    {
+      "id": "m6-g540-17-a",
+      "old_weighted_context": true,
+      "stages": {
+        "candidates": true,
+        "reranked": true,
+        "rrf": true,
+        "rrf_prerequisites": true,
+        "weighted_prerequisites": true
+      },
+      "necessary_source_rerank": {
+        "90": {
+          "rank": 1,
+          "score": 0.9433072206918195,
+          "chunk_uid": "5c7ac349-cbb1-501c-b219-3c5a3fccd0ac",
+          "source_refs": [
+            {
+              "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+              "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+              "kind": "pdf",
+              "page": 14,
+              "printed_page": null,
+              "section_path": [
+                "配件及扩展连线",
+                "扩展坞（可选配件）"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        }
+      },
+      "source_checks": {
+        "rrf": {
+          "cover_2019": false,
+          "object_3": true,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": true,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "rrf_prerequisites": {
+          "cover_2019": false,
+          "object_3": true,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": true,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "weighted_prerequisites": {
+          "cover_2019": false,
+          "object_3": true,
+          "no_data": true,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 11,
+          "prompt_omitted_documents": 0
+        }
+      },
+      "new_answer_generated": false,
+      "answer_quality_proven": false
+    },
+    {
+      "id": "m6-g540-17-b",
+      "old_weighted_context": true,
+      "stages": {
+        "candidates": true,
+        "reranked": true,
+        "rrf": true,
+        "rrf_prerequisites": true,
+        "weighted_prerequisites": true
+      },
+      "necessary_source_rerank": {
+        "90": {
+          "rank": 2,
+          "score": 0.4460282064470486,
+          "chunk_uid": "5c7ac349-cbb1-501c-b219-3c5a3fccd0ac",
+          "source_refs": [
+            {
+              "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+              "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+              "kind": "pdf",
+              "page": 14,
+              "printed_page": null,
+              "section_path": [
+                "配件及扩展连线",
+                "扩展坞（可选配件）"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        }
+      },
+      "source_checks": {
+        "rrf": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": true,
+          "object_2_limitation": true,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "rrf_prerequisites": {
+          "cover_2019": false,
+          "object_3": true,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": true,
+          "object_2_limitation": true,
+          "all_prerequisites_atomic": true,
+          "context_count": 11,
+          "prompt_omitted_documents": 0
+        },
+        "weighted_prerequisites": {
+          "cover_2019": false,
+          "object_3": true,
+          "no_data": true,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": true,
+          "all_prerequisites_atomic": true,
+          "context_count": 11,
+          "prompt_omitted_documents": 0
+        }
+      },
+      "new_answer_generated": false,
+      "answer_quality_proven": false
+    },
+    {
+      "id": "m6-g540-18-b",
+      "old_weighted_context": true,
+      "stages": {
+        "candidates": true,
+        "reranked": true,
+        "rrf": true,
+        "rrf_prerequisites": true,
+        "weighted_prerequisites": true
+      },
+      "necessary_source_rerank": {
+        "95": {
+          "rank": 1,
+          "score": 0.95144718583755,
+          "chunk_uid": "2049d447-97f6-5443-9baf-79b7e87ebbca",
+          "source_refs": [
+            {
+              "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+              "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+              "kind": "pdf",
+              "page": 14,
+              "printed_page": null,
+              "section_path": [
+                "配件及扩展连线",
+                "连接到电视、显示器或投影仪"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            },
+            {
+              "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+              "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+              "kind": "pdf",
+              "page": 15,
+              "printed_page": null,
+              "section_path": [
+                "配件及扩展连线",
+                "连接到电视、显示器或投影仪"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            },
+            {
+              "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+              "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+              "kind": "pdf",
+              "page": 16,
+              "printed_page": null,
+              "section_path": [
+                "配件及扩展连线",
+                "连接到电视、显示器或投影仪"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        }
+      },
+      "source_checks": {
+        "rrf": {
+          "cover_2019": false,
+          "object_3": true,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": false,
+          "object_2_limitation": true,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "rrf_prerequisites": {
+          "cover_2019": false,
+          "object_3": true,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": false,
+          "object_2_limitation": true,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "weighted_prerequisites": {
+          "cover_2019": false,
+          "object_3": true,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": true,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        }
+      },
+      "new_answer_generated": false,
+      "answer_quality_proven": false
+    },
+    {
+      "id": "m6-g540-20-a",
+      "old_weighted_context": true,
+      "stages": {
+        "candidates": true,
+        "reranked": true,
+        "rrf": true,
+        "rrf_prerequisites": true,
+        "weighted_prerequisites": true
+      },
+      "necessary_source_rerank": {
+        "102": {
+          "rank": 1,
+          "score": 0.9480868786047089,
+          "chunk_uid": "491586b2-a4b3-5424-863d-720cd500daeb",
+          "source_refs": [
+            {
+              "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+              "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+              "kind": "pdf",
+              "page": 16,
+              "printed_page": null,
+              "section_path": [
+                "配件及扩展连线",
+                "安装电池"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            },
+            {
+              "document_id": "c691b512-4eaf-5b20-9b4f-e447f9e13b9b",
+              "revision_id": "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+              "kind": "pdf",
+              "page": 17,
+              "printed_page": null,
+              "section_path": [
+                "配件及扩展连线",
+                "安装电池"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        }
+      },
+      "source_checks": {
+        "rrf": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "rrf_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "no_data": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        },
+        "weighted_prerequisites": {
+          "cover_2019": false,
+          "object_3": false,
+          "no_data": false,
+          "body_rj45": false,
+          "dock_lan": false,
+          "object_2_limitation": false,
+          "all_prerequisites_atomic": true,
+          "context_count": 10,
+          "prompt_omitted_documents": 0
+        }
+      },
+      "new_answer_generated": false,
+      "answer_quality_proven": false
+    }
+  ],
+  "source_comparison": {
+    "support-v1-037": {
+      "weighted": {
+        "cover_2019": false,
+        "object_3": false,
+        "no_data": false
+      },
+      "rrf": {
+        "cover_2019": false,
+        "object_3": false,
+        "body_rj45": false,
+        "dock_lan": false,
+        "no_data": false,
+        "object_2_limitation": false,
+        "all_prerequisites_atomic": true,
+        "context_count": 10,
+        "prompt_omitted_documents": 0
+      },
+      "rrf_prerequisites": {
+        "cover_2019": true,
+        "object_3": false,
+        "body_rj45": false,
+        "dock_lan": false,
+        "no_data": false,
+        "object_2_limitation": false,
+        "all_prerequisites_atomic": true,
+        "context_count": 11,
+        "prompt_omitted_documents": 0
+      },
+      "weighted_prerequisites": {
+        "cover_2019": true,
+        "object_3": false,
+        "no_data": false,
+        "body_rj45": false,
+        "dock_lan": false,
+        "object_2_limitation": false,
+        "all_prerequisites_atomic": true,
+        "context_count": 11,
+        "prompt_omitted_documents": 0
+      }
+    },
+    "support-v1-038": {
+      "weighted": {
+        "cover_2019": false,
+        "object_3": false,
+        "no_data": false
+      },
+      "rrf": {
+        "cover_2019": false,
+        "object_3": false,
+        "body_rj45": false,
+        "dock_lan": false,
+        "no_data": false,
+        "object_2_limitation": false,
+        "all_prerequisites_atomic": true,
+        "context_count": 10,
+        "prompt_omitted_documents": 0
+      },
+      "rrf_prerequisites": {
+        "cover_2019": true,
+        "object_3": false,
+        "body_rj45": false,
+        "dock_lan": false,
+        "no_data": false,
+        "object_2_limitation": false,
+        "all_prerequisites_atomic": true,
+        "context_count": 11,
+        "prompt_omitted_documents": 0
+      },
+      "weighted_prerequisites": {
+        "cover_2019": true,
+        "object_3": false,
+        "no_data": false,
+        "body_rj45": false,
+        "dock_lan": false,
+        "object_2_limitation": false,
+        "all_prerequisites_atomic": true,
+        "context_count": 11,
+        "prompt_omitted_documents": 0
+      }
+    },
+    "m6-g540-05-a": {
+      "weighted": {
+        "cover_2019": false,
+        "object_3": false,
+        "no_data": false
+      },
+      "rrf": {
+        "cover_2019": false,
+        "object_3": false,
+        "body_rj45": true,
+        "dock_lan": true,
+        "no_data": false,
+        "object_2_limitation": true,
+        "all_prerequisites_atomic": true,
+        "context_count": 10,
+        "prompt_omitted_documents": 0
+      },
+      "rrf_prerequisites": {
+        "cover_2019": false,
+        "object_3": true,
+        "body_rj45": true,
+        "dock_lan": true,
+        "no_data": false,
+        "object_2_limitation": true,
+        "all_prerequisites_atomic": true,
+        "context_count": 12,
+        "prompt_omitted_documents": 0
+      },
+      "weighted_prerequisites": {
+        "cover_2019": false,
+        "object_3": true,
+        "no_data": false,
+        "body_rj45": true,
+        "dock_lan": true,
+        "object_2_limitation": true,
+        "all_prerequisites_atomic": true,
+        "context_count": 12,
+        "prompt_omitted_documents": 0
+      }
+    },
+    "m6-g540-05-b": {
+      "weighted": {
+        "cover_2019": false,
+        "object_3": false,
+        "no_data": false
+      },
+      "rrf": {
+        "cover_2019": false,
+        "object_3": false,
+        "body_rj45": true,
+        "dock_lan": true,
+        "no_data": false,
+        "object_2_limitation": true,
+        "all_prerequisites_atomic": true,
+        "context_count": 10,
+        "prompt_omitted_documents": 0
+      },
+      "rrf_prerequisites": {
+        "cover_2019": false,
+        "object_3": true,
+        "body_rj45": true,
+        "dock_lan": true,
+        "no_data": false,
+        "object_2_limitation": true,
+        "all_prerequisites_atomic": true,
+        "context_count": 12,
+        "prompt_omitted_documents": 0
+      },
+      "weighted_prerequisites": {
+        "cover_2019": false,
+        "object_3": true,
+        "no_data": false,
+        "body_rj45": true,
+        "dock_lan": true,
+        "object_2_limitation": true,
+        "all_prerequisites_atomic": true,
+        "context_count": 11,
+        "prompt_omitted_documents": 0
+      }
+    },
+    "m6-g540-17-a": {
+      "weighted": {
+        "cover_2019": false,
+        "object_3": true,
+        "no_data": true
+      },
+      "rrf": {
+        "cover_2019": false,
+        "object_3": true,
+        "body_rj45": false,
+        "dock_lan": false,
+        "no_data": true,
+        "object_2_limitation": false,
+        "all_prerequisites_atomic": true,
+        "context_count": 10,
+        "prompt_omitted_documents": 0
+      },
+      "rrf_prerequisites": {
+        "cover_2019": false,
+        "object_3": true,
+        "body_rj45": false,
+        "dock_lan": false,
+        "no_data": true,
+        "object_2_limitation": false,
+        "all_prerequisites_atomic": true,
+        "context_count": 10,
+        "prompt_omitted_documents": 0
+      },
+      "weighted_prerequisites": {
+        "cover_2019": false,
+        "object_3": true,
+        "no_data": true,
+        "body_rj45": false,
+        "dock_lan": false,
+        "object_2_limitation": false,
+        "all_prerequisites_atomic": true,
+        "context_count": 11,
+        "prompt_omitted_documents": 0
+      }
+    },
+    "m6-g540-17-b": {
+      "weighted": {
+        "cover_2019": false,
+        "object_3": false,
+        "no_data": true
+      },
+      "rrf": {
+        "cover_2019": false,
+        "object_3": false,
+        "body_rj45": false,
+        "dock_lan": false,
+        "no_data": true,
+        "object_2_limitation": true,
+        "all_prerequisites_atomic": true,
+        "context_count": 10,
+        "prompt_omitted_documents": 0
+      },
+      "rrf_prerequisites": {
+        "cover_2019": false,
+        "object_3": true,
+        "body_rj45": false,
+        "dock_lan": false,
+        "no_data": true,
+        "object_2_limitation": true,
+        "all_prerequisites_atomic": true,
+        "context_count": 11,
+        "prompt_omitted_documents": 0
+      },
+      "weighted_prerequisites": {
+        "cover_2019": false,
+        "object_3": true,
+        "no_data": true,
+        "body_rj45": false,
+        "dock_lan": false,
+        "object_2_limitation": true,
+        "all_prerequisites_atomic": true,
+        "context_count": 11,
+        "prompt_omitted_documents": 0
+      }
+    },
+    "m6-g540-18-b": {
+      "weighted": {
+        "cover_2019": false,
+        "object_3": true,
+        "no_data": false
+      },
+      "rrf": {
+        "cover_2019": false,
+        "object_3": true,
+        "body_rj45": false,
+        "dock_lan": false,
+        "no_data": false,
+        "object_2_limitation": true,
+        "all_prerequisites_atomic": true,
+        "context_count": 10,
+        "prompt_omitted_documents": 0
+      },
+      "rrf_prerequisites": {
+        "cover_2019": false,
+        "object_3": true,
+        "body_rj45": false,
+        "dock_lan": false,
+        "no_data": false,
+        "object_2_limitation": true,
+        "all_prerequisites_atomic": true,
+        "context_count": 10,
+        "prompt_omitted_documents": 0
+      },
+      "weighted_prerequisites": {
+        "cover_2019": false,
+        "object_3": true,
+        "no_data": false,
+        "body_rj45": false,
+        "dock_lan": false,
+        "object_2_limitation": true,
+        "all_prerequisites_atomic": true,
+        "context_count": 10,
+        "prompt_omitted_documents": 0
+      }
+    }
+  },
+  "calls": {
+    "actual_local_rerank_logical": 18,
+    "new_pairs": 74,
+    "historical_exact_pair_scores_reused": 426,
+    "query_vectors_reused": 25,
+    "new_query_embedding_calls": 0,
+    "new_document_embedding_calls": 0,
+    "new_answer_generation_calls": 0,
+    "external_supplier_calls": 0,
+    "token_usage": null,
+    "exact_http_requests": null,
+    "cost": null,
+    "unsettled_windows": 0,
+    "resume_added_calls": 0
+  },
+  "tests": {
+    "initial_red": {
+      "total": 11,
+      "failed": 11
+    },
+    "final_shared": {
+      "total": 89,
+      "passed": 89
+    },
+    "source_synthetic_cases": 14,
+    "read_only_checks": 1301,
+    "browser": {
+      "passed": true,
+      "browser": "installed Edge headless",
+      "articles": 25,
+      "original_page_decoded": true,
+      "horizontal_overflow": false,
+      "page_errors": []
+    },
+    "counts_are_not_unique_aggregate": true
+  },
+  "protected": {
+    "previous_execution_and_review_files": 502,
+    "previous_semantic_files": 297,
+    "early_source_review_files": 145,
+    "isolated_chunks": 582,
+    "frozen_chunks": 867,
+    "isolated_assets": 67,
+    "frozen_nonTTL_collections": 21,
+    "TTL": {
+      "before": {
+        "count": 1675,
+        "sha256": "8a5cfe61f3b5fbbce3564ffaa81a1cc44bb72300c100bf51bec36b7b35f022ee"
+      },
+      "after": {
+        "count": 1675,
+        "sha256": "8a5cfe61f3b5fbbce3564ffaa81a1cc44bb72300c100bf51bec36b7b35f022ee"
+      },
+      "historical": {
+        "count": 2315,
+        "sha256": "977f9258902aecb90279dc9c1cf83e7448a0b78d312b71c55f15ef813558b5cd"
+      }
+    },
+    "non_target_knowledge_collections": 12246,
+    "non_target_pointer_databases": 5554,
+    "non_target_snapshot_scope": "previous execution retrieval window; not corpus import before-snapshot",
+    "asset_object_bytes_rehashed_this_round": false
+  },
+  "default_revision_switched": false,
+  "SQ_reopened": false,
+  "dev_executed": false,
+  "heldout_executed": false,
+  "official_quality_records_written": false,
+  "m6_core": "4/7",
+  "unaccepted": [
+    "M6-04",
+    "M6-05",
+    "M6-08"
+  ],
+  "m7_started": false,
+  "next_action": "执行方提交weighted+来源前提的接线/回切方案及本次源码边界作独立定向核验；不采用RRF默认切换，不追加模型运行。",
+  "local_evidence_manifest": "output/m6-rrf-prerequisites-20261028/final-evidence-files.json",
+  "local_evidence_manifest_count_timing": "收口时一次性生成，计其列出的文件，排除清单自身；实际数量及清单SHA由伴随seal.json给出，不预填动态文件数。",
+  "evidence": [
+    {
+      "path": "output/m6-rrf-prerequisites-20261028/config.json",
+      "sha256": "8ffafead0bf4c8e558f6323198d5822b973c6a6e99b1f0954c80911df6a77a75"
+    },
+    {
+      "path": "output/m6-rrf-prerequisites-20261028/weighted-control-config.json",
+      "sha256": "58cfeef6a2a3eca0973624d2c6ca4175aeabfc3943194981cf057cd658b957c5"
+    },
+    {
+      "path": "output/m6-rrf-prerequisites-20261028/assessment.json",
+      "sha256": "9357be51263bf0fa6d8a1cd96023d3f7b733b4450540e48fd723194dd37fd5a0"
+    },
+    {
+      "path": "output/m6-rrf-prerequisites-20261028/assessment-with-weighted-control.json",
+      "sha256": "6e91efadac46c50aa6548b7c1af5e635452ff5174ac62fe26ce0a062c6be4a62"
+    },
+    {
+      "path": "output/m6-rrf-prerequisites-20261028/source-comparison.json",
+      "sha256": "1173bd85519c5d61c3e8828d08ca4c376a96c6083310d2bfc10cfbfbe46d8fb2"
+    },
+    {
+      "path": "output/m6-rrf-prerequisites-20261028/048-diagnosis.json",
+      "sha256": "5714db387fdc0d85999197994feaa7b85973f9d7adc8de3fa9e482c97cfce771"
+    },
+    {
+      "path": "output/m6-rrf-prerequisites-20261028/calls.jsonl",
+      "sha256": "31fb5594419f8efbc0799449e18150c5e823c2c8d0db2b529bc32c95ac7b5454"
+    },
+    {
+      "path": "output/m6-rrf-prerequisites-20261028/verification.json",
+      "sha256": "e9f2051f77d635d645c592abc8cbdc92761a55682d400d9c8f1148579fe354ac"
+    },
+    {
+      "path": "output/m6-rrf-prerequisites-20261028/default-readonly-audit.json",
+      "sha256": "b763e8e74354c9730ce1664c91c46be53ba1f2e34b26ffeac7a227744692cfa9"
+    },
+    {
+      "path": "output/m6-rrf-prerequisites-20261028/red.xml",
+      "sha256": "aad0be99bdf94a204fb13b783c492a1989eaa32aa9d5816a53ff2ee4cf97274a"
+    },
+    {
+      "path": "output/m6-rrf-prerequisites-20261028/red.txt",
+      "sha256": "381b6cfd5fac3454d64507e19e5df3cc5bb97896679c4925f0716d88111e2967"
+    },
+    {
+      "path": "output/m6-rrf-prerequisites-20261028/green-shared.xml",
+      "sha256": "2c6524a07f4cd75157829c5c3887a889de684693621c1f18964c8aa5aa6555db"
+    },
+    {
+      "path": "output/m6-rrf-prerequisites-20261028/green-shared.txt",
+      "sha256": "9acfd466a9a24b80104bd6f5b51f1bc0d2fb06fd42aca38ddc7bdcf692fa1db8"
+    },
+    {
+      "path": "output/m6-rrf-prerequisites-20261028/preflight-console.txt",
+      "sha256": "c4f811dcfdcb12506e9881426f6b0db79fab18ca635480eba07e4af1d70b9acb"
+    },
+    {
+      "path": "output/m6-rrf-prerequisites-20261028/execution-console.txt",
+      "sha256": "e583ff5e90719a8d8fcb2cbac1f47f7b555365306e7e7496ea24e9fadbce104f"
+    },
+    {
+      "path": "output/m6-rrf-prerequisites-20261028/resume-console.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "output/m6-rrf-prerequisites-20261028/weighted-console.txt",
+      "sha256": "9da3e400b96df1f7117358ee9878de6bbf64a41871fe1c1e3200e29925457031"
+    },
+    {
+      "path": "output/m6-rrf-prerequisites-20261028/browser-check.json",
+      "sha256": "a31076c77f9c3a9c7473a2532893c5b47e5a8bb4df02a8db1f602e72ae79494b"
+    },
+    {
+      "path": "output/m6-rrf-prerequisites-20261028/browser.png",
+      "sha256": "5e8aa0fa73346fc4e62b4f43f218bbd24a473c5697cfb7d86eee0d0bf3920f47"
+    },
+    {
+      "path": "output/m6-rrf-prerequisites-20261028/25题RRF与来源前提对照.html",
+      "sha256": "84272e462c62c28d8224e31a0b30e481f636168826493ef48b735113a86f12c4"
+    },
+    {
+      "path": "output/m6-rrf-prerequisites-20261028/execute.py",
+      "sha256": "68c1dd96852f6a4ac565f77a3c02fa43514c3043988446ede6189245e5b20cec"
+    },
+    {
+      "path": "output/m6-rrf-prerequisites-20261028/weighted_control.py",
+      "sha256": "05c216abd5d1c48ef1158b7785af7d0e05dfa3c7558a42d671f5817bd767ffb5"
+    },
+    {
+      "path": "output/m6-rrf-prerequisites-20261028/verify.py",
+      "sha256": "290d0f4e2628fa635ba661aa4ac39eeb244d6a260e74852ac58cb9255e4530c9"
+    },
+    {
+      "path": "output/m6-rrf-prerequisites-20261028/diagnose_048.py",
+      "sha256": "1457f962f56827d27bfc102a5331037f7de7f78e69234d0403b22d106f5a7c69"
+    },
+    {
+      "path": "output/m6-rrf-prerequisites-20261028/finish_analysis.py",
+      "sha256": "fe6eecae9674cf123dcf8793b442bec0dee7139ebd85768cbb098025ffccc434"
+    },
+    {
+      "path": "output/m6-rrf-prerequisites-20261028/report.py",
+      "sha256": "25d117baa829b290c9502c134dddf1b9b482384c0bd569d18fa38612faa89340"
+    },
+    {
+      "path": "output/m6-rrf-prerequisites-20261028/default_audit.py",
+      "sha256": "da699da8ac97be333a70e414413cd759a5a2f18732b6e96ed4e103761c7daa3f"
+    },
+    {
+      "path": "output/m6-rrf-prerequisites-20261028/write_docs.py",
+      "sha256": "dc1bb7817fb3d0f287233a1e327f7df79b25e704ccd8eee515e8437836a1fefb"
+    }
+  ]
+}

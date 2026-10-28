@@ -101,3 +101,68 @@ def expand_evidence(ranked, *, loader, owner_id, kb_id, policy):
                 result.expanded.append(hit); expanded.add(hit.identity)
             result.selected.append(hit); chosen.add(hit.identity)
     return result
+
+
+def retain_source_prerequisites(seeds, rows, *, max_added=4, max_chars=6000):
+    """显式隔离对照用：只补原文封面日期及表格最近对象介绍，默认路径不启用。
+
+    rows必须来自调用方已授权的修订快照；不改索引、正文或重排分数。
+    日期仅代表封面日期，不推定有效版本/兼容范围；未识别关系不猜填。
+    返回的groups必须传给最终prompt预算，前提与依赖证据原子装入。
+    """
+    import re
+    if (len(rows)>1000 or len(seeds)>20 or type(max_added) is not int or not 0<=max_added<=20
+        or type(max_chars) is not int or not 0<=max_chars<=12000):
+        raise ValueError('来源前提输入或预算超限')
+    known={}
+    for hit in [*rows,*seeds]:
+        if any(ref.get('document_id')!=hit.document_id or ref.get('revision_id')!=hit.revision_id
+               for ref in hit.metadata.get('source_refs',[])):
+            raise ValueError('来源前提定位跨资料/修订')
+        prior=known.get(hit.identity)
+        if prior and (prior.text,prior.metadata,prior.ordinal)!=(hit.text,hit.metadata,hit.ordinal):
+            raise ValueError('来源前提同身份载荷冲突')
+        known[hit.identity]=hit
+
+    def pages(hit):
+        refs=hit.metadata.get('source_refs',[])
+        return [r['page'] for r in refs if r.get('kind')=='pdf' and r.get('page')]
+    def primary(hit):
+        refs=hit.metadata.get('source_refs',[])
+        return bool(refs and pages(hit) and all(r.get('kind')=='pdf' for r in refs))
+    def same_scope(a,b):
+        return (a.document_id,a.revision_id,sorted(a.metadata.get('product_ids',[])))==(
+            b.document_id,b.revision_id,sorted(b.metadata.get('product_ids',[])))
+    date=re.compile(r'(?:19|20)\d{2}\s*年\s*\d{1,2}\s*月(?:\s*\d{1,2}\s*日)?')
+    intro=re.compile(r'^(?:了解|认识|介绍)\s+\S[^\n]{0,120}$',re.M)
+    result=EvidenceSelection();selected={};added=set();seed_ids={s.identity for s in seeds}
+    for seed in seeds:
+        eligible=[h for h in known.values() if same_scope(h,seed) and primary(h)] if primary(seed) else []
+        prerequisites=[];relations={}
+        dates=[h for h in eligible if pages(h)==[1] and len(h.text)<=512
+               and any(date.fullmatch(line.strip()) for line in h.text.splitlines())]
+        if len(dates)==1:
+            prerequisites.append(dates[0]);relations[dates[0].identity]='cover_date'
+        if seed.metadata.get('content_kind')=='table' and seed.ordinal is not None:
+            preceding=sorted([h for h in eligible if h.ordinal is not None
+                and 0<seed.ordinal-h.ordinal<=12],key=lambda h:h.ordinal,reverse=True)
+            for candidate in preceding:
+                if candidate.metadata.get('heading_path')!=seed.metadata.get('heading_path'):break
+                if max(pages(seed))-min(pages(candidate))>1:break
+                if intro.search(candidate.text):
+                    prerequisites.append(candidate);relations[candidate.identity]='table_object';break
+        group=[];seen=set()
+        for h in [*prerequisites,seed]:
+            if h.identity not in seen:group.append(h);seen.add(h.identity)
+        fresh=[h for h in group if h.identity not in selected]
+        new_added={h.identity for h in fresh if h.identity not in seed_ids}
+        if len(added|new_added)>max_added or not fits_context([*selected.values(),*fresh],max_chars):
+            result.excluded.append(dict(chunk_uid=seed.chunk_uid,reason='source_prerequisite_budget'));continue
+        for h in fresh:
+            if h.identity not in seed_ids:
+                h=h.model_copy(deep=True,update={'stages':[*h.stages,StageScore(stage='source_prerequisite',
+                    rank=len(result.expanded)+1,score_kind=relations[h.identity])]})
+                result.expanded.append(h);added.add(h.identity)
+            selected[h.identity]=h;result.selected.append(h)
+        result.groups.append([h.chunk_uid for h in group])
+    return result
