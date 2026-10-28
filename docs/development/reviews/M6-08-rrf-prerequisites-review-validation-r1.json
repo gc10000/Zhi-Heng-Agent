@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-28",
+  "reviewed_commit": "58296beacdeeee92c23d6e0f2bba10133c983402",
+  "review_role": "independent_controller",
+  "result": "source_prerequisite_function_and_wiring_plan_passed_within_declared_isolated_scope",
+  "new_blockers": [],
+  "formal_QueryRunner_wiring_implemented": false,
+  "formal_wiring_accepted": false,
+  "answer_quality_proven": false,
+  "default_release_approved": false,
+  "validation": {
+    "shared_offline": {
+      "passed": 89,
+      "failed": 0,
+      "exit_code": 0,
+      "files": 5,
+      "new_synthetic_cases_included": 14
+    },
+    "weighted_actual_prompt_replay": {
+      "passed": 25,
+      "failed": 0,
+      "exit_code": 0,
+      "model_calls": 0,
+      "offline_boundary_fixture": true,
+      "context_groups_excluded_prompt_budget_equal_saved": true
+    },
+    "cached_comparison": {
+      "checks": 750,
+      "registered_evidence": 28,
+      "sealed_manifest_files": 162,
+      "protected_previous_files": 502,
+      "counts": {
+        "weighted": 21,
+        "rrf": 21,
+        "rrf_prerequisites": 21,
+        "weighted_prerequisites": 21
+      },
+      "RRF_gained": [
+        "support-v1-019"
+      ],
+      "RRF_lost": [
+        "m6-g540-02-b"
+      ],
+      "weighted_prerequisites_old21_regressions": []
+    },
+    "live_isolated_readonly": {
+      "checks": 13,
+      "chunks": 582,
+      "asset_mappings": 67,
+      "no_answer_or_formal_quality_records": true,
+      "audit_window_unchanged": true
+    },
+    "frozen_readonly": {
+      "checks": 179,
+      "legacy_protected_files": 145,
+      "early_evidence": 16,
+      "source_supplements": 3,
+      "frozen_chunks": 867,
+      "nonTTL_collections_equal_historical": 21,
+      "collections_equal_within_audit": 22
+    },
+    "groups_not_summed": true,
+    "execution1301_browser_or_048_rank_diagnostic_repeated": false,
+    "old269_39_repeated": false
+  },
+  "function_scope": {
+    "authorized_rows_caller_precondition": true,
+    "same_document_revision_product": true,
+    "input_rows_limit": 1000,
+    "seeds_limit": 20,
+    "added_default": 4,
+    "chars_default": 6000,
+    "final_chars_limit": 12000,
+    "atomic_groups_required": true,
+    "cover_date_not_applicability_version": true,
+    "image_descriptions_not_prerequisites": true,
+    "generic_all_corpus_semantics_claimed": false
+  },
+  "next": {
+    "task": "显式默认关闭配置及正式QueryRunner来源前提接线",
+    "preserve_weighted_policy": [
+      20,
+      20,
+      20,
+      20,
+      10
+    ],
+    "freeze_config_fields": [
+      "enabled",
+      "function_version",
+      "max_added",
+      "max_chars"
+    ],
+    "authorized_bounded_rows_loader": true,
+    "groups_and_citations_required": true,
+    "changed_config_rejects_old_checkpoint": true,
+    "rollback": "disable isolated source prerequisite config; preserve histories/catalog",
+    "verification": "saved25 prompt replay and synthetic-provider isolated integration",
+    "new_real_model_calls": 0,
+    "default_catalog_switch": false
+  },
+  "known_remaining": {
+    "weighted_missing": [
+      "support-v1-019",
+      "support-v1-021",
+      "support-v1-022",
+      "support-v1-048"
+    ],
+    "RRF_context_excluded_ranks": {
+      "support-v1-021": 12,
+      "support-v1-022": 13,
+      "m6-g540-02-b": 11
+    },
+    "048_saved_full_corpus_ranks": {
+      "dense": 153,
+      "sparse": 57
+    },
+    "more_detailed_semantic_cause": "unknown",
+    "historical_image_object_contamination_preserved": true
+  },
+  "operations": {
+    "business_source_modified": false,
+    "model_calls_this_review": 0,
+    "new_imports": 0,
+    "real_dev_or_heldout": false,
+    "formal_scores_observations_calibrations_candidates_declarations_written": false,
+    "historical_state_lease_slot_retryable_links_modified": false,
+    "default_catalog_modified": false,
+    "target_writes": 0,
+    "subagents_used": false,
+    "private_evidence_and_tmp_preserved": true
+  },
+  "execution_ledger_verified": {
+    "local_rerank_logical": 18,
+    "new_pairs": 74,
+    "historical_pairs": 426,
+    "query_vectors_reused": 25,
+    "started_completed_keys_match": true,
+    "token_usage": null,
+    "exact_HTTP": null,
+    "cost": null
+  },
+  "historical": {
+    "r3_results": 85,
+    "inherited": 19,
+    "executed": 66,
+    "historical_stream": 19,
+    "new_stream": 61,
+    "exact_HTTP_and_cost": null,
+    "old_failed_results": 0,
+    "old_failed_calls_cost": null,
+    "TTL_historical_count": 2315,
+    "TTL_current_count": 1675,
+    "all22_equal_historical_claim": false,
+    "existing_SQ_continuation_image_closures_retained": true
+  },
+  "stage": {
+    "M6": "4/7",
+    "unaccepted": [
+      "M6-04",
+      "M6-05",
+      "M6-08"
+    ],
+    "M7_authorized": false
+  },
+  "evidence": [
+    {
+      "path": "output/m6-prerequisites-review-r1-20261028/review-inputs.json",
+      "sha256": "261db1ac50e8a952b8c5ea1be72e6c32ca9b49551e293eb0c1707122198b96ba"
+    },
+    {
+      "path": "output/m6-prerequisites-review-r1-20261028/run_shared.py",
+      "sha256": "d977db5ba63b87db421342b9e792b32ad7064dea74aa6a95f4c038ee3de41f45"
+    },
+    {
+      "path": "output/m6-prerequisites-review-r1-20261028/shared-regression.xml",
+      "sha256": "56f702c3f870de1389976d3b7b852e4de502ba2901d88092449ff6fdfed01d81"
+    },
+    {
+      "path": "output/m6-prerequisites-review-r1-20261028/shared-regression.log",
+      "sha256": "8c2e142e8d4fc51342495a766b11951765fa9ccb54a6df7141337c82d04eee8e"
+    },
+    {
+      "path": "output/m6-prerequisites-review-r1-20261028/shared-command.json",
+      "sha256": "b0f73263a19841a6632bd2fccef60c0164dee2da0e0376948005c8a58b04b868"
+    },
+    {
+      "path": "output/m6-prerequisites-review-r1-20261028/test_cached_prompt_replay.py",
+      "sha256": "8c83f3f30b69fd7be2154f5f2138981014bf67c78bf882d37f7f7cd5760f4557"
+    },
+    {
+      "path": "output/m6-prerequisites-review-r1-20261028/prompt-replay.xml",
+      "sha256": "5b1dbe815b35b18bce28a99cc532f6f1c42773836445b66220fd877b7872c479"
+    },
+    {
+      "path": "output/m6-prerequisites-review-r1-20261028/prompt-replay.log",
+      "sha256": "30756f4833e0bd160564b434e3fa2f98a77418d8a78a4ba6cfddbce43539541c"
+    },
+    {
+      "path": "output/m6-prerequisites-review-r1-20261028/prompt-replay-command.json",
+      "sha256": "30c4a686619c51bbac7253eead531ff1d50aac324aa9885705b83ac90be9e24a"
+    },
+    {
+      "path": "output/m6-prerequisites-review-r1-20261028/cached-comparison-review.json",
+      "sha256": "d52baef899bb1af76c004027e922b2ed11bbe64e69bfc9cb417a9c16cbb879e0"
+    },
+    {
+      "path": "output/m6-prerequisites-review-r1-20261028/audit_frozen.py",
+      "sha256": "fff57fc4dd87ce004224ff4aa5d6777ddc2d567da586066d913bd011f36c1d2f"
+    },
+    {
+      "path": "output/m6-prerequisites-review-r1-20261028/immutability-frozen.json",
+      "sha256": "6007cb1be150daaaa1027cbea004a8dd8163b599ab5ca8960313f09754bf0a40"
+    },
+    {
+      "path": "output/m6-prerequisites-review-r1-20261028/live_audit.py",
+      "sha256": "87053a6061580c837fbd8938f7d961804539e3e5a740df2a3d3efcbbc0b6ec88"
+    },
+    {
+      "path": "output/m6-prerequisites-review-r1-20261028/live-isolated-audit.json",
+      "sha256": "517c4bae66329c3f6b973119ea49e277a4be6143ed6b239bb33ba158d556ac92"
+    }
+  ]
+}
