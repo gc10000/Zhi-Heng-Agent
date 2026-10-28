@@ -2,6 +2,8 @@
 
 ## M6新隔离真实检索证据边界（2026-10-28）
 
+独立核验状态：f923870隔离语料与25题真实检索取证已核验，21/25原文到达口径保留。固定RRF离线复算24/25仅候选池诊断，不冒称真实重排/context改善；下一步在独立配置作真实对照并保留来源前提，不改全局默认。既有SQ关闭不重开、正式质量与M6阶段未验收。见[范围与下一步](../development/reviews/M6-08-isolated-real-retrieval-review-r1.md)。
+
 正式同步导入指纹已实测包含chunker5。新命名空间/新document和revision使用现有校验/CAS发布，仅隔离内部激活，不切默认catalog；不得复用旧revision伪装新处理。67历史图摘要仅按字节+合并Markdown alt+摘要文件来源复用，历史视觉model/prompt未知保持null。三处助手图标转写保留前后hash/页/截图、human=false及pending_review身份。
 
 逐题真实链路要保留双路原始排名及融合响应、重排标题对象输入/输出、context排除和实际prompt。必要PDF原文与image_description分开计；原文21/25到达不等于答案正确率或对象前提完整。2019日期、MateDock精确名称及历史图摘要对象污染单列，不因字节匹配自动授予语义质量。模型调用先记started与稳定输入/模型键，缓存读回恢复稀疏整数键再验hash；未结算窗口停止，不盲重算。未知token/HTTP/费用保持null。

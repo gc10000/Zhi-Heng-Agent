@@ -1,0 +1,184 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-28",
+  "reviewed_commit": "f9238705ef0a7a9a7bb773beba227e89a37ac6fd",
+  "role": "independent_controller",
+  "result": "isolated_corpus_and_real_retrieval_evidence_verified",
+  "default_release_approved": false,
+  "answer_quality_proven": false,
+  "existing_SQ_continuation_image_closures_retained": true,
+  "validation": {
+    "cached_and_file_review": {
+      "passed": true,
+      "checks": 901,
+      "registered_evidence": 33,
+      "local_final_manifest_files": 493,
+      "legacy_files": 297
+    },
+    "primary_PDF_quote_recomputed": {
+      "corpus": 25,
+      "candidates": 21,
+      "reranked": 21,
+      "context": 21
+    },
+    "live_isolated_readonly": {
+      "passed": true,
+      "checks": 13,
+      "chunks": 582,
+      "asset_mappings": 67,
+      "published_active_revisions": 4,
+      "no_formal_quality_or_answer_records": true,
+      "database_audit_window_unchanged": true,
+      "asset_bytes_rehashed_this_review": false
+    },
+    "frozen_readonly": {
+      "passed": true,
+      "checks": 179,
+      "legacy_protected_files": 145,
+      "early_fix_evidence": 16,
+      "source_supplements": 3,
+      "frozen_chunks": 867,
+      "non_TTL_collections_equal_historical": 21,
+      "collections_equal_within_audit": 22
+    },
+    "execution_2049_52_2_repeated": false,
+    "prior_269_39_or_browser_repeated": false,
+    "groups_not_summed": true
+  },
+  "offline_RRF_diagnostic": {
+    "k": 60,
+    "fusion_limit_per_scope": 20,
+    "pool_quote_complete": 24,
+    "promoted_questions": [
+      "support-v1-019",
+      "support-v1-021",
+      "support-v1-022"
+    ],
+    "still_unrecalled": [
+      "support-v1-048"
+    ],
+    "fixed_existing_policy": true,
+    "parameter_sweep": false,
+    "tie_break": "chunk_uid_ascending_offline_only",
+    "actual_Milvus_RRF_rerank_context_verified": false,
+    "model_calls": 0
+  },
+  "known_remaining_gaps": {
+    "fusion_excluded": [
+      "support-v1-019",
+      "support-v1-021",
+      "support-v1-022"
+    ],
+    "not_in_either_top20": [
+      "support-v1-048"
+    ],
+    "source_prerequisites": [
+      "support-v1-038",
+      "m6-g540-05-a",
+      "m6-g540-05-b",
+      "m6-g540-17-b"
+    ],
+    "historical_image_description_object_contamination": true,
+    "SQ_reopened": false
+  },
+  "metadata_note": {
+    "published_local_manifest_total": 487,
+    "current_local_final_manifest_total": 493,
+    "all_current_manifest_hashes_match": true,
+    "blocking": false,
+    "difference_source_attributed": false
+  },
+  "original_execution_ledger": {
+    "counts": {
+      "legacy_summary_read:cache_hit": 67,
+      "embedding_document:started": 147,
+      "embedding_document:completed": 147,
+      "embedding_query:started": 25,
+      "embedding_query:completed": 25,
+      "rerank:started": 25,
+      "rerank:completed": 25,
+      "embedding_query:cache_hit": 2
+    },
+    "input_counts": {
+      "embedding_document": 582,
+      "embedding_query": 25,
+      "rerank": 500
+    },
+    "started_completed_keys_match": true,
+    "token_usage": null,
+    "exact_HTTP": null,
+    "cost": null
+  },
+  "operations": {
+    "business_source_modified": false,
+    "model_calls_this_review": 0,
+    "new_imports": 0,
+    "embeddings_rerank_generation": 0,
+    "real_dev_or_heldout_executed": false,
+    "formal_scores_observations_calibrations_candidates_declarations_written": false,
+    "historical_state_lease_slot_retryable_links_modified": false,
+    "default_catalog_modified": false,
+    "target_writes": 0,
+    "subagents_used": false,
+    "tmp_and_private_evidence_preserved": true
+  },
+  "historical": {
+    "r3_results": 85,
+    "inherited": 19,
+    "executed": 66,
+    "historical_stream": 19,
+    "new_stream": 61,
+    "exact_http_cost": null,
+    "old_failed_results": 0,
+    "old_failed_calls_cost": null,
+    "TTL_previous": 2315,
+    "TTL_current": 1675,
+    "missing_exported_all_expired": true,
+    "all_22_equal_historical_claim": false
+  },
+  "next": {
+    "task": "现有RRF配置与通用来源前提保留的隔离真实对照",
+    "frozen_question_scope": 25,
+    "reuse_existing_query_vectors": true,
+    "reembed_documents": false,
+    "scope_048": "独立召回诊断，融合无法补出未召回候选",
+    "new_model_calls_before_disclosure": false,
+    "default_switch": false,
+    "answer_generation": false
+  },
+  "stage": {
+    "M6": "4/7",
+    "unaccepted": [
+      "M6-04",
+      "M6-05",
+      "M6-08"
+    ],
+    "M7_authorized": false
+  },
+  "evidence": [
+    {
+      "path": "output/m6-real-retrieval-review-r1-20261028/cached-evidence-review.json",
+      "sha256": "38cf14bf24acbc1269d300bced7b89ff8320b7923bfaaf81d23c0e5951d5e66b"
+    },
+    {
+      "path": "output/m6-real-retrieval-review-r1-20261028/live_audit.py",
+      "sha256": "5831420efc1eba82f0520eda2c227a6eb2294f8699ebcbc27d0eee43d01f430b"
+    },
+    {
+      "path": "output/m6-real-retrieval-review-r1-20261028/live-isolated-audit.json",
+      "sha256": "517c4bae66329c3f6b973119ea49e277a4be6143ed6b239bb33ba158d556ac92"
+    },
+    {
+      "path": "output/m6-real-retrieval-review-r1-20261028/audit_frozen.py",
+      "sha256": "5c7ca9a82d582b517c367f53ba2fb7b3afe6da24a1a6a5dc9211e71d1f0141b0"
+    },
+    {
+      "path": "output/m6-real-retrieval-review-r1-20261028/immutability-frozen.json",
+      "sha256": "6007cb1be150daaaa1027cbea004a8dd8163b599ab5ca8960313f09754bf0a40"
+    },
+    {
+      "path": "output/m6-real-retrieval-review-r1-20261028/setup-note.txt",
+      "sha256": "e2d775d5c03dfb4a8f1a5435c09565885e0d2229e61b390859fd52ad136429b7"
+    }
+  ]
+}
