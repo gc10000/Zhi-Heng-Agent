@@ -1,3 +1,9 @@
+## 2026-10-29 · C03/C09关闭、C04政策实现独立通过
+
+总控独立核验9cbccd2：共享315、聚焦117、原探针副本15、新增政策邻接3、浏览器10及TypeScript/OpenAPI通过（组间重叠不累计）。C03/RGL-R3、C09技术通过关闭，C04正式政策接线技术通过，无新阻塞；C01/C02/C11及AF/SQ/continuation/图片保持关闭。见[独立报告](reviews/M6-convergence-execution-review-r1.md)和[验证摘要](reviews/M6-convergence-execution-review-validation-r1.json)。
+
+允许在最终题集/配置和实际审核执行前置满足后，通过正式接口登记助手开发政策并开展真实assistant双轮；不伪装human、不复制旧聊天为两轮，真实独立性由总控核验。运行政策本轮仍未登记；不授权立即模型生成、默认切换或M7。下一步C05真实标签/部分映射、C06/C07三题召回及最终配置，无生成预检后按有效同范围双轮→预校准→独立候选→真实反馈proof推进，不再等用户评分或重复审本技术包。M6仍4/7，04/05/08未验收；以下保留历史。
+
 ## 2026-10-29 · C03/C09补修与C04政策接线：执行自验交审
 
 接续723c66d，完成首次outcome前原输入核验、正式来源前提+摘要隔离组合及已批准助手开发政策的请求/配置/题级身份、封存、总控独立性核验、校准、development-gate和regression proof接线。human发布门槛保持独立；真实政策未启用，未写真实评分/校准。共享310、聚焦117、原探针及新增矩阵60、最终组合45、浏览器10及TypeScript/OpenAPI通过，各组重叠不累计，最终政策时间哈希核验单列。独立关闭仍由总控决定，不自行关闭C03/C09/C04。见[执行交接](reviews/M6-convergence-execution-r1.md)及[脱敏摘要](reviews/M6-convergence-execution-validation-r1.json)。

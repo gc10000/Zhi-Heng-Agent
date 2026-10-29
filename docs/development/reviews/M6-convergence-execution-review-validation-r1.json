@@ -1,0 +1,336 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-29",
+  "role": "total_control_independent_review",
+  "reviewed_commit": "9cbccd2168c75508c6f9cb29646576c7acbdb428",
+  "starting_worktree": "untracked tmp only",
+  "result": "technical_scope_passed_no_new_blockers",
+  "technical_closed": [
+    "C03/RGL-R3",
+    "C09"
+  ],
+  "policy": {
+    "id": "assistant-development-v1",
+    "design_and_implementation_independently_passed": true,
+    "real_registration_this_review": false,
+    "real_scoring_this_review": false,
+    "human_publication_unchanged": true,
+    "real_use_authorized_after_final_scope_config_and_independent_review_execution_prerequisites": true,
+    "immediate_supplier_generation_authorized": false,
+    "documents": {
+      "docs/evaluation/assistant-development-policy-proposal-v1.md": "51c98b78e8bd23f25b9489c602ca1f8c5d22926babff89d05eaed31802695b29",
+      "docs/evaluation/assistant-development-policy-decision-v1.md": "3079da9ff9cc9e44418610d780aa89822b476b4b0c2f37196cd39c38c06ec519"
+    }
+  },
+  "tests": {
+    "focused-final": {
+      "tests": 117,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 228.573,
+      "exit_code": 0
+    },
+    "focused": {
+      "tests": 117,
+      "failures": 22,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 123.903,
+      "exit_code": 1
+    },
+    "independent-final": {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 22.054,
+      "exit_code": 0
+    },
+    "independent": {
+      "tests": 3,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 12.972,
+      "exit_code": 1
+    },
+    "original-final": {
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 62.542,
+      "exit_code": 0
+    },
+    "original": {
+      "tests": 15,
+      "failures": 13,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 79.811,
+      "exit_code": 1
+    },
+    "shared": {
+      "tests": 315,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 613.43,
+      "exit_code": 0
+    }
+  },
+  "groups_overlap_not_unique_total": true,
+  "browser": {
+    "passed": 10,
+    "exit_code": 0
+  },
+  "typescript_exit_code": 0,
+  "openapi_consistent": true,
+  "original_probe_copies": {
+    "test_original_boundaries.py": "2dbc5eb675c3ab02122b1d25f445061cb4c0037d2f2b6fe72a667f384fd283b9",
+    "test_original_audit_matrix.py": "bea75320387e52f4fbfe72877791c72bdf830f1e3dee776d01315661de6fbe0f",
+    "test_original_recovery.py": "85cb87dd7a529d60eb0e1ad8ebceea07be6edc28f7f0296751b2a43e7a5599c2"
+  },
+  "independent_probes": {
+    "count": 3,
+    "verify_artifact_not_mocked": true,
+    "coverage": [
+      "实际Git blob/hash及错误hash",
+      "未知追加重新核验/原unknown不可变",
+      "来源manifest变化拒绝",
+      "候选校准精确绑定",
+      "human发布隔离",
+      "双轮前隐藏",
+      "封存变化拒绝",
+      "总控自签拒绝"
+    ]
+  },
+  "harness_failures": [
+    {
+      "group": "focused",
+      "reason": "本轮审查初始测试库m1_test_m6_不满足正式执行器m1_test_m4_约束",
+      "product_defect": false,
+      "full_retry": "focused-final"
+    },
+    {
+      "group": "original",
+      "reason": "同上；原文件逐字复制未改",
+      "product_defect": false,
+      "full_retry": "original-final"
+    },
+    {
+      "group": "independent",
+      "reason": "本轮探针误用不存在的repo.reviews属性，修正为实际集合",
+      "product_defect": false,
+      "full_retry": "independent-final"
+    }
+  ],
+  "commands": {
+    "shared": [
+      ".venv/Scripts/python.exe",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/unit/test_evaluation_catalog.py",
+      "tests/unit/test_evaluation_dataset.py",
+      "tests/unit/test_evaluation_query_adapter.py",
+      "tests/unit/test_evaluation_subset.py",
+      "tests/unit/test_eval_labels.py",
+      "tests/unit/test_review_scores.py",
+      "tests/contract/test_feedback_triage.py",
+      "tests/contract/test_feedback_export.py",
+      "tests/integration/test_feedback_triage_workflow.py",
+      "tests/integration/test_evaluation_reviews.py",
+      "tests/integration/test_evaluation_jobs.py",
+      "tests/integration/test_evaluation_continuation_regressions.py",
+      "tests/integration/test_evaluation_run_adapter.py",
+      "tests/integration/test_evaluation_split_ledger.py",
+      "tests/unit/test_regression_versions.py",
+      "tests/integration/test_feedback_regression_lineage.py",
+      "tests/integration/test_regression_formal_execution.py",
+      "tests/integration/test_regression_clarification_evidence.py",
+      "tests/integration/test_regression_clarification_recovery.py",
+      "tests/integration/test_regression_recovery_identity.py",
+      "tests/integration/test_policy_development.py",
+      "tests/integration/test_convergence_pre_freeze.py",
+      "--basetemp=output/m6-convergence-execution-review-20261029/shared-work",
+      "--junitxml=output/m6-convergence-execution-review-20261029/shared.xml"
+    ],
+    "focused": ".venv/Scripts/python.exe -m pytest -q tests/integration/test_policy_development.py tests/integration/test_convergence_pre_freeze.py tests/integration/test_source_prerequisite_run.py tests/unit/test_retrieval_policy.py tests/unit/test_source_prerequisites.py tests/unit/test_source_prerequisite_wiring.py tests/unit/test_prerequisite_contract.py --basetemp=output/m6-convergence-execution-review-20261029/focused-final-work --junitxml=output/m6-convergence-execution-review-20261029/focused-final.xml",
+    "original": ".venv/Scripts/python.exe -m pytest -q -p tests.conftest -p tests.integration.conftest output/m6-convergence-execution-review-20261029/test_original_boundaries.py output/m6-convergence-execution-review-20261029/test_original_audit_matrix.py output/m6-convergence-execution-review-20261029/test_original_recovery.py --basetemp=output/m6-convergence-execution-review-20261029/original-final-work --junitxml=output/m6-convergence-execution-review-20261029/original-final.xml",
+    "independent": ".venv/Scripts/python.exe -m pytest -q -p tests.conftest -p tests.integration.conftest output/m6-convergence-execution-review-20261029/test_policy_independent.py --basetemp=output/m6-convergence-execution-review-20261029/independent-final-work --junitxml=output/m6-convergence-execution-review-20261029/independent-final.xml",
+    "browser": "pnpm -C frontend exec playwright test reviews.spec.ts feedback-loop.spec.ts --output=../output/m6-convergence-execution-review-20261029/browser",
+    "typescript": "pnpm -C frontend typecheck",
+    "evidence": ".venv/Scripts/python.exe output/m6-convergence-execution-review-20261029/verify_evidence.py"
+  },
+  "isolated_environment": {
+    "shared": "m1_test_m4_evr",
+    "focused": "m1_test_m4_evf",
+    "original": "m1_test_m4_evo",
+    "independent": "m1_test_m4_evi",
+    "synthetic_only": true
+  },
+  "protected": [
+    {
+      "manifest": "output/m6-isolated-answers-20261028/protected-before-r3.json",
+      "total": 821,
+      "matched": 821,
+      "sha256": "473904284ee2d502bc573dcc65164a15f91ff0e8e7ad2bb65f798c739470d7b0"
+    },
+    {
+      "manifest": "output/m6-answer-filter-fix-r3-20261029/protected-before.json",
+      "total": 404,
+      "matched": 404,
+      "sha256": "b0370e1b81a8ed5708b77e7f04352d046ea7129d050e016331e2015ea2ee2dc2"
+    },
+    {
+      "manifest": "output/m6-real-retrieval-20261028/protected-before.json",
+      "total": 294,
+      "matched": 294,
+      "sha256": "881fb2295ec8d45632724f481f01670b1174a805ebacf6205e1cc6516027ff14"
+    }
+  ],
+  "handoff_and_previous_evidence": [
+    {
+      "summary": "docs/development/reviews/M6-convergence-execution-validation-r1.json",
+      "total": 60,
+      "matched": 60
+    },
+    {
+      "summary": "docs/development/reviews/M6-convergence-review-validation-r1.json",
+      "total": 41,
+      "matched": 41
+    }
+  ],
+  "evidence_protection_incident": {
+    "previous_execution": true,
+    "final_old_sha256_matched": true,
+    "mid_execution_write_not_denied": true,
+    "restoration_not_reexecuted_this_review": true
+  },
+  "stored_retrieval_diagnosis": [
+    {
+      "id": "support-v1-021",
+      "actual_channel_ranks": {
+        "dense_vector": null,
+        "sparse_vector": 8
+      },
+      "exact_vector_ranks": {
+        "dense": 24,
+        "sparse": 8
+      },
+      "rejection_layer": "weighted_fusion"
+    },
+    {
+      "id": "support-v1-022",
+      "actual_channel_ranks": {
+        "dense_vector": null,
+        "sparse_vector": 7
+      },
+      "exact_vector_ranks": {
+        "dense": 22,
+        "sparse": 7
+      },
+      "rejection_layer": "weighted_fusion"
+    },
+    {
+      "id": "support-v1-048",
+      "actual_channel_ranks": {
+        "dense_vector": null,
+        "sparse_vector": null
+      },
+      "exact_vector_ranks": {
+        "dense": 129,
+        "sparse": 36
+      },
+      "rejection_layer": "both_channel_top20"
+    }
+  ],
+  "retrieval_context_preserved": "22/25; 019 improved; original21 retained",
+  "recall_remaining": [
+    "support-v1-021",
+    "support-v1-022",
+    "support-v1-048"
+  ],
+  "answer_effects_unverified": [
+    "m6-g540-04-a",
+    "m6-g540-05-a",
+    "m6-g540-05-b",
+    "m6-g540-17-b"
+  ],
+  "next_work": [
+    "C05 formal exact candidate/independent label and partial feedback mapping",
+    "C06/C07 remaining recall comparison and final configuration freeze",
+    "C08/C10 policy same-scope baseline double review -> precalibration -> independent candidate double review -> real regression proof",
+    "C12 separate M6-04/05/08 acceptance"
+  ],
+  "business_source_modified": false,
+  "real_database_access_this_review": false,
+  "real_milvus_access_this_review": false,
+  "real_quality_writes": 0,
+  "supplier_calls": 0,
+  "local_model_inference_calls": 0,
+  "real_answer_generation": 0,
+  "real_dev_or_heldout": 0,
+  "default_switch": false,
+  "unknown_http_requests": null,
+  "unknown_token_usage": null,
+  "unknown_cost": null,
+  "r3_identity_preserved": "19 inherited + 66 executed",
+  "old_failure_calls_and_cost_unknown_preserved": true,
+  "m6": "4/7",
+  "unaccepted": [
+    "M6-04",
+    "M6-05",
+    "M6-08"
+  ],
+  "m7_started": false,
+  "private_evidence_sha256": {
+    "output/m6-convergence-execution-review-20261029/actual-git-and-resolution.json": "8877650ea3ef126e4b8a4ad82f8db0bf34d63b6954c02be0182587d49f0b781a",
+    "output/m6-convergence-execution-review-20261029/blindness.json": "8187084db7500778b7b5e602bb319f0de2731746a90bcd4cfc8308105d56a69c",
+    "output/m6-convergence-execution-review-20261029/browser.log": "761caef6e586d9b15e21a37a1a651156c25d2143a25bb7bcac86a9b004ed4d97",
+    "output/m6-convergence-execution-review-20261029/build_summary.py": "8a373febb170e8dc73d2417dcc3a66da546666831ad00ebd96d9118b2d8fa4b5",
+    "output/m6-convergence-execution-review-20261029/combo-False.json": "803c7e07ee19e553617c2cb127f68cd76c1f16eb3bad0ed417e2374506a9dbda",
+    "output/m6-convergence-execution-review-20261029/combo-True.json": "9df5f5b76ef603597222e6111402c95efd005e5ef891d1f1ef6177bbb5094422",
+    "output/m6-convergence-execution-review-20261029/debug.log": "6e6d52832304f553e57ffdcdcf007b1370b8ede5c9c60672bcaeff3f28cfd9f3",
+    "output/m6-convergence-execution-review-20261029/debug_jobs.py": "effe41d0806fb2f31e443d1a3d06618a6f7da0dd90b387460b112ba1d3b4dbb2",
+    "output/m6-convergence-execution-review-20261029/diagnostic-False.json": "8b67a1a6920d57abda968ea164f2af5842ca05f00f517673bfad9dda06e3df65",
+    "output/m6-convergence-execution-review-20261029/diagnostic-none.json": "74bd88cd44e3da6dce1ea99eff5ff02663da957f261b9a09d7574bfad1814fbd",
+    "output/m6-convergence-execution-review-20261029/diagnostic-record_answer.json": "de736b971f85f4205988fb4f61e709771b9c030cd5f35f59d228840b1d26c814",
+    "output/m6-convergence-execution-review-20261029/diagnostic-record_behavior.json": "2d4ddafdf28a9b6a59bb4752b89a34c5299ec4016f5cacfbe1f4c1e915447d1f",
+    "output/m6-convergence-execution-review-20261029/diagnostic-record_citations.json": "79e12063ea6d009700c4668e657eec1a0f03344ea8c2418cf12ca59c43443b19",
+    "output/m6-convergence-execution-review-20261029/diagnostic-record_state.json": "bd7279278b7d2cc0e635284bf1cb6f6f3e495b5bfc82478b448f6a687a53a732",
+    "output/m6-convergence-execution-review-20261029/diagnostic-run_citations.json": "582696b21865640f51e9eebbdd1b383295e8a3de1f3a174623c5e9c576eabe40",
+    "output/m6-convergence-execution-review-20261029/diagnostic-run_question.json": "0147d71ac905262f1c41cf49371d060bd36e6799c0e242b7aab02f29a1e15d57",
+    "output/m6-convergence-execution-review-20261029/diagnostic-True.json": "74e668072e29fba0b6de6c30743ed3129632d7ddcaf9559c289cc77bd73f8f48",
+    "output/m6-convergence-execution-review-20261029/evidence-verification.json": "1776192f90cbbd52e7fe43d31dd7d89d6fd4629ef478660a2b1cdb5cac25c60b",
+    "output/m6-convergence-execution-review-20261029/evidence-verification.log": "26a3f6324fc28ba2f9d01b8b70d7e2b1e96c84c7f1a7ce652f255fad846015fa",
+    "output/m6-convergence-execution-review-20261029/focused-final.log": "e1956e474f903404e158d6e04b7020d295c56c808b335f5a7e300688549b854f",
+    "output/m6-convergence-execution-review-20261029/focused-final.xml": "8b7e6ae52c401dc53906573f26a9a0011e50b34f7315c0c2c656abcea7ded48b",
+    "output/m6-convergence-execution-review-20261029/focused.log": "a1fea423e81b1d7c6d0547707432b3f11632d327e20ee5f3f3753fe61f1a2286",
+    "output/m6-convergence-execution-review-20261029/focused.xml": "c92ecadf345d2026c4ed279d0cadc29d2e22ec5f6e18543178bf2922a879ce42",
+    "output/m6-convergence-execution-review-20261029/freeze-False.json": "6a9815e38738a63a6df543ce68fefd7ba8c2a63becd0388d90e67d91ccc845db",
+    "output/m6-convergence-execution-review-20261029/freeze-True.json": "3860fd6c8da60e6de86f2f2f14fb55f2e7fe0b58cc4fa51028bf7c1873b7f14e",
+    "output/m6-convergence-execution-review-20261029/gate-binding-and-human.json": "b2a07f0eb0c0da6aba770257b8f4c3054e5f0af33dbbccd9a6730d877debc411",
+    "output/m6-convergence-execution-review-20261029/independent-final.log": "020dcfe57bb687214e54a6a8fb8047b277d5d3169a1acbf1a6939487cd92eb1c",
+    "output/m6-convergence-execution-review-20261029/independent-final.xml": "4c53893b124ebccce112874c9b25f853b8642274ebee68af0bc634a6dd8a0708",
+    "output/m6-convergence-execution-review-20261029/independent.log": "ced59abb752013a76613b8c923a3d20e78c065416e144c21b44b15a25e69d704",
+    "output/m6-convergence-execution-review-20261029/independent.xml": "a03692b59e07036c50205920d50bbe7ac5e87200c880872ca58d0593c0fbbc56",
+    "output/m6-convergence-execution-review-20261029/original-final.log": "e3c173601d98dae5ea3f79e40f4f798bc8c8bdefef92b8e20197ec79e6144d95",
+    "output/m6-convergence-execution-review-20261029/original-final.xml": "6e0c7e79d1ab953fe17234f271ab2078fb9a43613f0a52f43b7d2f508f321268",
+    "output/m6-convergence-execution-review-20261029/original.log": "3ea1ce08c8e7caa11a22a6140c10339ff08c4c37806c4e84c97ed93341dc0175",
+    "output/m6-convergence-execution-review-20261029/original.xml": "8dd644f2bd39d4421397501552b276d8c9ecb67b907befb6e47bff7ffbfca388",
+    "output/m6-convergence-execution-review-20261029/run_shared.py": "803db809aa44637d6871d838ec3498d1b3fc91b5070af2cdb7b5a04dc1cdb40c",
+    "output/m6-convergence-execution-review-20261029/shared-command.json": "ee3d4ae808d7c0fd8559e9ce2a67ad2f23b82067c7400fa0770f5a6798bcf188",
+    "output/m6-convergence-execution-review-20261029/shared.log": "361dacae92e0e13e329e5de0b395c0de3b722a5484d7914ece865000d6f5a941",
+    "output/m6-convergence-execution-review-20261029/shared.xml": "b56b9e07f012e8f9aa01e34ab58bba620e73dbc52252109bc8bb499d58d6ed7f",
+    "output/m6-convergence-execution-review-20261029/synthetic-job-exception.log": "c3583fc790b13efb10ba54c7b9044bbaf007d690af7c565125ad67925034bb5c",
+    "output/m6-convergence-execution-review-20261029/test_original_audit_matrix.py": "bea75320387e52f4fbfe72877791c72bdf830f1e3dee776d01315661de6fbe0f",
+    "output/m6-convergence-execution-review-20261029/test_original_boundaries.py": "2dbc5eb675c3ab02122b1d25f445061cb4c0037d2f2b6fe72a667f384fd283b9",
+    "output/m6-convergence-execution-review-20261029/test_original_recovery.py": "85cb87dd7a529d60eb0e1ad8ebceea07be6edc28f7f0296751b2a43e7a5599c2",
+    "output/m6-convergence-execution-review-20261029/test_policy_independent.py": "6c3f5098167e12beb45e54da838219ffca0e4b77e4b2f8bba76683b2d8b72387",
+    "output/m6-convergence-execution-review-20261029/typecheck.log": "241be48e89412fbf6fed0e7e10a0217d6a564c74e44cc6906baaac9d4715a40a",
+    "output/m6-convergence-execution-review-20261029/verify_evidence.py": "3c9fb6e1881337719a426847fa3231f7a1efd4eb2222350457dafffb7a641bff"
+  }
+}

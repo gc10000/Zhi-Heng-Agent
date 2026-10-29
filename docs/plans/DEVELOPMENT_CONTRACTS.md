@@ -1,5 +1,11 @@
 # 开发公共契约与任务交接边界
 
+## 2026-10-29 · C03/C09与助手开发政策实现独立核验通过
+
+总控确认：终态Run首次outcome冻结前恢复须比原`mode=execution`输入hash及正式题级关联，完成/澄清、同/分库及变化拒绝通过；正式来源前提可叠加摘要隔离布尔变体，仍固定weighted和原预算。C03/C09关闭。`assistant-development-v1`身份注册、执行配置、全范围封存/二轮盲审、总控独立性、未知追加重新核验、校准、候选绑定和开发gate/proof正式实现通过，默认human发布规则保持。原批准文档SHA未改，运行政策本轮未登记。
+
+允许满足最终题集/配置及独立执行前置后以真实assistant身份正式审阅；总控须验证真实执行独立性，不以Git文件存在/hash等同语义正确或实际独立。禁止旧聊天复制双轮、跨结果评分、候选先于预校准及开发通过自动发布。当前不授权立即供应商生成；下一步C05/C06/C07准备，之后按固定同范围质量链验收。范围和实际证据见[独立报告](../development/reviews/M6-convergence-execution-review-r1.md)，后续不再以待政策实现或待用户评分阻塞。
+
 ## 2026-10-29 · 助手开发验收运行契约
 
 `assistant-development-v1` 是独立于 human 发布的显式政策。请求、冻结配置、控制账本、Run/题级检查点、审核执行、封存、校准和 regression proof 必须保存并核对同一政策引用；两轮执行 ID 不得与生成 Run 重用，第二轮在第一轮封存后开始，结果在两轮封存及总控独立性证明前不可见。unknown、未核实来源和关键错误分别保持 pending/blocked。`release-gate` 与 revision 发布路径以 `human_only=true` 核验，development-gate 单独返回开发状态且 `automatic_publish=false`。
