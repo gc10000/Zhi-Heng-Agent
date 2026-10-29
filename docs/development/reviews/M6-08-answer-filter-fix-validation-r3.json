@@ -1,0 +1,129 @@
+{
+  "date": "2026-10-29",
+  "base_commit": "053b143ce53067bf59934383c50359fb7bff777f",
+  "scope": [
+    "AF-R1-R",
+    "AF-R2"
+  ],
+  "role": "execution_agent_fix_self_validation",
+  "status": "self_validation_passed_pending_independent_review",
+  "checks": {
+    "pre_fix_red": {
+      "passed": 3,
+      "failed": 2,
+      "exit_code": 1
+    },
+    "independent-original-final": {
+      "passed": 5,
+      "failed": 0,
+      "exit_code": 0
+    },
+    "boundary-rerun": {
+      "passed": 23,
+      "failed": 0,
+      "exit_code": 0
+    },
+    "shared-rerun": {
+      "passed": 297,
+      "failed": 0,
+      "exit_code": 0
+    },
+    "replay-rerun": {
+      "passed": 25,
+      "failed": 0,
+      "exit_code": 0
+    }
+  },
+  "replay": {
+    "questions": 25,
+    "old_matches_saved": 25,
+    "new_matches_provider": 25,
+    "fragment_variants": 5,
+    "changed_question_ids": [
+      "support-v1-003",
+      "support-v1-004",
+      "support-v1-006",
+      "support-v1-007",
+      "support-v1-008",
+      "support-v1-034"
+    ],
+    "unchanged_questions": 19,
+    "new_model_calls": 0,
+    "historical_answers_overwritten": false
+  },
+  "protected_hashes": {
+    "current_scope": {
+      "matched": 404,
+      "mismatched": 0,
+      "manifest_sha256": "b0370e1b81a8ed5708b77e7f04352d046ea7129d050e016331e2015ea2ee2dc2"
+    },
+    "r2_fix": {
+      "matched": 66,
+      "mismatched": 0,
+      "manifest_sha256": "4644b0d9695a6f839adc2565daf8fabd3687ad7cc6e46adae6522873b4da6d98"
+    },
+    "r2_protected": {
+      "matched": 290,
+      "mismatched": 0,
+      "manifest_sha256": "a6ccb3882521cccf70bdab25e1b0b94229e14944dbc6d29efe5a0c7c4c9543e3"
+    },
+    "r1_fix": {
+      "matched": 109,
+      "mismatched": 0,
+      "manifest_sha256": "ccd65fbbd1eb89514a79ba578b8c7da5f4ced86d6310ea9b35a9385e306e89c4"
+    },
+    "r1_protected": {
+      "matched": 127,
+      "mismatched": 0,
+      "manifest_sha256": "e42a2cd514c6ef713784e0ea963138992a4d4bf8c4343c305b2ea0746e6b5460"
+    },
+    "original_answers": {
+      "matched": 125,
+      "mismatched": 0,
+      "manifest_sha256": "dc0819856f27ef6d47a745a220cdf0879f9751631b13f64be89204ad8a2a2b68"
+    }
+  },
+  "operations": {
+    "new_model_calls": 0,
+    "database_access": false,
+    "fresh_database_audit": false,
+    "dev_or_heldout": false,
+    "formal_quality_writes": false,
+    "human_declarations": false,
+    "default_revision_changed": false,
+    "historical_answers_overwritten": false
+  },
+  "frontend": {
+    "source_changed": false,
+    "rerun_this_round": false,
+    "prior_independent_results_retained": {
+      "security_contract_tests": 29,
+      "independent_probes": 2,
+      "typecheck_exit_code": 0
+    }
+  },
+  "implementation": {
+    "parser_container_indent_mapping": true,
+    "tab_virtual_spaces_have_no_source_coordinate": true,
+    "unmapped_text_receives_no_code_exemption": true,
+    "source_text_rewritten": false,
+    "AF_R2_changed": false,
+    "SQ_shared_helper_changed": false
+  },
+  "markdown_links_validated": 554,
+  "remaining": [
+    "independent AF-R1-R review",
+    "04-a cross-object inference",
+    "05-a/b and 17-b MateDock3 binding",
+    "019/021/022/048 retrieval gaps"
+  ],
+  "stage": {
+    "M6": "4/7",
+    "unaccepted": [
+      "M6-04",
+      "M6-05",
+      "M6-08"
+    ],
+    "M7_authorized": false
+  }
+}
