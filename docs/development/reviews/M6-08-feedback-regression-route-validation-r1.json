@@ -1,0 +1,115 @@
+{
+  "date": "2026-10-29",
+  "baseline_commit": "9d66bcb829439918d9ef93969c5ad821deb7a514",
+  "scope": "regression草稿路线诊断与分支状态修正",
+  "changes": {
+    "backend": [
+      "新建regression草稿的publication_state设为not_applicable",
+      "revision草稿继续要求affected_then_full门禁",
+      "旧反馈/实验记录未回填或迁移"
+    ],
+    "frontend": [
+      "按regression/revision显示各自路线",
+      "regression隐藏revision绑定与资料发布证明控件",
+      "明确regression转题集版本/实验的接线尚不存在"
+    ],
+    "lineage": "regression题集版本及实验source_feedback关联仍未实现"
+  },
+  "tests": [
+    {
+      "name": "feedback_route_ui_red",
+      "command": "pnpm -C frontend exec playwright test feedback-loop.spec.ts --reporter=list --output=../output/m6-feedback-route-r1-red-artifacts",
+      "result": "修复前1失败、1通过；regression流程说明未显示",
+      "exit_code": 1
+    },
+    {
+      "name": "publication_state_red",
+      "command": "$env:M1_TEST_DB='m1_test_m6_feedback_route_r1_state_red'; .\\.venv\\Scripts\\python.exe -m pytest tests/integration/test_feedback_triage_workflow.py::test_confirm_creates_traceable_draft_only_and_is_idempotent -q --tb=short --junitxml=output/m6-feedback-route-r1-state-red.xml",
+      "result": "修复前1失败；regression错误获得revision发布状态",
+      "exit_code": 1
+    },
+    {
+      "name": "feedback_backend_final",
+      "command": "$env:M1_TEST_DB='m1_test_m6_feedback_route_r1_final'; .\\.venv\\Scripts\\python.exe -m pytest tests/integration/test_feedback_triage_workflow.py tests/contract/test_feedback_triage.py -q --tb=short --junitxml=output/m6-feedback-route-r1-backend-final.xml",
+      "result": "8 passed",
+      "exit_code": 0
+    },
+    {
+      "name": "feedback_ui_final",
+      "command": "pnpm -C frontend exec playwright test feedback-loop.spec.ts --reporter=list --output=../output/m6-feedback-route-r1-final-artifacts",
+      "result": "2 passed",
+      "exit_code": 0
+    },
+    {
+      "name": "answer_prompt_scope",
+      "command": ".\\.venv\\Scripts\\python.exe -m pytest tests/unit/test_answer_prompt_scope.py -q --tb=short --junitxml=output/m6-feedback-route-r1-prompt-scope.xml",
+      "result": "1 passed; prompt construction only, no generated-answer claim",
+      "exit_code": 0
+    },
+    {
+      "name": "frontend_typecheck",
+      "command": "pnpm -C frontend typecheck",
+      "result": "vue-tsc --noEmit",
+      "exit_code": 0
+    }
+  ],
+  "fresh_rerun_2026_10_29": [
+    {
+      "name": "feedback_backend_tests",
+      "command": "$env:M1_TEST_DB='m1_test_m6_feedback_route_r2'; .\\.venv\\Scripts\\python.exe -m pytest tests/integration/test_feedback_triage_workflow.py tests/contract/test_feedback_triage.py -q --tb=short --junitxml=output/m6-feedback-route-r2-backend.xml",
+      "result": "8 passed in 28.51s; isolated Mongo/API only",
+      "exit_code": 0
+    },
+    {
+      "name": "feedback_frontend_e2e",
+      "command": "pnpm -C frontend exec playwright test feedback-loop.spec.ts --reporter=list --output=../output/m6-feedback-route-r2-e2e-artifacts",
+      "result": "2 passed in 9.8s",
+      "exit_code": 0
+    },
+    {
+      "name": "frontend_typecheck",
+      "command": "pnpm -C frontend typecheck",
+      "result": "vue-tsc --noEmit",
+      "exit_code": 0
+    },
+    {
+      "name": "diff_and_json_validation",
+      "command": "git diff --check; .\\.venv\\Scripts\\python.exe -c \"import json,pathlib; json.loads(pathlib.Path('docs/development/reviews/M6-08-feedback-regression-route-validation-r1.json').read_text(encoding='utf-8')); print('validation JSON: ok')\"",
+      "result": "diff clean; validation JSON parsed",
+      "exit_code": 0
+    }
+  ],
+  "database": {
+    "docker_containers_running": 6,
+    "mongo_ping_using_local_mongo_db_name": true,
+    "m2_db_name_configured_locally": false,
+    "target_m6_evaluation_ledger_live_read_verified": false,
+    "formal_database_writes": 0
+  },
+  "quality": {
+    "cached_model_replay": false,
+    "vendor_calls": 0,
+    "new_answers": 0,
+    "human_review_writes": 0,
+    "calibration_candidate_observation_writes": 0,
+    "heldout_runs": 0,
+    "default_revision_changes": 0,
+    "frozen_r3_results_changed": false,
+    "answer_quality_proven": false,
+    "object_accessory_questions": ["m6-g540-04-a", "m6-g540-05-a", "m6-g540-05-b", "m6-g540-17-b"],
+    "weighted_retrieval_gaps": ["support-v1-019", "support-v1-021", "support-v1-022", "support-v1-048"],
+    "retrieval_strategy_changed": false
+  },
+  "historical_identity": {
+    "r3_experiment": "79b3cc58-cfd4-4da5-84c0-890d92a9be06",
+    "r3_results": "19 inherited + 66 executed",
+    "legacy_failure": "a5607e05-de22-4b24-9570-e85b7e09b521 remains failed/attempt 2/provider_invalid_response/retryable=false/results 0; calls and cost unknown",
+    "semantic_review_identity": "existing assistant-side analysis retained; not human or dual-round review"
+  },
+  "stage": {
+    "M6": "4/7",
+    "unaccepted": ["M6-04", "M6-05", "M6-08"],
+    "M7_started": false,
+    "independent_stage_acceptance": false
+  }
+}

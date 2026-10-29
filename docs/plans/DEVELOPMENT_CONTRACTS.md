@@ -167,6 +167,8 @@ M1-01已冻结Pydantic实体契约，具体字段及UUID/SourceRef规则见[知�
 | `GET /feedback`、`POST /feedback/{id}/bind-revision`、`POST /feedback/{id}/quality-proof` | 知识库、版本、新修订/受影响题、实际实验/校准 | 重新授权的审核队列、修订门禁绑定及有序回归证明；不接受客户端质量分 | M6-05 |
 | `GET /runs/{id}/telemetry`、`GET /run-telemetry` | 当前owner/kb、run或分页游标 | 安全耗时/阶段/失败/降级/修订/逻辑调用统计；私有正文和未采集计量不外泄 | M6-07 |
 
+**M6-05 regression分支状态（2026-10-29）：**`POST /feedback/{id}/review`可以创建带原feedback、run和修订来源的`regression`草稿，但当前没有回归题标注审核、创建JSONL/manifest/catalog新版本或将feedback来源绑定到题目与实验的接口。`POST /eval-sets`仅登记静态catalog已有版本；`POST /bind-revision`与`POST /quality-proof`仅服务`revision`草稿。新题集须完整验证Question、来源证据、dev划分、manifest/config指纹；新版本需建立自身baseline，待M6-04全题人工双轮和校准后才能创建同范围candidate。现有regression草稿不自动是真值，不得进入revision发布证明。该处是当前明确的接线缺口，不代表M6-05验收通过。
+
 M6审阅追加复核契约：`POST /experiments/{eid}/reviews/{review_id}/followups`仅接受原reviewer_id对应的已登录维护者、当前完整结果指纹和原human记录。请求须包含本人重新核对原件声明、`resolutions`（恰好覆盖该轮全部且仅全部`unknown`维度，每项含0/1/2或`not_applicable`与非空依据）、不可变幂等键及可追加的关键错误。服务端以`(experiment_id, review_id)`唯一键仲裁竞争，原审阅不更新；重复相同幂等请求回原追加记录，异内容或第二追加方409。结果变化409、他人/他题404、无维护权限403、结构/依据错误422。审阅查询附带追加记录。质量门槛只将同一原审核者、原结果指纹、原审阅内容hash均匹配的追加结论应用于该条unknown；确定分数和关键错误不可撤回。其他审阅的unknown仍pending；双轮对not_applicable适用性不一致仍pending；新增追加记录会改变冻结校准指纹并要求重新校准。没有业务步骤的兼容性题可由本人说明“不适用”，含图像来源必须核对其用途及相关性，不能自动免审。此能力不重新执行模型、不自动发布知识。
 
 M6审阅图片契约：`GET /experiments/{eid}/results/{question_id}/images/{document_sha256}/{page}/{asset_sha256}`只接受维护者/管理员，重新读取实验当前`result_attempt`并要求该题结果中存在完全相同的原件SHA、物理页和图片SHA引用；随后仅在该实验绑定知识库内查找匹配修订与`knowledge_assets`，由`KnowledgeGateway.revision`再次确认当前账号仍有权访问，最后用既有`read_asset`验证图像字节SHA。实验、题目、引用、修订、页码或hash任一不匹配均404，不向浏览器返回`asset_id`、对象键或签名URL；响应为私有`no-store`图像字节。UI图片失败/来源页缺失时明确提示并保留unknown。提交控件须说明依据、本人核对声明或不可覆盖记录的实际缺项；不可变原记录引导到本人的未知项追加复核，不能由前端排序/改写历史绕过。

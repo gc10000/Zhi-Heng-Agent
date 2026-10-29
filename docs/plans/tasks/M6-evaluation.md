@@ -1,4 +1,4 @@
-## 2026-10-29 · AF-R1-R复核、25题助手答案补记及正式验收依赖
+﻿## 2026-10-29 · AF-R1-R复核、25题助手答案补记及正式验收依赖
 
 接续`edc5944`，本执行会话直接复核`answer_markdown.py`/`answer_filter.py`：使用markdown-it实际容器缩进映射，tab展开虚拟空格无原文坐标，映射不一致fail closed；表格逐cell映射、AF-R2围栏及图片授权路径保留。130目标测试、13独立tab探针、297共享相邻回归、25题已存供应商流离线回放通过，退出均0（297有5条既有SWIG弃用警告）。第一次新副本回放因未复制旧过滤器夹具在collection退出1，复制同一保存夹具后25通过；未改旧记录。
 
@@ -361,3 +361,10 @@ R1恢复结果使用持久Run累计，另存adapter新增；R2由正式job在模
 2026-10-26追加：用户拒绝提交001网页审阅，因固定运行无答案和引用；原PDF第4页核对确认题目型号已明确。修复目录标准型号后的文档变体后缀误判，新增32项规划单元及46项规划/持久入口组合回归；真实001未重跑、人工审阅仍不计入，M6-08各验收项继续未勾选。
 
 本轮共享回归最终结果：backend 916 passed、2 deselected、0 skipped，重导入3 passed；旧固定快照不覆盖，真实001未重跑，M6-08仍未验收。
+## 2026-10-29 · regression反馈闭环接续路线核实
+
+总控独立关闭AF-R1/AF-R1-R；本轮不重审该技术项。`regression`与`revision`路线已分开：仅revision使用`bind-revision`及`quality-proof`发布门禁；新regression草稿为`publication_state=not_applicable`，既有数据不回填。队列界面明确展示regression待标注/版本化/复评，revision表单保持原流程。
+
+本轮源码核对及缺口：无regression Question审阅端点；无从已审反馈生成新JSONL/manifest/catalog版本的正式步骤；manifest和Experiment没有feedback来源字段；无regression专用的反馈后同范围dev复评证明。`POST /eval-sets`只登记静态catalog中的已冻结版本。下一条执行端应接通这些来源与版本环节，且保持holdout不可选；M6-04双轮原件审阅与预校准仍须先于候选。
+
+定向验证：隔离Mongo/API `tests/integration/test_feedback_triage_workflow.py`与`tests/contract/test_feedback_triage.py` 8 passed；离线浏览器`feedback-loop.spec.ts` 2 passed；`pnpm -C frontend typecheck`及`git diff --check`退出0。验证仅覆盖本次状态修正和界面分支，不计M6任务完成。见[执行报告](../../development/reviews/M6-08-feedback-regression-route-r1.md)及[验证摘要](../../development/reviews/M6-08-feedback-regression-route-validation-r1.json)。M6-04/05/08仍未验收，M7未启动。

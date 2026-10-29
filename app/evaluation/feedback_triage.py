@@ -173,7 +173,8 @@ def review_feedback(request, user, feedback_id, data):
             feedback_id=row['feedback_id'], run_id=row['run_id'], kb_id=row['kb_id'],
             question=data.proposed_question.strip(), proposed_expectation=data.proposed_expectation.strip(),
             source_revisions=[dict(document_id=d, revision_id=r) for d, r in revisions],
-            publication_state='requires_affected_then_full_regression', created_at=now)
+            publication_state=('requires_affected_then_full_regression'
+                               if data.destination == 'revision' else 'not_applicable'), created_at=now)
     query = {'feedback_id': feedback_id, 'state': 'pending_review', 'kb_id': row['kb_id'],
              '$or': [{'version': data.expected_version}, {'version': {'$exists': False}}] if data.expected_version == 0 else [{'version': data.expected_version}]}
     result = collection.update_one(query, {'$set': changes})

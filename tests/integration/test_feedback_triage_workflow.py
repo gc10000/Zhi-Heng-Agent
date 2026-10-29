@@ -28,11 +28,32 @@ def test_confirm_creates_traceable_draft_only_and_is_idempotent(triage):
     row = response.json()
     assert row['state'] == 'confirmed'
     assert row['draft']['annotation_status'] == 'draft'
+    assert row['draft']['kind'] == 'regression'
+    assert row['draft']['publication_state'] == 'not_applicable'
     assert row['draft']['run_id'] == feedback['run_id']
     assert row['draft']['source_revisions'] == [dict(document_id=citation['document_id'], revision_id=citation['revision_id'])]
     assert client.post(url, headers=headers, json=review_data()).json() == row
     assert list(resources['db'].knowledge_documents.find({})) == before
     assert client.post(url, headers=headers, json=review_data(rationale='换意见')).status_code == 409
+
+
+def test_regression_draft_does_not_enter_revision_publication_lane(triage):
+    client, headers, resources, feedback, citation = triage
+    url='/api/v1/feedback/'+feedback['feedback_id']
+    reviewed=client.post(url+'/review',headers=headers,json=review_data(destination='regression'))
+    assert reviewed.status_code==200
+    assert reviewed.json()['draft']['kind']=='regression'
+    binding=client.post(url+'/bind-revision',headers=headers,json=dict(expected_version=1,
+        document_id=citation['document_id'],revision_id='unrelated-revision',affected_question_ids=['q1']))
+    assert binding.status_code==409
+    assert binding.json()['error']['code']=='revision_draft_required'
+    proof=client.post(url+'/quality-proof',headers=headers,json=dict(expected_version=1,
+        stage='affected',experiment_id='unrelated-experiment',calibration_id='unrelated-calibration'))
+    assert proof.status_code==409
+    assert proof.json()['error']['code']=='feedback_revision_unbound'
+    saved=resources['db'].support_feedback.find_one({'feedback_id':feedback['feedback_id']})
+    assert saved['draft']['kind']=='regression'
+    assert 'target_revision_id' not in saved['draft']
 
 
 def test_reject_and_stale_version_are_explicit(triage):

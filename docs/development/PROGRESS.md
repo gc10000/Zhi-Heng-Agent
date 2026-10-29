@@ -1,5 +1,13 @@
 # 开发进度与接续点
 
+## 2026-10-29 · M6-05 regression反馈路线核实与分支状态修正
+
+接续`9d66bcb829439918d9ef93969c5ad821deb7a514`，开始时HEAD=`origin/main`，保留已有未提交文件与`tmp/`。总控已关闭AF-R1/AF-R1-R技术审查；本轮确认revision草稿专用的`bind-revision`/`quality-proof`不能用于regression。新regression草稿状态改为`not_applicable`，旧记录不迁移；队列按类型显示路线并隐藏错误的revision控件。
+
+真实路径核对发现regression仍缺Question标签审阅入口、版本化JSONL/manifest/catalog创建、feedback来源到题目与实验的绑定、以及基于同范围dev候选与正式质量门槛保存反馈后复评证明。现有`POST /eval-sets`只登记静态catalog版本；M6-04全题人工双轮及预校准仍是执行该路径的前置。revision的资料发布门禁保持独立。隔离Mongo/API 8项、浏览器2项、前端typecheck及`git diff --check`本轮重跑通过；测试只证明分支状态与界面，不代表新路径已接通。未访问正式评测账本、未调用模型、未写评分/观察/校准/candidate或题集。
+
+报告：[regression路线核实](reviews/M6-08-feedback-regression-route-r1.md)，摘要：[验证JSON](reviews/M6-08-feedback-regression-route-validation-r1.json)。下一条由执行端实现regression标注审核与不可变来源链，再做全新版本dev题集和实验关联；不把回归题送入revision的affected→full门禁。M6仍4/7，M6-04/05/08未验收，M7未启动。
+
 ## 2026-10-29 · 总控独立关闭AF-R1-R，纠正regression反馈接续路线
 
 独立复审b3d5c9a及edc5944坐标修补：298项共享/提示回归、13项原探针副本、28项总控新增边界、25题缓存回放及2项交接路线探针通过；125项助手报告绑定核对通过，821/404/294三份保护清单匹配，各组不累计。AF-R1/AF-R1-R技术项关闭，保留AF-R2等既有结论；提示词实际答案效果仍未验证。

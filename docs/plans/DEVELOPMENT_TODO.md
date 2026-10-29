@@ -1,5 +1,9 @@
 # 设备技术支持工作台 · 开发 ToDo 总清单
 
+## 2026-10-29 · M6-05 regression接续边界
+
+regression反馈草稿已与revision发布流程区分，但完整反馈闭环仍有执行端接线缺口：Question标签审阅、版本化dev JSONL/manifest/catalog、题目及Experiment反馈来源关系、反馈后同范围dev复评证明。仅revision走affected→full发布门禁。M6核心计数与任务勾选不变：4/7，M6-04/05/08未验收，M7未启动。详见[路线核实](../development/reviews/M6-08-feedback-regression-route-r1.md)。
+
 ## 2026-10-29 · AF-R1-R复核、25题助手答案补记及正式验收依赖
 
 接续`edc5944`，本执行会话直接复核`answer_markdown.py`/`answer_filter.py`：使用markdown-it实际容器缩进映射，tab展开虚拟空格无原文坐标，映射不一致fail closed；表格逐cell映射、AF-R2围栏及图片授权路径保留。130目标测试、13独立tab探针、297共享相邻回归、25题已存供应商流离线回放通过，退出均0（297有5条既有SWIG弃用警告）。第一次新副本回放因未复制旧过滤器夹具在collection退出1，复制同一保存夹具后25通过；未改旧记录。

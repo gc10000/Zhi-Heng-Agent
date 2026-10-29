@@ -1,4 +1,4 @@
-## 2026-10-29 · 总控独立关闭AF-R1-R，纠正regression反馈接续路线
+﻿## 2026-10-29 · 总控独立关闭AF-R1-R，纠正regression反馈接续路线
 
 独立复审b3d5c9a及edc5944坐标修补：298项共享/提示回归、13项原探针副本、28项总控新增边界、25题缓存回放及2项交接路线探针通过；125项助手报告绑定核对通过，821/404/294三份保护清单匹配，各组不累计。AF-R1/AF-R1-R技术项关闭，保留AF-R2等既有结论；提示词实际答案效果仍未验证。
 
@@ -339,3 +339,8 @@ M1第1轮总控需修复。独立181 passed（169.84秒）、3 tests OK、78文�
 ## 2026-10-27 · 完整dev基础服务恢复与租约收敛，阶段仍未验收
 
 Docker/Mongo恢复；过期020 Run已由正式恢复协议转为interrupted并释放会话占用。检查竞态中实验进入failed/attempt2、retryable=false、provider_invalid_response；结果持久行0，实际供应商调用/费用未知。原19成功checkpoint未改且已作哈希备份，65题尚无检查点。因为不可安全自动重试，本轮停止新生成；完整dev及M6-04/05/08仍未验收，核心4/7、M7未授权。见[接续报告](reviews/M6-08-full-dev-baseline-r2.md)。
+## 2026-10-29 · regression反馈支路接续核验（执行自验）
+
+AF-R1/AF-R1-R的总控独立通过结论保留，不重开。执行端已修正新regression草稿错误继承revision发布状态，并在FeedbackQueue隐藏regression的revision绑定/证明控件；revision支路行为未变。隔离Mongo/API 8项、离线浏览器2项及typecheck通过，详见[路线报告](reviews/M6-08-feedback-regression-route-r1.md)。
+
+本轮只核清流程断点，没有实现完整regression闭环。Question标注审阅、dev题集新版本冻结与catalog接入、feedback→题目→manifest→experiment来源绑定、反馈后同范围实验质量证明仍待执行端接线；M6-04全题人工双轮/预校准为后续候选评测前置。不得把revision的affected→full发布证明套用于regression。M6仍4/7；M6-04/05/08未验收；M7未授权。执行自验不构成独立复审或阶段验收。

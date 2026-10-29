@@ -1,5 +1,13 @@
 # 反馈审核与修订回归
 
+## 2026-10-29 · Regression反馈路线核实
+
+反馈确认后的两类草稿不共用发布路线。`revision`继续经新资料修订、受影响题和完整开发集回归证明，最终由正式发布门禁决定是否发布。`regression`是待审回归题草稿：当前只能通过`POST /feedback/{id}/review`保存草稿和原Run/资料来源；没有将其审阅为Question标签、冻结为新JSONL/manifest/catalog版本或绑定到后续实验的API。该草稿不得绑定资料修订，也不能使用`bind-revision`/`quality-proof`。
+
+现有可执行的数据侧步骤要求维护者在本机以全新版本整理完整Question、来源跨度与manifest，保持`dev`划分、不能进入heldout，先以草稿身份校验；合法标注需保留可追溯审核身份和题目内容指纹，不能把feedback审核、assistant单轮判断或聊天原话冒作human双轮。新manifest/config通过验证并纳入受控catalog后，才可由`POST /eval-sets`登记并创建实验。版本指纹改变不继承旧实验结果；同范围baseline须使用同一冻结题集，满足M6-04全题人工双轮与预校准后再创建candidate并复评。experiment当前没有feedback来源字段，因此即使时间在反馈之后，也不能仅凭时间顺序证明其为反馈后复评。
+
+当前FeedbackQueue按草稿类型分支展示上述不同路径；regression文字明确指出题集与实验自动接线尚未实现，不出现revision绑定/发布证明表单。新创建regression草稿的`publication_state`为`not_applicable`；revision仍为`requires_affected_then_full_regression`。历史草稿不回填。
+
 ## 2026-10-27 · 后续完整dev组合技术结果已完成
 
 完整dev技术对照已由带原失败来源的后续实验完成，19继承+66后续执行共85结果；旧失败、旧020和未知费用保留。继承66、持久1975、检索/图像9838、离线报告9检查通过，仅提供来源可核验的技术产物，未写human/观察/校准。新规则独立双轮、预校准、候选比较和反馈后人工复评仍缺；不把80个生成回答或来源指标当质量达标、不要求已有聊天重填，M6仍未验收。见[r3报告](../development/reviews/M6-08-full-dev-baseline-r3.md)。
