@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-29",
+  "reviewed_commit": "6636b257576f3665247d3679d30f712730e3b45e",
+  "role": "execution_agent_separate_technical_verification_not_stage_acceptance",
+  "status": "changes_required",
+  "findings": [
+    {"id": "AF-R1", "priority": "P2", "file": "app/runs/answer_filter.py", "line": 21, "cause": "table_inline_token_line_map_reparsed_across_cells", "observed": "rendered_image_misclassified_as_code_and_backend_asset_filter_skipped"},
+    {"id": "AF-R2", "priority": "P2", "file": "app/runs/answer_filter.py", "line": 70, "cause": "incomplete_fence_info_line_emitted_before_parse_is_stable", "observed": "same_source_has_different_asset_filter_output_by_fragmentation"}
+  ],
+  "checks": {
+    "python_existing": {"passed": 250, "failed": 0, "warnings": 5},
+    "saved_stream_replay": {"passed": 25, "old_matches_saved": 25, "new_matches_provider": 25, "changed_questions": ["support-v1-003", "support-v1-004", "support-v1-006", "support-v1-007", "support-v1-008", "support-v1-034"]},
+    "frontend_existing": {"passed": 29},
+    "typecheck": {"exit_code": 0},
+    "independent_backend": {"passed": 2, "failed": 2},
+    "independent_frontend": {"passed": 2, "initial_config_load_failed": true, "initial_log_preserved": true},
+    "repair_evidence_hashes": {"matched": 109, "mismatched": 0},
+    "protected_hashes": {"matched": 127, "mismatched": 0},
+    "original_answer_seal_hashes": {"matched": 125, "mismatched": 0},
+    "recorded_code_identity": {"matched": 4, "mismatched": 0}
+  },
+  "groups_are_not_unique_total": true,
+  "frontend_containment_verified": true,
+  "browser_unauthorized_load_or_html_execution_demonstrated": false,
+  "business_source_changes": false,
+  "new_model_calls": 0,
+  "database_access": false,
+  "fresh_database_audit": false,
+  "historical_answers_overwritten": false,
+  "default_revision_changed": false,
+  "human_or_formal_quality_writes": false,
+  "private_evidence_directory": "output/m6-answer-filter-verification-20261029",
+  "next_action": "execution_agent_add_two_regressions_then_minimal_filter_fix_and_saved_stream_replay_without_new_model_calls",
+  "stage": {"M6": "4/7", "unaccepted": ["M6-04", "M6-05", "M6-08"], "M7_authorized": false}
+}
