@@ -1,0 +1,65 @@
+{
+  "date": "2026-10-29",
+  "reviewer_role": "total_control_independent_review",
+  "reviewed_commit": "b06d13c660966765dad0f24bd38c864932666d5b",
+  "status": "scoped_branch_fix_accepted_full_regression_pipeline_not_implemented",
+  "findings": {
+    "new_blocking_findings": 0,
+    "regression_publication_state": "not_applicable",
+    "revision_publication_state": "requires_affected_then_full_regression",
+    "legacy_documents_not_migrated": true
+  },
+  "verification": {
+    "backend": {
+      "passed": 8,
+      "exit_code": 0,
+      "seconds": 51.24,
+      "xml_sha256": "4c35c91f5da09b4c3886109a6c1989b0a448cb98cf0d2b76b72c1c7cadbeb521",
+      "log_sha256": "e25bbbd4b25191e3aa4a1c07cc17103a1bd52181dac2375b674e18d2f522e571"
+    },
+    "browser": {
+      "passed": 2,
+      "exit_code": 0,
+      "seconds": 21.3,
+      "api_mode": "mocked",
+      "log_sha256": "f4ea02763844be1f3d7a58311e42063ee3c450183d46ba3030a60e6195449e7a"
+    },
+    "typecheck": {
+      "exit_code": 0,
+      "log_sha256": "241be48e89412fbf6fed0e7e10a0217d6a564c74e44cc6906baaac9d4715a40a"
+    }
+  },
+  "commands": {
+    "backend": "$env:M1_TEST_DB='m1_test_m6_feedback_route_control_20261029'; .\\.venv\\Scripts\\python.exe -m pytest tests/integration/test_feedback_triage_workflow.py tests/contract/test_feedback_triage.py -q --tb=short --junitxml=output/m6-feedback-route-total-review-20261029/backend.xml",
+    "browser": "pnpm -C frontend exec playwright test feedback-loop.spec.ts --reporter=list --output=../output/m6-feedback-route-total-review-20261029/browser-artifacts",
+    "typecheck": "pnpm -C frontend typecheck"
+  },
+  "design_recommendation": {
+    "status": "not_implemented",
+    "reuse_unchanged_frozen_dev_question": true,
+    "new_version_required_for_semantic_label_or_evidence_changes": true,
+    "immutable_source_binding_consumed_by_experiment_and_checkpoint_identity": true,
+    "server_verified_regression_proof_separate_from_revision_publication": true,
+    "label_assistant_review_distinct_from_answer_human_review": true
+  },
+  "operations": {
+    "business_source_changed": false,
+    "prompt_changed": false,
+    "supplier_calls": 0,
+    "formal_database_access": false,
+    "isolated_test_database_writes": true,
+    "formal_quality_writes": 0,
+    "real_dev_or_heldout": false,
+    "source_corpus_or_default_revision_changed": false,
+    "historical_answers_overwritten": false
+  },
+  "stage": {
+    "M6": "4/7",
+    "unaccepted": [
+      "M6-04",
+      "M6-05",
+      "M6-08"
+    ],
+    "M7_authorized": false
+  }
+}

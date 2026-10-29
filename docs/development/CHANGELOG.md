@@ -1,5 +1,11 @@
 # 开发变更记录
 
+## 2026-10-29 · regression分流总控独立通过，锁定完整来源/复评接线交付
+
+独立复核b06d13c：新regression草稿publication_state为not_applicable，revision原发布状态及界面分支保持，旧记录不回填。总控重跑隔离Mongo/API 8项、Edge浏览器2项及typecheck均通过，本范围未见新阻塞；完整regression链路仍未实现。见[独立复审与接线约束](reviews/M6-08-feedback-regression-route-review-r1.md)及[脱敏摘要](reviews/M6-08-feedback-regression-route-review-validation-r1.json)。
+
+下一轮以整条隔离来源链和复评证明为交付：合法标签审核→精确绑定未变dev题或派生新题集→catalog/实验/检查点消费来源hash→服务端核验复评证明。新增/修改题目及标签证据才派生版本，不因单条反馈无谓重建不变题集；题目标注独立助手审核与答案human双轮分开。仅用合成夹具验证权限、CAS/幂等、跨库和故障恢复，不调用真实模型或写正式质量。本轮只改审查文档，保留AF等既有结论、四题语义及四题召回缺口。M6仍4/7，04/05/08未验收，M7未启动。
+
 ## 2026-10-29 · 修正regression反馈状态并核清后续接线
 
 新建regression草稿不再显示资料修订的affected→full发布状态；反馈队列隐藏不适用的revision表单并说明回归标注/版本化路线尚未接通。source review确认当前没有题目标注审阅、静态catalog外新题集冻结或feedback来源到Experiment的绑定。隔离Mongo/API 8项、浏览器2项和typecheck通过；没有调用模型或写正式质量记录。M6仍4/7，04/05/08未验收。
