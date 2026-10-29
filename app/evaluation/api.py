@@ -52,6 +52,7 @@ class RegressionReference(BaseModel):
 class RegressionCandidateInput(BaseModel):
     model_config = ConfigDict(extra='forbid')
     question: dict
+    evidence_revisions: list['RegressionEvidenceRevision'] = Field(default_factory=list,max_length=20)
 
     @field_validator('question')
     @classmethod
@@ -64,6 +65,7 @@ class RegressionCandidateInput(BaseModel):
 class RegressionReviewInput(BaseModel):
     model_config = ConfigDict(extra='forbid')
     annotation: dict
+    evidence_mapping_sha256: str | None = Field(default=None,pattern=r'^[0-9a-f]{64}$')
 
     @field_validator('annotation')
     @classmethod
@@ -90,7 +92,14 @@ class RegressionProofInput(BaseModel):
     calibration_id: str = Field(min_length=1,max_length=128)
 
 
+class RegressionEvidenceRevision(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    document_id: str = Field(min_length=1,max_length=128)
+    revision_id: str = Field(min_length=1,max_length=128)
+
+
 ExperimentInput.model_rebuild()
+RegressionCandidateInput.model_rebuild()
 
 
 class VersionInput(BaseModel):
@@ -265,11 +274,19 @@ def regression_service(request):
     return RegressionService(evaluations.repo,evaluations.catalog)
 
 
+@router.get('/feedback/{feedback_id}/regression-status')
+def regression_status(feedback_id: str,request: Request,user=Depends(principal)):
+    require_writer(user)
+    authorized_feedback(request,user,feedback_id)
+    return regression_service(request).status(user,feedback_id)
+
+
 @router.post('/feedback/{feedback_id}/regression-candidates',status_code=201)
 def regression_candidate(feedback_id: str,data: RegressionCandidateInput,request: Request,user=Depends(principal)):
     require_writer(user)
     authorized_feedback(request,user,feedback_id)
-    return regression_service(request).candidate(user,feedback_id,data.question)
+    return regression_service(request).candidate(user,feedback_id,data.question,
+        [r.model_dump() for r in data.evidence_revisions])
 
 
 @router.post('/regression-candidates/{candidate_id}/annotation',status_code=201)
@@ -281,7 +298,7 @@ def regression_annotation(candidate_id: str,data: RegressionReviewInput,request:
         raise APIError(404,'not_found','标签候选不存在或不在授权范围。')
     authorized_feedback(request,user,candidate['source']['feedback_id'])
     try:
-        return ledger.review(user,candidate_id,data.annotation)
+        return ledger.review(user,candidate_id,data.annotation,data.evidence_mapping_sha256)
     except ValueError:
         raise APIError(422,'regression_annotation_invalid','标签审核内容指纹或身份不完整。') from None
 

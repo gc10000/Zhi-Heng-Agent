@@ -95,11 +95,15 @@ def test_http_binding_authorization_and_strict_proof_input(lineage,m2_client):
     resources['evaluations']=EvaluationService(service.repo,service.catalog)
     response=client.post('/api/v1/feedback/feedback/regression-binding',headers=headers,json=target)
     assert response.status_code==201,response.text
+    status=client.get('/api/v1/feedback/feedback/regression-status',headers=headers)
+    assert status.status_code==200 and status.json()['binding_status']=='valid'
+    assert status.json()['quality_passed'] is None
     assert client.post('/api/v1/feedback/feedback/regression-binding',headers=headers,json=target).json()==response.json()
     proof=dict(source=service.reference(response.json()),experiment_id='absent',calibration_id='absent',passed=True)
     assert client.post('/api/v1/feedback/feedback/regression-proof',headers=headers,json=proof).status_code==422
     resources['db'].knowledge_documents.update_one({'document_id':'doc'},{'$set':{'kb_id':'revoked'}})
     assert client.post('/api/v1/feedback/feedback/regression-binding',headers=headers,json=target).status_code==404
+    assert client.get('/api/v1/feedback/feedback/regression-status',headers=headers).status_code==404
 
 
 @pytest.mark.parametrize('point',['regression_candidates','regression_annotations','regression_bindings'])
@@ -133,6 +137,19 @@ def test_same_question_with_different_feedback_expectation_is_not_exact_match(li
     service.repo.db.support_feedback.update_one({'feedback_id':'feedback'},
         {'$set':{'draft.proposed_expectation':'合成相反预期：应当拒绝回答'}})
     with pytest.raises(APIError): service.bind(user,'feedback',target)
+
+
+def test_readonly_status_distinguishes_binding_from_quality(lineage):
+    service,user,_,_,_,target=lineage
+    assert service.status(user,'feedback')['binding_status']=='unbound'
+    bound=service.bind(user,'feedback',target)
+    before={n:service.repo.db[n].count_documents({}) for n in service.repo.db.list_collection_names()}
+    value=service.status(user,'feedback')
+    assert value['binding_status']=='valid' and value['source']==service.reference(bound)
+    assert value['proof_status']=='absent' and value['quality_passed'] is None
+    assert before=={n:service.repo.db[n].count_documents({}) for n in service.repo.db.list_collection_names()}
+    service.repo.db.runs.update_one({'run_id':'source-run'},{'$set':{'answer':'changed'}})
+    assert service.status(user,'feedback')['binding_status']=='invalid'
 
 
 @pytest.mark.parametrize('change', ['heldout', 'draft', 'feedback', 'source_run', 'wrong_owner', 'wrong_hash'])

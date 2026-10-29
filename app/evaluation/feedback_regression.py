@@ -70,8 +70,8 @@ class RegressionService:
         from .feedback_triage import feedback_source_db
         source_db = feedback_source_db(db,feedback)
         run = source_db.runs.find_one(dict(run_id=feedback['run_id'], owner_id=feedback['owner_id'], kb_id=feedback['kb_id']))
-        if not run or run.get('state') != 'completed':
-            reject('反馈来源Run缺失或未完成')
+        if not run or run.get('state') not in {'completed','awaiting_input'}:
+            reject('反馈来源Run缺失或不是已回答/等待澄清结果')
         revisions = []
         identities = set()
         def collect(value):
@@ -93,11 +93,39 @@ class RegressionService:
         run_fields = {k:run[k] for k in ('run_id','conversation_id','owner_id','kb_id','state','input',
             'identity','question','requested_product_ids','input_product_snapshot','product_snapshot',
             'source_prerequisites_sha256','answer','final_answer','result','citations','revision_snapshot') if k in run}
+        if run['state'] == 'awaiting_input':
+            run_fields.update({k:deepcopy(run[k]) for k in ('candidates','resume_point') if k in run})
         return dict(feedback_id=fid, feedback_sha256=fingerprint({k:v for k,v in feedback.items() if k != '_id'}),
             feedback_version=feedback.get('version',0), run_id=run['run_id'], run_sha256=fingerprint(run_fields),
             source_database=source_db.name, source_revisions=revisions, kb_id=feedback['kb_id']), feedback
 
-    def candidate(self, user, fid, question):
+    def evidence_revisions(self,user,source,references):
+        """独立审核补充证据，库映射来自原反馈，绝不向旧Run补造引用。"""
+        db = self.repo.db.client[source['source_database']]
+        mappings = []
+        seen = set()
+        for ref in references:
+            did,rid = ref['document_id'],ref['revision_id']
+            if (did,rid) in seen:
+                reject('补充原件修订不得重复')
+            seen.add((did,rid))
+            doc = db.knowledge_documents.find_one({'document_id':did,'kb_id':source['kb_id']})
+            rev = db.knowledge_revisions.find_one({'document_id':did,'revision_id':rid,'kb_id':source['kb_id']})
+            if not doc or not rev or source['kb_id'] not in user.kb_ids or rev.get('owner_id') != doc.get('owner_id'):
+                reject('补充原件未授权或修订映射无效')
+            mappings.append(dict(document_id=did,revision_id=rid,owner_id=doc['owner_id'],
+                kb_id=doc['kb_id'],original_sha256=rev['original_sha256']))
+        if source['source_revisions'] and any(r not in source['source_revisions'] for r in mappings):
+            reject('已有反馈证据范围不能通过补充映射扩大')
+        return sorted(mappings,key=lambda r:(r['document_id'],r['revision_id']))
+
+    def check_evidence(self,user,row):
+        references = row.get('evidence_revisions',[])
+        if references and self.evidence_revisions(user,row['source'],references) != references:
+            reject('独立审核的补充原件修订变化或撤权')
+        return references or row['source']['source_revisions']
+
+    def candidate(self, user, fid, question, evidence_revisions=None):
         source, feedback = self.source(user, fid)
         Question.model_validate(question)
         if question['split'] != 'dev' or question['annotation']['status'] != 'draft':
@@ -106,9 +134,13 @@ class RegressionService:
             reject('候选完整题目与反馈草稿不一致')
         payload = dict(owner_id=user.user_id, kb_id=source['kb_id'], creator_id=user.user_id,
                        source=source, question=deepcopy(question))
+        if evidence_revisions:
+            payload['evidence_revisions'] = self.evidence_revisions(user,source,evidence_revisions)
+            payload['evidence_mapping_sha256'] = fingerprint(dict(source=source,question=question,
+                proposed_expectation=feedback['draft']['proposed_expectation'],evidence_revisions=payload['evidence_revisions']))
         return self.store(self.repo.db.regression_candidates, fingerprint(payload), payload)
 
-    def review(self, user, candidate_id, annotation):
+    def review(self, user, candidate_id, annotation, evidence_mapping_sha256=None):
         # 审阅者可在同知识范围读取候选；不能以候选所有者身份自签独立审阅。
         candidate = self.repo.db.regression_candidates.find_one({'_id':candidate_id,'kb_id':{'$in':list(user.kb_ids)}})
         if not candidate or fingerprint(content(candidate)) != candidate.get('sha256'):
@@ -116,6 +148,11 @@ class RegressionService:
         source, _ = self.source(user, candidate['source']['feedback_id'])
         if source != candidate['source'] or candidate['creator_id'] == user.user_id:
             reject('须由另一合法审核者核对未变的候选及来源')
+        evidence = self.check_evidence(user,candidate)
+        if not evidence or not set(candidate['question']['source_scope']) <= {r['original_sha256'] for r in evidence}:
+            reject('独立审核须有覆盖题目的授权原件修订')
+        if candidate.get('evidence_mapping_sha256') and candidate['evidence_mapping_sha256'] != evidence_mapping_sha256:
+            reject('须明确确认完整题目、反馈预期及补充原件映射hash')
         question = deepcopy(candidate['question'])
         question['annotation'] = deepcopy(annotation)
         Question.model_validate(question)
@@ -126,6 +163,9 @@ class RegressionService:
         payload = dict(owner_id=candidate['owner_id'], kb_id=candidate['kb_id'], creator_id=candidate['creator_id'],
             reviewer_id=user.user_id, candidate_id=candidate_id, candidate_sha256=candidate['sha256'],
             source=source, question=question)
+        if candidate.get('evidence_revisions'):
+            payload.update(evidence_revisions=candidate['evidence_revisions'],
+                           evidence_mapping_sha256=candidate['evidence_mapping_sha256'])
         return self.store(self.repo.db.regression_annotations, candidate_id, payload)
 
     def resolve(self, target, kb_id):
@@ -134,6 +174,25 @@ class RegressionService:
                                         target['config_version'],kb_id=kb_id)
         except (ValueError, OSError, KeyError):
             reject('冻结题集或配置无效')
+
+    def status(self,user,fid):
+        """只读接续状态；已保存证明不等于本次重新执行质量门槛。"""
+        source,_ = self.source(user,fid)
+        row=self.repo.db.regression_bindings.find_one({'owner_id':user.user_id,
+            'kb_id':source['kb_id'],'source.feedback_id':fid})
+        value=dict(binding_status='unbound',source=None,proof_status='absent',quality_passed=None)
+        if row is None:
+            return value
+        value['source']=self.reference(row)
+        try:
+            self.validate(user,value['source'])
+        except APIError:
+            return value | dict(binding_status='invalid')
+        proof=self.repo.db.regression_proofs.find_one({'_id':row['id'],'owner_id':user.user_id,
+            'kb_id':source['kb_id']})
+        return value | dict(binding_status='valid',question_id=row['question_id'],
+            dataset_id=row['dataset_id'],dataset_version=row['dataset_version'],
+            proof_status='recorded_not_revalidated' if proof else 'absent')
 
     def bind(self, user, fid, target):
         source, feedback = self.source(user, fid)
@@ -161,7 +220,8 @@ class RegressionService:
             # 仅接受字面匹配，不由服务端猜测两个不同预期的语义等价；否则须独立审核映射。
             if not exact and ' '.join(expectation.split()) != ' '.join('\n'.join(question['expected']['key_points']).split()):
                 reject('反馈预期与已审标签不精确匹配，须独立审核完整题目及反馈映射')
-        originals = {r['original_sha256'] for r in source['source_revisions']}
+        evidence = self.check_evidence(user,annotation) if annotation else source['source_revisions']
+        originals = {r['original_sha256'] for r in evidence}
         if not originals or not set(question['source_scope']) <= originals:
             reject('题目原件范围未绑定反馈精确修订')
         identity = {k:target[k] for k in ('dataset_id','dataset_version','config_id','config_version')}
@@ -197,6 +257,7 @@ class RegressionService:
             reject('反馈审核或原Run结果及资料来源变化')
         if row.get('annotation_id'):
             audit = self.scoped(user,self.repo.db.regression_annotations,row['annotation_id'])
+            self.check_evidence(user,audit)
             if (audit['sha256'] != row['annotation_record_sha256'] or
                     fingerprint(audit['question']) != row['question_sha256']):
                 reject('独立标签审核记录变化或缺失')

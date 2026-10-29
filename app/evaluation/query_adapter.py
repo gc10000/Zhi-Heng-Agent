@@ -96,12 +96,19 @@ class RealQueryExecutor:
         if not saved or saved['input_sha256'] != fingerprint(inputs) or not saved.get('run_id'):
             raise ValueError('成功检查点缺少正式题级输入或Run，不自动回填')
         run = self.resources['runs'].get(self.user,saved['run_id'])
-        if (run['state'] != 'completed' or run['run_id'] != record['result'].get('run_id') or
-                run['answer'] != record['result'].get('answer')):
-            raise ValueError('成功检查点与当前完成Run不一致')
+        self.check_corpus()
+        from .execution_identity import run_input, outcome_identity, result_subject
+        result = self.project_result(run)
+        frozen = self.resources['db'].evaluation_outcomes.find_one({'_id':fingerprint([key,run['run_id']])})
+        if (run['question'] != inputs['question'] or not frozen or
+                any(frozen.get(k) != v for k,v in outcome_identity(self.resources['db'],self.config,key,run,result).items()) or
+                frozen['result_sha256'] != fingerprint(result_subject(record['result']))):
+            raise ValueError('成功检查点与冻结输入/完整执行结果不一致')
         prior = self.resources['db'].evaluation_execution_links.find_one(dict(
             experiment_id=self.execution['experiment_id'],question_id=question['id'],run_id=run['run_id'],
-            config_sha256=fingerprint(self.config),regression_source=self.config['regression_source']))
+            config_sha256=fingerprint(self.config),regression_source=self.config['regression_source'],
+            checkpoint_key=key,input_sha256=saved['input_sha256'],run_input_sha256=fingerprint(run_input(run,self.resources['db'])),
+            control_database=self.control_db.name,target_database=self.resources['db'].name))
         if not prior:
             raise ValueError('成功检查点没有此前正式执行关联，不追认来源')
         bind_execution(self.resources['db'],self.control_db,self.execution,self.config,question['id'],key,
@@ -238,10 +245,14 @@ class RealQueryExecutor:
         extra=({'source_prerequisites':self.config['parameters']['source_prerequisites']} if request_type is InternalRunInput else {})
         run = self.resources['run_service'].create(self.user, cid, request_type(kb_id=kb, question=inputs['question'], client_request_id=request_key,**extra))
         rid = run['run_id']
+        # RunService返回公开快照；输入冻结使用正式持久记录，不能把被裁剪的快照当完整身份。
+        persistent_run = self.resources['runs'].get(self.user,rid)
+        if persistent_run['question'] != inputs['question']:
+            raise ValueError('正式Run题目与冻结输入不同')
         if self.execution and run['state'] in {'pending', 'running', 'completed', 'awaiting_input'}:
             from .execution_links import bind_execution
             bind_execution(self.resources['db'], self.control_db, self.execution, self.config, question['id'], key,
-                           saved['input_sha256'], run)
+                           saved['input_sha256'], persistent_run)
         self.checkpoints.update_one({'_id': key}, {'$set': {'run_id': rid, 'request_key': request_key}})
         if followup:
             from .continuations import observe_continuation
@@ -254,9 +265,18 @@ class RealQueryExecutor:
                 observe_continuation(self.resources['db'], followup, self.resources['runs'].get(self.user, rid))
         row = self.resources['runs'].get(self.user, rid)
         accounting = self.call_accounting(row, counts_before)
+        result = self.project_result(row) | accounting
+        if self.config.get('regression_source'):
+            from .execution_identity import freeze_outcome
+            freeze_outcome(self.resources['db'],self.config,key,row,result)
+        return result
+
+    def project_result(self, row):
+        """首次执行和恢复共用受控投影，状态/行为/引用/图片映射不另设较窄规则。"""
+        rid = row['run_id']
         if row['state'] == 'awaiting_input':
             return {'run_id': rid, 'state': row['state'], 'behavior': 'clarify', 'answer': '', 'citations': [],
-                    'candidates': row.get('candidates', [])} | accounting | (
+                    'candidates': row.get('candidates', [])} | (
                         {'retrieval_candidates': {'candidates': [], 'reranked': [], 'context': []}}
                         if self.config.get('metric_schema_version') == 1 else {})
         if row['state'] != 'completed':
@@ -304,7 +324,7 @@ class RealQueryExecutor:
             extra['retrieval_candidates'] = {name: ranked_source_candidates(
                 [RetrievalHit(**item, text='') for item in group], self.documents, assets)
                 for name, group in groups.items()}
-        return extra | accounting | {'run_id': rid, 'state': row['state'], 'behavior': 'answer' if citations else 'insufficient',
+        return extra | {'run_id': rid, 'state': row['state'], 'behavior': 'answer' if citations else 'insufficient',
                 'answer': row['answer'], 'citations': citations,
                 'behavior_notice': '行为为协议与证据的保守辅助判定；部分回答/比较须人工复核',
                 'answer_support':row.get('answer_support'), 'prompt_budget':row.get('prompt_budget'),

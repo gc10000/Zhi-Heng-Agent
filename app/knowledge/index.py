@@ -175,6 +175,8 @@ class V2Index:
         embedding=embedder([text]);dense=embedding['dense'][0];sparse=embedding['sparse'][0]
         self.validate_vectors(dense,sparse,self.dense_dim)
         expr=scoped_filter(owner_id=repo.owner_id,kb_id=repo.kb_id,revision_ids=ids,product_ids=product_ids)
+        if policy.exclude_image_descriptions:
+            expr+=' and metadata["content_kind"] != "image_description"'
         requests=[AnnSearchRequest(data=[dense],anns_field='dense_vector',param={'metric_type':'IP'},limit=policy.dense_limit,expr=expr),
                   AnnSearchRequest(data=[sparse],anns_field='sparse_vector',param={'metric_type':'IP'},limit=policy.sparse_limit,expr=expr)]
         fields=['chunk_uid','text','document_id','revision_id','ordinal','metadata']

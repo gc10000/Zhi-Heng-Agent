@@ -240,6 +240,7 @@ MODEL_HOST_PORT默认8011，MODEL_HOST_URL为worker可达宿主地址，MODEL_HO
 | fusion | weighted | weighted / rrf / dense / learned_sparse |
 | dense_weight / sparse_weight | 0.5 / 0.5 | Milvus加权融合参数，各0..1，不能同时为0 |
 | rrf_k | 60 | Milvus RRF参数，1..16384 |
+| exclude_image_descriptions | false | 显式隔离派生图片摘要，在ANN/融合前对两路及追踪使用相同来源类型过滤；不删除摘要、不代替图片授权、不改变原正文引用图片。当前仅有25题隔离证据，不启用工作台默认。 |
 
 数量均1..1000，context_limit≤rerank_limit≤fusion_limit，融合池不超过所用初召回总量。所有分路共用组织/知识库/产品/冻结修订过滤，不从客户端接收过滤表达式。weighted保留Milvus原分数，rrf明确标为倒数排名分，不混成重排相关度。默认不提高候选量；清空配置可回切原加权策略。 M4-R1起，fusion_limit为每范围/查询召回池的上限，rerank_limit为汇合后全局输入上限。选择按范围轮转，再按分支/查询轮转；共享证据保留多路追踪但规范池只供给一次，不直接比较异量纲分数。比较时非空范围数超过rerank_limit会明确拒绝执行，不能静默丢范围；默认20不变。清空策略配置不会撤销R1工程修复。
 

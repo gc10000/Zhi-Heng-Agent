@@ -18,7 +18,7 @@ test('反馈确认只生成待复核草稿，保留运行和修订来源',async(
   await page.getByRole('button',{name:'确认并保存草稿',exact:true}).click()
   await expect(page.getByText('待复核草稿',{exact:true})).toBeVisible()
   await expect(page.getByText('doc-1 · rev-1',{exact:true})).toBeVisible()
-  await expect(page.getByText('回归题草稿仍待标注审阅。当前没有将反馈草稿自动转为题集版本或实验来源的接线；需先完成题目标注审阅并冻结新的开发集版本，再创建反馈后复评。此路径不走资料修订的受影响题/完整集发布门禁。',{exact:true})).toBeVisible()
+  await expect(page.getByText('回归题草稿需经独立标签审核。受控 API 已支持题集版本与实验来源绑定；内容未变且已审的题可绑定既有冻结版本，变化题须派生版本。随后按同范围基线、双轮、预校准、独立候选、复评证明顺序执行；本页尚不提供这些操作，草稿不代表已绑定或质量通过。此路径不走资料修订发布门禁。',{exact:true})).toBeVisible()
   await expect(page.getByRole('button',{name:'绑定修订与受影响题'})).toHaveCount(0)
   expect(reviewed).toBe(true)
   await expect(page.getByRole('button',{name:'发布知识',exact:true})).toHaveCount(0)

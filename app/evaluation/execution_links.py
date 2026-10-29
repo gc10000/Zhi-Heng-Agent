@@ -32,6 +32,12 @@ def validate_execution(control_db, context, config):
         source,_ = ledger.source(SimpleNamespace(kb_ids=(target['kb_id'],)),binding['source']['feedback_id'])
         if binding['sha256'] != config['regression_source']['sha256'] or binding['source'] != source:
             raise ValueError('反馈来源已经变化')
+        if binding.get('annotation_id'):
+            audit=ledger.scoped(SimpleNamespace(user_id=target['owner_id'],kb_ids=(target['kb_id'],)),
+                control_db.regression_annotations,binding['annotation_id'])
+            ledger.check_evidence(SimpleNamespace(kb_ids=(target['kb_id'],)),audit)
+            if audit['sha256'] != binding['annotation_record_sha256']:
+                raise ValueError('反馈独立审核关联变化')
     return parent
 
 
@@ -49,6 +55,8 @@ def bind_execution(db, control_db, context, config, question_id, checkpoint_key,
         conversation_id=run['conversation_id'])
     if config.get('regression_source'):
         identity['regression_source'] = config['regression_source']
+        from .execution_identity import run_input
+        identity['run_input_sha256'] = fingerprint(run_input(run,db))
     key = fingerprint([context['experiment_id'], context['attempt'], question_id])
     row = identity | dict(mode='execution' if run['state'] == 'pending' else 'observed_reuse',
                           created_at=datetime.now(timezone.utc).isoformat())

@@ -57,3 +57,20 @@ def test_empty_snapshot_never_loads_model_or_calls_client():
     index = V2Index(object(), 'm1_test_empty')
     def forbidden(*args): pytest.fail('空修订不编码')
     assert index.search(object(), '问题', embedder=forbidden, revision_snapshot=[]) == []
+
+
+@pytest.mark.parametrize('fusion',['weighted','rrf','dense','learned_sparse'])
+@pytest.mark.parametrize('exclude',[False,True])
+def test_explicit_summary_quarantine_is_scoped_before_search(fusion,exclude):
+    calls=[]
+    class Client:
+        def hybrid_search(self,**kw): calls.extend(r.expr for r in kw['reqs']);return [[]]
+        def search(self,**kw): calls.append(kw['filter']);return [[]]
+    repo=SimpleNamespace(owner_id='owner',kb_id='kb',get_revision=lambda rid:{})
+    policy=RetrievalPolicy(fusion=fusion,exclude_image_descriptions=exclude)
+    V2Index(Client(),'m1_test_quarantine',dense_dim=2).search(repo,'合成问题',
+        embedder=lambda _:dict(dense=[[1.,0.]],sparse=[{1:.5}]),
+        revision_snapshot=[dict(active_revision_id='r')],product_ids=['p'],policy=policy)
+    assert calls and len(set(calls))==1
+    assert all(('metadata["content_kind"] != "image_description"' in f)==exclude for f in calls)
+    assert all(all(s in f for s in ['owner','kb','"r"','"p"']) for f in calls)

@@ -1,5 +1,15 @@
 # 开发公共契约与任务交接边界
 
+## 2026-10-29 · 收敛补修包的执行契约（自验，待矩阵复审）
+
+regression接受completed和awaiting_input原Run来源；后者固定实际澄清候选及resume_point。无引用时完整标签候选可另存授权原件修订映射，独立审核须确认完整题目/反馈预期/修订hash；审核、绑定、创建、每题执行前重验，撤权或变化拒绝。不向旧Run/反馈补引用，不追认历史关联。
+
+来源绑定任务新增目标库`evaluation_outcomes`：首次结果落attempt日志前，以checkpoint+Run为键setOnInsert冻结配置/source、持久完整输入（含与QueryRunner同口径的历史）、输出状态/引用/资产选择/检索及受控评测结果投影。恢复重新投影并完整比较，不只看answer；正式题级link同时固定实际输入hash。缺outcome/link不自动回填。遥测计量/耗时独立于答案身份，持久累计保留、本次新增实测0或null。现有非来源历史任务不迁移。
+
+新增GET `/feedback/{id}/regression-status`，重新授权和核验来源，返回unbound/valid/invalid，旧证明仅`recorded_not_revalidated`，`quality_passed=null`。完整受控顺序见[runbook](../evaluation/regression-execution-runbook.md)。新`RetrievalPolicy.exclude_image_descriptions=false`默认不变；显式true仅在索引ANN/融合前隔离派生摘要，原图片使用关系协议不改。当前关闭证据只覆盖显式过滤、扩展关闭及既有来源前提组合。
+
+评分仍为现有human发布规则；[助手开发政策设计](../evaluation/assistant-development-policy-proposal-v1.md)待总控决策，未启用、未改gate。以下为历史时点。
+
 ## 2026-10-29 · regression来源与成功结果恢复的独立审查边界
 
 338507b独立取证发现RGL-R1/P1、RGL-R2/P2：[复审与验收范围](../development/reviews/M6-05-regression-lineage-review-r1.md)。正式确认的不必要澄清反馈属于应支持来源；保留实际awaiting_input结果及输入身份，无生成引用时须有受授权、可审核的原件修订关联，不能伪造旧引用或改旧Run完成状态。具体协议尚待执行方补修及复核，当前实现不能宣告覆盖。

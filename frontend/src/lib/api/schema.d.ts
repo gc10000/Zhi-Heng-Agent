@@ -868,6 +868,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/feedback/{feedback_id}/regression-status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Regression Status */
+        get: operations["regression_status_api_v1_feedback__feedback_id__regression_status_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/feedback/{feedback_id}/regression-candidates": {
         parameters: {
             query?: never;
@@ -1200,6 +1217,15 @@ export interface components {
         RegressionCandidateInput: {
             /** Question */
             question: Record<string, never>;
+            /** Evidence Revisions */
+            evidence_revisions?: components["schemas"]["RegressionEvidenceRevision"][];
+        };
+        /** RegressionEvidenceRevision */
+        RegressionEvidenceRevision: {
+            /** Document Id */
+            document_id: string;
+            /** Revision Id */
+            revision_id: string;
         };
         /** RegressionProofInput */
         RegressionProofInput: {
@@ -1220,6 +1246,8 @@ export interface components {
         RegressionReviewInput: {
             /** Annotation */
             annotation: Record<string, never>;
+            /** Evidence Mapping Sha256 */
+            evidence_mapping_sha256?: string | null;
         };
         /** Resolution */
         Resolution: {
@@ -3378,6 +3406,37 @@ export interface operations {
                 "application/json": components["schemas"]["QualityProofInput"];
             };
         };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    regression_status_api_v1_feedback__feedback_id__regression_status_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                feedback_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
         responses: {
             /** @description Successful Response */
             200: {
