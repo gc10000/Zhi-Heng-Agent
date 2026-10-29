@@ -1,5 +1,16 @@
 # 设备技术支持工作台 · 开发 ToDo 总清单
 
+## 2026-10-29 · AF-R1-R复核、25题助手答案补记及正式验收依赖
+
+接续`edc5944`，本执行会话直接复核`answer_markdown.py`/`answer_filter.py`：使用markdown-it实际容器缩进映射，tab展开虚拟空格无原文坐标，映射不一致fail closed；表格逐cell映射、AF-R2围栏及图片授权路径保留。130目标测试、13独立tab探针、297共享相邻回归、25题已存供应商流离线回放通过，退出均0（297有5条既有SWIG弃用警告）。第一次新副本回放因未复制旧过滤器夹具在collection退出1，复制同一保存夹具后25通过；未改旧记录。
+
+25题assistant-side分析更新为17核心支持、4部分正确、4原件可答未答；支持-v1-008/034仅因过滤恢复placeholder/button名称而更新。其余19题不变；Run/父来源hash25/25只读匹配。未生成模型答案或写human记录。G540对象范围错误及MateDock3名称未显示仍保留，提示词新增通用对象约束通过真实prompt builder测试但无新生成证明。019/021/022必要正文在weighted融合前缺席；048正文dense153/sparse57未进双路前20；细因未知，不使用RRF/扩大召回参数。
+
+冻结保护哈希821、404、294项均匹配。Mongo只读：85结果的r3 experiment完成，human记录0；旧a560…失败仍attempt2/retryable=false/results0、调用费用未知；001单题旧baseline的两条human记录/校准不替代85题，新candidate仍无human且gate pending；确认反馈草稿尚无目标修订、affected题或affected/full proof。
+
+**状态：**本轮执行核验尚待总控独立复审，不关闭AF-R1-R或M6阶段。M6仍4/7，M6-04/05/08未验收，M7未启动。详细逐题依据和阻塞矩阵见[交接报告](../development/reviews/M6-08-execution-continuation-r1.md)，脱敏计数见[摘要JSON](../development/reviews/M6-08-execution-continuation-validation-r1.json)。
+
+
 ## 2026-10-29 · AF-R1-R制表符坐标补修自验完成，待独立复审
 
 接续053b143：使用markdown-it-py容器内实际`getLines`结果采集paragraph／setext续行坐标，将tab展开虚拟空格标为无来源位置，其余字符精确映射回原流；原文不改，坐标不确定时仍不授予代码豁免。AF-R2稳定围栏、SQ共享坐标及图片授权实现不变。

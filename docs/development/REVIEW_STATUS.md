@@ -1,3 +1,13 @@
+## 2026-10-29 · M6执行接续复核及助手侧25题更新（待总控审查）
+
+接续`edc5944f736f006ba5eba9e7de92e65141b41276`；HEAD/origin/main一致。开始时工作区已有进度、提示词修改、未跟踪提示词测试和tmp/，未清理或覆盖。AnswerFilter源码逐行复核及定向回归未见本范围阻塞；130目标回归、13独立探针、297相邻共享回归、25题缓存回放通过，各组重叠不累计。AF-R1-R仅为本执行会话复核，不代表总控关闭；AF-R2既有通过保留。
+
+25题缓存过滤输出六题变化、19题不变；对照现有原件和来源后，support-v1-008与034助手侧类别调整为核心支持，当前25题助手分析17/4/4。25个实际Run及父题级来源关联只读匹配；该判断为assistant-side单轮，不是human评分或正式双轮。G540跨对象/配件名称仍需新答案验证；019/021/022在weighted融合前缺少必要原文，048缺少CB304n Cable/EoC双路top-20召回；不改weighted/top-k/阈值，不生成答案。
+
+Mongo只读：r3实验85题/85结果完成，human记录0；原失败实验仍failed/attempt2/retryable=false/results0，调用/费用未知。001旧基线的2条历史human记录及校准仍为旧单题身份；候选human记录0、门槛pending。已确认反馈草稿尚未绑定修订/affected题，affected/full质量证明为空。详情见[执行报告](reviews/M6-08-execution-continuation-r1.md)及[脱敏摘要](reviews/M6-08-execution-continuation-validation-r1.json)。
+
+M6-04未有当前85题有效人工双轮和人工抽检；M6-05未完成真实修订后affected→full证明；M6-08未完成双轮→预校准→同范围候选→反馈后复评，heldout不运行。执行助手完成的技术/原件判断不转human。M6仍4/7，04/05/08未验收，M7未启动。
+
 ## 2026-10-29 · AF-R1-R制表符坐标补修自验完成，待独立复审
 
 接续053b143：使用markdown-it-py容器内实际`getLines`结果采集paragraph／setext续行坐标，将tab展开虚拟空格标为无来源位置，其余字符精确映射回原流；原文不改，坐标不确定时仍不授予代码豁免。AF-R2稳定围栏、SQ共享坐标及图片授权实现不变。

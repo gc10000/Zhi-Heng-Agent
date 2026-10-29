@@ -1,0 +1,205 @@
+{
+  "date": "2026-10-29",
+  "role": "execution_agent_validation_summary",
+  "status": "execution_checks_passed_pending_total_control_review",
+  "baseline_commit": "edc5944f736f006ba5eba9e7de92e65141b41276",
+  "workspace_start": "main HEAD=origin/main at edc5944; pre-existing modified PROGRESS.md, prompt/answer_out.prompt, untracked prompt-scope test and tmp retained.",
+  "fresh_verification_before_commit": {
+    "answer_filter_and_prompt_targeted": {
+      "command": ".\\.venv\\Scripts\\python.exe -m pytest tests/unit/test_answer_filter_tab_review_regressions.py tests/unit/test_answer_filter_tab_boundaries.py tests/unit/test_answer_filter_container_boundaries.py tests/unit/test_answer_filter_review_regressions.py tests/unit/test_answer_filter_content.py tests/contract/test_answer_filter.py tests/unit/test_answer_prompt_scope.py -q",
+      "passed": 130,
+      "exit_code": 0
+    },
+    "independent_tab_probe": {
+      "command": ".\\.venv\\Scripts\\python.exe -m pytest output/m6-execution-continuation-20261029/test_independent_tab_review.py -q",
+      "passed": 13,
+      "exit_code": 0
+    },
+    "shared_regression": {
+      "command": ".\\.venv\\Scripts\\python.exe -m pytest -q -p tests.conftest tests/unit/test_answer_filter_content.py tests/contract/test_answer_filter.py tests/unit/test_context_budget.py tests/unit/test_answer_image_selection.py tests/unit/test_answer_grounding.py tests/unit/test_markdown_source_coordinates.py tests/unit/test_semantic_review_regressions.py tests/unit/test_semantic_review_probes.py tests/unit/test_semantic_review_adjacent_probes.py tests/unit/test_retrieval_provenance.py tests/unit/test_evidence_expansion.py tests/unit/test_source_prerequisites.py tests/unit/test_answer_filter_review_regressions.py tests/unit/test_answer_filter_container_boundaries.py tests/unit/test_answer_filter_tab_review_regressions.py tests/unit/test_answer_filter_tab_boundaries.py --junitxml=tmp/m6-af-r1-r-independent-20261029/shared-review-fresh.xml",
+      "passed": 297,
+      "exit_code": 0,
+      "warnings": "5 existing SWIG deprecation warnings"
+    },
+    "cached_answer_replay": {
+      "command": ".\\.venv\\Scripts\\python.exe -m pytest -q -p tests.conftest output/m6-execution-continuation-20261029/test_cached_filter_replay.py --junitxml=tmp/m6-af-r1-r-independent-20261029/replay-review-fresh.xml",
+      "passed": 25,
+      "exit_code": 0,
+      "new_supplier_calls": 0,
+      "database_writes": 0
+    }
+  },
+  "answer_filter": {
+    "source_review": "Reviewed answer_markdown.py and answer_filter.py directly; parser getLines actual container consumption is used; synthetic tab-expanded positions are null; unverifiable mapping fails closed. No AnswerFilter source edit in this turn.",
+    "scope_tests": {
+      "answer_filter_and_prompt_targeted": {
+        "passed": 130,
+        "failed": 0,
+        "exit_code": 0
+      },
+      "independent_tab_probe": {
+        "passed": 13,
+        "failed": 0,
+        "exit_code": 0
+      },
+      "shared_retrieval_and_markdown_regression": {
+        "passed": 297,
+        "failed": 0,
+        "exit_code": 0,
+        "warnings": "5 existing SWIG deprecation warnings"
+      }
+    },
+    "r1_r_status": "execution-session scoped checks passed; not a total-control independent closure; AF-R2 previous pass retained."
+  },
+  "cached_answer_replay": {
+    "passed": 25,
+    "failed": 0,
+    "exit_code": 0,
+    "changed": 6,
+    "unchanged": 19,
+    "new_model_calls": 0,
+    "database_writes": 0,
+    "answers_overwritten": false,
+    "updated_assistant_counts": {
+      "核心结论获原件支持": 17,
+      "原件可答但本轮未答出": 4,
+      "部分正确需补正": 4
+    },
+    "review_identity": "assistant-side single pass only"
+  },
+  "answer_ids_changed": [
+    "support-v1-003",
+    "support-v1-004",
+    "support-v1-006",
+    "support-v1-007",
+    "support-v1-008",
+    "support-v1-034"
+  ],
+  "updated_assistant_review": {
+    "private_report": "output/m6-execution-continuation-20261029/assistant-answer-quality-review-r2.html",
+    "private_data": "output/m6-execution-continuation-20261029/assistant-answer-quality-review-r2.json",
+    "core_supported": 17,
+    "partially_correct": 4,
+    "unanswered_despite_source": 4,
+    "is_formal_quality_score": false
+  },
+  "prompt_scope_change": {
+    "file": "prompts/answer_out.prompt",
+    "change": "general exact named-accessory attribution and avoid reselecting a product when cited evidence resolves object scope",
+    "test": "tests/unit/test_answer_prompt_scope.py",
+    "prompt_builder_test_passed": true,
+    "real_model_output_verification": false
+  },
+  "retrieval_diagnosis": [
+    {
+      "question_id": "support-v1-019",
+      "location": "necessary ping paragraph D5 physical pages 9-10; source excerpt sparse rank 7, absent from weighted fused candidate pool. A different image-summary hit entered fused rank 18 and rerank rank 17, not final context.",
+      "unknown": "exact ranking cause beyond stored branch/rank data"
+    },
+    {
+      "question_id": "support-v1-021",
+      "location": "login/account paragraph D5 physical page 12; sparse rank 9 but removed before weighted fusion; final context IP evidence does not answer default credentials.",
+      "unknown": "exact fusion/filter reason beyond stored evidence"
+    },
+    {
+      "question_id": "support-v1-022",
+      "location": "first-login password-change statement D5 physical pages 14 and 26; sparse rank 11 but excluded before weighted fusion. A WEP image summary ranked first and cannot prove first-login recommendation.",
+      "unknown": "why weighted evidence selected the misleading summary absent original text"
+    },
+    {
+      "question_id": "support-v1-048",
+      "location": "CB304n Cable/EoC primary text absent from dual top-20; saved ranks dense 153, sparse 57. LA2608 mobile-to-AC side entered context.",
+      "unknown": "finer semantic or vector cause; no top-k/threshold change made"
+    }
+  ],
+  "object_generation_scope": {
+    "ids": [
+      "m6-g540-04-a",
+      "m6-g540-05-a",
+      "m6-g540-05-b",
+      "m6-g540-17-b"
+    ],
+    "diagnosis": "stored final prompt had both object citations and precise MateDock3 source identity; answer omitted/borrowed accessory attribution. Prompt builder received a generic exact-object rule; no new answer generation, so behavioral improvement is unverified."
+  },
+  "mongo_readonly": {
+    "ping": true,
+    "r3_fixed_dev_experiment": {
+      "state": "completed",
+      "selected": 85,
+      "results": 85,
+      "human_review_rows": 0,
+      "composition": "19 inherited + 66 executed"
+    },
+    "old_failed_experiment": {
+      "state": "failed",
+      "attempt": 2,
+      "retryable": false,
+      "result_rows": 0,
+      "provider_error_code": "provider_invalid_response per saved handoff; not newly rediscovered from projection",
+      "calls_and_cost": "unknown",
+      "active_slot": false
+    },
+    "isolated_answer_runs": {
+      "found": 25,
+      "completed": 25,
+      "answer_hash_matches": 25,
+      "parent_source_lineage_matches": 25
+    },
+    "existing_001": {
+      "baseline_human_reviews": 2,
+      "baseline_calibration": 1,
+      "candidate_human_reviews": 0,
+      "candidate_gate": "pending",
+      "confirmed_feedback_target_revision_bound": false,
+      "affected_or_full_proofs": []
+    },
+    "database_writes": 0,
+    "human_or_formal_quality_writes": 0
+  },
+  "protected_hashes": [
+    {
+      "manifest": "output/m6-isolated-answers-20261028/protected-before-r3.json",
+      "expected": 821,
+      "matched": 821,
+      "missing": 0,
+      "mismatched": 0
+    },
+    {
+      "manifest": "output/m6-answer-filter-fix-r3-20261029/protected-before.json",
+      "expected": 404,
+      "matched": 404,
+      "missing": 0,
+      "mismatched": 0
+    },
+    {
+      "manifest": "output/m6-real-retrieval-20261028/protected-before.json",
+      "expected": 294,
+      "matched": 294,
+      "missing": 0,
+      "mismatched": 0
+    }
+  ],
+  "first_cached_replay_attempt": {
+    "exit_code": 1,
+    "cause": "isolated pytest copy did not include its saved pre-fix AnswerFilter fixture; missing local fixture caused collection failure before tests. After copying the same preserved fixture into tmp, the 25-case replay passed. This was test harness setup, not a code regression."
+  },
+  "operations": {
+    "supplier_calls": 0,
+    "answer_generation": 0,
+    "heldout_runs": 0,
+    "formal_reviews_or_scores_written": 0,
+    "calibrations_written": 0,
+    "feedback_written": 0,
+    "default_revision_switch": false,
+    "source_corpus_write": false,
+    "output_evidence_overwritten": false
+  },
+  "acceptance": {
+    "M6": "4/7",
+    "M6-04": "not accepted",
+    "M6-05": "not accepted",
+    "M6-08": "not accepted",
+    "M7": "not authorized"
+  },
+  "next_action": "Submit AF-R1-R source review and this assistant-side 25-question update for total-control review; after that, proceed through valid human dual-round, pre-calibration, same-scope candidate and feedback-after re-evaluation dependencies without reusing chat judgments."
+}

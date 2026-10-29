@@ -1,3 +1,13 @@
+## 2026-10-29 · AF-R1-R复核、25题助手答案补记及正式验收依赖
+
+接续`edc5944`，本执行会话直接复核`answer_markdown.py`/`answer_filter.py`：使用markdown-it实际容器缩进映射，tab展开虚拟空格无原文坐标，映射不一致fail closed；表格逐cell映射、AF-R2围栏及图片授权路径保留。130目标测试、13独立tab探针、297共享相邻回归、25题已存供应商流离线回放通过，退出均0（297有5条既有SWIG弃用警告）。第一次新副本回放因未复制旧过滤器夹具在collection退出1，复制同一保存夹具后25通过；未改旧记录。
+
+25题assistant-side分析更新为17核心支持、4部分正确、4原件可答未答；支持-v1-008/034仅因过滤恢复placeholder/button名称而更新。其余19题不变；Run/父来源hash25/25只读匹配。未生成模型答案或写human记录。G540对象范围错误及MateDock3名称未显示仍保留，提示词新增通用对象约束通过真实prompt builder测试但无新生成证明。019/021/022必要正文在weighted融合前缺席；048正文dense153/sparse57未进双路前20；细因未知，不使用RRF/扩大召回参数。
+
+冻结保护哈希821、404、294项均匹配。Mongo只读：85结果的r3 experiment完成，human记录0；旧a560…失败仍attempt2/retryable=false/results0、调用费用未知；001单题旧baseline的两条human记录/校准不替代85题，新candidate仍无human且gate pending；确认反馈草稿尚无目标修订、affected题或affected/full proof。
+
+**状态：**本轮执行核验尚待总控独立复审，不关闭AF-R1-R或M6阶段。M6仍4/7，M6-04/05/08未验收，M7未启动。详细逐题依据和阻塞矩阵见[交接报告](../../development/reviews/M6-08-execution-continuation-r1.md)，脱敏计数见[摘要JSON](../../development/reviews/M6-08-execution-continuation-validation-r1.json)。
+
 # M6：评测、质量中心与反馈闭环开发 ToDo
 
 ## 2026-10-29 · AF-R1-R制表符坐标补修自验完成，待独立复审
@@ -265,6 +275,7 @@ R1恢复结果使用持久Run累计，另存adapter新增；R2由正式job在模
 <a id="m6-04"></a>
 ### M6-04：人工审阅与发布质量门槛
 
+2026-10-29最新只读核账：r3固定85题实验已有85个完成结果，但当前实验human review行0。历史001基线的两轮及校准绑定旧单题，候选0条human审阅且gate pending，不能替代85题。固定报告当前有效human双轮/抽检和unknown处理未完成；任务保持未验收。
 2026-10-27可用性补修：审阅页直接显示当前结果绑定的受控图片，主审阅/追加复核按钮说明禁用原因，已保存人工轮次提供追加入口；精确来源图片读取不改旧结果指纹。35项隔离HTTP、5项审阅离线浏览器通过，真实001只读12检查通过且2图片HTTP/hash/浏览器解码成功；真实审阅/追加/校准写入0、模型调用0。M6-04整体仍未验收，详见[M6-04记录](../../development/records/M6-04.md)。
 
 **依赖：**M6-03。
@@ -284,6 +295,7 @@ R1恢复结果使用持久Run累计，另存adapter新增；R2由正式job在模
 <a id="m6-05"></a>
 ### M6-05：反馈审核转测试与资料修订
 
+2026-10-29最新只读核账：既有confirmed regression草稿已审核，但尚未绑定目标文档修订或affected题，尚无affected与full质量证明；既有001候选不绑定反馈目标修订。反馈后真实闭环未完成，任务保持未验收。
 **依赖：**M6-04,M5-07。
 **文件：**`app/evaluation/feedback_triage.py`; `frontend/src/features/evaluation/FeedbackQueue.vue`; `tests/contract/test_feedback_triage.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。
@@ -329,6 +341,7 @@ R1恢复结果使用持久Run累计，另存adapter新增；R2由正式job在模
 <a id="m6-08"></a>
 ### M6-08：M6 阶段验收
 
+2026-10-29最新接续：r3完整dev85结果保持19继承+66执行身份，heldout未运行；本轮只做AnswerFilter缓存复放和assistant-side答案判断，无新答案生成。正式双轮、预校准、同范围候选、反馈后复评及有序质量证明未完成。M6-08不勾选，M6仍4/7，M7未授权。
 2026-10-26 R001-1接续：仅进行型号边界修复，取消通用后缀放行，登记有原件来源的完整LA2608-GM/GU映射并保留完整斜线校验；新增正式RunService→QueryRunner未知后缀红绿回归。验收项仍未勾选，不修改真实001与人工评分；实际结果见[新定向提交](../../development/reviews/M6-08-001-submission-r2.md)。
 
 **依赖：**M6-05,M6-07。
