@@ -27,6 +27,11 @@ class EvaluationService:
         return self.repo.list_experiments(user, kb_id)
 
     def create_experiment(self, user, data):
+        data = dict(data)
+        if data.get('regression_source') is None:
+            data.pop('regression_source', None)
+        if data.get('regression_calibration_id') is None:
+            data.pop('regression_calibration_id', None)
         descriptor = self.repo.get_set(user, data['kb_id'], data['eval_set_id'], data['eval_set_version'])
         try:
             resolved = self.catalog.resolve(data['eval_set_id'], data['eval_set_version'],
@@ -35,6 +40,13 @@ class EvaluationService:
             raise APIError(409, 'evaluation_frozen_identity_invalid', '登记配置与冻结题集不匹配，请核对版本。') from None
         if any(descriptor[k] != resolved[k] for k in ('dataset_sha256', 'manifest_sha256')):
             raise APIError(409, 'evaluation_frozen_identity_invalid', '题集登记后发生变化，请登记新版本。')
+        if data.get('regression_source'):
+            from .feedback_regression import RegressionService
+            ledger = RegressionService(self.repo,self.catalog)
+            ledger.validate(user,data['regression_source'],resolved)
+            ledger.validate_calibration(user,resolved,data.get('baseline_experiment_id'),data.get('regression_calibration_id'))
+        elif data.get('regression_calibration_id'):
+            raise APIError(409,'regression_source_required','回归预校准须与反馈来源一同绑定。')
         baseline = self.repo.get_experiment(user, data['baseline_experiment_id']) if data.get('baseline_experiment_id') else None
         return self.repo.create(user, data, descriptor=descriptor, resolved=resolved, baseline=baseline)
 

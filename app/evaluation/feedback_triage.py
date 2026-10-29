@@ -144,13 +144,22 @@ def authorized_feedback(request, user, feedback_id):
     row = resources['db'].support_feedback.find_one({'feedback_id': feedback_id, 'kb_id': {'$in': list(user.kb_ids)}})
     if row is None:
         raise APIError(404, 'not_found', '反馈不存在或不在授权范围。')
-    run = resources['db'].runs.find_one({'run_id': row['run_id'], 'kb_id': row['kb_id'], 'owner_id': row['owner_id']})
+    source_db = feedback_source_db(resources['db'],row)
+    run = source_db.runs.find_one({'run_id': row['run_id'], 'kb_id': row['kb_id'], 'owner_id': row['owner_id']})
     if run is None:
         raise APIError(404, 'not_found', '反馈来源运行不可核对。')
     from app.support.api import authorize_payload
     # 反馈选中引用不能掩盖原回答中其他已撤权资料。
     authorize_payload(request, user, [row, run.get('citations', []), run.get('revision_snapshot', [])])
     return row
+
+
+def feedback_source_db(control_db, feedback):
+    """默认使用原控制库；显式映射仅取自服务端反馈账本，不接受HTTP路径/库名。"""
+    name = feedback.get('source_database',control_db.name)
+    if not isinstance(name,str) or not name or any(c in name for c in '/\\ ."$\x00'):
+        raise APIError(409,'feedback_source_database_invalid','反馈来源库映射无效。')
+    return control_db.client[name]
 
 
 def review_feedback(request, user, feedback_id, data):

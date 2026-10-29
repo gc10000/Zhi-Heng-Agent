@@ -868,6 +868,74 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/feedback/{feedback_id}/regression-candidates": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Regression Candidate */
+        post: operations["regression_candidate_api_v1_feedback__feedback_id__regression_candidates_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/regression-candidates/{candidate_id}/annotation": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Regression Annotation */
+        post: operations["regression_annotation_api_v1_regression_candidates__candidate_id__annotation_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/feedback/{feedback_id}/regression-binding": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Regression Binding */
+        post: operations["regression_binding_api_v1_feedback__feedback_id__regression_binding_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/feedback/{feedback_id}/regression-proof": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Regression Proof */
+        post: operations["regression_proof_api_v1_feedback__feedback_id__regression_proof_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/health": {
         parameters: {
             query?: never;
@@ -987,6 +1055,9 @@ export interface components {
             /** Baseline Experiment Id */
             baseline_experiment_id?: string | null;
             continuation?: components["schemas"]["ContinuationInput"] | null;
+            regression_source?: components["schemas"]["RegressionReference"] | null;
+            /** Regression Calibration Id */
+            regression_calibration_id?: string | null;
             /** Client Request Id */
             client_request_id: string;
         };
@@ -1109,6 +1180,46 @@ export interface components {
             eval_set_id: string;
             /** Version */
             version: string;
+        };
+        /** RegressionBindInput */
+        RegressionBindInput: {
+            /** Dataset Id */
+            dataset_id: string;
+            /** Dataset Version */
+            dataset_version: string;
+            /** Config Id */
+            config_id: string;
+            /** Config Version */
+            config_version: string;
+            /** Question Id */
+            question_id: string;
+            /** Annotation Id */
+            annotation_id?: string | null;
+        };
+        /** RegressionCandidateInput */
+        RegressionCandidateInput: {
+            /** Question */
+            question: Record<string, never>;
+        };
+        /** RegressionProofInput */
+        RegressionProofInput: {
+            source: components["schemas"]["RegressionReference"];
+            /** Experiment Id */
+            experiment_id: string;
+            /** Calibration Id */
+            calibration_id: string;
+        };
+        /** RegressionReference */
+        RegressionReference: {
+            /** Id */
+            id: string;
+            /** Sha256 */
+            sha256: string;
+        };
+        /** RegressionReviewInput */
+        RegressionReviewInput: {
+            /** Annotation */
+            annotation: Record<string, never>;
         };
         /** Resolution */
         Resolution: {
@@ -3270,6 +3381,146 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    regression_candidate_api_v1_feedback__feedback_id__regression_candidates_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                feedback_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegressionCandidateInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    regression_annotation_api_v1_regression_candidates__candidate_id__annotation_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                candidate_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegressionReviewInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    regression_binding_api_v1_feedback__feedback_id__regression_binding_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                feedback_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegressionBindInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    regression_proof_api_v1_feedback__feedback_id__regression_proof_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                feedback_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegressionProofInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };

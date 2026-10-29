@@ -1,5 +1,13 @@
 # 开发公共契约与任务交接边界
 
+## 2026-10-29 · regression来源与正式消费者契约（执行自验待独立核验）
+
+新增POST /feedback/{id}/regression-candidates、/regression-candidates/{id}/annotation、/feedback/{id}/regression-binding、/feedback/{id}/regression-proof。完整Question保留原schema；审核入口仅接受另一具名独立助手及提交文档SHA/内容指纹，不接human声明。已有reviewed dev题精确绑定catalog的dataset/manifest/config和题hash；新增/变化题经独立审核后派生父版本，不改父文件/heldout。受控根内regression-versions的entry最后发布，半写文件不可见，相同身份可恢复，文件冲突拒绝；新原件不自动纳入父来源。
+
+regression_source={id,sha256}及regression_calibration_id为可选ExperimentInput；省略/null兼容旧请求。服务端创建/job/每题/Run前验证来源；运行配置注入source+独立execution key，纳入manifest、attempt及题级检查点；Run和execution_links仍在冻结target库，控制身份仍在正式控制库。候选与基线不复用Run；合法continuation须同source/校准并保留正式父题级关联。成功文件恢复只核对完成Run并保存观察复用，累计遥测保留，本次新增0或缺测null，历史attempt不改。
+
+绑定固定原反馈审核版本、原Run结果/输入、精确原件修订与完整标签/审核来源。反馈source_database仅来自服务端既存账本，默认同库；HTTP不授予任意库能力。带baseline的反馈候选创建前须有效同范围预校准，job再检。regression证明服务端读取当前completed/result_attempt/ReviewService gate、题集范围、source、创建顺序和目标库每题正式Run关联，保存不可变hash；拒绝客户端passed，不自动发布。revision affected→full契约不变，真实human双轮仍是质量门槛。参见[实现与限制](../development/reviews/M6-05-regression-lineage-r1.md)。
+
 ## AF-R1-R列表tab续行坐标状态（2026-10-29）
 
 本轮答案专用坐标映射在markdown-it-py paragraph／setext规则仍处于列表或引用缩进状态时采集`state.getLines`原文后缀；按CRLF／CR／LF规范化后的字符序号映射回原流，虚拟tab展开空格无源坐标。不得全局替换原始tab或用模糊搜索扩大代码豁免。仅在重建文本与inline token严格一致时登记坐标。表格继续按实际单元格token映射；SQ共享坐标未改。AF-R1-R当前自验通过、待独立复审；AF-R2技术通过结论保留。[补修与边界](../development/reviews/M6-08-answer-filter-fix-r3.md)。

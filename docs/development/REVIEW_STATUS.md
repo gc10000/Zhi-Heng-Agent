@@ -1,3 +1,9 @@
+## 2026-10-29 · regression完整来源与复评接线自验，待总控独立核验
+
+接续e76651f：新增完整Question候选/独立助手标签审核、未变已审dev精确绑定及必要父版本派生、正式请求/实验/运行配置/题级检查点来源hash、服务端当前结果/同范围预校准/正式质量门槛复评证明。revision发布证明保持独立；不回填旧记录。最终相关共享回归217项、聚焦新增链路33项通过（有重叠不累计），API类型生成/typecheck/OpenAPI一致性通过；三份历史保护821/404/294项匹配。红测、深目录失败及原始日志保存在新output目录。无供应商、真实dev/heldout或正式质量写入，不切默认。
+
+执行方隔离自验不等于独立复审或真实答案质量。四题对象/配件与四题召回继续挂账，正式human双轮→预校准→同范围候选→反馈复评保留。下一条：总控独立定向核验本次regression整条链路，通过后由执行方匹配既有真实反馈与已审dev版本，不让用户重找PDF或重填判断。M6仍4/7，04/05/08未验收，M7未启动。见[执行报告](reviews/M6-05-regression-lineage-r1.md)。
+
 ## 2026-10-29 · regression分流总控独立通过，锁定完整来源/复评接线交付
 
 独立复核b06d13c：新regression草稿publication_state为not_applicable，revision原发布状态及界面分支保持，旧记录不回填。总控重跑隔离Mongo/API 8项、Edge浏览器2项及typecheck均通过，本范围未见新阻塞；完整regression链路仍未实现。见[独立复审与接线约束](reviews/M6-08-feedback-regression-route-review-r1.md)及[脱敏摘要](reviews/M6-08-feedback-regression-route-review-validation-r1.json)。

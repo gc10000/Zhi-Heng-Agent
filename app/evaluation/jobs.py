@@ -50,6 +50,16 @@ def execute_job(repo, catalog, output_root, experiment_id, *, executor_factory=N
                                    row['config_version'], kb_id=row['kb_id'])
         if any(row[key] != resolved[key] for key in ('dataset_sha256', 'manifest_sha256', 'config_sha256')):
             raise ValueError('冻结身份发生变化，拒绝执行')
+        if row.get('regression_source'):
+            from .feedback_regression import RegressionService
+            from types import SimpleNamespace
+            RegressionService(repo,catalog).validate(SimpleNamespace(user_id=row['owner_id'],kb_ids=(row['kb_id'],)),
+                row['regression_source'],resolved)
+            RegressionService(repo,catalog).validate_calibration(SimpleNamespace(user_id=row['owner_id'],kb_ids=(row['kb_id'],)),
+                resolved,row.get('baseline_experiment_id'),row.get('regression_calibration_id'))
+            # 登记配置文件hash保持原身份；运行配置另含来源及执行身份，参与日志和检查点hash。
+            resolved['config'] = dict(resolved['config'],regression_source=row['regression_source'],
+                                      regression_execution_key=row['regression_execution_key'])
         from .runner import run_experiment
         from .validate_dataset import validate_dataset
         from .query_adapter import RealQueryExecutor
@@ -67,10 +77,14 @@ def execute_job(repo, catalog, output_root, experiment_id, *, executor_factory=N
             def execute(question):
                 if authorize_owner:
                     authorize_owner(row)
+                if row.get('regression_source'):
+                    RegressionService(repo,catalog).validate(SimpleNamespace(user_id=row['owner_id'],kb_ids=(row['kb_id'],)),
+                        row['regression_source'],resolved)
                 return executor(question)
             report = run_experiment(resolved['dataset_path'], resolved['manifest_path'],
                 resolved['config'], output, execute,
-                should_cancel=lambda: lost.is_set() or repo.cancel_requested(experiment_id, attempt, token))
+                should_cancel=lambda: lost.is_set() or repo.cancel_requested(experiment_id, attempt, token),
+                verify_checkpoint=executor.verify_completed_checkpoint if row.get('regression_source') else None)
         questions = [q for q in validate_dataset(resolved['dataset_path'], manifest=resolved['manifest_path'])
                      if q['split'] == 'dev']
         results = [json.loads(line) for line in (output/'results.jsonl').read_text(encoding='utf-8').splitlines()]

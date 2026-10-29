@@ -142,7 +142,7 @@ def read_attempts(path):
     return [json.loads(line) for line in raw[:committed].splitlines()]
 
 
-def run_experiment(dataset, manifest, config, output, executor, *, should_cancel=None):
+def run_experiment(dataset, manifest, config, output, executor, *, should_cancel=None, verify_checkpoint=None):
     rows = validate_dataset(dataset, manifest=manifest, minimum=1)
     frozen = json.loads(Path(manifest).read_text(encoding='utf-8'))
     check_split(config, frozen)
@@ -188,7 +188,10 @@ def run_experiment(dataset, manifest, config, output, executor, *, should_cancel
                 by_id[record['id']] = record
         for question in selected:
             qid = question['id']
-            if by_id.get(qid, {}).get('status') == 'completed': continue
+            if by_id.get(qid, {}).get('status') == 'completed':
+                if verify_checkpoint:
+                    verify_checkpoint(question, by_id[qid])
+                continue
             if should_cancel is not None and should_cancel():
                 cancelled = True
                 break

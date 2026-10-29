@@ -86,6 +86,30 @@ class RealQueryExecutor:
         self.execution = None
         self.control_db = None
 
+    def verify_completed_checkpoint(self, question, record):
+        """结果文件发布前崩溃：只读核实已完成Run，并登记当前attempt观察复用。"""
+        from .execution_links import bind_execution, validate_execution
+        validate_execution(self.control_db,self.execution,self.config)
+        key = fingerprint([self.config,question['id']])
+        saved = self.checkpoints.find_one({'_id':key})
+        inputs = {k:question[k] for k in ('id','question','product_names','history')}
+        if not saved or saved['input_sha256'] != fingerprint(inputs) or not saved.get('run_id'):
+            raise ValueError('成功检查点缺少正式题级输入或Run，不自动回填')
+        run = self.resources['runs'].get(self.user,saved['run_id'])
+        if (run['state'] != 'completed' or run['run_id'] != record['result'].get('run_id') or
+                run['answer'] != record['result'].get('answer')):
+            raise ValueError('成功检查点与当前完成Run不一致')
+        prior = self.resources['db'].evaluation_execution_links.find_one(dict(
+            experiment_id=self.execution['experiment_id'],question_id=question['id'],run_id=run['run_id'],
+            config_sha256=fingerprint(self.config),regression_source=self.config['regression_source']))
+        if not prior:
+            raise ValueError('成功检查点没有此前正式执行关联，不追认来源')
+        bind_execution(self.resources['db'],self.control_db,self.execution,self.config,question['id'],key,
+                       saved['input_sha256'],run)
+        counts=self.resources.get('provider_counts')
+        # attempts.jsonl中的历史调用数不动；本次发布结果反映观察复用新增0，缺测仍为null。
+        record['result'].update(self.call_accounting(run,counts.snapshot() if counts else {}))
+
     def call_accounting(self, row, counts_before):
         counts = self.resources.get('provider_counts')
         local = {k: v-counts_before[k] for k, v in counts.snapshot().items()} if counts else None

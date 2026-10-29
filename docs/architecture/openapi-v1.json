@@ -2991,6 +2991,206 @@
         }
       }
     },
+    "/api/v1/feedback/{feedback_id}/regression-candidates": {
+      "post": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Regression Candidate",
+        "operationId": "regression_candidate_api_v1_feedback__feedback_id__regression_candidates_post",
+        "parameters": [
+          {
+            "name": "feedback_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Feedback Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegressionCandidateInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/regression-candidates/{candidate_id}/annotation": {
+      "post": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Regression Annotation",
+        "operationId": "regression_annotation_api_v1_regression_candidates__candidate_id__annotation_post",
+        "parameters": [
+          {
+            "name": "candidate_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Candidate Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegressionReviewInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/feedback/{feedback_id}/regression-binding": {
+      "post": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Regression Binding",
+        "operationId": "regression_binding_api_v1_feedback__feedback_id__regression_binding_post",
+        "parameters": [
+          {
+            "name": "feedback_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Feedback Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegressionBindInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/feedback/{feedback_id}/regression-proof": {
+      "post": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Regression Proof",
+        "operationId": "regression_proof_api_v1_feedback__feedback_id__regression_proof_post",
+        "parameters": [
+          {
+            "name": "feedback_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Feedback Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegressionProofInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/health": {
       "get": {
         "tags": [
@@ -3340,6 +3540,29 @@
                 "type": "null"
               }
             ]
+          },
+          "regression_source": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RegressionReference"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "regression_calibration_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 128,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Regression Calibration Id"
           },
           "client_request_id": {
             "type": "string",
@@ -3755,6 +3978,138 @@
           "version"
         ],
         "title": "RegisterSetInput"
+      },
+      "RegressionBindInput": {
+        "properties": {
+          "dataset_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Dataset Id"
+          },
+          "dataset_version": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Dataset Version"
+          },
+          "config_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Config Id"
+          },
+          "config_version": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Config Version"
+          },
+          "question_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Question Id"
+          },
+          "annotation_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Annotation Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "dataset_id",
+          "dataset_version",
+          "config_id",
+          "config_version",
+          "question_id"
+        ],
+        "title": "RegressionBindInput"
+      },
+      "RegressionCandidateInput": {
+        "properties": {
+          "question": {
+            "type": "object",
+            "title": "Question"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "question"
+        ],
+        "title": "RegressionCandidateInput"
+      },
+      "RegressionProofInput": {
+        "properties": {
+          "source": {
+            "$ref": "#/components/schemas/RegressionReference"
+          },
+          "experiment_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Experiment Id"
+          },
+          "calibration_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Calibration Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "source",
+          "experiment_id",
+          "calibration_id"
+        ],
+        "title": "RegressionProofInput"
+      },
+      "RegressionReference": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Id"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Sha256"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "sha256"
+        ],
+        "title": "RegressionReference"
+      },
+      "RegressionReviewInput": {
+        "properties": {
+          "annotation": {
+            "type": "object",
+            "title": "Annotation"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "annotation"
+        ],
+        "title": "RegressionReviewInput"
       },
       "Resolution": {
         "properties": {

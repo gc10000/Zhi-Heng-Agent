@@ -18,6 +18,20 @@ def validate_execution(control_db, context, config):
         state={'$in': ['running', 'cancel_requested']}, lease_until={'$gt': datetime.now(timezone.utc)}))
     if parent is None:
         raise ValueError('当前实验执行身份或租约无效，拒绝建立题级来源')
+    if (parent.get('regression_source') != config.get('regression_source') or
+            parent.get('regression_execution_key') != config.get('regression_execution_key')):
+        raise ValueError('正式实验的反馈来源或执行身份不匹配')
+    if config.get('regression_source'):
+        from .feedback_regression import RegressionService
+        from types import SimpleNamespace
+        from .repository import EvaluationRepository
+        # job已核验文件；Run写入前再次校验不可变绑定及当前反馈/原件，覆盖跨库写入窗口。
+        ledger = RegressionService(EvaluationRepository(control_db),None)
+        binding = ledger.scoped(SimpleNamespace(user_id=target['owner_id'],kb_ids=(target['kb_id'],)),
+            control_db.regression_bindings,config['regression_source']['id'])
+        source,_ = ledger.source(SimpleNamespace(kb_ids=(target['kb_id'],)),binding['source']['feedback_id'])
+        if binding['sha256'] != config['regression_source']['sha256'] or binding['source'] != source:
+            raise ValueError('反馈来源已经变化')
     return parent
 
 
@@ -33,6 +47,8 @@ def bind_execution(db, control_db, context, config, question_id, checkpoint_key,
         config_sha256=fingerprint(config), registered_config_sha256=parent['config_sha256'],
         owner_id=target['owner_id'], kb_id=target['kb_id'], run_id=run['run_id'],
         conversation_id=run['conversation_id'])
+    if config.get('regression_source'):
+        identity['regression_source'] = config['regression_source']
     key = fingerprint([context['experiment_id'], context['attempt'], question_id])
     row = identity | dict(mode='execution' if run['state'] == 'pending' else 'observed_reuse',
                           created_at=datetime.now(timezone.utc).isoformat())

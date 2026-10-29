@@ -1,7 +1,7 @@
 """维护者评测工作台；浏览器只提交服务端登记身份。"""
 from fastapi import APIRouter, Depends, Query, Request
 from fastapi.responses import Response
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from app.api.errors import APIError
 from app.identity.api import principal, require_writer, require_kb
 from .reviews import ReviewInput, CalibrationInput, ObservationInput, ReviewService
@@ -38,7 +38,59 @@ class ExperimentInput(BaseModel):
     config_version: str = Field(default='v1', min_length=1, max_length=128)
     baseline_experiment_id: str | None = Field(default=None, max_length=128)
     continuation: ContinuationInput | None = None
+    regression_source: 'RegressionReference | None' = None
+    regression_calibration_id: str | None = Field(default=None,min_length=1,max_length=128)
     client_request_id: str = Field(min_length=1, max_length=128)
+
+
+class RegressionReference(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    id: str = Field(pattern=r'^[0-9a-f]{64}$')
+    sha256: str = Field(pattern=r'^[0-9a-f]{64}$')
+
+
+class RegressionCandidateInput(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    question: dict
+
+    @field_validator('question')
+    @classmethod
+    def full_question(cls, value):
+        from .validate_dataset import Question
+        Question.model_validate(value)
+        return value
+
+
+class RegressionReviewInput(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    annotation: dict
+
+    @field_validator('annotation')
+    @classmethod
+    def annotation_schema(cls, value):
+        from .validate_dataset import Annotation
+        Annotation.model_validate(value)
+        return value
+
+
+class RegressionBindInput(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    dataset_id: str = Field(min_length=1,max_length=128)
+    dataset_version: str = Field(min_length=1,max_length=128)
+    config_id: str = Field(min_length=1,max_length=128)
+    config_version: str = Field(min_length=1,max_length=128)
+    question_id: str = Field(min_length=1,max_length=128)
+    annotation_id: str | None = Field(default=None,pattern=r'^[0-9a-f]{64}$')
+
+
+class RegressionProofInput(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    source: RegressionReference
+    experiment_id: str = Field(min_length=1,max_length=128)
+    calibration_id: str = Field(min_length=1,max_length=128)
+
+
+ExperimentInput.model_rebuild()
 
 
 class VersionInput(BaseModel):
@@ -203,3 +255,53 @@ def bind_feedback_revision(feedback_id: str, data: BindRevisionInput, request: R
 def feedback_quality_proof(feedback_id: str, data: QualityProofInput, request: Request, user=Depends(principal)):
     require_writer(user)
     return save_quality_proof(request, user, feedback_id, data)
+
+
+def regression_service(request):
+    from .feedback_regression import RegressionService
+    evaluations = service(request)
+    if evaluations.repo.db.name != request.app.state.resources['db'].name:
+        raise APIError(409,'regression_control_mismatch','反馈与实验须使用同一控制账本；Run目标库可独立。')
+    return RegressionService(evaluations.repo,evaluations.catalog)
+
+
+@router.post('/feedback/{feedback_id}/regression-candidates',status_code=201)
+def regression_candidate(feedback_id: str,data: RegressionCandidateInput,request: Request,user=Depends(principal)):
+    require_writer(user)
+    authorized_feedback(request,user,feedback_id)
+    return regression_service(request).candidate(user,feedback_id,data.question)
+
+
+@router.post('/regression-candidates/{candidate_id}/annotation',status_code=201)
+def regression_annotation(candidate_id: str,data: RegressionReviewInput,request: Request,user=Depends(principal)):
+    require_writer(user)
+    ledger = regression_service(request)
+    candidate = ledger.repo.db.regression_candidates.find_one({'_id':candidate_id,'kb_id':{'$in':list(user.kb_ids)}})
+    if candidate is None:
+        raise APIError(404,'not_found','标签候选不存在或不在授权范围。')
+    authorized_feedback(request,user,candidate['source']['feedback_id'])
+    try:
+        return ledger.review(user,candidate_id,data.annotation)
+    except ValueError:
+        raise APIError(422,'regression_annotation_invalid','标签审核内容指纹或身份不完整。') from None
+
+
+@router.post('/feedback/{feedback_id}/regression-binding',status_code=201)
+def regression_binding(feedback_id: str,data: RegressionBindInput,request: Request,user=Depends(principal)):
+    require_writer(user)
+    authorized_feedback(request,user,feedback_id)
+    try:
+        return regression_service(request).bind(user,feedback_id,data.model_dump(exclude_none=True))
+    except (ValueError,OSError):
+        raise APIError(409,'regression_version_invalid','派生题集校验或不可变文件发布失败；保留现场，按原身份恢复。') from None
+
+
+@router.post('/feedback/{feedback_id}/regression-proof',status_code=201)
+def regression_proof(feedback_id: str,data: RegressionProofInput,request: Request,user=Depends(principal)):
+    require_writer(user)
+    authorized_feedback(request,user,feedback_id)
+    ledger = regression_service(request)
+    binding = ledger.validate(user,data.source.model_dump())
+    if binding['source']['feedback_id'] != feedback_id:
+        raise APIError(409,'regression_source_invalid','证明来源不属于本反馈。')
+    return ledger.proof(user,data.source.model_dump(),data.experiment_id,data.calibration_id)

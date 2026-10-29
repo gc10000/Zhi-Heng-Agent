@@ -18,10 +18,13 @@ from tests.unit.test_evaluation_dataset import case, freeze
 pytestmark = pytest.mark.integration
 
 
-def formal_case(ctx, tmp_path, monkeypatch, *, separate=True):
+def formal_case(ctx, tmp_path, monkeypatch, *, separate=True, reviewed=False):
     cfg, factory, resources, prompts, question, _ = ctx
     rows = [case() | {k: question[k] for k in ('question', 'product_names', 'history')}]
     rows += [case('heldout-'+str(i), 'heldout', 'fresh-'+str(i)) for i in range(49)]
+    if reviewed:
+        from tests.unit.test_evaluation_dataset import independent_annotation
+        rows[0]['annotation'] = independent_annotation(rows[0])
     dataset, manifest, frozen = freeze(tmp_path, rows)
     cfg.update({k: frozen[k] for k in ('dataset_sha256', 'phase', 'split', 'versions')})
     cfg.update(metric_schema_version=1, seed=11, execution_mode='real_query_runner',

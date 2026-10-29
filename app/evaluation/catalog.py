@@ -20,6 +20,13 @@ class EvaluationCatalog:
             raise ValueError('评测目录结构无效')
         if not isinstance(value['datasets'], list) or not isinstance(value['configs'], list):
             raise ValueError('评测目录项必须为列表')
+        # 正式派生入口最后原子发布；未完成目录没有entry，不参与解析。
+        for entry in sorted((self.root / 'regression-versions').glob('*/entry.json')):
+            generated = json.loads(self._file(entry.relative_to(self.root).as_posix()).read_text(encoding='utf-8'))
+            if set(generated) != {'datasets', 'configs'}:
+                raise ValueError('派生目录结构无效')
+            for key in ('datasets', 'configs'):
+                value[key].extend(generated[key])
         self._unique(value['datasets'], 'id', 'version')
         self._unique(value['configs'], 'id', 'version')
         return value

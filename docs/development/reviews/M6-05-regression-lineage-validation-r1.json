@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "baseline_commit": "e76651f1db48efb7c6075331b2cfb2d65282b4e0",
+  "status": "implementation_self_verified_pending_independent_review",
+  "m6_completed": 4,
+  "m6_total": 7,
+  "unaccepted_tasks": [
+    "M6-04",
+    "M6-05",
+    "M6-08"
+  ],
+  "m7_started": false,
+  "tests": [
+    {
+      "name": "final_related_shared",
+      "passed": 217,
+      "failed": 0,
+      "exit_code": 0,
+      "seconds": 180.25,
+      "junit_sha256": "5c5da1bec99918b02554bc4cf492cbe3706500fc30130edf63e4f06c6757bacf"
+    },
+    {
+      "name": "focused_new_lineage",
+      "passed": 33,
+      "failed": 0,
+      "exit_code": 0,
+      "seconds": 49.1,
+      "junit_sha256": "cc9f534737352040f974d0a6c2fc9e9bc6c34cc929171f421f00fd6750d325a4"
+    }
+  ],
+  "overlapping_test_groups": true,
+  "unique_total_not_claimed": true,
+  "checks": {
+    "openapi_equal": true,
+    "generate_api_exit_code": 0,
+    "typecheck_exit_code": 0,
+    "diff_check_exit_code": 0
+  },
+  "red_evidence": [
+    {
+      "log": "red-versions.txt",
+      "sha256": "fd6475966bf22e7d1c9cda21b5397c2ff8b4c60e2ec7bdce1194803b5d65bf79",
+      "exit_code": 2
+    },
+    {
+      "log": "red-lineage.txt",
+      "sha256": "02d3d20771870fc431eecaa9b0dc6ca3604ffaf96bb11b379ba0114575d87240",
+      "exit_code": 2
+    },
+    {
+      "log": "formal-first.txt",
+      "sha256": "0e2cd3af18effb35f7f1a3b38b2e47949bd05c6ccde172b3c0613919b885a66d",
+      "exit_code": 1
+    },
+    {
+      "log": "red-results-window.txt",
+      "sha256": "b32cdd9c5238d59df58e1f4b6f3cdd70d0ac8890a79f317028f3ed510a6bb901",
+      "exit_code": 1
+    },
+    {
+      "log": "red-reuse-accounting.txt",
+      "sha256": "f5a12bae6ff6f77bd2e81709b3f4223171aee42707dbb520edeb2a4bd39525ed",
+      "exit_code": 1
+    },
+    {
+      "log": "targeted-final.txt",
+      "sha256": "c77c51b4a2ae325e8112d14da11377e136aa96e64320a9e0ee8bb81ad92c6cae",
+      "exit_code": 1
+    },
+    {
+      "log": "final-shared.txt",
+      "sha256": "60686513667d2fe01a95e98eac23661b1df9f661832071b570ec97d91d58c1bd",
+      "exit_code": 1
+    },
+    {
+      "log": "red-expectation.txt",
+      "sha256": "a6e90ffe386262a31a5ed1aa6b851f063888728a974c01e46e81f1c24c7aa1c4",
+      "exit_code": 1
+    }
+  ],
+  "evidence": {
+    "commands_sha256": "6035e9644f9aa09e558df9e25a107c177c065a41aed9343053dd81d8272886a8",
+    "source_identities_sha256": "56090dd11ab572c02842559555e181a03a7b16c6f86e36f72fdaa81dd4df54d9",
+    "artifact_hash_manifest_sha256": "48e1fbadb0776029662b30fbf5e4152f211f91907c7e9fc8cfa570740c9fe871",
+    "protected": [
+      {
+        "total": 821,
+        "matched": 821,
+        "manifest_sha256": "473904284ee2d502bc573dcc65164a15f91ff0e8e7ad2bb65f798c739470d7b0"
+      },
+      {
+        "total": 404,
+        "matched": 404,
+        "manifest_sha256": "b0370e1b81a8ed5708b77e7f04352d046ea7129d050e016331e2015ea2ee2dc2"
+      },
+      {
+        "total": 294,
+        "matched": 294,
+        "manifest_sha256": "881fb2295ec8d45632724f481f01670b1174a805ebacf6205e1cc6516027ff14"
+      }
+    ]
+  },
+  "protocols": [
+    "immutable_complete_question_annotation",
+    "existing_frozen_dev_binding",
+    "derived_parent_version",
+    "request_experiment_runtime_checkpoint_source_hash",
+    "same_scope_precalibration",
+    "server_current_quality_proof",
+    "split_control_target_database",
+    "idempotency_concurrency",
+    "file_and_db_ack_crash_recovery",
+    "pending_run_and_result_publication_recovery",
+    "source_bound_continuation"
+  ],
+  "boundaries": {
+    "synthetic_models_only": true,
+    "synthetic_annotation_fixtures": true,
+    "synthetic_human_rounds_in_random_test_db_only": true,
+    "supplier_calls_started": false,
+    "real_dev_run": false,
+    "heldout_run": false,
+    "real_quality_writes": false,
+    "default_revision_changed": false,
+    "frozen_data_modified": false,
+    "historical_rows_backfilled": false,
+    "legacy_http_count": null,
+    "legacy_cost": null,
+    "unknown_failure_windows_preserved": true
+  },
+  "next_action": "independent_targeted_review_of_new_regression_lineage",
+  "remaining_quality_gaps": [
+    "m6-g540-04-a",
+    "m6-g540-05-a",
+    "m6-g540-05-b",
+    "m6-g540-17-b",
+    "support-v1-019",
+    "support-v1-021",
+    "support-v1-022",
+    "support-v1-048"
+  ]
+}

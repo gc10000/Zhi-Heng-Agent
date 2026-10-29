@@ -1,5 +1,11 @@
 # 设备技术支持工作台 · 开发 ToDo 总清单
 
+## 2026-10-29 · regression完整来源与复评接线自验，待总控独立核验
+
+接续e76651f：新增完整Question候选/独立助手标签审核、未变已审dev精确绑定及必要父版本派生、正式请求/实验/运行配置/题级检查点来源hash、服务端当前结果/同范围预校准/正式质量门槛复评证明。revision发布证明保持独立；不回填旧记录。最终相关共享回归217项、聚焦新增链路33项通过（有重叠不累计），API类型生成/typecheck/OpenAPI一致性通过；三份历史保护821/404/294项匹配。红测、深目录失败及原始日志保存在新output目录。无供应商、真实dev/heldout或正式质量写入，不切默认。
+
+执行方隔离自验不等于独立复审或真实答案质量。四题对象/配件与四题召回继续挂账，正式human双轮→预校准→同范围候选→反馈复评保留。下一条：总控独立定向核验本次regression整条链路，通过后由执行方匹配既有真实反馈与已审dev版本，不让用户重找PDF或重填判断。M6仍4/7，04/05/08未验收，M7未启动。见[执行报告](../development/reviews/M6-05-regression-lineage-r1.md)。
+
 ## 2026-10-29 · M6-05 regression接续边界
 
 regression反馈草稿已与revision发布流程区分，但完整反馈闭环仍有执行端接线缺口：Question标签审阅、版本化dev JSONL/manifest/catalog、题目及Experiment反馈来源关系、反馈后同范围dev复评证明。仅revision走affected→full发布门禁。M6核心计数与任务勾选不变：4/7，M6-04/05/08未验收，M7未启动。详见[路线核实](../development/reviews/M6-08-feedback-regression-route-r1.md)。

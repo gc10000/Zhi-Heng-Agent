@@ -36,7 +36,8 @@ def public_experiment(row):
         'experiment_id', 'client_request_id', 'kb_id', 'eval_set_id', 'eval_set_version',
         'dataset_sha256', 'config_id', 'config_version', 'config_sha256', 'baseline_experiment_id',
         'state', 'attempt', 'version', 'retryable', 'error', 'summary', 'comparison',
-        'selected_questions', 'completed', 'failed', 'created_at', 'updated_at', 'continuation') if key in row}
+        'selected_questions', 'completed', 'failed', 'created_at', 'updated_at', 'continuation',
+        'regression_source','regression_calibration_id') if key in row}
 
 
 class EvaluationRepository:
@@ -111,8 +112,8 @@ class EvaluationRepository:
 
     def create(self, user, data, *, descriptor, resolved, baseline=None):
         # 新可选字段省略/显式null等价，兼容旧创建请求的幂等身份。
-        if data.get('continuation') is None:
-            data = {k: v for k, v in data.items() if k != 'continuation'}
+        data = {k: v for k, v in data.items() if k not in {
+            'continuation','regression_source','regression_calibration_id'} or v is not None}
         key = self._scope(user, data['kb_id']) | {'client_request_id': data['client_request_id']}
         identity = fingerprint({k: data[k] for k in data})
         prior = self.experiments.find_one(key)
@@ -130,6 +131,8 @@ class EvaluationRepository:
                     parent['kb_id'] != data['kb_id'] or
                     any(parent.get(k) != descriptor[k] for k in ('dataset_sha256', 'manifest_sha256')) or
                     parent['config_sha256'] != resolved['config_sha256'] or
+                    parent.get('regression_source') != data.get('regression_source') or
+                    parent.get('regression_calibration_id') != data.get('regression_calibration_id') or
                     not isinstance(source.get('reason'), str) or not source['reason'].strip()):
                 raise APIError(409, 'continuation_source_invalid', '后续实验须绑定终态源任务的当前代际和相同冻结题集、配置。')
             continuation = deepcopy(source) | dict(source_state=parent['state'],
@@ -152,6 +155,10 @@ class EvaluationRepository:
             'config_version': data['config_version'], 'config_sha256': resolved['config_sha256'],
             'baseline_experiment_id': data.get('baseline_experiment_id'),
             'continuation': continuation,
+            'regression_source': deepcopy(data.get('regression_source')),
+            'regression_calibration_id': data.get('regression_calibration_id'),
+            'regression_execution_key': (parent['regression_execution_key'] if continuation and data.get('regression_source')
+                                         else experiment_id if data.get('regression_source') else None),
             'corpus_binding': corpus_binding(resolved),
             'selected_questions': resolved['selected_questions'], 'eligible_questions': resolved['eligible_questions'],
             'state': 'pending', 'attempt': 0, 'version': 0, 'retryable': False, 'dispatch_pending': True,
@@ -243,6 +250,9 @@ class EvaluationRepository:
         public_keys = {'answer', 'citations', 'behavior', 'route', 'retrieval_candidates',
                        'stage_metrics', 'stage_timings', 'logical_provider_calls', 'token_usage', 'image_selection_version',
                        'logical_provider_calls_scope', 'execution_logical_provider_calls'}
+        experiment = self.experiments.find_one({'experiment_id':experiment_id}) or {}
+        if experiment.get('regression_source'):
+            public_keys.add('run_id')
         for question in questions:
             record = by_id.get(question['id'])
             if record is None:
