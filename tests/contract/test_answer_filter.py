@@ -9,7 +9,7 @@ from app.runs.answer_filter import AnswerFilter
     (['![图](/api/v1/assets/a)'], '![图](/api/v1/assets/a)'),
     (['![图](asset://other)'], '（图片未在授权来源中登记）'),
     (['![图](https://external.invalid/image)'], '（图片未在授权来源中登记）'),
-    (['前文<im', 'g src="https://external.invalid">后文'], '前文后文'),
+    (['前文<im', 'g src="https://external.invalid">后文'], '前文\\<img src="https://external.invalid">后文'),
     (['前文![未结束'], '前文（图片语法未通过来源检查）'),
     (['![图][ref]\n[ref]: https://external.invalid'], '（图片语法未通过来源检查）\n[ref]: https://external.invalid'),
 ])

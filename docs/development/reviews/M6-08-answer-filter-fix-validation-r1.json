@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-29",
+  "base_commit": "68777283522549cbc0ae91492611e89623aa795b",
+  "scope": "AnswerFilter technical text preservation with HTML and asset image safety",
+  "root_cause": "all <...> fragments were removed without recognizing CommonMark code regions",
+  "red_test": {
+    "failed": 59,
+    "passed": 9,
+    "exit_code": 1
+  },
+  "final_python": {
+    "passed": 250,
+    "failed": 0,
+    "skipped": 0,
+    "exit_code": 0
+  },
+  "cached_provider_replay": {
+    "questions": 25,
+    "old_persisted_answers_reproduced": 25,
+    "new_outputs_match_saved_provider_text": 25,
+    "changed_answers": 6,
+    "changed_question_ids": [
+      "support-v1-003",
+      "support-v1-004",
+      "support-v1-006",
+      "support-v1-007",
+      "support-v1-008",
+      "support-v1-034"
+    ],
+    "fragment_variants_per_question": 5,
+    "new_model_calls": 0,
+    "database_writes": 0,
+    "old_run_or_result_modified": false
+  },
+  "frontend_security": {
+    "files": 2,
+    "tests": 29,
+    "passed": 29,
+    "failed": 0,
+    "exit_code": 0
+  },
+  "frontend_typecheck": {
+    "passed": true,
+    "exit_code": 0
+  },
+  "history": {
+    "protected_files": 127,
+    "changed": 0,
+    "old_answer_validation_seal_files": 125,
+    "sealed_files_changed": 0
+  },
+  "behavior": {
+    "code_source_spans_from_CommonMark": true,
+    "raw_HTML_remains_disabled": true,
+    "non_code_angle_text_visible": true,
+    "inline_and_fenced_code_exact": true,
+    "allowed_asset_images_still_authorized": true,
+    "unknown_images_still_rejected": true
+  },
+  "operations": {
+    "real_model_calls": 0,
+    "real_dev_or_heldout": false,
+    "formal_quality_records_written": false,
+    "production_database_touched": false,
+    "default_catalog_switched": false,
+    "old_answers_overwritten": false,
+    "semantic_or_retrieval_behavior_changed": false,
+    "tmp_and_private_evidence_preserved": true
+  },
+  "remaining": [
+    "m6-g540-04-a cross-object inference",
+    "support-v1-005-a/b and m6-g540-17-b fail to explicitly name MateDock3",
+    "support-v1-019, support-v1-021, support-v1-022, support-v1-048 retrieval/context gaps"
+  ],
+  "status": {
+    "fix_self_validation": "passed",
+    "independent_review": "pending",
+    "answer_quality_acceptance": false,
+    "M6": "4/7",
+    "unaccepted": [
+      "M6-04",
+      "M6-05",
+      "M6-08"
+    ],
+    "M7_authorized": false
+  },
+  "cached_replay_hashes": {
+    "m6-g540-02-a": "d6668b21998de2526602c727d9cdd6861440c48df6d02b6c74f020c6b1b882a9",
+    "m6-g540-02-b": "80706b2eefbf45842f9175658c0795adbf5346b2e243043f09372df7e6c55c44",
+    "m6-g540-04-a": "572fcc8d3d0e3179932866c29ba0cca7ff3e3eece167da7aad2b3fa40c1aa148",
+    "m6-g540-04-b": "5d8c208a059bd27e6ae7e1ec81d6f0a9b59c34c7a00ab47c8813fa304be3c26f",
+    "m6-g540-05-a": "a76c4226503638a4232928025ce424f8cdc03129977070b673adc5bcc98eeb52",
+    "m6-g540-05-b": "3f4559294522f1067e8545c75bc91e4320eac1036fa794bf744627f21f9a879c",
+    "m6-g540-17-a": "cf60fde1b8c3466dd72cfe80cbfeb714889d24bda3244cdc6317bb8185753343",
+    "m6-g540-17-b": "d2a061e5b42cf0f34372a07581a5113d62813674142227ee0f2716e2e2de41eb",
+    "m6-g540-18-b": "62e474231e15dea1e87813bc39c28ec4017b7381f4c443345e3d80235e2e8bc9",
+    "m6-g540-20-a": "5ed98851819148622ccc49443617a3116cbaadf444702b14f66a664ea1853c6d",
+    "support-v1-003": "dbf4f970c40cbf0d1f6b911a874237683fe125da4d39d0c1cedaed8df4d46ee1",
+    "support-v1-004": "05f0727765a65526406359700a7ef4b77b0a9b789191dfed00d129e01b0b57b1",
+    "support-v1-006": "6048f64a26bac6c311b9e5931587178f7c6ef717ee69beb283bbb7f9f1b1b408",
+    "support-v1-007": "8e223cdc77d7a5c45c1c0837554f9f9c745cf7508df7790bfa54ea1a8fd49052",
+    "support-v1-008": "e714e2db8e5f228057fccb87a2fdb89e5d61fc49589a1a0895fcc002b3cc8299",
+    "support-v1-009": "d7708500bca53a41ad447cb08f452f1351da3832a4c22ade6e8af2833e2ae37a",
+    "support-v1-010": "56e24a86e4a6c3dac51502d4a53691e60403953a13df11ee02e54b5442f279f9",
+    "support-v1-019": "ba7a06293e726ee4f68382eb8327c11960fff7fbde02e4633d3abc17b19dc95a",
+    "support-v1-020": "0ed3b46cb86f9a38ddb8dbee146f91a4299e34147162665b170eaa0ab1c2c2f2",
+    "support-v1-021": "d68f0efe4faf5a769be7c345733e0cba303406376ac7db51f8bc650c578590a8",
+    "support-v1-022": "7831916f9af5b89f111982f8babafe817073a8b94d32df899d8d8411483d55f0",
+    "support-v1-034": "4afe4e5d8212e293714ead55decf1c54c872519c07f090fba4d887c4fd6cb24a",
+    "support-v1-037": "2a2cb622a8040d539040b89a704a2b9f0011359de025cf073e41b688c90859b8",
+    "support-v1-038": "7faf4a8f667b229a53fa961f20217bb9892913647a53cbb04a01c9b836a8f988",
+    "support-v1-048": "8505fe9c8e1c3e3408e09a02a7a370533c4c96fc274e17e314706652d4d5c565"
+  },
+  "stream_boundaries": {
+    "fenced_code_with_angles_emits_before_fence_end": true,
+    "ordinary_exclamation_followed_by_text_emits_immediately": true,
+    "red_test_failures_preserved": true
+  }
+}

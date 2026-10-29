@@ -3,18 +3,18 @@ import re
 from markdown_it import MarkdownIt
 
 
-def block_code_ranges(text):
+def block_code_ranges(text, *, html=True):
     # CommonMark只将CRLF/CR/LF当换行；splitlines还识别分页符等，不能用于token.map。
     offsets=[0]+[m.end() for m in re.finditer(r'\r\n?|\n',text)]
     if offsets[-1]!=len(text):offsets.append(len(text))
-    return [(offsets[t.map[0]],offsets[t.map[1]]) for t in MarkdownIt('default').parse(text)
+    return [(offsets[t.map[0]],offsets[t.map[1]]) for t in MarkdownIt('default', {'html': html}).parse(text)
             if t.type in {'fence','code_block'} and t.map]
 
 
-def inline_code_ranges(text):
+def inline_code_ranges(text, *, html=True):
     from markdown_it.rules_inline.backticks import backtick
     from markdown_it.rules_inline.image import image
-    md=MarkdownIt('default');ranges=[];base=0
+    md=MarkdownIt('default', {'html': html});ranges=[];base=0
     def code_span(state,silent):
         start=state.pos;count=len(state.tokens)
         accepted=backtick(state,silent)

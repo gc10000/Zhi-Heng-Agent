@@ -1,4 +1,4 @@
-"""在分段输出边界保留完整图片语法，仅放行本轮入选资产。"""
+"""保留技术文字；代码外HTML只作可见文本，图片仅放行本轮入选资产。"""
 import re
 
 
@@ -6,9 +6,33 @@ class AnswerFilter:
     def __init__(self, allowed_assets, send):
         self.allowed = set(allowed_assets)
         self.send, self.pending, self.answer = send, '', ''
+        self.source = ''
+
+    def _code_ranges(self):
+        from markdown_it import MarkdownIt
+        from app.core.markdown_source import inline_code_ranges
+        # 与正式展示端一致关闭HTML；代码坐标始终指向原始流，不指向转义后的答案。
+        ranges = self._block_code_ranges()
+        offsets = [0] + [m.end() for m in re.finditer(r'\r\n?|\n', self.source)]
+        if offsets[-1] != len(self.source):
+            offsets.append(len(self.source))
+        for token in MarkdownIt('default', {'html': False}).parse(self.source):
+            if token.type == 'inline' and token.map:
+                start, end = offsets[token.map[0]], offsets[token.map[1]]
+                # 按真实块的行范围识别行内代码，不能跨段落/标题误配反引号。
+                ranges.extend((start + a, start + b) for a, b in
+                              inline_code_ranges(self.source[start:end], html=False))
+        return ranges
+
+    def _block_code_ranges(self):
+        from app.core.markdown_source import block_code_ranges
+        return block_code_ranges(self.source, html=False)
 
     def write(self, text, *, final=False):
+        self.source += text
         self.pending += text
+        code_ranges = None
+        block_ranges = None
         while self.pending:
             positions = [i for i in (self.pending.find('!'), self.pending.find('<')) if i >= 0]
             if not positions:
@@ -20,19 +44,52 @@ class AnswerFilter:
                 self._send(self.pending[:first])
                 self.pending = self.pending[first:]
             if self.pending.startswith('<'):
-                end = self.pending.find('>')
-                if end < 0:
-                    if final:
-                        self.pending = ''
+                if block_ranges is None:
+                    block_ranges = self._block_code_ranges()
+                position = len(self.source) - len(self.pending)
+                if any(start <= position < end for start, end in block_ranges):
+                    self._send('<')
+                    self.pending = self.pending[1:]
+                    continue
+                # 未闭合的行内代码可能由后续分段闭合；空行边界或final才确定解释。
+                normalized = self.pending.replace('\r\n', '\n').replace('\r', '\n')
+                if not final and not re.search(r'\n[ \t]*\n', normalized):
                     break
-                # 模型不应在答案中输出HTML；统一去除，避免img/src和事件属性绕过。
-                self.pending = self.pending[end + 1:]
-            elif len(self.pending) == 1 and not final:
-                break
-            elif not self.pending.startswith('!['):
-                self._send('!')
+                if code_ranges is None:
+                    code_ranges = self._code_ranges()
+                position = len(self.source) - len(self.pending)
+                in_code = any(start <= position < end for start, end in code_ranges)
+                # 用CommonMark转义保留可见字符，禁止将其解释为HTML标签。
+                backslashes = len(re.search(r'\\*$', self.source[:position]).group())
+                self._send('<' if in_code or backslashes % 2 else r'\<')
                 self.pending = self.pending[1:]
             else:
+                if block_ranges is None:
+                    block_ranges = self._block_code_ranges()
+                position = len(self.source) - len(self.pending)
+                if any(start <= position < end for start, end in block_ranges):
+                    self._send('!')
+                    self.pending = self.pending[1:]
+                    continue
+                if not self.pending.startswith('!['):
+                    if len(self.pending) == 1 and not final:
+                        break
+                    self._send('!')
+                    self.pending = self.pending[1:]
+                    continue
+                # 未闭合的行内代码在后续反引号到达前可能包含image样式文本；
+                # 等段落定型后再解析一次，避免代码被改写和逐字符重复解析。
+                normalized = self.pending.replace('\r\n', '\n').replace('\r', '\n')
+                if not final and not re.search(r'\n[ \t]*\n', normalized):
+                    break
+                if code_ranges is None:
+                    code_ranges = self._code_ranges()
+                position = len(self.source) - len(self.pending)
+                in_code = any(start <= position < end for start, end in code_ranges)
+                if in_code:
+                    self._send('!')
+                    self.pending = self.pending[1:]
+                    continue
                 match = re.match(r'!\[([^\]\n]*)\]\(([^\n)]*)\)', self.pending)
                 if match:
                     target = match.group(2).strip()
