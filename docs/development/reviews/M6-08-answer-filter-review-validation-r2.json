@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-29",
+  "reviewed_commit": "7c41d3362f75f356f5bf773facd86ccf9327b544",
+  "role": "execution_agent_separate_technical_verification_not_stage_acceptance",
+  "status": "changes_required",
+  "original_findings": {
+    "AF-R1": "original_table_counterexample_passed_but_new_mapping_regression_keeps_item_open",
+    "AF-R2": "passed_in_reviewed_technical_scope"
+  },
+  "findings": [
+    {
+      "id": "AF-R1-R",
+      "priority": "P2",
+      "file": "app/runs/answer_markdown.py",
+      "line": 45,
+      "cause": "literal_substring_mapping_does_not_account_for_partial_tab_expansion_in_list_continuation",
+      "observed": "valid_multiline_inline_code_gets_no_protected_ranges_then_placeholder_is_escaped_and_image_example_replaced",
+      "previous_implementation_preserved_source": true,
+      "verified_fragment_sizes": ["full", 1, 2, 7]
+    }
+  ],
+  "checks": {
+    "python_existing": {"passed": 274, "failed": 0, "warnings": 5, "exit_code": 0},
+    "original_backend_probes": {"passed": 4, "included_in_274": true, "byte_identical": true},
+    "saved_stream_replay": {"passed": 25, "fragment_variants_per_question": 5, "old_matches_saved": 25, "new_matches_provider": 25, "changed_questions": ["support-v1-003", "support-v1-004", "support-v1-006", "support-v1-007", "support-v1-008", "support-v1-034"]},
+    "frontend_existing": {"passed": 29, "exit_code": 0},
+    "frontend_original_independent": {"passed": 2, "exit_code": 0},
+    "typecheck": {"exit_code": 0},
+    "new_independent_backend": {"passed": 3, "failed": 2, "exit_code": 1},
+    "synthetic_before_after_diagnostics": {"records": 8, "all_reproduced_regression": true},
+    "hashes": {"fix_r2_evidence": 66, "fix_r2_protected": 290, "fix_r1_evidence": 109, "fix_r1_protected": 127, "original_answers": 125, "mismatches": 0, "sealed_manifest_hashes_valid": true}
+  },
+  "groups_are_not_unique_total": true,
+  "business_source_changes": false,
+  "new_model_calls": 0,
+  "database_access": false,
+  "fresh_database_audit": false,
+  "historical_answers_overwritten": false,
+  "default_revision_changed": false,
+  "human_or_formal_quality_writes": false,
+  "private_evidence_directory": "output/m6-answer-filter-review-r2-20261029",
+  "next_action": "execution_agent_minimal_answer_side_tab_coordinate_fix_then_existing_regressions_and_saved_stream_replay",
+  "stage": {"M6": "4/7", "unaccepted": ["M6-04", "M6-05", "M6-08"], "M7_authorized": false}
+}
