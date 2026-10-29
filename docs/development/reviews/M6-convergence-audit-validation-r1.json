@@ -1,0 +1,188 @@
+{
+  "schema_version": 1,
+  "baseline_commit": "bfaba44916ac45c63e08b27f8e69308d42c90a84",
+  "status": "full_path_audit_blockers_consolidated_no_acceptance",
+  "m6_completed": 4,
+  "m6_total": 7,
+  "m7_authorized": false,
+  "new_findings": [
+    {
+      "id": "RGL-R3",
+      "priority": "P2",
+      "file": "app/evaluation/query_adapter.py",
+      "line": 99,
+      "root_cause": "recovery_verifies_only_run_id_completed_state_and_answer_text_not_full_input_or_result",
+      "failing_variants": [
+        "record_behavior",
+        "record_state",
+        "record_citations",
+        "run_question",
+        "run_citations"
+      ],
+      "closed": false
+    }
+  ],
+  "prior_open_findings": [
+    "RGL-R1/P1",
+    "RGL-R2/P2"
+  ],
+  "new_tests": {
+    "total": 8,
+    "failed": 5,
+    "errors": 0,
+    "passed": 3,
+    "exit_code": 1,
+    "junit_seconds": 40.185,
+    "stdout_seconds": 40.2
+  },
+  "prior_shared_tests_not_rerun": true,
+  "test_groups_not_accumulated": true,
+  "frozen_inventory": {
+    "dev_questions": 85,
+    "eligible": 31,
+    "draft": 54,
+    "heldout": 65,
+    "current_code_sha256": "1d187c9d540c01e9987bb975f28deddd19f4eacbf25d8774f796cd1cf359eca6",
+    "current_prompt_sha256": "f0fe0cc92fca8715957120515588f239ee15d1e4b3e0ba6c4c411dd176d5c52d",
+    "historical_config_matches": [
+      {
+        "code": false,
+        "prompt": false
+      },
+      {
+        "code": false,
+        "prompt": false
+      },
+      {
+        "code": false,
+        "prompt": false
+      },
+      {
+        "code": false,
+        "prompt": false
+      }
+    ],
+    "dataset_sha256": "1d1f785c3303adcaf4b964bf6d5bedeee8cf418ff0f0748704a7bccbe2a86d36",
+    "manifest_sha256": "02adab8ab9346c3d6b22c7a15a0a6aae2c7d65ad1deefc9722400b2e477e6b92",
+    "model_files_not_rehashed": true
+  },
+  "live_readonly": {
+    "target_database_count": 3,
+    "experiments_found": 4,
+    "feedbacks_found": 2,
+    "scoped_snapshots_equal": true,
+    "r3": {
+      "results": 85,
+      "human_reviews": 0,
+      "assistant_reviews": 0,
+      "calibrations": 0
+    },
+    "existing_feedbacks_unbound": true,
+    "matching_001_label_eligible": false,
+    "feedback_expectations_exact": false,
+    "actual_source_original_counts": [
+      0,
+      1
+    ]
+  },
+  "blockers": [
+    {
+      "id": "C01",
+      "kind": "clarification_source_rejected"
+    },
+    {
+      "id": "C02",
+      "kind": "clarification_publication_recovery_rejected"
+    },
+    {
+      "id": "C03",
+      "kind": "incomplete_recovery_subject_verification"
+    },
+    {
+      "id": "C04",
+      "kind": "assistant_delegation_vs_human_only_policy"
+    },
+    {
+      "id": "C05",
+      "kind": "real_feedback_label_mapping_and_version"
+    },
+    {
+      "id": "C06",
+      "kind": "current_runtime_config_preflight"
+    },
+    {
+      "id": "C07",
+      "kind": "four_retrieval_gaps"
+    },
+    {
+      "id": "C08",
+      "kind": "four_generation_object_gaps"
+    },
+    {
+      "id": "C09",
+      "kind": "historical_summary_semantic_contamination"
+    },
+    {
+      "id": "C10",
+      "kind": "real_same_scope_ordered_quality_proof"
+    },
+    {
+      "id": "C11",
+      "kind": "stale_ui_and_operational_route"
+    },
+    {
+      "id": "C12",
+      "kind": "final_report_acceptance_reconciliation"
+    }
+  ],
+  "recommended_policy": "versioned_assistant_independent_dual_review_for_development_acceptance_separate_from_human_release",
+  "policy_changed": false,
+  "protected": [
+    {
+      "total": 821,
+      "matched": 821,
+      "manifest_sha256": "473904284ee2d502bc573dcc65164a15f91ff0e8e7ad2bb65f798c739470d7b0"
+    },
+    {
+      "total": 404,
+      "matched": 404,
+      "manifest_sha256": "b0370e1b81a8ed5708b77e7f04352d046ea7129d050e016331e2015ea2ee2dc2"
+    },
+    {
+      "total": 294,
+      "matched": 294,
+      "manifest_sha256": "881fb2295ec8d45632724f481f01670b1174a805ebacf6205e1cc6516027ff14"
+    }
+  ],
+  "boundaries": {
+    "business_source_modified": false,
+    "supplier_calls": false,
+    "real_dev": false,
+    "heldout": false,
+    "real_db_writes": 0,
+    "real_quality_writes": 0,
+    "random_isolated_test_writes": true,
+    "synthetic_vectors_and_models": true,
+    "default_changed": false,
+    "existing_closed_reviews_reopened": false,
+    "legacy_cost": null,
+    "legacy_http_count": null
+  },
+  "private_evidence_sha256": {
+    "test_audit_matrix.py": "bea75320387e52f4fbfe72877791c72bdf830f1e3dee776d01315661de6fbe0f",
+    "inventory.py": "7863a1e7e32a7796c5fe1ff7922a978ef55aa2c99f3832e6ec995a3044adb4de",
+    "probes.xml": "ade64e64aa6dcd1495d9411e0cb350323f0f5ba945d7b934527f87640d15a1ea",
+    "probes.log": "627220a540cfbdbaf8a59631729ff3d73f4654585b3b5cde1cbf9e482be36ae6",
+    "frozen-inventory.json": "2574334e00ae0d1fc2101e1f8f897d97f970fe016e275f3556ad03c895142b7a",
+    "live-readonly.json": "70c031863429338e529af224bd1240b102e7790ec778f230f19733ab6c2dce0b",
+    "protected.json": "78868caee36eeb400116640f44798387e13792487408820ac36ed46d070a3486",
+    "harness-history.json": "b036078a260538038f1a7a746eef64e5aa7448751e7a9fea51fa5b945e5aac4a",
+    "diagnostic-none.json": "74bd88cd44e3da6dce1ea99eff5ff02663da957f261b9a09d7574bfad1814fbd",
+    "diagnostic-record_answer.json": "de736b971f85f4205988fb4f61e709771b9c030cd5f35f59d228840b1d26c814",
+    "diagnostic-record_behavior.json": "03f58695d6c6d26b1b36bc7873ac4679a5ac26c760c51d2c57f958a5e658fccc",
+    "diagnostic-record_state.json": "05fb30dd5a88048469b3db4e9edab611dda8ff12e20352fe9f335167cca8e09b",
+    "diagnostic-record_citations.json": "8d7010daff571731c17abf840b524f940836eb52fbffab45b54f3f706a701d8c",
+    "diagnostic-run_question.json": "77ac491c11775614b629670c259f57f0adc404fc9dd320c24b1cae60952e1085",
+    "diagnostic-run_citations.json": "fb949531340f0762385df3980f80efa2f2462bc4c1984f6b8b147d2e01ac34b2"
+  }
+}
