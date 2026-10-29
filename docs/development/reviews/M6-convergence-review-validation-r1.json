@@ -1,0 +1,274 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-29",
+  "role": "total_control_independent_review",
+  "reviewed_commit": "cac483616e363bdcec971da147853c9620b49b86",
+  "starting_worktree": "untracked tmp only",
+  "tests": {
+    "shared": {
+      "tests": 270,
+      "failures": 7,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 322.717,
+      "exit_code": 1
+    },
+    "shared-retry": {
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 7.522,
+      "exit_code": 0
+    },
+    "shared-final": {
+      "tests": 270,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 324.649,
+      "exit_code": 0
+    },
+    "retrieval": {
+      "tests": 58,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 17.767,
+      "exit_code": 0
+    },
+    "original": {
+      "tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 48.261,
+      "exit_code": 0
+    },
+    "boundaries": {
+      "tests": 4,
+      "failures": 1,
+      "errors": 2,
+      "skipped": 0,
+      "seconds": 21.099,
+      "exit_code": 1
+    },
+    "boundaries-final": {
+      "tests": 4,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 20.824,
+      "exit_code": 1
+    }
+  },
+  "groups_overlap_not_unique_total": true,
+  "harness_notes": [
+    "首轮shared前缀导致分库名超过63字符，7失败/263通过；短前缀文件14通过；最终完整同文件集270通过。",
+    "首轮boundaries缺run_context夹具导入产生2 setup error；补全后最终4项2失败/2通过，确认两项业务缺陷。",
+    "保存检索首次核验曾误假设组件与源码结果整文件相等；去掉该非契约假设，按冻结原文口径核验源码结果22/25通过。"
+  ],
+  "browser": {
+    "passed": 2,
+    "exit_code": 0
+  },
+  "typecheck_exit_code": 0,
+  "openapi_consistent": true,
+  "commands": {
+    "shared_final": ".venv/Scripts/python.exe -m pytest -q tests/unit/test_evaluation_catalog.py tests/unit/test_evaluation_dataset.py tests/unit/test_evaluation_query_adapter.py tests/unit/test_evaluation_subset.py tests/unit/test_eval_labels.py tests/unit/test_review_scores.py tests/contract/test_feedback_triage.py tests/contract/test_feedback_export.py tests/integration/test_feedback_triage_workflow.py tests/integration/test_evaluation_reviews.py tests/integration/test_evaluation_jobs.py tests/integration/test_evaluation_continuation_regressions.py tests/integration/test_evaluation_run_adapter.py tests/integration/test_evaluation_split_ledger.py tests/unit/test_regression_versions.py tests/integration/test_feedback_regression_lineage.py tests/integration/test_regression_formal_execution.py tests/integration/test_regression_clarification_evidence.py tests/integration/test_regression_clarification_recovery.py tests/integration/test_regression_recovery_identity.py --basetemp=output/m6-convergence-review-20261029/shared-final-work --junitxml=output/m6-convergence-review-20261029/shared-final.xml",
+    "original": ".venv/Scripts/python.exe -m pytest -q -p tests.conftest -p tests.integration.conftest output/m6-convergence-review-20261029/test_original_audit_matrix.py output/m6-convergence-review-20261029/test_original_recovery.py --basetemp=output/m6-convergence-review-20261029/original-work --junitxml=output/m6-convergence-review-20261029/original.xml",
+    "boundaries": ".venv/Scripts/python.exe -m pytest -q -p tests.conftest -p tests.integration.conftest output/m6-convergence-review-20261029/test_independent_boundaries.py --basetemp=output/m6-convergence-review-20261029/boundary-final-work --junitxml=output/m6-convergence-review-20261029/boundaries-final.xml",
+    "retrieval": ".venv/Scripts/python.exe -m pytest -q tests/unit/test_retrieval_policy.py tests/unit/test_source_prerequisites.py tests/unit/test_source_prerequisite_wiring.py tests/unit/test_prerequisite_contract.py",
+    "browser": "pnpm -C frontend exec playwright test feedback-loop.spec.ts --output=../output/m6-convergence-review-20261029/browser",
+    "typecheck": "pnpm -C frontend typecheck",
+    "saved_evidence": ".venv/Scripts/python.exe output/m6-convergence-review-20261029/verify_saved.py"
+  },
+  "integration_databases": {
+    "shared_final": "m1_test_m4_cvf",
+    "original": "m1_test_m4_cvo",
+    "boundaries": "m1_test_m4_convergence_boundaries_final",
+    "synthetic_only": true
+  },
+  "original_probe_copy_sha256": {
+    "test_original_audit_matrix.py": "bea75320387e52f4fbfe72877791c72bdf830f1e3dee776d01315661de6fbe0f",
+    "test_original_recovery.py": "85cb87dd7a529d60eb0e1ad8ebceea07be6edc28f7f0296751b2a43e7a5599c2"
+  },
+  "findings": [
+    {
+      "id": "C09",
+      "priority": "P1",
+      "status": "open",
+      "file": "app/runs/query_runner.py",
+      "line": 139,
+      "summary": "正式消费者拒绝来源前提与摘要隔离组合",
+      "control": {
+        "exclude": false,
+        "state": "completed",
+        "error": null,
+        "prerequisite_reads": 1,
+        "synthetic_answer_calls": 1
+      },
+      "failure": {
+        "exclude": true,
+        "state": "failed",
+        "error": {
+          "code": "provider_invalid_response",
+          "stage": "authorization",
+          "retryable": false
+        },
+        "prerequisite_reads": 0,
+        "synthetic_answer_calls": 0
+      }
+    },
+    {
+      "id": "C03/RGL-R3",
+      "priority": "P2",
+      "status": "open",
+      "file": "app/evaluation/query_adapter.py",
+      "line": 254,
+      "summary": "首次outcome冻结前退出的恢复可追认已变化输入",
+      "control": {
+        "drift": false,
+        "state": "completed",
+        "attempt": 2,
+        "error": null,
+        "target_runs": 2,
+        "synthetic_answer_calls": 2,
+        "frozen_outcomes": 1
+      },
+      "failure": {
+        "drift": true,
+        "state": "completed",
+        "attempt": 2,
+        "error": null,
+        "target_runs": 2,
+        "synthetic_answer_calls": 2,
+        "frozen_outcomes": 1
+      }
+    }
+  ],
+  "technical_closed": [
+    "C01/RGL-R1",
+    "C02/RGL-R2",
+    "C11"
+  ],
+  "policy": {
+    "id": "assistant-development-v1",
+    "design": "approved_for_implementation_and_isolated_validation",
+    "runtime_enabled": false,
+    "decision": "docs/evaluation/assistant-development-policy-decision-v1.md",
+    "proposal_sha256": "51c98b78e8bd23f25b9489c602ca1f8c5d22926babff89d05eaed31802695b29",
+    "decision_sha256": "3079da9ff9cc9e44418610d780aa89822b476b4b0c2f37196cd39c38c06ec519",
+    "human_release_gate_unchanged": true
+  },
+  "saved_evidence": {
+    "handoff_count": 238,
+    "matched": true,
+    "protected": [
+      {
+        "manifest": "output/m6-isolated-answers-20261028/protected-before-r3.json",
+        "sha256": "473904284ee2d502bc573dcc65164a15f91ff0e8e7ad2bb65f798c739470d7b0",
+        "total": 821,
+        "matched": 821
+      },
+      {
+        "manifest": "output/m6-answer-filter-fix-r3-20261029/protected-before.json",
+        "sha256": "b0370e1b81a8ed5708b77e7f04352d046ea7129d050e016331e2015ea2ee2dc2",
+        "total": 404,
+        "matched": 404
+      },
+      {
+        "manifest": "output/m6-real-retrieval-20261028/protected-before.json",
+        "sha256": "881fb2295ec8d45632724f481f01670b1174a805ebacf6205e1cc6516027ff14",
+        "total": 294,
+        "matched": 294
+      }
+    ],
+    "retrieval": {
+      "candidates": 22,
+      "reranked": 22,
+      "context": 22,
+      "old_context": 21,
+      "regressions": [],
+      "improved": [
+        "support-v1-019"
+      ],
+      "remaining": [
+        "support-v1-021",
+        "support-v1-022",
+        "support-v1-048"
+      ]
+    },
+    "no_S520_prompts": 25,
+    "component_evidence_not_official_consumer": true,
+    "historical_calls": {
+      "counts": {
+        "started": 24,
+        "completed": 24,
+        "cache_hit": 24
+      },
+      "local_rerank_pairs": 122,
+      "no_new_calls_this_review": true
+    }
+  },
+  "real_database_access_this_review": false,
+  "real_quality_writes": 0,
+  "supplier_calls": 0,
+  "local_model_inference_calls": 0,
+  "real_answer_generation": 0,
+  "dev_or_heldout_executed": false,
+  "default_switch": false,
+  "business_source_modified": false,
+  "historical_unknown_http_tokens_cost_preserved": true,
+  "r3_identity_preserved": "19 inherited + 66 executed",
+  "m6": "4/7",
+  "unaccepted": [
+    "M6-04",
+    "M6-05",
+    "M6-08"
+  ],
+  "m7_started": false,
+  "private_evidence_sha256": {
+    "output/m6-convergence-review-20261029/boundaries-final.log": "a97128c94cf768c7c1e55491ece99f450523e53c3af1fa45c2db74e9107bf87b",
+    "output/m6-convergence-review-20261029/boundaries-final.xml": "0991d6b2820415640479b721052a656cd382b0c41ef8c771bc0ead9784a8f651",
+    "output/m6-convergence-review-20261029/boundaries.log": "a0dede4219d092786e08652c51e8e146ce28f198fd4bdf58328c050edd1f3a41",
+    "output/m6-convergence-review-20261029/boundaries.xml": "0238fd8bf0d496b4546a559fc38346d8969ee6be184936d44cdc4106dd331615",
+    "output/m6-convergence-review-20261029/browser/.last-run.json": "91d1c43004802cd49950d78eb11c8fa7d05da8ffffe219a8b13b2f561bc00903",
+    "output/m6-convergence-review-20261029/browser.log": "4a63f794ac4952bf39fb92efbc7d38971d56b959c6816413333ade389fb33d3f",
+    "output/m6-convergence-review-20261029/build_summary.py": "3b2eda8358f64d7d67f2b6a5ba0f27857329653ce11a480e15ffe95bf0ed3082",
+    "output/m6-convergence-review-20261029/combo-False.json": "803c7e07ee19e553617c2cb127f68cd76c1f16eb3bad0ed417e2374506a9dbda",
+    "output/m6-convergence-review-20261029/combo-True.json": "f9bb6ad373c5fc653de466d1586c4dd6924f9f151adcfde7f9e047a843f77271",
+    "output/m6-convergence-review-20261029/diagnostic-False.json": "7b750bfdeae6231ff2c3a53933f68c2c7bbda6d36dd7692bbc874f4380f1dd15",
+    "output/m6-convergence-review-20261029/diagnostic-none.json": "74bd88cd44e3da6dce1ea99eff5ff02663da957f261b9a09d7574bfad1814fbd",
+    "output/m6-convergence-review-20261029/diagnostic-record_answer.json": "de736b971f85f4205988fb4f61e709771b9c030cd5f35f59d228840b1d26c814",
+    "output/m6-convergence-review-20261029/diagnostic-record_behavior.json": "2d4ddafdf28a9b6a59bb4752b89a34c5299ec4016f5cacfbe1f4c1e915447d1f",
+    "output/m6-convergence-review-20261029/diagnostic-record_citations.json": "79e12063ea6d009700c4668e657eec1a0f03344ea8c2418cf12ca59c43443b19",
+    "output/m6-convergence-review-20261029/diagnostic-record_state.json": "bd7279278b7d2cc0e635284bf1cb6f6f3e495b5bfc82478b448f6a687a53a732",
+    "output/m6-convergence-review-20261029/diagnostic-run_citations.json": "582696b21865640f51e9eebbdd1b383295e8a3de1f3a174623c5e9c576eabe40",
+    "output/m6-convergence-review-20261029/diagnostic-run_question.json": "0147d71ac905262f1c41cf49371d060bd36e6799c0e242b7aab02f29a1e15d57",
+    "output/m6-convergence-review-20261029/diagnostic-True.json": "917332630f6036ded6f3db6f287c9adb276bb01afcb3b99110aff8c121e1d30e",
+    "output/m6-convergence-review-20261029/freeze-False.json": "6a9815e38738a63a6df543ce68fefd7ba8c2a63becd0388d90e67d91ccc845db",
+    "output/m6-convergence-review-20261029/freeze-True.json": "16ac3ad62c32b1488e35b53afa7c6325cf1d978d3864af787b7a127d8f977fab",
+    "output/m6-convergence-review-20261029/original.log": "9695279f3e26171bc8730496d570fb533b5e825b19369d98c3de0d1071308372",
+    "output/m6-convergence-review-20261029/original.xml": "78780c7e0dfaaaf59045867c3e288ce6b025a077f3cd8d0b6ff5d0faf55ffff1",
+    "output/m6-convergence-review-20261029/prepare.py": "2dba3b79d73dfb89f0b62f520d522db6d388e1e1fbac214ca14b72aa90cf8646",
+    "output/m6-convergence-review-20261029/retrieval.log": "e04fcdfe8eddc82fd4cf51e1780d538bae7430fba596668a52b216cc0d50b490",
+    "output/m6-convergence-review-20261029/retrieval.xml": "239e383fdba19d4eeca87907c40539d08b0c6b2a12259222d7a1598601181ae7",
+    "output/m6-convergence-review-20261029/saved-verification-final.log": "8dec29b22fdd275dfa6a1a2fd573b492b50610c80be21fffb462dbb3bbac7a3c",
+    "output/m6-convergence-review-20261029/saved-verification.json": "39e9195d67ac4ce0412852639c6e78a17cf433855d638da17b092d141565ea1d",
+    "output/m6-convergence-review-20261029/saved-verification.log": "d8ea8215166665eedf16c03b0a5c219399ca07e5e4a3cb5f1a0262773a8b7aab",
+    "output/m6-convergence-review-20261029/shared-command.ps1": "9ac5ebbc34a99aa91795df61c9e44357c2f5f718b03dfce606df63462d33b880",
+    "output/m6-convergence-review-20261029/shared-final-command.ps1": "644c47a3e77ba74f3eb5341a35ee35d3bb0ba48ec7a0dbd82c8205703ed19097",
+    "output/m6-convergence-review-20261029/shared-final.log": "01b7c9a4cabf2f675cd90d2e9901c44bf1b3d8a6ea55945b30949028b5401024",
+    "output/m6-convergence-review-20261029/shared-final.xml": "c3da15250be67fb4500568757d8925e9c9b8f9547c410bf95e103bfd5d35589b",
+    "output/m6-convergence-review-20261029/shared-retry.log": "f09ed6818cb96d93c3a982b9f675c84f1c9297ea5a3257d5bcf95a249ae60715",
+    "output/m6-convergence-review-20261029/shared-retry.xml": "ea1f9856971a8af18388b5bee7925f0868c26a3d2790189602e3e6bca6ee808b",
+    "output/m6-convergence-review-20261029/shared.log": "2f97e01c46c1e57ea0f13897c0e948c7b3e28781dba5731257721a0979a07212",
+    "output/m6-convergence-review-20261029/shared.xml": "ccbc6de71ddb87bf75877c1c52043020b8f5890dc3155ddfe8cfc65a112696d2",
+    "output/m6-convergence-review-20261029/test_independent_boundaries.py": "2dbc5eb675c3ab02122b1d25f445061cb4c0037d2f2b6fe72a667f384fd283b9",
+    "output/m6-convergence-review-20261029/test_original_audit_matrix.py": "bea75320387e52f4fbfe72877791c72bdf830f1e3dee776d01315661de6fbe0f",
+    "output/m6-convergence-review-20261029/test_original_recovery.py": "85cb87dd7a529d60eb0e1ad8ebceea07be6edc28f7f0296751b2a43e7a5599c2",
+    "output/m6-convergence-review-20261029/typecheck.log": "241be48e89412fbf6fed0e7e10a0217d6a564c74e44cc6906baaac9d4715a40a",
+    "output/m6-convergence-review-20261029/verify_saved.py": "1a5b6b547e91a71420f33c588d376ad90a9a4ee674af1b95e074ed4afba54d00"
+  }
+}

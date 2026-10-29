@@ -1,5 +1,11 @@
 # 开发公共契约与任务交接边界
 
+## 2026-10-29 · 总控复审限定及已批准开发政策设计
+
+C01澄清来源与C02已存澄清结果恢复、C11只读状态技术通过。完整恢复身份仍须补齐“Run完成但首次outcome未保存”的退出窗口：恢复应核对原执行link固定的输入，不以新attempt当前hash自我确认；C03未关闭。当前正式QueryRunner仍拒绝source_prerequisites启用时检索策略偏离旧默认，因此新增exclude_image_descriptions=true与来源前提组合不能正式执行，C09未关闭；不得把22/25组件证据写成正式消费者通过。见[复审](../development/reviews/M6-convergence-review-r1.md)。
+
+已批准`assistant-development-v1`设计供实施，运行政策尚未启用：[总控决策](../evaluation/assistant-development-policy-decision-v1.md)绑定原提案SHA，要求政策/用途/规则及完整题级结果身份贯穿审核、校准、gate和proof，生成者与双轮独立、二轮先封存、未知pending/关键错误blocked，两轮有效最低分，默认仍human。原human发布契约不改；完成实现与总控独立验证前不写真实评分/校准，不仅移除human筛选。此前“待政策决定”的表述为历史状态，不再让用户重复评分。
+
 ## 2026-10-29 · 收敛补修包的执行契约（自验，待矩阵复审）
 
 regression接受completed和awaiting_input原Run来源；后者固定实际澄清候选及resume_point。无引用时完整标签候选可另存授权原件修订映射，独立审核须确认完整题目/反馈预期/修订hash；审核、绑定、创建、每题执行前重验，撤权或变化拒绝。不向旧Run/反馈补引用，不追认历史关联。
