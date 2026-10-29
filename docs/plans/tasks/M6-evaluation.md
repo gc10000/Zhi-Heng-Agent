@@ -295,7 +295,7 @@ R1恢复结果使用持久Run累计，另存adapter新增；R2由正式job在模
 <a id="m6-05"></a>
 ### M6-05：反馈审核转测试与资料修订
 
-2026-10-29最新只读核账：既有confirmed regression草稿已审核，但尚未绑定目标文档修订或affected题，尚无affected与full质量证明；既有001候选不绑定反馈目标修订。反馈后真实闭环未完成，任务保持未验收。
+2026-10-29总控复审纠正：既有confirmed regression草稿已审核，但revision绑定接口只接受资料修订草稿，不应要求该回归草稿强行补目标修订及发布证明。下一步核实回归题的标注审阅、版本化dev及反馈后复评路线；资料修订分支才按validated目标执行affected→full发布门禁。真实闭环仍未完成，任务保持未验收。AF-R1/AF-R1-R定向技术审查已关闭，不等于本任务验收；见[总控复审](../../development/reviews/M6-08-answer-filter-review-r3.md)。
 **依赖：**M6-04,M5-07。
 **文件：**`app/evaluation/feedback_triage.py`; `frontend/src/features/evaluation/FeedbackQueue.vue`; `tests/contract/test_feedback_triage.py`。
 **接口：**遵循[公共契约](../DEVELOPMENT_CONTRACTS.md)；本任务只建立本段列出的模块，供后续依赖任务使用。

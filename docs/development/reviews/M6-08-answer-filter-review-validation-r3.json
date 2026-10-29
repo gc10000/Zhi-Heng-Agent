@@ -1,0 +1,120 @@
+{
+  "date": "2026-10-29",
+  "role": "total_control_independent_review",
+  "reviewed_commit": "b3d5c9ab23f6e89c074ee7ed05058064fbe03cf3",
+  "result": {
+    "AF_R1": "closed_in_scoped_technical_review",
+    "AF_R1_R": "closed_in_scoped_technical_review",
+    "AF_R2": "prior_pass_retained",
+    "new_answer_filter_blockers": 0
+  },
+  "handoff_finding": {
+    "priority": "P2",
+    "issue": "regression draft was incorrectly routed to revision-only binding and publication proof",
+    "verified_code": "app/evaluation/feedback_triage.py::bind_revision",
+    "rejection": "409 revision_draft_required",
+    "action": "separate regression annotation/re-evaluation path from revision publication path; retain original draft"
+  },
+  "checks": {
+    "shared": {
+      "tests": 298,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "xml_sha256": "da5407f7b220df8d01f4ed01d38087a3f7242c6d261aca4264cee5b2ec01d842",
+      "log_sha256": "df5025d69203a5e218665aaae150593e2b6cf6dd700dac6b3c3cff6ab4cdd7c4"
+    },
+    "independent-replay": {
+      "tests": 66,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "xml_sha256": "3e9cd4be1e8bc0d23ad195490a1428be8360e069ca2d98d2b6f88573122ce25e",
+      "log_sha256": "5f6332fcba180cf86fe8c102e8557ed564dc77f7a1787d457bc6515ddd070388"
+    },
+    "handoff-routes": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "xml_sha256": "25a8759d7ca5194dc6906a8f123629ce3165a2dbf4fbc1368df37f3c8cea3673",
+      "log_sha256": "922f30b554ae0880b5c5e595a90ce3c723e36e8fe8f75a3c8388d80394ef23fd"
+    }
+  },
+  "group_details": {
+    "shared_regressions_plus_prompt": 298,
+    "original_probe_copy": 13,
+    "total_control_new_boundaries": 28,
+    "cached_replay_questions": 25,
+    "handoff_route_probes": 2,
+    "overlapping_groups_not_added": true
+  },
+  "commands": {
+    "shared": ".\\.venv\\Scripts\\python.exe -m pytest -q -p tests.conftest tests/unit/test_answer_filter_content.py tests/contract/test_answer_filter.py tests/unit/test_context_budget.py tests/unit/test_answer_image_selection.py tests/unit/test_answer_grounding.py tests/unit/test_markdown_source_coordinates.py tests/unit/test_semantic_review_regressions.py tests/unit/test_semantic_review_probes.py tests/unit/test_semantic_review_adjacent_probes.py tests/unit/test_retrieval_provenance.py tests/unit/test_evidence_expansion.py tests/unit/test_source_prerequisites.py tests/unit/test_answer_filter_review_regressions.py tests/unit/test_answer_filter_container_boundaries.py tests/unit/test_answer_filter_tab_review_regressions.py tests/unit/test_answer_filter_tab_boundaries.py tests/unit/test_answer_prompt_scope.py --junitxml=output/m6-answer-filter-total-review-r3-20261029/shared.xml",
+    "independent_replay": ".\\.venv\\Scripts\\python.exe -m pytest -q -p tests.conftest output/m6-answer-filter-total-review-r3-20261029/test_independent_tab_review.py output/m6-answer-filter-total-review-r3-20261029/test_total_control_boundaries.py output/m6-answer-filter-total-review-r3-20261029/test_cached_filter_replay.py --junitxml=output/m6-answer-filter-total-review-r3-20261029/independent-replay.xml",
+    "handoff_routes": ".\\.venv\\Scripts\\python.exe -m pytest -q -p tests.conftest output/m6-answer-filter-total-review-r3-20261029/test_handoff_routes.py --junitxml=output/m6-answer-filter-total-review-r3-20261029/handoff-routes.xml"
+  },
+  "assistant_binding_checks": {
+    "checks": 125,
+    "failed": [],
+    "execution_classifications_retained": {
+      "核心结论获原件支持": 17,
+      "原件可答但本轮未答出": 4,
+      "部分正确需补正": 4
+    },
+    "independent_semantic_second_round": false
+  },
+  "protected_hashes": [
+    {
+      "manifest": "output/m6-isolated-answers-20261028/protected-before-r3.json",
+      "total": 821,
+      "matched": 821,
+      "differences": []
+    },
+    {
+      "manifest": "output/m6-answer-filter-fix-r3-20261029/protected-before.json",
+      "total": 404,
+      "matched": 404,
+      "differences": []
+    },
+    {
+      "manifest": "output/m6-real-retrieval-20261028/protected-before.json",
+      "total": 294,
+      "matched": 294,
+      "differences": []
+    }
+  ],
+  "r3_status_diagnosis": {
+    "saved_evaluation_rows": 85,
+    "outer_completed": 85,
+    "inner_awaiting_input": 5,
+    "synthetic_in_memory_dual_round_projection_incomplete": [],
+    "is_real_human_review": false
+  },
+  "operations": {
+    "business_source_changed": false,
+    "prompt_changed": false,
+    "database_access": false,
+    "model_calls": 0,
+    "human_writes": 0,
+    "calibration_writes": 0,
+    "candidate_writes": 0,
+    "feedback_writes": 0,
+    "default_revision_changed": false,
+    "real_dev_or_heldout": false,
+    "frontend_rerun": false,
+    "historical_evidence_overwritten": false
+  },
+  "stage": {
+    "M6": "4/7",
+    "unaccepted": [
+      "M6-04",
+      "M6-05",
+      "M6-08"
+    ],
+    "M7_authorized": false
+  }
+}
