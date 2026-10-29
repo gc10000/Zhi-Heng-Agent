@@ -1,6 +1,21 @@
 import { test, expect } from '@playwright/test'
 import { mockApi } from './helpers'
 
+test('助手开发政策结果只读展示，开发验收不冒充human发布',async({page})=>{
+  await mockApi(page,async route=>{
+    const path=new URL(route.request().url()).pathname
+    if(path.endsWith('/reviews')){await route.fulfill({json:{quality_policy:{id:'a'.repeat(64),sha256:'b'.repeat(64)},subjects:[{question_id:'q1',subject_sha256:'c'.repeat(64)}],items:[]}});return true}
+    if(path.endsWith('/observations')){await route.fulfill({json:{items:[]}});return true}
+    if(path.endsWith('/results')){await route.fulfill({json:{items:[{question_id:'q1',question:'合成政策题',result:{answer:'合成答案',citations:[]}}],next_cursor:null}});return true}
+    return false
+  })
+  await page.goto('/evaluations/reviews/synthetic-policy')
+  await expect(page.getByText('本实验使用助手双轮开发验收。',{exact:false})).toBeVisible()
+  await expect(page.getByRole('button',{name:'保存本轮审阅',exact:true})).toHaveCount(0)
+  await expect(page.getByRole('button',{name:'冻结基线门槛',exact:true})).toHaveCount(0)
+  await expect(page.getByText('合成答案',{exact:true})).toBeVisible()
+})
+
 test('新版按题意保存适用性，聊天来源可引用但不预填分数和本人声明',async({page})=>{
   let submitted:any
   await mockApi(page,async route=>{

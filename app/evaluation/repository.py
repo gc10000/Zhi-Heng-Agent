@@ -37,7 +37,7 @@ def public_experiment(row):
         'dataset_sha256', 'config_id', 'config_version', 'config_sha256', 'baseline_experiment_id',
         'state', 'attempt', 'version', 'retryable', 'error', 'summary', 'comparison',
         'selected_questions', 'completed', 'failed', 'created_at', 'updated_at', 'continuation',
-        'regression_source','regression_calibration_id') if key in row}
+        'regression_source','regression_calibration_id','quality_policy','quality_calibration_id') if key in row}
 
 
 class EvaluationRepository:
@@ -113,7 +113,7 @@ class EvaluationRepository:
     def create(self, user, data, *, descriptor, resolved, baseline=None):
         # 新可选字段省略/显式null等价，兼容旧创建请求的幂等身份。
         data = {k: v for k, v in data.items() if k not in {
-            'continuation','regression_source','regression_calibration_id'} or v is not None}
+            'continuation','regression_source','regression_calibration_id','quality_policy','quality_calibration_id'} or v is not None}
         key = self._scope(user, data['kb_id']) | {'client_request_id': data['client_request_id']}
         identity = fingerprint({k: data[k] for k in data})
         prior = self.experiments.find_one(key)
@@ -133,6 +133,8 @@ class EvaluationRepository:
                     parent['config_sha256'] != resolved['config_sha256'] or
                     parent.get('regression_source') != data.get('regression_source') or
                     parent.get('regression_calibration_id') != data.get('regression_calibration_id') or
+                    parent.get('quality_policy') != data.get('quality_policy') or
+                    parent.get('quality_calibration_id') != data.get('quality_calibration_id') or
                     not isinstance(source.get('reason'), str) or not source['reason'].strip()):
                 raise APIError(409, 'continuation_source_invalid', '后续实验须绑定终态源任务的当前代际和相同冻结题集、配置。')
             continuation = deepcopy(source) | dict(source_state=parent['state'],
@@ -156,6 +158,10 @@ class EvaluationRepository:
             'baseline_experiment_id': data.get('baseline_experiment_id'),
             'continuation': continuation,
             'regression_source': deepcopy(data.get('regression_source')),
+            'quality_policy':deepcopy(data.get('quality_policy')),
+            'quality_calibration_id':data.get('quality_calibration_id'),
+            'quality_execution_key':(parent.get('quality_execution_key') if continuation and data.get('quality_policy')
+                else experiment_id if data.get('quality_policy') else None),
             'regression_calibration_id': data.get('regression_calibration_id'),
             'regression_execution_key': (parent['regression_execution_key'] if continuation and data.get('regression_source')
                                          else experiment_id if data.get('regression_source') else None),

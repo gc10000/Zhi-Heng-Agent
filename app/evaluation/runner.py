@@ -65,6 +65,12 @@ def reproducibility_metadata(config, *, dataset_sha256, split_manifest_sha256, c
 
 
 def check_split(config, manifest):
+    if config.get('quality_policy'):
+        from .development_policy import PolicyReference
+        PolicyReference.model_validate(config['quality_policy'])
+        if (config.get('phase')!='development' or config.get('split')!='dev' or
+            config.get('execution_mode')!='real_query_runner' or config.get('metric_schema_version')!=1):
+            raise ValueError('助手政策仅用于显式正式开发执行，不用于heldout或发布')
     if config.get('split') not in {'dev', 'heldout'} or config.get('phase') not in {'development', 'final'}:
         raise ValueError('必须明确开发或最终评价阶段与划分')
     if config['dataset_sha256'] != manifest['dataset_sha256']:

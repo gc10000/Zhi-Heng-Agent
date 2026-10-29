@@ -2841,6 +2841,313 @@
         }
       }
     },
+    "/api/v1/evaluation-quality-policies/{kb_id}": {
+      "post": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Register Quality Policy",
+        "operationId": "register_quality_policy_api_v1_evaluation_quality_policies__kb_id__post",
+        "parameters": [
+          {
+            "name": "kb_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Kb Id"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/experiments/{eid}/review-executions": {
+      "post": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Begin Review",
+        "operationId": "begin_review_api_v1_experiments__eid__review_executions_post",
+        "parameters": [
+          {
+            "name": "eid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Eid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BeginInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/experiments/{eid}/review-executions/{execution_id}/seal": {
+      "post": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Seal Review",
+        "operationId": "seal_review_api_v1_experiments__eid__review_executions__execution_id__seal_post",
+        "parameters": [
+          {
+            "name": "eid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Eid"
+            }
+          },
+          {
+            "name": "execution_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Execution Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SealInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/experiments/{eid}/review-independence": {
+      "post": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Attest Reviews",
+        "operationId": "attest_reviews_api_v1_experiments__eid__review_independence_post",
+        "parameters": [
+          {
+            "name": "eid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Eid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AttestInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/experiments/{eid}/reviews/{review_id}/development-resolutions": {
+      "post": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Resolve Development Review",
+        "operationId": "resolve_development_review_api_v1_experiments__eid__reviews__review_id__development_resolutions_post",
+        "parameters": [
+          {
+            "name": "eid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Eid"
+            }
+          },
+          {
+            "name": "review_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Review Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResolutionInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/experiments/{eid}/development-gate": {
+      "get": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Development Gate",
+        "operationId": "development_gate_api_v1_experiments__eid__development_gate_get",
+        "parameters": [
+          {
+            "name": "eid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Eid"
+            }
+          },
+          {
+            "name": "calibration_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Calibration Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/feedback/{feedback_id}/review": {
       "post": {
         "tags": [
@@ -3253,6 +3560,103 @@
   },
   "components": {
     "schemas": {
+      "Artifact": {
+        "properties": {
+          "commit": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{40}$",
+            "title": "Commit"
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^docs/development/reviews/[A-Za-z0-9_.-]+\\.md$",
+            "title": "Path"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Sha256"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "commit",
+          "path",
+          "sha256"
+        ],
+        "title": "Artifact"
+      },
+      "AttestInput": {
+        "properties": {
+          "seal_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 2,
+            "minItems": 2,
+            "title": "Seal Ids"
+          },
+          "artifact": {
+            "$ref": "#/components/schemas/Artifact"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "seal_ids",
+          "artifact"
+        ],
+        "title": "AttestInput"
+      },
+      "BeginInput": {
+        "properties": {
+          "client_request_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Client Request Id"
+          },
+          "round": {
+            "type": "integer",
+            "maximum": 2.0,
+            "minimum": 1.0,
+            "title": "Round"
+          },
+          "execution_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Execution Id"
+          },
+          "reviewer_model": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Reviewer Model"
+          },
+          "source_manifest": {
+            "items": {
+              "$ref": "#/components/schemas/SourceIdentity"
+            },
+            "type": "array",
+            "maxItems": 1000,
+            "minItems": 1,
+            "title": "Source Manifest"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "client_request_id",
+          "round",
+          "execution_id",
+          "reviewer_model",
+          "source_manifest"
+        ],
+        "title": "BeginInput"
+      },
       "BindRevisionInput": {
         "properties": {
           "expected_version": {
@@ -3305,6 +3709,16 @@
             "maxLength": 4000,
             "minLength": 1,
             "title": "Rationale"
+          },
+          "quality_policy": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PolicyReference"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "additionalProperties": false,
@@ -3604,6 +4018,29 @@
             ],
             "title": "Regression Calibration Id"
           },
+          "quality_policy": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PolicyReference"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "quality_calibration_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 128,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quality Calibration Id"
+          },
           "client_request_id": {
             "type": "string",
             "maxLength": 128,
@@ -3874,6 +4311,27 @@
           "note"
         ],
         "title": "OperationReport"
+      },
+      "PolicyReference": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Id"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Sha256"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "sha256"
+        ],
+        "title": "PolicyReference"
       },
       "ProductInput": {
         "properties": {
@@ -4220,6 +4678,47 @@
         ],
         "title": "Resolution"
       },
+      "ResolutionInput": {
+        "properties": {
+          "client_request_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Client Request Id"
+          },
+          "resolutions": {
+            "type": "object",
+            "maxProperties": 4,
+            "minProperties": 1,
+            "title": "Resolutions"
+          },
+          "critical_errors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 5,
+            "title": "Critical Errors"
+          },
+          "source_manifest": {
+            "items": {
+              "$ref": "#/components/schemas/SourceIdentity"
+            },
+            "type": "array",
+            "maxItems": 1000,
+            "minItems": 1,
+            "title": "Source Manifest"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "client_request_id",
+          "resolutions",
+          "source_manifest"
+        ],
+        "title": "ResolutionInput"
+      },
       "ReviewInput": {
         "properties": {
           "rubric_version": {
@@ -4304,11 +4803,14 @@
               "type": "string",
               "enum": [
                 "unauthorized",
-                "wrong_model"
+                "wrong_model",
+                "wrong_object",
+                "fabricated_live_state",
+                "unsafe_procedure"
               ]
             },
             "type": "array",
-            "maxItems": 2,
+            "maxItems": 5,
             "title": "Critical Errors"
           },
           "rationale": {
@@ -4329,6 +4831,36 @@
               }
             ],
             "title": "Observation Id"
+          },
+          "quality_policy": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quality Policy"
+          },
+          "review_execution_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Review Execution Id"
+          },
+          "dimension_evidence": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Dimension Evidence"
           }
         },
         "additionalProperties": false,
@@ -4463,6 +4995,47 @@
           "image_relevance"
         ],
         "title": "Scores"
+      },
+      "SealInput": {
+        "properties": {
+          "reviews": {
+            "items": {
+              "$ref": "#/components/schemas/ReviewInput"
+            },
+            "type": "array",
+            "maxItems": 1000,
+            "minItems": 1,
+            "title": "Reviews"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "reviews"
+        ],
+        "title": "SealInput"
+      },
+      "SourceIdentity": {
+        "properties": {
+          "source_id": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Source Id"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Sha256"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "source_id",
+          "sha256"
+        ],
+        "title": "SourceIdentity"
       },
       "SupportInput": {
         "properties": {

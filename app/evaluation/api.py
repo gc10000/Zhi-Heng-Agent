@@ -10,6 +10,7 @@ from .review_followups import FollowupInput
 from .feedback_triage import TriageInput, authorized_feedback, public_feedback, review_feedback
 from .feedback_triage import BindRevisionInput, bind_revision
 from .feedback_triage import QualityProofInput, save_quality_proof
+from .development_policy import PolicyReference, BeginInput, AttestInput, ResolutionInput, DevelopmentPolicy
 
 router = APIRouter(prefix='/api/v1', tags=['评测'])
 
@@ -40,6 +41,8 @@ class ExperimentInput(BaseModel):
     continuation: ContinuationInput | None = None
     regression_source: 'RegressionReference | None' = None
     regression_calibration_id: str | None = Field(default=None,min_length=1,max_length=128)
+    quality_policy: PolicyReference | None = None
+    quality_calibration_id: str | None = Field(default=None,min_length=1,max_length=128)
     client_request_id: str = Field(min_length=1, max_length=128)
 
 
@@ -231,7 +234,52 @@ def calibrate(eid: str, data: CalibrationInput, request: Request, user=Depends(p
 @router.get('/experiments/{eid}/release-gate')
 def release_gate(eid: str, calibration_id: str, request: Request, user=Depends(principal)):
     require_writer(user)
-    return ReviewService(service(request).repo).gate(user, eid, calibration_id)
+    return ReviewService(service(request).repo).gate(user, eid, calibration_id, human_only=True)
+
+
+@router.post('/evaluation-quality-policies/{kb_id}', status_code=201)
+def register_quality_policy(kb_id: str, request: Request, user=Depends(principal)):
+    return DevelopmentPolicy(service(request).repo).register(user, kb_id)
+
+
+@router.post('/experiments/{eid}/review-executions', status_code=201)
+def begin_review(eid: str, data: BeginInput, request: Request, user=Depends(principal)):
+    require_writer(user)
+    return DevelopmentPolicy(service(request).repo).begin(user, eid, data.model_dump())
+
+
+class SealInput(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    reviews: list[ReviewInput] = Field(min_length=1, max_length=1000)
+
+
+@router.post('/experiments/{eid}/review-executions/{execution_id}/seal', status_code=201)
+def seal_review(eid: str, execution_id: str, data: SealInput, request: Request, user=Depends(principal)):
+    require_writer(user)
+    row = DevelopmentPolicy(service(request).repo).seal(user, eid, execution_id,
+        [r.model_dump() for r in data.reviews])
+    # 封存应答只回身份，不回其他轮判断。
+    return {k: row[k] for k in ('id', 'sha256', 'created_at')}
+
+
+@router.post('/experiments/{eid}/review-independence', status_code=201)
+def attest_reviews(eid: str, data: AttestInput, request: Request, user=Depends(principal)):
+    return DevelopmentPolicy(service(request).repo).attest(user, eid, data.model_dump())
+
+
+@router.post('/experiments/{eid}/reviews/{review_id}/development-resolutions', status_code=201)
+def resolve_development_review(eid: str, review_id: str, data: ResolutionInput, request: Request, user=Depends(principal)):
+    require_writer(user)
+    return DevelopmentPolicy(service(request).repo).resolve(user,eid,review_id,data.model_dump())
+
+
+@router.get('/experiments/{eid}/development-gate')
+def development_gate(eid: str, calibration_id: str, request: Request, user=Depends(principal)):
+    require_writer(user)
+    repo = service(request).repo
+    if not repo.get_experiment(user, eid).get('quality_policy'):
+        raise APIError(409, 'quality_policy_required', '开发门槛要求显式冻结政策身份。')
+    return ReviewService(repo).gate(user, eid, calibration_id, human_only=False)
 
 
 @router.get('/feedback')

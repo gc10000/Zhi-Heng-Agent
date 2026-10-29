@@ -1,0 +1,369 @@
+{
+  "schema_version": 1,
+  "role": "execution_agent_sanitized_validation",
+  "date": "2026-10-29",
+  "baseline": "723c66d32501de30e08928b04577825623dd2b3a",
+  "policy": "assistant-development-v1",
+  "tests": {
+    "policy_matrix": {
+      "count": 19,
+      "passed": 19,
+      "failed": 0,
+      "exit_code": 0
+    },
+    "focused_c03_c09_policy": {
+      "count": 117,
+      "passed": 117,
+      "failed": 0,
+      "exit_code": 0
+    },
+    "shared_regression": {
+      "count": 310,
+      "passed": 310,
+      "failed": 0,
+      "exit_code": 0
+    },
+    "browser_reviews_feedback": {
+      "count": 10,
+      "passed": 10,
+      "failed": 0,
+      "exit_code": 0
+    },
+    "typescript": {
+      "passed": true,
+      "exit_code": 0
+    },
+    "openapi": {
+      "consistent": true,
+      "exit_code": 0
+    },
+    "final_original_and_policy_matrix": {
+      "count": 60,
+      "passed": 60,
+      "exit_code": 0
+    },
+    "final_combined": {
+      "count": 45,
+      "passed": 45,
+      "exit_code": 0
+    },
+    "sealed_timestamp_hash": {
+      "count": 19,
+      "passed": 19,
+      "exit_code": 0
+    }
+  },
+  "retrieval_diagnosis": {
+    "questions": [
+      {
+        "id": "support-v1-021",
+        "sparse_rank": 8,
+        "dense_rank": 24,
+        "candidate": false,
+        "excluded_at": "weighted_fusion",
+        "semantic_cause": null
+      },
+      {
+        "id": "support-v1-022",
+        "sparse_rank": 7,
+        "dense_rank": 22,
+        "candidate": false,
+        "excluded_at": "weighted_fusion",
+        "semantic_cause": null
+      },
+      {
+        "id": "support-v1-048",
+        "sparse_rank": 36,
+        "dense_rank": 129,
+        "candidate": false,
+        "excluded_at": "both_channel_top20",
+        "semantic_cause": null
+      }
+    ],
+    "fusion": "weighted",
+    "rrf_adopted": false,
+    "top_k_changed": false,
+    "embedding_calls": 0,
+    "rerank_calls": 0,
+    "answer_calls": 0,
+    "database_changed": false,
+    "target_namespace": {
+      "database": "m1_test_m6_sq5_aad3135569bb44baaaf8f786cea680fd",
+      "collection": "m1_test_m6_sq5_aad3135569bb44baaaf8f786cea680fd"
+    },
+    "config_sha256": "ade1cdfc532838b63845d78bb7f3853f3586582b21a8f8feeb41d9bf200f7949",
+    "revision_ids": [
+      "664d879b-1c09-5ea8-b303-ab95be7e09e1",
+      "5415bd22-d83f-571d-a97e-305f5e2fb5a4",
+      "04b8c155-a915-56a1-b281-8c28a1b1e723",
+      "bbba1d67-2a74-52d1-8153-95060e8aede4"
+    ],
+    "model_files_sha256": "3995645af911d30aa3ec13c90c61919bfe52830a0611f3f3820b6097062520fc",
+    "changed_configuration": "exclude_image_descriptions=true; weighted and all limits unchanged"
+  },
+  "feedback": {
+    "question_id": "support-v1-001",
+    "assistant_side": true,
+    "formal_annotation_writes": 0,
+    "formal_binding_writes": 0
+  },
+  "supplier_calls": 0,
+  "real_quality_writes": 0,
+  "real_dev_or_heldout": 0,
+  "default_switch": false,
+  "m6": "4/7",
+  "unaccepted": [
+    "M6-04",
+    "M6-05",
+    "M6-08"
+  ],
+  "m7_started": false,
+  "private_evidence_uploaded": false,
+  "unknown_http_tokens_cost_preserved": true,
+  "test_runs": {
+    "combined": {
+      "tests": 34,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 87.213
+    },
+    "final-focused": {
+      "tests": 45,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 103.185
+    },
+    "final-matrix": {
+      "tests": 60,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 190.474
+    },
+    "focused": {
+      "tests": 117,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 156.166
+    },
+    "initial-green": {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 27.045
+    },
+    "policy-final": {
+      "tests": 34,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 79.633
+    },
+    "policy-first": {
+      "tests": 2,
+      "failures": 1,
+      "errors": 0,
+      "seconds": 3.108
+    },
+    "policy-hash": {
+      "tests": 19,
+      "failures": 18,
+      "errors": 0,
+      "seconds": 56.002
+    },
+    "policy-hash2": {
+      "tests": 19,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 62.618
+    },
+    "policy-matrix": {
+      "tests": 12,
+      "failures": 2,
+      "errors": 0,
+      "seconds": 33.062
+    },
+    "policy-red": {
+      "tests": 2,
+      "failures": 1,
+      "errors": 0,
+      "seconds": 3.244
+    },
+    "policy-second": {
+      "tests": 12,
+      "failures": 2,
+      "errors": 0,
+      "seconds": 33.044
+    },
+    "policy-third": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 27.214
+    },
+    "red": {
+      "tests": 4,
+      "failures": 2,
+      "errors": 0,
+      "seconds": 21.027
+    },
+    "sealed-time": {
+      "tests": 19,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 55.889
+    },
+    "shared": {
+      "tests": 310,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 433.095
+    }
+  },
+  "groups_overlap_not_unique_total": true,
+  "protected": [
+    {
+      "manifest": "output/m6-isolated-answers-20261028/protected-before-r3.json",
+      "total": 821,
+      "matched": 821,
+      "manifest_sha256": "473904284ee2d502bc573dcc65164a15f91ff0e8e7ad2bb65f798c739470d7b0"
+    },
+    {
+      "manifest": "output/m6-answer-filter-fix-r3-20261029/protected-before.json",
+      "total": 404,
+      "matched": 404,
+      "manifest_sha256": "b0370e1b81a8ed5708b77e7f04352d046ea7129d050e016331e2015ea2ee2dc2"
+    },
+    {
+      "manifest": "output/m6-real-retrieval-20261028/protected-before.json",
+      "total": 294,
+      "matched": 294,
+      "manifest_sha256": "881fb2295ec8d45632724f481f01670b1174a805ebacf6205e1cc6516027ff14"
+    }
+  ],
+  "evidence_protection_incident": {
+    "incident": "历史目录探针误写两个诊断JSON；未更改其他原结果。",
+    "paths": [
+      "output/m6-convergence-review-20261029/diagnostic-False.json",
+      "output/m6-convergence-review-20261029/diagnostic-True.json"
+    ],
+    "recovered_from": "仍保留原随机隔离库与原results；仅在SHA与旧受控摘要完全一致后恢复原字节",
+    "original_sha256": {
+      "output/m6-convergence-review-20261029/diagnostic-False.json": "7b750bfdeae6231ff2c3a53933f68c2c7bbda6d36dd7692bbc874f4380f1dd15",
+      "output/m6-convergence-review-20261029/diagnostic-True.json": "917332630f6036ded6f3db6f287c9adb276bb01afcb3b99110aff8c121e1d30e"
+    },
+    "restored_exact_sha": true,
+    "miswritten_versions_retained_in_new_output": true
+  },
+  "previous_review_evidence": {
+    "total": 41,
+    "matched": 41
+  },
+  "historical_r3_identity": "19 inherited + 66 executed; historical stream19/new61; HTTP/cost unknown",
+  "old_failure_identity": "failed/attempt2/provider_invalid_response/retryable=false/results0; calls/cost unknown",
+  "commands": {
+    "shared": [
+      ".venv/Scripts/python.exe",
+      "-m",
+      "pytest",
+      "-q",
+      "tests/unit/test_evaluation_catalog.py",
+      "tests/unit/test_evaluation_dataset.py",
+      "tests/unit/test_evaluation_query_adapter.py",
+      "tests/unit/test_evaluation_subset.py",
+      "tests/unit/test_eval_labels.py",
+      "tests/unit/test_review_scores.py",
+      "tests/contract/test_feedback_triage.py",
+      "tests/contract/test_feedback_export.py",
+      "tests/integration/test_feedback_triage_workflow.py",
+      "tests/integration/test_evaluation_reviews.py",
+      "tests/integration/test_evaluation_jobs.py",
+      "tests/integration/test_evaluation_continuation_regressions.py",
+      "tests/integration/test_evaluation_run_adapter.py",
+      "tests/integration/test_evaluation_split_ledger.py",
+      "tests/unit/test_regression_versions.py",
+      "tests/integration/test_feedback_regression_lineage.py",
+      "tests/integration/test_regression_formal_execution.py",
+      "tests/integration/test_regression_clarification_evidence.py",
+      "tests/integration/test_regression_clarification_recovery.py",
+      "tests/integration/test_regression_recovery_identity.py",
+      "tests/integration/test_policy_development.py",
+      "tests/integration/test_convergence_pre_freeze.py",
+      "--basetemp=output\\m6-policy-wiring-20261029\\shared-work",
+      "--junitxml=output\\m6-policy-wiring-20261029\\shared.xml"
+    ],
+    "focused": ".venv/Scripts/python.exe -m pytest -q tests/integration/test_policy_development.py tests/integration/test_convergence_pre_freeze.py tests/integration/test_source_prerequisite_run.py tests/unit/test_retrieval_policy.py tests/unit/test_source_prerequisites.py tests/unit/test_source_prerequisite_wiring.py tests/unit/test_prerequisite_contract.py --basetemp=output/m6-policy-wiring-20261029/focused-work --junitxml=output/m6-policy-wiring-20261029/focused.xml",
+    "policy_latest": ".venv/Scripts/python.exe -m pytest -q tests/integration/test_policy_development.py --basetemp=output/m6-policy-wiring-20261029/sealed-time-work --junitxml=output/m6-policy-wiring-20261029/sealed-time.xml",
+    "browser": "pnpm -C frontend exec playwright test reviews.spec.ts feedback-loop.spec.ts --output=../output/m6-policy-wiring-20261029/browser",
+    "actual_readonly_retrieval": ".venv/Scripts/python.exe output/m6-policy-wiring-20261029/diagnose_retrieval.py",
+    "typecheck": "pnpm -C frontend typecheck",
+    "final_matrix": ".venv/Scripts/python.exe -m pytest -q -p tests.conftest -p tests.integration.conftest output/m6-policy-wiring-20261029/test_original_boundaries.py output/m6-convergence-review-20261029/test_original_audit_matrix.py output/m6-convergence-review-20261029/test_original_recovery.py tests/integration/test_policy_development.py tests/integration/test_convergence_pre_freeze.py --basetemp=output/m6-policy-wiring-20261029/final-matrix-work --junitxml=output/m6-policy-wiring-20261029/final-matrix.xml",
+    "final_focused": ".venv/Scripts/python.exe -m pytest -q tests/integration/test_policy_development.py tests/integration/test_convergence_pre_freeze.py --basetemp=output/m6-policy-wiring-20261029/final-focused-work --junitxml=output/m6-policy-wiring-20261029/final-focused.xml"
+  },
+  "unknown_exact_http_requests": null,
+  "unknown_token_usage": null,
+  "unknown_cost": null,
+  "private_evidence_sha256": {
+    "output/m6-policy-wiring-20261029/001-label-disposition.json": "f833cff706e31e473ccf470a1a8abf8d99e2a7b6c0c62f3cf06b6c1d4e181af9",
+    "output/m6-policy-wiring-20261029/accidentally-replaced-False.json": "50f962444780a5cc52a8db50359b53dfba492f58bcce6957eed6a8db61360953",
+    "output/m6-policy-wiring-20261029/accidentally-replaced-True.json": "f7235af0d3103fcf3e1d1eef05101056ff7b676a0ba99c72c120736a155e3a28",
+    "output/m6-policy-wiring-20261029/browser.txt": "505f9d381eec24c198244cc6e40dbd45517a228cf69470966f3375581503f09d",
+    "output/m6-policy-wiring-20261029/combined.txt": "804b1eb308f44646e1dd38ff3fe67b1568295eb6e01e2964bf09cc6b30186a5d",
+    "output/m6-policy-wiring-20261029/combined.xml": "d6248487657b04315dc36aa85d20dcab7c1caf84c11dc482e51599a5c92a2f6d",
+    "output/m6-policy-wiring-20261029/combo-False.json": "803c7e07ee19e553617c2cb127f68cd76c1f16eb3bad0ed417e2374506a9dbda",
+    "output/m6-policy-wiring-20261029/combo-True.json": "9df5f5b76ef603597222e6111402c95efd005e5ef891d1f1ef6177bbb5094422",
+    "output/m6-policy-wiring-20261029/diagnose_retrieval.py": "e6af41512fed6c78ee7e142dbb36d638bf55cea0ae16ded2a33e455b50681db0",
+    "output/m6-policy-wiring-20261029/evidence-audit.json": "fefe347cb0b888bf1e6f8ef11c8cb89c9b0685e262ae2c0e7d15bb61740b0b2f",
+    "output/m6-policy-wiring-20261029/final-focused.txt": "9c6e40847573d78fbd9f0ca78991ea879d0338b52864e872c2474421b87377b5",
+    "output/m6-policy-wiring-20261029/final-focused.xml": "b683864a01da97b10bdb3e402e9fa6edaa4b0a5e222a4ffddbefe484a0e4839e",
+    "output/m6-policy-wiring-20261029/final-matrix.txt": "cf94a379fcc3f0a7eb03a6334bf28849ee463e5c649b9f65bbc9d00e7a6e0685",
+    "output/m6-policy-wiring-20261029/final-matrix.xml": "1c113bf0215c8a71ecae49ab69080e1ce353207af0affc238988090b80e20c6e",
+    "output/m6-policy-wiring-20261029/focused.txt": "1a2973cd359a069a5c08becfd6fb5a113ee064f89e1175a8b460cf4f80ba3304",
+    "output/m6-policy-wiring-20261029/focused.xml": "fdcaa2f8b81e25ab0367f1e1578a416b0b0cf56b5d83bddd7ba651ca9919b520",
+    "output/m6-policy-wiring-20261029/freeze-False.json": "6a9815e38738a63a6df543ce68fefd7ba8c2a63becd0388d90e67d91ccc845db",
+    "output/m6-policy-wiring-20261029/freeze-True.json": "3860fd6c8da60e6de86f2f2f14fb55f2e7fe0b58cc4fa51028bf7c1873b7f14e",
+    "output/m6-policy-wiring-20261029/generate-api.txt": "67841e9e1da1ff2bec7c0e4f821977249d27b805acbc0e2f0c6418101ccd598e",
+    "output/m6-policy-wiring-20261029/initial-green.txt": "338dc9c38deeb6f66d325cf591c46a548c188a46b9f53ee3ba6ba16c2ff8274c",
+    "output/m6-policy-wiring-20261029/initial-green.xml": "5133195de0a130118d3c4786b3cbb11b8f4cfd8064974eef3532650e8497a76a",
+    "output/m6-policy-wiring-20261029/policy-final.txt": "d42db3f1ab3214399a39259247b705ba14cf7b94ec656fd3cd3c141a063f33c1",
+    "output/m6-policy-wiring-20261029/policy-final.xml": "c5f09be613a5b3588f8da65fec5406fde92fd02d32a8bf31a16aff0f383db937",
+    "output/m6-policy-wiring-20261029/policy-first.txt": "87297ed04fb37267d9a14478507049528d5b0b40ab1efbf7397340e287bc74c3",
+    "output/m6-policy-wiring-20261029/policy-first.xml": "1d2b704621cbdb358b4e8d588ba9d23ede4575dddf003f573a44520b7f6e59f1",
+    "output/m6-policy-wiring-20261029/policy-hash.txt": "027b71542882253aebd7f85962f5041caae6f7ac6aabf604fbff24c16626c454",
+    "output/m6-policy-wiring-20261029/policy-hash.xml": "2f584d46d21b414800ae82416d256bcb6cb6e85bb06e72872a600c02c985f022",
+    "output/m6-policy-wiring-20261029/policy-hash2.txt": "fef3fd91db2f22f294e15e6c61e7f970789f290a26562ceae322e053c9173493",
+    "output/m6-policy-wiring-20261029/policy-hash2.xml": "5ce55ed2e480cdb83382615f1447b7933e59ec8046defa754f23e6a5f3044a72",
+    "output/m6-policy-wiring-20261029/policy-matrix.txt": "e91f47207d25467d3bf22d652cb2e018104f336d756ad86d0c105c4393a0f080",
+    "output/m6-policy-wiring-20261029/policy-matrix.xml": "0ce8b92740fe36e7503f85e7fbbc95e2dd0335a9e57e71a4087f85f050675b0b",
+    "output/m6-policy-wiring-20261029/policy-red.txt": "5fc5e870b2fb8fb2e5096ee83d88ef02ae5746a34787e2830031326c7d22d8b3",
+    "output/m6-policy-wiring-20261029/policy-red.xml": "c3a8f1d47e8af1175cf37cc9c11a7f4382da51e4ae1e60b3c58ec6734b539d62",
+    "output/m6-policy-wiring-20261029/policy-second.txt": "ca5a2c7ee30d5a381b18b5425affb76834c530ee95b64b60fce28c78de268fc7",
+    "output/m6-policy-wiring-20261029/policy-second.xml": "bdf0bc6551fc24f2fff0fa7d18faa382100479ba1ddacfbf179dc34e7647b73c",
+    "output/m6-policy-wiring-20261029/policy-third.txt": "44dfcfb054da33bcbdfb296bb0cfbafee94350e0ae2d2778b6ff6c8610c37aa6",
+    "output/m6-policy-wiring-20261029/policy-third.xml": "72d7dcb5885c18345017ba5fde0e7a27f0b9dd93fd21e83657eed6768ff7c89e",
+    "output/m6-policy-wiring-20261029/recovered-original-False.json": "18971b66a085b2f3bc4e92894d04eebd17cbf60d8c109c1b3632cd22f5aac1b8",
+    "output/m6-policy-wiring-20261029/recovered-original-True.json": "44ce3da965ba32b78ad5235bc05aab65d96cd04a3cf18c747463b6385f7fe0f0",
+    "output/m6-policy-wiring-20261029/red.txt": "fb5d96cebb4a3e390bac3d47194c9775c1990688998a7befebe898905b73204b",
+    "output/m6-policy-wiring-20261029/red.xml": "1cedb5e5f107c91cc97f3755cbab8e5251ac904eba446c8bfc7872b2ac7a8a94",
+    "output/m6-policy-wiring-20261029/restore-diagnostics.txt": "5561ba100275763d2c770e770458f34422a081f359a22e6ff39228c9db2eca8f",
+    "output/m6-policy-wiring-20261029/restore_diagnostics.py": "83ce4d519ad04a3bc7c6f8d927ebfd6a7d29ea01e1cf6c097e35b28a909f5521",
+    "output/m6-policy-wiring-20261029/retrieval-after.json": "b04510901790d7a50136b6427bc8e345e6e7eb18bfe636192e712c67ffdd8989",
+    "output/m6-policy-wiring-20261029/retrieval-before.json": "b04510901790d7a50136b6427bc8e345e6e7eb18bfe636192e712c67ffdd8989",
+    "output/m6-policy-wiring-20261029/retrieval-diagnosis/support-v1-021.json": "1ea9140686ccf63c9b09ac9ac24840a371991606d3f7ab1f7e7796c5e311a8b7",
+    "output/m6-policy-wiring-20261029/retrieval-diagnosis/support-v1-022.json": "e33bfb95a07a4069c2a1626eeaedd74f361a264379e39ffc00a2557bcbc5b5fa",
+    "output/m6-policy-wiring-20261029/retrieval-diagnosis/support-v1-048.json": "dbf804d5b07e6d8599044730f01b29e0cee963147253920bcb4af8952144195d",
+    "output/m6-policy-wiring-20261029/retrieval-diagnosis.json": "1c4343dfda9b2d21640f665740638798576f7de4efb6e7a20f181ba851ef14ab",
+    "output/m6-policy-wiring-20261029/retrieval-diagnosis.txt": "057ccf15b3e626639a61de6b33dc188330c2429a943f486601ddd1fd04c68711",
+    "output/m6-policy-wiring-20261029/sealed-time.txt": "c85f07503eb5a9c91a401e9adc0b8ae232591c825a824767164ee66e182c8c8d",
+    "output/m6-policy-wiring-20261029/sealed-time.xml": "ba890fec1de0cd2fd9a512aaded7e233d426d852173f4456484ed1f03d40efbe",
+    "output/m6-policy-wiring-20261029/shared-command.json": "7fff04d27debaee8df4e9629ad197ae21ff0d61d0fcb0a92cc3d0886bf2bd926",
+    "output/m6-policy-wiring-20261029/shared.txt": "030e497c1c95258dc4bdc4256ec146db245a89b1e13f3e0b4640b0470d46fa4a",
+    "output/m6-policy-wiring-20261029/shared.xml": "3ec07352ac60a5e852b2f2b3e90f0391b3756e2ce6d7ae3a75a6264becf1eb8f",
+    "output/m6-policy-wiring-20261029/test_original_boundaries.py": "2dbc5eb675c3ab02122b1d25f445061cb4c0037d2f2b6fe72a667f384fd283b9",
+    "output/m6-policy-wiring-20261029/typecheck-final.txt": "241be48e89412fbf6fed0e7e10a0217d6a564c74e44cc6906baaac9d4715a40a",
+    "output/m6-policy-wiring-20261029/typecheck.txt": "241be48e89412fbf6fed0e7e10a0217d6a564c74e44cc6906baaac9d4715a40a",
+    "output/m6-policy-wiring-20261029/verify_handoff.py": "8b9a67d7cd2e163c060f9474fe42c1461c76408dcc387e3d85f5c29f152eff46",
+    "output/m6-policy-wiring-20261029/本轮取证与标签处置.html": "98a7941b6ba78f104bc17788d28ad11f409d9937e1583d64e0b2cf0d5f29faf6"
+  },
+  "policy_runtime_real_enabled": false,
+  "new_policy_fixture_only": true,
+  "run_events_ttl_excluded": true
+}

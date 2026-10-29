@@ -289,6 +289,7 @@ class RegressionService:
         rows = validate_dataset(resolved['dataset_path'],manifest=resolved['manifest_path'])
         selected = select_questions(rows,resolved['config'])
         if (quality != calibration['baseline'] or quality['incomplete'] or quality['critical'] or
+                calibration.get('quality_policy') != resolved['config'].get('quality_policy') or
                 any(resolved[k] != calibration[k] for k in ('dataset_sha256','manifest_sha256')) or
                 baseline['kb_id'] != resolved['config']['target']['kb_id'] or
                 set(quality['subjects']) != {q['id'] for q in selected}):
@@ -321,6 +322,7 @@ class RegressionService:
                 attempt=experiment['result_attempt'],question_id=q['id']))
             result = self.repo.results.find_one(dict(experiment_id=experiment_id,attempt=experiment['result_attempt'],question_id=q['id']))
             if (not link or link.get('regression_source') != reference or link.get('control_database') != self.repo.db.name or
+                    link.get('quality_policy') != experiment.get('quality_policy') or
                     link.get('target_database') != db.name or not result or link['run_id'] != result['result'].get('run_id')):
                 reject('当前结果缺少正式题级来源关联','regression_proof_invalid')
             links.append(fingerprint({k:v for k,v in link.items() if k != '_id'}))
@@ -329,6 +331,9 @@ class RegressionService:
             calibration_sha256=fingerprint({k:v for k,v in calibration.items() if k != '_id'}),
             quality_sha256=fingerprint(quality),subjects=quality['subjects'],execution_links_sha256=fingerprint(links),
             gate_sha256=fingerprint(gate),automatic_publish=False)
+        if experiment.get('quality_policy'):
+            payload.update(quality_policy=experiment['quality_policy'],purpose='development_acceptance',
+                human_publication_status='pending')
         # 跨集合读后的最后一道核验；当前attempt/来源/评分变化不能用旧快照保存新证明。
         latest,current_quality = reviews._quality(user,experiment_id)
         self.validate(user,reference,resolved)

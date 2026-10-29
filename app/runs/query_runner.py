@@ -136,7 +136,7 @@ class QueryRunner:
             from app.retrieval.search import RetrievalPolicy
             if source_policy.enabled:
                 frozen_retrieval=RetrievalPolicy.model_validate(self.retrieval_policy)
-                if frozen_retrieval!=RetrievalPolicy():
+                if frozen_retrieval.model_copy(update={'exclude_image_descriptions':False})!=RetrievalPolicy():
                     raise ValueError('来源前提本轮固定weighted及原检索预算')
             g = self.knowledge()
             if source_policy.enabled and g.db.name!=source_policy.scope.database:

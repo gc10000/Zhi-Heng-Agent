@@ -1,5 +1,9 @@
 # 开发公共契约与任务交接边界
 
+## 2026-10-29 · 助手开发验收运行契约
+
+`assistant-development-v1` 是独立于 human 发布的显式政策。请求、冻结配置、控制账本、Run/题级检查点、审核执行、封存、校准和 regression proof 必须保存并核对同一政策引用；两轮执行 ID 不得与生成 Run 重用，第二轮在第一轮封存后开始，结果在两轮封存及总控独立性证明前不可见。unknown、未核实来源和关键错误分别保持 pending/blocked。`release-gate` 与 revision 发布路径以 `human_only=true` 核验，development-gate 单独返回开发状态且 `automatic_publish=false`。
+
 ## 2026-10-29 · 总控复审限定及已批准开发政策设计
 
 C01澄清来源与C02已存澄清结果恢复、C11只读状态技术通过。完整恢复身份仍须补齐“Run完成但首次outcome未保存”的退出窗口：恢复应核对原执行link固定的输入，不以新attempt当前hash自我确认；C03未关闭。当前正式QueryRunner仍拒绝source_prerequisites启用时检索策略偏离旧默认，因此新增exclude_image_descriptions=true与来源前提组合不能正式执行，C09未关闭；不得把22/25组件证据写成正式消费者通过。见[复审](../development/reviews/M6-convergence-review-r1.md)。

@@ -32,6 +32,8 @@ class EvaluationService:
             data.pop('regression_source', None)
         if data.get('regression_calibration_id') is None:
             data.pop('regression_calibration_id', None)
+        if data.get('quality_policy') is None: data.pop('quality_policy',None)
+        if data.get('quality_calibration_id') is None: data.pop('quality_calibration_id',None)
         descriptor = self.repo.get_set(user, data['kb_id'], data['eval_set_id'], data['eval_set_version'])
         try:
             resolved = self.catalog.resolve(data['eval_set_id'], data['eval_set_version'],
@@ -40,6 +42,13 @@ class EvaluationService:
             raise APIError(409, 'evaluation_frozen_identity_invalid', '登记配置与冻结题集不匹配，请核对版本。') from None
         if any(descriptor[k] != resolved[k] for k in ('dataset_sha256', 'manifest_sha256')):
             raise APIError(409, 'evaluation_frozen_identity_invalid', '题集登记后发生变化，请登记新版本。')
+        if data.get('quality_policy') != resolved['config'].get('quality_policy'):
+            raise APIError(409,'quality_policy_mismatch','请求与冻结配置的政策身份不一致。')
+        if data.get('quality_policy'):
+            from .development_policy import DevelopmentPolicy
+            DevelopmentPolicy(self.repo).validate_candidate(user,data,resolved)
+        elif data.get('quality_calibration_id'):
+            raise APIError(409,'quality_policy_required','开发预校准要求显式政策身份。')
         if data.get('regression_source'):
             from .feedback_regression import RegressionService
             ledger = RegressionService(self.repo,self.catalog)

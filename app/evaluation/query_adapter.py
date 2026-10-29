@@ -106,7 +106,7 @@ class RealQueryExecutor:
             raise ValueError('成功检查点与冻结输入/完整执行结果不一致')
         prior = self.resources['db'].evaluation_execution_links.find_one(dict(
             experiment_id=self.execution['experiment_id'],question_id=question['id'],run_id=run['run_id'],
-            config_sha256=fingerprint(self.config),regression_source=self.config['regression_source'],
+            config_sha256=fingerprint(self.config),regression_source=self.config.get('regression_source'),
             checkpoint_key=key,input_sha256=saved['input_sha256'],run_input_sha256=fingerprint(run_input(run,self.resources['db'])),
             control_database=self.control_db.name,target_database=self.resources['db'].name))
         if not prior:
@@ -266,7 +266,7 @@ class RealQueryExecutor:
         row = self.resources['runs'].get(self.user, rid)
         accounting = self.call_accounting(row, counts_before)
         result = self.project_result(row) | accounting
-        if self.config.get('regression_source'):
+        if self.config.get('regression_source') or self.config.get('quality_policy'):
             from .execution_identity import freeze_outcome
             freeze_outcome(self.resources['db'],self.config,key,row,result)
         return result

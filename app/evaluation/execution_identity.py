@@ -32,7 +32,7 @@ def result_subject(result):
 
 def outcome_identity(db, config, checkpoint_key, run, result):
     return dict(checkpoint_key=checkpoint_key, run_id=run['run_id'], config_sha256=fingerprint(config),
-        regression_source=config['regression_source'], run_input_sha256=fingerprint(run_input(run,db)),
+        regression_source=config.get('regression_source'),quality_policy=config.get('quality_policy'), run_input_sha256=fingerprint(run_input(run,db)),
         run_output_sha256=fingerprint(run_output(run)), result_sha256=fingerprint(result_subject(result)))
 
 

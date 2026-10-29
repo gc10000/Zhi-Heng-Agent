@@ -30,7 +30,7 @@ def check_feedback_gate(repo, revision):
         if owner is None:
             raise ConflictError('反馈质量审核权限已失效')
         user = Principal(**{key: owner[key] for key in Principal.model_fields})
-        gate = reviews.gate(user, proof['experiment_id'], proof['calibration_id'])
+        gate = reviews.gate(user, proof['experiment_id'], proof['calibration_id'], human_only=True)
         experiment = reviews.repo.get_experiment(user, proof['experiment_id'])
         if gate['status'] != 'passed' or experiment.get('result_attempt') != proof['result_attempt']:
             raise ConflictError('反馈回归结果或审核已改变，不能发布')

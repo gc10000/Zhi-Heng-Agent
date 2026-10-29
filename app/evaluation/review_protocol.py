@@ -36,6 +36,8 @@ def review_dump(data):
             values.pop(key, None)
     if values.get('observation_id') is None:
         values.pop('observation_id', None)
+    if values.get('quality_policy') is None:
+        for key in ('quality_policy','review_execution_id','dimension_evidence'): values.pop(key,None)
     return values
 
 

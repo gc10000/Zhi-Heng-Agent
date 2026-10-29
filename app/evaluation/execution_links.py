@@ -19,8 +19,16 @@ def validate_execution(control_db, context, config):
     if parent is None:
         raise ValueError('当前实验执行身份或租约无效，拒绝建立题级来源')
     if (parent.get('regression_source') != config.get('regression_source') or
-            parent.get('regression_execution_key') != config.get('regression_execution_key')):
+            parent.get('regression_execution_key') != config.get('regression_execution_key') or
+            parent.get('quality_policy') != config.get('quality_policy') or
+            parent.get('quality_execution_key') != config.get('quality_execution_key')):
         raise ValueError('正式实验的反馈来源或执行身份不匹配')
+    if config.get('quality_policy'):
+        from .development_policy import DevelopmentPolicy
+        from .repository import EvaluationRepository
+        from types import SimpleNamespace
+        DevelopmentPolicy(EvaluationRepository(control_db)).require(SimpleNamespace(kb_ids=(target['kb_id'],)),
+            config['quality_policy'],target['kb_id'])
     if config.get('regression_source'):
         from .feedback_regression import RegressionService
         from types import SimpleNamespace
@@ -53,10 +61,18 @@ def bind_execution(db, control_db, context, config, question_id, checkpoint_key,
         config_sha256=fingerprint(config), registered_config_sha256=parent['config_sha256'],
         owner_id=target['owner_id'], kb_id=target['kb_id'], run_id=run['run_id'],
         conversation_id=run['conversation_id'])
-    if config.get('regression_source'):
-        identity['regression_source'] = config['regression_source']
+    if config.get('regression_source') or config.get('quality_policy'):
+        identity['regression_source'] = config.get('regression_source')
+        if config.get('quality_policy'): identity['quality_policy']=config['quality_policy']
         from .execution_identity import run_input
         identity['run_input_sha256'] = fingerprint(run_input(run,db))
+        if run['state'] in {'completed','awaiting_input'}:
+            # 新attempt不能为已执行输入漂移自签；先检查同Run原正式执行关联。
+            originals=list(db.evaluation_execution_links.find(dict(
+                run_id=run['run_id'],mode='execution')))
+            expected={k:v for k,v in identity.items() if k not in {'experiment_id','attempt','registered_config_sha256'}}
+            if (not originals or any(any(old.get(k)!=v for k,v in expected.items()) for old in originals)):
+                raise ValueError('复用终态Run缺少匹配的原执行输入关联，拒绝首次冻结追认')
     key = fingerprint([context['experiment_id'], context['attempt'], question_id])
     row = identity | dict(mode='execution' if run['state'] == 'pending' else 'observed_reuse',
                           created_at=datetime.now(timezone.utc).isoformat())

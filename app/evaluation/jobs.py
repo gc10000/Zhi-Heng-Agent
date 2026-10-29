@@ -50,6 +50,13 @@ def execute_job(repo, catalog, output_root, experiment_id, *, executor_factory=N
                                    row['config_version'], kb_id=row['kb_id'])
         if any(row[key] != resolved[key] for key in ('dataset_sha256', 'manifest_sha256', 'config_sha256')):
             raise ValueError('冻结身份发生变化，拒绝执行')
+        if row.get('quality_policy')!=resolved['config'].get('quality_policy'):
+            raise ValueError('任务与冻结配置政策不一致')
+        if row.get('quality_policy'):
+            from .development_policy import DevelopmentPolicy
+            from types import SimpleNamespace
+            DevelopmentPolicy(repo).validate_candidate(SimpleNamespace(user_id=row['owner_id'],kb_ids=(row['kb_id'],)),row,resolved)
+            resolved['config']=dict(resolved['config'],quality_execution_key=row['quality_execution_key'])
         if row.get('regression_source'):
             from .feedback_regression import RegressionService
             from types import SimpleNamespace
@@ -77,6 +84,8 @@ def execute_job(repo, catalog, output_root, experiment_id, *, executor_factory=N
             def execute(question):
                 if authorize_owner:
                     authorize_owner(row)
+                if row.get('quality_policy'):
+                    DevelopmentPolicy(repo).validate_candidate(SimpleNamespace(user_id=row['owner_id'],kb_ids=(row['kb_id'],)),row,resolved)
                 if row.get('regression_source'):
                     RegressionService(repo,catalog).validate(SimpleNamespace(user_id=row['owner_id'],kb_ids=(row['kb_id'],)),
                         row['regression_source'],resolved)
@@ -84,7 +93,7 @@ def execute_job(repo, catalog, output_root, experiment_id, *, executor_factory=N
             report = run_experiment(resolved['dataset_path'], resolved['manifest_path'],
                 resolved['config'], output, execute,
                 should_cancel=lambda: lost.is_set() or repo.cancel_requested(experiment_id, attempt, token),
-                verify_checkpoint=executor.verify_completed_checkpoint if row.get('regression_source') else None)
+                verify_checkpoint=executor.verify_completed_checkpoint if row.get('regression_source') or row.get('quality_policy') else None)
         questions = [q for q in validate_dataset(resolved['dataset_path'], manifest=resolved['manifest_path'])
                      if q['split'] == 'dev']
         results = [json.loads(line) for line in (output/'results.jsonl').read_text(encoding='utf-8').splitlines()]

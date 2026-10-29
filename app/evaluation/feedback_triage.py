@@ -101,7 +101,7 @@ def save_quality_proof(request, user, feedback_id, data):
         raise APIError(409, 'revision_validation_changed', '待发布修订尚未验证或内容改变。')
     reviews = ReviewService(EvaluationRepository(request.app.state.resources['db']))
     experiment = reviews.repo.get_experiment(user, data.experiment_id)
-    gate = reviews.gate(user, data.experiment_id, data.calibration_id)
+    gate = reviews.gate(user, data.experiment_id, data.calibration_id, human_only=True)
     binding = experiment.get('corpus_binding') or {}
     expected = {'document_id': revision['document_id'], 'revision_id': revision['revision_id'],
                 'validation_sha256': fingerprint(revision['validation'])}
@@ -109,7 +109,7 @@ def save_quality_proof(request, user, feedback_id, data):
             binding.get('database') != request.app.state.resources['db'].name or
             expected not in binding.get('candidate_revisions', [])):
         raise APIError(409, 'quality_proof_invalid', '实验未通过人工质量门槛，或未评测当前隔离目标的新修订。')
-    _, quality = reviews._quality(user, data.experiment_id)
+    _, quality = reviews._quality(user, data.experiment_id, human_only=True)
     questions = sorted(quality['subjects'])
     if not set(draft['affected_question_ids']) <= set(questions):
         raise APIError(409, 'affected_questions_missing', '实验未覆盖全部受影响题。')
