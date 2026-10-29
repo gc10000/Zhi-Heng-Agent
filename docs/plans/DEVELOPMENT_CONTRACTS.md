@@ -1,5 +1,11 @@
 # 开发公共契约与任务交接边界
 
+## 2026-10-29 · regression来源与成功结果恢复的独立审查边界
+
+338507b独立取证发现RGL-R1/P1、RGL-R2/P2：[复审与验收范围](../development/reviews/M6-05-regression-lineage-review-r1.md)。正式确认的不必要澄清反馈属于应支持来源；保留实际awaiting_input结果及输入身份，无生成引用时须有受授权、可审核的原件修订关联，不能伪造旧引用或改旧Run完成状态。具体协议尚待执行方补修及复核，当前实现不能宣告覆盖。
+
+评测外层completed可以包含内部awaiting_input/clarify。结果文件发布中断恢复须按实际合法形态核对同Run、输入、输出及既有题级来源关联，登记当前attempt观察复用；来源变化仍拒绝，累计调用保留，本次新增实测或null。当前检查器强制Run completed导致反例失败，不允许通过改state/lease/retryable或移除身份核验绕过。其他不可变版本、服务端证明及revision独立门禁契约保留；本轮不执行真实绑定/质量写入。以下实现自验记录保留原时点。
+
 ## 2026-10-29 · regression来源与正式消费者契约（执行自验待独立核验）
 
 新增POST /feedback/{id}/regression-candidates、/regression-candidates/{id}/annotation、/feedback/{id}/regression-binding、/feedback/{id}/regression-proof。完整Question保留原schema；审核入口仅接受另一具名独立助手及提交文档SHA/内容指纹，不接human声明。已有reviewed dev题精确绑定catalog的dataset/manifest/config和题hash；新增/变化题经独立审核后派生父版本，不改父文件/heldout。受控根内regression-versions的entry最后发布，半写文件不可见，相同身份可恢复，文件冲突拒绝；新原件不自动纳入父来源。
