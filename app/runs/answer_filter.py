@@ -9,24 +9,12 @@ class AnswerFilter:
         self.source = ''
 
     def _code_ranges(self):
-        from markdown_it import MarkdownIt
-        from app.core.markdown_source import inline_code_ranges
-        # 与正式展示端一致关闭HTML；代码坐标始终指向原始流，不指向转义后的答案。
-        ranges = self._block_code_ranges()
-        offsets = [0] + [m.end() for m in re.finditer(r'\r\n?|\n', self.source)]
-        if offsets[-1] != len(self.source):
-            offsets.append(len(self.source))
-        for token in MarkdownIt('default', {'html': False}).parse(self.source):
-            if token.type == 'inline' and token.map:
-                start, end = offsets[token.map[0]], offsets[token.map[1]]
-                # 按真实块的行范围识别行内代码，不能跨段落/标题误配反引号。
-                ranges.extend((start + a, start + b) for a, b in
-                              inline_code_ranges(self.source[start:end], html=False))
-        return ranges
+        from app.runs.answer_markdown import code_ranges
+        return code_ranges(self.source)
 
     def _block_code_ranges(self):
-        from app.core.markdown_source import block_code_ranges
-        return block_code_ranges(self.source, html=False)
+        from app.runs.answer_markdown import code_ranges
+        return code_ranges(self.source, blocks_only=True, stable_openers=True)
 
     def write(self, text, *, final=False):
         self.source += text

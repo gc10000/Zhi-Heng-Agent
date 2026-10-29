@@ -1,0 +1,128 @@
+{
+  "date": "2026-10-29",
+  "base_commit": "69c140637292455356cf781c80d3dafcc735ee2c",
+  "scope": [
+    "AF-R1",
+    "AF-R2"
+  ],
+  "role": "execution_agent_fix_self_validation",
+  "status": "self_validation_passed_pending_independent_review",
+  "checks": {
+    "red": {
+      "passed": 2,
+      "failed": 2,
+      "exit_code": 1
+    },
+    "boundary-extended": {
+      "passed": 24,
+      "failed": 0,
+      "exit_code": 0
+    },
+    "shared-final": {
+      "passed": 274,
+      "failed": 0,
+      "exit_code": 0
+    },
+    "replay-final": {
+      "passed": 25,
+      "failed": 0,
+      "exit_code": 0
+    },
+    "frontend_existing": {
+      "passed": 29,
+      "exit_code": 0
+    },
+    "frontend_review_probes": {
+      "passed": 2,
+      "exit_code": 0
+    },
+    "frontend_typecheck": {
+      "exit_code": 0
+    }
+  },
+  "original_probe_byte_identical": true,
+  "original_probe_sha256": "88f49b211daf458f38281cd2aff0b372f4dbec32d0e8b3203118f55f212b201d",
+  "replay": {
+    "questions": 25,
+    "old_matches_saved": 25,
+    "new_matches_provider": 25,
+    "fragment_variants": 5,
+    "changed_question_ids": [
+      "support-v1-003",
+      "support-v1-004",
+      "support-v1-006",
+      "support-v1-007",
+      "support-v1-008",
+      "support-v1-034"
+    ],
+    "other_questions_unchanged": 19,
+    "historical_answers_overwritten": false
+  },
+  "protected_hashes": {
+    "current_protected": {
+      "matched": 290,
+      "mismatched": 0,
+      "manifest_sha256": "a6ccb3882521cccf70bdab25e1b0b94229e14944dbc6d29efe5a0c7c4c9543e3"
+    },
+    "previous_fix_seal": {
+      "matched": 109,
+      "mismatched": 0,
+      "manifest_sha256": "ccd65fbbd1eb89514a79ba578b8c7da5f4ced86d6310ea9b35a9385e306e89c4"
+    },
+    "previous_protected": {
+      "matched": 127,
+      "mismatched": 0,
+      "manifest_sha256": "e42a2cd514c6ef713784e0ea963138992a4d4bf8c4343c305b2ea0746e6b5460"
+    },
+    "original_answers": {
+      "matched": 125,
+      "mismatched": 0,
+      "manifest_sha256": "dc0819856f27ef6d47a745a220cdf0879f9751631b13f64be89204ad8a2a2b68"
+    }
+  },
+  "groups_are_not_unique_total": true,
+  "implementation": {
+    "inline_code_scoped_to_actual_token_content": true,
+    "table_coordinates_monotonic_per_row": true,
+    "unmapped_inline_content_gets_no_exemption": true,
+    "streaming_fence_requires_complete_opening_line": true,
+    "shared_SQ_markdown_source_unchanged": true,
+    "frontend_unchanged": true
+  },
+  "operations": {
+    "new_model_calls": 0,
+    "database_access": false,
+    "fresh_database_audit": false,
+    "dev_or_heldout_run": false,
+    "formal_quality_writes": false,
+    "default_revision_changed": false,
+    "historical_answers_overwritten": false,
+    "human_declarations_written": false
+  },
+  "historical_generation_usage": {
+    "logical_stream_calls": 25,
+    "input_tokens": 47093,
+    "output_tokens": 37464,
+    "total_tokens": 84557,
+    "exact_http_count": null,
+    "cost": null,
+    "not_new_calls_this_round": true
+  },
+  "remaining": [
+    "04-a cross-object inference",
+    "05-a/b and 17-b MateDock3 binding",
+    "019/021/022/048 retrieval gaps",
+    "independent review of AF-R1/AF-R2",
+    "formal answer quality prerequisites"
+  ],
+  "private_evidence_directory": "output/m6-answer-filter-fix-r2-20261029",
+  "stage": {
+    "M6": "4/7",
+    "unaccepted": [
+      "M6-04",
+      "M6-05",
+      "M6-08"
+    ],
+    "M7_authorized": false
+  }
+}
