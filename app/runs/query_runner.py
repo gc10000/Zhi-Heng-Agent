@@ -136,7 +136,7 @@ class QueryRunner:
             from app.retrieval.search import RetrievalPolicy
             if source_policy.enabled:
                 frozen_retrieval=RetrievalPolicy.model_validate(self.retrieval_policy)
-                if frozen_retrieval.model_copy(update={'exclude_image_descriptions':False})!=RetrievalPolicy():
+                if frozen_retrieval.model_copy(update={'exclude_image_descriptions':False,'query_projection':'original'})!=RetrievalPolicy():
                     raise ValueError('来源前提本轮固定weighted及原检索预算')
             g = self.knowledge()
             if source_policy.enabled and g.db.name!=source_policy.scope.database:
@@ -199,6 +199,9 @@ class QueryRunner:
             from app.retrieval.search import RetrievalPolicy, retrieve
             policy = RetrievalPolicy.model_validate(self.retrieval_policy)
             plan = plan.model_copy(update={'revision_ids': tuple(r['active_revision_id'] for r in revisions)})
+            if policy.query_projection == 'scoped_subject_v1':
+                from app.retrieval.query_projection import project_scoped_subject
+                plan = project_scoped_subject(plan, products)
             if source_policy.enabled:
                 from app.retrieval.prerequisites import validate_scope
                 validate_scope(source_policy,owner_id=repo.owner_id,kb_id=repo.kb_id,revisions=revisions,product_ids=selected)

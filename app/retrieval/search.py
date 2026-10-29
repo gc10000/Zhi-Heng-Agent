@@ -20,6 +20,8 @@ class RetrievalPolicy(BaseModel):
     rrf_k: int = Field(default=60, ge=1, le=16384, strict=True)
     # 隔离不可信派生图摘要；原PDF正文、正文引用的图片与资产授权不受此开关替代。
     exclude_image_descriptions: bool = Field(default=False, strict=True)
+    # 仅显式配置启用，不增加查询、候选数量或改变融合。
+    query_projection: Literal['original', 'scoped_subject_v1'] = 'original'
 
     @model_validator(mode='after')
     def limits(self):

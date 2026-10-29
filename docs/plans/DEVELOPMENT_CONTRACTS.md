@@ -1,3 +1,7 @@
+## 2026-10-29 · 显式scoped_subject_v1检索投影
+
+正式QueryRunner和无答案RetrievalExecutor共同消费parameters.retrieval.query_projection；默认original，显式scoped_subject_v1仅替换授权确认主体词，原题/生成/重排输入及产品范围不变，配件名、登记版本变体、代码/多行/坐标不确定输入保留。无新增查询/RRF/top-k/阈值变化；新配置与源码身份不得继承旧完成检查点。weighted来源前提允许该显式组合；回切为新配置original，默认工作台未切换。真实同25题24/25到达，048仍缺，不是答案质量或最终冻结通过。两条feedback仅各创建一个完整标签候选，独立annotation/binding仍缺，不能自签或关闭整条反馈。见[本轮证据](../development/reviews/M6-recall-convergence-r1.md)。M6仍4/7。
+
 # 开发公共契约与任务交接边界
 
 ## 2026-10-29 · C03/C09与助手开发政策实现独立核验通过

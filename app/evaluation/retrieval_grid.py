@@ -89,6 +89,9 @@ class RetrievalExecutor:
         # 标准证据/期望行为只在下方指标阶段使用，不传入规划/编码/重排。
         plan = plan_query(question['question'], self.products,
             selected_ids=[self.products_by_name[p] for p in question['product_names']], messages=question['history'])
+        if policy.query_projection == 'scoped_subject_v1':
+            from app.retrieval.query_projection import project_scoped_subject
+            plan = project_scoped_subject(plan, self.products)
         empty = dict(answer='', citations=[], behavior='clarify' if plan.route == 'clarify' else 'insufficient',
             route=plan.route, stage_timings={}, stage_counts={}, stage_metrics={})
         if plan.route == 'clarify':

@@ -1,3 +1,7 @@
+## 2026-10-29 · C05候选已持久化，021/022真实召回改善至24/25
+
+接续8060abb，新增默认original的显式scoped_subject_v1投影，产品授权、配件、版本与代码边界保留，weighted和预算不变。25题真实本地检索及正式源码缓存回放为24/25，原21与019保留；048仍缺同轴/EoC且比较context单方，未冻结最终可生成配置。两条真实反馈各保存一个001完整标签候选、正式服务幂等通过；独立annotation/binding/proof未写，不由作者自签。共享196、隔离Mongo32、首组97通过（有重叠），新增本地16编码/9重排69pair、无供应商/答案生成/正式评分，旧证据821/404/294匹配。下一步执行方完成048定向对照，独立标签执行者审核固定候选后派生绑定，再冻结配置及有序质量链；不要求用户找PDF/填分。M6仍4/7、04/05/08未验收、M7未启动。见[执行报告](reviews/M6-recall-convergence-r1.md)。以下保留历史。
+
 ## 2026-10-29 · C03/C09关闭、C04政策实现独立通过
 
 总控独立核验9cbccd2：共享315、聚焦117、原探针副本15、新增政策邻接3、浏览器10及TypeScript/OpenAPI通过（组间重叠不累计）。C03/RGL-R3、C09技术通过关闭，C04正式政策接线技术通过，无新阻塞；C01/C02/C11及AF/SQ/continuation/图片保持关闭。见[独立报告](reviews/M6-convergence-execution-review-r1.md)和[验证摘要](reviews/M6-convergence-execution-review-validation-r1.json)。
