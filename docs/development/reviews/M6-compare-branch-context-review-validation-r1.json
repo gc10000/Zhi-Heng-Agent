@@ -1,0 +1,204 @@
+{
+  "date": "2026-10-30",
+  "timezone": "Asia/Shanghai",
+  "reviewed_commit": "75b295797225e1df19054f3148c09a54336b5dc7",
+  "baseline_control_commit": "4f5d3062653006cd181c5ff40ecad689f97cda0f",
+  "initial_state": "HEAD=origin/main=GitHub main=75b2957; only tmp/",
+  "role": "independent control review; documents only; no delegation",
+  "decisions": {
+    "compare_branch_context": "passed/closed within reviewed isolated scope",
+    "required_context_gap": "closed for fixed25 questions/35 units",
+    "original_P2": "closed preserved",
+    "p30_consumption": "closed preserved",
+    "label001_consumption": "closed preserved",
+    "formal_combination_wiring": "open; next package authorized",
+    "final_freeze_and_preflight": "open",
+    "answer_quality": "open; not inferred from coverage",
+    "adopted": false,
+    "default_switch": false
+  },
+  "tests": {
+    "shared": {
+      "passed": 192,
+      "failed": 0,
+      "exit_code": 0,
+      "files": 12,
+      "includes_execution_direct31": true
+    },
+    "independent_direct": {
+      "passed": 16,
+      "failed": 0,
+      "exit_code": 0
+    },
+    "overlap": "do not add groups as unique tests or quality scores"
+  },
+  "assertions": {
+    "offline_audit": 5334,
+    "failed": 0,
+    "exit_code": 0
+  },
+  "replay": {
+    "questions": 25,
+    "necessary_units": 35,
+    "context_complete": 25,
+    "prompt_complete": 25,
+    "reused_pair_scores": 486,
+    "original24_complete_variants_unchanged": true,
+    "both_compare_sides_preserved": true,
+    "weighted": [
+      0.5,
+      0.5
+    ],
+    "budgets": [
+      20,
+      20,
+      20,
+      20,
+      10
+    ],
+    "prerequisites": {
+      "max_added": 4,
+      "max_chars": 6000
+    },
+    "unknown_occurrences_before": 23,
+    "unknown_occurrences_after": 23,
+    "new_unknown": 0
+  },
+  "tradeoff": {
+    "question_id": "support-v1-048",
+    "added_rerank_positions": [
+      14,
+      18
+    ],
+    "removed_rerank_positions": [
+      9,
+      10
+    ],
+    "target_rank": 18,
+    "target_score": 0.0009145474591837374,
+    "protected_unique": 5,
+    "protection_reasons": 6,
+    "context_count": 10,
+    "input_tokens_before": 8464,
+    "input_tokens_after": 8245,
+    "input_limit": 28416,
+    "output_tokens": 4096,
+    "omitted_documents": 0,
+    "scores_unchanged": true,
+    "quality_gain_proven": false
+  },
+  "identities": {
+    "config_sha256": "00ecaf9d39fa65a3d2a36616ce4be9fdd1e36558a865ebac32c1ccb74efe87fd",
+    "selector_sha256": "f907b76976af0da75db8b5caebad82a43b7de653c4fb4d802704cf8b25fd350d",
+    "source_code": "04fd3693b8feeea8427cadfd4f0ae0b1016a2f148e6e3994afa186dac6a00619",
+    "parent_processing_code": "4221334599170298f85fbd6cdb606a27f3356446d2286f82ae32d5a78f2d680f"
+  },
+  "calls": {
+    "execution_new": 0,
+    "control_new": 0,
+    "embedding": 0,
+    "rerank": 0,
+    "supplier": 0,
+    "answer": 0,
+    "token_usage": null,
+    "exact_http_requests": null,
+    "cost": null,
+    "historical_unknowns_preserved": true
+  },
+  "live": {
+    "database_access": false,
+    "index_access": false,
+    "new582_scanned": false,
+    "parent582_scanned": false,
+    "frozen867_scanned": false,
+    "default_pointers_scanned": false,
+    "limitation": "current live corpus/catalog preservation relies on hash-matched sealed audits and no database access this round"
+  },
+  "writes": {
+    "business_source": false,
+    "real_database": false,
+    "formal_quality": false,
+    "default_switch": false,
+    "documents_only": true,
+    "private_evidence_new_directory_only": true
+  },
+  "protected_manifests": {
+    "M6-compare-branch-context-validation-r1.json": 50,
+    "M6-fusion-reviewed-source-review-validation-r1.json": 17,
+    "M6-fusion-reviewed-source-validation-r1.json": 123,
+    "M6-layout-terminology-review-validation-r1.json": 33,
+    "M6-layout-terminology-validation-r1.json": 155,
+    "M6-page-precision-recall-label-validation-r1.json": 125,
+    "M6-page-precision-recall-label-review-validation-r1.json": 26,
+    "M6-page-recall-binding-validation-r1.json": 331,
+    "M6-page-recall-binding-review-validation-r1.json": 14,
+    "M6-recall-convergence-validation-r1.json": 297,
+    "M6-convergence-execution-review-validation-r1.json": 45,
+    "M6-recall-convergence-review-validation-r1.json": 20,
+    "output/m6-isolated-answers-20261028/protected-before-r3.json": 821,
+    "output/m6-answer-filter-fix-r3-20261029/protected-before.json": 404,
+    "output/m6-real-retrieval-20261028/protected-before.json": 294
+  },
+  "failure_history": "execution red20/11, fixture4/27 and1/30 retained/hash matched; three control verification groups passed first run",
+  "next_package": {
+    "owner": "execution",
+    "scope": "versioned default-off internal combination + authorization snapshot + formal request/config/checkpoint/recovery wiring",
+    "matrix_in_report": true,
+    "new_model_calls_authorized": 0,
+    "new_imports_authorized": 0,
+    "cache_miss": "stop",
+    "must_replay": "25/25 and35/35 through formal wiring; original24 full variants/both sides/p30/budgets retained",
+    "independent_review_required": true
+  },
+  "final_generation_config_frozen": false,
+  "formal_no_generation_preflight": false,
+  "quality_chain_started": false,
+  "M6": "4/7",
+  "unaccepted": [
+    "M6-04",
+    "M6-05",
+    "M6-08"
+  ],
+  "M7": false,
+  "private_evidence_sha256": {
+    "output\\m6-compare-branch-context-review-20261030\\audit-checks.json": "c783a3dec02f5d13cd6865dd21e53e22affef6c562928b53725f0765e1061a42",
+    "output\\m6-compare-branch-context-review-20261030\\audit-summary.json": "825148eef0ecc9f2923ff81973ba7b71a823a7e295e4e467239686d9a9d8227e",
+    "output\\m6-compare-branch-context-review-20261030\\audit.log": "b1a5d28bc0ef7d08dda0e2c395a57d706aca35727c4e222fa6d06b6ce4036f04",
+    "output\\m6-compare-branch-context-review-20261030\\audit.py": "2544a7496e870394c1f84b3939ada242db3e97e6deb0f84bb2103823b4a3bbe1",
+    "output\\m6-compare-branch-context-review-20261030\\CHANGELOG.md.before": "220c81aa45ed5f2fc55da78e0e4ede6e175b8219a84f389574eb45c9bbbabcd7",
+    "output\\m6-compare-branch-context-review-20261030\\DECISIONS.md.before": "3952b4fdfc51e4810379ef6e57a5e9d33287ea403266ef5b73b40358266477e2",
+    "output\\m6-compare-branch-context-review-20261030\\DEVELOPMENT_CONTRACTS.md.before": "d036d2cc65fb7c1ef467b01bfa3e1968590ceb48869f5dafdc391bfa459fa387",
+    "output\\m6-compare-branch-context-review-20261030\\DEVELOPMENT_TODO.md.before": "7a86ac5c9e09314b7c5576e4399a3866f586c24500413726d445120da5d18684",
+    "output\\m6-compare-branch-context-review-20261030\\direct.log": "fb5e52b1776e33f5961d11bfbbc5aaef825b325dba9a5373374479800f000ed4",
+    "output\\m6-compare-branch-context-review-20261030\\direct.xml": "fb523c390b08604e97d9c0a4f928c411bf76ae1f745f16b0856f0e647e217b02",
+    "output\\m6-compare-branch-context-review-20261030\\M6-evaluation.md.before": "a938b6902a3183b3ddffa9e1e07493dea6c44d3d1cec91a6d5e8f5cee4c28659",
+    "output\\m6-compare-branch-context-review-20261030\\PROGRESS.md.before": "9f344e5b67c88e8fec6f5a63ee12b9529b8c48250bfafa898e95afc748ac408f",
+    "output\\m6-compare-branch-context-review-20261030\\REVIEW_STATUS.md.before": "38535547b52447325a8d9c22365f3b93c9228876c4377da9eca5019c9fa2c3f2",
+    "output\\m6-compare-branch-context-review-20261030\\shared.log": "5749acbf5c4ce1a047e30fa7de763a649ef7733ea029b7422666ea85572230e0",
+    "output\\m6-compare-branch-context-review-20261030\\shared.xml": "b12e687d08385bc3ed055d8c141872756627e8d00498967404a573acdc1b3a8c",
+    "output\\m6-compare-branch-context-review-20261030\\test_direct.py": "f60de5beb8402212100c0c12c2eefaf5c7f0473779160529e605fea98256e7d7",
+    "output\\m6-compare-branch-context-review-20261030\\write_delivery.py": "f44faa2080a6a5581f305586ba0d1cfab545755045007db6a1655084bf6626d5",
+    "output\\m6-compare-branch-context-review-20261030\\verify_delivery.py": "649fc1e4d78ffb9ef2efb5acf6602a0a883d22ee774aa9484a9a9e0e5be28b39",
+    "output\\m6-compare-branch-context-review-20261030\\actual-commands.json": "68ac3bfcff85e5d852e0187e0aa5ee7ec2bb4e108b56631c1acecc64161ba268"
+  },
+  "commands": [
+    {
+      "command": ".venv/Scripts/python.exe -m pytest tests/unit/test_compare_branch_context.py tests/unit/test_fusion_retention.py tests/unit/test_candidate_fairness.py tests/unit/test_comparison_context.py tests/unit/test_retrieval_policy.py tests/unit/test_retrieval_provenance.py tests/unit/test_retrieval_grid.py tests/unit/test_source_prerequisites.py tests/unit/test_source_prerequisite_wiring.py tests/unit/test_prerequisite_contract.py tests/unit/test_source_network_terms.py tests/unit/test_scoped_subject_query.py -q --junitxml=output/m6-compare-branch-context-review-20261030/shared.xml",
+      "exit_code": 0,
+      "result": "192 passed",
+      "log": "shared.log"
+    },
+    {
+      "command": ".venv/Scripts/python.exe output/m6-compare-branch-context-review-20261030/audit.py",
+      "exit_code": 0,
+      "result": "5334 assertions;25/25;35/35; no network/database/model attempts",
+      "log": "audit.log"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pytest output/m6-compare-branch-context-review-20261030/test_direct.py -q --junitxml=output/m6-compare-branch-context-review-20261030/direct.xml",
+      "exit_code": 0,
+      "result": "16 passed",
+      "log": "direct.log"
+    }
+  ]
+}
