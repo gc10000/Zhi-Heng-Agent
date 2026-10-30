@@ -1,0 +1,934 @@
+{
+  "date": "2026-10-30",
+  "baseline_commit": "e24ab95bf025ecb71c951dd9563c3507f8635c72",
+  "initial_state": "HEAD=origin/main=GitHub; only tmp/ untracked; six containers running",
+  "status": "fixed_candidate_failed_downstream_stopped",
+  "rule": "branch_heads_v1",
+  "production_wiring": false,
+  "default_switch": false,
+  "weighted": [
+    0.5,
+    0.5
+  ],
+  "budgets": [
+    20,
+    20,
+    20,
+    20,
+    10
+  ],
+  "target": {
+    "database": "m1_test_m4_m6_heads_fb825179effd4f0f",
+    "collection": "m1_test_m4_m6_heads_fb825179effd4f0f",
+    "bucket": "product-knowledge",
+    "object_prefix": "m4-test/m6-heads-fb825179effd4f0f/"
+  },
+  "versions": {
+    "code": "4221334599170298f85fbd6cdb606a27f3356446d2286f82ae32d5a78f2d680f",
+    "prompt": "f0fe0cc92fca8715957120515588f239ee15d1e4b3e0ba6c4c411dd176d5c52d",
+    "model": "565fbfe4c795fb52f84183f7b2708491fd7824fa07f2de9fd546e9d6d6e5bb90"
+  },
+  "model_files_sha256": "3995645af911d30aa3ec13c90c61919bfe52830a0611f3f3820b6097062520fc",
+  "parser_structure_version": "6",
+  "chunker_version": "6",
+  "revisions": [
+    {
+      "source": "D1",
+      "document_id": "4676940c-be2d-5142-a366-ea201c95a2bf",
+      "revision_id": "3dee2caf-2964-5de5-8742-78feb7705343",
+      "pipeline_identity": "a694c1a5966d12448105c8bc76d27d540f0e52a259ced2821075a50bbb9ecd4f",
+      "parser_version": "qualified-cache-113af69f33562d935beb9700dc1dc7e725978bfb583a766c43743b1d6ba806e7+structure-6+assistant-source-transcription-2075fdc717ad7e1e4326af205fee90874e649018f167f44c3344c6cd10f31f04",
+      "chunks": 22
+    },
+    {
+      "source": "D3",
+      "document_id": "f82f3ec8-e6e6-5130-98a4-86d37155d3ce",
+      "revision_id": "b76f3252-8a62-58af-aace-aefe45b13d82",
+      "pipeline_identity": "18e2ec6355aacdd0166c3975396ce574c2906108c9f6a682a399a5a8cc6e0974",
+      "parser_version": "qualified-cache-969fa1dfe2dd183c33d60f5e0a0a27cf54fa3add467003277be51d88777be47e+structure-6-row-evidence-1586cd30f745a9d170abf13ebdafe41348a7b19c19c180922ef094c98b98feac+assistant-source-transcription-2075fdc717ad7e1e4326af205fee90874e649018f167f44c3344c6cd10f31f04",
+      "chunks": 165
+    },
+    {
+      "source": "D4",
+      "document_id": "651e644d-19a3-53e4-b6af-1bb07970d90d",
+      "revision_id": "63964dd3-4321-5154-9599-744aea13956e",
+      "pipeline_identity": "1e2e43bd73d024b45720b8d8aee3b9da5b40d25cfb3183f35ef72854c067eea1",
+      "parser_version": "qualified-cache-e67c2f9264306a42c02c4ce289932f97eea29fc761a55dd099cd60fa1a5b0993+structure-6+assistant-source-transcription-2075fdc717ad7e1e4326af205fee90874e649018f167f44c3344c6cd10f31f04",
+      "chunks": 84
+    },
+    {
+      "source": "D5",
+      "document_id": "536d3f2f-8d4d-5d08-bc71-8ab7cca18562",
+      "revision_id": "55a81645-af3b-5ef4-ab07-cf6366dccf1c",
+      "pipeline_identity": "88737e76454d2af1d9ce4b6a01f840f245b352bc02cc27682c8800a12bed1ca5",
+      "parser_version": "qualified-cache-09c8e9c3f99f2e54f7d2e2e514257d1898194f022301a77aba9dd11af0ed36cd+structure-6-row-evidence-1586cd30f745a9d170abf13ebdafe41348a7b19c19c180922ef094c98b98feac+assistant-source-transcription-2075fdc717ad7e1e4326af205fee90874e649018f167f44c3344c6cd10f31f04",
+      "chunks": 311
+    }
+  ],
+  "questions": [
+    {
+      "id": "support-v1-003",
+      "candidate_units": [
+        true
+      ],
+      "rerank_input_units": [
+        true
+      ],
+      "reranked_units": [
+        true
+      ],
+      "context_units": [
+        true
+      ],
+      "prior_context_units": [
+        true
+      ],
+      "comparison_products": [
+        "30849149-52d4-59fd-a091-b6cea3e6ec08"
+      ],
+      "comparison_sides_retained": true
+    },
+    {
+      "id": "support-v1-004",
+      "candidate_units": [
+        true
+      ],
+      "rerank_input_units": [
+        true
+      ],
+      "reranked_units": [
+        true
+      ],
+      "context_units": [
+        true
+      ],
+      "prior_context_units": [
+        true
+      ],
+      "comparison_products": [
+        "30849149-52d4-59fd-a091-b6cea3e6ec08"
+      ],
+      "comparison_sides_retained": true
+    },
+    {
+      "id": "support-v1-006",
+      "candidate_units": [
+        true
+      ],
+      "rerank_input_units": [
+        true
+      ],
+      "reranked_units": [
+        true
+      ],
+      "context_units": [
+        true
+      ],
+      "prior_context_units": [
+        true
+      ],
+      "comparison_products": [
+        "30849149-52d4-59fd-a091-b6cea3e6ec08"
+      ],
+      "comparison_sides_retained": true
+    },
+    {
+      "id": "support-v1-007",
+      "candidate_units": [
+        true
+      ],
+      "rerank_input_units": [
+        true
+      ],
+      "reranked_units": [
+        true
+      ],
+      "context_units": [
+        true
+      ],
+      "prior_context_units": [
+        true
+      ],
+      "comparison_products": [
+        "30849149-52d4-59fd-a091-b6cea3e6ec08"
+      ],
+      "comparison_sides_retained": true
+    },
+    {
+      "id": "support-v1-008",
+      "candidate_units": [
+        true
+      ],
+      "rerank_input_units": [
+        true
+      ],
+      "reranked_units": [
+        true
+      ],
+      "context_units": [
+        true
+      ],
+      "prior_context_units": [
+        true
+      ],
+      "comparison_products": [
+        "30849149-52d4-59fd-a091-b6cea3e6ec08"
+      ],
+      "comparison_sides_retained": true
+    },
+    {
+      "id": "support-v1-009",
+      "candidate_units": [
+        true,
+        true
+      ],
+      "rerank_input_units": [
+        true,
+        true
+      ],
+      "reranked_units": [
+        true,
+        true
+      ],
+      "context_units": [
+        true,
+        true
+      ],
+      "prior_context_units": [
+        true,
+        true
+      ],
+      "comparison_products": [
+        "30849149-52d4-59fd-a091-b6cea3e6ec08"
+      ],
+      "comparison_sides_retained": true
+    },
+    {
+      "id": "support-v1-010",
+      "candidate_units": [
+        true,
+        true
+      ],
+      "rerank_input_units": [
+        true,
+        true
+      ],
+      "reranked_units": [
+        true,
+        true
+      ],
+      "context_units": [
+        true,
+        true
+      ],
+      "prior_context_units": [
+        true,
+        true
+      ],
+      "comparison_products": [
+        "30849149-52d4-59fd-a091-b6cea3e6ec08"
+      ],
+      "comparison_sides_retained": true
+    },
+    {
+      "id": "support-v1-019",
+      "candidate_units": [
+        true
+      ],
+      "rerank_input_units": [
+        true
+      ],
+      "reranked_units": [
+        true
+      ],
+      "context_units": [
+        true
+      ],
+      "prior_context_units": [
+        true
+      ],
+      "comparison_products": [
+        "0960e374-fa90-5d0c-80a2-8d3873d51133"
+      ],
+      "comparison_sides_retained": true
+    },
+    {
+      "id": "support-v1-020",
+      "candidate_units": [
+        true,
+        true
+      ],
+      "rerank_input_units": [
+        true,
+        true
+      ],
+      "reranked_units": [
+        true,
+        true
+      ],
+      "context_units": [
+        true,
+        true
+      ],
+      "prior_context_units": [
+        true,
+        true
+      ],
+      "comparison_products": [
+        "0960e374-fa90-5d0c-80a2-8d3873d51133"
+      ],
+      "comparison_sides_retained": true
+    },
+    {
+      "id": "support-v1-021",
+      "candidate_units": [
+        true,
+        true
+      ],
+      "rerank_input_units": [
+        true,
+        true
+      ],
+      "reranked_units": [
+        true,
+        true
+      ],
+      "context_units": [
+        true,
+        true
+      ],
+      "prior_context_units": [
+        true,
+        true
+      ],
+      "comparison_products": [
+        "0960e374-fa90-5d0c-80a2-8d3873d51133"
+      ],
+      "comparison_sides_retained": true
+    },
+    {
+      "id": "support-v1-022",
+      "candidate_units": [
+        true
+      ],
+      "rerank_input_units": [
+        true
+      ],
+      "reranked_units": [
+        true
+      ],
+      "context_units": [
+        true
+      ],
+      "prior_context_units": [
+        true
+      ],
+      "comparison_products": [
+        "0960e374-fa90-5d0c-80a2-8d3873d51133"
+      ],
+      "comparison_sides_retained": true
+    },
+    {
+      "id": "support-v1-034",
+      "candidate_units": [
+        true,
+        true
+      ],
+      "rerank_input_units": [
+        true,
+        true
+      ],
+      "reranked_units": [
+        true,
+        true
+      ],
+      "context_units": [
+        true,
+        true
+      ],
+      "prior_context_units": [
+        true,
+        true
+      ],
+      "comparison_products": [
+        "0960e374-fa90-5d0c-80a2-8d3873d51133"
+      ],
+      "comparison_sides_retained": true
+    },
+    {
+      "id": "support-v1-037",
+      "candidate_units": [
+        true,
+        true
+      ],
+      "rerank_input_units": [
+        true,
+        true
+      ],
+      "reranked_units": [
+        true,
+        true
+      ],
+      "context_units": [
+        true,
+        true
+      ],
+      "prior_context_units": [
+        true,
+        true
+      ],
+      "comparison_products": [
+        "0b7cb1b0-8a70-595f-b5d5-f7436a0a05ef"
+      ],
+      "comparison_sides_retained": true
+    },
+    {
+      "id": "support-v1-038",
+      "candidate_units": [
+        true,
+        true
+      ],
+      "rerank_input_units": [
+        true,
+        true
+      ],
+      "reranked_units": [
+        true,
+        true
+      ],
+      "context_units": [
+        true,
+        true
+      ],
+      "prior_context_units": [
+        true,
+        true
+      ],
+      "comparison_products": [
+        "0b7cb1b0-8a70-595f-b5d5-f7436a0a05ef"
+      ],
+      "comparison_sides_retained": true
+    },
+    {
+      "id": "support-v1-048",
+      "candidate_units": [
+        true,
+        true,
+        true
+      ],
+      "rerank_input_units": [
+        true,
+        true,
+        true
+      ],
+      "reranked_units": [
+        true,
+        true,
+        true
+      ],
+      "context_units": [
+        true,
+        false,
+        false
+      ],
+      "prior_context_units": [
+        true,
+        false,
+        false
+      ],
+      "comparison_products": [
+        "0960e374-fa90-5d0c-80a2-8d3873d51133",
+        "30849149-52d4-59fd-a091-b6cea3e6ec08"
+      ],
+      "comparison_sides_retained": true
+    },
+    {
+      "id": "m6-g540-02-a",
+      "candidate_units": [
+        true
+      ],
+      "rerank_input_units": [
+        true
+      ],
+      "reranked_units": [
+        true
+      ],
+      "context_units": [
+        true
+      ],
+      "prior_context_units": [
+        true
+      ],
+      "comparison_products": [
+        "0e66a172-823e-5f92-a8a5-1bcaf3562c55"
+      ],
+      "comparison_sides_retained": true
+    },
+    {
+      "id": "m6-g540-02-b",
+      "candidate_units": [
+        true
+      ],
+      "rerank_input_units": [
+        true
+      ],
+      "reranked_units": [
+        true
+      ],
+      "context_units": [
+        true
+      ],
+      "prior_context_units": [
+        true
+      ],
+      "comparison_products": [
+        "0e66a172-823e-5f92-a8a5-1bcaf3562c55"
+      ],
+      "comparison_sides_retained": true
+    },
+    {
+      "id": "m6-g540-04-a",
+      "candidate_units": [
+        true
+      ],
+      "rerank_input_units": [
+        true
+      ],
+      "reranked_units": [
+        true
+      ],
+      "context_units": [
+        true
+      ],
+      "prior_context_units": [
+        true
+      ],
+      "comparison_products": [
+        "0e66a172-823e-5f92-a8a5-1bcaf3562c55"
+      ],
+      "comparison_sides_retained": true
+    },
+    {
+      "id": "m6-g540-04-b",
+      "candidate_units": [
+        true
+      ],
+      "rerank_input_units": [
+        true
+      ],
+      "reranked_units": [
+        true
+      ],
+      "context_units": [
+        true
+      ],
+      "prior_context_units": [
+        true
+      ],
+      "comparison_products": [
+        "0e66a172-823e-5f92-a8a5-1bcaf3562c55"
+      ],
+      "comparison_sides_retained": true
+    },
+    {
+      "id": "m6-g540-05-a",
+      "candidate_units": [
+        true
+      ],
+      "rerank_input_units": [
+        true
+      ],
+      "reranked_units": [
+        true
+      ],
+      "context_units": [
+        true
+      ],
+      "prior_context_units": [
+        true
+      ],
+      "comparison_products": [
+        "0e66a172-823e-5f92-a8a5-1bcaf3562c55"
+      ],
+      "comparison_sides_retained": true
+    },
+    {
+      "id": "m6-g540-05-b",
+      "candidate_units": [
+        true
+      ],
+      "rerank_input_units": [
+        true
+      ],
+      "reranked_units": [
+        true
+      ],
+      "context_units": [
+        true
+      ],
+      "prior_context_units": [
+        true
+      ],
+      "comparison_products": [
+        "0e66a172-823e-5f92-a8a5-1bcaf3562c55"
+      ],
+      "comparison_sides_retained": true
+    },
+    {
+      "id": "m6-g540-17-a",
+      "candidate_units": [
+        true
+      ],
+      "rerank_input_units": [
+        true
+      ],
+      "reranked_units": [
+        true
+      ],
+      "context_units": [
+        true
+      ],
+      "prior_context_units": [
+        true
+      ],
+      "comparison_products": [
+        "0e66a172-823e-5f92-a8a5-1bcaf3562c55"
+      ],
+      "comparison_sides_retained": true
+    },
+    {
+      "id": "m6-g540-17-b",
+      "candidate_units": [
+        true
+      ],
+      "rerank_input_units": [
+        true
+      ],
+      "reranked_units": [
+        true
+      ],
+      "context_units": [
+        true
+      ],
+      "prior_context_units": [
+        true
+      ],
+      "comparison_products": [
+        "0e66a172-823e-5f92-a8a5-1bcaf3562c55"
+      ],
+      "comparison_sides_retained": true
+    },
+    {
+      "id": "m6-g540-18-b",
+      "candidate_units": [
+        true
+      ],
+      "rerank_input_units": [
+        true
+      ],
+      "reranked_units": [
+        true
+      ],
+      "context_units": [
+        true
+      ],
+      "prior_context_units": [
+        true
+      ],
+      "comparison_products": [
+        "0e66a172-823e-5f92-a8a5-1bcaf3562c55"
+      ],
+      "comparison_sides_retained": true
+    },
+    {
+      "id": "m6-g540-20-a",
+      "candidate_units": [
+        true,
+        true
+      ],
+      "rerank_input_units": [
+        true,
+        true
+      ],
+      "reranked_units": [
+        true,
+        true
+      ],
+      "context_units": [
+        true,
+        true
+      ],
+      "prior_context_units": [
+        true,
+        true
+      ],
+      "comparison_products": [
+        "0e66a172-823e-5f92-a8a5-1bcaf3562c55"
+      ],
+      "comparison_sides_retained": true
+    }
+  ],
+  "offline_candidate_coverage": "25/25",
+  "real_candidate_and_rerank_coverage": "25/25",
+  "final_context_coverage": "24/25",
+  "necessary_units": {
+    "total": 35,
+    "final_present": 33,
+    "final_present_precise": 33
+  },
+  "original24_preserved": true,
+  "both_comparison_sides": true,
+  "target_rerank": {
+    "rank": 18,
+    "total": 20,
+    "score": 0.0009145474591837374,
+    "excluded_at": "context_limit10",
+    "prompt_omitted_documents": 0
+  },
+  "source_consumption": {
+    "artifact": "docs/development/reviews/M6-048-source-row-review-r1.md",
+    "commit": "e24ab95bf025ecb71c951dd9563c3507f8635c72",
+    "reviewed_rows": [
+      1,
+      3
+    ],
+    "physical_page": 30,
+    "printed_page": "5-1",
+    "old_unknown_preserved": true,
+    "not_human": true
+  },
+  "unknown_supplemental_context_occurrences": 23,
+  "calls": {
+    "new_local_logical": 1,
+    "new_rerank_pairs": 1,
+    "reused_rerank_pairs": 485,
+    "new_embeddings": 0,
+    "new_answers": 0,
+    "new_supplier_calls": 0,
+    "token_usage": null,
+    "http_requests": null,
+    "cost": null,
+    "unsettled_windows": 0,
+    "request_key": "25221e32be3591d918523520791f0f31953ff2936515a683ecb2aab31ea95896"
+  },
+  "checks": {
+    "shared": 161,
+    "red_retention_failed": 15,
+    "first_green": 15,
+    "audit_assertions": 5099,
+    "identity_assertions": 11,
+    "overlapping_groups_not_cumulative": true
+  },
+  "commands": [
+    {
+      "command": ".venv/Scripts/python.exe -m pytest tests/unit/test_fusion_retention.py -q",
+      "exit_code": 1,
+      "result": "15 failed; behavioral red with original weighted-only implementation",
+      "log": "red-fusion.txt"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pytest tests/unit/test_fusion_retention.py -q",
+      "exit_code": 0,
+      "result": "15 passed; before two additional boundaries",
+      "log": "green-fusion.txt"
+    },
+    {
+      "command": ".venv/Scripts/python.exe output/m6-fusion-reviewed-source-20261030/offline.py [v1]",
+      "exit_code": 1,
+      "result": "artifact qid schema read error; before outcome or models",
+      "log": "offline-log.txt"
+    },
+    {
+      "command": ".venv/Scripts/python.exe output/m6-fusion-reviewed-source-20261030/offline.py",
+      "exit_code": 0,
+      "result": "25/25 fusion and rerank inputs; no regression; missing 1 pair",
+      "log": "offline-log-v2.txt"
+    },
+    {
+      "command": ".venv/Scripts/python.exe output/m6-fusion-reviewed-source-20261030/import_formal.py",
+      "exit_code": 0,
+      "result": "4 docs, 582 chunks, existing vectors/summaries only, new published namespace",
+      "log": "import-log.txt"
+    },
+    {
+      "command": ".venv/Scripts/python.exe output/m6-fusion-reviewed-source-20261030/execute.py [v1]",
+      "exit_code": 1,
+      "result": "old query-cache format lacks embedded key; filename+sealed hash used in v2; before any model call",
+      "log": "real-execution-log.txt"
+    },
+    {
+      "command": ".venv/Scripts/python.exe output/m6-fusion-reviewed-source-20261030/execute.py",
+      "exit_code": 1,
+      "result": "fixed candidate downstream exit failed:24/25; rank18 excluded by context10; stopped",
+      "log": "real-execution-log-v2.txt"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pytest tests/unit/test_fusion_retention.py tests/unit/test_candidate_fairness.py tests/unit/test_comparison_context.py tests/unit/test_retrieval_policy.py tests/unit/test_retrieval_provenance.py tests/unit/test_retrieval_grid.py tests/unit/test_source_prerequisites.py tests/unit/test_source_prerequisite_wiring.py tests/unit/test_prerequisite_contract.py tests/unit/test_source_network_terms.py tests/unit/test_scoped_subject_query.py -q --junitxml=output/m6-fusion-reviewed-source-20261030/shared.xml",
+      "exit_code": 0,
+      "result": "161 passed, includes17new retention tests; groups overlap",
+      "log": "shared-log.txt"
+    },
+    {
+      "command": ".venv/Scripts/python.exe output/m6-fusion-reviewed-source-20261030/audit.py",
+      "exit_code": 0,
+      "result": "5099 assertions; evidence consistent, not quality exit success",
+      "log": "audit-log.txt"
+    },
+    {
+      "command": ".venv/Scripts/python.exe output/m6-fusion-reviewed-source-20261030/audit_identity.py",
+      "exit_code": 0,
+      "result": "11 assertions; pipeline includes chunker6/proof; frozen867 actual payload unchanged",
+      "log": "identity-log.txt"
+    }
+  ],
+  "protected": {
+    "M6-layout-terminology-review-validation-r1.json": 33,
+    "M6-layout-terminology-validation-r1.json": 155,
+    "M6-page-precision-recall-label-validation-r1.json": 125,
+    "M6-page-precision-recall-label-review-validation-r1.json": 26,
+    "M6-page-recall-binding-validation-r1.json": 331,
+    "M6-page-recall-binding-review-validation-r1.json": 14,
+    "M6-recall-convergence-validation-r1.json": 297,
+    "M6-convergence-execution-review-validation-r1.json": 45,
+    "M6-recall-convergence-review-validation-r1.json": 20,
+    "output/m6-isolated-answers-20261028/protected-before-r3.json": 821,
+    "output/m6-answer-filter-fix-r3-20261029/protected-before.json": 404,
+    "output/m6-real-retrieval-20261028/protected-before.json": 294
+  },
+  "frozen867_actual_payload_unchanged": true,
+  "old_P2_closed_preserved": true,
+  "label001_closed_preserved": true,
+  "next_action": "control review fixed failure and scoped provenance consumption; decide whether to authorize next bounded downstream experiment; do not freeze generation config",
+  "m6": "4/7",
+  "unaccepted": [
+    "M6-04",
+    "M6-05",
+    "M6-08"
+  ],
+  "m7": false,
+  "evidence_sha256": {
+    "output\\m6-fusion-reviewed-source-20261030\\25题融合保留与已审出处真实对照.html": "08f84fc450d0ce2fe375359b9d286e1b3f0f2dc438892b6920900ee274adc1f9",
+    "output\\m6-fusion-reviewed-source-20261030\\actual-commands.json": "bbc500d330ff2279af2949ebf1564159edd32111afbd77b13c2b950fb54abce7",
+    "output\\m6-fusion-reviewed-source-20261030\\actual-local-call-plan-before-execution-v2.json": "ecfc7d41549397bdbee29fcf9445a92b087a784d48fc2c6a397970ba1a0de75f",
+    "output\\m6-fusion-reviewed-source-20261030\\actual-local-call-plan-before-execution.json": "50cd13e4c4ea6ff02b546445e52fa0bde72e71f3e07b898557c059bde315642c",
+    "output\\m6-fusion-reviewed-source-20261030\\audit-checks.json": "06d7397f6647e04682017e4f951de05c1058b680c75f815c95cb62baa003c7e6",
+    "output\\m6-fusion-reviewed-source-20261030\\audit-log.txt": "90bf7a59a9835e48411f94fb578f2d62f84d3e5dd0bb1efe045a7860de568e88",
+    "output\\m6-fusion-reviewed-source-20261030\\audit-summary.json": "405f6b4b83c87dc526cb05647759df0ff0c24176d3727e88972d297cf9ab5f3c",
+    "output\\m6-fusion-reviewed-source-20261030\\audit.py": "d7adcd2f2ad6c455e7fc13306f318f033d83f4aa636a1c37e6ca37a8e4632ab0",
+    "output\\m6-fusion-reviewed-source-20261030\\audit_identity.py": "c3445899fa5a394c1e6eb07ad4d9df8c7c5393f3cf2eb66621779d6725d857cc",
+    "output\\m6-fusion-reviewed-source-20261030\\calls.jsonl": "4a4a3ed5a09fce734f9562bb9b93d18284f90f7696f3eaa7c9c7928fc20faee8",
+    "output\\m6-fusion-reviewed-source-20261030\\controlled-p30-proof.json": "8cf65b6e479e0f575b0de53f066ebb72181458b134354dc364894aff484720a8",
+    "output\\m6-fusion-reviewed-source-20261030\\database-after-retrieval.json": "237fc73f77a813782688f18372efbc18fa0469f22125ac35e881376587732e02",
+    "output\\m6-fusion-reviewed-source-20261030\\database-before-retrieval.json": "237fc73f77a813782688f18372efbc18fa0469f22125ac35e881376587732e02",
+    "output\\m6-fusion-reviewed-source-20261030\\exact-missing-request-before-call.json": "8af9e48fff5d3647eabd97a13a72284656e65576b7c60c35ecc205fe25c5ffe1",
+    "output\\m6-fusion-reviewed-source-20261030\\execute-v1.py": "6c05545e6014f2d4a871aab0701eab9299157c5927bddfdd5c4dd6be1093f105",
+    "output\\m6-fusion-reviewed-source-20261030\\execute.py": "8b404ceb1b63f2606fbc3d1987e5f5df41f5045fd8780e3e3f4c26f58c40f2a3",
+    "output\\m6-fusion-reviewed-source-20261030\\fixed-rule-before-evaluation.json": "b04a3ac69840c8612842f2a8efc712683a16231bae15860d8bb93bee93b2502f",
+    "output\\m6-fusion-reviewed-source-20261030\\green-fusion.txt": "9cc097f35c41f7891efa67ff5714094779e9103e1094823d380397bc7ba258d3",
+    "output\\m6-fusion-reviewed-source-20261030\\identity-checks.json": "9e068a536fdc6d3f822d7afebdc3ab619c3fda9325d6b016da7c0dff60d1f135",
+    "output\\m6-fusion-reviewed-source-20261030\\identity-log.txt": "9a3df4265cbb255197ea49b342fc92f1c5914872c8490b39ca0b29f4fd608eb9",
+    "output\\m6-fusion-reviewed-source-20261030\\identity-summary.json": "58d9675ec9b0dc341eb95dbe1a541f150c86038b350c7a4d4e54cb49b33dfcb5",
+    "output\\m6-fusion-reviewed-source-20261030\\import-log.txt": "aa6b1358eeeb643bd46a8e9541e5b1022b808e30550e61c709f36f84142206f6",
+    "output\\m6-fusion-reviewed-source-20261030\\import_formal.py": "dc625ff6e2bb25fa48b9095c4ac05e0edcd4c8fd9ce1a6f1161e912911ea0736",
+    "output\\m6-fusion-reviewed-source-20261030\\missing-pairs-before-call.json": "b692d571ee6fa4a58adbd699e6a0b52c42164bb01b5b3a52d0ff90024df7d509",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-log-v2.txt": "11b2fc765b63e4ce66768eaff4d140962bb8b0dc459f2aeb1c1282323ff9a2c4",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-log.txt": "bb8d868cd5c2e043396dfddb2079c17f9e95dd90d3f8383d8b7c15c364cb2b83",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-summary.json": "745a488fe5caf13839a7d10a4121bfb2b17d2c0d37536e68771e89dcb7403524",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-v1.py": "7468fb8e0d8c2aa4cd46762fac78abfb1678d42eea425af58edd427e0ac3e6cd",
+    "output\\m6-fusion-reviewed-source-20261030\\offline.py": "025f58a5c573d7628a4c73249903b217fdb07c6772bc328b1e0cf6efbe623e48",
+    "output\\m6-fusion-reviewed-source-20261030\\protection-frozen_r3-after.json": "e4c709c60fdfaad15e4c2f497527996a3d2df47c248886ac67454b14fdbf2948",
+    "output\\m6-fusion-reviewed-source-20261030\\protection-parent-after.json": "267a8152b135a0d89b8df04407f7a60dabc813467ee863d99d309d6bb5f0dce5",
+    "output\\m6-fusion-reviewed-source-20261030\\qualified-score-cache.json": "f39edce4bc3acbd0c03dae53d731aebdcf5532e2985736ca906c00570aac7196",
+    "output\\m6-fusion-reviewed-source-20261030\\real-execution-log-v2.txt": "4b732649ebd3919076941c1ab3bbf1433c5e4b28e4aeea1ba2702c25f1273447",
+    "output\\m6-fusion-reviewed-source-20261030\\real-execution-log.txt": "23285a940e535730e0555739b2916bc7040f9edfb0a6c0e4272a5274c6a164f2",
+    "output\\m6-fusion-reviewed-source-20261030\\real-retrieval-summary.json": "67c6e8fe318c60ba7dce0a86a64bd91fe2303e7ecc621746e9dc16a70b673262",
+    "output\\m6-fusion-reviewed-source-20261030\\red-fusion.txt": "c88ce0744271a0e88e0113e9d09c4c3e348730dd7d5c1f40254e6e5d7315f107",
+    "output\\m6-fusion-reviewed-source-20261030\\shared-log.txt": "eb2354da767b6d327f61d6fbc89467af02d9ec8a620addc6545a864894fbcda3",
+    "output\\m6-fusion-reviewed-source-20261030\\shared.xml": "51a3bf05eaf985f38dccae16572809b9528b9d3dbc7c1c6904964ee90cbeca41",
+    "output\\m6-fusion-reviewed-source-20261030\\source-catalog.json": "3bcab9ae0f1cd058e2d87920063cef9034c201d3e051cc223c75c05df308c84e",
+    "output\\m6-fusion-reviewed-source-20261030\\write_delivery.py": "7d1df91fe28bd634038349d9d5f6d44f9ea8018c1d772b96a78884cefd232243",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\calls.jsonl": "451f07893a1cdb096359b6eb8905f7a69044a3c8e444fc44a8fa0f5e53dc6777",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\controlled-row-source-proof.json": "3ab7d5a5b7da1e7e1411a8cc1d12ab667c1cdbeeef0bb89c61c9e94154e5c15a",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\corpus-snapshot.json": "5a70a4765f6a6ab41c79dcdace61edfa32e00594a4d4da9d29764b84f67048ff",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\formal-target-precheck.json": "3876e66906ba532ff055c85526b8ee8491f673b6cd39da619e4e873bba86e3b2",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\frozen-final.json": "77f065914e2bac44fe19e1ed5d40191ca2a54a1f98ee2a9738a7de2217ab8b83",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\frozen.json": "77f065914e2bac44fe19e1ed5d40191ca2a54a1f98ee2a9738a7de2217ab8b83",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\import-complete.json": "d3d3d40f01e4dbd570512fbe84b140acc04641b8b165ce128a2b0acb1700b49e",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\isolation-before.json": "05400f0ca2d79198ce614f1b2dea53203b4eaea63436b911850a0323f9b8532e",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\p30-proof-consumption.json": "7793c9c3403d2adb2736d7b4f14958e04e5327245360ec08d68c3c3bc86e686d",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\summary-links.json": "b5fa59489d28815a6b5ab294b30b42b83c71c5cd1b3a35c2162220d8c3ecf88b",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\vector-reuse-manifest.json": "d6659fadc311ded20d9c7cb7060e0a0a3d6327335dbdd350e7001c02c1824753",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-results\\m6-g540-02-a.json": "b75bc6d4281dae7759ae8fc441018d75c3906b6560a1293f25e4d7f3db2c3aa2",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-results\\m6-g540-02-b.json": "0bceb14a21b0f9c48d247be955e506b612f1c2cddfc63dfb30284a2cb3a0322b",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-results\\m6-g540-04-a.json": "844b29b5f5a088e2e319a9d976f9013ee7af3e78be23f40f35edd8476d6634bc",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-results\\m6-g540-04-b.json": "a08474284dd2b4084f34fe7af65c2f14eeb240ff7df934545c09a177c63912b2",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-results\\m6-g540-05-a.json": "24f44fd65743e4bad05874d1d05f6966e954e802f23e0b8580a73d9242add0e5",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-results\\m6-g540-05-b.json": "f8aa44897b7dbca44e26bd30b8ed232ed3cefcf538742efb543b9d99bcfdc175",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-results\\m6-g540-17-a.json": "7463079f63effc2afc625d4b8409b3ca71cc7d82a895a38e36b84d5190667cb6",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-results\\m6-g540-17-b.json": "a84f20d3077c56eb26c236d96beb1b9617e8ff3c4c34490f69d84a30ce0ef4a1",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-results\\m6-g540-18-b.json": "01227dd4bfd504e5517b510e694e963f53c34952036402a773adfcfa4334b807",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-results\\m6-g540-20-a.json": "68319f80ab3867eb5e7a639fe846d59788cf3832c8afe2b91065a4e9ad08fea4",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-results\\support-v1-003.json": "a4319c1a832a6e6daf2563949d91e3d6d000b4a1b9144d507f26c8d616fb9c2e",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-results\\support-v1-004.json": "968e3ec4bbe0e9b628368de7efa8e894d50cc314bcf63a902b93ac5f1068e7e3",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-results\\support-v1-006.json": "141a4797ed3dc31324b22d6feea226895c454001b6b03d19effa0985781be19b",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-results\\support-v1-007.json": "28aeaa4605b9e7ad4245d4e55d593f195d3138948d88928d1d50b83c53ed2a41",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-results\\support-v1-008.json": "d7841f9254e54291edcbf43db7c5e9e528e926e42532afb0c141a6fd2138909f",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-results\\support-v1-009.json": "3368e092e0f4ff20a3decaf529c1e46638478c0a60e82ffd0cd5bb023adc1aea",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-results\\support-v1-010.json": "a3a0280562e176261fe9382350284320e5e6a91e2ed36e43f264fd43057eea42",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-results\\support-v1-019.json": "161fcb741c358aa7ab7df91ac0e4ab8122e3bb6b20e1d4d4e16e42f80e6ce3df",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-results\\support-v1-020.json": "ef813754179096c9b4c472a6ba44c113662a5849aa323db8c6b5542bda016c79",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-results\\support-v1-021.json": "26814920a6f0630ed52ae484448c84072be7c499153874ea9310d8011bc7a621",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-results\\support-v1-022.json": "5cda05dd341da0612499db2e230588060f25a9ca879991755c794840b8230eee",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-results\\support-v1-034.json": "418326d2f1f83c209dd0e75bba9b4d64921ed682d43b953d5bb3be040b9200b5",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-results\\support-v1-037.json": "23ded40445b3af5a17a9480aa959bd918a69a2006b30f0fc4a83298a68aeefc8",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-results\\support-v1-038.json": "8ec6557815674610696871abb161c71c6c622db8f5c9d73f81af147df2dc86ca",
+    "output\\m6-fusion-reviewed-source-20261030\\offline-results\\support-v1-048.json": "ec487fff3bb111710757d84ed48cdedae3affa263f6d1cbef045a8b830d1fbe4",
+    "output\\m6-fusion-reviewed-source-20261030\\results\\m6-g540-02-a.json": "4330b31228436afd9e3030e3f6f0402c47ea2b2fa45981ec242841d06d976394",
+    "output\\m6-fusion-reviewed-source-20261030\\results\\m6-g540-02-b.json": "7f0eac6360ad0184da9f22e899cb1b358e9da8a125202c2152655c038961905f",
+    "output\\m6-fusion-reviewed-source-20261030\\results\\m6-g540-04-a.json": "41f816af43cc46fc31713f5b334a471cc4798bac5f855ce82987c93b73018d20",
+    "output\\m6-fusion-reviewed-source-20261030\\results\\m6-g540-04-b.json": "0fb9bfe7d769eeda7a22af1a3453242823ed526af2b3b1dcc60aabaf927421a9",
+    "output\\m6-fusion-reviewed-source-20261030\\results\\m6-g540-05-a.json": "b9e3de33f57c78d2c73dbb9c26c368ec429c7605ce779fcf2fcd97e41c6e6ad5",
+    "output\\m6-fusion-reviewed-source-20261030\\results\\m6-g540-05-b.json": "0cc42518794d12ad5ba11a14e527b38bbfc0f3be482ade0f6353f171dfd3973b",
+    "output\\m6-fusion-reviewed-source-20261030\\results\\m6-g540-17-a.json": "b20b7d6ef834416c9ff585f5282f1c85ce3d42a423d608e92affb1fe88af2df9",
+    "output\\m6-fusion-reviewed-source-20261030\\results\\m6-g540-17-b.json": "d54b3ce777dad32491cca288e17f0e2f2c34e426f5400ea8d98754294081fde8",
+    "output\\m6-fusion-reviewed-source-20261030\\results\\m6-g540-18-b.json": "92327b1405a3f7f0ce6cf562cb88db7d8525d8d8d6fe900f95ff11a37ee81083",
+    "output\\m6-fusion-reviewed-source-20261030\\results\\m6-g540-20-a.json": "9742671a5c0b1c7202482594135910e1a52a482b2eb8a42ebcdb7d247f9f7742",
+    "output\\m6-fusion-reviewed-source-20261030\\results\\support-v1-003.json": "0da399c361ed318c2c143e0d0b8eb5276703c7ddc85ec83f19579b5c623453bf",
+    "output\\m6-fusion-reviewed-source-20261030\\results\\support-v1-004.json": "a2ce1089836dcd9b52c5cf08e6c88c619da5e6a3a2a63ffda1064295b7b6ab7c",
+    "output\\m6-fusion-reviewed-source-20261030\\results\\support-v1-006.json": "1dc21d54e311a57ee7e0ce86c87b9c5b4f7fe30c708c9c5c9c27930a8623130c",
+    "output\\m6-fusion-reviewed-source-20261030\\results\\support-v1-007.json": "b6555812753a621d73d1dc4ef243919041dbd2b44a4bb14c9163170a9b5ccb90",
+    "output\\m6-fusion-reviewed-source-20261030\\results\\support-v1-008.json": "970e9eac04151e4ed9700870d1a344c5f91ac57000e0dd482b34e7f5fa113b0c",
+    "output\\m6-fusion-reviewed-source-20261030\\results\\support-v1-009.json": "a78d747e7449ac4a15b4a1606eabf775b4d977a82eadbd567f19a22a6f587b8d",
+    "output\\m6-fusion-reviewed-source-20261030\\results\\support-v1-010.json": "a07a0fc6e7c3952178572426706fe28ed102cb792da6e8f9a2c1ee50ea67d4d3",
+    "output\\m6-fusion-reviewed-source-20261030\\results\\support-v1-019.json": "f0b7cad813913174370b608dbeebc4bf5a831b982d9462a67d3db3ab82317f06",
+    "output\\m6-fusion-reviewed-source-20261030\\results\\support-v1-020.json": "8860a1596cc3f2b73790bfa23a29d9281fd93c384d1b0da03cf908351c1cc70c",
+    "output\\m6-fusion-reviewed-source-20261030\\results\\support-v1-021.json": "8a9393486ecd51be1ebbb8859215ecef369a56cf77a9fe0b89d8ba8da38bd38c",
+    "output\\m6-fusion-reviewed-source-20261030\\results\\support-v1-022.json": "2bb9cdbe3bc26113e17ed853b6b6f982a7b2d29a64a4af06dfc84aa769d81359",
+    "output\\m6-fusion-reviewed-source-20261030\\results\\support-v1-034.json": "2531b000735ba8cd1cd4f546e8aba357dec4a321cf41075e32b686b57f37ee6f",
+    "output\\m6-fusion-reviewed-source-20261030\\results\\support-v1-037.json": "a4e7024b6606de8fc1c2a59f9ce7f741f6d79c9a6fb008e1025796d9998672c4",
+    "output\\m6-fusion-reviewed-source-20261030\\results\\support-v1-038.json": "c3f0a9ea814211ca0deaeaf341caf42378b76e14f7bef3bb559d3f28dd7a7aad",
+    "output\\m6-fusion-reviewed-source-20261030\\results\\support-v1-048.json": "e7687545c49ac1d99af9b8ff1b96c35513d895f78fd3d7f1d352fe4edd20481e",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\imports\\D1.json": "10b2617590e7a31566a3cf8d4dfd4ab4c9692eda60ca31ba3836bad0183c91d3",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\imports\\D3.json": "48e823384dbb0e736ee778d5453c96e66704cee141359490563ec743640741d2",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\imports\\D4.json": "ac75e679ca17853b0df8cb5cef10d973b92cc29c49dcef28e5229c7463c67db0",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\imports\\D5.json": "c50849d73a27feb2e5ec1803b89d18b9ffef7efcbdb2a1b10d6e56d3ab30d32b",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\parsed\\D1.json": "9180fce70d17d2d3b64268ad39d88a9e5de252b7b1e197fcea63977eb0363157",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\parsed\\D3.json": "53f280ffd53c7ca927cdf5712f3b39a67d7b0a280f1e25bad4dc2e4f23720404",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\parsed\\D4.json": "355a1368679fcf7876cdffae1aa5f3360d5d615ee8c3c21917a083239e7b222a",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\parsed\\D5.json": "1c9a4ce5800bc6de5f5d3ef2918e1cfc705b76fb8d483345c90eb1e0c78c6cae",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\source-mapping\\D1.json": "288a8b26d43d8fb868a296f9d8cd914d0608ca5843abcc591b45e6f3122377f7",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\source-mapping\\D3.json": "8901c8372ea0e539f57ee6812e0a67cb67c2bc5f87b43d168ca2ed32d7cfda1f",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\source-mapping\\D4.json": "b5a1b8395fd8d4493b85edead5cc6792664a5cdc8bed9c6d0f3fc998ee5d362e",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\source-mapping\\D5.json": "96ac46f844de99088cfeea4e8806ef48bf39328a61256deed74f5d54ef29635f",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\parse-cache\\09743226-9e3f-52fd-bfee-5a61b1328741\\0\\segment.json": "a8214ff0846552a327b4e047ffedb9f1f0bffca5d1ebfa8beb9ca37bdbb89dfb",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\parse-cache\\09743226-9e3f-52fd-bfee-5a61b1328741\\inputs\\000000-000034-caf99558ddc67175.pdf": "caf99558ddc67175071244b15a4a82b0d2d9305ac023348c5b32b007a1194992",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\parse-cache\\155d6c92-d42b-5df9-85df-147c8317ba9e\\0\\segment.json": "fa14a14e07fa90de93299315c5879136dbf63b44a1b150dc58ea45b6d34fbb9d",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\parse-cache\\155d6c92-d42b-5df9-85df-147c8317ba9e\\inputs\\000000-000006-8b15fffb2a5af0a2.pdf": "8b15fffb2a5af0a268a37a90523cae8899e22f001ece866ed9d786d08513d7cb",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\parse-cache\\4266cb41-35a2-5a37-93b5-6a7d37fa5fcf\\0\\segment.json": "8609d7e948ff7ac47f8d438d131d2209f87f45174a486b3ac258e9ce138b32f7",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\parse-cache\\4266cb41-35a2-5a37-93b5-6a7d37fa5fcf\\inputs\\000000-000013-5e5ed745d0adfe92.pdf": "5e5ed745d0adfe92f478461e387b6cfd4fec42456cc0e4a3cf8f763250c225cf",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\parse-cache\\e6c4dd28-3cbd-51b2-afe0-a94edffe92c7\\0\\segment.json": "a9c9ed741f2238d2dd56feae9c0f7aad243b74509d6ef2444470a6159d559765",
+    "output\\m6-fusion-reviewed-source-20261030\\formal-m4\\parse-cache\\e6c4dd28-3cbd-51b2-afe0-a94edffe92c7\\inputs\\000000-000024-2323a2ec8d79ede1.pdf": "2323a2ec8d79ede1f473e268cc390618f6a5f319ea436709e2ad6f4b1cfa4098",
+    "output\\m6-fusion-reviewed-source-20261030\\model-cache\\rerank\\25221e32be3591d918523520791f0f31953ff2936515a683ecb2aab31ea95896.json": "3a6d731fa0d66805f8984bc9dd9f68df35c12dff7207ffeca7d50362f4ad8dc9",
+    "output\\m6-fusion-reviewed-source-20261030\\model-cache\\rerank\\25221e32be3591d918523520791f0f31953ff2936515a683ecb2aab31ea95896.started.json": "1ba3bfc537046dee8d3d0f21737ea894a3e916c00b8c0da4b29cbb4f995e220f"
+  }
+}
