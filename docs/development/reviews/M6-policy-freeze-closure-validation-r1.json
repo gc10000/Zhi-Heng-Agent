@@ -1,0 +1,266 @@
+{
+  "date": "2026-10-30",
+  "source_commit": "5024984a486250b4a054676d7bd28b15f4d246a7",
+  "role": "总控受控登记执行；随后独立进程只读重验，不冒充第二位评分者",
+  "status": "passed: controlled registration, exact freeze and formal no-generation preflight",
+  "closed": [
+    "approved policy actual registration in both control DBs",
+    "both full evaluation_sets descriptors",
+    "four exact v1 configurations",
+    "formal no-generation preflight"
+  ],
+  "final_freeze_complete": true,
+  "formal_preflight_passed": true,
+  "business_source_changes": false,
+  "catalog": "output/m6-policy-freeze-closure-20261030/catalog/catalog.json",
+  "policies": [
+    {
+      "database": "m1_test_m4_m6_review_562c2209ba994a1892074da324cc3025",
+      "reference": {
+        "id": "a511cc6341b832d7af86cf900b29ffac33319ed9f8c85faeb31c42cf8d91b107",
+        "sha256": "8a4fa95f898ddc362e55c505674e71c22508c5fe1cc77bd6d6668da78e7e703f"
+      }
+    },
+    {
+      "database": "m1_test_m4_m6_review_c1486a0a19d84c069d66d6abeff4709a",
+      "reference": {
+        "id": "a511cc6341b832d7af86cf900b29ffac33319ed9f8c85faeb31c42cf8d91b107",
+        "sha256": "62eb176019f78fe4e5d442d8f8a8a150db3b4b83eaa49d1fbf64acee135cd2b3"
+      }
+    }
+  ],
+  "versions": [
+    {
+      "role": "baseline",
+      "dataset_id": "m6-full-dev-r1",
+      "dataset_version": "fb-07c584730833908571fe9dd7c7c890afa3cf9e66",
+      "config_id": "m6-final-1-baseline",
+      "config_version": "v1",
+      "config_sha256": "d50d1909342a3eb02fbce42682b5fc286e36f0ddae21822a9f8d43f43018658e",
+      "strategy_sha256": "2ec288a1be1addae801756f860ccb54b047e9b70e40126f9e2ab32e6cc499246",
+      "dataset_sha256": "c72a78955afe86503fbb37cc7293fa54287b0427877af4616bb762dfb57656c9",
+      "manifest_sha256": "3f2b3c3413da98773b600623200deb399f91da3e9c8b1b6dd0be3fc2d83109f9",
+      "binding": {
+        "id": "87725c09f37660064837bef947885f75ab3dafd066ced493935ef842cfc297a4",
+        "sha256": "69af94d6c547b3def46e5f544139ff9ec94a61f70f4d06454974be455fedbb3e"
+      },
+      "quality_policy_reference": {
+        "id": "a511cc6341b832d7af86cf900b29ffac33319ed9f8c85faeb31c42cf8d91b107",
+        "sha256": "8a4fa95f898ddc362e55c505674e71c22508c5fe1cc77bd6d6668da78e7e703f"
+      },
+      "counts": {
+        "dev": 85,
+        "heldout": 65,
+        "selected": 85
+      }
+    },
+    {
+      "role": "candidate",
+      "dataset_id": "m6-full-dev-r1",
+      "dataset_version": "fb-07c584730833908571fe9dd7c7c890afa3cf9e66",
+      "config_id": "m6-final-1-candidate",
+      "config_version": "v1",
+      "config_sha256": "740d112820004532ebe898f4110cd600e0e73c649adbc4d1060f52153f61ca20",
+      "strategy_sha256": "4c92bcbf38f42657a71f0ed7e9569a4e4e9878e8ca278b12ce9d6cd8456ead90",
+      "dataset_sha256": "c72a78955afe86503fbb37cc7293fa54287b0427877af4616bb762dfb57656c9",
+      "manifest_sha256": "3f2b3c3413da98773b600623200deb399f91da3e9c8b1b6dd0be3fc2d83109f9",
+      "binding": {
+        "id": "87725c09f37660064837bef947885f75ab3dafd066ced493935ef842cfc297a4",
+        "sha256": "69af94d6c547b3def46e5f544139ff9ec94a61f70f4d06454974be455fedbb3e"
+      },
+      "quality_policy_reference": {
+        "id": "a511cc6341b832d7af86cf900b29ffac33319ed9f8c85faeb31c42cf8d91b107",
+        "sha256": "8a4fa95f898ddc362e55c505674e71c22508c5fe1cc77bd6d6668da78e7e703f"
+      },
+      "counts": {
+        "dev": 85,
+        "heldout": 65,
+        "selected": 85
+      }
+    },
+    {
+      "role": "baseline",
+      "dataset_id": "m6-full-dev-r1",
+      "dataset_version": "fb-a3fa87c1adb2a6dc4e9638214164eb5f343ad008",
+      "config_id": "m6-final-2-baseline",
+      "config_version": "v1",
+      "config_sha256": "02adc87c4da3cbcac3ed890805282a8fc0250e3e94e3022560d27cf1af0ecaa6",
+      "strategy_sha256": "2ec288a1be1addae801756f860ccb54b047e9b70e40126f9e2ab32e6cc499246",
+      "dataset_sha256": "217fe6342f2389cf32aa112ec8591a0b8b09e97bb2d1356b085799f734249a04",
+      "manifest_sha256": "d1644269ffd71a8e9917c7cea4ac98d99b31ce0fc62f7c0978231fb3bb3a28d0",
+      "binding": {
+        "id": "01739675106c5e12eac37018a7f66ba4429e938d699cca8c3c33eae8017a7832",
+        "sha256": "5483e8cf5cd565db616c2833fa44bee52ada3d74670fef65fffee83b3c229fdb"
+      },
+      "quality_policy_reference": {
+        "id": "a511cc6341b832d7af86cf900b29ffac33319ed9f8c85faeb31c42cf8d91b107",
+        "sha256": "62eb176019f78fe4e5d442d8f8a8a150db3b4b83eaa49d1fbf64acee135cd2b3"
+      },
+      "counts": {
+        "dev": 85,
+        "heldout": 65,
+        "selected": 85
+      }
+    },
+    {
+      "role": "candidate",
+      "dataset_id": "m6-full-dev-r1",
+      "dataset_version": "fb-a3fa87c1adb2a6dc4e9638214164eb5f343ad008",
+      "config_id": "m6-final-2-candidate",
+      "config_version": "v1",
+      "config_sha256": "2256e6263f47b46fc1723f7ec1b5a286ae75b65742c4ba77cc9afefa2789f88c",
+      "strategy_sha256": "4c92bcbf38f42657a71f0ed7e9569a4e4e9878e8ca278b12ce9d6cd8456ead90",
+      "dataset_sha256": "217fe6342f2389cf32aa112ec8591a0b8b09e97bb2d1356b085799f734249a04",
+      "manifest_sha256": "d1644269ffd71a8e9917c7cea4ac98d99b31ce0fc62f7c0978231fb3bb3a28d0",
+      "binding": {
+        "id": "01739675106c5e12eac37018a7f66ba4429e938d699cca8c3c33eae8017a7832",
+        "sha256": "5483e8cf5cd565db616c2833fa44bee52ada3d74670fef65fffee83b3c229fdb"
+      },
+      "quality_policy_reference": {
+        "id": "a511cc6341b832d7af86cf900b29ffac33319ed9f8c85faeb31c42cf8d91b107",
+        "sha256": "62eb176019f78fe4e5d442d8f8a8a150db3b4b83eaa49d1fbf64acee135cd2b3"
+      },
+      "counts": {
+        "dev": 85,
+        "heldout": 65,
+        "selected": 85
+      }
+    }
+  ],
+  "corpus": {
+    "documents": 4,
+    "chunks": 582,
+    "assets": 67,
+    "rows_sha256": "8058e7cf97c65cfad2fca0e7d5f6ede5359146f0f3c0682c5c8e44a235564441",
+    "snapshot_sha256": "116e1c61cabca70e63230d9ef2bb3970b07dcd571f1443aed083098f89f9b645",
+    "p30_proof_sha256": "7793c9c3403d2adb2736d7b4f14958e04e5327245360ec08d68c3c3bc86e686d",
+    "passed": true
+  },
+  "actual_verification": {
+    "registration_process_exit": 0,
+    "readonly_review_process_exit": 0,
+    "checks": 3190,
+    "new_test_suite_run": false,
+    "groups_not_quality_scores": true,
+    "protected_manifests": {
+      "M6-combination-wiring-review-validation-r1.json:private_evidence_sha256": 54,
+      "M6-combination-wiring-validation-r1.json:private_evidence_sha256": 109,
+      "M6-compare-branch-context-review-validation-r1.json:private_evidence_sha256": 19,
+      "M6-compare-branch-context-validation-r1.json:private_evidence_sha256": 50,
+      "M6-fusion-reviewed-source-review-validation-r1.json:private_evidence_sha256": 17,
+      "M6-fusion-reviewed-source-validation-r1.json:evidence_sha256": 123,
+      "M6-layout-terminology-review-validation-r1.json:private_evidence_sha256": 33,
+      "M6-layout-terminology-validation-r1.json:evidence_sha256": 155,
+      "M6-page-precision-recall-label-validation-r1.json:evidence_sha256": 125,
+      "M6-page-precision-recall-label-review-validation-r1.json:private_evidence_sha256": 26,
+      "M6-page-recall-binding-validation-r1.json:evidence_sha256": 331,
+      "M6-page-recall-binding-review-validation-r1.json:private_evidence_sha256": 14,
+      "M6-recall-convergence-validation-r1.json:evidence_sha256": 297,
+      "M6-convergence-execution-review-validation-r1.json:private_evidence_sha256": 45,
+      "M6-recall-convergence-review-validation-r1.json:private_evidence_sha256": 20,
+      "output/m6-answer-filter-fix-20261029/protected-before.json": 127,
+      "output/m6-answer-filter-fix-r3-20261029/protected-before.json": 404,
+      "output/m6-isolated-answers-20261028/protected-before.json": 821,
+      "output/m6-real-retrieval-20261028/protected-before.json": 294,
+      "M6-final-freeze-preflight-validation-r1.json:private_evidence_sha256": 47
+    }
+  },
+  "real_writes": {
+    "users_inserted": 2,
+    "policy_records_inserted": 2,
+    "set_records_inserted": 2,
+    "official_constructor_indexes": true,
+    "existing_records_unchanged": true,
+    "new_experiments": 0,
+    "new_runs": 0,
+    "new_scores": 0,
+    "new_calibrations": 0,
+    "new_proofs": 0
+  },
+  "new_inference": {
+    "embedding": 0,
+    "reranking": 0,
+    "supplier": 0,
+    "answers": 0,
+    "http": null,
+    "tokens": null,
+    "cost": null
+  },
+  "default_switch": false,
+  "heldout_run": false,
+  "feedback_bindings": "valid; proof_status=absent; no resign or rebind",
+  "open": {
+    "M6-04": "valid baseline actual independent two-round reviews, attestation and official pre-calibration",
+    "M6-05": "same-version candidate feedback reevaluation and server-generated proof",
+    "M6-08": "same-scope independent candidate answer quality and stage acceptance"
+  },
+  "old_r3": {
+    "preserved": "19 inherited + 66 executed",
+    "final_eligible_results": 0,
+    "unknown_cost_preserved": true
+  },
+  "stage": {
+    "M6": "4/7",
+    "M6-04": "not accepted",
+    "M6-05": "not accepted",
+    "M6-08": "not accepted",
+    "M7": "not started"
+  },
+  "evidence_limits": [
+    "本轮登记由总控执行；只读核验为独立进程及服务端重读，不宣称第二位独立评分者",
+    "未创建实验或Run，运行时生成和恢复仍依赖已关闭的技术审查，非本轮实跑",
+    "历史867向量未重扫，TTL run_events/login_sessions/login_attempts单列排除",
+    "users摘要排除password_hash，原账号完整凭据未读取或输出"
+  ],
+  "private_evidence_sha256": {
+    "output/m6-policy-freeze-closure-20261030/__pycache__/closure_common.cpython-312.pyc": "fd1ba9cf42fec8ec87ab9b86539801558d8c03717279fc1f186b279b445e98f2",
+    "output/m6-policy-freeze-closure-20261030/catalog/baseline.json": "564348b6d4d72b2e9b7bf97ff35923e8009f41bbbf77ca101d414052155fd020",
+    "output/m6-policy-freeze-closure-20261030/catalog/catalog.json": "3bd9e7a3d895a020963d183bb114a3b30574d0f3c60bd97a401c13979dff8ddc",
+    "output/m6-policy-freeze-closure-20261030/catalog/final-configs/1-baseline.json": "d50d1909342a3eb02fbce42682b5fc286e36f0ddae21822a9f8d43f43018658e",
+    "output/m6-policy-freeze-closure-20261030/catalog/final-configs/1-baseline.pending.json": "f82d9ddd45b672cbdd961aa08b620a92f56cc4ea6fa651ad5901c3369ea651c5",
+    "output/m6-policy-freeze-closure-20261030/catalog/final-configs/1-candidate.json": "740d112820004532ebe898f4110cd600e0e73c649adbc4d1060f52153f61ca20",
+    "output/m6-policy-freeze-closure-20261030/catalog/final-configs/1-candidate.pending.json": "3110954381465e31311f8bf9b5ad4b076c980e97706370564c4581330b59a241",
+    "output/m6-policy-freeze-closure-20261030/catalog/final-configs/2-baseline.json": "02adc87c4da3cbcac3ed890805282a8fc0250e3e94e3022560d27cf1af0ecaa6",
+    "output/m6-policy-freeze-closure-20261030/catalog/final-configs/2-baseline.pending.json": "3648fc869bc1125b830c415b212e6f140ee445de394f862fdb2f1c143968fb89",
+    "output/m6-policy-freeze-closure-20261030/catalog/final-configs/2-candidate.json": "2256e6263f47b46fc1723f7ec1b5a286ae75b65742c4ba77cc9afefa2789f88c",
+    "output/m6-policy-freeze-closure-20261030/catalog/final-configs/2-candidate.pending.json": "91c5179c7439ab0b0a66cced96b8bdd0895eb51a25ef85360700c6b58b66673c",
+    "output/m6-policy-freeze-closure-20261030/catalog/parent-catalog-preserved.json": "14fe03ce7c4567e53818caa56e54ee30dbda1974c5da7fd759abe82860745bc8",
+    "output/m6-policy-freeze-closure-20261030/catalog/pending-catalog-preserved.json": "6dc3660559f0fc9b086c7284178bcbeb4a8f6a788ae226d3a46f38fd1dfa9793",
+    "output/m6-policy-freeze-closure-20261030/catalog/regression-versions/07c584730833908571fe9dd7c7c890af/config.json": "9ad6cc9afca5a3402b37b573264d48f9b909b1425847e3824e00b74df7cca7b3",
+    "output/m6-policy-freeze-closure-20261030/catalog/regression-versions/07c584730833908571fe9dd7c7c890af/entry.json": "90d8bff5b997dbb3c89e7e94097e82a15e2a130ef552279ccc0ec44c17936524",
+    "output/m6-policy-freeze-closure-20261030/catalog/regression-versions/07c584730833908571fe9dd7c7c890af/manifest.json": "3f2b3c3413da98773b600623200deb399f91da3e9c8b1b6dd0be3fc2d83109f9",
+    "output/m6-policy-freeze-closure-20261030/catalog/regression-versions/07c584730833908571fe9dd7c7c890af/questions.jsonl": "c72a78955afe86503fbb37cc7293fa54287b0427877af4616bb762dfb57656c9",
+    "output/m6-policy-freeze-closure-20261030/catalog/regression-versions/a3fa87c1adb2a6dc4e9638214164eb5f/config.json": "31527f697472fc1e797a825b2452fa3d480b3f14af0de7d4c4131274017809ff",
+    "output/m6-policy-freeze-closure-20261030/catalog/regression-versions/a3fa87c1adb2a6dc4e9638214164eb5f/entry.json": "7240e1caa996beb45c7ca5362daad186c8caf132558e5040dcd02f4014c5fef1",
+    "output/m6-policy-freeze-closure-20261030/catalog/regression-versions/a3fa87c1adb2a6dc4e9638214164eb5f/manifest.json": "d1644269ffd71a8e9917c7cea4ac98d99b31ce0fc62f7c0978231fb3bb3a28d0",
+    "output/m6-policy-freeze-closure-20261030/catalog/regression-versions/a3fa87c1adb2a6dc4e9638214164eb5f/questions.jsonl": "217fe6342f2389cf32aa112ec8591a0b8b09e97bb2d1356b085799f734249a04",
+    "output/m6-policy-freeze-closure-20261030/catalog/support-v2-r2-manifest.json": "02adab8ab9346c3d6b22c7a15a0a6aae2c7d65ad1deefc9722400b2e477e6b92",
+    "output/m6-policy-freeze-closure-20261030/catalog/support-v2-r2.jsonl": "1d1f785c3303adcaf4b964bf6d5bedeee8cf418ff0f0748704a7bccbe2a86d36",
+    "output/m6-policy-freeze-closure-20261030/closure_common.py": "6379905208da024f94c54bb63c786f520356f10e6560689efab8236f553344eb",
+    "output/m6-policy-freeze-closure-20261030/corpus-preflight.json": "cde04723703abdcc1542e471798fec6cf5246314939f8157d9415ebb83b4def2",
+    "output/m6-policy-freeze-closure-20261030/corpus-review.json": "cde04723703abdcc1542e471798fec6cf5246314939f8157d9415ebb83b4def2",
+    "output/m6-policy-freeze-closure-20261030/database-after-registration.json": "b81eb6dd9993c0098d73c761b10a43d1e862ac7f4b76b506403cb7f6559ec7ef",
+    "output/m6-policy-freeze-closure-20261030/database-after-review.json": "b81eb6dd9993c0098d73c761b10a43d1e862ac7f4b76b506403cb7f6559ec7ef",
+    "output/m6-policy-freeze-closure-20261030/database-before.json": "394b4174240b489c3256e7101c56cb34a6a7fac6f4e8003729d0dbcdbce5bb58",
+    "output/m6-policy-freeze-closure-20261030/default-before.json": "380c22caae8c00d8caa8262018e1572ab9e755c50f8c21e99000b55388760d88",
+    "output/m6-policy-freeze-closure-20261030/formal-experiment-requests.json": "928b879fb2977a5b0376ada27e917baef88e478583e68801e40828ff1286c503",
+    "output/m6-policy-freeze-closure-20261030/freeze-matrix-reviewed.json": "3d90cd4f1ad60a5b61265263c97a230dd98f633956806f25abbb82ae3ea3b6ee",
+    "output/m6-policy-freeze-closure-20261030/freeze-matrix.json": "1c220dc529ca5f29a33dad7536a02f671b907caacd80c3971ff45f3a694d58a9",
+    "output/m6-policy-freeze-closure-20261030/next-execution-contract.json": "c160ea284e4858ebbe140bf51d2f7f88544a6504b8d7b0034e74902915167aef",
+    "output/m6-policy-freeze-closure-20261030/policy-1.json": "c7ee4efd093a9cd421cff9e28d62a483af46592f9ba0c570911abeb3ebefc6ba",
+    "output/m6-policy-freeze-closure-20261030/policy-2.json": "2e4bb18b489969766d157eaed8b9b3bc64f4b135048695a0944e23d8de88c50b",
+    "output/m6-policy-freeze-closure-20261030/readonly-review-first.log": "974751de6878c1ebafa00a3980527d22cee892523e9a2486c11ad526067acc82",
+    "output/m6-policy-freeze-closure-20261030/readonly-review.json": "4a667a9ffcbe04477bd491514840040a81130263812a041d9c29ad1113ece91d",
+    "output/m6-policy-freeze-closure-20261030/readonly_review.py": "137703f0698637ae16cdaff3608ec469ef11a8de62adf60ba389279ab3d3c537",
+    "output/m6-policy-freeze-closure-20261030/register_and_freeze.py": "15ab2045f146d283829b74d2061cbdbe5e7462d4559c7ee7dddf6f85cd448b9b",
+    "output/m6-policy-freeze-closure-20261030/registrar-1.json": "17390131f3eb7d5e0eed67156240cc4edafe489354d2bcc6162367fc252e21b1",
+    "output/m6-policy-freeze-closure-20261030/registrar-2.json": "0b008f14002591b345fd081ece11773fcec15f893e36a453c15dc74cab61eeef",
+    "output/m6-policy-freeze-closure-20261030/registration-first.log": "d39e2d5dcde70d3db35decb0fd220acdf291d4058ed60e6c7394c9e7254bd09e",
+    "output/m6-policy-freeze-closure-20261030/registration-result.json": "9ee95a4df4dbb0ce3ac7d279e8c7d6bcde69e2920f65e15b9b73a70921d1b6a8",
+    "output/m6-policy-freeze-closure-20261030/set-1.json": "7594304cf7ba112ddf589803551d3b25c3ad9b819f65d9cc6cd48e012052eeba",
+    "output/m6-policy-freeze-closure-20261030/set-2.json": "cca256e28e88b2727cca5e005233eb76e25f1b070f17b9e6773fcb9c4e952ec6",
+    "output/m6-policy-freeze-closure-20261030/source-evidence-check.json": "855da6993cd7c8dd526a82e63ac6bd2b63ba29e4a71029ced1453d9493f856d6",
+    "output/m6-policy-freeze-closure-20261030/write-plan.json": "4e7c4af069f338d953e0e06000d0e52d73ac8cd319c8fd1b4138a6b2158dc097",
+    "output/m6-policy-freeze-closure-20261030/write_delivery.py": "2e7d9603d9a91f837b72c076fee2b43b9c0398c4b93de0b75305b8f8b2a3acc4"
+  }
+}
