@@ -1,0 +1,112 @@
+{
+  "reviewed_commit": "3a4242ddbe9e0ab456fca321f6ec1d3c341d8aaa",
+  "date": "2026-10-30",
+  "decisions": {
+    "comparison_context_technical": "passed",
+    "comparison048_both_sides": "passed",
+    "necessary_text_coverage": "24/25",
+    "microsd_rj45_physical_page5": "confirmed",
+    "general_row_precision": "C06-PAGE-R1-R/P2 open",
+    "label_content": "prior independent pass retained",
+    "formal_label_records": "still absent",
+    "principal_consumption": "scoped authorization via existing IdentityService; no new delegation system prerequisite",
+    "all113_unknowns_not_new_gate": true
+  },
+  "findings": [
+    {
+      "id": "C06-PAGE-R1-R",
+      "priority": "P2",
+      "file": "app/ingestion/parsers/table_sources.py",
+      "line": 27,
+      "manifestations": [
+        "short model substring accepted",
+        "unrelated same-page cells accepted as exact row"
+      ],
+      "formal_parser_chunker_reproduced": true
+    }
+  ],
+  "tests": {
+    "shared": {
+      "tests": 237,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integration": {
+      "tests": 34,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "boundaries": {
+      "tests": 8,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "readonly_audit_assertions": 3929,
+  "manifests": {
+    "execution331": 331,
+    "prior297": 297,
+    "prior_review45": 45,
+    "prior_review20": 20,
+    "output/m6-isolated-answers-20261028/protected-before-r3.json": 821,
+    "output/m6-answer-filter-fix-r3-20261029/protected-before.json": 404,
+    "output/m6-real-retrieval-20261028/protected-before.json": 294
+  },
+  "row_record_counts": {
+    "tables": 43,
+    "rows": 249,
+    "recorded_precise": 136,
+    "unknown": 113
+  },
+  "required_quote_units_with_only_unknown_pages": [],
+  "unknown_context_questions": 10,
+  "replayed_questions": 25,
+  "replayed_modes": 2,
+  "prompt_context_groups_budget": "exact",
+  "current_two_candidates_source": "live readonly hashes/authorization match; no writes",
+  "calls": {
+    "local_model": 0,
+    "supplier": 0,
+    "answers": 0,
+    "historical_unobservable_http": null,
+    "historical_unobservable_tokens": null,
+    "historical_unobservable_cost": null
+  },
+  "writes": {
+    "business_source": false,
+    "real_annotation": false,
+    "real_scores": false,
+    "real_binding": false,
+    "real_calibration": false,
+    "default_switch": false,
+    "final_config_frozen": false,
+    "synthetic_random_test_databases": true
+  },
+  "live_milvus_rescan": false,
+  "M6": "4/7",
+  "unaccepted": [
+    "M6-04",
+    "M6-05",
+    "M6-08"
+  ],
+  "M7": false,
+  "private_evidence_sha256": {
+    "output/m6-page-recall-binding-review-20261030/audit-checks.json": "38bb8bd885acd9fa3d4f0e5caca9f68242336801666abcf646fed07dd6f80a4f",
+    "output/m6-page-recall-binding-review-20261030/audit-first.log": "58ddf3c9776462a22de4bc6ec13d3faa705b11f47892f2cc616ca73b78581932",
+    "output/m6-page-recall-binding-review-20261030/audit.json": "6ba1fb9d5f33f2cf73287fd26504e21e082f19dc8c313d4fdb4c64803e48fc9d",
+    "output/m6-page-recall-binding-review-20261030/audit.py": "0b91d1b07407831be919779acb1876626630550b4d995be0574d2156108c142c",
+    "output/m6-page-recall-binding-review-20261030/boundaries.log": "3f887e3fb34dd79714f666b941a11e1d32ec0e64d84f2c7e403e5741958f1c47",
+    "output/m6-page-recall-binding-review-20261030/boundaries.xml": "110fe31de063f1fcb3571b9d716576c704f0536f0338ab39ab262492e009259a",
+    "output/m6-page-recall-binding-review-20261030/integration.log": "657ab508c24eaef452bf39a07f5ef4bb3462c4f0ce4a3e95fd7910937cccb603",
+    "output/m6-page-recall-binding-review-20261030/integration.xml": "b6fddff6920c4a18e904b23b2157b71b3fc3d455ae0efcc40fc6799cc8a9c9d1",
+    "output/m6-page-recall-binding-review-20261030/live-candidates-readonly.json": "4907dbf9106c12ef2a8f66a6cd506ce9cc895e59f771b452be357b7006ee6b5f",
+    "output/m6-page-recall-binding-review-20261030/live_candidates_readonly.py": "333cf0aa462775119ba11cac87288978b5325277626365e73f671ff87009bc68",
+    "output/m6-page-recall-binding-review-20261030/required-quote-unknowns.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "output/m6-page-recall-binding-review-20261030/shared.log": "56310fb699c0193f063a937d90e17f8e245714cea4e9c76738b21f9e2234ca24",
+    "output/m6-page-recall-binding-review-20261030/shared.xml": "58d0cf7c9b052932d4ed2ba6d3c50fe77d59d958c91738f31807ed3acd5166c1",
+    "output/m6-page-recall-binding-review-20261030/test_review_boundaries.py": "dddf8aefca65680852b1b2f8fb5cdc1d0fb30dea7edea74752e635369820d59b"
+  }
+}
