@@ -1,0 +1,293 @@
+{
+  "date": "2026-10-30",
+  "baseline_commit": "94408f653de6837cf20bcc1868de49186cf6d877",
+  "role": "execution agent; sequential; actual read-only preflight",
+  "status": "partial freeze prepared; formal preflight blocked on registration",
+  "final_freeze_complete": false,
+  "formal_preflight_passed": false,
+  "business_source_changes": false,
+  "closed_technical_reviews": "preserved; not reopened",
+  "namespace": "m1_test_m4_m6_heads_fb825179effd4f0f",
+  "current_versions": {
+    "code": "ebf6b6891139b2caa8ed7abb06abc3fbd56a35a7cbea76896d4422545252cb4f",
+    "prompt": "f0fe0cc92fca8715957120515588f239ee15d1e4b3e0ba6c4c411dd176d5c52d",
+    "model": "565fbfe4c795fb52f84183f7b2708491fd7824fa07f2de9fd546e9d6d6e5bb90"
+  },
+  "corpus": {
+    "check": "official_actual_original_vector_asset_product_snapshot",
+    "status": "passed",
+    "database": "m1_test_m4_m6_heads_fb825179effd4f0f",
+    "collection": "m1_test_m4_m6_heads_fb825179effd4f0f",
+    "documents": 4,
+    "chunks": 582,
+    "assets": 67,
+    "snapshot_sha256": "116e1c61cabca70e63230d9ef2bb3970b07dcd571f1443aed083098f89f9b645",
+    "rows_sha256": "8058e7cf97c65cfad2fca0e7d5f6ede5359146f0f3c0682c5c8e44a235564441"
+  },
+  "configuration": {
+    "weighted": [
+      0.5,
+      0.5
+    ],
+    "budgets": [
+      20,
+      20,
+      20,
+      20,
+      10
+    ],
+    "answer_context_window": 32768,
+    "output_tokens": 4096,
+    "reserve_tokens": 256,
+    "max_chars": 12000,
+    "baseline": "combination disabled",
+    "candidate": "source_branch_compare_v1 enabled",
+    "other_strategy_fields_equal": true
+  },
+  "versions": [
+    {
+      "role": "baseline",
+      "dataset_version": "fb-07c584730833908571fe9dd7c7c890afa3cf9e66",
+      "dataset_sha256": "c72a78955afe86503fbb37cc7293fa54287b0427877af4616bb762dfb57656c9",
+      "manifest_sha256": "3f2b3c3413da98773b600623200deb399f91da3e9c8b1b6dd0be3fc2d83109f9",
+      "question_sha256": "4b475a731a379c87d3f087a4f1d3d9cf0043801bfb2be87f85b1c072ef65774b",
+      "config_id": "m6-final-1-baseline",
+      "config_version": "v1-pending-policy",
+      "config_sha256": "f82d9ddd45b672cbdd961aa08b620a92f56cc4ea6fa651ad5901c3369ea651c5",
+      "strategy_sha256": "2ec288a1be1addae801756f860ccb54b047e9b70e40126f9e2ab32e6cc499246",
+      "binding": {
+        "id": "87725c09f37660064837bef947885f75ab3dafd066ced493935ef842cfc297a4",
+        "sha256": "69af94d6c547b3def46e5f544139ff9ec94a61f70f4d06454974be455fedbb3e"
+      },
+      "counts": {
+        "dev": 85,
+        "heldout": 65,
+        "selected": 85
+      }
+    },
+    {
+      "role": "candidate",
+      "dataset_version": "fb-07c584730833908571fe9dd7c7c890afa3cf9e66",
+      "dataset_sha256": "c72a78955afe86503fbb37cc7293fa54287b0427877af4616bb762dfb57656c9",
+      "manifest_sha256": "3f2b3c3413da98773b600623200deb399f91da3e9c8b1b6dd0be3fc2d83109f9",
+      "question_sha256": "4b475a731a379c87d3f087a4f1d3d9cf0043801bfb2be87f85b1c072ef65774b",
+      "config_id": "m6-final-1-candidate",
+      "config_version": "v1-pending-policy",
+      "config_sha256": "3110954381465e31311f8bf9b5ad4b076c980e97706370564c4581330b59a241",
+      "strategy_sha256": "4c92bcbf38f42657a71f0ed7e9569a4e4e9878e8ca278b12ce9d6cd8456ead90",
+      "binding": {
+        "id": "87725c09f37660064837bef947885f75ab3dafd066ced493935ef842cfc297a4",
+        "sha256": "69af94d6c547b3def46e5f544139ff9ec94a61f70f4d06454974be455fedbb3e"
+      },
+      "counts": {
+        "dev": 85,
+        "heldout": 65,
+        "selected": 85
+      }
+    },
+    {
+      "role": "baseline",
+      "dataset_version": "fb-a3fa87c1adb2a6dc4e9638214164eb5f343ad008",
+      "dataset_sha256": "217fe6342f2389cf32aa112ec8591a0b8b09e97bb2d1356b085799f734249a04",
+      "manifest_sha256": "d1644269ffd71a8e9917c7cea4ac98d99b31ce0fc62f7c0978231fb3bb3a28d0",
+      "question_sha256": "5d7785651c80268d538216393e6c7ea5d4f6da596688745b96940c8514aea07b",
+      "config_id": "m6-final-2-baseline",
+      "config_version": "v1-pending-policy",
+      "config_sha256": "3648fc869bc1125b830c415b212e6f140ee445de394f862fdb2f1c143968fb89",
+      "strategy_sha256": "2ec288a1be1addae801756f860ccb54b047e9b70e40126f9e2ab32e6cc499246",
+      "binding": {
+        "id": "01739675106c5e12eac37018a7f66ba4429e938d699cca8c3c33eae8017a7832",
+        "sha256": "5483e8cf5cd565db616c2833fa44bee52ada3d74670fef65fffee83b3c229fdb"
+      },
+      "counts": {
+        "dev": 85,
+        "heldout": 65,
+        "selected": 85
+      }
+    },
+    {
+      "role": "candidate",
+      "dataset_version": "fb-a3fa87c1adb2a6dc4e9638214164eb5f343ad008",
+      "dataset_sha256": "217fe6342f2389cf32aa112ec8591a0b8b09e97bb2d1356b085799f734249a04",
+      "manifest_sha256": "d1644269ffd71a8e9917c7cea4ac98d99b31ce0fc62f7c0978231fb3bb3a28d0",
+      "question_sha256": "5d7785651c80268d538216393e6c7ea5d4f6da596688745b96940c8514aea07b",
+      "config_id": "m6-final-2-candidate",
+      "config_version": "v1-pending-policy",
+      "config_sha256": "91c5179c7439ab0b0a66cced96b8bdd0895eb51a25ef85360700c6b58b66673c",
+      "strategy_sha256": "4c92bcbf38f42657a71f0ed7e9569a4e4e9878e8ca278b12ce9d6cd8456ead90",
+      "binding": {
+        "id": "01739675106c5e12eac37018a7f66ba4429e938d699cca8c3c33eae8017a7832",
+        "sha256": "5483e8cf5cd565db616c2833fa44bee52ada3d74670fef65fffee83b3c229fdb"
+      },
+      "counts": {
+        "dev": 85,
+        "heldout": 65,
+        "selected": 85
+      }
+    }
+  ],
+  "formal_gaps": [
+    {
+      "id": "policy_registry",
+      "status": "open",
+      "observed": "0 policy records and 0 enabled authorized admins in both control DBs; maintainer register rejected before persistence",
+      "next": "controlled authorized admin registration of approved policy; save returned id/sha256; no user source/scoring task"
+    },
+    {
+      "id": "registered_sets",
+      "status": "open",
+      "observed": "both feedback-derived versions absent in evaluation_sets; official get_set returns not_found",
+      "next": "after exact policy and config freeze, register both final descriptors once via eval-sets; preserve original bindings"
+    }
+  ],
+  "historical_baseline": {
+    "experiment": "79b3cc58-cfd4-4da5-84c0-890d92a9be06",
+    "results": 85,
+    "identity": "19 inherited+66 executed",
+    "stream_historical": 19,
+    "stream_new": 61,
+    "http": null,
+    "cost": null,
+    "final_eligible_result_count": 0,
+    "checkpoint_reuse": false,
+    "reasons": [
+      "dataset/manifest differs",
+      "code/prompt differs",
+      "corpus/target differs",
+      "no assistant-development policy identity"
+    ]
+  },
+  "actual_commands": [
+    {
+      "command": "stdin initial Mongo inspection: load_dotenv() without explicit path",
+      "exit_code": 1,
+      "effect": "failed before database read; AssertionError retained"
+    },
+    {
+      "command": "stdin explicit load_dotenv(.env) Mongo inspection",
+      "exit_code": 0,
+      "effect": "policies/users/collections read only"
+    },
+    {
+      "command": ".venv/Scripts/python.exe output/m6-final-freeze-preflight-20261030/preflight.py",
+      "exit_code": 0,
+      "log": "preflight-first.log",
+      "result": "checked; formal policy gate OPEN, not overall pass"
+    },
+    {
+      "command": ".venv/Scripts/python.exe output/m6-final-freeze-preflight-20261030/finish_audit.py",
+      "exit_code": 1,
+      "log": "finish-audit.log",
+      "result": "formal gates and plan saved; audit map colon parsing error; no business writes"
+    },
+    {
+      "command": ".venv/Scripts/python.exe output/m6-final-freeze-preflight-20261030/final_audit.py",
+      "exit_code": 0,
+      "log": "final-audit.log",
+      "result": "format handling corrected in new script; all prior artifacts retained"
+    }
+  ],
+  "protection": {
+    "M6-combination-wiring-review-validation-r1.json:private_evidence_sha256": 54,
+    "M6-combination-wiring-validation-r1.json:private_evidence_sha256": 109,
+    "M6-compare-branch-context-review-validation-r1.json:private_evidence_sha256": 19,
+    "M6-compare-branch-context-validation-r1.json:private_evidence_sha256": 50,
+    "M6-fusion-reviewed-source-review-validation-r1.json:private_evidence_sha256": 17,
+    "M6-fusion-reviewed-source-validation-r1.json:evidence_sha256": 123,
+    "M6-layout-terminology-review-validation-r1.json:private_evidence_sha256": 33,
+    "M6-layout-terminology-validation-r1.json:evidence_sha256": 155,
+    "M6-page-precision-recall-label-validation-r1.json:evidence_sha256": 125,
+    "M6-page-precision-recall-label-review-validation-r1.json:private_evidence_sha256": 26,
+    "M6-page-recall-binding-validation-r1.json:evidence_sha256": 331,
+    "M6-page-recall-binding-review-validation-r1.json:private_evidence_sha256": 14,
+    "M6-recall-convergence-validation-r1.json:evidence_sha256": 297,
+    "M6-convergence-execution-review-validation-r1.json:private_evidence_sha256": 45,
+    "M6-recall-convergence-review-validation-r1.json:private_evidence_sha256": 20,
+    "output/m6-answer-filter-fix-20261029/protected-before.json": 127,
+    "output/m6-answer-filter-fix-r3-20261029/protected-before.json": 404,
+    "output/m6-isolated-answers-20261028/protected-before.json": 821,
+    "output/m6-real-retrieval-20261028/protected-before.json": 294
+  },
+  "database_audit": {
+    "databases": 4,
+    "named_collections_per_database": 24,
+    "before_after_equal": true,
+    "run_events_ttl_excluded": true,
+    "current582_full_snapshot": true,
+    "historical867_vectors_rescanned": false,
+    "default_configuration_hashes_unchanged": true,
+    "all_historical22_collections_claim": false
+  },
+  "new_inference": {
+    "embedding": 0,
+    "reranking": 0,
+    "supplier": 0,
+    "answers": 0,
+    "http": null,
+    "tokens": null,
+    "cost": null
+  },
+  "actual_real_writes": 0,
+  "new_experiments": 0,
+  "new_reviews": 0,
+  "new_calibrations": 0,
+  "new_proofs": 0,
+  "default_switch": false,
+  "heldout_run": false,
+  "stage": {
+    "M6": "4/7",
+    "M6-04": "not accepted",
+    "M6-05": "not accepted",
+    "M6-08": "not accepted",
+    "M7": "not started"
+  },
+  "private_evidence_sha256": {
+    "output/m6-final-freeze-preflight-20261030/actual-commands.json": "cafac133b7717c35b5fb39076c1a39b8acfceadc48fc846468033841a71622b9",
+    "output/m6-final-freeze-preflight-20261030/binding-1-current.json": "6b663cafeab29206760f660b2a6b19b7e0920df0dab56e85b53eecfd4a0a02da",
+    "output/m6-final-freeze-preflight-20261030/binding-2-current.json": "8bf0fce03607cff1c38fdc3ceb696d15294965bdfeb12adbf3751360b18b214d",
+    "output/m6-final-freeze-preflight-20261030/catalog/baseline.json": "564348b6d4d72b2e9b7bf97ff35923e8009f41bbbf77ca101d414052155fd020",
+    "output/m6-final-freeze-preflight-20261030/catalog/catalog.json": "6dc3660559f0fc9b086c7284178bcbeb4a8f6a788ae226d3a46f38fd1dfa9793",
+    "output/m6-final-freeze-preflight-20261030/catalog/final-configs/1-baseline.pending.json": "f82d9ddd45b672cbdd961aa08b620a92f56cc4ea6fa651ad5901c3369ea651c5",
+    "output/m6-final-freeze-preflight-20261030/catalog/final-configs/1-candidate.pending.json": "3110954381465e31311f8bf9b5ad4b076c980e97706370564c4581330b59a241",
+    "output/m6-final-freeze-preflight-20261030/catalog/final-configs/2-baseline.pending.json": "3648fc869bc1125b830c415b212e6f140ee445de394f862fdb2f1c143968fb89",
+    "output/m6-final-freeze-preflight-20261030/catalog/final-configs/2-candidate.pending.json": "91c5179c7439ab0b0a66cced96b8bdd0895eb51a25ef85360700c6b58b66673c",
+    "output/m6-final-freeze-preflight-20261030/catalog/parent-catalog-preserved.json": "14fe03ce7c4567e53818caa56e54ee30dbda1974c5da7fd759abe82860745bc8",
+    "output/m6-final-freeze-preflight-20261030/catalog/regression-versions/07c584730833908571fe9dd7c7c890af/config.json": "9ad6cc9afca5a3402b37b573264d48f9b909b1425847e3824e00b74df7cca7b3",
+    "output/m6-final-freeze-preflight-20261030/catalog/regression-versions/07c584730833908571fe9dd7c7c890af/entry.json": "90d8bff5b997dbb3c89e7e94097e82a15e2a130ef552279ccc0ec44c17936524",
+    "output/m6-final-freeze-preflight-20261030/catalog/regression-versions/07c584730833908571fe9dd7c7c890af/manifest.json": "3f2b3c3413da98773b600623200deb399f91da3e9c8b1b6dd0be3fc2d83109f9",
+    "output/m6-final-freeze-preflight-20261030/catalog/regression-versions/07c584730833908571fe9dd7c7c890af/questions.jsonl": "c72a78955afe86503fbb37cc7293fa54287b0427877af4616bb762dfb57656c9",
+    "output/m6-final-freeze-preflight-20261030/catalog/regression-versions/a3fa87c1adb2a6dc4e9638214164eb5f/config.json": "31527f697472fc1e797a825b2452fa3d480b3f14af0de7d4c4131274017809ff",
+    "output/m6-final-freeze-preflight-20261030/catalog/regression-versions/a3fa87c1adb2a6dc4e9638214164eb5f/entry.json": "7240e1caa996beb45c7ca5362daad186c8caf132558e5040dcd02f4014c5fef1",
+    "output/m6-final-freeze-preflight-20261030/catalog/regression-versions/a3fa87c1adb2a6dc4e9638214164eb5f/manifest.json": "d1644269ffd71a8e9917c7cea4ac98d99b31ce0fc62f7c0978231fb3bb3a28d0",
+    "output/m6-final-freeze-preflight-20261030/catalog/regression-versions/a3fa87c1adb2a6dc4e9638214164eb5f/questions.jsonl": "217fe6342f2389cf32aa112ec8591a0b8b09e97bb2d1356b085799f734249a04",
+    "output/m6-final-freeze-preflight-20261030/catalog/support-v2-r2-manifest.json": "02adab8ab9346c3d6b22c7a15a0a6aae2c7d65ad1deefc9722400b2e477e6b92",
+    "output/m6-final-freeze-preflight-20261030/catalog/support-v2-r2.jsonl": "1d1f785c3303adcaf4b964bf6d5bedeee8cf418ff0f0748704a7bccbe2a86d36",
+    "output/m6-final-freeze-preflight-20261030/database-after.json": "48d7960605b7d3e4b898c9d61fd6231e7719e3e7d1ef34cab37717701004a29a",
+    "output/m6-final-freeze-preflight-20261030/database-before.json": "48d7960605b7d3e4b898c9d61fd6231e7719e3e7d1ef34cab37717701004a29a",
+    "output/m6-final-freeze-preflight-20261030/dataset-acceptance.json": "3b92e2e2b840e6267f6cbb853074cdefc2f42a89a7e2e0981e4635e024bb9c91",
+    "output/m6-final-freeze-preflight-20261030/default-identity.json": "79036457c2a15200dad0afc2be2083b49bd53f632d55fad9389e3444924d15b8",
+    "output/m6-final-freeze-preflight-20261030/final-audit-receipt.json": "848d7e9a84a69a1acea04f1a4af531d44bc2e7a01dadc378ba42069f3a4ada16",
+    "output/m6-final-freeze-preflight-20261030/final-audit.log": "b47219ba5ab5e19347abb4f88e42c0ab76c42b12e0dbad3effebefc2ceb77014",
+    "output/m6-final-freeze-preflight-20261030/final_audit.py": "a77ba1a587bd6e898f896a8677198b6ffcffb22a754486b39658155aac07eccd",
+    "output/m6-final-freeze-preflight-20261030/finish-audit.log": "a19b381927754834dbf01af34063d096721a2b065bb6430d5a81a9a647e980a3",
+    "output/m6-final-freeze-preflight-20261030/finish_audit.py": "6e16f60d9263d1be21bb8badce62a185f30fff8607f2c48fa015a8feecd5174a",
+    "output/m6-final-freeze-preflight-20261030/formal-registration-and-execution-plan-final.json": "37f85507dcfed3b54a0e9db7e4b426a340c29a6c49bb5756b90ea731fcaedea6",
+    "output/m6-final-freeze-preflight-20261030/formal-registration-and-execution-plan.json": "62a71250d9727de936d6ccf74f1f11d67b2ee17fec727333fec62386061b9808",
+    "output/m6-final-freeze-preflight-20261030/freeze-matrix-final.json": "00af13797df42540c6b483005dba3cc89d6122785d2092788f28b8613b29a434",
+    "output/m6-final-freeze-preflight-20261030/freeze-matrix.json": "aa7f274ad8d5c070c5f7662052421d86a0f56dc750fc0b424ef8fed6da7218e9",
+    "output/m6-final-freeze-preflight-20261030/historical-baseline-eligibility.json": "c759b44a25d671d5fccbba3d88c0c07f911542cd871e8b9e2a8859357a8b6986",
+    "output/m6-final-freeze-preflight-20261030/initial-control-inspection.json": "9264e30d8dc37e5482378a7cb5553779194d43f5a794c6258f68671387dede41",
+    "output/m6-final-freeze-preflight-20261030/initial-stdin-dotenv-failure.txt": "199615c614f9c5c4cbeeec9c64b1bbd364348661f6fba74e6727dc9b1e0ba577",
+    "output/m6-final-freeze-preflight-20261030/policy-registration-intent.json": "5f38fc1c65b6c8ebd27479a90a5dd418ccaf9a57c317e3ca8f7d635a94f379d2",
+    "output/m6-final-freeze-preflight-20261030/preflight-first.log": "c93eb110ba135f8b32b01b1d9f23eb1924871845f8c7c9a80d30029b051e452c",
+    "output/m6-final-freeze-preflight-20261030/preflight-results.json": "3d35582ea9165dc466bca2f1ac1926099c6fe0ca70cf60a35d232365b14dbbee",
+    "output/m6-final-freeze-preflight-20261030/preflight.py": "a494f5a6a41eab34cf8a4ae79311a090012510a5f8d64466e967a0ad33ed1394",
+    "output/m6-final-freeze-preflight-20261030/preserved-parent-files.json": "07c5867b083aa1534b4ce8ee64fc657562c7d417c2c938aca174bf7fb072b26d",
+    "output/m6-final-freeze-preflight-20261030/protected-evidence-audit-final.json": "41dfa8f1f56be5d24dd90819de31d94d736f561560035f94b5b300a7196f3a99",
+    "output/m6-final-freeze-preflight-20261030/question-input-identities.json": "0825be788ca85ba0ac19009bfa7dd3560df5234666b0167c67399594b648ebfd",
+    "output/m6-final-freeze-preflight-20261030/runtime-versions.json": "8e365cd64a5816794bba5fb855d9d900a41e538b5f7e09d737714e0aa5cf1efb",
+    "output/m6-final-freeze-preflight-20261030/supplemental-formal-gates.json": "aa7cd5d978bdd7ad8ef8aa7effc6bcbcafac0f22e95be8194650ed9100b141f4",
+    "output/m6-final-freeze-preflight-20261030/write_delivery.py": "f1c2d4e19c8e32081358e25dd53c23d20f018c3c49ff13b36caf963071897aa1",
+    "output/m6-final-freeze-preflight-20261030/冻结与预检结果.html": "63d6ecd2e4d44f5a71bbf033f1936d7ba5124eb4681800bc68550e8e7ec45247"
+  }
+}
