@@ -39,3 +39,24 @@
 本轮新增产品编码／重排／答案／供应商调用0，不新开子Agent。历史168逻辑stream、input321926／output168290和未知HTTP／费用保留。后续真实候选及双轮、反馈proof、固定报告与阶段逐项验收仍需各自证据；M6保持4/7、04／05／08未整项验收，M7未授权，heldout不运行、默认不切换。
 
 实际结果和私有证据hash见[M6-review-repair-attestation-validation-r1.json](M6-review-repair-attestation-validation-r1.json)。本报告的受控初次提交blob用作正式核验依据；其后只追加数据库实际回执及接续记录，不更换已经绑定的artifact。
+
+## 正式执行回执与M6-04验收（本轮追加，取代上文待执行状态）
+
+受控依据为35a39e012ede880784c1e04abebec414fff8f0aa中本报告初次blob，SHA256为8a9ca672de7f4e78271ffe9bbadf537ac4a3cfc1d6a1b7e004788a75c4bc3509。两份正式attestation均继续绑定这一不可变artifact；本次追加不替换它。实际既有仅原kb总控admin通过ReviewRepairs.attest登记，再由ReviewService.calibrate完成两版预校准；全等重发幂等已验证，没有代签审核者或改写原评分。
+
+| 版本 | 正式attestation SHA256 | 正式校准ID |
+| --- | --- | --- |
+| 1 | c7ef2eaf9b26708a30515c59cca93ab6dc04b816cff03e0f636fb2c24c828929 | 69a95e6b-c3b1-4ee1-8523-bab605451a2b |
+| 2 | 39ce629ee3003cf02a29841f31c1d718258c0e30de7accc4ff9787f802740e24 | 379c925f-3bd9-4f2a-9607-e5a9679f0a2f |
+
+新进程只读post审计11493项通过（与pre4353有重叠，不累计）；实际新增恰为2条attestation、2条calibration。609份历史文件及3547条既有记录hash保持；两版85题×四维均完整，无unknown／混合适用性／critical。独立按选定两轮min／双N/A重算680个有效值及1360条逐维轮次来源：1324原review、24限定repair、12总控规则N/A。所有0／1分保留，两版047合理澄清仍是完整评测结果，不要求强行补答案。两版校准容差均0。
+
+已生成[固定基线开发审核报告](../../evaluation/M6-baseline-development-quality-r1.md)，回读680个表格值与正式来源全等；抽检六项补证、六处适用性纠错及全部0分项，并核对001兼容范围、指示灯、电池安全处置和固件拒答依据。此为报告来源核账和固定抽检，不新增第三轮评分，不以断言数冒充正确率。
+
+按M6-04原合同，.1／.2／.3已有实现及验证，.V所需真实双轮样例、固定报告抽检及基线预校准现已齐备，.D随本次导航收口完成；依已批准assistant-development-v1政策，**M6-04开发验收通过，M6核心5/7、总核心65/76**。human发布门槛独立保留，候选非劣化与反馈proof分别继续归05／08，不额外拖住04，也不宣称绝对答案质量或阶段整体验收通过。
+
+本轮仅准备两份绑定真实校准的candidate/v2请求，并经正式catalog／政策／regression消费者只读校验；未创建候选、候选Run、答案调用或反馈proof。下一包直接执行两版各85 dev独立候选及同范围真实独立双轮，总控核验后走development gate和对应反馈服务端proof。详见[完整候选执行指令](../handoffs/M6-calibrated-candidate-execution-r1.md)。不再attest、校准、重审六题、重生成基线或重登记题集。05／08仍open，M7未授权。
+
+本轮新增产品推理0；历史168逻辑stream及观测input321926／output168290 token保持，精确HTTP／费用null。上述OS／平台轨迹与live Milvus证据限制继续有效。私有审计、正式回执、源码和请求hash保存在output/m6-review-repair-attestation-20261030/，不上传原始答案、PDF、日志、缓存或凭据。
+
+最终文档收口及当前正式记录只读复核771项通过，包含两份attestation／calibration读取、全部680格与当前正式有效值匹配、私有保护hash及新增导航链接检查；与前述审计重叠，不累计为答案质量分。JSON解析及git diff --check通过。

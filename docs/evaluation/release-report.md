@@ -1,3 +1,13 @@
+## 2026-10-30 · 正式attest及预校准完成；M6-04开发验收通过
+
+总控已核验固定六结果补证及保留原来源，并以受控Git报告正式attest两版；两份85题基线预校准均成功，无unknown／混合适用性／critical，原低分和原评分保持。固定报告680个有效值与正式来源全等，抽检记录完成；按原任务合同及assistant-development-v1政策验收M6-04。**M6核心5/7（01／02／03／04／07），总核心65/76；05／08未验收，M7未授权。** human发布门槛独立保留，不当作本次开发验收新阻塞。
+
+本轮pre4353／post11493项只读审计通过，组间重叠不累计；609历史文件／3547既有记录hash保持，正式新增仅2attest＋2calibration。产品答案／编码／重排调用新增0，候选／proof仍0；历史168stream、input321926／output168290及未知HTTP／费用保持。OS及完整平台访问轨迹不可得、live Milvus本轮未重扫的限制如实保留。
+
+下一包直接使用已绑定真实校准的两份candidate/v2请求与prepared-r4 catalog，运行各85 dev独立候选→同范围真实独立双轮→总控来源核验→development gate→两反馈服务端proof；不再开发纠错接口、重审六题、重生成基线、重校准或重登记题集。05待真实复评proof，08待候选质量及阶段报告收口；heldout／默认切换／M7不启动。以下保留历史时点。
+
+[总控报告](../development/reviews/M6-review-repair-attestation-r1.md) · [固定报告](M6-baseline-development-quality-r1.md) · [执行指令](../development/handoffs/M6-calibrated-candidate-execution-r1.md)
+
 # M6 固定报告与发布质量状态
 
 ## 2026-10-29 · C03/C09及C04实现独立通过，质量证据待执行

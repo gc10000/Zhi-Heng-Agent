@@ -334,11 +334,11 @@
     "new_model_calls": 0,
     "live_milvus_scan": false
   },
-  "actual_attestations_created": 0,
-  "actual_calibrations_created": 0,
+  "actual_attestations_created": 2,
+  "actual_calibrations_created": 2,
   "candidates_created": 0,
   "proofs_created": 0,
-  "status": "independent provenance review passed; formal writes pending this controlled report commit",
+  "status": "formal attest and pre-calibration completed; M6-04 development acceptance passed",
   "new_product_calls": {
     "stream": 0,
     "invoke": 0,
@@ -364,20 +364,552 @@
     "same implementing controller does not claim independent technical reacceptance"
   ],
   "phase": {
-    "M6": "4/7",
+    "M6": "5/7",
+    "total_core": "65/76",
+    "accepted_this_round": [
+      "M6-04"
+    ],
     "open": [
-      "M6-04",
       "M6-05",
       "M6-08"
     ],
     "M7": "not authorized"
   },
   "private_evidence_sha256": {
+    "output/m6-review-repair-attestation-20261030/attest-baseline-1.json": "589d344d643092ad29d7f456c254991673bc5974d7767827bd512fee21421529",
+    "output/m6-review-repair-attestation-20261030/attest-baseline-2.json": "247c6828440b720648e32ac9e9009e24fd61a5dc45bdd2cb49953fc31ad9422d",
+    "output/m6-review-repair-attestation-20261030/attest.log": "b83859a27c0a83af0cbc576793c4a223612cf0ab486fc29c4b5a89c33eba1a72",
+    "output/m6-review-repair-attestation-20261030/attestations.json": "49dacf5ddf2ac31a75a24a1fd6d1139f8fab29ba256d5146c76d60fe389024a4",
     "output/m6-review-repair-attestation-20261030/audit.py": "d3b1e025f3da360321852f6b5c53e145ec620d8b38ea6c0142d7e072f5978a84",
-    "output/m6-review-repair-attestation-20261030/pre.log": "a872db715e6c7c8b7a820bf0827385ea53a4f32baaa5e98f251e89d60ce75dbd",
+    "output/m6-review-repair-attestation-20261030/calibrate-baseline-1.json": "4677d747e1727b5fc694c22eadbe7339226e7ccf31fcb4298b824e361e99cd56",
+    "output/m6-review-repair-attestation-20261030/calibrate-baseline-2.json": "ecee499ae6e705ba15dc4e7d91e3cccf436a64134487911a5533455c490e3e33",
+    "output/m6-review-repair-attestation-20261030/calibrate.log": "0a98ef4376737a7b7d66cbb177d7183f981a2072a58a61423a4ed92bfc2ac32f",
+    "output/m6-review-repair-attestation-20261030/calibrations.json": "941cd009e809ff8dd19161320dc500b080ae35a78c8ec68e3f39f26a8f56d5d7",
+    "output/m6-review-repair-attestation-20261030/candidate-request-baseline-1.json": "fe47c9c2968d7cd7324798b1943443ee74967e36cd07394a4c318967dbb30b04",
+    "output/m6-review-repair-attestation-20261030/candidate-request-baseline-2.json": "71ec6808f1d8182c1a806f35039328dab8696f3742b2a5391ff0c0ba881fe7b8",
+    "output/m6-review-repair-attestation-20261030/candidate-request.log": "095e6969400db0b5352d1e72e45a95cec156068915c190825a69bf843b7b99a5",
+    "output/m6-review-repair-attestation-20261030/candidate-v2-requests.json": "1d5b0dd31d8907d13c24c03ea07d641f98c0af9d6349552ca53b3317eb4c9af9",
+    "output/m6-review-repair-attestation-20261030/finalize_docs.py": "a8818c602ec37cc7aa5b53b7eea9c4ee871cb80e119b6032272c6f742bddcf77",
+    "output/m6-review-repair-attestation-20261030/fixed-report-validation.json": "ace26d4173b9acda04ee9ef5acb8bf39508d6b8f560ad479108b1ee4ab5722ef",
+    "output/m6-review-repair-attestation-20261030/fixed-report.log": "013787cbd14c2758cc02577869f62f18518b92b7d5f415c8ab28c9f9f1d225ce",
+    "output/m6-review-repair-attestation-20261030/fixed_report.py": "eddf54c547402f77217d20431220d288f6239d17b2c053b1dfa876f444b88ed6",
+    "output/m6-review-repair-attestation-20261030/formal.py": "db63e9cb3dd08e71a3e7b2de138193f460611dc3c52a8e4a8f3b41cdca13f918",
+    "output/m6-review-repair-attestation-20261030/post/checks.json": "0c941ec8d22b86323893f650bc85c6d8c4d38bbfe38c3498df03fcfb1254a642",
+    "output/m6-review-repair-attestation-20261030/post/database-before.json": "9cadcbc6012f65f08f08448973da1eadd867c8ec3831136e06860f1180db5b5f",
+    "output/m6-review-repair-attestation-20261030/post/mutations.json": "049662b7c45807da472762b907cf85239fcf9340b86d762266d4cbd4c3b4899c",
+    "output/m6-review-repair-attestation-20261030/post/quality-1.json": "4a97a524dfd6798ddc54f477b8e1ddd1e9083b84edeedac5d618b106aa70cf5f",
+    "output/m6-review-repair-attestation-20261030/post/quality-2.json": "a9f8fd2e365ed19cf727defb851bc9a6bbf1e2f7fb34cbf55fccfbda82cc948a",
+    "output/m6-review-repair-attestation-20261030/post/result.json": "4045b62ada0c92bf6df19e10aa34701bec627d275cc721958016bcc1ead40f66",
+    "output/m6-review-repair-attestation-20261030/post/row-hashes.json": "2b8e65d1136e55c15f4dc7bedbd8e7add021a7ea9e1df382985d4182f38dcbc6",
+    "output/m6-review-repair-attestation-20261030/post/selected-source-counts-1.json": "54d4399d643b5626b6bf1bf028690a5ce0c7f3c92b9c05ee0136321060d73c77",
+    "output/m6-review-repair-attestation-20261030/post/selected-source-counts-2.json": "653ed126706b0913111e62926976e5658688652cae7fae3f989fcad52928aa5b",
+    "output/m6-review-repair-attestation-20261030/post.log": "c42360380163f06e1276ae2e1f2cd99391b155190872e44928245acc3d8cfedf",
     "output/m6-review-repair-attestation-20261030/pre/checks.json": "1887e6bbe0127346ec55c85d11aede6b7614e8f79964904e0a072b68f3f73eaa",
-    "output/m6-review-repair-attestation-20261030/pre/result.json": "ee11f24c8f5716c32130a804f9e710596f1b5ff71d2aabf35dd00d52e290e4ab",
     "output/m6-review-repair-attestation-20261030/pre/database-before.json": "2518c9b0bc198537a23d001cba7550a811f57c427103124bb4e3e15525175578",
-    "output/m6-review-repair-attestation-20261030/pre/row-hashes.json": "04115af4a2fc4fb04119b685ff5a74fca080cc938f6ffbbe8c1c65fdce951593"
+    "output/m6-review-repair-attestation-20261030/pre/result.json": "ee11f24c8f5716c32130a804f9e710596f1b5ff71d2aabf35dd00d52e290e4ab",
+    "output/m6-review-repair-attestation-20261030/pre/row-hashes.json": "04115af4a2fc4fb04119b685ff5a74fca080cc938f6ffbbe8c1c65fdce951593",
+    "output/m6-review-repair-attestation-20261030/pre.log": "a872db715e6c7c8b7a820bf0827385ea53a4f32baaa5e98f251e89d60ce75dbd"
+  },
+  "postflight": {
+    "passed": true,
+    "mode": "post",
+    "checks": 11493,
+    "old_rows_preserved": 3547,
+    "provenance": [
+      {
+        "round": 1,
+        "task": "/root/repair_blind_round1_fresh",
+        "model": null,
+        "input_files": {
+          "output/m6-review-correction-fix-20261030/prepared-r4/blind-round-1/README.md": "c08a461b4e832f897de943f2d8e3a72396231f65257081f786e7d833c35e3528",
+          "output/m6-review-correction-fix-20261030/prepared-r4/blind-round-1/items.json": "d7f304f32ef46c070ce14e5aa8441982e1972d4c48df6d08a261fc1dc6ddf388",
+          "output/m6-review-correction-fix-20261030/prepared-r4/blind-round-1/original-sources.json": "ecf6f84559e78a7b872d45d2d66e75a6b135207ddff963cc6ad5193678899d9c"
+        },
+        "start": "2026-10-30T12:02:05.882146+00:00",
+        "end": "2026-10-30T12:05:22.282185+00:00",
+        "scripts": [
+          {
+            "path": "output/m6-review-repair-execution-20261030/reviewer-round-1/extract_originals.py",
+            "sha256": "eb7d1ed5439812d769da5bc9213bc0f6af97484861f0a44c386c450f283edaad",
+            "imports": [
+              "json",
+              "hashlib",
+              "pathlib",
+              "fitz",
+              "sys"
+            ]
+          },
+          {
+            "path": "output/m6-review-repair-execution-20261030/reviewer-round-1/render_and_read.py",
+            "sha256": "1ccef9fab5a5b1bb8bff288dfd2a5beba1f360c8dce3a72d6e56324d48d3ee85",
+            "imports": [
+              "pathlib",
+              "json",
+              "fitz",
+              "sys"
+            ]
+          },
+          {
+            "path": "output/m6-review-repair-execution-20261030/reviewer-round-1/verify_outputs.py",
+            "sha256": "173fe08ceb8cead3c6c2f4f91a14081f86ff221e74392ada5ede6511847de1fe",
+            "imports": [
+              "pathlib",
+              "json",
+              "hashlib",
+              "datetime",
+              "sys"
+            ]
+          },
+          {
+            "path": "output/m6-review-repair-execution-20261030/reviewer-round-1/write_judgments.py",
+            "sha256": "f30454911e9fbaa93605ba0bfe9a8f27c55e79ace224c1346f9af3317c8b2c9b",
+            "imports": [
+              "json",
+              "pathlib",
+              "datetime",
+              "hashlib",
+              "sys"
+            ]
+          }
+        ],
+        "exhaustive_platform_trace_available": false
+      },
+      {
+        "round": 2,
+        "task": "/root/repair_blind_round2_fresh",
+        "model": null,
+        "input_files": {
+          "output/m6-review-correction-fix-20261030/prepared-r4/blind-round-2/README.md": "c08a461b4e832f897de943f2d8e3a72396231f65257081f786e7d833c35e3528",
+          "output/m6-review-correction-fix-20261030/prepared-r4/blind-round-2/items.json": "d7f304f32ef46c070ce14e5aa8441982e1972d4c48df6d08a261fc1dc6ddf388",
+          "output/m6-review-correction-fix-20261030/prepared-r4/blind-round-2/original-sources.json": "ecf6f84559e78a7b872d45d2d66e75a6b135207ddff963cc6ad5193678899d9c"
+        },
+        "start": "2026-10-30T20:06:46.410111+08:00",
+        "end": "2026-10-30T20:09:53.540822+08:00",
+        "scripts": [
+          {
+            "path": "output/m6-review-repair-execution-20261030/reviewer-round-2/inspect_originals.py",
+            "sha256": "ce39bdbba9008358421b75d295e51d575ccf74e52ec2087e78c91d7866b61e9a",
+            "imports": [
+              "sys",
+              "json",
+              "hashlib",
+              "datetime",
+              "pathlib",
+              "fitz"
+            ]
+          },
+          {
+            "path": "output/m6-review-repair-execution-20261030/reviewer-round-2/write_judgments.py",
+            "sha256": "407333c44c69d502c752011adbd2833a1dc86146e821d75dafbb79821a3e190a",
+            "imports": [
+              "sys",
+              "json",
+              "hashlib",
+              "datetime",
+              "pathlib"
+            ]
+          }
+        ],
+        "exhaustive_platform_trace_available": false
+      }
+    ],
+    "baselines": [
+      {
+        "baseline": 1,
+        "experiment_id": "2b4307e3-2f03-46d7-850c-7d1054b1f8d2",
+        "case_id": "2f555874f0571693639f78f156dc76d3cef000b386422021c7053afb30d2c851",
+        "case_sha256": "2647305da991aff2cc16b9e7202285e240b77317c38fb3010f6fb44a211c6569",
+        "seals": [
+          {
+            "round": 1,
+            "id": "0294d7bd0e242fc4e2defde1fb2b6915a22e0ccc972a8f42d0fe7f676ec82508",
+            "sha256": "70ad65e2a0be6d538a595bd4bdd011449af31fb352203a90bb7d4d4c51eb4185",
+            "execution_id": "/root/repair_blind_round1_fresh:b1:r1"
+          },
+          {
+            "round": 2,
+            "id": "572156b617690a45018a9687b3e07bd33285e8db8f4fa81c3631f1d7c791f9bb",
+            "sha256": "cb0ed416cd1954c79edf09de053bab5d57cb669859c4878151fff1f70e462eaf",
+            "execution_id": "/root/repair_blind_round2_fresh:b1:r2"
+          }
+        ],
+        "incomplete": [],
+        "critical": [],
+        "values_count": 85,
+        "attestation": {
+          "id": "2f555874f0571693639f78f156dc76d3cef000b386422021c7053afb30d2c851",
+          "sha256": "c7ef2eaf9b26708a30515c59cca93ab6dc04b816cff03e0f636fb2c24c828929",
+          "created_at": "2026-10-30T12:36:40.732155+00:00"
+        },
+        "calibration_id": "69a95e6b-c3b1-4ee1-8523-bab605451a2b"
+      },
+      {
+        "baseline": 2,
+        "experiment_id": "29d405dc-81c9-4b63-a35f-5abdcbea081c",
+        "case_id": "941d22cd51e9afca2d93ecdf55bba812701ccd6ccb7e0623c38559c2dd1b3ed3",
+        "case_sha256": "6935d0da776f4652abfbda3fd27cea2d9988f4fa63a67d8ee6c8cc634b281409",
+        "seals": [
+          {
+            "round": 1,
+            "id": "0f4d4d43f760bc5aa5a7253fea30109befc441143944170366a1f1a725ffd05b",
+            "sha256": "c9d861e8885e7b24157ddaa854b06f94aa41e831eca1dd2c655b292e7a7d692a",
+            "execution_id": "/root/repair_blind_round1_fresh:b2:r1"
+          },
+          {
+            "round": 2,
+            "id": "c21f2de87de07bdcee5aefb74cf2d8338bf62ea2867418e3253e30d56ef0c235",
+            "sha256": "6b185332e797fb715b008f1954b12c8d0ddd76cf591ceca24e612ada8a7dcf65",
+            "execution_id": "/root/repair_blind_round2_fresh:b2:r2"
+          }
+        ],
+        "incomplete": [],
+        "critical": [],
+        "values_count": 85,
+        "attestation": {
+          "id": "941d22cd51e9afca2d93ecdf55bba812701ccd6ccb7e0623c38559c2dd1b3ed3",
+          "sha256": "39ce629ee3003cf02a29841f31c1d718258c0e30de7accc4ff9787f802740e24",
+          "created_at": "2026-10-30T12:36:42.534209+00:00"
+        },
+        "calibration_id": "379c925f-3bd9-4f2a-9607-e5a9679f0a2f"
+      }
+    ],
+    "read_only": true,
+    "new_model_calls": 0,
+    "live_milvus_scan": false
+  },
+  "controlled_artifact": {
+    "commit": "35a39e012ede880784c1e04abebec414fff8f0aa",
+    "path": "docs/development/reviews/M6-review-repair-attestation-r1.md",
+    "sha256": "8a9ca672de7f4e78271ffe9bbadf537ac4a3cfc1d6a1b7e004788a75c4bc3509"
+  },
+  "fixed_report": {
+    "passed": true,
+    "report_path": "docs/evaluation/M6-baseline-development-quality-r1.md",
+    "report_sha256": "60ad6ff7d942d921fd7099f0d91f6bfde11a86dd90c681fdb50c6b432ee1ecc1",
+    "questions_per_version": 85,
+    "report_cells_matched": 680,
+    "source_round_entries_matched": 1360,
+    "selected_source_counts": {
+      "original_review": 1324,
+      "repair_review": 24,
+      "controller_rule_correction": 12
+    },
+    "low_scores": [
+      {
+        "baseline": 1,
+        "question_id": "m6-g540-03-a",
+        "dimension": "citation_support",
+        "score": 1
+      },
+      {
+        "baseline": 1,
+        "question_id": "m6-g540-05-a",
+        "dimension": "citation_support",
+        "score": 1
+      },
+      {
+        "baseline": 1,
+        "question_id": "m6-g540-05-b",
+        "dimension": "citation_support",
+        "score": 1
+      },
+      {
+        "baseline": 1,
+        "question_id": "m6-g540-06-a",
+        "dimension": "citation_support",
+        "score": 1
+      },
+      {
+        "baseline": 1,
+        "question_id": "m6-g540-17-b",
+        "dimension": "citation_support",
+        "score": 1
+      },
+      {
+        "baseline": 1,
+        "question_id": "m6-g540-unknown-02-a",
+        "dimension": "citation_support",
+        "score": 1
+      },
+      {
+        "baseline": 1,
+        "question_id": "m6-g540-unknown-02-b",
+        "dimension": "citation_support",
+        "score": 0
+      },
+      {
+        "baseline": 1,
+        "question_id": "m6-g540-unknown-05-b",
+        "dimension": "citation_support",
+        "score": 1
+      },
+      {
+        "baseline": 1,
+        "question_id": "support-v1-031",
+        "dimension": "citation_support",
+        "score": 1
+      },
+      {
+        "baseline": 1,
+        "question_id": "support-v1-033",
+        "dimension": "factuality",
+        "score": 1
+      },
+      {
+        "baseline": 1,
+        "question_id": "support-v1-033",
+        "dimension": "citation_support",
+        "score": 1
+      },
+      {
+        "baseline": 1,
+        "question_id": "support-v1-036",
+        "dimension": "citation_support",
+        "score": 1
+      },
+      {
+        "baseline": 1,
+        "question_id": "support-v1-047",
+        "dimension": "factuality",
+        "score": 1
+      },
+      {
+        "baseline": 1,
+        "question_id": "support-v1-047",
+        "dimension": "actionability",
+        "score": 0
+      },
+      {
+        "baseline": 1,
+        "question_id": "support-v1-048",
+        "dimension": "factuality",
+        "score": 1
+      },
+      {
+        "baseline": 1,
+        "question_id": "support-v1-048",
+        "dimension": "citation_support",
+        "score": 1
+      },
+      {
+        "baseline": 2,
+        "question_id": "m6-g540-03-a",
+        "dimension": "citation_support",
+        "score": 1
+      },
+      {
+        "baseline": 2,
+        "question_id": "m6-g540-05-a",
+        "dimension": "citation_support",
+        "score": 1
+      },
+      {
+        "baseline": 2,
+        "question_id": "m6-g540-05-b",
+        "dimension": "citation_support",
+        "score": 1
+      },
+      {
+        "baseline": 2,
+        "question_id": "m6-g540-06-a",
+        "dimension": "citation_support",
+        "score": 1
+      },
+      {
+        "baseline": 2,
+        "question_id": "m6-g540-17-b",
+        "dimension": "citation_support",
+        "score": 1
+      },
+      {
+        "baseline": 2,
+        "question_id": "m6-g540-unknown-01-b",
+        "dimension": "citation_support",
+        "score": 1
+      },
+      {
+        "baseline": 2,
+        "question_id": "m6-g540-unknown-02-a",
+        "dimension": "citation_support",
+        "score": 1
+      },
+      {
+        "baseline": 2,
+        "question_id": "m6-g540-unknown-02-b",
+        "dimension": "citation_support",
+        "score": 1
+      },
+      {
+        "baseline": 2,
+        "question_id": "m6-g540-unknown-03-a",
+        "dimension": "factuality",
+        "score": 1
+      },
+      {
+        "baseline": 2,
+        "question_id": "m6-g540-unknown-03-a",
+        "dimension": "citation_support",
+        "score": 1
+      },
+      {
+        "baseline": 2,
+        "question_id": "m6-g540-unknown-05-b",
+        "dimension": "citation_support",
+        "score": 1
+      },
+      {
+        "baseline": 2,
+        "question_id": "support-v1-031",
+        "dimension": "citation_support",
+        "score": 1
+      },
+      {
+        "baseline": 2,
+        "question_id": "support-v1-033",
+        "dimension": "factuality",
+        "score": 1
+      },
+      {
+        "baseline": 2,
+        "question_id": "support-v1-033",
+        "dimension": "citation_support",
+        "score": 1
+      },
+      {
+        "baseline": 2,
+        "question_id": "support-v1-035",
+        "dimension": "citation_support",
+        "score": 1
+      },
+      {
+        "baseline": 2,
+        "question_id": "support-v1-036",
+        "dimension": "citation_support",
+        "score": 1
+      },
+      {
+        "baseline": 2,
+        "question_id": "support-v1-047",
+        "dimension": "factuality",
+        "score": 1
+      },
+      {
+        "baseline": 2,
+        "question_id": "support-v1-047",
+        "dimension": "actionability",
+        "score": 0
+      },
+      {
+        "baseline": 2,
+        "question_id": "support-v1-048",
+        "dimension": "factuality",
+        "score": 1
+      },
+      {
+        "baseline": 2,
+        "question_id": "support-v1-048",
+        "dimension": "citation_support",
+        "score": 1
+      }
+    ],
+    "sampling": "six replacement subjects, six applicability correction dimensions and all zero-score dimensions; all 680 values verified against selected formal source pairs",
+    "not_new_scoring": true,
+    "assistant_development_acceptance": true,
+    "human_publication_unchanged": true,
+    "acceptance": {
+      "task": "M6-04",
+      "accepted": true,
+      "core": "5/7",
+      "remaining": [
+        "M6-05",
+        "M6-08"
+      ],
+      "M7": "not authorized"
+    }
+  },
+  "formal_mutations": [
+    {
+      "database": "m1_test_m4_m6_review_562c2209ba994a1892074da324cc3025",
+      "collection": "evaluation_calibrations",
+      "id": "6ae48f6aacf1e733dfd6bce2"
+    },
+    {
+      "database": "m1_test_m4_m6_review_562c2209ba994a1892074da324cc3025",
+      "collection": "evaluation_review_repair_attestations",
+      "id": "2f555874f0571693639f78f156dc76d3cef000b386422021c7053afb30d2c851"
+    },
+    {
+      "database": "m1_test_m4_m6_review_c1486a0a19d84c069d66d6abeff4709a",
+      "collection": "evaluation_calibrations",
+      "id": "6ae48f6dacf1e733dfd6bce3"
+    },
+    {
+      "database": "m1_test_m4_m6_review_c1486a0a19d84c069d66d6abeff4709a",
+      "collection": "evaluation_review_repair_attestations",
+      "id": "941d22cd51e9afca2d93ecdf55bba812701ccd6ccb7e0623c38559c2dd1b3ed3"
+    }
+  ],
+  "candidate_requests": [
+    {
+      "baseline": 1,
+      "config_sha256": "20fbcf3e47e7275b1dd01b24a2309ceaba287a5cbf77b76587866c0fc3e5aa26",
+      "request": {
+        "kb_id": "m4-test-1a8144a196df48fd892becca8eca7ade",
+        "eval_set_id": "m6-full-dev-r1",
+        "eval_set_version": "fb-07c584730833908571fe9dd7c7c890afa3cf9e66",
+        "config_id": "m6-final-1-candidate",
+        "config_version": "v2",
+        "client_request_id": "m6-final-1-candidate-review-fix-v2",
+        "quality_policy": {
+          "id": "a511cc6341b832d7af86cf900b29ffac33319ed9f8c85faeb31c42cf8d91b107",
+          "sha256": "8a4fa95f898ddc362e55c505674e71c22508c5fe1cc77bd6d6668da78e7e703f"
+        },
+        "regression_source": {
+          "id": "87725c09f37660064837bef947885f75ab3dafd066ced493935ef842cfc297a4",
+          "sha256": "69af94d6c547b3def46e5f544139ff9ec94a61f70f4d06454974be455fedbb3e"
+        },
+        "baseline_experiment_id": "2b4307e3-2f03-46d7-850c-7d1054b1f8d2",
+        "quality_calibration_id": "69a95e6b-c3b1-4ee1-8523-bab605451a2b",
+        "regression_calibration_id": "69a95e6b-c3b1-4ee1-8523-bab605451a2b"
+      }
+    },
+    {
+      "baseline": 2,
+      "config_sha256": "b49c1bd7bf0689935bc13f0cb975f28029525e990ae09899d4c783733c981424",
+      "request": {
+        "kb_id": "m4-test-1a8144a196df48fd892becca8eca7ade",
+        "eval_set_id": "m6-full-dev-r1",
+        "eval_set_version": "fb-a3fa87c1adb2a6dc4e9638214164eb5f343ad008",
+        "config_id": "m6-final-2-candidate",
+        "config_version": "v2",
+        "client_request_id": "m6-final-2-candidate-review-fix-v2",
+        "quality_policy": {
+          "id": "a511cc6341b832d7af86cf900b29ffac33319ed9f8c85faeb31c42cf8d91b107",
+          "sha256": "62eb176019f78fe4e5d442d8f8a8a150db3b4b83eaa49d1fbf64acee135cd2b3"
+        },
+        "regression_source": {
+          "id": "01739675106c5e12eac37018a7f66ba4429e938d699cca8c3c33eae8017a7832",
+          "sha256": "5483e8cf5cd565db616c2833fa44bee52ada3d74670fef65fffee83b3c229fdb"
+        },
+        "baseline_experiment_id": "29d405dc-81c9-4b63-a35f-5abdcbea081c",
+        "quality_calibration_id": "379c925f-3bd9-4f2a-9607-e5a9679f0a2f",
+        "regression_calibration_id": "379c925f-3bd9-4f2a-9607-e5a9679f0a2f"
+      }
+    }
+  ],
+  "final_closure_validation": {
+    "passed": true,
+    "checks": 771,
+    "mode": "limited read-only final closure",
+    "report_cells_matched": 680,
+    "formal_attestations": 2,
+    "formal_calibrations": 2,
+    "candidates": 0,
+    "new_inference": 0,
+    "phase": "5/7"
+  },
+  "final_closure_sha256": {
+    "output/m6-review-repair-attestation-20261030/final-check.py": "a3fc62832e8581700e4691219e94f54f1be168540e3fcd41fdb4217fb163864d",
+    "output/m6-review-repair-attestation-20261030/final-check.json": "8b201d5d75058fb903a259ed56e183273ef99edda86b53ba6f871d5f9c9ef170"
   }
 }
