@@ -1,0 +1,1029 @@
+{
+  "date": "2026-10-30",
+  "baseline_commit": "4f5d3062653006cd181c5ff40ecad689f97cda0f",
+  "initial_state": "HEAD=origin/main=GitHub4f5d306; only tmp/",
+  "role": "execution self-validation; not independent review",
+  "rule": "compare_branch_context_v1",
+  "execution_exit_passed": true,
+  "adopted": false,
+  "formal_wiring": false,
+  "default_switch": false,
+  "config_sha256": "00ecaf9d39fa65a3d2a36616ce4be9fdd1e36558a865ebac32c1ccb74efe87fd",
+  "versions": {
+    "code": "04fd3693b8feeea8427cadfd4f0ae0b1016a2f148e6e3994afa186dac6a00619",
+    "prompt": "f0fe0cc92fca8715957120515588f239ee15d1e4b3e0ba6c4c411dd176d5c52d",
+    "model": "565fbfe4c795fb52f84183f7b2708491fd7824fa07f2de9fd546e9d6d6e5bb90"
+  },
+  "parent_processing_versions": {
+    "code": "4221334599170298f85fbd6cdb606a27f3356446d2286f82ae32d5a78f2d680f",
+    "prompt": "f0fe0cc92fca8715957120515588f239ee15d1e4b3e0ba6c4c411dd176d5c52d",
+    "model": "565fbfe4c795fb52f84183f7b2708491fd7824fa07f2de9fd546e9d6d6e5bb90"
+  },
+  "parent_corpus_config_sha256": "77f065914e2bac44fe19e1ed5d40191ca2a54a1f98ee2a9738a7de2217ab8b83",
+  "namespace": "m1_test_m4_m6_heads_fb825179effd4f0f",
+  "weighted": [
+    0.5,
+    0.5
+  ],
+  "budgets": [
+    20,
+    20,
+    20,
+    20,
+    10
+  ],
+  "prerequisites": {
+    "max_added": 4,
+    "max_chars": 6000
+  },
+  "questions": [
+    {
+      "id": "m6-g540-02-a",
+      "route": "answer",
+      "rule_applied": false,
+      "old_context_units": [
+        true
+      ],
+      "new_context_units": [
+        true
+      ],
+      "all_necessary_sources_precise": true,
+      "necessary_regression": false,
+      "comparison_sides": true,
+      "protected_count": 0,
+      "protected_in_final_context": true,
+      "seed_count": 10,
+      "added_seed_ordinals": [],
+      "removed_seed_ordinals": [],
+      "added_unknown_context": 0,
+      "noncompare_exactly_unchanged": true,
+      "old_input_tokens": 4045,
+      "new_input_tokens": 4045,
+      "omitted_documents": 0
+    },
+    {
+      "id": "m6-g540-02-b",
+      "route": "answer",
+      "rule_applied": false,
+      "old_context_units": [
+        true
+      ],
+      "new_context_units": [
+        true
+      ],
+      "all_necessary_sources_precise": true,
+      "necessary_regression": false,
+      "comparison_sides": true,
+      "protected_count": 0,
+      "protected_in_final_context": true,
+      "seed_count": 10,
+      "added_seed_ordinals": [],
+      "removed_seed_ordinals": [],
+      "added_unknown_context": 0,
+      "noncompare_exactly_unchanged": true,
+      "old_input_tokens": 6535,
+      "new_input_tokens": 6535,
+      "omitted_documents": 0
+    },
+    {
+      "id": "m6-g540-04-a",
+      "route": "answer",
+      "rule_applied": false,
+      "old_context_units": [
+        true
+      ],
+      "new_context_units": [
+        true
+      ],
+      "all_necessary_sources_precise": true,
+      "necessary_regression": false,
+      "comparison_sides": true,
+      "protected_count": 0,
+      "protected_in_final_context": true,
+      "seed_count": 10,
+      "added_seed_ordinals": [],
+      "removed_seed_ordinals": [],
+      "added_unknown_context": 0,
+      "noncompare_exactly_unchanged": true,
+      "old_input_tokens": 6414,
+      "new_input_tokens": 6414,
+      "omitted_documents": 0
+    },
+    {
+      "id": "m6-g540-04-b",
+      "route": "answer",
+      "rule_applied": false,
+      "old_context_units": [
+        true
+      ],
+      "new_context_units": [
+        true
+      ],
+      "all_necessary_sources_precise": true,
+      "necessary_regression": false,
+      "comparison_sides": true,
+      "protected_count": 0,
+      "protected_in_final_context": true,
+      "seed_count": 10,
+      "added_seed_ordinals": [],
+      "removed_seed_ordinals": [],
+      "added_unknown_context": 0,
+      "noncompare_exactly_unchanged": true,
+      "old_input_tokens": 4904,
+      "new_input_tokens": 4904,
+      "omitted_documents": 0
+    },
+    {
+      "id": "m6-g540-05-a",
+      "route": "answer",
+      "rule_applied": false,
+      "old_context_units": [
+        true
+      ],
+      "new_context_units": [
+        true
+      ],
+      "all_necessary_sources_precise": true,
+      "necessary_regression": false,
+      "comparison_sides": true,
+      "protected_count": 0,
+      "protected_in_final_context": true,
+      "seed_count": 10,
+      "added_seed_ordinals": [],
+      "removed_seed_ordinals": [],
+      "added_unknown_context": 0,
+      "noncompare_exactly_unchanged": true,
+      "old_input_tokens": 6270,
+      "new_input_tokens": 6270,
+      "omitted_documents": 0
+    },
+    {
+      "id": "m6-g540-05-b",
+      "route": "answer",
+      "rule_applied": false,
+      "old_context_units": [
+        true
+      ],
+      "new_context_units": [
+        true
+      ],
+      "all_necessary_sources_precise": true,
+      "necessary_regression": false,
+      "comparison_sides": true,
+      "protected_count": 0,
+      "protected_in_final_context": true,
+      "seed_count": 10,
+      "added_seed_ordinals": [],
+      "removed_seed_ordinals": [],
+      "added_unknown_context": 0,
+      "noncompare_exactly_unchanged": true,
+      "old_input_tokens": 6550,
+      "new_input_tokens": 6550,
+      "omitted_documents": 0
+    },
+    {
+      "id": "m6-g540-17-a",
+      "route": "answer",
+      "rule_applied": false,
+      "old_context_units": [
+        true
+      ],
+      "new_context_units": [
+        true
+      ],
+      "all_necessary_sources_precise": true,
+      "necessary_regression": false,
+      "comparison_sides": true,
+      "protected_count": 0,
+      "protected_in_final_context": true,
+      "seed_count": 10,
+      "added_seed_ordinals": [],
+      "removed_seed_ordinals": [],
+      "added_unknown_context": 0,
+      "noncompare_exactly_unchanged": true,
+      "old_input_tokens": 5937,
+      "new_input_tokens": 5937,
+      "omitted_documents": 0
+    },
+    {
+      "id": "m6-g540-17-b",
+      "route": "answer",
+      "rule_applied": false,
+      "old_context_units": [
+        true
+      ],
+      "new_context_units": [
+        true
+      ],
+      "all_necessary_sources_precise": true,
+      "necessary_regression": false,
+      "comparison_sides": true,
+      "protected_count": 0,
+      "protected_in_final_context": true,
+      "seed_count": 10,
+      "added_seed_ordinals": [],
+      "removed_seed_ordinals": [],
+      "added_unknown_context": 0,
+      "noncompare_exactly_unchanged": true,
+      "old_input_tokens": 6333,
+      "new_input_tokens": 6333,
+      "omitted_documents": 0
+    },
+    {
+      "id": "m6-g540-18-b",
+      "route": "answer",
+      "rule_applied": false,
+      "old_context_units": [
+        true
+      ],
+      "new_context_units": [
+        true
+      ],
+      "all_necessary_sources_precise": true,
+      "necessary_regression": false,
+      "comparison_sides": true,
+      "protected_count": 0,
+      "protected_in_final_context": true,
+      "seed_count": 10,
+      "added_seed_ordinals": [],
+      "removed_seed_ordinals": [],
+      "added_unknown_context": 0,
+      "noncompare_exactly_unchanged": true,
+      "old_input_tokens": 6204,
+      "new_input_tokens": 6204,
+      "omitted_documents": 0
+    },
+    {
+      "id": "m6-g540-20-a",
+      "route": "series",
+      "rule_applied": false,
+      "old_context_units": [
+        true,
+        true
+      ],
+      "new_context_units": [
+        true,
+        true
+      ],
+      "all_necessary_sources_precise": true,
+      "necessary_regression": false,
+      "comparison_sides": true,
+      "protected_count": 0,
+      "protected_in_final_context": true,
+      "seed_count": 10,
+      "added_seed_ordinals": [],
+      "removed_seed_ordinals": [],
+      "added_unknown_context": 0,
+      "noncompare_exactly_unchanged": true,
+      "old_input_tokens": 4995,
+      "new_input_tokens": 4995,
+      "omitted_documents": 0
+    },
+    {
+      "id": "support-v1-003",
+      "route": "answer",
+      "rule_applied": false,
+      "old_context_units": [
+        true
+      ],
+      "new_context_units": [
+        true
+      ],
+      "all_necessary_sources_precise": true,
+      "necessary_regression": false,
+      "comparison_sides": true,
+      "protected_count": 0,
+      "protected_in_final_context": true,
+      "seed_count": 10,
+      "added_seed_ordinals": [],
+      "removed_seed_ordinals": [],
+      "added_unknown_context": 0,
+      "noncompare_exactly_unchanged": true,
+      "old_input_tokens": 7745,
+      "new_input_tokens": 7745,
+      "omitted_documents": 0
+    },
+    {
+      "id": "support-v1-004",
+      "route": "answer",
+      "rule_applied": false,
+      "old_context_units": [
+        true
+      ],
+      "new_context_units": [
+        true
+      ],
+      "all_necessary_sources_precise": true,
+      "necessary_regression": false,
+      "comparison_sides": true,
+      "protected_count": 0,
+      "protected_in_final_context": true,
+      "seed_count": 10,
+      "added_seed_ordinals": [],
+      "removed_seed_ordinals": [],
+      "added_unknown_context": 0,
+      "noncompare_exactly_unchanged": true,
+      "old_input_tokens": 7430,
+      "new_input_tokens": 7430,
+      "omitted_documents": 0
+    },
+    {
+      "id": "support-v1-006",
+      "route": "answer",
+      "rule_applied": false,
+      "old_context_units": [
+        true
+      ],
+      "new_context_units": [
+        true
+      ],
+      "all_necessary_sources_precise": true,
+      "necessary_regression": false,
+      "comparison_sides": true,
+      "protected_count": 0,
+      "protected_in_final_context": true,
+      "seed_count": 10,
+      "added_seed_ordinals": [],
+      "removed_seed_ordinals": [],
+      "added_unknown_context": 0,
+      "noncompare_exactly_unchanged": true,
+      "old_input_tokens": 7174,
+      "new_input_tokens": 7174,
+      "omitted_documents": 0
+    },
+    {
+      "id": "support-v1-007",
+      "route": "answer",
+      "rule_applied": false,
+      "old_context_units": [
+        true
+      ],
+      "new_context_units": [
+        true
+      ],
+      "all_necessary_sources_precise": true,
+      "necessary_regression": false,
+      "comparison_sides": true,
+      "protected_count": 0,
+      "protected_in_final_context": true,
+      "seed_count": 10,
+      "added_seed_ordinals": [],
+      "removed_seed_ordinals": [],
+      "added_unknown_context": 0,
+      "noncompare_exactly_unchanged": true,
+      "old_input_tokens": 6916,
+      "new_input_tokens": 6916,
+      "omitted_documents": 0
+    },
+    {
+      "id": "support-v1-008",
+      "route": "answer",
+      "rule_applied": false,
+      "old_context_units": [
+        true
+      ],
+      "new_context_units": [
+        true
+      ],
+      "all_necessary_sources_precise": true,
+      "necessary_regression": false,
+      "comparison_sides": true,
+      "protected_count": 0,
+      "protected_in_final_context": true,
+      "seed_count": 10,
+      "added_seed_ordinals": [],
+      "removed_seed_ordinals": [],
+      "added_unknown_context": 0,
+      "noncompare_exactly_unchanged": true,
+      "old_input_tokens": 6648,
+      "new_input_tokens": 6648,
+      "omitted_documents": 0
+    },
+    {
+      "id": "support-v1-009",
+      "route": "answer",
+      "rule_applied": false,
+      "old_context_units": [
+        true,
+        true
+      ],
+      "new_context_units": [
+        true,
+        true
+      ],
+      "all_necessary_sources_precise": true,
+      "necessary_regression": false,
+      "comparison_sides": true,
+      "protected_count": 0,
+      "protected_in_final_context": true,
+      "seed_count": 10,
+      "added_seed_ordinals": [],
+      "removed_seed_ordinals": [],
+      "added_unknown_context": 0,
+      "noncompare_exactly_unchanged": true,
+      "old_input_tokens": 7540,
+      "new_input_tokens": 7540,
+      "omitted_documents": 0
+    },
+    {
+      "id": "support-v1-010",
+      "route": "answer",
+      "rule_applied": false,
+      "old_context_units": [
+        true,
+        true
+      ],
+      "new_context_units": [
+        true,
+        true
+      ],
+      "all_necessary_sources_precise": true,
+      "necessary_regression": false,
+      "comparison_sides": true,
+      "protected_count": 0,
+      "protected_in_final_context": true,
+      "seed_count": 10,
+      "added_seed_ordinals": [],
+      "removed_seed_ordinals": [],
+      "added_unknown_context": 0,
+      "noncompare_exactly_unchanged": true,
+      "old_input_tokens": 6922,
+      "new_input_tokens": 6922,
+      "omitted_documents": 0
+    },
+    {
+      "id": "support-v1-019",
+      "route": "answer",
+      "rule_applied": false,
+      "old_context_units": [
+        true
+      ],
+      "new_context_units": [
+        true
+      ],
+      "all_necessary_sources_precise": true,
+      "necessary_regression": false,
+      "comparison_sides": true,
+      "protected_count": 0,
+      "protected_in_final_context": true,
+      "seed_count": 10,
+      "added_seed_ordinals": [],
+      "removed_seed_ordinals": [],
+      "added_unknown_context": 0,
+      "noncompare_exactly_unchanged": true,
+      "old_input_tokens": 6190,
+      "new_input_tokens": 6190,
+      "omitted_documents": 0
+    },
+    {
+      "id": "support-v1-020",
+      "route": "answer",
+      "rule_applied": false,
+      "old_context_units": [
+        true,
+        true
+      ],
+      "new_context_units": [
+        true,
+        true
+      ],
+      "all_necessary_sources_precise": true,
+      "necessary_regression": false,
+      "comparison_sides": true,
+      "protected_count": 0,
+      "protected_in_final_context": true,
+      "seed_count": 10,
+      "added_seed_ordinals": [],
+      "removed_seed_ordinals": [],
+      "added_unknown_context": 0,
+      "noncompare_exactly_unchanged": true,
+      "old_input_tokens": 6262,
+      "new_input_tokens": 6262,
+      "omitted_documents": 0
+    },
+    {
+      "id": "support-v1-021",
+      "route": "answer",
+      "rule_applied": false,
+      "old_context_units": [
+        true,
+        true
+      ],
+      "new_context_units": [
+        true,
+        true
+      ],
+      "all_necessary_sources_precise": true,
+      "necessary_regression": false,
+      "comparison_sides": true,
+      "protected_count": 0,
+      "protected_in_final_context": true,
+      "seed_count": 10,
+      "added_seed_ordinals": [],
+      "removed_seed_ordinals": [],
+      "added_unknown_context": 0,
+      "noncompare_exactly_unchanged": true,
+      "old_input_tokens": 5737,
+      "new_input_tokens": 5737,
+      "omitted_documents": 0
+    },
+    {
+      "id": "support-v1-022",
+      "route": "answer",
+      "rule_applied": false,
+      "old_context_units": [
+        true
+      ],
+      "new_context_units": [
+        true
+      ],
+      "all_necessary_sources_precise": true,
+      "necessary_regression": false,
+      "comparison_sides": true,
+      "protected_count": 0,
+      "protected_in_final_context": true,
+      "seed_count": 10,
+      "added_seed_ordinals": [],
+      "removed_seed_ordinals": [],
+      "added_unknown_context": 0,
+      "noncompare_exactly_unchanged": true,
+      "old_input_tokens": 6184,
+      "new_input_tokens": 6184,
+      "omitted_documents": 0
+    },
+    {
+      "id": "support-v1-034",
+      "route": "answer",
+      "rule_applied": false,
+      "old_context_units": [
+        true,
+        true
+      ],
+      "new_context_units": [
+        true,
+        true
+      ],
+      "all_necessary_sources_precise": true,
+      "necessary_regression": false,
+      "comparison_sides": true,
+      "protected_count": 0,
+      "protected_in_final_context": true,
+      "seed_count": 10,
+      "added_seed_ordinals": [],
+      "removed_seed_ordinals": [],
+      "added_unknown_context": 0,
+      "noncompare_exactly_unchanged": true,
+      "old_input_tokens": 5159,
+      "new_input_tokens": 5159,
+      "omitted_documents": 0
+    },
+    {
+      "id": "support-v1-037",
+      "route": "answer",
+      "rule_applied": false,
+      "old_context_units": [
+        true,
+        true
+      ],
+      "new_context_units": [
+        true,
+        true
+      ],
+      "all_necessary_sources_precise": true,
+      "necessary_regression": false,
+      "comparison_sides": true,
+      "protected_count": 0,
+      "protected_in_final_context": true,
+      "seed_count": 10,
+      "added_seed_ordinals": [],
+      "removed_seed_ordinals": [],
+      "added_unknown_context": 0,
+      "noncompare_exactly_unchanged": true,
+      "old_input_tokens": 7314,
+      "new_input_tokens": 7314,
+      "omitted_documents": 0
+    },
+    {
+      "id": "support-v1-038",
+      "route": "answer",
+      "rule_applied": false,
+      "old_context_units": [
+        true,
+        true
+      ],
+      "new_context_units": [
+        true,
+        true
+      ],
+      "all_necessary_sources_precise": true,
+      "necessary_regression": false,
+      "comparison_sides": true,
+      "protected_count": 0,
+      "protected_in_final_context": true,
+      "seed_count": 10,
+      "added_seed_ordinals": [],
+      "removed_seed_ordinals": [],
+      "added_unknown_context": 0,
+      "noncompare_exactly_unchanged": true,
+      "old_input_tokens": 8034,
+      "new_input_tokens": 8034,
+      "omitted_documents": 0
+    },
+    {
+      "id": "support-v1-048",
+      "route": "compare",
+      "rule_applied": true,
+      "old_context_units": [
+        true,
+        false,
+        false
+      ],
+      "new_context_units": [
+        true,
+        true,
+        true
+      ],
+      "all_necessary_sources_precise": true,
+      "necessary_regression": false,
+      "comparison_sides": true,
+      "protected_count": 5,
+      "protected_in_final_context": true,
+      "seed_count": 10,
+      "added_seed_ordinals": [
+        46,
+        268
+      ],
+      "removed_seed_ordinals": [
+        16,
+        74
+      ],
+      "added_unknown_context": 0,
+      "noncompare_exactly_unchanged": true,
+      "old_input_tokens": 8464,
+      "new_input_tokens": 8245,
+      "omitted_documents": 0
+    }
+  ],
+  "coverage": {
+    "old": "24/25",
+    "new": "25/25",
+    "necessary_units": 35,
+    "original24_full_variant_unchanged": true,
+    "comparison_sides": true,
+    "source_mapping_precise": true
+  },
+  "changed": [
+    {
+      "id": "support-v1-048",
+      "added": [
+        {
+          "chunk_uid": "9e87425c-94e6-51ca-9f93-e4f42a0e1d58",
+          "ordinal": 46,
+          "heading_path": [
+            "您想了解什么？"
+          ],
+          "rank": 14,
+          "score": 0.006180184303407614,
+          "source_refs": [
+            {
+              "document_id": "536d3f2f-8d4d-5d08-bc71-8ab7cca18562",
+              "revision_id": "55a81645-af3b-5ef4-ab07-cf6366dccf1c",
+              "kind": "pdf",
+              "page": 7,
+              "printed_page": null,
+              "section_path": [
+                "您想了解什么？"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        },
+        {
+          "chunk_uid": "b0132ca5-f5a0-5716-950e-0d99b0916f9b",
+          "ordinal": 268,
+          "heading_path": [
+            "附录 – 故障排除"
+          ],
+          "rank": 18,
+          "score": 0.0009145474591837374,
+          "source_refs": [
+            {
+              "document_id": "536d3f2f-8d4d-5d08-bc71-8ab7cca18562",
+              "revision_id": "55a81645-af3b-5ef4-ab07-cf6366dccf1c",
+              "kind": "pdf",
+              "page": 30,
+              "printed_page": "5-1",
+              "section_path": [
+                "附录 – 故障排除"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": 3,
+              "row_end": 3,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        }
+      ],
+      "removed": [
+        {
+          "chunk_uid": "c3a4be27-a76b-55bf-b9da-7db385b5b76c",
+          "ordinal": 16,
+          "heading_path": [
+            "H3C LA2608 室内无线网关",
+            "1.2.3 验证LA2608 与无线控制器是否连通"
+          ],
+          "rank": 9,
+          "score": 0.12269116710818152,
+          "source_refs": [
+            {
+              "document_id": "4676940c-be2d-5142-a366-ea201c95a2bf",
+              "revision_id": "3dee2caf-2964-5de5-8742-78feb7705343",
+              "kind": "pdf",
+              "page": 6,
+              "printed_page": null,
+              "section_path": [
+                "H3C LA2608 室内无线网关",
+                "1.2.3 验证LA2608 与无线控制器是否连通"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        },
+        {
+          "chunk_uid": "a5df2e23-885a-56aa-9c2b-5a5f13cd3a49",
+          "ordinal": 74,
+          "heading_path": [
+            "说明"
+          ],
+          "rank": 10,
+          "score": 0.09455922032391718,
+          "source_refs": [
+            {
+              "document_id": "536d3f2f-8d4d-5d08-bc71-8ab7cca18562",
+              "revision_id": "55a81645-af3b-5ef4-ab07-cf6366dccf1c",
+              "kind": "pdf",
+              "page": 10,
+              "printed_page": null,
+              "section_path": [
+                "说明"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            },
+            {
+              "document_id": "536d3f2f-8d4d-5d08-bc71-8ab7cca18562",
+              "revision_id": "55a81645-af3b-5ef4-ab07-cf6366dccf1c",
+              "kind": "pdf",
+              "page": 11,
+              "printed_page": null,
+              "section_path": [
+                "说明"
+              ],
+              "sheet": null,
+              "cell": null,
+              "line_start": null,
+              "line_end": null,
+              "row_start": null,
+              "row_end": null,
+              "bbox": null,
+              "coordinate_system": null,
+              "asset_id": null
+            }
+          ]
+        }
+      ],
+      "old_budget": {
+        "policy": {
+          "context_window": 32768,
+          "output_tokens": 4096,
+          "reserve_tokens": 256,
+          "max_chars": 12000,
+          "output_token_field": "max_tokens"
+        },
+        "counter": "utf8_bytes_upper_bound",
+        "input_tokens": 8464,
+        "fixed_tokens": 2824,
+        "input_limit": 28416,
+        "output_tokens": 4096,
+        "omitted_documents": 0,
+        "omitted_history": 0
+      },
+      "new_budget": {
+        "policy": {
+          "context_window": 32768,
+          "output_tokens": 4096,
+          "reserve_tokens": 256,
+          "max_chars": 12000,
+          "output_token_field": "max_tokens"
+        },
+        "counter": "utf8_bytes_upper_bound",
+        "input_tokens": 8245,
+        "fixed_tokens": 2824,
+        "input_limit": 28416,
+        "output_tokens": 4096,
+        "omitted_documents": 0,
+        "omitted_history": 0
+      }
+    }
+  ],
+  "unknown_sources": {
+    "before": 23,
+    "after": 23,
+    "added": 0
+  },
+  "zero_inference_receipt": {
+    "network_guard": true,
+    "blocked_model_entries": true,
+    "blocked_mongo_constructor": true,
+    "forbidden_attempts": [],
+    "model_loads": 0,
+    "new_embedding_calls": 0,
+    "new_rerank_calls": 0,
+    "new_supplier_calls": 0,
+    "new_answer_calls": 0,
+    "new_imports": 0,
+    "new_database_writes": 0,
+    "new_quality_writes": 0,
+    "token_usage": null,
+    "http_requests": null,
+    "cost": null,
+    "code_config_sha256": "00ecaf9d39fa65a3d2a36616ce4be9fdd1e36558a865ebac32c1ccb74efe87fd"
+  },
+  "reused_pair_scores": 486,
+  "live_database_access": false,
+  "live_index_access": false,
+  "writes": {
+    "database": 0,
+    "imports": 0,
+    "answers": 0,
+    "quality": 0
+  },
+  "tests": {
+    "new_unit": 31,
+    "shared": 192,
+    "red": {
+      "failed": 20,
+      "passed": 11
+    },
+    "intermediate_fixture_failures": [
+      4,
+      1
+    ],
+    "audit_assertions": 5100,
+    "groups_overlap": true
+  },
+  "commands": [
+    {
+      "command": ".venv/Scripts/python.exe -m pytest tests/unit/test_compare_branch_context.py -q --junitxml=output/m6-compare-branch-context-20261030/red.xml",
+      "exit_code": 1,
+      "result": "20 failed,11 passed; actual old scope_first_v1 path; red retained",
+      "log": "red-log.txt"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pytest tests/unit/test_compare_branch_context.py -q --junitxml=output/m6-compare-branch-context-20261030/green.xml",
+      "exit_code": 1,
+      "result": "4 failed,27 passed; synthetic fixture duplicate nonhead branch ranks",
+      "log": "green-log.txt"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pytest tests/unit/test_compare_branch_context.py -q --junitxml=output/m6-compare-branch-context-20261030/green-v2.xml",
+      "exit_code": 1,
+      "result": "1 failed,30 passed; remaining fixture unranked tail duplicate rank; retained",
+      "log": "green-log-v2.txt"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pytest tests/unit/test_compare_branch_context.py -q --junitxml=output/m6-compare-branch-context-20261030/green-v3.xml",
+      "exit_code": 0,
+      "result": "31 passed after assigning unique nonhead ranks; rank1 and policy unchanged",
+      "log": "green-log-v3.txt"
+    },
+    {
+      "command": ".venv/Scripts/python.exe output/m6-compare-branch-context-20261030/replay.py",
+      "exit_code": 0,
+      "result": "one fixed candidate25/25,35/35; old24 exact; zero inference/network/database",
+      "log": "replay-log.txt"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pytest tests/unit/test_compare_branch_context.py tests/unit/test_fusion_retention.py tests/unit/test_candidate_fairness.py tests/unit/test_comparison_context.py tests/unit/test_retrieval_policy.py tests/unit/test_retrieval_provenance.py tests/unit/test_retrieval_grid.py tests/unit/test_source_prerequisites.py tests/unit/test_source_prerequisite_wiring.py tests/unit/test_prerequisite_contract.py tests/unit/test_source_network_terms.py tests/unit/test_scoped_subject_query.py -q --junitxml=output/m6-compare-branch-context-20261030/shared.xml",
+      "exit_code": 0,
+      "result": "192 passed; includes31new tests; groups overlap",
+      "log": "shared-log.txt"
+    },
+    {
+      "command": ".venv/Scripts/python.exe output/m6-compare-branch-context-20261030/audit.py",
+      "exit_code": 0,
+      "result": "5100 assertions, all saved sources/ranks/contexts/groups/budgets and protection hashes",
+      "log": "audit-log.txt"
+    }
+  ],
+  "protected_manifests": {
+    "M6-fusion-reviewed-source-review-validation-r1.json": 17,
+    "M6-fusion-reviewed-source-validation-r1.json": 123,
+    "M6-layout-terminology-review-validation-r1.json": 33,
+    "M6-layout-terminology-validation-r1.json": 155,
+    "M6-page-precision-recall-label-validation-r1.json": 125,
+    "M6-page-precision-recall-label-review-validation-r1.json": 26,
+    "M6-page-recall-binding-validation-r1.json": 331,
+    "M6-page-recall-binding-review-validation-r1.json": 14,
+    "M6-recall-convergence-validation-r1.json": 297,
+    "M6-convergence-execution-review-validation-r1.json": 45,
+    "M6-recall-convergence-review-validation-r1.json": 20,
+    "output/m6-isolated-answers-20261028/protected-before-r3.json": 821,
+    "output/m6-answer-filter-fix-r3-20261029/protected-before.json": 404,
+    "output/m6-real-retrieval-20261028/protected-before.json": 294
+  },
+  "p30_consumption": "previously independently passed/closed; reused, not rewritten",
+  "prior_P2": "closed preserved",
+  "label001": "closed preserved",
+  "next_action": "independent control review; if passed implement explicitly scoped internal config/request/authorization/recovery wiring before final freeze; no automatic adoption",
+  "final_generation_config_frozen": false,
+  "formal_no_generation_preflight": false,
+  "quality_chain_started": false,
+  "M6": "4/7",
+  "unaccepted": [
+    "M6-04",
+    "M6-05",
+    "M6-08"
+  ],
+  "M7": false,
+  "private_evidence_sha256": {
+    "output\\m6-compare-branch-context-20261030\\25题比较分路上下文零推理对照.html": "addf146e204ee4e3746fbfc7daf0a46328e72d0270ec75c0cddd4566c17c4dba",
+    "output\\m6-compare-branch-context-20261030\\actual-commands.json": "35a63f752e6d264386dc5c197ba549398b1b74969ba4746d38b2af5e040835b3",
+    "output\\m6-compare-branch-context-20261030\\audit-checks.json": "4e78eb7347f9a8632bdcdb3ba8a32d3251824c2e48ef1fb8d6032e86f645f79b",
+    "output\\m6-compare-branch-context-20261030\\audit-log.txt": "06c2b911ab2746d461e36b1e03b28d7bdb8e6eb6e982f7d53d9387308fad71de",
+    "output\\m6-compare-branch-context-20261030\\audit-summary.json": "d9c5859ef20cf543709bfdb5dcb03c5c0f242ba06b4826084e738ae57c7301db",
+    "output\\m6-compare-branch-context-20261030\\audit.py": "cb20e41b417fbe0dc09be8a8b9aaf965290b4ce392ff093e23efa1023e67e8e6",
+    "output\\m6-compare-branch-context-20261030\\execution-config-before-replay.json": "f21502243e9caf5b9ab1c935a1e7f67f1b9f9c9f9fadd8ecd438e41c3586f683",
+    "output\\m6-compare-branch-context-20261030\\execution-plan.md": "46f594b26dd8c04fbcd750068b822e90b623ddb14c46bf64672e350d754e746a",
+    "output\\m6-compare-branch-context-20261030\\fixed-rule-before-replay.json": "adadc4117fcf0c6111a61e3340620319336f7a6dc8f1a3a94af26dbe9b0f6078",
+    "output\\m6-compare-branch-context-20261030\\green-log-v2.txt": "6b2251ffc0a4fe1e97c4888a7f85b9c3383effda15675b9f6876e77464a2d659",
+    "output\\m6-compare-branch-context-20261030\\green-log-v3.txt": "c8183a83b4860929112ca024f4f4230a1c048abb26ee92b6fd40f8a3bf94a094",
+    "output\\m6-compare-branch-context-20261030\\green-log.txt": "c168484ffa4356374f9307b46fea2bb4eb5fd7def2492ee65e20a7f63f42fa77",
+    "output\\m6-compare-branch-context-20261030\\green-v2.xml": "9677e9826d53fb3303fa94952894ce42c3852f1998e7aa74a2f9f61018e6885c",
+    "output\\m6-compare-branch-context-20261030\\green-v3.xml": "49063a940b653c83f07c0f19a7552240cd11b9482ffd57e149ae9f6b55fe4522",
+    "output\\m6-compare-branch-context-20261030\\green.xml": "b63ba562e5a21861438237225f57f83bfd3e77ef0a96f9930769fa94a4348b76",
+    "output\\m6-compare-branch-context-20261030\\red-log.txt": "170f7463f3c4c36a09d44b6d6a1ab5f8597badf135011516c78fc6b0d86b5017",
+    "output\\m6-compare-branch-context-20261030\\red.xml": "01e8557ede40181987acaba88e5fb283a7b678b1a120b8e0e9d39554358d8dd0",
+    "output\\m6-compare-branch-context-20261030\\replay-log.txt": "d037ae18a0d17b6189bbbe1bb50aa925103cdd2c1664240a5c547e33b76f03c2",
+    "output\\m6-compare-branch-context-20261030\\replay-summary.json": "32336e8d2f4eed681ad64662f64725028acb816f61abe668a16018ec387348e9",
+    "output\\m6-compare-branch-context-20261030\\replay.py": "075db923b09260dc3f004e949cd6db3454553df1dbf46dbf3dc89bc69680aff2",
+    "output\\m6-compare-branch-context-20261030\\shared-log.txt": "e39347e4a100809d697e679e4c02e68820922f8ba52251e9a38c9401f11659f8",
+    "output\\m6-compare-branch-context-20261030\\shared.xml": "9a96a2a959f58ee39f23ca6baaed5e10f59f7f3ad929d6e036840954dd32da84",
+    "output\\m6-compare-branch-context-20261030\\test-before-fixture-fix.py": "a65e5ce0cb13275d2fe97fa7d61b1de16d5d5bd7d516729ddbed8b55aeb50e4f",
+    "output\\m6-compare-branch-context-20261030\\write_delivery.py": "6fbcaa110a042460b77bfa7abf4a84634235a87b9be78a4ac239c8336eac94cc",
+    "output\\m6-compare-branch-context-20261030\\zero-inference-receipt.json": "26fcd1f941dd9cdfea4e12d6aaea1ed55d83ce74ad6276ac9f7572b3c3ee1476",
+    "output\\m6-compare-branch-context-20261030\\results\\m6-g540-02-a.json": "a35bc83cfcabd994f46bba5d95ea0525ba7403b0e4b232e7893b429ce60cb2f7",
+    "output\\m6-compare-branch-context-20261030\\results\\m6-g540-02-b.json": "23482457202a9f96bebc6f9d1a939a19cd62018f8bcd9c7e5df2015f867ab8a9",
+    "output\\m6-compare-branch-context-20261030\\results\\m6-g540-04-a.json": "18fd606b60d4a9d2fae0fd067ec92a510122d51f4e1d057381057e078d6ada45",
+    "output\\m6-compare-branch-context-20261030\\results\\m6-g540-04-b.json": "470e127267c1b7c4791e733afbbbff4e12bb8c61a14b47f9a15aed6d537bd2fc",
+    "output\\m6-compare-branch-context-20261030\\results\\m6-g540-05-a.json": "8c5da76bc656af84884e1bf32da0a9fa7b2dbd247fb3cf52d5db3fa9284ba87c",
+    "output\\m6-compare-branch-context-20261030\\results\\m6-g540-05-b.json": "43eb34dc14988b03859a5c6ce12d867c110d4b7374a750f984a1e63934abc35c",
+    "output\\m6-compare-branch-context-20261030\\results\\m6-g540-17-a.json": "42b436b66788cf87d64a9b76396307c9111e202aaa9223991aea658eb7c002d8",
+    "output\\m6-compare-branch-context-20261030\\results\\m6-g540-17-b.json": "a97a86c10bb364dd5033e91db9a81af234e57502a9caf1b0e5afb441e70d868c",
+    "output\\m6-compare-branch-context-20261030\\results\\m6-g540-18-b.json": "fb1d51b593b066108e6d8426fea82115468cc259d93e274664d87c4d648bae46",
+    "output\\m6-compare-branch-context-20261030\\results\\m6-g540-20-a.json": "c10222d2410b60a92b17c207dbaa0442593fbc79ca401735a9d4fcc79d552bf7",
+    "output\\m6-compare-branch-context-20261030\\results\\support-v1-003.json": "c232786d7b0aa05f1053c65da4e3f5241a096a6009271ee65d5bb14c8d4c5cc7",
+    "output\\m6-compare-branch-context-20261030\\results\\support-v1-004.json": "7ca2fdf268fa06095901ca7a8ad47fcf47c15ed76e68ec426490009a4b52e37a",
+    "output\\m6-compare-branch-context-20261030\\results\\support-v1-006.json": "28e0de2ec9e3580cd6be091be22745495c061890c7ea38f5e6981d42bf6a8adb",
+    "output\\m6-compare-branch-context-20261030\\results\\support-v1-007.json": "439773fa7c97c22638340e31e0f77283cfe6df28ce542baab7d4645bd69753b5",
+    "output\\m6-compare-branch-context-20261030\\results\\support-v1-008.json": "1382642924df2c03e0e939297353807ef0fca29d88480b75deaa702b999a12fd",
+    "output\\m6-compare-branch-context-20261030\\results\\support-v1-009.json": "dd121b7d5b92933adfa43a0378aceed4946cd66230a30f5e58ac3004f20b6f2c",
+    "output\\m6-compare-branch-context-20261030\\results\\support-v1-010.json": "53b4b0fb39fcbf54342cc638421ddb22d05b5d97eb22124ab42ec4bde08decf5",
+    "output\\m6-compare-branch-context-20261030\\results\\support-v1-019.json": "a405de015e354e95a089627f22811dbeb8158f91f26cf9428b59625889f377c9",
+    "output\\m6-compare-branch-context-20261030\\results\\support-v1-020.json": "4b7448dcceb3faa8073b75b336065035f4dd92aad2da251cc9a71bb440d818d9",
+    "output\\m6-compare-branch-context-20261030\\results\\support-v1-021.json": "60db5497c2ffb28ff6d2b3d91dd758fc5132ea92fc5baa9f0e351830fa842fde",
+    "output\\m6-compare-branch-context-20261030\\results\\support-v1-022.json": "44cb5bba9528b46c99714e8826d311181e346272c38e3c9df0a90427585d9a44",
+    "output\\m6-compare-branch-context-20261030\\results\\support-v1-034.json": "19d4b8af29a6067a923023939ec2cea10a76f7d5364165e1ee0fdbc018f88729",
+    "output\\m6-compare-branch-context-20261030\\results\\support-v1-037.json": "2e1d6bd0d36aa374b678cc2da8bac043a2751c877411290a67486e459ec51878",
+    "output\\m6-compare-branch-context-20261030\\results\\support-v1-038.json": "ce69bc7453ba5b4bcdb78839c2cbf66f325e11643a368aa14615f101309cab29",
+    "output\\m6-compare-branch-context-20261030\\results\\support-v1-048.json": "8c4bcbc825cf43efa41badde7f8e1b403350f7a4d9892504d4237a6cfd5a01ef"
+  }
+}
