@@ -117,7 +117,9 @@ class RetrievalExecutor:
         # 与正式入口相同的字符预算/图像许可处理；M4-07后由统一预算服务替代。
         from app.query_process.agent.nodes.node_answer_output import step_2_construct_prompt
         from app.knowledge.citation_api import controlled_markdown
-        docs = [h.document() for h in ranked[:policy.context_limit]]
+        from app.retrieval.selection import select_context
+        docs = [h.document() for h in select_context(ranked,limit=policy.context_limit,
+            scope_groups=plan.scope_groups if plan.route=='compare' else (),mode=policy.comparison_context)]
         state = dict(original_query=question['question'], history=question['history'],
             item_names=[p['model'] for p in self.products if p['product_id'] in plan.product_ids],
             reranked_docs=[d | dict(text=controlled_markdown(d['text'], set(d['asset_ids']))) for d in docs])

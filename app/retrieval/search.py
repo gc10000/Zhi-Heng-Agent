@@ -22,6 +22,8 @@ class RetrievalPolicy(BaseModel):
     exclude_image_descriptions: bool = Field(default=False, strict=True)
     # 仅显式配置启用，不增加查询、候选数量或改变融合。
     query_projection: Literal['original', 'scoped_subject_v1'] = 'original'
+    # 默认保持全局排序；隔离对照可显式为比较双方各保留一个已重排证据。
+    comparison_context: Literal['global', 'scope_first_v1'] = 'global'
 
     @model_validator(mode='after')
     def limits(self):

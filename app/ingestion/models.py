@@ -28,6 +28,8 @@ class Block(Entity):
     product_ids: tuple[ID, ...] = ()
     asset_ids: tuple[ID, ...] = ()
     rows: tuple[tuple[str, ...], ...] = ()
+    # PDF表格每行独立定位；空元组表示未提供行级定位，(page=None,)表示明确无法精确匹配。
+    row_source_refs: tuple[tuple[SourceRef, ...], ...] = ()
     table_header_rows: int = Field(default=1,ge=1)
     row_numbers: tuple[int, ...] = ()
     cells: tuple[Cell, ...] = ()

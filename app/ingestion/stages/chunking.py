@@ -3,7 +3,7 @@ import re
 from app.knowledge.models import Chunk,SourceRef,stable_id,content_hash
 from html.parser import HTMLParser
 
-VERSION = '5'
+VERSION = '6'
 
 
 class _TableReader(HTMLParser):
@@ -37,6 +37,8 @@ def structured_blocks(document):
             groups[key].append(block)
         elif block.kind=='table' and not block.rows and '<table' in block.text.lower():
             parser=_TableReader();parser.feed(block.text)
+            if block.row_source_refs and len(block.row_source_refs)!=len(parser.rows):
+                raise ChunkBoundaryError('表格行级出处数量不匹配')
             # 部分解析器把真正表头也输出成td；常见列名仍按表头处理。
             header=tuple(cell.strip().casefold() for cell in parser.rows[0]) if parser.rows else ()
             labels=tuple(re.split(r'[（(]',cell,maxsplit=1)[0].strip() for cell in header)
@@ -45,7 +47,8 @@ def structured_blocks(document):
             if parser.rows and not parser.header_rows and not labeled_header and all(len(row)==2 for row in parser.rows):
                 # 无表头的键值/编号说明表：每行都是数据，不能把第一部件当所有后续行的表头。
                 for i,row in enumerate(parser.rows):
-                    output.append(block.model_copy(update={'block_id':stable_id('table-row',document.revision_id,[block.block_id,i]),'rows':(row,)}))
+                    output.append(block.model_copy(update={'block_id':stable_id('table-row',document.revision_id,[block.block_id,i]),'rows':(row,),
+                        'row_source_refs':(block.row_source_refs[i],) if block.row_source_refs else ()}))
             else:
                 count=max(parser.header_rows)+1 if parser.header_rows else 1
                 if parser.header_rows and parser.header_rows!=set(range(count)):
@@ -145,6 +148,10 @@ def chunk_document(document,*,max_chars=2000,default_product_ids=()):
     for block in _coalesced_blocks(document,max_chars):
         if any(ref.document_id!=document.document_id or ref.revision_id!=document.revision_id for ref in block.source_refs):
             raise ValueError('切片来源不能跨资料或修订')
+        if block.row_source_refs:
+            if len(block.row_source_refs)!=len(block.rows):raise ChunkBoundaryError('表格行级出处数量不匹配')
+            if any(ref.document_id!=document.document_id or ref.revision_id!=document.revision_id
+                   for refs in block.row_source_refs for ref in refs):raise ValueError('行级出处不能跨资料或修订')
         section_id=stable_id('section',document.revision_id,[block.block_id,block.heading_path])
         parts=[]
         if block.kind=='table' and block.rows:
@@ -170,7 +177,10 @@ def chunk_document(document,*,max_chars=2000,default_product_ids=()):
             if not text.strip():continue
             uid=stable_id('chunk',document.revision_id,[block.block_id,index,content_hash(text.encode()),max_chars])
             refs=block.source_refs
-            if row_start is not None:
+            if row_start is not None and block.row_source_refs:
+                indices=set(range(block.table_header_rows))|set(range(row_start,row_end+1))
+                refs=tuple(dict.fromkeys(ref for i in sorted(indices) for ref in block.row_source_refs[i]))
+            elif row_start is not None:
                 if refs:
                     source=refs[0]
                     if block.row_numbers:

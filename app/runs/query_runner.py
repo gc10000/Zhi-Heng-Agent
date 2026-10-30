@@ -136,7 +136,7 @@ class QueryRunner:
             from app.retrieval.search import RetrievalPolicy
             if source_policy.enabled:
                 frozen_retrieval=RetrievalPolicy.model_validate(self.retrieval_policy)
-                if frozen_retrieval.model_copy(update={'exclude_image_descriptions':False,'query_projection':'original'})!=RetrievalPolicy():
+                if frozen_retrieval.model_copy(update={'exclude_image_descriptions':False,'query_projection':'original','comparison_context':'global'})!=RetrievalPolicy():
                     raise ValueError('来源前提本轮固定weighted及原检索预算')
             g = self.knowledge()
             if source_policy.enabled and g.db.name!=source_policy.scope.database:
@@ -251,7 +251,10 @@ class QueryRunner:
             pack = EvidencePack(plan=plan, candidates=candidates, reranked=ranked)
             from app.retrieval.expansion import ExpansionPolicy
             expansion_policy = ExpansionPolicy.model_validate(self.expansion_policy)
-            expansion = self.select_evidence(g,user,repo,ranked[:policy.context_limit],revisions,selected,source_policy)
+            from app.retrieval.selection import select_context
+            context_seeds=select_context(ranked,limit=policy.context_limit,
+                scope_groups=plan.scope_groups if plan.route=='compare' else (),mode=policy.comparison_context)
+            expansion = self.select_evidence(g,user,repo,context_seeds,revisions,selected,source_policy)
             for hit in expansion.expanded:
                 g.revision(user,hit.document_id,hit.revision_id)
                 if hit.identity not in {h.identity for h in candidates}:candidates.append(hit)

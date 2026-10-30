@@ -110,11 +110,15 @@ class MineruParser:
         self.max_pages=max_pages if max_pages is not None else int(os.getenv('MINERU_SEGMENT_MAX_PAGES','50'))
         self.max_bytes=max_bytes if max_bytes is not None else int(os.getenv('MINERU_SEGMENT_MAX_BYTES','100000000'))
         self.allow_native_fallback=allow_native_fallback
-        self.version=f'{provider.version}+structure-3/pages={self.max_pages}/bytes={self.max_bytes}/native={allow_native_fallback}'
+        self.version=f'{provider.version}+structure-4/pages={self.max_pages}/bytes={self.max_bytes}/native={allow_native_fallback}'
 
     def parse(self,path,*,document_id,revision_id):
         import fitz
         path=Path(path);digest=content_hash(path.read_bytes())
+        from .table_sources import locate_rows, normalized
+        from app.ingestion.stages.chunking import _TableReader
+        with fitz.open(path) as original:
+            native_pages=[normalized(p.get_text()) for p in original]
         base=self.work_dir/stable_id('parse-cache',revision_id,[document_id,digest,self.provider.version,self.max_pages,self.max_bytes,self.allow_native_fallback])
         segments=split_pdf(path,base/'inputs',max_pages=self.max_pages,max_bytes=self.max_bytes)
         blocks,images,flags=[],[],[]
@@ -176,8 +180,13 @@ class MineruParser:
                     asset_ids=(image_id,)
                     text=' '.join(item.get('image_caption',[])) or text
                     images.append(ParsedImage(image_id=image_id,local_path=str(image_path),context=' / '.join(heading_path)+'\n'+text,source_refs=(ref,)))
-                blocks.append(Block(block_id=bid,kind=kind,text=text,heading_path=heading_path,source_refs=(ref,),asset_ids=asset_ids))
+                row_refs=()
+                if kind=='table' and '<table' in text.lower():
+                    reader=_TableReader();reader.feed(text)
+                    row_refs=locate_rows(reader.rows,native_pages,ref)
+                    if any(any(r.page is None for r in refs) for refs in row_refs):flags.append('table_row_page_unresolved')
+                blocks.append(Block(block_id=bid,kind=kind,text=text,heading_path=heading_path,source_refs=(ref,),asset_ids=asset_ids,row_source_refs=row_refs))
         with fitz.open(path) as pdf:
             pages=tuple(Page(number=i+1,width=p.rect.width,height=p.rect.height,rotation=p.rotation) for i,p in enumerate(pdf))
         return ParsedDocument(document_id=document_id,revision_id=revision_id,original_sha256=digest,parser='mineru',
-                              parser_version=self.provider.version+'+structure-3',quality_flags=tuple(sorted(set(flags))),pages=pages,blocks=tuple(blocks),images=tuple(images))
+                              parser_version=self.provider.version+'+structure-4',quality_flags=tuple(sorted(set(flags))),pages=pages,blocks=tuple(blocks),images=tuple(images))

@@ -1,3 +1,11 @@
+## M6行级出处与比较上下文隔离配置（2026-10-30）
+
+`parameters.retrieval.comparison_context`／`RETRIEVAL_POLICY_JSON.comparison_context` 仅接受 `global`（默认）与 `scope_first_v1`。显式模式仅对 compare 的已重排证据，在原 `context_limit=10` 内先保留各非空授权产品范围的首条，再按实际重排顺序补满；不改变候选、分数、weighted、top-k、阈值或原题。缺少召回不补造证据；低分入选不等于相关性通过。QueryRunner 与 RetrievalExecutor 使用同一函数，完整策略进入现有配置身份，关闭应创建新配置 `global`，不改旧Run。来源前提允许此显式组合，其他weighted及预算约束保持。默认.env未改。
+
+MinerU本地结构版本由3升4，chunker由5升6；正式导入的 pipeline_identity 已包含 parser.version 与 chunker VERSION。复用供应商原始缓存不代表复用旧处理修订。PDF HTML表格增加 `Block.row_source_refs`，独立匹配同表连续页的完整单元格，短版本/型号限定也必须存在。短文本、重复、OCR/图标差异不推定精确页码，以 `page=null` 和 `table_row_page_unresolved` 保留未知。切片重复表头时汇总表头和数据行的实际出处，不沿用整表起始页。未知不是引用已通过，隔离发布也不是工作台默认切换。
+
+四文档最终隔离目标及未定位行请以本轮[执行报告](development/reviews/M6-page-recall-binding-r1.md)和脱敏摘要为准；无答案生成、正式评测候选、评分或默认切换。
+
 # 配置核对与填写说明
 
 ## M6图片解析补修依赖（2026-10-27）

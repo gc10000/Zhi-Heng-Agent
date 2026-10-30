@@ -3,6 +3,29 @@ from collections import deque
 import json
 
 
+def select_context(ranked, *, limit, scope_groups, mode='global'):
+    """保持实际重排分数及来源，在总数不变时先保留各比较对象的首条。
+
+    不为缺少召回的对象补造证据，也不将入选解释为相关性达标。
+    """
+    if mode not in {'global','scope_first_v1'} or type(limit) is not int or limit<1:
+        raise ValueError('上下文选择策略或预算无效')
+    if mode=='global' or len(scope_groups)<2:return list(ranked[:limit])
+    allowed={pid for scope in scope_groups for pid in scope}
+    if any(not hit.metadata.get('product_ids') or not set(hit.metadata['product_ids'])<=allowed for hit in ranked):
+        raise ValueError('比较上下文证据产品超出授权范围')
+    selected=[];seen=set()
+    for scope in scope_groups:
+        best=next((h for h in ranked if set(h.metadata['product_ids']) & set(scope)),None)
+        if best is not None and best.identity not in seen:
+            selected.append(best);seen.add(best.identity)
+    if len(selected)>limit:raise ValueError('上下文预算不能覆盖已召回比较范围')
+    for hit in ranked:
+        if len(selected)>=limit:break
+        if hit.identity not in seen:selected.append(hit);seen.add(hit.identity)
+    return selected
+
+
 def select_candidates(candidates, limit):
     """每个非空范围先获一个机会，再轮流消费各池的未选身份。
 
