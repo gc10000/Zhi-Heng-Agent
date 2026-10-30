@@ -1,3 +1,7 @@
+## 2026-10-30 · 投影技术及24/25独立通过，跨页出处集中补修
+
+总控复核12666e5：共享196、隔离Mongo32通过；新增边界11通过、页码反例2失败。scoped_subject_v1实现通过，021/022改善、原21及019保留；两个001候选原件内容已独立审阅并交受控产物，正式annotation/binding/proof未写。新增既有C06-PAGE-R1/P2：跨页表格后页行沿用起始页；43表249行扫描得到8表40行待核清单，不冒充40条确定缺陷。下一包集中完成该出处问题与048正文召回/比较双方上下文，消费本次标签审阅后正式派生绑定，再冻结最终范围/config走已批准助手双轮→预校准→独立候选→反馈proof。不等待用户填分、不重开旧关闭项、不增加heldout/默认发布前置。M6仍4/7，04/05/08未验收，M7未授权。见[唯一接续矩阵](../development/reviews/M6-recall-convergence-review-r1.md)。以下保留历史。
+
 ## 2026-10-29 · 显式scoped_subject_v1检索投影
 
 正式QueryRunner和无答案RetrievalExecutor共同消费parameters.retrieval.query_projection；默认original，显式scoped_subject_v1仅替换授权确认主体词，原题/生成/重排输入及产品范围不变，配件名、登记版本变体、代码/多行/坐标不确定输入保留。无新增查询/RRF/top-k/阈值变化；新配置与源码身份不得继承旧完成检查点。weighted来源前提允许该显式组合；回切为新配置original，默认工作台未切换。真实同25题24/25到达，048仍缺，不是答案质量或最终冻结通过。两条feedback仅各创建一个完整标签候选，独立annotation/binding仍缺，不能自签或关闭整条反馈。见[本轮证据](../development/reviews/M6-recall-convergence-r1.md)。M6仍4/7。

@@ -1,0 +1,158 @@
+{
+  "reviewed_commit": "12666e50c70c9b2a6e22174a7e34455cc4e05ddf",
+  "review_date": "2026-10-30",
+  "decisions": {
+    "projection_technical": "passed",
+    "necessary_text_coverage": "24/25",
+    "new_improvements": [
+      "support-v1-021",
+      "support-v1-022"
+    ],
+    "original21_and019_preserved": true,
+    "label_content_review": "passed_artifact_only",
+    "formal_annotation_binding_proof": "absent",
+    "new_finding": {
+      "id": "C06-PAGE-R1",
+      "priority": "P2",
+      "introduced_by_current_commit": false,
+      "confirmed_two_chunks": true,
+      "table_scan_candidates": 40,
+      "table_scan_candidate_tables": 8
+    },
+    "unresolved_048": [
+      "necessary_text_not_in_candidates",
+      "CB_comparison_side_missing_in_context"
+    ]
+  },
+  "tests": {
+    "shared": {
+      "tests": 196,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integration": {
+      "tests": 32,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "independent": {
+      "tests": 13,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "audit": {
+    "assertions_passed": 2528,
+    "page_mismatches_separately_listed": [
+      {
+        "id": "m6-g540-04-a",
+        "chunk_uid": "772c95b4-c214-5e4f-b22b-ce7b5ea99155",
+        "quote": "部分型号此处为 microSD 卡槽。",
+        "expected_pages": [
+          5
+        ],
+        "actual_pages": [
+          4
+        ]
+      },
+      {
+        "id": "m6-g540-04-b",
+        "chunk_uid": "772c95b4-c214-5e4f-b22b-ce7b5ea99155",
+        "quote": "部分型号此处为 microSD 卡槽。",
+        "expected_pages": [
+          5
+        ],
+        "actual_pages": [
+          4
+        ]
+      },
+      {
+        "id": "m6-g540-05-a",
+        "chunk_uid": "1908c880-6853-5028-8452-5e1b9495858a",
+        "quote": "RJ45 接口",
+        "expected_pages": [
+          3,
+          5
+        ],
+        "actual_pages": [
+          4
+        ]
+      },
+      {
+        "id": "m6-g540-05-b",
+        "chunk_uid": "1908c880-6853-5028-8452-5e1b9495858a",
+        "quote": "RJ45 接口",
+        "expected_pages": [
+          3,
+          5
+        ],
+        "actual_pages": [
+          4
+        ]
+      }
+    ],
+    "manifests": {
+      "current297": 297,
+      "previous_review": 45,
+      "output/m6-isolated-answers-20261028/protected-before-r3.json": 821,
+      "output/m6-answer-filter-fix-r3-20261029/protected-before.json": 404,
+      "output/m6-real-retrieval-20261028/protected-before.json": 294
+    }
+  },
+  "calls": {
+    "this_review_model_calls": 0,
+    "this_review_supplier_calls": 0,
+    "execution_local_ledger_recomputed": {
+      "embedding": 16,
+      "rerank": 9,
+      "pairs": 69
+    },
+    "execution_http_requests": null,
+    "execution_tokens": null,
+    "execution_cost": null
+  },
+  "writes": {
+    "business_source": false,
+    "real_quality": false,
+    "real_label": false,
+    "real_binding": false,
+    "real_calibration": false,
+    "default_switch": false,
+    "final_configuration_frozen": false,
+    "random_synthetic_tests": true
+  },
+  "live_readonly_candidates": 2,
+  "milvus_live_rescan": false,
+  "M6": "4/7",
+  "unaccepted": [
+    "M6-04",
+    "M6-05",
+    "M6-08"
+  ],
+  "M7": false,
+  "private_evidence_sha256": {
+    "output/m6-recall-review-20261030/001-pdf-page-1.png": "21796102c7f58fba9ed4050a8610ebb141fcc414c41a66412aa8c49dd83ed6fb",
+    "output/m6-recall-review-20261030/001-pdf-page-1.txt": "1494057db40eb3afdbea194de7f48a121ea1631bf50d7ba2351c8d894b8a7633",
+    "output/m6-recall-review-20261030/001-pdf-page-4.png": "3a53b26da7328d93cb55e0a6d14bb16bed49b00c39ca4b0b3cff9278a587e5f9",
+    "output/m6-recall-review-20261030/001-pdf-page-4.txt": "9a011530ba059047c0944cf3ac7cf6ed8aaaf17506d4efb985ecd7b657535595",
+    "output/m6-recall-review-20261030/audit-checks.json": "41f82ff943d12733d05fb2cdebfd941ce0333a161a33350a2613c546c6e0732e",
+    "output/m6-recall-review-20261030/audit.json": "3cdfc1a9007d5b1b77feee1abd4b0f9241ceb60878542eaa994be3694ccd26ca",
+    "output/m6-recall-review-20261030/audit.py": "40ce0e892b715c792533e60d6838215557f4a8e92a6202c89dca5c65c6958638",
+    "output/m6-recall-review-20261030/G540-pdf-page-4.png": "fac9c8857b8473e1398c45ae4a02ecc20761da919a2948b14ac17f2afa6fc446",
+    "output/m6-recall-review-20261030/G540-pdf-page-5.png": "c57efaf1f6c34e8df162a58ff2dbd08be85cbc4ff14bb9e0d06137ddc2788593",
+    "output/m6-recall-review-20261030/independent.log": "3f23edc3d8ed3ba051d94a30b289ea25285e3a0af17e57fe95963ee4db81feff",
+    "output/m6-recall-review-20261030/independent.xml": "35688d02e69b1960f39f61b7cd3bc34c03851226be8ff37d5df66ab2a817a659",
+    "output/m6-recall-review-20261030/integration.log": "daf96af482cf2a164ebc9460e4a288455d6e08cb7ba3894e768b794d8f482cb9",
+    "output/m6-recall-review-20261030/integration.xml": "370d1df31a6158927d1d0c3dd860eb219e051806cd55ba724d19a8a4b7629fee",
+    "output/m6-recall-review-20261030/live-candidates-readonly.json": "4907dbf9106c12ef2a8f66a6cd506ce9cc895e59f771b452be357b7006ee6b5f",
+    "output/m6-recall-review-20261030/live_candidates_readonly.py": "333cf0aa462775119ba11cac87288978b5325277626365e73f671ff87009bc68",
+    "output/m6-recall-review-20261030/shared.log": "766a57748fb793e6fa6aa533d9f91e34bff01b2451d00ead4e602bc77d7663a1",
+    "output/m6-recall-review-20261030/shared.xml": "f98d6e3bb9205877be1517d3507da6acd255f8a8e4b2b58840278cf52d7a6077",
+    "output/m6-recall-review-20261030/table-page-inventory.json": "3ee54d08688c5808a0be94c95688ef90322f790286953851934ed3f5eedefd0d",
+    "output/m6-recall-review-20261030/table_pages.py": "bd3789499bf833abdaf7188bb1468d25abaef16eef39ac85d5f40ff0752633e1",
+    "output/m6-recall-review-20261030/test_independent.py": "79e3efd6e75245281b3427e5ef62e38782d51546c5cd111e8dda50593b2222ee"
+  }
+}
