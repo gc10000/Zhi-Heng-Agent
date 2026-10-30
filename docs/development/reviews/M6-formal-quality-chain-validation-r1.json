@@ -1,0 +1,90 @@
+{
+  "date": "2026-10-30",
+  "source_commit": "b39056392caa7dded5b85dc410fdb608f78ec23d",
+  "branch_head_at_execution": "b39056392caa7dded5b85dc410fdb608f78ec23d",
+  "status": "two formal baselines and four assistant review rounds completed; controller independence and calibration remain pending",
+  "code_changes": false,
+  "frozen_catalog_sha256": "3bd9e7a3d895a020963d183bb114a3b30574d0f3c60bd97a401c13979dff8ddc",
+  "runtime_versions": {
+    "code": "ebf6b6891139b2caa8ed7abb06abc3fbd56a35a7cbea76896d4422545252cb4f",
+    "prompt": "f0fe0cc92fca8715957120515588f239ee15d1e4b3e0ba6c4c411dd176d5c52d",
+    "model_config": "565fbfe4c795fb52f84183f7b2708491fd7824fa07f2de9fd546e9d6d6e5bb90"
+  },
+  "baselines": [
+    {
+      "experiment_id": "2b4307e3-2f03-46d7-850c-7d1054b1f8d2",
+      "dataset_version": "fb-07c584730833908571fe9dd7c7c890afa3cf9e66",
+      "config_id": "m6-final-1-baseline",
+      "config_sha256": "d50d1909342a3eb02fbce42682b5fc286e36f0ddae21822a9f8d43f43018658e",
+      "results": 85,
+      "completed": 84,
+      "awaiting_input": 1,
+      "new_logical_streams": 84,
+      "tokens": {"input": 160963, "output": 78607},
+      "review_records": 170,
+      "score_disagreement_questions": 3,
+      "applicability_disagreement_questions": 2,
+      "unknown_questions_per_round": [0, 0],
+      "critical_error_questions_per_round": [0, 0],
+      "independence_attestation": false,
+      "calibration": false
+    },
+    {
+      "experiment_id": "29d405dc-81c9-4b63-a35f-5abdcbea081c",
+      "dataset_version": "fb-a3fa87c1adb2a6dc4e9638214164eb5f343ad008",
+      "config_id": "m6-final-2-baseline",
+      "config_sha256": "02adc87c4da3cbcac3ed890805282a8fc0250e3e94e3022560d27cf1af0ecaa6",
+      "results": 85,
+      "completed": 84,
+      "awaiting_input": 1,
+      "new_logical_streams": 84,
+      "tokens": {"input": 160963, "output": 89683},
+      "review_records": 170,
+      "score_disagreement_questions": 14,
+      "applicability_disagreement_questions": 7,
+      "unknown_questions_per_round": [0, 0],
+      "critical_error_questions_per_round": [0, 0],
+      "independence_attestation": false,
+      "calibration": false,
+      "strict_blind_isolation_deviation": "round 2 read round-1 begin receipt existence and raw-byte SHA only; did not parse content"
+    }
+  ],
+  "aggregate": {
+    "result_rows": 170,
+    "assistant_reviews": 340,
+    "human_reviews": 0,
+    "logical_streams": 168,
+    "logical_invokes": 0,
+    "observed_tokens": {"input": 321926, "output": 168290},
+    "http_calls": null,
+    "cost": null,
+    "local_embedding_calls": null,
+    "local_rerank_calls": null,
+    "candidates": 0,
+    "calibrations": 0,
+    "server_feedback_proofs": 0,
+    "heldout_runs": 0
+  },
+  "quality_gate": {
+    "formal_independence_attestations": 0,
+    "currently_effective_incomplete_questions": [85, 85],
+    "critical_errors": [0, 0],
+    "unknowns": [0, 0],
+    "reason": "reviews are not projected until controller independence is attested; after that, applicability disagreements still prevent calibration"
+  },
+  "preservation": {
+    "protected_files_matched": 49,
+    "existing_mongo_rows_checked": 1835,
+    "default_pointer_unchanged": true,
+    "historical_vector_rows_rescanned": false,
+    "tmp_preserved": true
+  },
+  "known_execution_artifact": {
+    "baseline_1_initial_audit_exit_code": 1,
+    "baseline_1_corrected_audit_exit_code": 0,
+    "baseline_2_audit_exit_code": 0,
+    "audit_failure_preserved": true
+  },
+  "m6": {"progress": "4/7", "m6_04": "not accepted", "m6_05": "not accepted", "m6_08": "not accepted", "m7": "not started"},
+  "private_evidence_directory": "output/m6-formal-quality-chain-20261030/"
+}

@@ -1,3 +1,7 @@
+## 2026-10-30 · 正式基线双轮执行结论
+
+两份v1基线与四轮assistant审阅已实际落正式账本，详见[执行报告](reviews/M6-formal-quality-chain-execution-r1.md)和[脱敏摘要](reviews/M6-formal-quality-chain-validation-r1.json)。不报告为有效质量验收：两轮独立性attestation尚未由总控核验，盲审输入出现两项边界偏差；即使接受身份，两个基线分别有2/7题步骤适用性不一致，服务端校准仍会pending。human发布规则不变。正式候选、校准、反馈proof均0；M6 4/7，M6-04/05/08未验收，M7未启动。下一动作由总控依据封存provenance作独立性和适用性处置，执行方不改写评分。
+
 ## 2026-10-30 · 总控闭合政策／题集登记、最终冻结与正式无生成预检
 
 接续5024984。两控制库通过既有IdentityService建立仅原kb的实际登记主体，正式DevelopmentPolicy生成各库真实政策引用；四配置v1完整解析，原owner一次登记两份完整evaluation_sets descriptor。登记后另起只读进程，3190项检查通过，真实四原件／582条载荷向量／67资产、组合授权及p30、两001 valid／proof absent匹配。旧题集、pending及历史证据原样保留，不重签重绑；不再安排检索或接线补修包。

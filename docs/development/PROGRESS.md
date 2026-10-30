@@ -1,3 +1,13 @@
+## 2026-10-30 · 正式基线与助手双轮已运行，质量门槛仍pending
+
+接续b390563。两份冻结v1 baseline各85题已通过正式EvaluationService/RunService执行并逐题核账：均84 completed＋1 awaiting_input，未继承旧结果；两版累计168逻辑stream、input321,926/output168,290 token，精确HTTP/费用null。四轮assistant双轮各85已正式seal/submit，human0；旧r3身份、旧失败、冻结语料/默认指针保持。独立性attestation0；第一版输入标签暴露、第二版第二轮读取第一轮回执SHA及跨版本复用审核上下文均交总控裁定；另有第一版2题、第二版7题步骤适用性分歧，正式校准仍不能创建。没有候选、校准或feedback proof；04/05/08未验收，M6仍4/7、M7未启动。
+
+报告：[正式基线与双轮执行](reviews/M6-formal-quality-chain-execution-r1.md)。完整答案、原件和运行日志保留于本机 `output/m6-formal-quality-chain-20261030/`，不进Git。下一动作：总控对provenance和适用性冲突作受控裁定；未获有效基线校准前不创建候选。
+
+## 2026-10-30 · 当前执行：正式有效基线与助手质量链
+
+接续b390563，开始HEAD/origin/main一致、仅tmp/；登记、最终冻结、正式无生成预检及既有技术关闭结论全部保留。使用封存catalog和两版本真实政策/来源请求，先说明调用身份与预算，顺序生成本版85 dev基线、核账并保存实际来源，再按批准政策推进真实独立双轮、总控核验、预校准及后续同范围候选/proof；不运行heldout、不切默认、不继承旧19个检查点。新证据output/m6-formal-quality-chain-20261030/；不按测试数声称阶段进展，出现真实失败按正式协议停止留证。
+
 ## 2026-10-30 · 总控闭合政策／题集登记、最终冻结与正式无生成预检
 
 接续5024984。两控制库通过既有IdentityService建立仅原kb的实际登记主体，正式DevelopmentPolicy生成各库真实政策引用；四配置v1完整解析，原owner一次登记两份完整evaluation_sets descriptor。登记后另起只读进程，3190项检查通过，真实四原件／582条载荷向量／67资产、组合授权及p30、两001 valid／proof absent匹配。旧题集、pending及历史证据原样保留，不重签重绑；不再安排检索或接线补修包。
