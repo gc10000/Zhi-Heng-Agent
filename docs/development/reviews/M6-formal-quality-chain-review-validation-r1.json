@@ -1,0 +1,207 @@
+{
+  "date": "2026-10-30",
+  "reviewed_commit": "c9d115e3e291fe01f10f626eaeaf53ece6c06d66",
+  "role": "independent controller; actual state read-only",
+  "status": "execution and seal integrity passed; full independence not attested; formal calibration remains open",
+  "closed": [
+    "two baseline execution and call accounting",
+    "340 assistant records exact seal transport integrity",
+    "receipt hash deviation bounded; no score content in accessed receipt"
+  ],
+  "baselines": [
+    {
+      "baseline": 1,
+      "experiment_id": "2b4307e3-2f03-46d7-850c-7d1054b1f8d2",
+      "results": 85,
+      "run_states": {
+        "completed": 84,
+        "awaiting_input": 1
+      },
+      "current_incomplete": 85,
+      "independence_attestations": 0,
+      "if_all_sealed_accepted_diagnostic_only": {
+        "incomplete": [
+          "m6-g540-05-b",
+          "m6-g540-11-a"
+        ],
+        "actionability_mixed": [
+          "m6-g540-05-b",
+          "m6-g540-11-a"
+        ],
+        "all_mixed": [
+          "m6-g540-05-b",
+          "m6-g540-11-a"
+        ],
+        "not_a_formal_quality_pass": true
+      },
+      "stream_started": 84,
+      "token_usage": {
+        "input": 160963,
+        "output": 78607
+      },
+      "http": null,
+      "cost": null,
+      "reviews": 170,
+      "critical_recorded": [],
+      "actual_unknown": []
+    },
+    {
+      "baseline": 2,
+      "experiment_id": "29d405dc-81c9-4b63-a35f-5abdcbea081c",
+      "results": 85,
+      "run_states": {
+        "completed": 84,
+        "awaiting_input": 1
+      },
+      "current_incomplete": 85,
+      "independence_attestations": 0,
+      "if_all_sealed_accepted_diagnostic_only": {
+        "incomplete": [
+          "m6-g540-01-a",
+          "m6-g540-03-a",
+          "m6-g540-05-b",
+          "m6-g540-09-b",
+          "m6-g540-11-a",
+          "m6-g540-19-b",
+          "m6-g540-unknown-04-b",
+          "support-v1-030"
+        ],
+        "actionability_mixed": [
+          "m6-g540-01-a",
+          "m6-g540-03-a",
+          "m6-g540-05-b",
+          "m6-g540-09-b",
+          "m6-g540-11-a",
+          "m6-g540-19-b",
+          "support-v1-030"
+        ],
+        "all_mixed": [
+          "m6-g540-01-a",
+          "m6-g540-03-a",
+          "m6-g540-05-b",
+          "m6-g540-09-b",
+          "m6-g540-11-a",
+          "m6-g540-19-b",
+          "m6-g540-unknown-04-b",
+          "support-v1-030"
+        ],
+        "not_a_formal_quality_pass": true
+      },
+      "stream_started": 84,
+      "token_usage": {
+        "input": 160963,
+        "output": 89683
+      },
+      "http": null,
+      "cost": null,
+      "reviews": 170,
+      "critical_recorded": [],
+      "actual_unknown": []
+    }
+  ],
+  "checks": 1841,
+  "independence": {
+    "full_attestations_written": 0,
+    "001_round1_accepted": [
+      false,
+      false
+    ],
+    "other_subject_sources_preserved": 158,
+    "receipt_hash_only": "process deviation retained; no semantic score exposure established",
+    "exact_provider_model_id": null,
+    "complete_platform_access_trace_available": false
+  },
+  "bounded_repair": {
+    "baseline1_subjects": 3,
+    "baseline2_subjects": 9,
+    "total_subjects": 12,
+    "new_subject_round_records_max": 24,
+    "new_dimension_judgments_max": 36,
+    "new_generation_required": false,
+    "technical_protocol_independent_review_required": true,
+    "current_api_support": false,
+    "business_fix_implemented_this_round": false
+  },
+  "decisions_document": "docs/evaluation/M6-review-repair-decision-r1.md",
+  "audit_commands": [
+    {
+      "script": "audit.py",
+      "exit_code": 1,
+      "reason": "AST relative import package absent; read-only; retained"
+    },
+    {
+      "script": "audit_r2.py",
+      "exit_code": 0,
+      "checks": 1841
+    }
+  ],
+  "protection": {
+    "execution_private_files": 543,
+    "previous_freeze_files": 49,
+    "db_before_after_equal": true,
+    "ttl_excluded": [
+      "run_events",
+      "login_sessions",
+      "login_attempts"
+    ],
+    "users_password_hash_excluded": true,
+    "live_vectors_rescanned": false
+  },
+  "historical_calls": {
+    "logical_streams": 168,
+    "observed_input_tokens": 321926,
+    "observed_output_tokens": 168290,
+    "exact_http": null,
+    "cost": null,
+    "local_embedding_calls": null,
+    "local_rerank_calls": null
+  },
+  "new_calls": {
+    "embedding": 0,
+    "reranking": 0,
+    "supplier": 0,
+    "answers": 0,
+    "http": null,
+    "tokens": null,
+    "cost": null
+  },
+  "new_real_writes": 0,
+  "new_attestations": 0,
+  "new_calibrations": 0,
+  "new_candidates": 0,
+  "new_proofs": 0,
+  "default_switch": false,
+  "heldout_run": false,
+  "limitations": [
+    "sealed provenance and declared reads; no complete independent platform access trace",
+    "not a fresh 340-item semantic score review",
+    "AST projection is diagnostic only, not formal acceptance",
+    "no current live582/867 vector scan; historical hash-matching audits retained"
+  ],
+  "stage": {
+    "M6": "4/7",
+    "M6-04": "not accepted",
+    "M6-05": "not accepted",
+    "M6-08": "not accepted",
+    "M7": "not started"
+  },
+  "private_evidence_sha256": {
+    "output/m6-formal-quality-review-20261030/audit-first.log": "c8d879bfb3fe7934d82c457b4e9127675e9a23c5a2da75266c0ce1a17ed50172",
+    "output/m6-formal-quality-review-20261030/audit-r2.log": "806d3fbec52c0a289d855985a7045defca4e879635747bbf05679141f6cb6296",
+    "output/m6-formal-quality-review-20261030/audit.py": "904d801f4e82fc372900ca5a01fb008023f1ef92191623b599d3ca6b7120729e",
+    "output/m6-formal-quality-review-20261030/audit_r2.py": "3280486b6c4d8f90ace1658fac8d2ca85844536d488945da43318f8de1b7f72d",
+    "output/m6-formal-quality-review-20261030/bounded-repair-scope.json": "95d380803e560ca334efcd2575b5fddc7fa4c6271ea37d59aa34ac71bda8010b",
+    "output/m6-formal-quality-review-20261030/database-before.json": "b0860095f3b5b456687200773cdba7be9934672613890aaa13e923545d9b9fc1",
+    "output/m6-formal-quality-review-20261030/execution-files-before.json": "129a2ab3854d3b1c6b56091658c2343fb73343f93d2d6dd033aca0fe82b4b2eb",
+    "output/m6-formal-quality-review-20261030/r2/audit.json": "07877b6bee551df2ebdde1fb1370f25454b888d93236ca0284f373c6a01f6151",
+    "output/m6-formal-quality-review-20261030/r2/checks.json": "c3a80293cf4b97129338481470720d81327a127489c3f02ec305ff9eb53f04a1",
+    "output/m6-formal-quality-review-20261030/r2/conflicts.json": "d07851ead1a8c9329b4b2f8e9463b406d3be5785a30514f8693000d129b1a281",
+    "output/m6-formal-quality-review-20261030/r2/database-after.json": "b0860095f3b5b456687200773cdba7be9934672613890aaa13e923545d9b9fc1",
+    "output/m6-formal-quality-review-20261030/r2/database-before.json": "b0860095f3b5b456687200773cdba7be9934672613890aaa13e923545d9b9fc1",
+    "output/m6-formal-quality-review-20261030/r2/execution-files-before.json": "129a2ab3854d3b1c6b56091658c2343fb73343f93d2d6dd033aca0fe82b4b2eb",
+    "output/m6-formal-quality-review-20261030/r2/provenance-summary.json": "1562943b31ddccc69c16132e332583766055f5927be7d5cfef85fbac3255770a",
+    "output/m6-formal-quality-review-20261030/write_delivery.py": "5884b0d5858a416006bf57356ab9136bf5eab7047bf87d5c4e73405dc66e6f7c",
+    "output/m6-formal-quality-review-20261030/citation-display-check.json": "00bb8c9e0865f3d97fb68177cf5472fc488da75696569860c4ab2491292fa4db"
+  },
+  "citation_applicability_decision": "not prefilled; next bounded independent reviews inspect actual answer, result sources and existing display semantics; unresolved conflict stays pending"
+}
