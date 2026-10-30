@@ -1,0 +1,481 @@
+{
+  "baseline_commit": "cf173410ea041437a1a322c9353da2c1bac90143",
+  "date": "2026-10-30",
+  "initial_state": "HEAD/origin/main/GitHub equal; only untracked tmp/; six containers running",
+  "status": "execution self-validation; original P2 remains pending independent review",
+  "target": {
+    "database": "m1_test_m4_m6_layout6_da6474d5f3c94940",
+    "collection": "m1_test_m4_m6_layout6_da6474d5f3c94940",
+    "owner_id": "m4-test-1a8144a196df48fd892becca8eca7ade",
+    "kb_id": "m4-test-1a8144a196df48fd892becca8eca7ade",
+    "bucket": "product-knowledge",
+    "object_prefix": "m4-test/m6-layout6-da6474d5f3c94940/"
+  },
+  "corpus_parser_structure": 6,
+  "chunker_version": 6,
+  "corpus_processing_versions": {
+    "code": "74787a2115f4e415578553c24b2340b40e0d0962c86851c46c21c0464acaf34d",
+    "prompt": "f0fe0cc92fca8715957120515588f239ee15d1e4b3e0ba6c4c411dd176d5c52d",
+    "model": "565fbfe4c795fb52f84183f7b2708491fd7824fa07f2de9fd546e9d6d6e5bb90"
+  },
+  "retrieval_execution_versions": {
+    "code": "2d935c2a936c653ca3fa9de7057216fd2bd85e1eefd014626ce3ffc4032b87f6",
+    "prompt": "f0fe0cc92fca8715957120515588f239ee15d1e4b3e0ba6c4c411dd176d5c52d",
+    "model": "565fbfe4c795fb52f84183f7b2708491fd7824fa07f2de9fd546e9d6d6e5bb90"
+  },
+  "corpus_processing_execution_identity_separate": true,
+  "post_corpus_code_change": [
+    "app\\retrieval\\source_terms.py"
+  ],
+  "revisions": [
+    {
+      "source": "D1",
+      "document_id": "a5cc796c-48fd-5976-8151-305b7f226302",
+      "revision_id": "a4a96559-adb3-554a-a82e-004366fbb9c7",
+      "parser_version": "qualified-cache-113af69f33562d935beb9700dc1dc7e725978bfb583a766c43743b1d6ba806e7+structure-6+assistant-source-transcription-2075fdc717ad7e1e4326af205fee90874e649018f167f44c3344c6cd10f31f04",
+      "pipeline_identity": "eb776a614642dfe72b9841eb3d78c356786bb9ed06a3263ccf9f3b845b5c2f1b",
+      "chunks": 22
+    },
+    {
+      "source": "D3",
+      "document_id": "b9a29675-4fd1-5b91-8139-9033a451ea43",
+      "revision_id": "a781285f-8b94-5104-89c7-d786c6318260",
+      "parser_version": "qualified-cache-969fa1dfe2dd183c33d60f5e0a0a27cf54fa3add467003277be51d88777be47e+structure-6-row-evidence-afc27de175ba773aeb4f09f4e0ffff405e91aa94f1e8ef7536c1a20e42fb7068+assistant-source-transcription-2075fdc717ad7e1e4326af205fee90874e649018f167f44c3344c6cd10f31f04",
+      "pipeline_identity": "7aaac467a36de9f057574840beee86572766b5ca592c211d1cf6965809797b0f",
+      "chunks": 165
+    },
+    {
+      "source": "D4",
+      "document_id": "eca97d4d-070a-58c5-b8b8-ba948a91ef7f",
+      "revision_id": "6e7c39d4-3eb6-5b8a-836b-3027f4d839c3",
+      "parser_version": "qualified-cache-e67c2f9264306a42c02c4ce289932f97eea29fc761a55dd099cd60fa1a5b0993+structure-6+assistant-source-transcription-2075fdc717ad7e1e4326af205fee90874e649018f167f44c3344c6cd10f31f04",
+      "pipeline_identity": "407dd1ef57c82af591e76abb9085b52dea5e468abc60b9cbabb5ef318ce376e0",
+      "chunks": 84
+    },
+    {
+      "source": "D5",
+      "document_id": "006ccd8a-ff17-573b-afb6-70bc3bfae000",
+      "revision_id": "f5aab7c5-8d2d-56d7-b2bc-241600ef6d19",
+      "parser_version": "qualified-cache-09c8e9c3f99f2e54f7d2e2e514257d1898194f022301a77aba9dd11af0ed36cd+structure-6+assistant-source-transcription-2075fdc717ad7e1e4326af205fee90874e649018f167f44c3344c6cd10f31f04",
+      "pipeline_identity": "0cc472d4a166bde327ae5184c0c4e23f13bf646080cd74f467c957e2906bd89b",
+      "chunks": 311
+    }
+  ],
+  "pages": {
+    "tables": 43,
+    "rows": 249,
+    "precise": 89,
+    "unknown": 160,
+    "changed_rows": 45,
+    "text_coverage": 24,
+    "precise_coverage": 24,
+    "unknown_required_units": 0
+  },
+  "terms": {
+    "version": "source_network_terms_v1",
+    "default_enabled": false,
+    "formal_QueryRunner_wiring": false,
+    "source_catalog_sha256": "43496aa8a7b2ac1cd9c20cadc798adff038c0213858a23c937ad1b17c5406210",
+    "source_function_sha256": "762d37840283b9fdb00e1f2173afb7a27e2ec933911d100a09a86faf77075057",
+    "original_PDF_literal_verified": true,
+    "scope_terms": {
+      "D1": [
+        "3G/4G"
+      ],
+      "D5": [
+        "Cable"
+      ]
+    },
+    "query_terms_not_capability_proof": true,
+    "exactly_changed_questions": [
+      "support-v1-048"
+    ],
+    "changed_scopes": 2,
+    "required_dense_rank": 57,
+    "required_sparse_rank": 1,
+    "required_in_actual_sparse_branch": true,
+    "required_in_weighted_fusion_output": false,
+    "first_excluded_layer": "weighted hybrid output limit20; sparse branch contains rank1, dense branch excludes rank57",
+    "new_local_rerank_pairs": 8,
+    "adopted": false
+  },
+  "retrieval": {
+    "actual_Milvus": true,
+    "baseline_coverage": "24/25",
+    "term_coverage": "24/25",
+    "original24_retained": true,
+    "original24_context_prompt_groups_budget_exact": true,
+    "precise_necessary_coverage": "24/25",
+    "microsd_rj45_page": 5,
+    "weighted": true,
+    "limits": [
+      20,
+      20,
+      20,
+      20,
+      10
+    ],
+    "both_comparison_sides": true,
+    "answer_generation": false
+  },
+  "calls": {
+    "new_local_embedding_logical": 2,
+    "new_local_rerank_logical_batches": 1,
+    "new_local_rerank_pairs": 8,
+    "new_supplier_calls": 0,
+    "new_answer_calls": 0,
+    "token_usage": null,
+    "http_requests": null,
+    "cost": null,
+    "unresolved_current_windows": [],
+    "historical_unknowns_retained": true,
+    "request_keys": [
+      "da0107b6393876eaf7e2daf0808e5224ab383f7f44d24487920d9a20bcedaca8",
+      "a119cd57cab847a075293d8df8c819216154173fac36a558757a341a3718f88c",
+      "d163674a2ab183d69dbea3f37788d02969308e24d3967a59b0c994441034319f"
+    ]
+  },
+  "audit": {
+    "formal_assertions": 5875,
+    "protection_assertions": 1661,
+    "prompt_replay_checks": 101,
+    "groups_overlap": true,
+    "protected": {
+      "latest297": 297,
+      "review45": 45,
+      "latest_review": 20,
+      "output/m6-isolated-answers-20261028/protected-before-r3.json": 821,
+      "output/m6-answer-filter-fix-r3-20261029/protected-before.json": 404,
+      "output/m6-real-retrieval-20261028/protected-before.json": 294,
+      "M6-page-precision-recall-label-validation-r1.json": 125,
+      "M6-page-precision-recall-label-review-validation-r1.json": 26,
+      "M6-page-recall-binding-validation-r1.json": 331,
+      "M6-page-recall-binding-review-validation-r1.json": 14
+    },
+    "frozen_chunks": 867,
+    "parent_SQ5_chunks": 582,
+    "previous_structure5_chunks": 582,
+    "new_chunks": 582,
+    "TTL_excluded": true
+  },
+  "writes": {
+    "new_isolated_corpus": true,
+    "default_switch": false,
+    "historical_results": false,
+    "formal_labels": false,
+    "human_scores": false,
+    "answer_reviews": false,
+    "calibrations": false,
+    "answer_candidates": false,
+    "regression_proofs": false
+  },
+  "closed001_preserved": true,
+  "final_generation_config_frozen": false,
+  "M6": "4/7",
+  "unaccepted": [
+    "M6-04",
+    "M6-05",
+    "M6-08"
+  ],
+  "M7": false,
+  "commands": [
+    {
+      "command": ".venv/Scripts/python.exe -m pytest output/m6-layout-terminology-20261030/test_layout_boundaries.py -q --junitxml=output/m6-layout-terminology-20261030/layout-red.xml",
+      "exit_code": 1,
+      "result": "4 failed, 3 passed; unchanged independent matrix"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pytest tests/unit/test_table_layout_sources.py tests/unit/test_table_layout_adjacent.py -q --junitxml=output/m6-layout-terminology-20261030/adjacent-red.xml",
+      "exit_code": 1,
+      "result": "7 failed, 5 passed"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pytest tests/unit/test_source_network_terms.py -q --junitxml=output/m6-layout-terminology-20261030/terms-red.xml",
+      "exit_code": 2,
+      "result": "new module absent; collection error retained; not behavioral red proof"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pytest tests/unit/test_source_network_terms.py::test_network_equipment_model_is_not_a_medium -q --junitxml=output/m6-layout-terminology-20261030/terms-noun-red.xml",
+      "exit_code": 1,
+      "result": "1 failed; network concentrator model wrongly classified as medium; fixed literal suffix guard"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pytest tests/unit/test_pdf_table_row_sources.py tests/unit/test_table_source_precision.py tests/unit/test_table_layout_sources.py tests/unit/test_table_layout_adjacent.py tests/unit/test_source_network_terms.py tests/unit/test_pdf_segments.py tests/unit/test_pdf_heading_path.py tests/unit/test_chunk_structure.py tests/unit/test_structured_chunks.py tests/unit/test_tabular_sources.py tests/unit/test_semantic_review_probes.py tests/unit/test_semantic_review_regressions.py tests/unit/test_semantic_review_adjacent_probes.py tests/unit/test_comparison_context.py tests/unit/test_candidate_fairness.py tests/unit/test_scoped_subject_query.py tests/unit/test_retrieval_policy.py tests/unit/test_retrieval_provenance.py tests/unit/test_retrieval_grid.py tests/unit/test_source_prerequisites.py tests/unit/test_source_prerequisite_wiring.py tests/unit/test_prerequisite_contract.py tests/unit/test_image_cache.py tests/unit/test_image_acceptance.py -q --junitxml=output/m6-layout-terminology-20261030/shared.xml",
+      "exit_code": 0,
+      "result": "270 passed; 5 existing SWIG warnings"
+    },
+    {
+      "command": "$env:M1_TEST_DB=\"m1_test_m4_layout6\"; .venv/Scripts/python.exe -m pytest tests/integration/test_comparison_context_run.py tests/integration/test_scoped_subject_run.py tests/integration/test_source_prerequisite_run.py tests/integration/test_feedback_regression_lineage.py -q --junitxml=output/m6-layout-terminology-20261030/integration.xml",
+      "exit_code": 0,
+      "result": "34 passed; random isolated synthetic services"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pytest tests/unit/test_table_layout_sources.py tests/unit/test_table_layout_adjacent.py tests/unit/test_pdf_table_row_sources.py tests/unit/test_table_source_precision.py -q --junitxml=output/m6-layout-terminology-20261030/layout-first.xml",
+      "exit_code": 0,
+      "result": "28 passed"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pytest output/m6-layout-terminology-20261030/test_layout_boundaries.py tests/unit/test_source_network_terms.py -q --junitxml=output/m6-layout-terminology-20261030/original-and-terms-final.xml",
+      "exit_code": 0,
+      "result": "20 passed; original matrix copy plus final terminology guards"
+    },
+    {
+      "command": ".venv/Scripts/python.exe output\\m6-layout-terminology-20261030\\import_formal.py",
+      "exit_code": 0,
+      "result": "completed; original private log retained"
+    },
+    {
+      "command": ".venv/Scripts/python.exe output\\m6-layout-terminology-20261030\\freeze_terminology.py",
+      "exit_code": 0,
+      "result": "completed; original private log retained"
+    },
+    {
+      "command": ".venv/Scripts/python.exe output\\m6-layout-terminology-20261030\\freeze_terminology_final.py",
+      "exit_code": 0,
+      "result": "completed; original private log retained"
+    },
+    {
+      "command": ".venv/Scripts/python.exe output\\m6-layout-terminology-20261030\\freeze_execution.py",
+      "exit_code": 0,
+      "result": "completed; original private log retained"
+    },
+    {
+      "command": ".venv/Scripts/python.exe output\\m6-layout-terminology-20261030\\retrieve_baseline.py",
+      "exit_code": 0,
+      "result": "completed; original private log retained"
+    },
+    {
+      "command": ".venv/Scripts/python.exe output\\m6-layout-terminology-20261030\\retrieve_terminology.py",
+      "exit_code": 0,
+      "result": "completed; original private log retained"
+    },
+    {
+      "command": ".venv/Scripts/python.exe output\\m6-layout-terminology-20261030\\audit_precision.py",
+      "exit_code": 0,
+      "result": "completed; original private log retained"
+    },
+    {
+      "command": ".venv/Scripts/python.exe output\\m6-layout-terminology-20261030\\audit_formal.py",
+      "exit_code": 0,
+      "result": "completed; original private log retained"
+    },
+    {
+      "command": ".venv/Scripts/python.exe output\\m6-layout-terminology-20261030\\audit_terminology.py",
+      "exit_code": 0,
+      "result": "completed; original private log retained"
+    },
+    {
+      "command": ".venv/Scripts/python.exe output\\m6-layout-terminology-20261030\\audit_protected.py",
+      "exit_code": 0,
+      "result": "completed; original private log retained"
+    }
+  ],
+  "tests": {
+    "layout-red": {
+      "tests": 7,
+      "failures": 4,
+      "errors": 0,
+      "skipped": 0
+    },
+    "adjacent-red": {
+      "tests": 12,
+      "failures": 7,
+      "errors": 0,
+      "skipped": 0
+    },
+    "terms-red": {
+      "tests": 1,
+      "failures": 0,
+      "errors": 1,
+      "skipped": 0
+    },
+    "terms-noun-red": {
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    "layout-first": {
+      "tests": 28,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "shared": {
+      "tests": 270,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integration": {
+      "tests": 34,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "original-and-terms-final": {
+      "tests": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "groups_overlap": true
+  },
+  "evidence_sha256": {
+    "output/m6-layout-terminology-20261030/25题版面出处与术语真实对照.html": "349fbb706ab6fdd51ea13af16da2c007a1593f100a5395907ca18e9b27243933",
+    "output/m6-layout-terminology-20261030/actual-commands.json": "3c600c1936802f4ae6cfba7a2abb49f4fe53d337ee407165293300fbba66e5c5",
+    "output/m6-layout-terminology-20261030/adjacent-red.log": "c86ef84e800d3a583d1037034ef3d0c622ae0d56d86c961d361ba5ef118b021e",
+    "output/m6-layout-terminology-20261030/adjacent-red.xml": "71300d417d87342d7c56f11f38e757adf2202ea0b373539ff4fdf9336d8c040f",
+    "output/m6-layout-terminology-20261030/audit-formal.log": "ade8a118cb76a7d08cd7adf375cb9a640e071fa1ea5ed2ed151cb4409d7ce5d6",
+    "output/m6-layout-terminology-20261030/audit-precision.log": "81f885163c2823a9cdc2fea5560739edfb04187b61ad70e2c457e517eb087dd7",
+    "output/m6-layout-terminology-20261030/audit-protected.log": "f0c29c91bfc16e538c2bab29fded41a22e2577fe3ee5e3f31b54113a3059797f",
+    "output/m6-layout-terminology-20261030/audit-terminology.log": "04d8b31eab4636e97ec248d45029f6c672130b896a521ab9e28a96c718384cc6",
+    "output/m6-layout-terminology-20261030/audit_formal.py": "ddc6bc74c6d273506e808f316ff0cd4649b2e381686e52a0b4dae79cc4f26799",
+    "output/m6-layout-terminology-20261030/audit_precision.py": "ab5b8fc7d4273a3a5bc1b11f956508dd3f24477fc580ff009df9cb982a4f39ce",
+    "output/m6-layout-terminology-20261030/audit_protected.py": "7dab3daf83fb88008c10281827f1b3fb39f32754ed2d664332217dae0076c86f",
+    "output/m6-layout-terminology-20261030/audit_terminology.py": "24295eac9eca05f40b30e7295034e33ffbb66ec7bd830ced180db3995492be2c",
+    "output/m6-layout-terminology-20261030/baseline-retrieval.log": "bd35ceede0f1f6bcf0260e3fbc32d3549029147a2bb2858f109eb2eb75f1df8a",
+    "output/m6-layout-terminology-20261030/build_terminology_driver.py": "48f1709ec3e3f4a900e2a2f829100f1365cc4769e315e2a7087f2c0d2e1c5a5e",
+    "output/m6-layout-terminology-20261030/D5-p30.png": "4150b90c15eafae630ec39011dcbe922b537d938416f059a43a98e8adb4927ab",
+    "output/m6-layout-terminology-20261030/D5-p8.png": "b24c0d41d0910d748ef7a0e0fa586f37c20b7a3e970be521af7aa959c43adab8",
+    "output/m6-layout-terminology-20261030/freeze-execution.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "output/m6-layout-terminology-20261030/freeze-terminology-final.log": "cab9525babb5d26997614f6ec2ecc18d1a9d5a627b46ba08ab9f8c8976b07910",
+    "output/m6-layout-terminology-20261030/freeze-terminology.log": "d7e1b317aa70922471d923fe0861d189a0adf27e37ff414d51427ef85ccd1937",
+    "output/m6-layout-terminology-20261030/freeze_execution.py": "a2b3d2c6586dbd5c3962cad7cc0a94816806c1cd49065d600776f9f979a664c1",
+    "output/m6-layout-terminology-20261030/freeze_terminology.py": "6d8f39f777c54c101f61b576ad0c3fc8b662f9dac04c4e5140ea6d10c2a761e9",
+    "output/m6-layout-terminology-20261030/freeze_terminology_final.py": "f10ed337008f140347fbecd6c522f8f99fefa5a48d8fe803cb01f94380cb7a8f",
+    "output/m6-layout-terminology-20261030/import-formal.log": "a6f02e14827b5c50d60a9b7e1feddae016dcac5e419781d8a32f1a56003bbf83",
+    "output/m6-layout-terminology-20261030/import_formal.py": "6157c82270402d7c597b54d6cad4b8c00cc0f60a77124a69585ba266ed164fc1",
+    "output/m6-layout-terminology-20261030/integration.log": "76c1c54717471004376d80a63c3fe30965cd86a0aa95cee4284386dce3c1369e",
+    "output/m6-layout-terminology-20261030/integration.xml": "348cf0b5c410330c40087b44bf32b039302c3f8c887d79d761715902edaf9e95",
+    "output/m6-layout-terminology-20261030/layout-first.log": "30f7cf232685e5c884f3078aeab9e2d1a137fd387abbedd5e37973ff8527dc27",
+    "output/m6-layout-terminology-20261030/layout-first.xml": "80075bb85d4fa16ede1942500bf48d475431511cded9dfe4a2b08a02791f9224",
+    "output/m6-layout-terminology-20261030/layout-red.log": "dd136ebe8268c009849d896fd4ec0d9070d31f194472ecf1a2a1a0823f9702c6",
+    "output/m6-layout-terminology-20261030/layout-red.xml": "214fbe7d9108d58cafd854be8966dde8e1a3a2f8779f4fe2b924e05463339054",
+    "output/m6-layout-terminology-20261030/original-and-terms-final.log": "e10fba1aadaef533f0c518cd605a9c7c2ae6e78851850b9c7661d62593892ab9",
+    "output/m6-layout-terminology-20261030/original-and-terms-final.xml": "226008b85d5d2b0ccda19aa72ffb64ed58fb2c1fd7b223b9e35b9036624e958c",
+    "output/m6-layout-terminology-20261030/planned-query-changes-final.json": "ce2b3c04876cc0a7d2c66163ad23a77699fafc984981062adfb9b7c103c33fb0",
+    "output/m6-layout-terminology-20261030/planned-query-changes.json": "17d6532e17490718fd412de7b17d0ab11ad11734d7c80bf05ab2c210519249b4",
+    "output/m6-layout-terminology-20261030/preview-precision.log": "81f885163c2823a9cdc2fea5560739edfb04187b61ad70e2c457e517eb087dd7",
+    "output/m6-layout-terminology-20261030/preview_precision.py": "3c640b30994b4b3d219eb9486131ea4156c20ae5b0c54de24113cf10a0d19cf6",
+    "output/m6-layout-terminology-20261030/protection-audit-checks.json": "6edbdbca1b7997110069e148afc663108231713dfb2748c64a268b5f0bc01055",
+    "output/m6-layout-terminology-20261030/protection-audit.json": "e9a77e3d571888496bc34ea1e8559d2fb380196846d8abc92162d3102cf1b4f5",
+    "output/m6-layout-terminology-20261030/required-evidence-audit.json": "314143109ec8eedea51655e5e9608063ffdde07779b04d6287d14e218eb9ea90",
+    "output/m6-layout-terminology-20261030/retrieval-execution-config.json": "9b0baadbe66b2943f6f9c293e9369ef78c58c5abeaac2f4d720a5f03451d4618",
+    "output/m6-layout-terminology-20261030/retrieve_baseline.py": "587bb992184bb25cc8b60efd2f375d4f97b89843960d7aa811a54ea1c0fa245b",
+    "output/m6-layout-terminology-20261030/retrieve_terminology.py": "5d231462f30a2afa91df1ba9068a249db863c2ebead33334bd93d1868dcb8fd6",
+    "output/m6-layout-terminology-20261030/row-precision-audit.json": "ca08eefe07bf71844db10e6a405390ef35d362f16e381a93b5c553d4e9558b36",
+    "output/m6-layout-terminology-20261030/shared.log": "5638bc8e87e3e4a08be0311d54f56b45ed5abd729db53d13e8b9e421f2061096",
+    "output/m6-layout-terminology-20261030/shared.xml": "5aa552c0f02c9f67d8c967546ec52af42e3a8a11c14951151801072beeab2b82",
+    "output/m6-layout-terminology-20261030/source-terminology-manifest-final.json": "43496aa8a7b2ac1cd9c20cadc798adff038c0213858a23c937ad1b17c5406210",
+    "output/m6-layout-terminology-20261030/source-terminology-manifest.json": "d4e4b0f9baca7711a550cb87bd767c61398413aa52bb92126b352b97d5546a90",
+    "output/m6-layout-terminology-20261030/terminology-final-audit-v2.json": "447deb8bbe5a7ed8ca2467dce8dcf29f4ebbd6db32f7f5b10b2928b38580e5f3",
+    "output/m6-layout-terminology-20261030/terminology-final-audit.json": "47e2f89082179575e8b60912b8580a7d6625a7b1f1c5e46f79c69bc3431381c6",
+    "output/m6-layout-terminology-20261030/terminology-retrieval.log": "4536e5c749a64006740bcf7cfab2b99a3e639d1a5d3c142d819081d7ed09de21",
+    "output/m6-layout-terminology-20261030/terminology-source-and-target.png": "8878198da26d5bd557e9b77216d2fd4a66a6e05f510c5f6c4376fa3a5618988c",
+    "output/m6-layout-terminology-20261030/terms-first.log": "5ab75b5eba3a8e0eda0067bf40a1d77b83bb99cb434afc85885616788dfb33a1",
+    "output/m6-layout-terminology-20261030/terms-first.xml": "f0a181f47d5824b67277494b86c27b4c80098dc7f1e0417cda09bab308189849",
+    "output/m6-layout-terminology-20261030/terms-noun-red.log": "e7df9d9283b4d101e684778dd9700e072020a1073767e0df5da8b238000ace83",
+    "output/m6-layout-terminology-20261030/terms-noun-red.xml": "cc1f0a4117a1e2ae8c7475acb944da434250aa2b6f0ced5ff95480d557fd745f",
+    "output/m6-layout-terminology-20261030/terms-red.log": "c07328c974cb7a287430e7609e480fee593c75eb3ed2162f2f58c5c82d3208ab",
+    "output/m6-layout-terminology-20261030/terms-red.xml": "f2485e715f8ba495347cb71c3f8db6b1cdc49e2214391896ef20bdefc84c696e",
+    "output/m6-layout-terminology-20261030/test_layout_boundaries.py": "681e051857c85a1a734b42e0dbd7dc33f1b63ad55737cf2d1aa37285427f12e1",
+    "output/m6-layout-terminology-20261030/write_docs.py": "923fdd3106b9d3a0277dc2babcacdce16290e87cfdc958053c90c807c27e333f",
+    "output/m6-layout-terminology-20261030/formal-m4/calls.jsonl": "6e344241216f175517457540aa381ad3a9b026758f83d13e4dffa78657bd4a86",
+    "output/m6-layout-terminology-20261030/formal-m4/controlled-row-source-proof.json": "3ab7d5a5b7da1e7e1411a8cc1d12ab667c1cdbeeef0bb89c61c9e94154e5c15a",
+    "output/m6-layout-terminology-20261030/formal-m4/corpus-snapshot.json": "2d80cf183475a25c8e8c16d43cfc57aa8f7395d8f3288af9623e1de9b5ed3283",
+    "output/m6-layout-terminology-20261030/formal-m4/final-audit-checks.json": "0e27335da76194500a67920f30332225e996aeff6addc58d60a13c70b15c5df8",
+    "output/m6-layout-terminology-20261030/formal-m4/final-audit.json": "165f0fa270e24cd14da86b18994c65acf43d70b8df3ca3cb36a6629ec784e88b",
+    "output/m6-layout-terminology-20261030/formal-m4/formal-target-precheck.json": "3876e66906ba532ff055c85526b8ee8491f673b6cd39da619e4e873bba86e3b2",
+    "output/m6-layout-terminology-20261030/formal-m4/frozen-final.json": "6ffcc0f93b1395ddae21f381a3eb431524aaee0d50c34eabd139b07c30ea9d9f",
+    "output/m6-layout-terminology-20261030/formal-m4/frozen.json": "6ffcc0f93b1395ddae21f381a3eb431524aaee0d50c34eabd139b07c30ea9d9f",
+    "output/m6-layout-terminology-20261030/formal-m4/import-complete.json": "e30db1cbe8c885d25cc090678ed5d64f052662d8f93b6107dfb2c3daaede18dc",
+    "output/m6-layout-terminology-20261030/formal-m4/isolation-before.json": "3d87ea2d70b395f3785452393b5387e5f52db87cb4916cce8c179c40eed60da9",
+    "output/m6-layout-terminology-20261030/formal-m4/summary-links.json": "b5fa59489d28815a6b5ab294b30b42b83c71c5cd1b3a35c2162220d8c3ecf88b",
+    "output/m6-layout-terminology-20261030/formal-m4/vector-reuse-manifest.json": "f9e8960e0f7486576de27f40e5ddbcffb5d7f95d18c8201f9e47b6b4e7a7cd5b",
+    "output/m6-layout-terminology-20261030/formal-m4/verified-retrieval-comparison.json": "c0b0902c3cf51695b60a44dddfa17eb08ebd0b6aa5474aa9d26a301783410b10",
+    "output/m6-layout-terminology-20261030/formal-m4/verified-retrieval-database-after.json": "267a8152b135a0d89b8df04407f7a60dabc813467ee863d99d309d6bb5f0dce5",
+    "output/m6-layout-terminology-20261030/formal-m4/verified-retrieval-database-before.json": "267a8152b135a0d89b8df04407f7a60dabc813467ee863d99d309d6bb5f0dce5",
+    "output/m6-layout-terminology-20261030/terminology/calls.jsonl": "ccba448f1bda0a61d6e31f15a4d20c4acc8bfa2f48ff33aab49f2f4ade23d131",
+    "output/m6-layout-terminology-20261030/terminology/source-catalog-current.json": "00197d15edb8fe8d80c21c09691e6f7324249edac207bb5340858e46008f6905",
+    "output/m6-layout-terminology-20261030/terminology/verified-retrieval-comparison.json": "2b7fe7abc3738ebbe7cc382d5053962167934f20e60fa265a80101f0358855b0",
+    "output/m6-layout-terminology-20261030/terminology/verified-retrieval-database-after.json": "267a8152b135a0d89b8df04407f7a60dabc813467ee863d99d309d6bb5f0dce5",
+    "output/m6-layout-terminology-20261030/terminology/verified-retrieval-database-before.json": "267a8152b135a0d89b8df04407f7a60dabc813467ee863d99d309d6bb5f0dce5",
+    "output/m6-layout-terminology-20261030/formal-m4/imports/D1.json": "011a4b758bff6e7072db19f87326fb86ebeeb6fef95cf89ce0b3cf5ebce7d25e",
+    "output/m6-layout-terminology-20261030/formal-m4/imports/D3.json": "8a07366344c5fbdf60cbc1e7dea9fd9265b714328b31ef006bad23edac7be3d2",
+    "output/m6-layout-terminology-20261030/formal-m4/imports/D4.json": "9b10cc426c9ea41a894f214efcf3896732df998651d1ce26241a3f4f9466434c",
+    "output/m6-layout-terminology-20261030/formal-m4/imports/D5.json": "802e213d68d0363a61b371b0170c3ed34d1e05161d3b54187d4c5e8fe46d9314",
+    "output/m6-layout-terminology-20261030/formal-m4/parsed/D1.json": "3f62ccb48e89226a0390ae08e1349de29ef61681b375ed6d6c995e9e30bd9d05",
+    "output/m6-layout-terminology-20261030/formal-m4/parsed/D3.json": "fb92ecce2ab0e2b6715e385fcf32e6ff459cf8de55d241b9c9eb46f1b0b90b05",
+    "output/m6-layout-terminology-20261030/formal-m4/parsed/D4.json": "52c356f25f7b2dd7b6af71d6dadd75ccd549a23259d0dcb464fb53ee5cafaa1d",
+    "output/m6-layout-terminology-20261030/formal-m4/parsed/D5.json": "efe7bd90844319af901baaa0d69395422d9f0437dfbd999af377ca603bc424ee",
+    "output/m6-layout-terminology-20261030/formal-m4/source-mapping/D1.json": "9542d78d52ccc1844db2b92d807e9aa74919ceaa7049e2225045c8e39de6ce33",
+    "output/m6-layout-terminology-20261030/formal-m4/source-mapping/D3.json": "b266694b1f8bade4ee4c4f263c05fa89c60e7e9309239b43219b0f0cb48c64e6",
+    "output/m6-layout-terminology-20261030/formal-m4/source-mapping/D4.json": "a8bb5c59a5b65f1692745bd1b9f0ac5e43515e876526e19e63665ab64e17469d",
+    "output/m6-layout-terminology-20261030/formal-m4/source-mapping/D5.json": "6c3d2ce8d0ff38fddf379da76da068de13a1fe30d2c08bd87111617b01c93db4",
+    "output/m6-layout-terminology-20261030/formal-m4/verified-retrieval-results/m6-g540-02-a.json": "39c409ae0096f6741afcef0618bebd840c8e61243c8b779fdb443f56411e5e8d",
+    "output/m6-layout-terminology-20261030/formal-m4/verified-retrieval-results/m6-g540-02-b.json": "8f0a83aaf158c8b30004e6bdd709bd9f73d289e1ae68eb2ca5e296769e9c3874",
+    "output/m6-layout-terminology-20261030/formal-m4/verified-retrieval-results/m6-g540-04-a.json": "b042a0d37078a2a94bd6f6ab0f654c690507c014638ef7575d6c0d9721cd527e",
+    "output/m6-layout-terminology-20261030/formal-m4/verified-retrieval-results/m6-g540-04-b.json": "4957e0a865117201a08e9c671ac3606b290d2cb626fe37af8cfe2dacca7a80e4",
+    "output/m6-layout-terminology-20261030/formal-m4/verified-retrieval-results/m6-g540-05-a.json": "32c565b1bc87b6edf85724146acfbf052b55208003480230f3981a07f0dc5443",
+    "output/m6-layout-terminology-20261030/formal-m4/verified-retrieval-results/m6-g540-05-b.json": "334049d9a707082628038029cf3131f86d9b6e28cf85f03aadefc9ce300700c3",
+    "output/m6-layout-terminology-20261030/formal-m4/verified-retrieval-results/m6-g540-17-a.json": "1f6e6949ae3ac5a4ecbc99cafc905e4158528ff3bd81a8f3ae6b9ffbb001093a",
+    "output/m6-layout-terminology-20261030/formal-m4/verified-retrieval-results/m6-g540-17-b.json": "3c79000b2322cbe8a9dfc9760ffc689da1e23a3375c3cc39bc19e7cbddff1e69",
+    "output/m6-layout-terminology-20261030/formal-m4/verified-retrieval-results/m6-g540-18-b.json": "91e439633d6445f2d8d880e6e74d44b5c5b37ce6cb69c6fac9c7e7a3f8f3f336",
+    "output/m6-layout-terminology-20261030/formal-m4/verified-retrieval-results/m6-g540-20-a.json": "ed27932a204e28e9d64fc9c6893eec2df3d5f93278928547029b2abe010a5bab",
+    "output/m6-layout-terminology-20261030/formal-m4/verified-retrieval-results/support-v1-003.json": "c93dca1ba586c8e82ec44d29e3700d031089efe32331d14b6008bb851d301a42",
+    "output/m6-layout-terminology-20261030/formal-m4/verified-retrieval-results/support-v1-004.json": "68bc29ff97b5c858f76da8c70c5d4455e880cdb5789ab7472468e333dc94cb83",
+    "output/m6-layout-terminology-20261030/formal-m4/verified-retrieval-results/support-v1-006.json": "7bd0f86f4d57f61243d2b773c9f2e7c7ed3b5fc17bde7092ffdd3ee414349d2a",
+    "output/m6-layout-terminology-20261030/formal-m4/verified-retrieval-results/support-v1-007.json": "862d62ab5ddaf2ac5602b1d97208d84e93700433643b5803a0274b1240898187",
+    "output/m6-layout-terminology-20261030/formal-m4/verified-retrieval-results/support-v1-008.json": "797a129dbdbfb3f4be89edc3665ff991956ea80087643c10ac0742ad60bd70b9",
+    "output/m6-layout-terminology-20261030/formal-m4/verified-retrieval-results/support-v1-009.json": "1df4077b42bdfbd87387b6330b94fadd41c7d45de36bfdefbb7da085e0863a3e",
+    "output/m6-layout-terminology-20261030/formal-m4/verified-retrieval-results/support-v1-010.json": "481c73422a6def0ea953d0787ab75cf230b03417d08b591c50726c17b9e5ece9",
+    "output/m6-layout-terminology-20261030/formal-m4/verified-retrieval-results/support-v1-019.json": "3b8c616d7acd197bb61739bea1d09058a77e6bb2adad488d3ef6ef619b421aad",
+    "output/m6-layout-terminology-20261030/formal-m4/verified-retrieval-results/support-v1-020.json": "767b6902e8fd2053e9637ff01f2d008d8c558151f70971405d6e4937a5d8d781",
+    "output/m6-layout-terminology-20261030/formal-m4/verified-retrieval-results/support-v1-021.json": "f24c998821de4089a48ccaee50bba67f803ec1599078e788b7e54ddf960f01d4",
+    "output/m6-layout-terminology-20261030/formal-m4/verified-retrieval-results/support-v1-022.json": "b970e2e309555e9d693bea74d6f3739e77b46fc4283c9e47fe2805db45217870",
+    "output/m6-layout-terminology-20261030/formal-m4/verified-retrieval-results/support-v1-034.json": "d7dcf2d2aeed0e52c66a55596854f7622cf2d65270be6980bef3f50aeb73b83d",
+    "output/m6-layout-terminology-20261030/formal-m4/verified-retrieval-results/support-v1-037.json": "d36a8a5af338fb87fdf351094fdca751435351a2018472c36f528f9beda56bbe",
+    "output/m6-layout-terminology-20261030/formal-m4/verified-retrieval-results/support-v1-038.json": "ee61770e3386c4725ef04d5a2d7f7aebafe4facf70ba83eed8662914d5bc00ee",
+    "output/m6-layout-terminology-20261030/formal-m4/verified-retrieval-results/support-v1-048.json": "0355e71c4f936161b5634c5c218557a575b9fe3d8449222e772033880d5340d7",
+    "output/m6-layout-terminology-20261030/formal-m4/parse-cache/0d9a4ac8-b869-547a-bae1-a0bae0b73ee9/0/segment.json": "b66d8ea8f94f49452661a00976e657bc0815dbd07e7e56ca403cc1bfe890c36a",
+    "output/m6-layout-terminology-20261030/formal-m4/parse-cache/0d9a4ac8-b869-547a-bae1-a0bae0b73ee9/inputs/000000-000024-2323a2ec8d79ede1.pdf": "2323a2ec8d79ede1f473e268cc390618f6a5f319ea436709e2ad6f4b1cfa4098",
+    "output/m6-layout-terminology-20261030/formal-m4/parse-cache/a1ecb22b-3a6d-5224-acdd-1cc37a9c4c1f/0/segment.json": "8c06ab59fef4a841dd3b42cd646aa8bcf3c015405cdd7ddf4c37f82bf8d1efc9",
+    "output/m6-layout-terminology-20261030/formal-m4/parse-cache/a1ecb22b-3a6d-5224-acdd-1cc37a9c4c1f/inputs/000000-000034-caf99558ddc67175.pdf": "caf99558ddc67175071244b15a4a82b0d2d9305ac023348c5b32b007a1194992",
+    "output/m6-layout-terminology-20261030/formal-m4/parse-cache/b868ab40-6774-583e-a2c6-08a5ad120206/0/segment.json": "aa8281793fadb1b7630051f60398e36676ce954ef9a0829c07a211fbce8ac57f",
+    "output/m6-layout-terminology-20261030/formal-m4/parse-cache/b868ab40-6774-583e-a2c6-08a5ad120206/inputs/000000-000006-8b15fffb2a5af0a2.pdf": "8b15fffb2a5af0a268a37a90523cae8899e22f001ece866ed9d786d08513d7cb",
+    "output/m6-layout-terminology-20261030/formal-m4/parse-cache/ed958934-dd59-54f1-8831-6d48c862171b/0/segment.json": "b7e02b70f7a6e68ff691a2577869f83afc5ee51e59b49f2b0f85c47c0b635918",
+    "output/m6-layout-terminology-20261030/formal-m4/parse-cache/ed958934-dd59-54f1-8831-6d48c862171b/inputs/000000-000013-5e5ed745d0adfe92.pdf": "5e5ed745d0adfe92f478461e387b6cfd4fec42456cc0e4a3cf8f763250c225cf",
+    "output/m6-layout-terminology-20261030/terminology/verified-retrieval-results/m6-g540-02-a.json": "15ec252431e4df7e4425bdef362bf85b164e665518c650363c0e0135aedb49fb",
+    "output/m6-layout-terminology-20261030/terminology/verified-retrieval-results/m6-g540-02-b.json": "482eb48b5feea80a6e63e53df943437df7979197f383c7b98503a9f2606c2bdc",
+    "output/m6-layout-terminology-20261030/terminology/verified-retrieval-results/m6-g540-04-a.json": "dd494aa2d300a49d3135da4dfab23a80290eae718a7579ce7ebb45b45e180692",
+    "output/m6-layout-terminology-20261030/terminology/verified-retrieval-results/m6-g540-04-b.json": "fdc934d00d64ad84fe9aa5fb921f9e0886d5b0f8963ccba3e92d3932d76851b5",
+    "output/m6-layout-terminology-20261030/terminology/verified-retrieval-results/m6-g540-05-a.json": "7eb01b2bb921b5bd84a12c3fbc70d85e4065d56d25e0eb1d61a143ac0bf825e8",
+    "output/m6-layout-terminology-20261030/terminology/verified-retrieval-results/m6-g540-05-b.json": "bf7c7dc61e6994bf0ed6cdbffc2174f84b631feaaf825cbd37b245190c20de4d",
+    "output/m6-layout-terminology-20261030/terminology/verified-retrieval-results/m6-g540-17-a.json": "b0a3a7c919ad01c0405a9db8e4d3ecb267a0aaae69709f8af52c13bdcd140937",
+    "output/m6-layout-terminology-20261030/terminology/verified-retrieval-results/m6-g540-17-b.json": "f1b820bf8ac2186f69f62ba6d8a76ba8ac576688fb5a7f8855a2f259bf61248d",
+    "output/m6-layout-terminology-20261030/terminology/verified-retrieval-results/m6-g540-18-b.json": "26ed4a72cff70b533f494bc89da70d18f5abb447b7ba5fdca2c534e122b4791d",
+    "output/m6-layout-terminology-20261030/terminology/verified-retrieval-results/m6-g540-20-a.json": "0222b5b12f2ee92706473ebb0f6caac8af9d6693bf1a390b043fbd301a823fc9",
+    "output/m6-layout-terminology-20261030/terminology/verified-retrieval-results/support-v1-003.json": "20b90c8a4c17bcec7de367fb7919bbc1409f4ca3d761750b4f45d0c3fdbc5f03",
+    "output/m6-layout-terminology-20261030/terminology/verified-retrieval-results/support-v1-004.json": "ad38d854e4658d8e06786656946acaaee92f615c2785d3f6082cc02661b727a4",
+    "output/m6-layout-terminology-20261030/terminology/verified-retrieval-results/support-v1-006.json": "8fbcd7bd914e470de5ba50706e4db1a30ae1bf50fb6164e2e2a66237b1f1730a",
+    "output/m6-layout-terminology-20261030/terminology/verified-retrieval-results/support-v1-007.json": "1c174855a43afb1de75b87f085ea55616177afdc7767f543f6db08fa69d2f056",
+    "output/m6-layout-terminology-20261030/terminology/verified-retrieval-results/support-v1-008.json": "e58d1d1484fdf821f1b0bba64218cec8e1254f5d65f44ab9df7c7d1d62dcdb44",
+    "output/m6-layout-terminology-20261030/terminology/verified-retrieval-results/support-v1-009.json": "3e496871145c628f59bbb1fec8b6eeeea11fb103fdd7368befe8a682bde9f145",
+    "output/m6-layout-terminology-20261030/terminology/verified-retrieval-results/support-v1-010.json": "61aadfd3a257b48f2d77d742c2619dbb0e6a20aebd1d97ef6577efb4bf063f3a",
+    "output/m6-layout-terminology-20261030/terminology/verified-retrieval-results/support-v1-019.json": "6628167ef0b2a338de4c52efabf678d43af20fd310adfc26f0f1fec1f3ae02fd",
+    "output/m6-layout-terminology-20261030/terminology/verified-retrieval-results/support-v1-020.json": "690cf4aaec1f89ef689c02a883c22d70112a28c25d937d1604e5921c8f02b6ea",
+    "output/m6-layout-terminology-20261030/terminology/verified-retrieval-results/support-v1-021.json": "3146aeb3bb78a031e06d41314d1a51ffe761d80eca4152ff25230d37fd6ff09d",
+    "output/m6-layout-terminology-20261030/terminology/verified-retrieval-results/support-v1-022.json": "6fe77e646a6b44807b15c1aa57b74eeda0d8ab08c7ba7f1dd41218d62c08220d",
+    "output/m6-layout-terminology-20261030/terminology/verified-retrieval-results/support-v1-034.json": "a9c0f1d70625cb0531debbbd5106f3b90db57aaaad737bbd4657409a778f4e0d",
+    "output/m6-layout-terminology-20261030/terminology/verified-retrieval-results/support-v1-037.json": "5151c34518a99f8443b9e68c8e8b4fef4f0e8b273c5b33f314788c33324ef803",
+    "output/m6-layout-terminology-20261030/terminology/verified-retrieval-results/support-v1-038.json": "92eaf8cd8374f53cbabde6ea9cdd84f3943b56d189aabbe4a507a6f8d113aa88",
+    "output/m6-layout-terminology-20261030/terminology/verified-retrieval-results/support-v1-048.json": "de1c53e88ec0d62c8153c3d9639ac7b53c3e01ba28d40f809217b00e9ecda0a1",
+    "output/m6-layout-terminology-20261030/terminology/model-cache/embedding_query/a119cd57cab847a075293d8df8c819216154173fac36a558757a341a3718f88c.json": "400d668a3ffa57ce1da39801b076ce1729bf9182d52119d028ba3590dde4cf69",
+    "output/m6-layout-terminology-20261030/terminology/model-cache/embedding_query/a119cd57cab847a075293d8df8c819216154173fac36a558757a341a3718f88c.started.json": "ddf00409b050e1a8158c959b06554ea3158930447093bc703ac0e06d1b06da20",
+    "output/m6-layout-terminology-20261030/terminology/model-cache/embedding_query/da0107b6393876eaf7e2daf0808e5224ab383f7f44d24487920d9a20bcedaca8.json": "75065282a9472fbd9d56ca2f3b1970e44cfd4f293ce5fbe67912b25ad1462831",
+    "output/m6-layout-terminology-20261030/terminology/model-cache/embedding_query/da0107b6393876eaf7e2daf0808e5224ab383f7f44d24487920d9a20bcedaca8.started.json": "e172ec58e8fe55d95af7dc59badd536980e05bffaa80d973f6d1bf9b4ed74eb9",
+    "output/m6-layout-terminology-20261030/terminology/model-cache/rerank/d163674a2ab183d69dbea3f37788d02969308e24d3967a59b0c994441034319f.json": "c3d8429eedd6f1eb28c96ea72f8163a8c48017aba1fb8ec50da0226a0d8f17b5",
+    "output/m6-layout-terminology-20261030/terminology/model-cache/rerank/d163674a2ab183d69dbea3f37788d02969308e24d3967a59b0c994441034319f.started.json": "e4b676aa77f162aca250ec7207a410c18f2f5d9773d1c01d6127f36fdf37cfe8"
+  }
+}
