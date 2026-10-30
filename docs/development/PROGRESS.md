@@ -1,3 +1,13 @@
+## 2026-10-30 · 六结果真实限定双轮已正式封存，交总控来源核验
+
+接续82b8020，两个全新fork_turns=none任务按先seal第一轮两case、再创建第二轮执行。固定六结果共12条题轮／24维真实assistant判断已通过既有begin／seal正式封存，原始JSON与4个seal全等；原评分、规则N/A和基线结果不变。44项本包回归、4212项只读审计、91项可见provenance检查通过，组间不累计质量分。609份历史文件／3547既有Mongo行hash匹配；无新产品答案调用、重排、编码，两个平台审核任务usage／HTTP／费用null，历史168stream及未知费用保持。
+
+执行报告与[下一步](reviews/M6-review-repair-execution-r1.md)、[脱敏摘要](reviews/M6-review-repair-execution-validation-r1.json)已保存，原始材料在本机output/m6-review-repair-execution-20261030/。实际盲审输入／时间／hash与访问限制交总控核验，不以同分或持admin代签；当前attestation／校准／候选／proof均未新增，两版完整85题质量投影仍pending。下一动作仅为总控提交真实来源核验后正式attest；有效后执行既有calibrate／candidate-request，不再修同一接口或重生成基线。M6仍4/7，04／05／08未验收，M7未启动。
+
+## 2026-10-30 · 执行限定六结果独立补证
+
+接续82b8020，HEAD／origin／GitHub一致，开始仅tmp/。按用户新授权，两个全新fork_turns=none审核任务顺序执行；先正式begin冻结第一轮纯输入，两个case均seal后才创建第二轮。仅消费已登记case，不重开发、不重生成基线、不改旧分；原始输出与轨迹写新output/m6-review-repair-execution-20261030/。新独立性由总控核验，执行方不代签；核验前不创建校准、候选或proof，M7不启动。
+
 ## 2026-10-30 · 总控已修复审核纠错接口并登记两case；交限定真实补证
 
 用户明确要求当前总控直接完成修复后交执行方。当前任务M6-review-correction-fix：已实现不可变规则纠错／限定双轮／逐维有效来源及校准接线，52项定向／契约、1项答案图和79项相关旧路径验证通过（重叠不累计）。两case及6处明确N/A已正式登记，新进程676项只读核验通过；真实库仅新增两个case，340条旧评分及原结果不变。纯输入补证包和两个候选v2/catalog已备齐。下一包只补6个题级结果的真实独立双轮及总控来源核验，再校准／候选／proof；不重新开发接口或重生成基线。完整指令见[执行交接](handoffs/M6-review-repair-execution-r1.md)。不覆盖原评分，不伪称独立验收，不开子Agent。新私有证据output/m6-review-correction-fix-20261030/；原生成基线保留，新候选使用真实当前源码身份。见[实施计划](plans/M6-review-correction-fix.md)。以下历史保留。

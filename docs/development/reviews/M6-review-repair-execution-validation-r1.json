@@ -1,0 +1,299 @@
+{
+  "date": "2026-10-30",
+  "source_commit": "82b8020c6b552e82fe501203912e534379855636",
+  "implementation_commit": "6cc20409120e586cd14c542505535199ba423e61",
+  "role": "execution coordinator; actual fresh scoped assistant reviews, no controller independence attestation",
+  "original_results_unchanged": true,
+  "original_reviews_unchanged": true,
+  "code_changes": false,
+  "scoped_subjects": 6,
+  "round_records": 12,
+  "dimension_judgments": 24,
+  "reviewer_tasks": [
+    {
+      "task": "/root/repair_blind_round1_fresh",
+      "fork_turns": "none",
+      "model": null,
+      "input_directory": "output/m6-review-correction-fix-20261030/prepared-r4/blind-round-1/",
+      "judgments_sha256": "a5db45ec36a518cdfda2b9a128efbdd2ce0c04d61ae42ea2a401782270c4b229",
+      "provenance_sha256": "e432e3acef35f9142f4dbaac57c0e3b193c52937d9e1c96f64a6ec25c7fbc953"
+    },
+    {
+      "task": "/root/repair_blind_round2_fresh",
+      "fork_turns": "none",
+      "model": null,
+      "input_directory": "output/m6-review-correction-fix-20261030/prepared-r4/blind-round-2/",
+      "judgments_sha256": "ef74fb60ac8a49ccb17f19888e58faeb4285f9e045de321f253c87a75accb6be",
+      "provenance_sha256": "3486f6bf2e058faf5b3231ba9fcde467231325d5d4be0ad0cbf62708f5776f78"
+    }
+  ],
+  "rounds_sequential": true,
+  "input_package_hashes": {
+    "1": {
+      "output/m6-review-correction-fix-20261030/prepared-r4/blind-round-1/README.md": "c08a461b4e832f897de943f2d8e3a72396231f65257081f786e7d833c35e3528",
+      "output/m6-review-correction-fix-20261030/prepared-r4/blind-round-1/items.json": "d7f304f32ef46c070ce14e5aa8441982e1972d4c48df6d08a261fc1dc6ddf388",
+      "output/m6-review-correction-fix-20261030/prepared-r4/blind-round-1/original-sources.json": "ecf6f84559e78a7b872d45d2d66e75a6b135207ddff963cc6ad5193678899d9c"
+    },
+    "2": {
+      "output/m6-review-correction-fix-20261030/prepared-r4/blind-round-2/README.md": "c08a461b4e832f897de943f2d8e3a72396231f65257081f786e7d833c35e3528",
+      "output/m6-review-correction-fix-20261030/prepared-r4/blind-round-2/items.json": "d7f304f32ef46c070ce14e5aa8441982e1972d4c48df6d08a261fc1dc6ddf388",
+      "output/m6-review-correction-fix-20261030/prepared-r4/blind-round-2/original-sources.json": "ecf6f84559e78a7b872d45d2d66e75a6b135207ddff963cc6ad5193678899d9c"
+    }
+  },
+  "results": [
+    {
+      "baseline": 1,
+      "question_id": "support-v1-001",
+      "scores_round_1": {
+        "factuality": 2,
+        "citation_support": 2,
+        "actionability": "not_applicable",
+        "image_relevance": "not_applicable"
+      },
+      "scores_round_2": {
+        "factuality": 2,
+        "citation_support": 2,
+        "actionability": "not_applicable",
+        "image_relevance": "not_applicable"
+      },
+      "subject_sha256": "0e32d911f150b5691ea232209939dcd405b959f4393cac252791e76d1d293d1e"
+    },
+    {
+      "baseline": 1,
+      "question_id": "m6-g540-11-a",
+      "scores_round_1": {
+        "actionability": 2
+      },
+      "scores_round_2": {
+        "actionability": 2
+      },
+      "subject_sha256": "6ac7225d28d896209d132bb124096cc6010607b45114b3ea11b2ecc51626b8ef"
+    },
+    {
+      "baseline": 2,
+      "question_id": "support-v1-001",
+      "scores_round_1": {
+        "factuality": 2,
+        "citation_support": 2,
+        "actionability": "not_applicable",
+        "image_relevance": "not_applicable"
+      },
+      "scores_round_2": {
+        "factuality": 2,
+        "citation_support": 2,
+        "actionability": "not_applicable",
+        "image_relevance": "not_applicable"
+      },
+      "subject_sha256": "d645f2229539b91f604e81879817ae3a20e489f81854f28c16792d6a568c9de8"
+    },
+    {
+      "baseline": 2,
+      "question_id": "m6-g540-01-a",
+      "scores_round_1": {
+        "actionability": 2
+      },
+      "scores_round_2": {
+        "actionability": 2
+      },
+      "subject_sha256": "478216a18c3281d048700d36864271104028ddf79b765a7c1e13e1b340027386"
+    },
+    {
+      "baseline": 2,
+      "question_id": "m6-g540-11-a",
+      "scores_round_1": {
+        "actionability": 2
+      },
+      "scores_round_2": {
+        "actionability": 2
+      },
+      "subject_sha256": "113804426e913764c34a44d0b39cb5ca6dd14080c5844a34adb68295deabe8a8"
+    },
+    {
+      "baseline": 2,
+      "question_id": "m6-g540-unknown-04-b",
+      "scores_round_1": {
+        "citation_support": 2
+      },
+      "scores_round_2": {
+        "citation_support": 2
+      },
+      "subject_sha256": "66400fd4cc614d13605aa98a7a8ccda5f98e3fdacd9d1519307b77a83da55a0e"
+    }
+  ],
+  "unknown": [],
+  "unchecked_sources": [],
+  "critical": [],
+  "seal_equality": [
+    {
+      "baseline": 1,
+      "round": 1,
+      "seal_id": "0294d7bd0e242fc4e2defde1fb2b6915a22e0ccc972a8f42d0fe7f676ec82508",
+      "sha256": "70ad65e2a0be6d538a595bd4bdd011449af31fb352203a90bb7d4d4c51eb4185",
+      "execution_id": "/root/repair_blind_round1_fresh:b1:r1",
+      "raw_judgments_equal": true
+    },
+    {
+      "baseline": 1,
+      "round": 2,
+      "seal_id": "572156b617690a45018a9687b3e07bd33285e8db8f4fa81c3631f1d7c791f9bb",
+      "sha256": "cb0ed416cd1954c79edf09de053bab5d57cb669859c4878151fff1f70e462eaf",
+      "execution_id": "/root/repair_blind_round2_fresh:b1:r2",
+      "raw_judgments_equal": true
+    },
+    {
+      "baseline": 2,
+      "round": 1,
+      "seal_id": "0f4d4d43f760bc5aa5a7253fea30109befc441143944170366a1f1a725ffd05b",
+      "sha256": "c9d861e8885e7b24157ddaa854b06f94aa41e831eca1dd2c655b292e7a7d692a",
+      "execution_id": "/root/repair_blind_round1_fresh:b2:r1",
+      "raw_judgments_equal": true
+    },
+    {
+      "baseline": 2,
+      "round": 2,
+      "seal_id": "c21f2de87de07bdcee5aefb74cf2d8338bf62ea2867418e3253e30d56ef0c235",
+      "sha256": "6b185332e797fb715b008f1954b12c8d0ddd76cf591ceca24e612ada8a7dcf65",
+      "execution_id": "/root/repair_blind_round2_fresh:b2:r2",
+      "raw_judgments_equal": true
+    }
+  ],
+  "formal_executions_added": 4,
+  "formal_repair_seals_added": 4,
+  "validation": {
+    "scoped_regression_passed": 44,
+    "scoped_regression_exit": 0,
+    "readonly_audit_checks": 4212,
+    "readonly_audit_exit": 0,
+    "visible_provenance_checks": 91,
+    "visible_provenance_exit": 0,
+    "groups_not_quality_scores": true
+  },
+  "preservation": {
+    "historical_files_matched": 609,
+    "existing_rows_unchanged": 3547,
+    "registered_database_changes": [
+      {
+        "database": "m1_test_m4_m6_review_c1486a0a19d84c069d66d6abeff4709a",
+        "collection": "evaluation_review_executions",
+        "before": {
+          "count": 2,
+          "sha256": "c9ba3d152852ecbc45aca530c53301e163e50561fc389e2d71445e335ba9ca8e"
+        },
+        "after": {
+          "count": 4,
+          "sha256": "f1ddf9ba4c42f9ff95cc7359487bf08b04fd95f3e0047d69314f283f00c80182"
+        }
+      },
+      {
+        "database": "m1_test_m4_m6_review_c1486a0a19d84c069d66d6abeff4709a",
+        "collection": "evaluation_review_repair_seals",
+        "before": null,
+        "after": {
+          "count": 2,
+          "sha256": "71ac3283cc91b1514501b5b2b2293525d786b4502310d459513a9994eb2af979"
+        }
+      },
+      {
+        "database": "m1_test_m4_m6_review_562c2209ba994a1892074da324cc3025",
+        "collection": "evaluation_review_executions",
+        "before": {
+          "count": 2,
+          "sha256": "57598f3e5286ac55f738fefcee811b89b6d9175661d4969f80f9fd0569a8ca7b"
+        },
+        "after": {
+          "count": 4,
+          "sha256": "aeed4135a00970cee6e3e2f3f46a885267038c5fe5e15274b9d59eba84bb9cc1"
+        }
+      },
+      {
+        "database": "m1_test_m4_m6_review_562c2209ba994a1892074da324cc3025",
+        "collection": "evaluation_review_repair_seals",
+        "before": null,
+        "after": {
+          "count": 2,
+          "sha256": "3444878f6bf2e9b0e5d7f85771da600bceded6bcc92e315625fd986678eda3c1"
+        }
+      }
+    ],
+    "live_vectors_rescanned": false,
+    "tmp_preserved": true,
+    "old_case_and_corrections_preserved": true
+  },
+  "calls": {
+    "platform_review_tasks": 2,
+    "platform_review_token": null,
+    "platform_review_http": null,
+    "platform_review_cost": null,
+    "new_product_stream": 0,
+    "new_product_invoke": 0,
+    "new_embedding": 0,
+    "new_rerank": 0,
+    "historical_product_stream": 168,
+    "historical_input_token": 321926,
+    "historical_output_token": 168290,
+    "historical_http": null,
+    "historical_cost": null
+  },
+  "formal_quality": {
+    "controller_attestation_created": 0,
+    "calibrations_created": 0,
+    "candidates_created": 0,
+    "proofs_created": 0,
+    "human_records_created": 0,
+    "incomplete_before_attestation": [
+      85,
+      85
+    ]
+  },
+  "audit_limits": [
+    "No OS filesystem sandbox; actual fork_turns=none and allowlist plus reviewer provenance are evidence for controller review, not a self-signed independence claim.",
+    "Exact provider model and platform usage unavailable; null retained.",
+    "No live vector/default pointer rescan; relevant Mongo snapshots and sealed file hashes checked."
+  ],
+  "evidence_directory": "output/m6-review-repair-execution-20261030/",
+  "artifact_hashes": {
+    "output/m6-review-repair-execution-20261030/audit_execution.py": "078c8d973d0213d22efb3ba1d8a26c5d0241689deedba0f81f1d4d7599a95d49",
+    "output/m6-review-repair-execution-20261030/build_delivery.py": "a3ab48cb47e8aa8bbd0d1f0b52f45ca225fe5c93563df133e2b092e1c34249b2",
+    "output/m6-review-repair-execution-20261030/database-capture.json": "2883a4f4bf7010c7b22a13e06853f38faaebf1564519bf16fa80e12dbebcb2d9",
+    "output/m6-review-repair-execution-20261030/existing-row-hashes.json": "e61d9f1f2713d9c1ef978b4bb302e403e874b2b508585a4a0e058e2e3c74b7e3",
+    "output/m6-review-repair-execution-20261030/orchestration.json": "786cd865747d8589ccee80ee83877d8d6f4424ded4ee05b3bf55c930d87263c6",
+    "output/m6-review-repair-execution-20261030/scoped-regression.xml": "f2f2dab71ab5ac06f71e41f54b7808dc313298b81da39e02b94ec1815db6a353",
+    "output/m6-review-repair-execution-20261030/reviewer-round-1/D1-physical-pages.json": "3f7aaa5c4d4bc0745f3b7899204464d90f4c6ed75520c0887a17d7d91790e88e",
+    "output/m6-review-repair-execution-20261030/reviewer-round-1/D3-physical-pages.json": "6a779b0ff7fa35757cddf326c71bac348b4e5ab401abd14ef41db9dc82589005",
+    "output/m6-review-repair-execution-20261030/reviewer-round-1/extract_originals.py": "eb7d1ed5439812d769da5bc9213bc0f6af97484861f0a44c386c450f283edaad",
+    "output/m6-review-repair-execution-20261030/reviewer-round-1/judgments.draft.json": "a5db45ec36a518cdfda2b9a128efbdd2ce0c04d61ae42ea2a401782270c4b229",
+    "output/m6-review-repair-execution-20261030/reviewer-round-1/judgments.json": "a5db45ec36a518cdfda2b9a128efbdd2ce0c04d61ae42ea2a401782270c4b229",
+    "output/m6-review-repair-execution-20261030/reviewer-round-1/provenance.json": "e432e3acef35f9142f4dbaac57c0e3b193c52937d9e1c96f64a6ec25c7fbc953",
+    "output/m6-review-repair-execution-20261030/reviewer-round-1/read-file-manifest.json": "1caff568f1cc1ca09ec1f0f25274aa8b95161f8d8352168fc0fe91559b96f13a",
+    "output/m6-review-repair-execution-20261030/reviewer-round-1/render-manifest.json": "daabc53d9fed737a6b72c7318bc3841bd966cc985eab5fc7cc2d8d1d3f429a6b",
+    "output/m6-review-repair-execution-20261030/reviewer-round-1/render_and_read.py": "1ccef9fab5a5b1bb8bff288dfd2a5beba1f360c8dce3a72d6e56324d48d3ee85",
+    "output/m6-review-repair-execution-20261030/reviewer-round-1/verify_outputs.py": "173fe08ceb8cead3c6c2f4f91a14081f86ff221e74392ada5ede6511847de1fe",
+    "output/m6-review-repair-execution-20261030/reviewer-round-1/write_judgments.py": "f30454911e9fbaa93605ba0bfe9a8f27c55e79ace224c1346f9af3317c8b2c9b",
+    "output/m6-review-repair-execution-20261030/reviewer-round-2/D1-extracted-pages.json": "3f7aaa5c4d4bc0745f3b7899204464d90f4c6ed75520c0887a17d7d91790e88e",
+    "output/m6-review-repair-execution-20261030/reviewer-round-2/D3-extracted-pages.json": "6a779b0ff7fa35757cddf326c71bac348b4e5ab401abd14ef41db9dc82589005",
+    "output/m6-review-repair-execution-20261030/reviewer-round-2/inspect_originals.py": "ce39bdbba9008358421b75d295e51d575ccf74e52ec2087e78c91d7866b61e9a",
+    "output/m6-review-repair-execution-20261030/reviewer-round-2/judgments.initial.json": "ef74fb60ac8a49ccb17f19888e58faeb4285f9e045de321f253c87a75accb6be",
+    "output/m6-review-repair-execution-20261030/reviewer-round-2/judgments.json": "ef74fb60ac8a49ccb17f19888e58faeb4285f9e045de321f253c87a75accb6be",
+    "output/m6-review-repair-execution-20261030/reviewer-round-2/provenance.json": "3486f6bf2e058faf5b3231ba9fcde467231325d5d4be0ad0cbf62708f5776f78",
+    "output/m6-review-repair-execution-20261030/reviewer-round-2/read-manifest.json": "ba40dc19ea48d6a247e5eb129cb00ad6eef37c8b5fcd28c8fd4f37568d59a19c",
+    "output/m6-review-repair-execution-20261030/reviewer-round-2/write_judgments.py": "407333c44c69d502c752011adbd2833a1dc86146e821d75dafbb79821a3e190a",
+    "output/m6-review-correction-fix-20261030/round-1-begin.json": "c70a1eac3c83716c37e83145f5bf3e0ecc30f102b7ad68197495289e05a4ef02",
+    "output/m6-review-correction-fix-20261030/round-1-seal.json": "356fe698ba74222dfcaa2541d0a2f553193e2583525ae946074bfbdbe8962763",
+    "output/m6-review-correction-fix-20261030/round-2-begin.json": "95fb7f51f20ef6e5f763bb93fdba1b41b352561e84a75fd76b841c67a327210d",
+    "output/m6-review-correction-fix-20261030/round-2-seal.json": "141fd71809784853bc3ccd296df9101e402062714150465b95e6155e3fcf0573",
+    "output/m6-review-repair-execution-20261030/audit-result.json": "162c790e203162681d732db65bc87039acac1be9d19e1621b0f883ea8dffd231",
+    "output/m6-review-repair-execution-20261030/audit-checks.json": "e768edeffe4d462312d9f2077129f2edf5dfe45d4d2c7c121dcee79a36ab35b4",
+    "output/m6-review-repair-execution-20261030/provenance-validation.json": "83b69effee36b9fac7c8bf366fa5e7d8c3ed5f8ee7e6ec1efcdfa8652192ad45",
+    "output/m6-review-repair-execution-20261030/validate_provenance.py": "31d7d760527ed021d8112a631d65c8b7adc888695e9eca614a3f357192a71c93"
+  },
+  "next_action": "Controller verify actual scoped provenance and retained original sources, commit real attestation report, then use formal attest; only after valid quality run calibrate and candidate-request.",
+  "phase": {
+    "M6": "4/7",
+    "open": [
+      "M6-04",
+      "M6-05",
+      "M6-08"
+    ],
+    "M7": "not started"
+  }
+}
