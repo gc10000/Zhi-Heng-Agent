@@ -1,3 +1,15 @@
+## 2026-10-30 · 总控关闭内部组合接线；转入最终冻结与无生成预检
+
+独立审查7c5fb2f通过，source_branch_compare_v1的配置/授权、内部Run请求/题级检查点/执行关联及受影响恢复接线子项关闭。默认关闭/公开边界、漂移409、同/分库、崩溃窗口、显式continuation与成功检查点复用成立；原规则、P2/p30/001及其他关闭项保持，不整体重开C09/continuation。
+
+本轮独立180项相关离线/契约、77项随机隔离Mongo、15项新增直接边界通过，正式消费者副本复放25题/486保存分数，与已审全部variant全等，35/35必要原文到context/prompt；原24完整不变，048双方/p30/原分数/预算及旧23次补充未知保持。4355项另写文件审计及OpenAPI全等通过；组间不累计质量分。实际新增推理/重导入/默认切换/正式质量写入0，HTTP/token/费用null。写库只在随机短m1_test_m4_合成夹具；真实582/867与默认现场本轮未扫，依封存hash审计，不冒称当前实时证明。
+
+本包未发现需继续补修的阻塞缺陷。下一执行包直接交付最终85 dev/65 heldout范围、两派生版本/反馈/政策/基线候选矩阵及当前精确可执行配置/catalog冻结，再做正式无生成预检；heldout不运行，不再安排检索试词/重复接线。当前9fdf缓存接线配置不当最终生成配置，旧基线/检查点仅在来源和最终合同确实有效时复用，不跨版本、不默认重跑85题。
+
+4/7未动的实际卡点为正式质量证据尚缺：M6-04有效同范围基线独立助手双轮及预校准；M6-05真实反馈服务端复评proof（001签审/绑定已关）；M6-08最终冻结/预检及独立候选质量链。预检满足后按既定真实双轮→预校准→同范围独立候选双轮→proof推进，不要求用户查PDF/账号/手工重评分，不新增human/heldout/Ragas/默认发布门槛。阶段仍4/7、04/05/08未验收、M7未授权；不能用技术测试数替代验收证据。
+
+见[独立结论与固定退出矩阵](../../development/reviews/M6-combination-wiring-review-r1.md)及[脱敏摘要](../../development/reviews/M6-combination-wiring-review-validation-r1.json)。以下历史全文保留。
+
 ## 2026-10-30 · M6内部组合正式接线自验完成，待总控定向核验
 
 接续b2acaf5，开始HEAD/origin/main/GitHub一致、仅tmp/。新增默认关闭source_branch_compare_v1，固定source_network_terms_v1→branch_heads_v1→compare_branch_context_v1；沿EvaluationStrategy→RealQueryExecutor→QueryRunner进入授权装载、InternalRunInput、Run请求、实验/题级检查点及执行/恢复关联。启用只接受已审weighted .5/.5及20/20/20/20/10和来源前提，冻结target、owner/kb、文档修订/产品scope、snapshot、术语与p30证明/载荷；默认缺失为关闭，旧请求指纹不变，不从环境/公开请求启用。

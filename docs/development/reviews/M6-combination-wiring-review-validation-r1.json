@@ -1,0 +1,256 @@
+{
+  "date": "2026-10-30",
+  "timezone": "Asia/Shanghai",
+  "reviewed_commit": "7c5fb2fe327d0a1399a1088ec2288352596caece",
+  "baseline_control_commit": "b2acaf501ed49d571e9ad72c56287c66b6735e8f",
+  "initial_state": "HEAD=origin/main=GitHub main=7c5fb2f; only tmp/",
+  "role": "independent control review; documents only; no delegation",
+  "decisions": {
+    "internal_combination_wiring": "passed/closed within reviewed scope",
+    "default_public_boundary": "passed",
+    "authorization": "passed",
+    "request_checkpoint_execution_identity": "passed",
+    "affected_recovery": "passed",
+    "formal_consumer_replay": "passed",
+    "previous_closures": "preserved",
+    "blocking_implementation_findings": [],
+    "final_freeze_and_preflight": "open; next package authorized",
+    "formal_answer_quality": "open",
+    "default_switch": false
+  },
+  "tests": {
+    "shared": {
+      "passed": 180,
+      "failed": 0,
+      "exit_code": 0,
+      "files": 12
+    },
+    "synthetic_mongo_integration": {
+      "passed": 77,
+      "failed": 0,
+      "exit_code": 0,
+      "files": 6
+    },
+    "independent_direct": {
+      "passed": 15,
+      "failed": 0,
+      "exit_code": 0
+    },
+    "openapi_unchanged": true,
+    "overlap": "do not add groups as unique tests or quality scores"
+  },
+  "audit": {
+    "assertions": 4355,
+    "failed": 0,
+    "exit_code": 0
+  },
+  "replay": {
+    "questions": 25,
+    "necessary_units": 35,
+    "cached_pairs": 486,
+    "context_complete": 25,
+    "prompt_complete": 25,
+    "approved_complete_variants_equal": true,
+    "original24_unchanged": true,
+    "comparison_sides_preserved": true,
+    "p30_preserved": true,
+    "unknown_occurrences": 23,
+    "new_unknown": 0,
+    "weighted": [
+      0.5,
+      0.5
+    ],
+    "budgets": [
+      20,
+      20,
+      20,
+      20,
+      10
+    ],
+    "full_new_persistent25_runs": false,
+    "new_live_retrieval": false,
+    "limitation": "sealed QueryPlan/caller subject/history and saved backend/model caches; formal persistent chain separately verified with synthetic Mongo fixtures"
+  },
+  "identities": {
+    "config_sha256": "9fdfab9e1854327ad89fe337d8761e8acb270c9a9bdae8e752031e3b8938a40d",
+    "policy_sha256": "fe33a7f8200e68f78cd4f8eef84c9394a53f83c795cd6e40ec98867b136f5b0d",
+    "execution_versions": {
+      "code": "ebf6b6891139b2caa8ed7abb06abc3fbd56a35a7cbea76896d4422545252cb4f",
+      "prompt": "f0fe0cc92fca8715957120515588f239ee15d1e4b3e0ba6c4c411dd176d5c52d",
+      "model": "565fbfe4c795fb52f84183f7b2708491fd7824fa07f2de9fd546e9d6d6e5bb90"
+    },
+    "processing_versions": {
+      "code": "4221334599170298f85fbd6cdb606a27f3356446d2286f82ae32d5a78f2d680f",
+      "prompt": "f0fe0cc92fca8715957120515588f239ee15d1e4b3e0ba6c4c411dd176d5c52d",
+      "model": "565fbfe4c795fb52f84183f7b2708491fd7824fa07f2de9fd546e9d6d6e5bb90"
+    }
+  },
+  "calls": {
+    "actual_new_embedding": 0,
+    "actual_new_rerank": 0,
+    "actual_new_supplier": 0,
+    "actual_new_answers": 0,
+    "token_usage": null,
+    "exact_http_requests": null,
+    "cost": null,
+    "historical_unknowns_preserved": true
+  },
+  "live": {
+    "synthetic_mongo_access": true,
+    "random_short_prefix": "m1_test_m4_cw_<random>_<case_random>",
+    "real_business_database_access": false,
+    "real_live_milvus_access": false,
+    "real582_867_rescanned": false,
+    "default_pointers_scanned": false,
+    "limitation": "hash-matched sealed audits; no new current live preservation proof"
+  },
+  "writes": {
+    "business_source": false,
+    "synthetic_mongo": true,
+    "real_business_data": false,
+    "formal_quality": false,
+    "default_switch": false,
+    "imports": false,
+    "documents_only": true
+  },
+  "protected_manifests": {
+    "M6-combination-wiring-validation-r1.json:private_evidence_sha256": 109,
+    "M6-compare-branch-context-review-validation-r1.json:private_evidence_sha256": 19,
+    "M6-compare-branch-context-validation-r1.json:private_evidence_sha256": 50,
+    "M6-fusion-reviewed-source-review-validation-r1.json:private_evidence_sha256": 17,
+    "M6-fusion-reviewed-source-validation-r1.json:evidence_sha256": 123,
+    "M6-layout-terminology-review-validation-r1.json:private_evidence_sha256": 33,
+    "M6-layout-terminology-validation-r1.json:evidence_sha256": 155,
+    "M6-page-precision-recall-label-validation-r1.json:evidence_sha256": 125,
+    "M6-page-precision-recall-label-review-validation-r1.json:private_evidence_sha256": 26,
+    "M6-page-recall-binding-validation-r1.json:evidence_sha256": 331,
+    "M6-page-recall-binding-review-validation-r1.json:private_evidence_sha256": 14,
+    "M6-recall-convergence-validation-r1.json:evidence_sha256": 297,
+    "M6-convergence-execution-review-validation-r1.json:private_evidence_sha256": 45,
+    "M6-recall-convergence-review-validation-r1.json:private_evidence_sha256": 20,
+    "output/m6-answer-filter-fix-20261029/protected-before.json": 127,
+    "output/m6-answer-filter-fix-r3-20261029/protected-before.json": 404,
+    "output/m6-isolated-answers-20261028/protected-before.json": 821,
+    "output/m6-real-retrieval-20261028/protected-before.json": 294
+  },
+  "failure_history": "all execution red/intermediate failures retained and hashed; control direct first/final15 passed with strengthened metadata assertion; other control verification groups passed first run",
+  "acceptance_matrix": {
+    "M6-04": "effective same-scope baseline real independent assistant two rounds + formal pre-calibration",
+    "M6-05": "real server-side feedback reevaluation proof;001 consumption already closed",
+    "M6-08": "final freeze/preflight + same-scope independent candidate quality chain and existing stage-contract evidence"
+  },
+  "next_package": {
+    "owner": "execution",
+    "scope": "final precise dataset/version/policy/baseline/candidate configuration freeze + formal no-generation preflight",
+    "new_model_calls_authorized": 0,
+    "heldout_run_authorized": false,
+    "repeat_closed_labels": false,
+    "add_retrieval_trial": false,
+    "then": "effective baseline independent two rounds -> formal pre-calibration -> same-scope independent candidate/two rounds -> server feedback proof",
+    "details_in_report": true
+  },
+  "final_generation_config_frozen": false,
+  "formal_no_generation_preflight": false,
+  "quality_chain_started": false,
+  "M6": "4/7",
+  "unaccepted": [
+    "M6-04",
+    "M6-05",
+    "M6-08"
+  ],
+  "M7": false,
+  "commands": [
+    {
+      "command": ".venv/Scripts/python.exe -m pytest tests/unit/test_retrieval_combination.py tests/unit/test_source_network_terms.py tests/unit/test_fusion_retention.py tests/unit/test_compare_branch_context.py tests/unit/test_source_prerequisite_wiring.py tests/unit/test_source_prerequisites.py tests/unit/test_comparison_context.py tests/unit/test_retrieval_policy.py tests/unit/test_retrieval_provenance.py tests/unit/test_retrieval_graph.py tests/unit/test_prerequisite_contract.py tests/contract/test_query_run_adapter.py -q --junitxml=output/m6-combination-wiring-review-20261030/shared.xml",
+      "exit_code": 0,
+      "result": "180 passed",
+      "log": "shared.log"
+    },
+    {
+      "command": "$env:M1_TEST_DB='m1_test_m4_cw_'+[guid]::NewGuid().ToString('N').Substring(0,8); .venv/Scripts/python.exe -m pytest tests/integration/test_combination_run.py tests/integration/test_combination_adapter.py tests/integration/test_source_prerequisite_adapter.py tests/integration/test_comparison_context_run.py tests/integration/test_evaluation_split_ledger.py tests/integration/test_regression_recovery_identity.py -q --junitxml=output/m6-combination-wiring-review-20261030/integration.xml",
+      "exit_code": 0,
+      "result": "77 passed; random per-case databases retained",
+      "log": "integration.log"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -m pytest output/m6-combination-wiring-review-20261030/test_direct.py -q --junitxml=output/m6-combination-wiring-review-20261030/direct-final.xml",
+      "exit_code": 0,
+      "result": "15 passed; metadata-sensitive assertion strengthened; initial15 pass retained",
+      "log": "direct-final.log"
+    },
+    {
+      "command": ".venv/Scripts/python.exe output/m6-combination-wiring-review-20261030/replay.py",
+      "exit_code": 0,
+      "result": "25/25;35/35;486 cached pairs; adapted reviewed copy in new directory",
+      "log": "replay.log"
+    },
+    {
+      "command": ".venv/Scripts/python.exe output/m6-combination-wiring-review-20261030/audit.py",
+      "exit_code": 0,
+      "result": "4355 assertions passed",
+      "log": "audit.log"
+    },
+    {
+      "command": ".venv/Scripts/python.exe -c \"import json; from pathlib import Path; from app.main import create_app; assert create_app().openapi()==json.loads(Path('docs/architecture/openapi-v1.json').read_text(encoding='utf-8')); print('OpenAPI unchanged: PASS')\"",
+      "exit_code": 0,
+      "result": "OpenAPI unchanged",
+      "log": "openapi.log"
+    }
+  ],
+  "private_evidence_sha256": {
+    "output\\m6-combination-wiring-review-20261030\\actual-commands.json": "899673556dcc886ce472455ecde8ac997cbdf2e476542935c7702b3a296708bd",
+    "output\\m6-combination-wiring-review-20261030\\audit-checks.json": "b593d4c8ff496f52a2462910b945943ccbd213b810d95c060103aea39f7121ce",
+    "output\\m6-combination-wiring-review-20261030\\audit-summary.json": "93afdcd2aaa42d844b1a324791d3f97a59735c080a478744c63ff6cd69898b77",
+    "output\\m6-combination-wiring-review-20261030\\audit.log": "6ee84c21f6f174e64fc689347e7fb3d51a447933730dacdad91be1d2770c82db",
+    "output\\m6-combination-wiring-review-20261030\\audit.py": "bb73708cf24b0def9c9e27186d056cff756562c27535eb874bbd958d0655f1a3",
+    "output\\m6-combination-wiring-review-20261030\\CHANGELOG.md.before": "3909077b55a1b1d90a3396ed5571a90a4ebf5eadd3d7ee2183d5d026e54503c8",
+    "output\\m6-combination-wiring-review-20261030\\DECISIONS.md.before": "f19011100adb8b017ff51968a955dc89e7932f2ccd76f68878279a9e37b6fd91",
+    "output\\m6-combination-wiring-review-20261030\\DEVELOPMENT_CONTRACTS.md.before": "96b54c4d09c1067bdc2a2ad96383b12d7c8d42f448c7026b23e35111c17f635c",
+    "output\\m6-combination-wiring-review-20261030\\DEVELOPMENT_TODO.md.before": "e90ffef0f06c3fc36f6917dca30690a9576da803fb3fd01a4137a8e8c20bbef4",
+    "output\\m6-combination-wiring-review-20261030\\direct-final.log": "70963cb472fbd2d8bea86298d8e7dc0fcfeba9bcc7e06838302a1faf7014faa2",
+    "output\\m6-combination-wiring-review-20261030\\direct-final.xml": "b4ab0811035a10e465e66cc9b5ba8a801da752cd6bf24ee0637988f43829095d",
+    "output\\m6-combination-wiring-review-20261030\\direct.log": "e79f1104d47a317484df0c35183c030b39003f83795b96096001c082ba5efc94",
+    "output\\m6-combination-wiring-review-20261030\\direct.xml": "edfee1cb680e32d5c877081fdcc43f5b27e087814c86cfb77c1407e97e4080bb",
+    "output\\m6-combination-wiring-review-20261030\\formal-replay-final\\execution-config-before-replay.json": "350b320e3657fe8a43f2be9aaccd6b95fe3348c4d8851fef3fa6d68ce8f1de28",
+    "output\\m6-combination-wiring-review-20261030\\formal-replay-final\\replay-summary.json": "f3ab297c1bc38140cdf10f61a75e66c99f6b436f451da0df6c07d8b3fda9b3bb",
+    "output\\m6-combination-wiring-review-20261030\\formal-replay-final\\results\\m6-g540-02-a.json": "4ee905b2640d078139b9eb824a2e785898867c8141e0c0fb58607934b74931d4",
+    "output\\m6-combination-wiring-review-20261030\\formal-replay-final\\results\\m6-g540-02-b.json": "f0ddbe5fe2dec82d9332a6ba698b659ef8cb7902a7c1809a3505b406eb391bb9",
+    "output\\m6-combination-wiring-review-20261030\\formal-replay-final\\results\\m6-g540-04-a.json": "9b42e748c6d0855b556442ff70ef69d5277720691b112cb2eedf65010817d2f5",
+    "output\\m6-combination-wiring-review-20261030\\formal-replay-final\\results\\m6-g540-04-b.json": "4b92f45a0c46fa9f9f663de923cba9927c2973dacafc0f4f5440887ef67abb7f",
+    "output\\m6-combination-wiring-review-20261030\\formal-replay-final\\results\\m6-g540-05-a.json": "1ca0a7f10d4bfaba0e1e122fb7e86441482431928010db40bb6823232d4cc8e9",
+    "output\\m6-combination-wiring-review-20261030\\formal-replay-final\\results\\m6-g540-05-b.json": "965b8424fb35f99ad95b09075e99c7a46d8433d2a7e90607fc7cd046fc776e32",
+    "output\\m6-combination-wiring-review-20261030\\formal-replay-final\\results\\m6-g540-17-a.json": "0a9b7c0be81f38014486b695feef8f7b5ccc1858885b728e83459c2c4b5d1e4e",
+    "output\\m6-combination-wiring-review-20261030\\formal-replay-final\\results\\m6-g540-17-b.json": "5240a8df80ab5eda8f798a2d5d088ac0bc717f443d5cd04c4132ba74f2074505",
+    "output\\m6-combination-wiring-review-20261030\\formal-replay-final\\results\\m6-g540-18-b.json": "0c41df4eaa15b4a0ba57c16170dcace93c8afa2941504069e962e580df0d273e",
+    "output\\m6-combination-wiring-review-20261030\\formal-replay-final\\results\\m6-g540-20-a.json": "0fed1fbe2fb874c533e0d0efd940dff8a41131c9cf2449aa64e4c113317c1f80",
+    "output\\m6-combination-wiring-review-20261030\\formal-replay-final\\results\\support-v1-003.json": "e5279b4b65bad18b359dda6368d07137d8a557c4afa56749677d3f1d4c5b4355",
+    "output\\m6-combination-wiring-review-20261030\\formal-replay-final\\results\\support-v1-004.json": "cf0700f6f150e4b12a2a57b4c3c3a6a3fd3c4629a947258a0c0ac4ae79213779",
+    "output\\m6-combination-wiring-review-20261030\\formal-replay-final\\results\\support-v1-006.json": "7edc837aa308d91e63925f7f714a1ecb71e45e9a86a72fdc9caaf3659f366970",
+    "output\\m6-combination-wiring-review-20261030\\formal-replay-final\\results\\support-v1-007.json": "5c1726aa326d5418e527a494acddc65508d8660499f670c54df0fe44a8d74039",
+    "output\\m6-combination-wiring-review-20261030\\formal-replay-final\\results\\support-v1-008.json": "1c54b67d3d850b70c4f2debf406bb44b39c22a42c584a4682b3a64a0e25fe229",
+    "output\\m6-combination-wiring-review-20261030\\formal-replay-final\\results\\support-v1-009.json": "fbe17374a6705cfae716ed9551b13a4442c069b0093c91fc5b879e58330bbabf",
+    "output\\m6-combination-wiring-review-20261030\\formal-replay-final\\results\\support-v1-010.json": "f46919f5db6d87c5efa5af763e82205b69a36ed1a6ce8784e7d61c73a0ccadbd",
+    "output\\m6-combination-wiring-review-20261030\\formal-replay-final\\results\\support-v1-019.json": "94e0d3bedb4e8fa5e2bf0a9060ae34a0571df1fd6dc02cb12fa0d9940a624ef7",
+    "output\\m6-combination-wiring-review-20261030\\formal-replay-final\\results\\support-v1-020.json": "68aac3385b523a71b75723a077daaf8410d791ff14beb5dbb5b3da15cbdb2641",
+    "output\\m6-combination-wiring-review-20261030\\formal-replay-final\\results\\support-v1-021.json": "647c499ee2f70a83ecc857f262c45be6acc694faba8ccd430b6198bc454c09ee",
+    "output\\m6-combination-wiring-review-20261030\\formal-replay-final\\results\\support-v1-022.json": "b34e008d3756dd6624d00f723533f0a46ae7f8da3e8cd3cb8e604a6f3c2c7f5d",
+    "output\\m6-combination-wiring-review-20261030\\formal-replay-final\\results\\support-v1-034.json": "70b6613e94cc7ea4b6bc6628285f815b67e4034f2b514ada22686b67faf7ff3d",
+    "output\\m6-combination-wiring-review-20261030\\formal-replay-final\\results\\support-v1-037.json": "da0b620cd9a37cb70e05f8896d980d106552c13031b1721f1829ce2b2d0e777e",
+    "output\\m6-combination-wiring-review-20261030\\formal-replay-final\\results\\support-v1-038.json": "02489d2fd54ebd95a2a988d126bad0f775556ac342ef453d04d3a4140cee1aef",
+    "output\\m6-combination-wiring-review-20261030\\formal-replay-final\\results\\support-v1-048.json": "a73bf9c91eb7697e48dede3c511e4e9cedf1bd7e12afb48f96ca2048c31cbec4",
+    "output\\m6-combination-wiring-review-20261030\\formal-replay-final\\zero-inference-receipt.json": "56b8bed332b16c2afee5a577ddb8e65876184831467bce56a9130aab36ae7403",
+    "output\\m6-combination-wiring-review-20261030\\integration.log": "42190543c1431b9ea9d72795702a258bbf76cff5364e84df18ba3e26f3380336",
+    "output\\m6-combination-wiring-review-20261030\\integration.xml": "e3ff96b73ff94e2da17ea226fd0346cc25934bd9efcbbe3dae9737f55cb87965",
+    "output\\m6-combination-wiring-review-20261030\\M6-evaluation.md.before": "2b3c884b4c72b65b58e5b280f689f676e1ab710648b3f73c8de51506bd135f42",
+    "output\\m6-combination-wiring-review-20261030\\openapi.log": "1b79c61f98455267faae6168b3114b4020c726e04a6dc37b32783d1ae6417c61",
+    "output\\m6-combination-wiring-review-20261030\\PROGRESS.md.before": "38659118db4abb2a954287dc2c6b9bdafec538896f0a438a264a8970b0989095",
+    "output\\m6-combination-wiring-review-20261030\\replay.log": "efb0d467775678bcec5b6892213000250151949ac33f27b749ca06b9796b1ac5",
+    "output\\m6-combination-wiring-review-20261030\\replay.py": "2550c44fb20a37a0dfded39f7b1ec77ce4bc7c67c430556ce2a67b223f5b0d72",
+    "output\\m6-combination-wiring-review-20261030\\REVIEW_STATUS.md.before": "38a55255fec1083163b9d3e15f2cdd1876914e12507d55a67a7381f1932ab694",
+    "output\\m6-combination-wiring-review-20261030\\shared.log": "8a034428362ab9ad6419e3815864f3b795a4153687c032f1552b262737d7f7c3",
+    "output\\m6-combination-wiring-review-20261030\\shared.xml": "8b1f90087338711dd0cdef591ae3cc10498c65628e0c7384a7eda4cd0f5c83a4",
+    "output\\m6-combination-wiring-review-20261030\\test-direct-first.py": "c717c80c7ace225f1e667232f3109a6cab13559001a49b3a94a2a36f1870095d",
+    "output\\m6-combination-wiring-review-20261030\\test_direct.py": "24bc7cfd002739e5b61c282566f41b2f8cda9d880650124a3b213de6fb029c45",
+    "output\\m6-combination-wiring-review-20261030\\write_delivery.py": "ebdb9780dd107757e8f6a216be54ba2d48d616bedac890167204ab68564113ec"
+  }
+}
