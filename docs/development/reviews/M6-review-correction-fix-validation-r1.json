@@ -8,7 +8,7 @@
     "per-dimension effective provenance and formal calibration consumption",
     "original generation identity preserved with new explicit candidate config"
   ],
-  "actual_registration": "pending controlled Git artifact",
+  "actual_registration": "completed via actual scoped controller and formal service; fresh process readback passed",
   "rule_correction_question_dimensions": 6,
   "replacement_question_results": 6,
   "replacement_round_records": 12,
@@ -76,6 +76,144 @@
     "output/m6-review-correction-fix-20261030/targeted-r3.log": "065c45a155cdb65a6e6d1e93b413a428d97f72a1b55b74c936bb1302c23caba9",
     "output/m6-review-correction-fix-20261030/unit-contract.log": "db1b119b383f72c28132957013bd065c9a7575138110378d528102640e0f5818",
     "output/m6-review-correction-fix-20261030/final-targeted.log": "8c2d02d143befd703876b24ac6ac43e1d7bc8446b2ceaaf7ef8abdba5c80e0a6",
-    "output/m6-review-correction-fix-20261030/image-boundary.log": "71740014e3cec7dd68e2aae361c74391f8c676dec72d8fd682e18dd659ff7e94"
-  }
+    "output/m6-review-correction-fix-20261030/image-boundary.log": "71740014e3cec7dd68e2aae361c74391f8c676dec72d8fd682e18dd659ff7e94",
+    "output/m6-review-correction-fix-20261030/prepare.py": "222ea1bad59a641f9d58290451b9e81fe9a432201f37dde13c041b8f4a351a11",
+    "output/m6-review-correction-fix-20261030/prepare-r1.py": "dcc2245332f740d37902ee8bcd7185367749aacee01fbd6f14f74f3034814d0e",
+    "output/m6-review-correction-fix-20261030/prepare-r2.py": "57bbad7e9006113d9f7448c38eb1b1e8b65860168528f73841c4e9ef9bb42727",
+    "output/m6-review-correction-fix-20261030/prepare-r3.py": "7d87981b0e78e7f1607da32109db16768590d2e69339dae6c91aa485a7d3810d",
+    "output/m6-review-correction-fix-20261030/transport.py": "e734096691033804c6bdfb0a79dc1faa6e162c899ce799b132fcd184f7664ab0",
+    "output/m6-review-correction-fix-20261030/readback.py": "7b21fea5823e404ce299b2eeb0cd9e082c0d30d355d1bab2fbab4518f7822175",
+    "output/m6-review-correction-fix-20261030/preparation-r1.log": "776bc69cf111935f55b61d77c6ca0f77c77a3c73013a61c62d429d1b19b098c9",
+    "output/m6-review-correction-fix-20261030/preparation-r2.log": "afd1e030674a25d2b9b9f6a591387f7aa7ed02ce7c3829f3e6e87c3027ada157",
+    "output/m6-review-correction-fix-20261030/preparation-r3.log": "ff85e04c1f72be9a72127f78c0a51c2c95e963da194d5db142fbd250729faa71",
+    "output/m6-review-correction-fix-20261030/preparation-r4.log": "3e1fe4c33f97cc04e83cc845743aaccd626f3c5715dfd86ec64519a940576bd2",
+    "output/m6-review-correction-fix-20261030/registration-r1.log": "0683c9cdc3e7dd0fb4933bf34bef59ebf88b1bd421eaccb131377882c798a240",
+    "output/m6-review-correction-fix-20261030/register-receipt.json": "98ff50f8c5dba3fcc6659060e38832e70f5b085a2d22e1e89788d7f166debd41",
+    "output/m6-review-correction-fix-20261030/register-receipt-database-before.json": "cf5f66bcc06ab1f7c5f236e3f8af0f66fd3f930c28f8ebfbb51968d85a49adde",
+    "output/m6-review-correction-fix-20261030/register-receipt-database-after.json": "ec0fbb5fa6637d4ead6a73bd81ea1404abe12467156aa58ed2f3237049f4beb7",
+    "output/m6-review-correction-fix-20261030/register-receipt-database-changes.json": "7006b4c609ac5b2a30e44a30455cd28f13d4bb2238c0bd13908f4522b942b7d3",
+    "output/m6-review-correction-fix-20261030/readback-r1.log": "ced29c31e9675a59fb753a97f0fd51bb042e6bfeee8a24abdca9db1c93feb103",
+    "output/m6-review-correction-fix-20261030/readback-result.json": "9dd536ef72179f505fecc1e4d0b54df6a9d40fb916413b85d9abca96f950dce9",
+    "output/m6-review-correction-fix-20261030/readback-checks.json": "99631171e2b46e99661a50199be572cdc04ae5498d5f117b57089c79c78c0dc1",
+    "output/m6-review-correction-fix-20261030/prepared-r4/coordinator.json": "7f3f30ca41d8e9050976f6e96b42bb27a802be1fff5271efa881499e987737b0",
+    "output/m6-review-correction-fix-20261030/prepared-r4/preparation-result.json": "729c3501723f5f637a19234661a894a2e5eea74e55a521ccb82a43f34b8059a0",
+    "output/m6-review-correction-fix-20261030/prepared-r4/historical-protection.json": "dfa57fa8ea62acc4c75bd41d7e76dff4268190c963b9f21f512be2da0f98bd6e",
+    "output/m6-review-correction-fix-20261030/prepared-r4/case-1-request.json": "69de6379f0bdfe0ba2e11ecba64b28718448f0fb34bf88fd4f3a80bf45c25f79",
+    "output/m6-review-correction-fix-20261030/prepared-r4/case-2-request.json": "3c02727ad3657b60f3b1c79f96aad3ef29c285f5341e4dd6ad6e46a84a39e68d",
+    "output/m6-review-correction-fix-20261030/prepared-r4/candidate-1-request-template.json": "d6acfc3f6c1bec541e48c751ae441d83938f1395a107174d91f7ed3203cf9382",
+    "output/m6-review-correction-fix-20261030/prepared-r4/candidate-2-request-template.json": "c377098196214efe08f273219ac283eac13ea8e6e60c437f5aaadc7e631bf342",
+    "output/m6-review-correction-fix-20261030/prepared-r4/catalog/final-configs/1-candidate-v2.json": "20fbcf3e47e7275b1dd01b24a2309ceaba287a5cbf77b76587866c0fc3e5aa26",
+    "output/m6-review-correction-fix-20261030/prepared-r4/catalog/final-configs/2-candidate-v2.json": "b49c1bd7bf0689935bc13f0cb975f28029525e990ae09899d4c783733c981424",
+    "output/m6-review-correction-fix-20261030/prepared-r4/blind-round-1/items.json": "d7f304f32ef46c070ce14e5aa8441982e1972d4c48df6d08a261fc1dc6ddf388",
+    "output/m6-review-correction-fix-20261030/prepared-r4/blind-round-1/README.md": "c08a461b4e832f897de943f2d8e3a72396231f65257081f786e7d833c35e3528",
+    "output/m6-review-correction-fix-20261030/prepared-r4/blind-round-1/original-sources.json": "ecf6f84559e78a7b872d45d2d66e75a6b135207ddff963cc6ad5193678899d9c",
+    "output/m6-review-correction-fix-20261030/prepared-r4/blind-round-2/items.json": "d7f304f32ef46c070ce14e5aa8441982e1972d4c48df6d08a261fc1dc6ddf388",
+    "output/m6-review-correction-fix-20261030/prepared-r4/blind-round-2/README.md": "c08a461b4e832f897de943f2d8e3a72396231f65257081f786e7d833c35e3528",
+    "output/m6-review-correction-fix-20261030/prepared-r4/blind-round-2/original-sources.json": "ecf6f84559e78a7b872d45d2d66e75a6b135207ddff963cc6ad5193678899d9c"
+  },
+  "implementation_commit": "6cc20409120e586cd14c542505535199ba423e61",
+  "real_mutations": {
+    "new_case_records": 2,
+    "rule_correction_question_dimensions": 6,
+    "original_reviews_modified": 0,
+    "original_results_modified": 0,
+    "run_state_modified": 0,
+    "default_switched": false
+  },
+  "controller_correction_artifact": {
+    "commit": "6cc20409120e586cd14c542505535199ba423e61",
+    "path": "docs/development/reviews/M6-review-correction-fix-r1.md",
+    "sha256": "ee5045f036c8b6f63565cfe264b178a9f4eb95cefbc130b8e9de266d37238fe1"
+  },
+  "live_readback": {
+    "passed": true,
+    "check_count": 676,
+    "summaries": [
+      {
+        "baseline": 1,
+        "case_id": "2f555874f0571693639f78f156dc76d3cef000b386422021c7053afb30d2c851",
+        "case_sha256": "2647305da991aff2cc16b9e7202285e240b77317c38fb3010f6fb44a211c6569",
+        "scope_questions": 85,
+        "rule_corrections": 1,
+        "replacement_questions": 2,
+        "replacement_round_records": 4,
+        "original_reviews_preserved": 170,
+        "new_review_executions": 0,
+        "new_review_seals": 0,
+        "new_independence_attestations": 0,
+        "new_calibrations": 0,
+        "quality_status": "pending real scoped independent evidence",
+        "incomplete_before_attestation": 85
+      },
+      {
+        "baseline": 2,
+        "case_id": "941d22cd51e9afca2d93ecdf55bba812701ccd6ccb7e0623c38559c2dd1b3ed3",
+        "case_sha256": "6935d0da776f4652abfbda3fd27cea2d9988f4fa63a67d8ee6c8cc634b281409",
+        "scope_questions": 85,
+        "rule_corrections": 5,
+        "replacement_questions": 4,
+        "replacement_round_records": 8,
+        "original_reviews_preserved": 170,
+        "new_review_executions": 0,
+        "new_review_seals": 0,
+        "new_independence_attestations": 0,
+        "new_calibrations": 0,
+        "quality_status": "pending real scoped independent evidence",
+        "incomplete_before_attestation": 85
+      }
+    ],
+    "read_only": true,
+    "registered_cases": 2,
+    "registered_rule_correction_question_dimensions": 6,
+    "old_data_unchanged": true,
+    "new_inference": 0,
+    "live_milvus_scan": false
+  },
+  "candidate_preparation": {
+    "catalog": "output/m6-review-correction-fix-20261030/prepared-r4/catalog/catalog.json",
+    "checks": [
+      {
+        "baseline": 1,
+        "subjects": 85,
+        "old_reviews": 170,
+        "rule_corrections": 1,
+        "replacement_questions": 2,
+        "candidate_catalog_v2": true,
+        "old_baseline_readable": true,
+        "original_and_candidate_code_different": true,
+        "formal_create_without_calibration": "rejected"
+      },
+      {
+        "baseline": 2,
+        "subjects": 85,
+        "old_reviews": 170,
+        "rule_corrections": 5,
+        "replacement_questions": 4,
+        "candidate_catalog_v2": true,
+        "old_baseline_readable": true,
+        "original_and_candidate_code_different": true,
+        "formal_create_without_calibration": "rejected"
+      }
+    ],
+    "new_candidate_created": false,
+    "old_registered_descriptors_unchanged": true,
+    "formal_missing_calibration_rejected": true,
+    "generation_runtime_check_unchanged": true
+  },
+  "preservation": {
+    "historical_files": 609,
+    "all_unchanged": true,
+    "mongo_databases": 4,
+    "only_new_collection_records": "two evaluation_review_repairs",
+    "live_milvus_scanned": false
+  },
+  "independent_technical_acceptance": "not claimed by current implementing controller; next executor performs scoped independent check",
+  "next_instruction": "docs/development/handoffs/M6-review-repair-execution-r1.md",
+  "remaining_real_quality_evidence": [
+    "six question-result scoped independent pairs (12 round records / 24 dimension judgments)",
+    "controller attestation of actual provenance and complete baseline quality projection",
+    "two formal calibrations",
+    "same-scope independent candidates and dual review",
+    "actual feedback server-side proofs and stage-specific acceptance"
+  ]
 }
