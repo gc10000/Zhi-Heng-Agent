@@ -1,0 +1,222 @@
+{
+  "date": "2026-10-30",
+  "timezone": "Asia/Shanghai",
+  "reviewed_commit": "63072db605c28b221bcfc29a090f8b7c4c25f298",
+  "baseline_control_commit": "e24ab95bf025ecb71c951dd9563c3507f8635c72",
+  "initial_state": "HEAD=origin/main=GitHub main=63072db; only tmp/ untracked",
+  "role": "independent control; docs only",
+  "decisions": {
+    "source_p30_controlled_consumption": "passed and closed",
+    "fusion_function": "declared isolated branch_heads_v1 capability passed; not adopted or formally wired",
+    "necessary_candidate_and_rerank": "independently25/25;35/35units",
+    "necessary_context": "open24/25;33/35units",
+    "first_exclusion": "048 rerank18 -> context10 seed selection; no prompt document eviction",
+    "reranker_semantic_low_rank_cause": "unknown",
+    "prior_P2": "closed retained",
+    "prior_C05_label_chain": "closed retained; not reconsumed",
+    "next_candidate": "compare_branch_context_v1: one fixed offline comparison, no new inference; designed only, not implemented/run/adopted"
+  },
+  "tests": {
+    "shared": {
+      "tests": 161,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "direct": {
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "assertions": {
+    "saved_current_functions_sources_calls": 9874,
+    "live_readonly": 1305,
+    "groups_overlap": true
+  },
+  "replay": {
+    "questions": 25,
+    "modes": [
+      "global",
+      "scope_first_v1"
+    ],
+    "contexts_prompts_groups_budgets": 50,
+    "full_candidates_fair_inputs_reranks_exact": true,
+    "necessary_units_candidates": 35,
+    "necessary_units_context": 33,
+    "original24_preserved": true,
+    "both_comparison_sides": true,
+    "target": {
+      "uid": "b0132ca5-f5a0-5716-950e-0d99b0916f9b",
+      "rank": 18,
+      "score": 0.0009145474591837374,
+      "page": 30,
+      "printed_page": "5-1"
+    },
+    "unknown_supplemental_context_occurrences": 23
+  },
+  "source_consumption": {
+    "artifact": "docs/development/reviews/M6-048-source-row-review-r1.md",
+    "review_commit": "e24ab95bf025ecb71c951dd9563c3507f8635c72",
+    "review_blob_sha256": "8cc10de7737f756cb60bff017bda9603c41b51a427513503743ed77e8832ebd5",
+    "physical_page": 30,
+    "printed_page": "5-1",
+    "rows_one_based": [
+      1,
+      3
+    ],
+    "revision": "55a81645-af3b-5ef4-ab07-cf6366dccf1c",
+    "chunk": "b0132ca5-f5a0-5716-950e-0d99b0916f9b",
+    "pipeline_bundle_bound": true,
+    "header_and_target_separately_persisted": true,
+    "old_unknown_unchanged": true,
+    "other_unreviewed_rows_unchanged": true
+  },
+  "calls": {
+    "review_new_models": 0,
+    "review_new_suppliers": 0,
+    "execution_new_embeddings": 0,
+    "execution_new_local_rerank_batches": 1,
+    "execution_new_local_rerank_pairs": 1,
+    "reused_pairs": 485,
+    "execution_new_answers": 0,
+    "execution_new_suppliers": 0,
+    "stable_request_key": "25221e32be3591d918523520791f0f31953ff2936515a683ecb2aab31ea95896",
+    "current_unsettled_windows": [],
+    "token_usage": null,
+    "http_requests": null,
+    "cost": null,
+    "historical_unknowns_retained": true
+  },
+  "protected_manifests": {
+    "M6-fusion-reviewed-source-validation-r1.json": 123,
+    "M6-layout-terminology-review-validation-r1.json": 33,
+    "M6-layout-terminology-validation-r1.json": 155,
+    "M6-page-precision-recall-label-validation-r1.json": 125,
+    "M6-page-precision-recall-label-review-validation-r1.json": 26,
+    "M6-page-recall-binding-validation-r1.json": 331,
+    "M6-page-recall-binding-review-validation-r1.json": 14,
+    "M6-recall-convergence-validation-r1.json": 297,
+    "M6-convergence-execution-review-validation-r1.json": 45,
+    "M6-recall-convergence-review-validation-r1.json": 20,
+    "output/m6-isolated-answers-20261028/protected-before-r3.json": 821,
+    "output/m6-answer-filter-fix-r3-20261029/protected-before.json": 404,
+    "output/m6-real-retrieval-20261028/protected-before.json": 294
+  },
+  "live": {
+    "new_namespace": "m1_test_m4_m6_heads_fb825179effd4f0f",
+    "new582payload_and_vectors_exact": true,
+    "new_four_pipeline_identities": true,
+    "new_nonTTL_unchanged": true,
+    "parent_and_frozen_current_nonTTL_matches": true,
+    "parent582_index_rescan": false,
+    "frozen867_index_rescan": false,
+    "catalog_full_rescan": false,
+    "prior_index_protection": "saved hash-matching execution audit",
+    "run_events_TTL_excluded": true,
+    "actual048_backend_branches": [
+      {
+        "operation": "hybrid_search",
+        "field": null,
+        "positions": [],
+        "count": 20
+      },
+      {
+        "operation": "search",
+        "field": "dense_vector",
+        "positions": [],
+        "count": 20
+      },
+      {
+        "operation": "search",
+        "field": "sparse_vector",
+        "positions": [
+          1
+        ],
+        "count": 20
+      },
+      {
+        "operation": "hybrid_search",
+        "field": null,
+        "positions": [],
+        "count": 18
+      },
+      {
+        "operation": "search",
+        "field": "dense_vector",
+        "positions": [],
+        "count": 18
+      },
+      {
+        "operation": "search",
+        "field": "sparse_vector",
+        "positions": [],
+        "count": 11
+      }
+    ]
+  },
+  "writes": {
+    "business_source": false,
+    "real_models": false,
+    "formal_quality": false,
+    "labels": false,
+    "bindings": false,
+    "principals": false,
+    "calibrations": false,
+    "proofs": false,
+    "default_switch": false,
+    "synthetic_test_data": false
+  },
+  "intermediate_failure": "first audit compared runtime without explicit execution offline environment; code/prompt same, model config differed; corrected new script, full9874 passed, initial script/log retained",
+  "next_package": {
+    "version": "compare_branch_context_v1",
+    "route": "confirmed multi-scope compare only; other routes unchanged",
+    "selection": "preserve each scope rerank best, then actual per scope/query dense/sparse rank1 already in rerank; dedup full identity; fill original rerank order",
+    "context_limit": 10,
+    "reject": [
+      "ambiguous scope/query lineage",
+      "unauthorized source",
+      "conflicting same identity payload",
+      "protected set exceeds limit"
+    ],
+    "new_embeddings": 0,
+    "new_rerank": 0,
+    "new_suppliers": 0,
+    "new_answers": 0,
+    "new_ingestion": 0,
+    "new_quality_writes": 0,
+    "inputs": "exact saved25 candidate/rerank/score/source outputs; new isolated config and output only",
+    "exit": "35necessary units in final prompts25/25, original24 and both sides retained, reliable actual sources, unchanged budgets; then independent review/formal wiring",
+    "failure": "stop single candidate, preserve counterexample, explicit evidence-backed scope/product decision; no second rule loop"
+  },
+  "final_generation_config_frozen": false,
+  "formal_no_generation_preflight": false,
+  "quality_chain_started": false,
+  "M6": "4/7",
+  "unaccepted": [
+    "M6-04",
+    "M6-05",
+    "M6-08"
+  ],
+  "M7": false,
+  "private_evidence_sha256": {
+    "output/m6-fusion-reviewed-source-review-20261030/audit-checks.json": "b03bf2dd4d69c99a9705fec097d29b22bea415e64b9d6e73f12e7e772d5cb4c6",
+    "output/m6-fusion-reviewed-source-review-20261030/audit-first.log": "3b331396db5604f8bf56ac2cc73b600a2a74202037b51b987e31984d6a7e30d1",
+    "output/m6-fusion-reviewed-source-review-20261030/audit-first.py": "8572278af363880a23849d9e1e7bea0d5720e53c789bda8cb673e5a9540f2c75",
+    "output/m6-fusion-reviewed-source-review-20261030/audit-second.log": "89087f1fef65f75a0ee1e0041d31851231d4dcc62f5cb26cdba26dfb5fa3b0d7",
+    "output/m6-fusion-reviewed-source-review-20261030/audit.json": "c8d70dc6619393db034b2dbc7bf1c0b7d53112dec6d3dd9f17cb917dd0ba3817",
+    "output/m6-fusion-reviewed-source-review-20261030/audit.py": "e4201622a000f30e72211349bcc3b3bf5487a878451e7c7797b79ee2588ff9ca",
+    "output/m6-fusion-reviewed-source-review-20261030/direct.log": "e8f963850667d61cd47a3e640716a291bdac96f45a06d918edb26afe93f1a941",
+    "output/m6-fusion-reviewed-source-review-20261030/direct.xml": "5ada7bd3a6be08661866d10496d1a6685339257ec914d037deb2956895cae861",
+    "output/m6-fusion-reviewed-source-review-20261030/live-audit.json": "ab522597b1b5f50fe12fcd9a58fae82164fabe467d51768301cba9b13b887540",
+    "output/m6-fusion-reviewed-source-review-20261030/live-backend.json": "f2a83f18cae9c33442b348a0b647a6afdc4c2dbc79deda2cdacdf0e13c427c00",
+    "output/m6-fusion-reviewed-source-review-20261030/live-checks.json": "7fecaf2d68d888213db8984ae3b8301bf4a7c8c200b529dcfccb96370d94df3c",
+    "output/m6-fusion-reviewed-source-review-20261030/live-first.log": "ffaaf7c528074ab178f795fb51349ea22b6ef625ce09851686659f96ad89613c",
+    "output/m6-fusion-reviewed-source-review-20261030/live_readonly.py": "ae39bf7847eb88cd6bde7ecc57ec9f8674c71fa4089889c756bc800c443d6fbb",
+    "output/m6-fusion-reviewed-source-review-20261030/shared.log": "ab002d5eaf54217da59743ed7eded722349555e37426d3e3f250257ce31e1731",
+    "output/m6-fusion-reviewed-source-review-20261030/shared.xml": "675c693afa8bfa5eb48ae417267849aec1f5e286b1c63a5acbc4a26cfcb0f9dc",
+    "output/m6-fusion-reviewed-source-review-20261030/test_direct.py": "525cdbe2b848f8b3ba31b4be8907e0e2640b56217c5a5aa3480b927afe1a6936",
+    "output/m6-fusion-reviewed-source-review-20261030/write_docs.py": "28813bf443276950580c93abb64b99eaa973d95c6fd6facb626bbfbbdb58c8f1"
+  }
+}
