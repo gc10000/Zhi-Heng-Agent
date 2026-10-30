@@ -11,6 +11,7 @@ from .feedback_triage import TriageInput, authorized_feedback, public_feedback, 
 from .feedback_triage import BindRevisionInput, bind_revision
 from .feedback_triage import QualityProofInput, save_quality_proof
 from .development_policy import PolicyReference, BeginInput, AttestInput, ResolutionInput, DevelopmentPolicy
+from .review_repairs import RepairInput, RepairSealInput, RepairAttestInput, ReviewRepairs
 
 router = APIRouter(prefix='/api/v1', tags=['评测'])
 
@@ -280,6 +281,36 @@ def development_gate(eid: str, calibration_id: str, request: Request, user=Depen
     if not repo.get_experiment(user, eid).get('quality_policy'):
         raise APIError(409, 'quality_policy_required', '开发门槛要求显式冻结政策身份。')
     return ReviewService(repo).gate(user, eid, calibration_id, human_only=False)
+
+
+@router.post('/experiments/{eid}/review-repairs', status_code=201)
+def register_review_repair(eid: str, data: RepairInput, request: Request, user=Depends(principal)):
+    return ReviewRepairs(service(request).repo).register(user, eid, data.model_dump())
+
+
+@router.get('/experiments/{eid}/review-repairs')
+def review_repair_status(eid: str, request: Request, user=Depends(principal)):
+    require_writer(user)
+    return ReviewRepairs(service(request).repo).status(user, eid)
+
+
+@router.post('/experiments/{eid}/review-repairs/{case_id}/executions', status_code=201)
+def begin_repair(eid: str, case_id: str, data: BeginInput, request: Request, user=Depends(principal)):
+    require_writer(user)
+    row = ReviewRepairs(service(request).repo).begin(user, eid, case_id, data.model_dump())
+    return {k:row[k] for k in ('id','sha256','created_at','execution_id','reviewer_model')}
+
+
+@router.post('/experiments/{eid}/review-repairs/{case_id}/executions/{execution_id}/seal', status_code=201)
+def seal_repair(eid: str, case_id: str, execution_id: str, data: RepairSealInput, request: Request, user=Depends(principal)):
+    require_writer(user)
+    row = ReviewRepairs(service(request).repo).seal(user, eid, case_id, execution_id, data.model_dump())
+    return {k:row[k] for k in ('id','sha256','created_at')}
+
+
+@router.post('/experiments/{eid}/review-repairs/{case_id}/independence', status_code=201)
+def attest_repair(eid: str, case_id: str, data: RepairAttestInput, request: Request, user=Depends(principal)):
+    return ReviewRepairs(service(request).repo).attest(user, eid, case_id, data.model_dump())
 
 
 @router.get('/feedback')

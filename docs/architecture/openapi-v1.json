@@ -3148,6 +3148,280 @@
         }
       }
     },
+    "/api/v1/experiments/{eid}/review-repairs": {
+      "post": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Register Review Repair",
+        "operationId": "register_review_repair_api_v1_experiments__eid__review_repairs_post",
+        "parameters": [
+          {
+            "name": "eid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Eid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RepairInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Review Repair Status",
+        "operationId": "review_repair_status_api_v1_experiments__eid__review_repairs_get",
+        "parameters": [
+          {
+            "name": "eid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Eid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/experiments/{eid}/review-repairs/{case_id}/executions": {
+      "post": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Begin Repair",
+        "operationId": "begin_repair_api_v1_experiments__eid__review_repairs__case_id__executions_post",
+        "parameters": [
+          {
+            "name": "eid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Eid"
+            }
+          },
+          {
+            "name": "case_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Case Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BeginInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/experiments/{eid}/review-repairs/{case_id}/executions/{execution_id}/seal": {
+      "post": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Seal Repair",
+        "operationId": "seal_repair_api_v1_experiments__eid__review_repairs__case_id__executions__execution_id__seal_post",
+        "parameters": [
+          {
+            "name": "eid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Eid"
+            }
+          },
+          {
+            "name": "case_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Case Id"
+            }
+          },
+          {
+            "name": "execution_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Execution Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RepairSealInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/experiments/{eid}/review-repairs/{case_id}/independence": {
+      "post": {
+        "tags": [
+          "评测"
+        ],
+        "summary": "Attest Repair",
+        "operationId": "attest_repair_api_v1_experiments__eid__review_repairs__case_id__independence_post",
+        "parameters": [
+          {
+            "name": "eid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Eid"
+            }
+          },
+          {
+            "name": "case_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Case Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RepairAttestInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/feedback/{feedback_id}/review": {
       "post": {
         "tags": [
@@ -4651,6 +4925,231 @@
           "annotation"
         ],
         "title": "RegressionReviewInput"
+      },
+      "RepairAttestInput": {
+        "properties": {
+          "seal_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 2,
+            "title": "Seal Ids"
+          },
+          "artifact": {
+            "$ref": "#/components/schemas/Artifact"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "artifact"
+        ],
+        "title": "RepairAttestInput"
+      },
+      "RepairInput": {
+        "properties": {
+          "client_request_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Client Request Id"
+          },
+          "original_seal_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 2,
+            "minItems": 2,
+            "title": "Original Seal Ids"
+          },
+          "artifact": {
+            "$ref": "#/components/schemas/Artifact"
+          },
+          "targets": {
+            "items": {
+              "$ref": "#/components/schemas/RepairTarget"
+            },
+            "type": "array",
+            "maxItems": 1000,
+            "minItems": 1,
+            "title": "Targets"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "client_request_id",
+          "original_seal_ids",
+          "artifact",
+          "targets"
+        ],
+        "title": "RepairInput"
+      },
+      "RepairJudgment": {
+        "properties": {
+          "question_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Question Id"
+          },
+          "subject_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Subject Sha256"
+          },
+          "scores": {
+            "additionalProperties": {
+              "enum": [
+                0,
+                1,
+                2,
+                "unknown",
+                "not_applicable"
+              ]
+            },
+            "propertyNames": {
+              "enum": [
+                "factuality",
+                "citation_support",
+                "actionability",
+                "image_relevance"
+              ]
+            },
+            "type": "object",
+            "maxProperties": 4,
+            "minProperties": 1,
+            "title": "Scores"
+          },
+          "dimension_evidence": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "propertyNames": {
+              "enum": [
+                "factuality",
+                "citation_support",
+                "actionability",
+                "image_relevance"
+              ]
+            },
+            "type": "object",
+            "maxProperties": 4,
+            "minProperties": 1,
+            "title": "Dimension Evidence"
+          },
+          "source_checked": {
+            "type": "boolean",
+            "title": "Source Checked"
+          },
+          "critical_errors": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "unauthorized",
+                "wrong_model",
+                "wrong_object",
+                "fabricated_live_state",
+                "unsafe_procedure"
+              ]
+            },
+            "type": "array",
+            "maxItems": 5,
+            "title": "Critical Errors"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "question_id",
+          "subject_sha256",
+          "scores",
+          "dimension_evidence",
+          "source_checked",
+          "critical_errors"
+        ],
+        "title": "RepairJudgment"
+      },
+      "RepairSealInput": {
+        "properties": {
+          "judgments": {
+            "items": {
+              "$ref": "#/components/schemas/RepairJudgment"
+            },
+            "type": "array",
+            "maxItems": 1000,
+            "minItems": 1,
+            "title": "Judgments"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "judgments"
+        ],
+        "title": "RepairSealInput"
+      },
+      "RepairTarget": {
+        "properties": {
+          "question_id": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Question Id"
+          },
+          "subject_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "title": "Subject Sha256"
+          },
+          "replace_dimensions": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "factuality",
+                "citation_support",
+                "actionability",
+                "image_relevance"
+              ]
+            },
+            "type": "array",
+            "maxItems": 4,
+            "title": "Replace Dimensions"
+          },
+          "correct_actionability_na": {
+            "type": "boolean",
+            "title": "Correct Actionability Na",
+            "default": false
+          },
+          "actionability_applicable": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Actionability Applicable"
+          },
+          "rationale": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "title": "Rationale"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "question_id",
+          "subject_sha256",
+          "rationale"
+        ],
+        "title": "RepairTarget"
       },
       "Resolution": {
         "properties": {

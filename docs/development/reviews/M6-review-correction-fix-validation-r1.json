@@ -1,0 +1,81 @@
+{
+  "date": "2026-10-30",
+  "role": "controller implementing under explicit user authorization; implementation self-verification",
+  "base_commit": "fd04482bb2b1008081800fa700439cb6c256ae5d",
+  "closed_code": [
+    "append-only controller actionability N/A correction",
+    "fixed scoped independent replacement pair",
+    "per-dimension effective provenance and formal calibration consumption",
+    "original generation identity preserved with new explicit candidate config"
+  ],
+  "actual_registration": "pending controlled Git artifact",
+  "rule_correction_question_dimensions": 6,
+  "replacement_question_results": 6,
+  "replacement_round_records": 12,
+  "replacement_dimension_judgments": 24,
+  "tests": [
+    {
+      "group": "related prior protocol paths",
+      "passed": 79
+    },
+    {
+      "group": "final targeted integration/schema/contract",
+      "passed": 52
+    },
+    {
+      "group": "actual answer image replacement boundary",
+      "passed": 1
+    }
+  ],
+  "groups_overlap": true,
+  "live_new_review_executions": 0,
+  "live_new_review_seals": 0,
+  "live_new_independence_attestations": 0,
+  "live_new_calibrations": 0,
+  "live_new_candidates": 0,
+  "live_new_proofs": 0,
+  "new_inference": {
+    "encoding": 0,
+    "reranking": 0,
+    "answer": 0,
+    "supplier": 0,
+    "http": null,
+    "token": null,
+    "cost": null
+  },
+  "historical_calls": {
+    "logical_stream": 168,
+    "input_tokens": 321926,
+    "output_tokens": 168290,
+    "http": null,
+    "cost": null,
+    "local_encoding": null,
+    "local_reranking": null
+  },
+  "limits": [
+    "self-verification is not independent technical acceptance",
+    "no new independent semantic evidence yet",
+    "Milvus vectors not rescanned this round",
+    "historical unknown costs remain unknown"
+  ],
+  "phase": {
+    "M6": "4/7",
+    "open": [
+      "M6-04",
+      "M6-05",
+      "M6-08"
+    ],
+    "M7": "not authorized",
+    "heldout_run": false
+  },
+  "private_evidence_sha256": {
+    "output/m6-review-correction-fix-20261030/red.log": "538878e9782a578170ce172f3994946d8647f7f9a0db914c0174b6d56c87808e",
+    "output/m6-review-correction-fix-20261030/first-green.log": "77e17d8eca70ee9e1e12ee84cacbcd4b2e05ae2979cd136d0c7f77f4e0146054",
+    "output/m6-review-correction-fix-20261030/regression-r1.log": "6d942e2758325e1650237d75c6cd497491e01fb311377acf4f996883519b247c",
+    "output/m6-review-correction-fix-20261030/targeted-r2.log": "1981c8cfc51b23e54b50601b7c341324a33cf717c462fe6fe888e79a38b88d96",
+    "output/m6-review-correction-fix-20261030/targeted-r3.log": "065c45a155cdb65a6e6d1e93b413a428d97f72a1b55b74c936bb1302c23caba9",
+    "output/m6-review-correction-fix-20261030/unit-contract.log": "db1b119b383f72c28132957013bd065c9a7575138110378d528102640e0f5818",
+    "output/m6-review-correction-fix-20261030/final-targeted.log": "8c2d02d143befd703876b24ac6ac43e1d7bc8446b2ceaaf7ef8abdba5c80e0a6",
+    "output/m6-review-correction-fix-20261030/image-boundary.log": "71740014e3cec7dd68e2aae361c74391f8c676dec72d8fd682e18dd659ff7e94"
+  }
+}

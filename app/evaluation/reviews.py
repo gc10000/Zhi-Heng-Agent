@@ -245,6 +245,13 @@ class ReviewService:
             quality['rubrics'] = rubrics
         if policy:
             quality.update(policy=policy,purpose='development_acceptance',independence_attestations=attestations)
+            sources={}
+            for r in reviews:
+                if r.get('dimension_sources'):
+                    for dimension,source in r['dimension_sources'].items():
+                        sources.setdefault(r['question_id'],{}).setdefault(dimension,[]).append(source)
+            if sources:
+                quality['dimension_sources']={q:{d:sorted(v,key=lambda s:s['round']) for d,v in dims.items()} for q,dims in sources.items()}
         return experiment, quality
 
     def calibrate(self, user, eid, data):

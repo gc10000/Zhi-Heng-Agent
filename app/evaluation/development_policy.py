@@ -173,7 +173,7 @@ class DevelopmentPolicy:
     def execution(self,user,eid,key):
         _,scope=self.scope(user,eid)
         row=self.checked(self.db.evaluation_review_executions.find_one({'_id':key}))
-        if row['scope']!=scope or row['reviewer_id']!=user.user_id: reject('审核执行不属于当前审核者或结果已变化')
+        if row.get('repair_case_id') or row['scope']!=scope or row['reviewer_id']!=user.user_id: reject('审核执行不属于当前审核者或结果已变化；限定补证须用专门封存入口')
         return row
 
     def seal(self,user,eid,key,values):
@@ -213,6 +213,8 @@ class DevelopmentPolicy:
     def attest(self,user,eid,values):
         values=AttestInput.model_validate(values).model_dump()
         if user.role!='admin': raise APIError(403,'forbidden','只有总控管理员可核验独立性。')
+        from .review_repairs import ReviewRepairs
+        if ReviewRepairs(self.repo).active(eid): reject('已有限定修复case，须核验明确的逐维来源，不能全签旧对')
         # 总控可在同知识范围读取，所有者仍来自实验，不以总控身份自造评分。
         exp=self.db.evaluation_experiments.find_one({'experiment_id':eid,'kb_id':{'$in':list(user.kb_ids)}})
         if not exp: reject('实验不在总控授权范围')
@@ -242,6 +244,8 @@ class DevelopmentPolicy:
         from .reviews import ReviewInput, ReviewService
         from app.answering.image_selection import has_review_images
         data=ResolutionInput.model_validate(values).model_dump()
+        from .review_repairs import ReviewRepairs
+        if ReviewRepairs(self.repo).active(eid): reject('修复case已冻结原来源，不能另行追加旧轮未知')
         if not self.visible(eid): reject('双轮封存前不得追加或读取旧判断')
         _,scope=self.scope(user,eid)
         original=self.db.evaluation_reviews.find_one({'experiment_id':eid,'review_id':review_id,'reviewer_id':user.user_id})
@@ -260,6 +264,9 @@ class DevelopmentPolicy:
             review_id=review_id,reviewer_id=user.user_id,original_sha256=fingerprint({k:v for k,v in original.items() if k!='_id'})))
 
     def effective(self,user,eid,current):
+        from .review_repairs import ReviewRepairs
+        repairs=ReviewRepairs(self.repo)
+        if repairs.active(eid): return repairs.effective(user,eid)
         _,scope=self.scope(user,eid)
         seals=[self.checked(r) for r in self.rows('evaluation_review_seals',eid)]
         resolutions=[self.checked(r) for r in self.rows('evaluation_policy_resolutions',eid)]
