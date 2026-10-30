@@ -1,0 +1,169 @@
+{
+  "reviewed_commit": "65fd8bd723a9514cb1e74951cc22c2fafac610f0",
+  "date": "2026-10-30",
+  "decisions": {
+    "original_two_precision_defects": "passed24regression",
+    "general_precision": "C06-PAGE-R1-R/P2 remains open",
+    "formal001_label_annotation_derivation_binding": "independently passed/current valid",
+    "proof": "absent",
+    "necessary_text_coverage": "24/25 original24retained",
+    "necessary_nonunknown_sources": "24/25; not blanket source semantic correctness",
+    "comparison048_sides": "prior pass retained",
+    "initial_recall048": "still missing; two failed strategies rejected"
+  },
+  "finding": {
+    "id": "C06-PAGE-R1-R",
+    "priority": "P2",
+    "file": "app/ingestion/parsers/table_sources.py",
+    "line": 40,
+    "manifestations": [
+      "single-cell internal disjoint text bypass",
+      "whole-cell bbox bridges remote text",
+      "adjacent separated rows accepted by glyph bbox overlap",
+      "crosspage continuation column relation unchecked"
+    ],
+    "new_matrix": {
+      "failed": 4,
+      "passed": 3
+    },
+    "current134_actual_fault_not_demonstrated": true
+  },
+  "tests": {
+    "shared": {
+      "tests": 245,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integration": {
+      "tests": 34,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "precision": {
+      "tests": 24,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "layout-matrix": {
+      "tests": 7,
+      "failures": 4,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "readonly_assertions": 4077,
+  "live_label_assertions": 49,
+  "live_labels": [
+    {
+      "feedback_id": "c34496c4-c065-5765-93a5-4ba9a9167e55",
+      "annotation_id": "a0f98e3ff68798ca6c36a9a71bd0c367fa00330f6c8a298173608b768e392a15",
+      "annotation_sha256": "47248bcec9081a0ea881cb3e55d02e2dc7b9f5a744d58997721044350c3932cc",
+      "binding_id": "87725c09f37660064837bef947885f75ab3dafd066ced493935ef842cfc297a4",
+      "binding_sha256": "69af94d6c547b3def46e5f544139ff9ec94a61f70f4d06454974be455fedbb3e",
+      "dataset_version": "fb-07c584730833908571fe9dd7c7c890afa3cf9e66",
+      "status": "valid",
+      "proof": "absent",
+      "only001_annotation_changed": true,
+      "principal_scope": "maintainer/original kb only",
+      "current_source_matches": true
+    },
+    {
+      "feedback_id": "ff45ecf4-4b82-5f3b-a31d-808ec5ae485e",
+      "annotation_id": "ab753fa532340bef7734801b5be116d220d0ca46052e7c16c2ac53d6a14840d4",
+      "annotation_sha256": "564327a3d4611be426b11bf726a3273f975afa1f7dd4399e9a7c99a0237ddeb1",
+      "binding_id": "01739675106c5e12eac37018a7f66ba4429e938d699cca8c3c33eae8017a7832",
+      "binding_sha256": "5483e8cf5cd565db616c2833fa44bee52ada3d74670fef65fffee83b3c229fdb",
+      "dataset_version": "fb-a3fa87c1adb2a6dc4e9638214164eb5f343ad008",
+      "status": "valid",
+      "proof": "absent",
+      "only001_annotation_changed": true,
+      "principal_scope": "maintainer/original kb only",
+      "current_source_matches": true
+    }
+  ],
+  "table_counts": {
+    "tables": 43,
+    "rows": 249,
+    "recorded_precise": 134,
+    "unknown": 115
+  },
+  "protected_manifests": {
+    "execution125": 125,
+    "prior331": 331,
+    "prior_review14": 14,
+    "prior297": 297,
+    "prior_review45": 45,
+    "prior_review20": 20,
+    "output/m6-isolated-answers-20261028/protected-before-r3.json": 821,
+    "output/m6-answer-filter-fix-r3-20261029/protected-before.json": 404,
+    "output/m6-real-retrieval-20261028/protected-before.json": 294
+  },
+  "replay": {
+    "questions": 25,
+    "modes": 2,
+    "context_prompt_groups_budget": "exact"
+  },
+  "calls": {
+    "review_local_models": 0,
+    "review_suppliers": 0,
+    "execution_new_local_embedding": 1,
+    "execution_new_rerank": 0,
+    "execution_new_answers": 0,
+    "execution_new_supplier": 0,
+    "execution_call_key": "f947bd50068d8eaf5713864c9fcf99a8c2807660d7fd9c4dd63b2278574877cb",
+    "unsettled_windows": [],
+    "token_usage": null,
+    "http_requests": null,
+    "cost": null
+  },
+  "writes": {
+    "business_source": false,
+    "real_quality": false,
+    "real_labels": false,
+    "real_binding": false,
+    "real_calibration": false,
+    "default_switch": false,
+    "new_principals": false,
+    "synthetic_random_integration": true
+  },
+  "live_milvus_rescan": false,
+  "final_config_frozen": false,
+  "M6": "4/7",
+  "unaccepted": [
+    "M6-04",
+    "M6-05",
+    "M6-08"
+  ],
+  "M7": false,
+  "private_evidence_sha256": {
+    "output/m6-page-precision-recall-label-review-20261030/audit-checks.json": "f72c15c49f84a80825abcf832967629afa8d39bacb530f00838a052f15110d53",
+    "output/m6-page-precision-recall-label-review-20261030/audit-final.log": "a54cd9ab5c8df152cb064b711f13a5c83c421a0cd8ddc2757e6e6fd3af559e43",
+    "output/m6-page-precision-recall-label-review-20261030/audit-first.log": "d1af89fac986749673b7cb03baabf71ebbc515498e5f7bd285d1e3c3b6b115ca",
+    "output/m6-page-precision-recall-label-review-20261030/audit.json": "5223ed23a7c68e730fae883957b4a8fce068589cffca85ff4b75e49a5b9f3e02",
+    "output/m6-page-precision-recall-label-review-20261030/audit.py": "f875509ae5cb865c3fffcf67b9bf111c771cf138b21ce6a9b6537dd83350b9db",
+    "output/m6-page-precision-recall-label-review-20261030/divided-rows.png": "cddf2df3e84efa1b559774a524a91d7b6ec5dc1660f5bfc5f825feff80cb6742",
+    "output/m6-page-precision-recall-label-review-20261030/far-cell.png": "19972366a23a7c59a019eee8df136c9d26c164443d5fc5bb1befa246f6d1cce0",
+    "output/m6-page-precision-recall-label-review-20261030/integration.log": "2900370b264d40e2c741202635f03af5b41b2ee2aaf4d49c04e510846fea491a",
+    "output/m6-page-precision-recall-label-review-20261030/integration.xml": "171b7ee0fa80f36ec7253f88ed8c987073bc26ab0026ddce0b906061563ee8da",
+    "output/m6-page-precision-recall-label-review-20261030/layout-final.log": "b59134c0571b03636d7e646ac33b60aaaed0e87c0047ac6a175133bda099d0bf",
+    "output/m6-page-precision-recall-label-review-20261030/layout-final.xml": "93737e238d58c96d91f752deb1ace130e22585e5a158bd595409882d713a71b8",
+    "output/m6-page-precision-recall-label-review-20261030/layout-initial-probe.py": "4d7137a0732fc8c677588a123543a0197f3e2207d347b2ed98eac30545b5fb5a",
+    "output/m6-page-precision-recall-label-review-20261030/layout-matrix.log": "5aad28fddba64154186e27384831366c6c90affe10e371b470590da61f8e80e8",
+    "output/m6-page-precision-recall-label-review-20261030/layout-matrix.xml": "13f2b086e3fdcad4ac0dd11c74d54d6d11bdbb207a1a033c41cdabd5fa84bd86",
+    "output/m6-page-precision-recall-label-review-20261030/layout.log": "a39b7a764fccf84672669d58615715ade99d7a2d92464dbb4f87f18e55cf06d2",
+    "output/m6-page-precision-recall-label-review-20261030/layout.xml": "767589af526e788c68fdd4c07d4a67aeebc0ae6cdd0bccfc823ae1328908737e",
+    "output/m6-page-precision-recall-label-review-20261030/live-label-audit.json": "eeb0654cf5514bc2b0467fb74a59bd93890e6e5a8cdb650a3a72f335e7b9a41d",
+    "output/m6-page-precision-recall-label-review-20261030/live-label-checks.json": "e2642e7e705c4e1afaed8ac7d9305bac2ddabece457e595a4434e91ea06bb0a6",
+    "output/m6-page-precision-recall-label-review-20261030/live-label-first.log": "686ab34bea52d4015c5f738db4ca6491371d2d8d3d7109454ad2fbc8345bbc08",
+    "output/m6-page-precision-recall-label-review-20261030/live_label_audit.py": "cf00fe6f42e2e903e92c2e7c79df8591d6eeb6093fe04889488383aafe48e623",
+    "output/m6-page-precision-recall-label-review-20261030/precision.log": "dd91f88f05aaee21661c3136d298f32a391861c56ab1a2e3a0830dfb0ceeef31",
+    "output/m6-page-precision-recall-label-review-20261030/precision.xml": "70ddcc5e6f606b1e44e45533b3fa635f1dc94599cccb60f6aef350d76c08e37a",
+    "output/m6-page-precision-recall-label-review-20261030/shared.log": "c5fbd136a105704c22c757913b07bfc760adfccbfdaf653cad2e823aee32dd97",
+    "output/m6-page-precision-recall-label-review-20261030/shared.xml": "e3767202d759052b8232abe3d89345073192aa3a99e8476c67ce24bc88161632",
+    "output/m6-page-precision-recall-label-review-20261030/test_layout_boundaries.py": "681e051857c85a1a734b42e0dbd7dc33f1b63ad55737cf2d1aa37285427f12e1",
+    "output/m6-page-precision-recall-label-review-20261030/test_original_boundaries.py": "dddf8aefca65680852b1b2f8fb5cdc1d0fb30dea7edea74752e635369820d59b"
+  }
+}
