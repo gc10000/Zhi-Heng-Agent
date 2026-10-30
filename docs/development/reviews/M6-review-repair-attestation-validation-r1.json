@@ -1,0 +1,383 @@
+{
+  "date": "2026-10-30",
+  "reviewed_commit": "38ab41eaef41069d90cb3f16241a8375c1d794ce",
+  "role": "controller audit of separate actual reviewers; earlier implementation self-verification identity retained",
+  "independence_decision": "accepted for fixed selected original and replacement sources; controlled report approved for formal attest",
+  "preflight": {
+    "passed": true,
+    "mode": "pre",
+    "checks": 4353,
+    "old_rows_preserved": 3547,
+    "provenance": [
+      {
+        "round": 1,
+        "task": "/root/repair_blind_round1_fresh",
+        "model": null,
+        "input_files": {
+          "output/m6-review-correction-fix-20261030/prepared-r4/blind-round-1/README.md": "c08a461b4e832f897de943f2d8e3a72396231f65257081f786e7d833c35e3528",
+          "output/m6-review-correction-fix-20261030/prepared-r4/blind-round-1/items.json": "d7f304f32ef46c070ce14e5aa8441982e1972d4c48df6d08a261fc1dc6ddf388",
+          "output/m6-review-correction-fix-20261030/prepared-r4/blind-round-1/original-sources.json": "ecf6f84559e78a7b872d45d2d66e75a6b135207ddff963cc6ad5193678899d9c"
+        },
+        "start": "2026-10-30T12:02:05.882146+00:00",
+        "end": "2026-10-30T12:05:22.282185+00:00",
+        "scripts": [
+          {
+            "path": "output/m6-review-repair-execution-20261030/reviewer-round-1/extract_originals.py",
+            "sha256": "eb7d1ed5439812d769da5bc9213bc0f6af97484861f0a44c386c450f283edaad",
+            "imports": [
+              "json",
+              "hashlib",
+              "pathlib",
+              "fitz",
+              "sys"
+            ]
+          },
+          {
+            "path": "output/m6-review-repair-execution-20261030/reviewer-round-1/render_and_read.py",
+            "sha256": "1ccef9fab5a5b1bb8bff288dfd2a5beba1f360c8dce3a72d6e56324d48d3ee85",
+            "imports": [
+              "pathlib",
+              "json",
+              "fitz",
+              "sys"
+            ]
+          },
+          {
+            "path": "output/m6-review-repair-execution-20261030/reviewer-round-1/verify_outputs.py",
+            "sha256": "173fe08ceb8cead3c6c2f4f91a14081f86ff221e74392ada5ede6511847de1fe",
+            "imports": [
+              "pathlib",
+              "json",
+              "hashlib",
+              "datetime",
+              "sys"
+            ]
+          },
+          {
+            "path": "output/m6-review-repair-execution-20261030/reviewer-round-1/write_judgments.py",
+            "sha256": "f30454911e9fbaa93605ba0bfe9a8f27c55e79ace224c1346f9af3317c8b2c9b",
+            "imports": [
+              "json",
+              "pathlib",
+              "datetime",
+              "hashlib",
+              "sys"
+            ]
+          }
+        ],
+        "exhaustive_platform_trace_available": false
+      },
+      {
+        "round": 2,
+        "task": "/root/repair_blind_round2_fresh",
+        "model": null,
+        "input_files": {
+          "output/m6-review-correction-fix-20261030/prepared-r4/blind-round-2/README.md": "c08a461b4e832f897de943f2d8e3a72396231f65257081f786e7d833c35e3528",
+          "output/m6-review-correction-fix-20261030/prepared-r4/blind-round-2/items.json": "d7f304f32ef46c070ce14e5aa8441982e1972d4c48df6d08a261fc1dc6ddf388",
+          "output/m6-review-correction-fix-20261030/prepared-r4/blind-round-2/original-sources.json": "ecf6f84559e78a7b872d45d2d66e75a6b135207ddff963cc6ad5193678899d9c"
+        },
+        "start": "2026-10-30T20:06:46.410111+08:00",
+        "end": "2026-10-30T20:09:53.540822+08:00",
+        "scripts": [
+          {
+            "path": "output/m6-review-repair-execution-20261030/reviewer-round-2/inspect_originals.py",
+            "sha256": "ce39bdbba9008358421b75d295e51d575ccf74e52ec2087e78c91d7866b61e9a",
+            "imports": [
+              "sys",
+              "json",
+              "hashlib",
+              "datetime",
+              "pathlib",
+              "fitz"
+            ]
+          },
+          {
+            "path": "output/m6-review-repair-execution-20261030/reviewer-round-2/write_judgments.py",
+            "sha256": "407333c44c69d502c752011adbd2833a1dc86146e821d75dafbb79821a3e190a",
+            "imports": [
+              "sys",
+              "json",
+              "hashlib",
+              "datetime",
+              "pathlib"
+            ]
+          }
+        ],
+        "exhaustive_platform_trace_available": false
+      }
+    ],
+    "baselines": [
+      {
+        "baseline": 1,
+        "experiment_id": "2b4307e3-2f03-46d7-850c-7d1054b1f8d2",
+        "case_id": "2f555874f0571693639f78f156dc76d3cef000b386422021c7053afb30d2c851",
+        "case_sha256": "2647305da991aff2cc16b9e7202285e240b77317c38fb3010f6fb44a211c6569",
+        "seals": [
+          {
+            "round": 1,
+            "id": "0294d7bd0e242fc4e2defde1fb2b6915a22e0ccc972a8f42d0fe7f676ec82508",
+            "sha256": "70ad65e2a0be6d538a595bd4bdd011449af31fb352203a90bb7d4d4c51eb4185",
+            "execution_id": "/root/repair_blind_round1_fresh:b1:r1"
+          },
+          {
+            "round": 2,
+            "id": "572156b617690a45018a9687b3e07bd33285e8db8f4fa81c3631f1d7c791f9bb",
+            "sha256": "cb0ed416cd1954c79edf09de053bab5d57cb669859c4878151fff1f70e462eaf",
+            "execution_id": "/root/repair_blind_round2_fresh:b1:r2"
+          }
+        ],
+        "incomplete": [
+          "m6-g540-01-a",
+          "m6-g540-01-b",
+          "m6-g540-02-a",
+          "m6-g540-02-b",
+          "m6-g540-03-a",
+          "m6-g540-03-b",
+          "m6-g540-04-a",
+          "m6-g540-04-b",
+          "m6-g540-05-a",
+          "m6-g540-05-b",
+          "m6-g540-06-a",
+          "m6-g540-06-b",
+          "m6-g540-07-a",
+          "m6-g540-07-b",
+          "m6-g540-08-a",
+          "m6-g540-08-b",
+          "m6-g540-09-a",
+          "m6-g540-09-b",
+          "m6-g540-10-a",
+          "m6-g540-10-b",
+          "m6-g540-11-a",
+          "m6-g540-11-b",
+          "m6-g540-12-a",
+          "m6-g540-12-b",
+          "m6-g540-13-a",
+          "m6-g540-13-b",
+          "m6-g540-14-a",
+          "m6-g540-14-b",
+          "m6-g540-15-a",
+          "m6-g540-15-b",
+          "m6-g540-16-a",
+          "m6-g540-16-b",
+          "m6-g540-17-a",
+          "m6-g540-17-b",
+          "m6-g540-18-a",
+          "m6-g540-18-b",
+          "m6-g540-19-a",
+          "m6-g540-19-b",
+          "m6-g540-20-a",
+          "m6-g540-20-b",
+          "m6-g540-unknown-01-a",
+          "m6-g540-unknown-01-b",
+          "m6-g540-unknown-02-a",
+          "m6-g540-unknown-02-b",
+          "m6-g540-unknown-03-a",
+          "m6-g540-unknown-03-b",
+          "m6-g540-unknown-04-a",
+          "m6-g540-unknown-04-b",
+          "m6-g540-unknown-05-a",
+          "m6-g540-unknown-05-b",
+          "support-v1-001",
+          "support-v1-002",
+          "support-v1-003",
+          "support-v1-004",
+          "support-v1-005",
+          "support-v1-006",
+          "support-v1-007",
+          "support-v1-008",
+          "support-v1-009",
+          "support-v1-010",
+          "support-v1-011",
+          "support-v1-012",
+          "support-v1-013",
+          "support-v1-014",
+          "support-v1-015",
+          "support-v1-016",
+          "support-v1-017",
+          "support-v1-018",
+          "support-v1-019",
+          "support-v1-020",
+          "support-v1-021",
+          "support-v1-022",
+          "support-v1-030",
+          "support-v1-031",
+          "support-v1-033",
+          "support-v1-034",
+          "support-v1-035",
+          "support-v1-036",
+          "support-v1-037",
+          "support-v1-038",
+          "support-v1-039",
+          "support-v1-045",
+          "support-v1-046",
+          "support-v1-047",
+          "support-v1-048"
+        ],
+        "critical": [],
+        "values_count": 0,
+        "attestation": null,
+        "calibration_id": null
+      },
+      {
+        "baseline": 2,
+        "experiment_id": "29d405dc-81c9-4b63-a35f-5abdcbea081c",
+        "case_id": "941d22cd51e9afca2d93ecdf55bba812701ccd6ccb7e0623c38559c2dd1b3ed3",
+        "case_sha256": "6935d0da776f4652abfbda3fd27cea2d9988f4fa63a67d8ee6c8cc634b281409",
+        "seals": [
+          {
+            "round": 1,
+            "id": "0f4d4d43f760bc5aa5a7253fea30109befc441143944170366a1f1a725ffd05b",
+            "sha256": "c9d861e8885e7b24157ddaa854b06f94aa41e831eca1dd2c655b292e7a7d692a",
+            "execution_id": "/root/repair_blind_round1_fresh:b2:r1"
+          },
+          {
+            "round": 2,
+            "id": "c21f2de87de07bdcee5aefb74cf2d8338bf62ea2867418e3253e30d56ef0c235",
+            "sha256": "6b185332e797fb715b008f1954b12c8d0ddd76cf591ceca24e612ada8a7dcf65",
+            "execution_id": "/root/repair_blind_round2_fresh:b2:r2"
+          }
+        ],
+        "incomplete": [
+          "m6-g540-01-a",
+          "m6-g540-01-b",
+          "m6-g540-02-a",
+          "m6-g540-02-b",
+          "m6-g540-03-a",
+          "m6-g540-03-b",
+          "m6-g540-04-a",
+          "m6-g540-04-b",
+          "m6-g540-05-a",
+          "m6-g540-05-b",
+          "m6-g540-06-a",
+          "m6-g540-06-b",
+          "m6-g540-07-a",
+          "m6-g540-07-b",
+          "m6-g540-08-a",
+          "m6-g540-08-b",
+          "m6-g540-09-a",
+          "m6-g540-09-b",
+          "m6-g540-10-a",
+          "m6-g540-10-b",
+          "m6-g540-11-a",
+          "m6-g540-11-b",
+          "m6-g540-12-a",
+          "m6-g540-12-b",
+          "m6-g540-13-a",
+          "m6-g540-13-b",
+          "m6-g540-14-a",
+          "m6-g540-14-b",
+          "m6-g540-15-a",
+          "m6-g540-15-b",
+          "m6-g540-16-a",
+          "m6-g540-16-b",
+          "m6-g540-17-a",
+          "m6-g540-17-b",
+          "m6-g540-18-a",
+          "m6-g540-18-b",
+          "m6-g540-19-a",
+          "m6-g540-19-b",
+          "m6-g540-20-a",
+          "m6-g540-20-b",
+          "m6-g540-unknown-01-a",
+          "m6-g540-unknown-01-b",
+          "m6-g540-unknown-02-a",
+          "m6-g540-unknown-02-b",
+          "m6-g540-unknown-03-a",
+          "m6-g540-unknown-03-b",
+          "m6-g540-unknown-04-a",
+          "m6-g540-unknown-04-b",
+          "m6-g540-unknown-05-a",
+          "m6-g540-unknown-05-b",
+          "support-v1-001",
+          "support-v1-002",
+          "support-v1-003",
+          "support-v1-004",
+          "support-v1-005",
+          "support-v1-006",
+          "support-v1-007",
+          "support-v1-008",
+          "support-v1-009",
+          "support-v1-010",
+          "support-v1-011",
+          "support-v1-012",
+          "support-v1-013",
+          "support-v1-014",
+          "support-v1-015",
+          "support-v1-016",
+          "support-v1-017",
+          "support-v1-018",
+          "support-v1-019",
+          "support-v1-020",
+          "support-v1-021",
+          "support-v1-022",
+          "support-v1-030",
+          "support-v1-031",
+          "support-v1-033",
+          "support-v1-034",
+          "support-v1-035",
+          "support-v1-036",
+          "support-v1-037",
+          "support-v1-038",
+          "support-v1-039",
+          "support-v1-045",
+          "support-v1-046",
+          "support-v1-047",
+          "support-v1-048"
+        ],
+        "critical": [],
+        "values_count": 0,
+        "attestation": null,
+        "calibration_id": null
+      }
+    ],
+    "read_only": true,
+    "new_model_calls": 0,
+    "live_milvus_scan": false
+  },
+  "actual_attestations_created": 0,
+  "actual_calibrations_created": 0,
+  "candidates_created": 0,
+  "proofs_created": 0,
+  "status": "independent provenance review passed; formal writes pending this controlled report commit",
+  "new_product_calls": {
+    "stream": 0,
+    "invoke": 0,
+    "embedding": 0,
+    "rerank": 0,
+    "http": null,
+    "token": null,
+    "cost": null
+  },
+  "new_platform_review_tasks": 0,
+  "history": {
+    "stream": 168,
+    "input_token": 321926,
+    "output_token": 168290,
+    "http": null,
+    "cost": null
+  },
+  "limits": [
+    "no complete OS or externally signed platform access trace",
+    "platform fork configuration supported by user and execution orchestration with sealed reviewer provenance",
+    "unknown exact model and usage kept null",
+    "live Milvus vectors not rescanned",
+    "same implementing controller does not claim independent technical reacceptance"
+  ],
+  "phase": {
+    "M6": "4/7",
+    "open": [
+      "M6-04",
+      "M6-05",
+      "M6-08"
+    ],
+    "M7": "not authorized"
+  },
+  "private_evidence_sha256": {
+    "output/m6-review-repair-attestation-20261030/audit.py": "d3b1e025f3da360321852f6b5c53e145ec620d8b38ea6c0142d7e072f5978a84",
+    "output/m6-review-repair-attestation-20261030/pre.log": "a872db715e6c7c8b7a820bf0827385ea53a4f32baaa5e98f251e89d60ce75dbd",
+    "output/m6-review-repair-attestation-20261030/pre/checks.json": "1887e6bbe0127346ec55c85d11aede6b7614e8f79964904e0a072b68f3f73eaa",
+    "output/m6-review-repair-attestation-20261030/pre/result.json": "ee11f24c8f5716c32130a804f9e710596f1b5ff71d2aabf35dd00d52e290e4ab",
+    "output/m6-review-repair-attestation-20261030/pre/database-before.json": "2518c9b0bc198537a23d001cba7550a811f57c427103124bb4e3e15525175578",
+    "output/m6-review-repair-attestation-20261030/pre/row-hashes.json": "04115af4a2fc4fb04119b685ff5a74fca080cc938f6ffbbe8c1c65fdce951593"
+  }
+}
