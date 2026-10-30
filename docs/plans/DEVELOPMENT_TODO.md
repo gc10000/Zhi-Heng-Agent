@@ -1,3 +1,11 @@
+## 2026-10-31 · 两版独立候选完成，340条真实双轮已封存；质量pending
+
+接续673d4b4，两个冻结candidate/v2各85题已正式执行并核账，均84回答Run＋1 awaiting_input，继承0。新增168逻辑stream，input322716／output187567 token，HTTP/费用null；历史168stream另账保留。两个全新fork_turns=none任务顺序完成两版双轮，4seal＋340条assistant正式submit，原始/正式全等；没有human、observation、候选attestation或proof新增。
+
+当前停止条件：两版047第一轮来源未核，且正式评分投影缺少Run正常澄清候选/状态细节；不改原分、不判澄清路由错误或强行补答。另有9维N/A混合（版1为4、版2为5）。048两版两轮事实/引用均1，四对象/配件关注题均2仅为未attest原始判断。gate/proof均pending，下一项为总控集中核验provenance与上述限定范围，不能套基线case或全量重审。
+
+M6核心5/7、04已验收保持，05待服务端proof，08待有效候选质量与阶段验收，M7未授权。240／609份历史清单及3555条非槽位旧行hash保持，2槽位正式生命周期另列；未重扫live582/867。完整逐题材料在本机新output目录，不上传；tmp保留。见[执行与交接报告](../development/reviews/M6-calibrated-candidate-execution-r1.md)及脱敏摘要，以下历史保留。
+
 ## 2026-10-30 · 正式attest及预校准完成；M6-04开发验收通过
 
 总控已核验固定六结果补证及保留原来源，并以受控Git报告正式attest两版；两份85题基线预校准均成功，无unknown／混合适用性／critical，原低分和原评分保持。固定报告680个有效值与正式来源全等，抽检记录完成；按原任务合同及assistant-development-v1政策验收M6-04。**M6核心5/7（01／02／03／04／07），总核心65/76；05／08未验收，M7未授权。** human发布门槛独立保留，不当作本次开发验收新阻塞。
