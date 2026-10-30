@@ -58,7 +58,7 @@ def open_evaluation_resources(config):
         provider_counts=LogicalProviderCounts()
         runner = QueryRunner(repo, commands, knowledge.get, retrieval_policy=policies.retrieval,
             expansion_policy=policies.expansion,answer_budget=policies.answer_budget,enhancement_policy=policies.enhancement,
-            source_prerequisites=policies.source_prerequisites,
+            source_prerequisites=policies.source_prerequisites,retrieval_combination=policies.retrieval_combination,
             llm_factory=lambda:provider_counts.wrap(get_llm_client()))
         yield {'db': db, 'conversations': conv, 'runs': repo, 'run_service': RunService(repo),
                'commands': commands, 'query_runner': runner, 'knowledge': knowledge.get, 'provider_counts':provider_counts}
@@ -78,7 +78,9 @@ class RealQueryExecutor:
             if not acceptance or any(file_sha(a['path']) != a['sha256'] for a in acceptance):
                 raise ValueError('须绑定真实题集接受结论，拒绝缺失或被改动的审阅材料')
         from .strategy import strategy_policies
-        strategy_policies(config)
+        policies=strategy_policies(config)
+        from .strategy import validate_combination_config
+        validate_combination_config(config,policies)
         self.config = copy.deepcopy(config)
         self.factory = resource_factory or open_evaluation_resources
         self.retry_key = None
@@ -96,6 +98,12 @@ class RealQueryExecutor:
         if not saved or saved['input_sha256'] != fingerprint(inputs) or not saved.get('run_id'):
             raise ValueError('成功检查点缺少正式题级输入或Run，不自动回填')
         run = self.resources['runs'].get(self.user,saved['run_id'])
+        from app.retrieval.combination import validate_run_combination,payload
+        combination=self.config.get('parameters',{}).get('retrieval_combination',{})
+        validate_run_combination(run,combination)
+        if combination.get('enabled') and (saved.get('retrieval_combination')!=payload(combination) or
+                saved.get('retrieval_combination_sha256')!=fingerprint(payload(combination))):
+            raise ValueError('成功检查点组合身份不符，不自动补写')
         self.check_corpus()
         from .execution_identity import run_input, outcome_identity, result_subject
         result = self.project_result(run)
@@ -142,6 +150,7 @@ class RealQueryExecutor:
                 runner.retrieval_policy=policies.retrieval;runner.expansion_policy=policies.expansion
                 runner.answer_budget=policies.answer_budget;runner.enhancement_policy=policies.enhancement
                 runner.source_prerequisites=policies.source_prerequisites
+                runner.retrieval_combination=policies.retrieval_combination
             self.check_corpus()
             from app.identity.models import Principal
             t = self.config['target']
@@ -213,12 +222,20 @@ class RealQueryExecutor:
         saved = self.checkpoints.find_one({'_id': key})
         conv = self.resources['conversations']
         kb = self.config['target']['kb_id']
+        combination=self.config.get('parameters',{}).get('retrieval_combination',{})
+        combination_identity={}
+        if combination.get('enabled'):
+            from app.retrieval.combination import payload
+            canonical=payload(combination)
+            combination_identity=dict(retrieval_combination=canonical,retrieval_combination_sha256=fingerprint(canonical))
         if saved is None:
             from app.conversations.models import ConversationInput
             product_ids = [self.products[name] for name in inputs['product_names']]
             cid = conv.create(self.user, ConversationInput(kb_id=kb, title='M4隔离评测', product_ids=product_ids))['conversation_id']
-            self.checkpoints.update_one({'_id': key}, {'$setOnInsert': {'conversation_id': cid, 'input_sha256': fingerprint(inputs)}}, upsert=True)
+            self.checkpoints.update_one({'_id': key}, {'$setOnInsert': {'conversation_id': cid, 'input_sha256': fingerprint(inputs)}|combination_identity}, upsert=True)
             saved = self.checkpoints.find_one({'_id': key})
+        if any(saved.get(k)!=v for k,v in combination_identity.items()):
+            raise ValueError('题级检查点内部组合身份变化，不自动回填')
         if saved['input_sha256'] != fingerprint(inputs):
             raise ValueError('题目输入与已持久运行不一致')
         cid = saved['conversation_id']
@@ -231,6 +248,9 @@ class RealQueryExecutor:
         if self.continuation and self.config.get('metric_schema_version') == 1 and saved.get('run_id'):
             from .continuations import prepare_continuation
             previous = self.resources['runs'].get(self.user, saved['run_id'])
+            # 新组合不能借后续Run洗掉父Run的配置漂移；不改变既有来源/租约协议。
+            from app.retrieval.combination import validate_run_combination
+            validate_run_combination(previous,combination)
             followup = prepare_continuation(self.resources['db'], self.continuation,
                 checkpoint_key=key, input_sha256=saved['input_sha256'], previous=previous,
                 request_key=request_key, question_id=question['id'], config=self.config,
@@ -241,12 +261,14 @@ class RealQueryExecutor:
             previous = self.resources['runs'].get(self.user, saved['run_id'])
             if previous['state'] == 'failed' and previous.get('error', {}).get('retryable') is True:
                 request_key = fingerprint([key, 'explicit_retry', self.retry_key])
-        request_type=InternalRunInput if 'source_prerequisites' in self.config.get('parameters',{}) else RunInput
-        extra=({'source_prerequisites':self.config['parameters']['source_prerequisites']} if request_type is InternalRunInput else {})
+        extra={k:v for k,v in self.config.get('parameters',{}).items() if k in {'source_prerequisites','retrieval_combination'}}
+        request_type=InternalRunInput if extra else RunInput
         run = self.resources['run_service'].create(self.user, cid, request_type(kb_id=kb, question=inputs['question'], client_request_id=request_key,**extra))
         rid = run['run_id']
         # RunService返回公开快照；输入冻结使用正式持久记录，不能把被裁剪的快照当完整身份。
         persistent_run = self.resources['runs'].get(self.user,rid)
+        from app.retrieval.combination import validate_run_combination
+        validate_run_combination(persistent_run,combination)
         if persistent_run['question'] != inputs['question']:
             raise ValueError('正式Run题目与冻结输入不同')
         if self.execution and run['state'] in {'pending', 'running', 'completed', 'awaiting_input'}:
@@ -266,7 +288,7 @@ class RealQueryExecutor:
         row = self.resources['runs'].get(self.user, rid)
         accounting = self.call_accounting(row, counts_before)
         result = self.project_result(row) | accounting
-        if self.config.get('regression_source') or self.config.get('quality_policy'):
+        if self.config.get('regression_source') or self.config.get('quality_policy') or combination.get('enabled'):
             from .execution_identity import freeze_outcome
             freeze_outcome(self.resources['db'],self.config,key,row,result)
         return result

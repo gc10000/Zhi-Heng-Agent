@@ -48,16 +48,26 @@ class RetrievalPolicy(BaseModel):
             raise ValueError('RETRIEVAL_POLICY_JSON必须为有效且有界的检索策略JSON，详见配置文档') from None
 
 
-def retrieve(index, repo, plan, *, embedder, revision_snapshot, policy):
+def retrieve(index, repo, plan, *, embedder, revision_snapshot, policy, combination=None):
     policy = RetrievalPolicy.model_validate(policy)
+    from .combination import CombinationPolicy
+    combination=CombinationPolicy.model_validate({} if combination is None else combination)
     hits = []
     for scope in plan.scope_groups:
-        for query_number, query in enumerate(plan.search_queries):
+        branch_plan=plan
+        if combination.enabled:
+            from .source_terms import project_network_terms
+            scoped=plan.model_copy(update={"product_ids":tuple(scope)})
+            terms=[t for t in combination.terms if set(t["product_ids"])<=set(scope)]
+            branch_plan=project_network_terms(scoped,terms,enabled=True)
+        for query_number, query in enumerate(branch_plan.search_queries):
             args = dict(embedder=embedder, revision_snapshot=revision_snapshot,
                 product_ids=list(scope), limit=policy.fusion_limit)
             # 默认调用保持旧索引端口，便于回切与兼容接入。
             if policy != RetrievalPolicy():
                 args['policy'] = policy.model_dump()
+            if combination.enabled:
+                args["branch_retention"]=True
             found = index.search(repo, query, **args)
             for rank, raw in enumerate(found, 1):
                 hit = copy.deepcopy(raw)

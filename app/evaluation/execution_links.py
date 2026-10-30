@@ -61,7 +61,12 @@ def bind_execution(db, control_db, context, config, question_id, checkpoint_key,
         config_sha256=fingerprint(config), registered_config_sha256=parent['config_sha256'],
         owner_id=target['owner_id'], kb_id=target['kb_id'], run_id=run['run_id'],
         conversation_id=run['conversation_id'])
-    if config.get('regression_source') or config.get('quality_policy'):
+    combination=config.get('parameters',{}).get('retrieval_combination',{})
+    if combination.get('enabled'):
+        from app.retrieval.combination import payload,validate_run_combination
+        validate_run_combination(run,combination)
+        identity.update(retrieval_combination=payload(combination),retrieval_combination_sha256=fingerprint(payload(combination)))
+    if config.get('regression_source') or config.get('quality_policy') or combination.get('enabled'):
         identity['regression_source'] = config.get('regression_source')
         if config.get('quality_policy'): identity['quality_policy']=config['quality_policy']
         from .execution_identity import run_input

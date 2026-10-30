@@ -1,6 +1,7 @@
 """运行请求标识与持久状态；幂等键不复用消息或会话ID。"""
 from pydantic import BaseModel, ConfigDict, Field
 from app.retrieval.prerequisites import SourcePrerequisitePolicy
+from app.retrieval.combination import CombinationPolicy
 
 TERMINAL = frozenset({'completed', 'failed', 'cancelled', 'interrupted'})
 ACTIVE = frozenset({'pending', 'running', 'awaiting_input', 'cancel_requested'})
@@ -17,6 +18,7 @@ class RunInput(BaseModel):
 class InternalRunInput(RunInput):
     """只供受信执行器构造，不作为HTTP请求模型；配置参与幂等身份。"""
     source_prerequisites: SourcePrerequisitePolicy | None = None
+    retrieval_combination: CombinationPolicy | None = None
 
 
 def snapshot(row):

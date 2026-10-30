@@ -93,7 +93,8 @@ def execute_job(repo, catalog, output_root, experiment_id, *, executor_factory=N
             report = run_experiment(resolved['dataset_path'], resolved['manifest_path'],
                 resolved['config'], output, execute,
                 should_cancel=lambda: lost.is_set() or repo.cancel_requested(experiment_id, attempt, token),
-                verify_checkpoint=executor.verify_completed_checkpoint if row.get('regression_source') or row.get('quality_policy') else None)
+                verify_checkpoint=executor.verify_completed_checkpoint if row.get('regression_source') or row.get('quality_policy') or
+                    resolved['config'].get('parameters',{}).get('retrieval_combination',{}).get('enabled') else None)
         questions = [q for q in validate_dataset(resolved['dataset_path'], manifest=resolved['manifest_path'])
                      if q['split'] == 'dev']
         results = [json.loads(line) for line in (output/'results.jsonl').read_text(encoding='utf-8').splitlines()]

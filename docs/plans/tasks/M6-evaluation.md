@@ -1,3 +1,13 @@
+## 2026-10-30 · M6内部组合正式接线自验完成，待总控定向核验
+
+接续b2acaf5，开始HEAD/origin/main/GitHub一致、仅tmp/。新增默认关闭source_branch_compare_v1，固定source_network_terms_v1→branch_heads_v1→compare_branch_context_v1；沿EvaluationStrategy→RealQueryExecutor→QueryRunner进入授权装载、InternalRunInput、Run请求、实验/题级检查点及执行/恢复关联。启用只接受已审weighted .5/.5及20/20/20/20/10和来源前提，冻结target、owner/kb、文档修订/产品scope、snapshot、术语与p30证明/载荷；默认缺失为关闭，旧请求指纹不变，不从环境/公开请求启用。
+
+实际180项相关离线/契约、77项随机隔离Mongo集成通过，OpenAPI全等；各组不累计。创建前/后、关联后、running中断、显式continuation、成功结果发布前恢复、同/分库和漂移拒绝均验证，故障只在合成库。缓存正式消费者复用25题后端响应、486分数：35/35到达context/prompt，原24完整variant不变，048双方/p30/预算及旧23次未知保持。3092项保存证据/源码身份/保护哈希断言通过；本包未重扫真实582/867切片或默认指针，现场依封存审计，不冒称实时检查。
+
+本包新增实际编码/重排/供应商/答案/导入/真实数据库访问/正式质量写入均0；合成模型仅测试协议，缓存回放非新答案Run或质量证明，HTTP/token/费用未知保持null。红测、中间失败和修后结果分开保存。旧P2、001、SQ/AF/continuation等关闭结论保持；本包仅执行自验，待总控独立核验。唯一下一动作：定向核验本包正式组合配置/授权/身份/恢复及25题证据；通过才冻结最终题集/精确配置、正式无生成预检和助手质量链。M6仍4/7，04/05/08未验收，M7未启动。
+
+见[接线报告](../../development/reviews/M6-combination-wiring-r1.md)及[脱敏摘要](../../development/reviews/M6-combination-wiring-validation-r1.json)。以下历史全文保留。
+
 ## 2026-10-30 · 总控关闭25题必要正文上下文缺口；下一包仅精确内部接线
 
 独立复审75b2957：compare_branch_context_v1限定选择能力及本组25题检索技术退出通过，35/35必要单元到达最终context和prompt，原24种子/context/prompt/groups/excluded/budget完整不变，048双方保留。原P2、p30消费、001及其他关闭项保持。048原14/18换入、9/10换出，原低分/排名及weighted .5/.5、20/20/20/20/10不变；目标仍18/20，未证明答案质量提升。必要出处身份匹配，p30保留，旧23次补充未知不变、新增0。

@@ -38,7 +38,9 @@ class V2Index:
             raise ValueError('已有v2字段类型或主键不兼容')
         self.client.load_collection(self.collection)
 
-    def revision_rows(self,repo,revision_id,*,vectors=False):
+    def revision_rows(self,repo,revision_id,*,vectors=False,max_rows=None):
+        if max_rows is not None and (type(max_rows) is not int or not 1<=max_rows<=1000):
+            raise ValueError("隔离正文装载上限非法")
         revision=repo.get_revision(revision_id)
         fields=['chunk_uid','owner_id','kb_id','document_id','revision_id','ordinal','text','metadata','content_sha256']
         if vectors:fields+=['dense_vector','sparse_vector']
@@ -50,6 +52,8 @@ class V2Index:
                 batch=iterator.next()
                 if not batch:break
                 rows.extend(batch)
+                if max_rows is not None and len(rows)>max_rows:
+                    raise ValueError("隔离正文装载超过冻结上限")
         finally:iterator.close()
         rows.sort(key=lambda row:(row['ordinal'],row['chunk_uid']))
         return rows
@@ -159,7 +163,7 @@ class V2Index:
             for row in found:rows[(row['document_id'],row['revision_id'],row['chunk_uid'])]=row
         return list(rows.values())
 
-    def search(self,repo,text,*,embedder,revision_snapshot=None,product_ids=(),limit=5,trace=True,policy=None):
+    def search(self,repo,text,*,embedder,revision_snapshot=None,product_ids=(),limit=5,trace=True,policy=None,branch_retention=False):
         from pymilvus import AnnSearchRequest,WeightedRanker,RRFRanker
         from app.retrieval.search import RetrievalPolicy
         if policy is None:
@@ -167,6 +171,8 @@ class V2Index:
                 rerank_limit=limit,context_limit=limit)
         else:
             policy=RetrievalPolicy.model_validate(policy)
+        if branch_retention and (not trace or policy.fusion!="weighted"):
+            raise ValueError("组合分路保留要求真实weighted分路追踪")
         snapshot=repo.get_active_revisions() if revision_snapshot is None else revision_snapshot
         ids=[r['active_revision_id'] for r in snapshot]
         if not ids:return []
@@ -198,4 +204,7 @@ class V2Index:
             branches.append(self.client.search(collection_name=self.collection,data=[data],anns_field=field,
                 search_params={'metric_type':'IP'},filter=expr,limit=size,output_fields=fields,consistency_level='Strong')[0])
         from app.retrieval.adapters import traced_hybrid
+        if branch_retention:
+            from app.retrieval.fusion_retention import retain_branch_heads
+            return retain_branch_heads(hits,*branches,limit=policy.fusion_limit,revision_ids=ids,product_ids=product_ids)
         return traced_hybrid(hits,*branches,fusion=policy.fusion)

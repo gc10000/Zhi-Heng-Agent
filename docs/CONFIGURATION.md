@@ -305,3 +305,16 @@ MODEL_HOST桥接新增可选input_type=query/document，省略仍document兼容�
 `parameters.retrieval.query_projection`／`RETRIEVAL_POLICY_JSON.query_projection`只接受`original`（默认）或`scoped_subject_v1`。后者只对已确认answer/compare产品范围的检索文本，用“该设备”替换目录精确型号/别名，产品授权过滤、原题、生成及重排问题不变；配件名称、登记完整版本变体、代码/尖括号/多行输入及无法精确映射的Unicode坐标保留原查询。没有新查询分支，不改weighted .5/.5和20/20/20/20/10预算、不放宽阈值。默认环境和工作台不变，本轮不修改实际.env。
 
 正式QueryRunner与无答案RetrievalExecutor均消费该版本配置；完整参数/源码/查询计划进入现有缓存与实验身份。来源前提允许该显式组合，其他weighted/预算约束保持；关闭用新配置回到original，不修改旧Run、缓存或索引。实际对照24/25必要摘录到达不等于答案正确率，048仍缺，不据此发布默认或生成正式候选。
+
+
+## M6默认关闭的内部组合 source_branch_compare_v1
+
+仅受信评测配置 `parameters.retrieval_combination` 与 `InternalRunInput` 接受此项，公开 `RunInput` 拒绝；没有环境变量，实际.env不改。缺少字段或规范缺省 `enabled=false` 维持旧请求指纹和原检索/上下文路径。非缺省关闭配置仍保留自己的身份，不能把已启用Run交给关闭消费者恢复。
+
+启用必须显式绑定 `scope`（owner_id、kb_id、m1_test_数据库/集合、document→revision映射、唯一product_ids）、`corpus_snapshot_sha256`、`corpus_rows_sha256`、冻结 `terms` 和 `reviewed_sources`。版本固定 `function_version=source_branch_compare_v1`、`source_terms_version=source_network_terms_v1`、`fusion_version=branch_heads_v1`、`context_version=compare_branch_context_v1`，未知版本/字段拒绝。`reviewed_sources`绑定目标document/revision/chunk、单行载荷集合hash和封存消费proof文件hash；这表示消费既有独立审阅，不产生human声明。配置只由受信执行方授予，不能把任意hash当新审阅授权。
+
+只允许同时启用相同scope的source_prerequisites、关闭扩展及增强；retrieval必须weighted .5/.5、20/20/20/20/10、exclude_image_descriptions=true、scoped_subject_v1、scope_first_v1。运行前比对实验target及corpus.snapshot，正式adapter沿现有全量语料快照复核原件/向量/资产。QueryRunner先核文档/产品授权、冻结revision snapshot、数据库/集合，再最多读取1000行并校验整批归属、正文/结构/出处hash，重新提取术语并匹配冻结目录；不新增或猜测术语。所有真实分路请求和分数沿正式V2Index，context只消费当次重排输出，组预算/图片授权不另造逻辑。
+
+完整规范载荷/hash进入Run请求身份、evaluation_items、evaluation_execution_links和缓存策略身份；原题/历史/反馈来源保持。恢复同时核Run策略、原关联输入和检查点，不给旧Run/旧checkpoint回填。中断沿RunCommands.recover；显式continuation仍须原父实验来源和正式协议，不自行改state/lease/slot。缺缓存的本包回放直接失败，不调用后备模型。
+
+关闭回切：使用新配置/请求身份移除或关闭retrieval_combination，恢复先前weighted及其原source_prerequisites配置；若全部回旧默认，再移除来源前提。新请求不读取组合术语，不执行分路保护；旧Run、catalog、修订、索引及证据保留。不通过删除数据或重用启用Run回切；源码回切正常反向提交。本次自验不授予默认切换、最终生成配置冻结或实际答案质量通过。

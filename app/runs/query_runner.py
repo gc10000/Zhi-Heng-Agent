@@ -50,7 +50,7 @@ def rerank(question, docs):
 
 
 class QueryRunner:
-    def __init__(self, repo, commands, knowledge, *, identity_store=None, embedder=encode, ranker=rerank, llm_factory=None, retrieval_policy=None, expansion_policy=None, answer_budget=None, enhancement_policy=None, source_prerequisites=None):
+    def __init__(self, repo, commands, knowledge, *, identity_store=None, embedder=encode, ranker=rerank, llm_factory=None, retrieval_policy=None, expansion_policy=None, answer_budget=None, enhancement_policy=None, source_prerequisites=None, retrieval_combination=None):
         self.repo, self.commands, self.events, self.knowledge = repo, commands, commands.events, knowledge
         self.identity_store, self.embedder, self.ranker, self.llm_factory = identity_store, embedder, ranker, llm_factory
         from app.retrieval.search import RetrievalPolicy
@@ -63,6 +63,8 @@ class QueryRunner:
         self.enhancement_policy=EnhancementPolicy.load() if enhancement_policy is None else EnhancementPolicy.model_validate(enhancement_policy)
         from app.retrieval.prerequisites import SourcePrerequisitePolicy
         self.source_prerequisites=SourcePrerequisitePolicy.model_validate({} if source_prerequisites is None else source_prerequisites)
+        from app.retrieval.combination import CombinationPolicy
+        self.retrieval_combination=CombinationPolicy.model_validate({} if retrieval_combination is None else retrieval_combination)
         self.pool = ThreadPoolExecutor(max_workers=4, thread_name_prefix='持久问答')
         self.futures, self.lock, self.stopping = {}, threading.Lock(), threading.Event()
         self.capture_evaluation = False
@@ -130,6 +132,13 @@ class QueryRunner:
             boundary()
             from app.retrieval.prerequisites import validate_run_policy
             source_policy=validate_run_policy(row,self.source_prerequisites)
+            from app.retrieval.combination import validate_run_combination,validate_policies
+            combination=validate_run_combination(row,self.retrieval_combination)
+            from app.retrieval.expansion import ExpansionPolicy
+            from app.retrieval.routing import EnhancementPolicy
+            from app.retrieval.search import RetrievalPolicy
+            validate_policies(combination,RetrievalPolicy.model_validate(self.retrieval_policy),source_policy,
+                ExpansionPolicy.model_validate(self.expansion_policy),EnhancementPolicy.model_validate(self.enhancement_policy))
             # 两种扩展不能隐式拼接预算或丢组；本次只授权weighted隔离路径。
             if source_policy.enabled and (self.expansion_policy.enabled if hasattr(self.expansion_policy,'enabled') else self.expansion_policy.get('enabled',False)):
                 raise ValueError('来源前提与可选邻接扩展不能同时启用')
@@ -205,6 +214,7 @@ class QueryRunner:
             if source_policy.enabled:
                 from app.retrieval.prerequisites import validate_scope
                 validate_scope(source_policy,owner_id=repo.owner_id,kb_id=repo.kb_id,revisions=revisions,product_ids=selected)
+            combination=self.authorize_combination(g,user,repo,plan,revisions,combination)
             from app.lm.runtime import ModelRuntimePolicy
             from app.retrieval.cache import QUERY_EMBEDDINGS,configured_model_identity
             runtime_policy=ModelRuntimePolicy.load()
@@ -212,6 +222,8 @@ class QueryRunner:
                 owner_id=g.owner_id,kb_id=row['kb_id'],products=sorted(plan.product_ids),
                 revisions=sorted((r['document_id'],r['active_revision_id']) for r in revisions),
                 model=configured_model_identity(),strategy=dict(retrieval=policy.model_dump(),plan=plan.model_dump(mode='json')))
+            if combination.enabled:
+                cache_scope["strategy"]["retrieval_combination"]=combination.model_dump(mode="json")
             scoped_embedder=lambda texts:QUERY_EMBEDDINGS.get_or_compute(cache_scope,texts,self.embedder,runtime_policy)
             from app.retrieval.graph import run_retrieval_graph
             from app.retrieval.routing import EnhancementPolicy
@@ -225,7 +237,7 @@ class QueryRunner:
                     timeout=enhancement.timeout_seconds,**output_limit_options(client,enhancement.hyde_output_tokens,self.answer_budget.output_token_field))
                 return result.content
             graph_result=run_retrieval_graph(plan,lambda branch:retrieve(g.index(),repo,branch,
-                embedder=scoped_embedder,revision_snapshot=revisions,policy=policy),
+                embedder=scoped_embedder,revision_snapshot=revisions,policy=policy,combination=combination),
                 policy=enhancement_policy,hyde=hyde,boundary=boundary)
             hits=graph_result.hits
             emit('stage.changed',{'stage':stage},fields={'retrieval_branches':graph_result.branches,
@@ -249,27 +261,20 @@ class QueryRunner:
             from app.retrieval.rerank import rank_hits
             ranked = rank_hits(row['question'], candidates, ranker=self.ranker, policy=policy)
             pack = EvidencePack(plan=plan, candidates=candidates, reranked=ranked)
-            from app.retrieval.expansion import ExpansionPolicy
             expansion_policy = ExpansionPolicy.model_validate(self.expansion_policy)
-            from app.retrieval.selection import select_context
-            context_seeds=select_context(ranked,limit=policy.context_limit,
-                scope_groups=plan.scope_groups if plan.route=='compare' else (),mode=policy.comparison_context)
+            context_seeds,combination_trace=self.context_seeds(ranked,candidates,plan,combination)
+            if combination.enabled:
+                emit('stage.changed',{'stage':stage},fields={'retrieval_combination_execution':combination_trace})
             expansion = self.select_evidence(g,user,repo,context_seeds,revisions,selected,source_policy)
             for hit in expansion.expanded:
                 g.revision(user,hit.document_id,hit.revision_id)
                 if hit.identity not in {h.identity for h in candidates}:candidates.append(hit)
             docs = [h.document() for h in expansion.selected]
             stage = 'answer'
-            from app.query_process.agent.nodes.node_answer_output import step_2_construct_prompt, step_3_generate_response
-            from app.knowledge.citation_api import controlled_markdown
-            state = {'session_id': rid, 'is_stream': True, 'original_query': row['question'],
-                     'item_names': [p['model'] for p in products if p['product_id'] in selected],
-                     'reranked_docs': [d | {'text': controlled_markdown(d['text'], set(d['asset_ids']))} for d in docs],
-                     'history': self._history(user, current), 'answer_budget': self.answer_budget,
-                     'evidence_groups': expansion.groups}
-            if plan.route=='compare':
-                state['evidence_scope_note']='比较只能依据本轮参考内容，未提供某型号证据时必须明确资料不足，不得推断其参数。'
-            prompt = step_2_construct_prompt(state)
+            from app.query_process.agent.nodes.node_answer_output import step_3_generate_response
+            state,prompt=self.evidence_prompt(row['question'],docs,expansion.groups,plan,
+                item_names=[p['model'] for p in products if p['product_id'] in selected],
+                history=self._history(user,current),session_id=rid)
             used = {d['chunk_id'] for d in state['prompt_used_docs']}
             used_keys = {stable_key(d) for d in state['prompt_used_docs']}
             pack = EvidencePack(plan=plan, candidates=candidates, reranked=ranked,
@@ -378,6 +383,54 @@ class QueryRunner:
         finally:
             done.set()
             thread.join(timeout=2)
+
+    def authorize_combination(self,g,user,repo,plan,revisions,combination=None):
+        """在编码/索引读取前校验授权，随后重新核对术语及已审出处载荷。"""
+        from app.retrieval.combination import CombinationPolicy,authorize_combination
+        policy=CombinationPolicy.model_validate(self.retrieval_combination if combination is None else combination)
+        if not policy.enabled:return policy
+        # 先验证范围，随后才创建索引并读取正文；不使用目标库充当控制账本。
+        from app.retrieval.prerequisites import validate_scope
+        validate_scope(policy,owner_id=repo.owner_id,kb_id=repo.kb_id,revisions=revisions,product_ids=plan.product_ids)
+        if g.db.name!=policy.scope.database:raise ValueError('组合数据库越界')
+        for did,rid in policy.scope.revisions.items():g.revision(user,did,rid)
+        for pid in policy.scope.product_ids:g.product(user,pid,repo.kb_id)
+        index=g.index()
+        def rows():
+            result=[]
+            for did,rid in sorted(policy.scope.revisions.items()):
+                result.extend(index.revision_rows(repo,rid,max_rows=1000-len(result)))
+                if len(result)>1000:raise ValueError('组合语料超过读取预算')
+            return result
+        return authorize_combination(policy,loader=rows,owner_id=repo.owner_id,kb_id=repo.kb_id,
+            database=g.db.name,collection=index.collection,revisions=revisions,product_ids=plan.product_ids)
+
+    def context_seeds(self,ranked,candidates,plan,combination=None):
+        """正式Run与禁推理回放共用，不另建比较选择分支。"""
+        from app.retrieval.combination import CombinationPolicy,payload
+        from app.knowledge.repository import fingerprint
+        from app.retrieval.search import RetrievalPolicy
+        policy=RetrievalPolicy.model_validate(self.retrieval_policy)
+        combo=CombinationPolicy.model_validate(self.retrieval_combination if combination is None else combination)
+        if combo.enabled:
+            from app.retrieval.compare_context import select_compare_branch_context
+            choice=select_compare_branch_context(ranked,candidates=candidates,plan=plan,limit=policy.context_limit)
+            return choice.selected,dict(policy_sha256=fingerprint(payload(combo)),applied=choice.applied,
+                protected=choice.protected,missing_heads=choice.missing_heads)
+        from app.retrieval.selection import select_context
+        return select_context(ranked,limit=policy.context_limit,
+            scope_groups=plan.scope_groups if plan.route=='compare' else (),mode=policy.comparison_context),{}
+
+    def evidence_prompt(self,question,docs,groups,plan,*,item_names,history,session_id):
+        """共享正式prompt消费者；不生成答案，不改变调用方的主体/历史。"""
+        from app.knowledge.citation_api import controlled_markdown
+        from app.query_process.agent.nodes.node_answer_output import step_2_construct_prompt
+        state=dict(session_id=session_id,is_stream=True,original_query=question,item_names=item_names,
+            reranked_docs=[d|{'text':controlled_markdown(d['text'],set(d['asset_ids']))} for d in docs],
+            history=history,answer_budget=self.answer_budget,evidence_groups=groups)
+        if plan.route=='compare':
+            state['evidence_scope_note']='比较只能依据本轮参考内容，未提供某型号证据时必须明确资料不足，不得推断其参数。'
+        return state,step_2_construct_prompt(state)
 
     def select_evidence(self,g,user,repo,seeds,revisions,product_ids,source_policy=None):
         """正式消费者共用选择边界；回放直接调用此入口，不另建一套选择逻辑。"""
