@@ -1,3 +1,7 @@
+## 2026-10-31 · 当前总控：候选双轮来源与限定质量边界集中复核
+
+接续ff8331e，本轮已实际确认HEAD／origin/main／远程一致、仅tmp/。围绕候选执行与双轮封存，集中核验provenance、047材料／呈现边界、9维适用性分歧及048比较缺口；保留原分、失败和M6-04已验收结论。新私有证据使用output/m6-calibrated-candidate-review-20261031/，不原地重跑旧审计，不新增模型调用、子Agent或正式质量写入。先给出完整限定矩阵与可关闭项，再决定实际需要的处理和退出条件；M6核心5/7，05／08未验收，M7未授权。
+
 ## 2026-10-31 · 两版独立候选完成，340条真实双轮已封存；质量pending
 
 接续673d4b4，两个冻结candidate/v2各85题已正式执行并核账，均84回答Run＋1 awaiting_input，继承0。新增168逻辑stream，input322716／output187567 token，HTTP/费用null；历史168stream另账保留。两个全新fork_turns=none任务顺序完成两版双轮，4seal＋340条assistant正式submit，原始/正式全等；没有human、observation、候选attestation或proof新增。
