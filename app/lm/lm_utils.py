@@ -17,7 +17,7 @@ from app.infrastructure.providers.clients import PolicyChatClient
 _llm_client_cache = {}
 
 
-def get_llm_client(model: Optional[str] = None, json_mode: bool = False) -> ChatOpenAI:
+def get_llm_client(model: Optional[str] = None, json_mode: bool = False, *, preserve_raw_usage: bool = False) -> ChatOpenAI:
     """
     获取带全局缓存的LangChain ChatOpenAI客户端实例
     适配OpenAI/千问/即梦AI等**OpenAI兼容API**，支持自定义模型和JSON标准化输出
@@ -43,6 +43,7 @@ def get_llm_client(model: Optional[str] = None, json_mode: bool = False) -> Chat
         raise ValueError('LLM_PROVIDER 仅支持 auto、dashscope、openai_compatible')
     cache_key = (target_model, json_mode, provider, lm_config.enable_thinking,
                  lm_config.llm_temperature, lm_config.base_url, lm_config.api_key, policy)
+    if preserve_raw_usage:cache_key=cache_key+('raw_usage_v2',)
 
     # 2. 缓存命中：直接返回已初始化的实例，避免重复创建
     if cache_key in _llm_client_cache:
@@ -68,7 +69,11 @@ def get_llm_client(model: Optional[str] = None, json_mode: bool = False) -> Chat
 
     # 5. 客户端初始化：捕获LangChain封装层异常，抛出更友好的提示
     try:
-        llm_client = ChatOpenAI(
+        client_type=ChatOpenAI
+        if preserve_raw_usage:
+            from app.infrastructure.providers.diagnostic_usage import preserving_chat_class
+            client_type=preserving_chat_class()
+        llm_client = client_type(
             model=target_model,  # 目标模型名
             temperature=lm_config.llm_temperature if lm_config.llm_temperature is not None else 0.1,  # 低温度保证输出确定性（0~1）
             api_key=lm_config.api_key,  # API密钥
@@ -76,6 +81,7 @@ def get_llm_client(model: Optional[str] = None, json_mode: bool = False) -> Chat
             extra_body=extra_body,  # 国产模型私有参数透传
             model_kwargs=model_kwargs,  # OpenAI通用参数
             **(policy.sdk_options() if policy else {}),
+            **({'n':1,'stream_usage':True} if preserve_raw_usage else {}),
         )
     except LangChainException as e:
         raise Exception(f"[LLM客户端] 模型【{target_model}】初始化失败（LangChain层）：{str(e)}") from e

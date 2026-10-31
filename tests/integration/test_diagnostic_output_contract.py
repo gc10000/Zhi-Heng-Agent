@@ -14,7 +14,9 @@ pytestmark=pytest.mark.integration
 @pytest.mark.parametrize('out,completed',[(6150,True),(None,True),(4096,False),(4744,True)])
 def test_unknown_over_limit_and_interruption_block_next_question(mongo_db,monkeypatch,out,completed):
     p,_,_=verified_case(monkeypatch);ledger=OutputLedger(mongo_db,p)
-    ledger.begin('run1','input1');ledger.settle('run1','input1',{'input':7,'output':out},completed=completed,reasoning=5556)
+    # 此处隔离cap/中断故障；非法明细由独立矩阵覆盖，不能当作已知usage。
+    reason={6150:5556,4744:3848,4096:3000}.get(out)
+    ledger.begin('run1','input1');ledger.settle('run1','input1',{'input':7,'output':out},completed=completed,reasoning=reason)
     with pytest.raises(APIError):ledger.require_open()
     with pytest.raises(APIError):OutputLedger(mongo_db,p).begin('run2','input2')
     saved=ledger._read();assert saved['state']=='blocked'

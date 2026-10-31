@@ -54,13 +54,14 @@ def open_evaluation_resources(config):
         from .provider_counts import LogicalProviderCounts
         from app.lm.lm_utils import get_llm_client
         policies=strategy_policies(config)
+        diagnostic_client={'preserve_raw_usage':True} if policies.answer_budget.output_contract is not None and policies.answer_budget.output_contract.enabled else {}
         if policies.runtime!=ModelRuntimePolicy.load():raise ValueError('本机模型运行策略与冻结实验不一致')
         provider_counts=LogicalProviderCounts()
         runner = QueryRunner(repo, commands, knowledge.get, retrieval_policy=policies.retrieval,
             expansion_policy=policies.expansion,answer_budget=policies.answer_budget,enhancement_policy=policies.enhancement,
             source_prerequisites=policies.source_prerequisites,retrieval_combination=policies.retrieval_combination,
             evidence_attribution=policies.evidence_attribution,
-            llm_factory=lambda:provider_counts.wrap(get_llm_client()))
+            llm_factory=lambda:provider_counts.wrap(get_llm_client(**diagnostic_client)))
         yield {'db': db, 'conversations': conv, 'runs': repo, 'run_service': RunService(repo),
                'commands': commands, 'query_runner': runner, 'knowledge': knowledge.get, 'provider_counts':provider_counts}
     finally:

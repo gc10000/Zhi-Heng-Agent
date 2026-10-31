@@ -20,6 +20,10 @@ class ProviderTelemetry:
         self._usage = {'input': 0, 'output': 0}
         self._usage_complete = {'input': True, 'output': True}
         self._models, self._lock = set(), __import__('threading').Lock()
+        self._diagnostic_observations = None
+
+    def diagnostic_usage(self,observations):
+        with self._lock:self._diagnostic_observations=deepcopy(observations)
 
     def started(self, kind, client):
         with self._lock:
@@ -45,9 +49,16 @@ class ProviderTelemetry:
 
     def snapshot(self):
         with self._lock:
-            return {'logical_provider_calls': dict(self._calls),
+            result={'logical_provider_calls': dict(self._calls),
                     'token_usage': {k: self._usage[k] if self._usage_complete[k] else None for k in ('input', 'output')},
                     'models': sorted(self._models) if self._models else None}
+            if self._diagnostic_observations is not None:
+                from app.infrastructure.providers.output_contract import usage_receipt
+                receipt=usage_receipt(result['token_usage'],observations=self._diagnostic_observations)
+                result['usage_validation']=receipt['usage_validation']
+                result['reported_token_usage']=dict(input=receipt['reported_input_tokens'],output=receipt['reported_output_tokens'])
+                result['token_usage']=dict(input=receipt['input_tokens'],output=receipt['output_tokens'])
+            return result
 
 
 class ObservedClient:

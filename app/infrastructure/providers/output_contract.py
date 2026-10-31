@@ -9,12 +9,14 @@ from pymongo.errors import DuplicateKeyError
 from app.api.errors import APIError
 from app.knowledge.repository import fingerprint
 from app.answering.reviewed_subjects import GitEvidence, evidence_bytes
+from .diagnostic_usage import ABSENT
 
 
 class OutputContract(BaseModel):
     model_config = ConfigDict(extra='forbid', frozen=True)
     enabled: bool = Field(default=False, strict=True)
-    function_version: Literal['diagnostic_total_output_v1'] = 'diagnostic_total_output_v1'
+    function_version: Literal['diagnostic_total_output_v2'] = 'diagnostic_total_output_v2'
+    n: int = Field(default=1,ge=1,le=1,strict=True)
     status: Literal['unknown', 'verified'] = 'unknown'
     endpoint_sha256: str = Field(pattern=r'^[a-f0-9]{64}$')
     model: str = Field(min_length=1, max_length=200)
@@ -60,7 +62,8 @@ def identity(value):
     if value['thinking'] is not None:body['enable_thinking']=value['thinking']
     if value['reasoning_budget'] is not None:body['thinking_budget']=value['reasoning_budget']
     return {'output_contract': value, 'output_contract_sha256': fingerprint(value),
-            'output_parameters_sha256':fingerprint({'extra_body':body,'sdk_max_retries':0})}
+            'output_parameters_sha256':fingerprint({'extra_body':body,'n':value['n'],'sdk_max_retries':0,
+                'usage_validation':'raw_usage_v2'})}
 
 
 def validate_run(row, value):
@@ -79,7 +82,7 @@ def require_capability(value):
         raise APIError(422, 'output_capability_unknown', '网关总输出限制能力未知，诊断调用暂停。')
     proof = json.loads(evidence_bytes(policy.evidence))
     expected = {k: getattr(policy, k) for k in ('endpoint_sha256', 'model', 'client_versions',
-        'limit_field', 'semantics', 'thinking', 'reasoning_budget')}
+        'limit_field', 'semantics', 'thinking', 'reasoning_budget','n')}
     if (proof.get('kind') != 'gateway_output_capability_evidence_v1' or
             proof.get('identity') != expected or proof.get('status') != 'verified' or
             proof.get('server_hard_limit') is not True or proof.get('evidence_type') not in
@@ -113,12 +116,14 @@ def strict_options(client, limit, field, contract):
     # 同一逻辑调用不能让SDK静默重试造成未结算付费窗口。
     if getattr(underlying, 'max_retries', None) != 0:
         raise ValueError('诊断能力合同要求SDK不自动重试')
+    declared_n=getattr(underlying,'n',None)
+    if declared_n is not None and (type(declared_n) is not int or declared_n!=policy.n):
+        raise ValueError('诊断仅允许已绑定的单份生成n=1')
     body = dict(getattr(underlying, 'extra_body', None) or {})
     if set(body)-{'max_tokens','max_completion_tokens','enable_thinking','thinking_budget'}:
         raise ValueError('诊断存在未绑定的额外wire参数，拒绝静默消费')
     model_kwargs = dict(getattr(underlying, 'model_kwargs', None) or {})
-    if ('extra_body' in model_kwargs or any(k in model_kwargs for k in
-            ('max_tokens','max_completion_tokens','enable_thinking','thinking_budget','thinking','reasoning','reasoning_effort')) or
+    if (model_kwargs or getattr(underlying,'default_query',None) or
             getattr(underlying, 'max_tokens', None) is not None or
             getattr(underlying, 'max_completion_tokens', None) is not None or
             any(getattr(underlying,k,None) is not None for k in ('reasoning','reasoning_effort')) or
@@ -132,17 +137,33 @@ def strict_options(client, limit, field, contract):
             ('thinking_budget' in body and type(body['thinking_budget']) is not int)):
         raise ValueError('thinking设置与适用能力证据不一致')
     body[field] = limit
-    return {'extra_body': body}
+    # 安装SDK会合并typed/model_kwargs并改写旧限额名；检查最终构造，绝不覆盖坏值。
+    if callable(getattr(underlying,'_get_request_payload',None)):
+        effective=underlying._get_request_payload('',n=policy.n,extra_body=body)
+        if (type(effective.get('n')) is not int or effective['n']!=policy.n or
+                effective.get('model')!=policy.model or
+                any(k in effective for k in ('max_tokens','max_completion_tokens','reasoning','reasoning_effort')) or
+                effective.get('extra_body')!=body or
+                underlying._use_responses_api(effective)):
+            raise ValueError('实际SDK请求与单份ChatCompletions合同不一致')
+    return {'n':policy.n,'extra_body': body}
 
 
-def usage_receipt(usage, *, reasoning=None):
-    usage = usage or {}
-    def count(value):return value if type(value) is int and value >= 0 else None
-    input_tokens, output_tokens = count(usage.get('input')), count(usage.get('output'))
-    reasoning = count(reasoning)
+def usage_receipt(usage, *, reasoning=ABSENT, observations=None):
+    from .diagnostic_usage import observe_usage,summarize
+    raw=dict(usage) if isinstance(usage,dict) else usage
+    validation=summarize(observations if observations else [observe_usage(raw,source='direct',reasoning=reasoning)])
+    counts=validation['reported']
+    if observations and isinstance(usage,dict):
+        for key in ('input','output'):
+            if counts[key] is not None and type(usage.get(key)) is int and counts[key]!=usage[key]:
+                validation['errors'].append('telemetry_'+key+'_conflict');validation['valid']=False
+    input_tokens,output_tokens=(counts['input'],counts['output']) if validation['valid'] else (None,None)
+    reasoning=counts['reasoning'] if validation['valid'] else None
     return dict(input_tokens=input_tokens, output_tokens=output_tokens, reasoning_tokens=reasoning,
         output_minus_reasoning=output_tokens-reasoning if output_tokens is not None and reasoning is not None and reasoning <= output_tokens else None,
-        visible_tokens=None, http_requests=None, cost=None)
+        reported_input_tokens=counts['input'],reported_output_tokens=counts['output'],
+        usage_validation=validation,visible_tokens=None, http_requests=None, cost=None)
 
 
 class OutputLedger:
@@ -184,8 +205,8 @@ class OutputLedger:
             input_reservation=input_reservation,started_at=datetime.now(timezone.utc).isoformat()),
             new_input_tokens=None,new_output_tokens=None,logical_reservations=saved['logical_reservations']+1))
 
-    def settle(self, run_id, run_identity, usage, *, completed, reasoning=None, logical_calls=None):
-        receipt = usage_receipt(usage, reasoning=reasoning) | dict(run_id=run_id, run_identity=run_identity, completed=bool(completed))
+    def settle(self, run_id, run_identity, usage, *, completed, reasoning=ABSENT, logical_calls=None,observations=None):
+        receipt = usage_receipt(usage, reasoning=reasoning,observations=observations) | dict(run_id=run_id, run_identity=run_identity, completed=bool(completed))
         keys=('invoke_started','stream_started')
         receipt['logical_provider_calls']={k:logical_calls[k] for k in keys} if isinstance(logical_calls,dict) and all(
             type(logical_calls.get(k)) is int and logical_calls[k]>=0 for k in keys) else None
@@ -198,11 +219,13 @@ class OutputLedger:
         known = receipt['input_tokens'] is not None and receipt['output_tokens'] is not None
         output = saved['known_new_output_tokens'] + (receipt['output_tokens'] or 0)
         input_tokens = saved['known_new_input_tokens'] + (receipt['input_tokens'] or 0)
-        good = (known and completed and receipt['output_tokens'] <= self.policy.per_request_total_output_tokens and
+        good = (known and receipt['usage_validation']['valid'] and completed and receipt['output_tokens'] <= self.policy.per_request_total_output_tokens and
             saved['prior_output_tokens'] + output <= self.policy.max_total_output_tokens and
             saved['prior_input_tokens'] + input_tokens <= self.policy.max_total_input_tokens)
         windows = list(saved['unknown_windows'])
-        if not known or not completed:windows.append(dict(run_id=run_id,reason='missing_usage_or_incomplete'))
+        if not receipt['usage_validation']['valid']:
+            windows.append(dict(run_id=run_id,reason='invalid_usage',errors=receipt['usage_validation']['errors']))
+        elif not known or not completed:windows.append(dict(run_id=run_id,reason='missing_usage_or_incomplete'))
         self._cas(saved, dict(state='open' if good else 'blocked',pending=None,settled=saved['settled'] | {key:receipt},
             known_new_input_tokens=input_tokens,known_new_output_tokens=output,
             new_input_tokens=input_tokens if known and completed else None,new_output_tokens=output if known and completed else None,

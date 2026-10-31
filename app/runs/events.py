@@ -50,6 +50,9 @@ class EventLedger:
                 updates['telemetry']['logical_provider_calls'] = fields['telemetry_measurements'].get('logical_provider_calls')
                 updates['telemetry']['token_usage'] = fields['telemetry_measurements'].get('token_usage')
                 updates['telemetry']['models'] = fields['telemetry_measurements'].get('models')
+                for name in ('usage_validation','reported_token_usage'):
+                    if name in fields['telemetry_measurements']:
+                        updates['telemetry'][name]=copy.deepcopy(fields['telemetry_measurements'][name])
             updates['replay_expires_at'] = deadline
             updates['first_event_seq'] = row.get('first_event_seq', event['seq'])
             if state:

@@ -89,34 +89,47 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
   """生成失败统一抛出携带部分文本的异常，由外层处理任务终态。"""
   session_id = state.get('session_id')
   final_text = ''
+  from contextlib import nullcontext
+  from app.infrastructure.providers.diagnostic_usage import capture_usage,record_response,summarize
+  observations=[] if (state.get('output_contract') or {}).get('enabled') else None
+  if observations is not None:state['answer_usage_observations']=observations
   try:
     llm = client if client is not None else get_llm_client()
     from app.infrastructure.providers.clients import output_limit_options
     options = output_limit_options(llm,state['answer_max_tokens'],state.get('answer_token_field','max_tokens'),
         contract=state.get('output_contract')) if state.get('answer_max_tokens') else {}
+    seen_observations=0
     def reasoning(response):
+      nonlocal seen_observations
+      if observations is not None:
+        record_response(response,observations,seen_observations)
+        seen_observations=len(observations)
+        return
       usage=getattr(response,'usage_metadata',None) or (getattr(response,'response_metadata',None) or {}).get('token_usage') or {}
       details=usage.get('output_token_details') or usage.get('completion_tokens_details') or {}
       value=details.get('reasoning',details.get('reasoning_tokens'))
       if type(value) is int and value>=0:state['answer_reasoning_tokens']=value
-    if state.get('is_stream'):
-      for chunk in llm.stream(prompt,**options):
-        reasoning(chunk)
-        if (getattr(chunk,'response_metadata',None) or {}).get('finish_reason') in ('length','max_tokens'):
+    with capture_usage(observations) if observations is not None else nullcontext():
+      if state.get('is_stream'):
+        for chunk in llm.stream(prompt,**options):
+          reasoning(chunk)
+          if (getattr(chunk,'response_metadata',None) or {}).get('finish_reason') in ('length','max_tokens'):
+            state['output_truncated'] = True
+          delta = getattr(chunk, 'content', '') or ''
+          if delta:
+            final_text += delta
+            push_to_session(session_id, SSEEvent.DELTA, {'delta': delta})
+      else:
+        response = llm.invoke(prompt,**options)
+        reasoning(response)
+        final_text = response.content
+        if (getattr(response,'response_metadata',None) or {}).get('finish_reason') in ('length','max_tokens'):
           state['output_truncated'] = True
-        delta = getattr(chunk, 'content', '') or ''
-        if delta:
-          final_text += delta
-          push_to_session(session_id, SSEEvent.DELTA, {'delta': delta})
-    else:
-      response = llm.invoke(prompt,**options)
-      reasoning(response)
-      final_text = response.content
-      if (getattr(response,'response_metadata',None) or {}).get('finish_reason') in ('length','max_tokens'):
-        state['output_truncated'] = True
   except Exception as exc:
     logger.error('回答生成失败，session={}，异常类型={}，部分字符数={}', session_id, type(exc).__name__, len(final_text))
     raise AnswerGenerationError(partial_answer=final_text) from exc
+  finally:
+    if observations is not None:state['answer_usage_validation']=summarize(observations)
   state['answer'] = final_text
   return state
 

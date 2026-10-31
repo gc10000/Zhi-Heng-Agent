@@ -14,14 +14,14 @@ def verified_case(monkeypatch, *, field='max_tokens', thinking=None, reasoning_b
         extra_body={},model_kwargs={})
     if thinking is not None:client.extra_body['enable_thinking']=thinking
     if reasoning_budget is not None:client.extra_body['thinking_budget']=reasoning_budget
-    p=dict(enabled=True,status='verified',endpoint_sha256=fingerprint(str(client.openai_api_base)),model='synthetic',
+    p=dict(enabled=True,status='verified',n=1,endpoint_sha256=fingerprint(str(client.openai_api_base)),model='synthetic',
         client_versions={'openai':version('openai'),'langchain-openai':version('langchain-openai')},
         semantics='total_including_reasoning',limit_field=field,thinking=thinking,reasoning_budget=reasoning_budget,
         evidence=dict(commit='a'*40,path='docs/synthetic-output-evidence.json',sha256='b'*64),
         ledger_id='synthetic-budget',max_total_output_tokens=9000)
     proof=dict(kind='gateway_output_capability_evidence_v1',status='verified',server_hard_limit=True,
         evidence_type='authorized_gateway_probe',max_verified_total_tokens=4096,
-        identity={k:p[k] for k in ('endpoint_sha256','model','client_versions','limit_field','semantics','thinking','reasoning_budget')})
+        identity={k:p[k] for k in ('endpoint_sha256','model','client_versions','limit_field','semantics','thinking','reasoning_budget','n')})
     monkeypatch.setattr(module,'evidence_bytes',lambda _:json.dumps(proof).encode())
     return p,client,proof
 
@@ -63,7 +63,7 @@ def test_missing_or_invalid_usage_stays_unknown(bad):
 def test_approved_total_limit_preserves_thinking_and_independent_budget(monkeypatch,field):
     p,client,_=verified_case(monkeypatch,field=field,thinking=True,reasoning_budget=100)
     before=dict(client.extra_body)
-    assert output_limit_options(client,4096,field,contract=p)==dict(extra_body=before|{field:4096})
+    assert output_limit_options(client,4096,field,contract=p)==dict(n=1,extra_body=before|{field:4096})
     assert client.extra_body==before
 
 

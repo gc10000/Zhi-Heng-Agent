@@ -328,13 +328,14 @@ MODEL_HOST桥接新增可选input_type=query/document，省略仍document兼容�
 非缺省配置参与Run身份、execution link、题级检查点及恢复核验；已启用Run不能交关闭消费者，prompt映射变化也拒绝复用。关闭回切须新配置／新请求，移除或规范关闭本项回原prompt；旧记录、索引、默认修订不删不改。旧校准是否可比由正式合同核验，不从零推理回放得出质量通过。本包只完成自验，未冻结或执行新正式生成配置。见[补修报告](development/reviews/M6-candidate-evidence-quality-fix-r1.md)。
 ## M6受审对象与诊断输出能力（2026-10-31）
 
-本节为执行方实现说明，尚待总控技术核验；不放行真实调用，不改变M6验收状态。两项都是受信内部配置，没有新增环境变量或公开API字段。缺省及回切均移除新字段／设为`null`，保留原配置、Run和语料。
+受审对象关系消费已独立关闭；输出合同v2为本轮执行方自验，待总控定向复核。两项都是受信内部配置，没有新增环境变量或公开API字段。缺省及回切均移除新字段／设为`null`，保留原配置、Run和语料；不因此放行产品调用或改变M6验收状态。
 
 - `parameters.evidence_attribution.reviewed_subjects`：缺省`null`。显式启用`reviewed_table_subjects_v1`须使用`compile_binding()`准备的完整载荷；固定原件／缓存／冻结清单SHA、document／revision、表block／行坐标、真实chunk UID／完整载荷、corpus snapshot以及审阅／证明的Git commit、路径和Git blob SHA。Git blob SHA、工作树文件SHA（可能CRLF不同）和canonical proof payload SHA是三层身份，不互换。配置核验和运行授权逐一核验冻结成员，不能只填配件名或用最近标题／相同正文猜绑定。
 - 表格具名主体附在`prompt_reference_map[].reviewed_subject`，同一标签在prompt中计入既有预算。文档产品与配件分开；`title_physical_page`／`table_physical_page`是受审表级证据，`page_scope=table_only_not_row_location`。旧行`page_status=unknown`仍未知，不更新切片、source_refs、向量或默认修订。
-- `parameters.answer_budget.output_contract`：缺省`null`。诊断版本`diagnostic_total_output_v1`显式固定endpoint SHA、model、客户端包版本、limit字段、含reasoning总量语义、thinking／独立预算、适用Git证据、每请求总输出上限与累计输入／输出预算、历史usage来源及新ledger_id。原4096不得静默放大；`status=unknown`或证据不适用时在正式Run任何模型调用前拒绝。没有适用证据不得填`verified`；SDK Mock不能充作能力证明。
-- 生效wire仅允许已绑定limit／thinking参数，拒绝两字段、客户端默认值、model_kwargs、未声明extra_body冲突或SDK自动重试。有效参数SHA随合同SHA一同进入Run、题级检查点、执行关联和恢复核验。能力证据需精确匹配`gateway_output_capability_evidence_v1`的适用身份、来源类型及可证明的总输出范围；不自动换字段／模型／额度，不开放额外生成分支。
+- `parameters.answer_budget.output_contract`：缺省`null`。诊断版本`diagnostic_total_output_v2`显式固定endpoint SHA、model、客户端包版本、limit字段、含reasoning总量语义、thinking／独立预算、单份生成`n=1`、适用Git证据、每请求总输出上限与累计输入／输出预算、历史usage来源及新ledger_id。原4096不得静默放大；`status=unknown`或证据不适用时在正式Run任何模型调用前拒绝。没有适用证据不得填`verified`；SDK Mock不能充作能力证明。
+- 生效wire仅允许已绑定limit／thinking参数与`n=1`，拒绝typed非单份、所有诊断model_kwargs、default_query、两limit字段、未声明extra_body冲突或SDK自动重试；安装SDK最终payload也须符合单份ChatCompletions合同。有效参数SHA包含`n`与`usage_validation=raw_usage_v2`，随合同SHA进入Run、题级检查点、执行关联和恢复核验。能力证据需精确匹配`gateway_output_capability_evidence_v1`的适用身份（包括n）、来源类型及可证明的总输出范围；不自动换字段／模型／额度，不开放额外生成分支。旧显式v1不能原地补字段升级，须新身份；账本键保留旧命名空间以拒绝同ledger_id换合同重置额度。
 - `diagnostic_output_accounts`只服务显式诊断合同。调用前CAS预留，调用后先结算再允许下一题；保留历史／新增usage、已知下界、实际逻辑调用和未知窗口。`logical_reservations`不是HTTP次数；在途、缺usage或中断的新增总量为`null`，已知下界另存`known_new_*`；超限、缺usage、未结算或剩余预算不足均阻断。重复结算只复用全等收据，不增加usage；身份变化拒绝。精确HTTP／费用始终未知则为`null`；`output_minus_reasoning`只是差值，不能标成已测可见token。
+- 仅显式诊断创建保留usage的客户端，使用固定安装SDK解码口及非流JSON响应hook，在类型归一化前保存字段存在性、类型和值。非法／矛盾、累计计数倒退或遥测冲突不可被后续正常片擦除；缺失／null与非法分别记录。reasoning如存在须为非布尔非负整数且不超过含reasoning总output，不能重复相加。校验与reported总量沿生成节点→telemetry／Run→结算账本持久保存，非法总量不作为可信usage，后续派发阻断。普通客户端与缺省遥测不改变。
 
 安全示例（合成身份，启用后仍因能力未知而阻断；不代表真实运行配置）：
 
@@ -342,7 +343,8 @@ MODEL_HOST桥接新增可选input_type=query/document，省略仍document兼容�
 {
   "output_contract": {
     "enabled": true,
-    "function_version": "diagnostic_total_output_v1",
+    "function_version": "diagnostic_total_output_v2",
+    "n": 1,
     "status": "unknown",
     "endpoint_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
     "model": "synthetic",
@@ -361,3 +363,5 @@ MODEL_HOST桥接新增可选input_type=query/document，省略仍document兼容�
 ```
 
 实际准备差异、零推理结果及待裁定探测见[执行报告](development/reviews/M6-diagnostic-subject-usage-fix-r1.md)。不得把本节或草拟配置当成48个job恢复授权。
+
+2026-10-31已执行唯一授权非产品探测：固定`qwen3.8-flash`／SDK1.1.11与2.28.0，`extra_body.max_completion_tokens=4096`、n=1、默认thinking、timeout120、重试0。观测input102／含reasoning总output4096／reasoning4096，finish=`length`，仅分类为`observed_limit_4096_at_fixed_profile`。这不是原产品`max_tokens`字段或网关全域硬限证明，不登记verified，不恢复48 job。固定授权槽、原子独占started、原流及未知费用本机封存；不得重复探测。见[本轮执行报告](development/reviews/M6-output-contract-boundaries-probe-r1.md)。

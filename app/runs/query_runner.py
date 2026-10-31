@@ -352,7 +352,8 @@ class QueryRunner:
                         client = ObservedClient(self.llm_factory(), telemetry)
                     else:
                         from app.lm.lm_utils import get_llm_client
-                        client = ObservedClient(get_llm_client(), telemetry)
+                        options={'preserve_raw_usage':True} if output_contract is not None and output_contract.enabled else {}
+                        client = ObservedClient(get_llm_client(**options), telemetry)
                     account=None
                     if output_contract is not None and output_contract.enabled:
                         from app.infrastructure.providers.clients import output_limit_options
@@ -365,12 +366,15 @@ class QueryRunner:
                         step_3_generate_response(state, prompt, client=client)
                     except BaseException:
                         if account is not None:
-                            account.settle(rid,row['identity'],telemetry.snapshot()['token_usage'],completed=False,
-                                reasoning=state.get('answer_reasoning_tokens'),logical_calls=telemetry.snapshot()['logical_provider_calls'])
+                            telemetry.diagnostic_usage(state.get('answer_usage_observations',[]))
+                            settled=account.settle(rid,row['identity'],telemetry.snapshot()['token_usage'],completed=False,
+                                observations=state.get('answer_usage_observations'),logical_calls=telemetry.snapshot()['logical_provider_calls'])
+                            emit('stage.changed',{'stage':stage},fields={'output_settlement':settled})
                         raise
                     if account is not None:
+                        telemetry.diagnostic_usage(state.get('answer_usage_observations',[]))
                         settled=account.settle(rid,row['identity'],telemetry.snapshot()['token_usage'],completed=True,
-                            reasoning=state.get('answer_reasoning_tokens'),logical_calls=telemetry.snapshot()['logical_provider_calls'])
+                            observations=state.get('answer_usage_observations'),logical_calls=telemetry.snapshot()['logical_provider_calls'])
                         emit('stage.changed',{'stage':stage},fields={'output_settlement':settled})
                         account.require_open()
                 else:
