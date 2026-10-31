@@ -1,3 +1,11 @@
+## 2026-10-31 · 证据补修独立技术通过，进入固定有界诊断
+
+本包审核呈现／选源核验／归属与引用身份接线已独立技术通过；新策略答案质量没有新增实测。旧两版v2 gate blocked、原分及基线／校准保持，feedback proof仍缺。
+
+下一包按[有界逐题诊断](../development/handoffs/M6-attributed-evidence-diagnostic-execution-r1.md)最多52新答案stream，不能以子集诊断或回放覆盖替代正式完整85题候选质量和阶段验收。M6核心5/7、04已验收保持；05／08仍缺真实后续质量证据，M7未授权。详见[总控报告](../development/reviews/M6-candidate-evidence-quality-review-r1.md)。
+
+以下历史按原时点保留。
+
 ## 2026-10-31 · 总控来源已正式登记，两个候选development gate均blocked
 
 M6-04基线开发验收与两份预校准保持；候选v2真实双轮来源现已正式attest，但两正式development gate均blocked（8／22下降），047材料／9混合／5适用性变化也未消失。048必要正文已入实际模型，答案仍遗漏同轴／EoC比较；覆盖不是答案正确率。

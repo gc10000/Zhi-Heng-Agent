@@ -1,3 +1,13 @@
+## 2026-10-31 · 证据补修独立技术通过，进入固定有界诊断
+
+本轮独立确认现有047公开投影／历史只读补充、最终选源checked和attributed_assertions_v1配置／引用／恢复合同实现通过；不变更批准政策或旧subject／原分／校准。新prompt效果仍未知，不凭零推理回放建立正式质量结论。
+
+有界诊断沿现有dev question_ids及正式服务能力，以一个主manifest冻结单题子配置／job，逐题检查再继续，最多52个新stream。非验收请求无quality_policy／旧calibration／regression_source／baseline，旧来源仅作provenance对照；正式85题候选仍受原校准同范围门禁。此执行粒度落实已有首失败停条件，不新增调度API或M6阶段门槛。M6核心5/7、04已验收保持；05／08仍缺真实后续质量证据，M7未授权。
+
+[独立裁定](../development/reviews/M6-candidate-evidence-quality-review-r1.md) · [实际执行范围](../development/handoffs/M6-attributed-evidence-diagnostic-execution-r1.md)
+
+以下历史按原时点保留。
+
 ## 2026-10-31 · 候选结果公开呈现、选源核验和归属候选合同
 
 未来正式结果白名单新增state／sanitized candidates（仅product_id／model，adapter限授权候选）及启用时的prompt_reference_map。历史结果／subject不回填；只读补充必须标明不是旧审阅者已见输入。编号来自最终prompt而非页级citations列表位置，未知页保留unknown，不补造定位。没有新增公开API参数或环境变量，OpenAPI保持全等。

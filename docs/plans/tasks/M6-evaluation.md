@@ -1,3 +1,11 @@
+## 2026-10-31 · 证据补修独立技术通过，进入固定有界诊断
+
+证据补修三项技术子项总控独立通过，暂未发现新业务补修阻塞。旧候选blocked、原分和M6-04结论均保持。下一包固定同一策略的两版27题逐题非验收诊断，最多52次新答案stream，先完整身份／来源／缓存预检，首个失败停止；本包通过不等同新prompt质量通过。
+
+按[完整执行指令](../../development/handoffs/M6-attributed-evidence-diagnostic-execution-r1.md)推进，详见[独立复核](../../development/reviews/M6-candidate-evidence-quality-review-r1.md)。M6核心5/7、04已验收保持；05／08仍缺真实后续质量证据，M7未授权。
+
+以下历史按原时点保留。
+
 ## 2026-10-31 · 候选证据集中补修自验完成，旧v2 blocked保持
 
 接续e018489：未来结果保留授权状态／候选，审核UI区别澄清与失败；有效source_checked按逐维实际选源计算。新增默认关闭attributed_assertions_v1，冻结归属与正式prompt编号，完整接入配置／授权／Run／检查点／恢复。没有改检索规则、分数或预算；新prompt实际答案效果未验证，交总控独立定向复核，不自行关闭审查。
