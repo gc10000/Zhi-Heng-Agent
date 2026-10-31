@@ -1,0 +1,282 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-31",
+  "role": "independent_coordinator_technical_review",
+  "reviewed_execution_commit": "aa63cf943a230976f301ec6a6e5444678762ce2d",
+  "previous_coordinator_commit": "c7448da87af0725a06df905232700a1f4adf1fcb",
+  "head_origin_remote_at_review": "aa63cf943a230976f301ec6a6e5444678762ce2d",
+  "remote_check": {
+    "default_proxy_attempt": "failed_local_proxy_unavailable",
+    "fallback": "per_command_empty_http_https_proxy_no_persistent_config_change",
+    "remote_main_confirmed": true
+  },
+  "stage": {
+    "m6": "5/7",
+    "m6_04": "accepted_unchanged",
+    "m6_05": "not_accepted",
+    "m6_08": "not_accepted",
+    "m7": "not_authorized"
+  },
+  "status": "two_output_protection_defects_independently_closed_empirical_probe_verified_limited_product_scope_decided",
+  "technical_closed": [
+    "single_completion_effective_wire_identity",
+    "pre_normalization_raw_usage_validity_and_persistent_formal_block"
+  ],
+  "passed": [
+    "archived_probe_authorization_wire_raw_settlement_and_accounting",
+    "history_source_prompt_and_openapi_protection"
+  ],
+  "checks": {
+    "unit": {
+      "passed": 143,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "log": "unit.log",
+      "log_sha256": "d0f8228725071252ba74e1dee690234bc9fb2114882d1d770b04ba8fb71ae22e",
+      "junit_sha256": "43b818b7aebe3f654779b8d8ab4c7274c01a0b68a1597f9d94be86d568e5b06a",
+      "command": [
+        "D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "tests/unit/test_output_contract_boundaries.py",
+        "tests/unit/test_output_contract.py",
+        "tests/unit/test_telemetry_provider.py",
+        "tests/unit/test_provider_clients.py",
+        "tests/unit/test_context_budget.py",
+        "tests/contract/test_provider_capabilities.py",
+        "tests/contract/test_provider_errors.py",
+        "-q",
+        "--tb=short",
+        "--junitxml=D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\output\\m6-output-contract-boundaries-review-20261031\\unit.xml"
+      ],
+      "isolated_prefix": null
+    },
+    "integration": {
+      "passed": 52,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "log": "integration.log",
+      "log_sha256": "e083830f87c86d58a1ee9e61c802d50536d880640cae64cf93e1cac05d343334",
+      "junit_sha256": "c97ded667725b44cbe0bb84e40e2f05ba191cce85dc8c1e3f695c4bc4b82f68c",
+      "command": [
+        "D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "tests/integration/test_output_contract_boundaries.py",
+        "tests/integration/test_diagnostic_output_contract.py",
+        "tests/integration/test_evaluation_run_adapter.py",
+        "tests/integration/test_run_telemetry.py",
+        "-q",
+        "--tb=short",
+        "--junitxml=D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\output\\m6-output-contract-boundaries-review-20261031\\integration.xml"
+      ],
+      "isolated_prefix": "m1_test_m4_or_831548"
+    },
+    "original": {
+      "passed": 17,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "log": "original.log",
+      "log_sha256": "5da8a3d5a820eaebb7af87628c4172e5fac924303329c4af7d9418ed69874a70",
+      "junit_sha256": "5283fea956a9aa682e8eec18b800f9d52dede384c5427cbeac1720087777467e",
+      "command": [
+        "D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\output\\m6-output-contract-boundaries-review-20261031\\original-probes\\test_output_boundary_matrix.py",
+        "D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\output\\m6-output-contract-boundaries-review-20261031\\original-probes\\test_formal_usage_path.py",
+        "D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\output\\m6-output-contract-boundaries-review-20261031\\original-probes\\test_extra_contract_boundaries.py",
+        "-q",
+        "--tb=short",
+        "--junitxml=D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\output\\m6-output-contract-boundaries-review-20261031\\original.xml"
+      ],
+      "isolated_prefix": "m1_test_m4_or_f8b2a6"
+    },
+    "probe-guards": {
+      "passed": 7,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "log": "probe-guards.log",
+      "log_sha256": "0551a19f10898c8b8244534b6576e2c805f47dc5029300fdd8617f2b768563e1",
+      "junit_sha256": "2e48b6b8fe50ba20e19dc6155b07a5067b02c9dbd775ad09918d8b0431ebb024",
+      "command": [
+        "D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\.venv\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\output\\m6-output-contract-boundaries-review-20261031\\test_probe_guards.py",
+        "-q",
+        "--tb=short",
+        "--junitxml=D:\\Desktop\\AnXin\\ansen_code\\Product-Knowledge-Rag\\output\\m6-output-contract-boundaries-review-20261031\\probe-guards.xml"
+      ],
+      "isolated_prefix": null
+    },
+    "joined": {
+      "passed": 14,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "log": "joined.log",
+      "log_sha256": "1bd8aca916469afce4145ead690aef810a42e8875c0d80464b98269ffb570e59",
+      "junit_sha256": "07b8a61c7dd78eaaac6a279583cae8a0348f5f704bd8a03e43356a365d61836b",
+      "command": [
+        ".venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "output\\m6-output-contract-boundaries-review-20261031\\test_joined_raw_path.py",
+        "-q",
+        "--tb=short",
+        "--junitxml=output\\m6-output-contract-boundaries-review-20261031\\joined.xml"
+      ]
+    }
+  },
+  "groups_overlap": true,
+  "not_answer_quality_scores": true,
+  "private_audit": {
+    "assertions": 2356,
+    "all_passed": true,
+    "audit_sha256": "9b1186e8c9c7ae26ee9341e9f2500341c28c81dd222b6d92c1fbcd0f19c84594",
+    "checks_sha256": "f8efb7d3e13e12f4089f027626b27d749f9668b550971066a4228b166075dd69",
+    "log_sha256": "a6f3d914094c15c3ac722ed81a6f2f079e29311b890540b6b6da9a3f4e22981b"
+  },
+  "protection": [
+    {
+      "manifest": "output/m6-output-contract-boundaries-probe-20261031/protected-before.json",
+      "manifest_sha256": "006625f4c59203d4579f61a097ac0b7e97dc2c4c92e02cf475445674c43e2f9d",
+      "verified": 336,
+      "private_identity_skipped": 0
+    },
+    {
+      "manifest": "output/m6-diagnostic-subject-usage-fix-20261031/protected-before.json",
+      "manifest_sha256": "25361fd1024f4822debea65ba52083312c16c9091e5a07344939511da1d542a7",
+      "verified": 597,
+      "private_identity_skipped": 0
+    },
+    {
+      "manifest": "output/m6-diagnostic-cache-completion-20261031/historical-files-r2.json",
+      "manifest_sha256": "603453698e2cb7c830f75ffcc0f40f475651a3b1a0f6727597dc68b9c80df499",
+      "verified": 1314,
+      "private_identity_skipped": 0
+    }
+  ],
+  "source_code_sha256": "a2472f247a995057dab78375d60601a376e60b226a4c3b0be56ecacfb1a2a38e",
+  "probe": {
+    "slot": "m6-output-cap-4096-probe-r1",
+    "request_key": "c427e2be4c71ea1fb08f59bd5ba9a6e0ec7084db44ccc494f079e7cdefc49238",
+    "wire_sha256": "618ee9ec84ae4323f3d888a61e9a0b42d0cfdd565bf589092e267d09b7908be6",
+    "raw_sha256": "98e186c3f123a37251b51d91747a7cc3381681008df82d6358ef8bca1f0b0a20",
+    "classification": "observed_limit_4096_at_fixed_profile",
+    "events": 1267,
+    "usage_events": 1,
+    "done_events": 1,
+    "visible_text_characters": 0,
+    "reasoning_text_characters": 15839,
+    "visible_tokens": null,
+    "input_tokens": 102,
+    "output_tokens_including_reasoning": 4096,
+    "reasoning_tokens": 4096,
+    "finish_reasons": [
+      "length"
+    ],
+    "logical_streams": 1,
+    "observed_local_requests": 1,
+    "exact_http_requests": null,
+    "cost": null,
+    "only_archived_slot_and_local_hooks_verified": true,
+    "no_global_call_completeness_claim": true,
+    "server_hard_limit_verified": false,
+    "old_product_max_tokens_semantics_proven": false,
+    "capability": "unknown",
+    "verified_registration": false
+  },
+  "accounting": {
+    "prior_six": {
+      "input_tokens": 23480,
+      "output_tokens": 16506
+    },
+    "archived_probe": {
+      "input_tokens": 102,
+      "output_tokens": 4096
+    },
+    "diagnostic_cumulative_observed": {
+      "input_tokens": 23582,
+      "output_tokens": 20602
+    },
+    "not_entire_project_historical_total": true,
+    "max_diagnostic_input": 1477632,
+    "max_diagnostic_output": 212992,
+    "exact_http_requests": null,
+    "cost": null
+  },
+  "next_scope": {
+    "authorization_path": "docs/development/reviews/M6-single-product-risk-authorization-r1.json",
+    "authorization_file_sha256": "0270a6e7d8cdfc434a0dadf8fcbe7bae8b80e2417515f73117b83b3f1f81a591",
+    "admission_version": "diagnostic_single_product_risk_v1",
+    "max_new_product_streams": 1,
+    "max_new_product_jobs": 1,
+    "question_id": "m6-g540-05-a",
+    "source_version": "v1_only",
+    "fixed_slot": "m6-05a-product-canary-r1",
+    "explicit_one_stream_unknown_paid_upper_bound_risk_acceptance": true,
+    "gateway_capability_stays_unknown": true,
+    "current_normal_v2_unknown_rejection_preserved": true,
+    "conditional_on_minimal_wiring_tests_and_exact_formal_preflight": true,
+    "product_call_executed_this_review": false,
+    "no_new_nonproduct_probe": true,
+    "remaining_48_jobs": "paused",
+    "stop_after_single_attempt_even_if_success": true,
+    "handoff": "docs/development/handoffs/M6-single-product-canary-r1.md"
+  },
+  "next_input_anchor": {
+    "source_file_sha256": "95a287a3a882aa6b7c3f16eed56a013db7b19b1031e6de035c11420b8ac1aeee",
+    "prompt_canonical_fingerprint": "c975587079e01a747990468487ac01c700137bc48578f130008e24ed676b5498",
+    "prompt_utf8_sha256": "05f47209a2bfe1aaa5b5d5d58344e6ac3112e55742790fc34034116383758e9f",
+    "subject_binding_file_sha256": "6b7b6e9062e1ca566008515a542cba0bb90daa1085f09ef81eb1ae015f00dabf",
+    "conservative_input_tokens": 12293,
+    "all_passed": true,
+    "new_product_calls": 0
+  },
+  "open_items": [
+    "new_visible_product_answer_under_reviewed_subject_input",
+    "effective_new_candidate_quality_and_M6_08_acceptance",
+    "real_feedback_server_proof_and_M6_05_acceptance"
+  ],
+  "this_review": {
+    "business_code_changes": 0,
+    "new_real_encoding": 0,
+    "new_real_reranking": 0,
+    "new_provider_inference": 0,
+    "new_product_jobs": 0,
+    "real_business_or_quality_database_access": false,
+    "formal_quality_writes": 0,
+    "default_switches": 0,
+    "subagents": 0,
+    "isolated_synthetic_database_writes": true,
+    "old_subject_54_input_and_retrieval_reviews_not_repeated": true
+  },
+  "delivery_script_intermediate_failure": {
+    "first_exit_code": 1,
+    "error": "ModuleNotFoundError: No module named 'app'",
+    "before_summary_and_navigation_writes": true,
+    "fixed_private_script_root_import_only": true,
+    "second_exit_code": 0,
+    "failure_receipt": "deliver-docs-r1-failure.json",
+    "successful_log": "deliver-docs-r2.log"
+  },
+  "limits": [
+    "single_fixed_probe_does_not_prove_global_gateway_guarantee",
+    "zero_visible_text_is_measured_character_count_not_visible_token_count",
+    "one_local_hook_is_not_gateway_internal_http_completeness",
+    "no_live_vector_582_867_or_default_pointer_rescan",
+    "scoped_risk_authorization_is_not_verified_capability_or_batch_resume",
+    "no_answer_quality_scoring_attestation_calibration_gate_proof_heldout_or_M7"
+  ]
+}

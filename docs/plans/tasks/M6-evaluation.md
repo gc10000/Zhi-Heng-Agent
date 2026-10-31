@@ -1,3 +1,15 @@
+## 2026-10-31 · 总控关闭两项输出保护，裁定下一包仅新版05-a一次产品验证
+
+独立复核aa63cf9：n1有效wire身份、SDK归一化前usage合法性／一致性及正式持久阻断均通过并明确关闭；不再等待同一技术裁决。143离线／契约、52随机隔离集成、17原反例、7纯Mock防重放、14新独立连接测试通过，2356项封存审计通过；组间重叠不累计。336／597／1314历史文件hash匹配。
+
+原SSE独立重算input102／含reasoning总output4096／reasoning4096、finish=length；可见content实测0字符，不能作为产品答案。能力仍unknown、不登记verified，不再追加探测。总控选择限定单题风险准入：下一包最小正式接线及前置通过后，仅版1m6-g540-05-a最多1产品stream，明确接受该单次付费上界unknown；不是放行48 job或改变正常v2门禁。当前产品调用仍0。
+
+既有关系消费／P2／p30／001及其他关闭项保持。M6 5/7、04保持验收，05缺有效反馈proof、08缺有效新候选质量及阶段验收，M7未授权。本轮无业务源码修改、真实业务库访问、真实模型或质量写入；无live向量／默认指针重扫。下一包一次结果即停止，不重抽、不自动扩范围。
+
+[独立报告](../../development/reviews/M6-output-contract-boundaries-review-r1.md) · [脱敏摘要](../../development/reviews/M6-output-contract-boundaries-review-validation-r1.json) · [限定授权](../../development/reviews/M6-single-product-risk-authorization-r1.json) · [完整执行Prompt](../../development/handoffs/M6-single-product-canary-r1.md)
+
+以下历史按原时点保留。
+
 ## 2026-10-31 · 输出保护已自验，唯一4096探测完成，产品48 job仍暂停
 
 接续c7448da，修复单份生成身份及原始usage合法性／一致性。`diagnostic_total_output_v2`绑定n=1和raw_usage_v2；拒绝typed／kwargs／extra_body冲突，在SDK归一化前留证，非法或矛盾usage沿Run／账本持久阻断。旧显式v1不原地升级，旧六流、失败、分数不改，已关闭对象关系不重审。代码为执行方自验，待总控独立核验。
