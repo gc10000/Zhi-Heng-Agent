@@ -1,10 +1,18 @@
 name: product-knowledge-rag
 
+# 容器运行日志最多约60 MB/服务；不影响命名卷中的知识库、会话与验收证据。
+x-bounded-logging: &bounded-logging
+  driver: json-file
+  options:
+    max-size: "20m"
+    max-file: "3"
+
 # 当前用于 Windows 本机调试；端口仅绑定本机回环地址，无需 SSH 隧道。
 # 操作步骤见 docs/WINDOWS_DOCKER.md。
 services:
   redis:
     image: redis:7.4.6-alpine
+    logging: *bounded-logging
     profiles: [tasks]
     restart: unless-stopped
     command: [redis-server, --appendonly, "yes"]
@@ -20,6 +28,7 @@ services:
 
   worker:
     image: product-knowledge-worker:m2
+    logging: *bounded-logging
     profiles: [tasks]
     build:
       context: .
@@ -44,6 +53,7 @@ services:
       - worker-cache:/var/lib/knowledge-worker
 
   evaluation-worker:
+    logging: *bounded-logging
     # 只消费评测ID，实际模型执行沿受控宿主，避免Linux重复安装CUDA模型。
     image: product-knowledge-worker:m2
     profiles: [evaluation]
@@ -63,6 +73,7 @@ services:
       redis:
         condition: service_healthy
   etcd:
+    logging: *bounded-logging
     # Milvus 的元数据存储，只在容器网络中使用，无需对外发布端口。
     image: quay.io/coreos/etcd:v3.5.25
     restart: unless-stopped
@@ -85,6 +96,7 @@ services:
       retries: 10
 
   minio:
+    logging: *bounded-logging
     # 社区版已改为源码分发，从官方固定提交构建，避免依赖已无法拉取的旧镜像。
     image: product-knowledge-minio:2025-10-15
     build:
@@ -108,6 +120,7 @@ services:
 
   milvus:
     image: milvusdb/milvus:v2.6.10
+    logging: *bounded-logging
     restart: unless-stopped
     command: [milvus, run, standalone]
     security_opt:
@@ -136,6 +149,7 @@ services:
 
   mongo:
     image: mongo:7.0
+    logging: *bounded-logging
     restart: unless-stopped
     ports:
       - "127.0.0.1:27017:27017"

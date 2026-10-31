@@ -142,3 +142,27 @@ docker compose up -d --wait --wait-timeout 300
 ```
 
 数据保存在 Docker 命名卷，普通启停不会清空。不要执行 `docker compose down -v`，它会删除数据卷；Docker Desktop 的清理/恢复出厂设置也可能删除数据。
+
+## 7. 容器日志容量
+
+`compose.yaml`对7个服务统一使用`json-file`，`max-size: "20m"`、`max-file: "3"`，每个容器的运行日志最多约60 MB（约57 MiB，单条记录可能略超边界）。该策略覆盖尚未启动的任务／评测worker，但不会为应用自动创建M6验收日志归档。需要长期保留的原始证据必须另行封存；既有`output/`、原件及缓存不参与运行日志轮转。
+
+修改Compose后，已有容器需要重建才能应用新日志驱动选项；普通restart不会补上旧容器的选项。重建前确认无真实任务执行，封存运行日志样本、容器／命名卷映射和关键数据清单。使用现有镜像并保留卷，例如：
+
+```powershell
+# 仅在确认当前没有任务执行的维护窗口内使用。
+docker compose up -d --no-deps --force-recreate --pull never --no-build milvus
+
+# 检查实际运行容器已应用轮转，而不只检查Compose文本。
+docker inspect --format '{{json .HostConfig.LogConfig}}' product-knowledge-rag-milvus-1
+```
+
+这会回收被替换容器的旧标准输出日志；不会清空复用的命名卷。不要用直接删除或截断Docker内部日志文件来代替支持的容器生命周期操作。非本项目Compose创建的容器不会自动获得本策略，须按其归属单独治理。
+
+## 8. Windows空间回收与维护核验
+
+2026-10-31发现Milvus运行日志约120 GiB、Mongo运行日志约1.5 GiB，而Milvus数据卷约110 MiB。Docker的镜像／卷空间统计不能替代容器标准输出日志检查。历史隔离库和集合不是此次可批量删除的垃圾，不得按`m1_test_`前缀直接清理。
+
+Docker在WSL2的Linux空闲空间与Windows上VHDX文件实际占用是两层指标。回收旧日志后，先在Docker文件系统执行受控TRIM，再查看Windows卷实际可用空间；若宿主占用没有减少，需在维护窗口离线压缩对应VHDX。压缩前保存所有运行容器名单并正常停止，停止Docker Desktop、确认目标文件能被独占打开，再使用经管理员确认的Windows虚拟磁盘工具。只选择已核实的Docker数据盘，不删除、重新格式化或替换VHDX；不得在挂载读写中压缩。
+
+完成后恢复此前运行的容器，检查实际日志选项、全部原卷映射、Mongo库名／Milvus集合清单及关键数据条数、健康状态和Windows实际剩余空间。服务健康不等于新答案质量通过；维护不得自动派发产品job、改变评分或推进M6阶段。
