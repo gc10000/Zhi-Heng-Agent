@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "kind": "independent_source_subject_table_review",
+  "date": "2026-10-31",
+  "reviewed_commit": "6541506734670c4b94cffe3cef364b146c4d26d9",
+  "source": {
+    "document_id": "f82f3ec8-e6e6-5130-98a4-86d37155d3ce",
+    "revision_id": "b76f3252-8a62-58af-aace-aefe45b13d82",
+    "original_sha256": "977b5522d45fb1d3dfe8ac330c37841ad2751ffdfcbdaa64847ca753e78eff83",
+    "cache_sha256": "969fa1dfe2dd183c33d60f5e0a0a27cf54fa3add467003277be51d88777be47e"
+  },
+  "frozen_manifest_file_sha256": "77f065914e2bac44fe19e1ed5d40191ca2a54a1f98ee2a9738a7de2217ab8b83",
+  "relations": [
+    {
+      "subject": "HUAWEI MateDock 2",
+      "title": {
+        "cache_block_index": 92,
+        "cache_kind": "text",
+        "text_sha256": "bbecf3c94111c565826e25cc9867e893dd207f6948e607bf8e658545ddf670b5",
+        "cache_block_sha256": "7f87d22dc287c40ba5f03536a8957b320ce6950fb3de011fa92a973637592211",
+        "physical_page": 13
+      },
+      "table": {
+        "cache_block_index": 94,
+        "cache_block_sha256": "ea40a31d375edd926a5d841e52c0e4c31211cfcb9df69d2c1218a74df93c4b56",
+        "body_utf8_sha256": "e3f4c2356e3c5299660a2e6471c534fa8da675e5598dba02d4cffb5606337d8a",
+        "physical_page": 13,
+        "row_count": 5,
+        "rows": [
+          {
+            "row_index_zero_based": 0,
+            "cells_sha256": "9dd108ee87c28dd261850e491b345eceb4bb5082d5572eb70f249f26485cb1ce"
+          },
+          {
+            "row_index_zero_based": 1,
+            "cells_sha256": "d57d85445edae3b280e8da42f3f8d1433e726cdcb799f8310f65073c1a8f2a91"
+          },
+          {
+            "row_index_zero_based": 2,
+            "cells_sha256": "75db29f5a4788bee0f6b66725cd90de754c72e74eb35bfe40442b9ba003b47fb"
+          },
+          {
+            "row_index_zero_based": 3,
+            "cells_sha256": "f1e913d883cd4eee99cd0932bb3b16dd063910efebfd4afb3f25645fa65eeba9"
+          },
+          {
+            "row_index_zero_based": 4,
+            "cells_sha256": "e3ee6ad5678dc3ad499004a76342814e56c059f8d9b097117f8686cd7e577564"
+          }
+        ]
+      },
+      "assertion": "table_rows_describe_named_accessory",
+      "review_method": "independent_original_pdf_text_and_rendered_pages",
+      "no_model_compatibility_or_other_revision_claim": true
+    },
+    {
+      "subject": "HUAWEI MateDock 3",
+      "title": {
+        "cache_block_index": 95,
+        "cache_kind": "footer",
+        "text_sha256": "d7cbf7b28c8c839197ccf81a2d8e6a05ef521a42e6b5874c503bb5697674fa28",
+        "cache_block_sha256": "fe0c37585f7cc8a5e166b359765827aee8af58d642f68811c31c3e3a94533cf6",
+        "physical_page": 13
+      },
+      "table": {
+        "cache_block_index": 98,
+        "cache_block_sha256": "d842eb23930a69e2e15dcaf36152ef4a2106149ac072d91350d4f58d9527f339",
+        "body_utf8_sha256": "91a79e0e724fd17ba575c866a240fe6df3195435037a79f5d323552bfdd0d47d",
+        "physical_page": 14,
+        "row_count": 7,
+        "rows": [
+          {
+            "row_index_zero_based": 0,
+            "cells_sha256": "9dd108ee87c28dd261850e491b345eceb4bb5082d5572eb70f249f26485cb1ce"
+          },
+          {
+            "row_index_zero_based": 1,
+            "cells_sha256": "48becdf9ef327cd593aeff1d4fe03535bb5ae569a580ecbf9e91b7ff5c7a2295"
+          },
+          {
+            "row_index_zero_based": 2,
+            "cells_sha256": "c147a2f45b8e3a50976014b02cbd5dbe1aaf782c785c13473c30474fc1632ecc"
+          },
+          {
+            "row_index_zero_based": 3,
+            "cells_sha256": "8ff01b5f0f769f68350b3c0a713979b25655717b7426491c337aa7be7939f6d7"
+          },
+          {
+            "row_index_zero_based": 4,
+            "cells_sha256": "f1e913d883cd4eee99cd0932bb3b16dd063910efebfd4afb3f25645fa65eeba9"
+          },
+          {
+            "row_index_zero_based": 5,
+            "cells_sha256": "75db29f5a4788bee0f6b66725cd90de754c72e74eb35bfe40442b9ba003b47fb"
+          },
+          {
+            "row_index_zero_based": 6,
+            "cells_sha256": "1b13e430e42f405f544598c776efa0be976e36a620fe2e32e3d3b4c3b844ee07"
+          }
+        ]
+      },
+      "assertion": "table_rows_describe_named_accessory",
+      "review_method": "independent_original_pdf_text_and_rendered_pages",
+      "no_model_compatibility_or_other_revision_claim": true
+    }
+  ],
+  "page_scope": "physical_table_and_heading_pages_only_not_existing_row_page_override",
+  "boundary": {
+    "no_nearest_heading_heuristic": true,
+    "no_footer_promotion": true,
+    "no_question_id_rule": true,
+    "no_compatibility_inference": true,
+    "no_existing_data_mutation": true,
+    "unknown_row_page_stays_unknown": true,
+    "not_formal_service_binding": true,
+    "consumer_implementation_pending": true
+  },
+  "private_evidence": {
+    "original_pages_sha256": "ea2b69842e118842061263219dee67a863b50775a36942830495c67fc23cd708",
+    "parser_replay_sha256": "dd411ad47eb06f264d61ab7783011e2a10581756e59368b9cf4de9b3f1a09ce0",
+    "actual_chain_sha256": "ccc6f64e6fc1406b9900de945b54f121cff7cee1fcecdeff66622045aa4a9ad3"
+  },
+  "payload_sha256": "f0872a623a3cdd5dbe0c7438e50cc9921b0dc6358a6e6b347e0cfdc4c12bf5ed"
+}

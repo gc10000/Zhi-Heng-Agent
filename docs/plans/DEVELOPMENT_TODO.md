@@ -1,3 +1,17 @@
+## 2026-10-31 · 总控复核闭合缓存准备与六流计账，收敛两项修复
+
+独立核验6541506：固定17键／20文本、518来源pair中517复用＋1新增与54消费者预检的保存证据一致，准备子项关闭；六流正文／持久结果及输入23480／输出16506一致，封存计账通过。不是本轮重扫live或重执行54请求，不作为新质量分。
+
+05-a机身15号RJ45结论有p5支持；真正未完成的是LAN与MateDock3的具名关系。原件p13／p14独立核验并以两表12行成员hash封存来源证明，当前parser把MateDock3的footer标题转正文，表行仅留泛化章节，实际prompt未显式关联。关系消费待实现，LAN旧行页码unknown保持，不重开P2。
+
+两次总output6150／4744含reasoning；已排除未发4096及重复计账，实际第三方网关字段语义仍unknown。115项独立审计、10项合成SDK wire与9项定向测试通过，组间不累计。新增真实推理／DB访问／评分／子Agent均0，业务源码及prompt未改。首版审计status假设失败与修后r2都保留。
+
+下一包一次实现受审对象关系消费及输出能力／预算合同，完成全54请求零推理回放；不追加真实能力探测、不重跑05-a、不自动恢复余48 job。能力不足保持unknown并给出精确待裁定方案，不向用户转交PDF／账号／评分工作。M6 5/7、04保持，05待有效反馈proof，08待有效新候选质量及阶段验收；M7未授权，旧blocked和所有既有关闭结论保持。
+
+[独立报告](../development/reviews/M6-diagnostic-subject-usage-review-r1.md) · [脱敏摘要](../development/reviews/M6-diagnostic-subject-usage-review-validation-r1.json) · [限定来源证明](../development/reviews/M6-diagnostic-subject-source-proof-r1.json) · [完整执行Prompt](../development/handoffs/M6-diagnostic-subject-usage-fix-r1.md)
+
+以下历史按原时点保留。
+
 ## 2026-10-31 · 有界诊断已实际运行，05-a未达具名归属目标后停止
 
 已完成17键／20文本编码、1缺pair补分和54请求消费者全检，实际生成六题；前五题助手未见明确语义失败，05-a机身结论正确但MateDock3归属目标未完成，输入关系与生成责任不能武断拆分。封存stop后余48 job未执行。新usage输入23480／输出16506；两次总output含reasoning超请求4096，上限实效尚未核清；未知HTTP／费用保留，所有旧评分／blocked不改。

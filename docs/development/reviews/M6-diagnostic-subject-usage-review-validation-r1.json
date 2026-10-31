@@ -1,0 +1,132 @@
+{
+  "date": "2026-10-31",
+  "role": "coordinator_independent_subject_usage_review",
+  "reviewed_commit": "6541506734670c4b94cffe3cef364b146c4d26d9",
+  "git_start": {
+    "head": "6541506734670c4b94cffe3cef364b146c4d26d9",
+    "origin_main": "6541506734670c4b94cffe3cef364b146c4d26d9",
+    "remote_main": "6541506734670c4b94cffe3cef364b146c4d26d9",
+    "worktree": [
+      "?? tmp/"
+    ]
+  },
+  "status": "prepared_cache_and_accounting_closed_subject_relation_and_gateway_capability_open",
+  "stage": {
+    "m6": "5/7",
+    "m6_04": "accepted_unchanged",
+    "m6_05": "not_accepted",
+    "m6_08": "not_accepted",
+    "m7": "not_authorized"
+  },
+  "passed": {
+    "prepared_cache_saved_evidence_verified": true,
+    "prepared_cache_reexecuted_this_review": false,
+    "embedding_keys": 17,
+    "embedding_texts": 20,
+    "rerank_source_pairs": 518,
+    "rerank_reused_pairs": 517,
+    "rerank_new_pairs": 1,
+    "saved_consumer_preflights": 54,
+    "completed_streams_sealed": 6,
+    "stream_and_persistent_answers_equal": true,
+    "original_usage_and_telemetry_equal": true,
+    "max_tokens_sent": 4096,
+    "reasoning_not_double_counted": true,
+    "machine_body_rj45_claim_source_supported": true,
+    "independent_table_relations_sealed": 2,
+    "table_member_rows": 12
+  },
+  "open": {
+    "named_subject_relation_consumer": "not_implemented",
+    "actual_gateway_max_tokens_semantics": "unknown",
+    "per_request_total_output_cap_verified": false,
+    "actual_answers_under_repaired_relation": "not_run",
+    "unexecuted_jobs": 48,
+    "unexecuted_answer_jobs": 46,
+    "unexecuted_clarifications": 2
+  },
+  "observed_prior_six_streams": {
+    "input_tokens": 23480,
+    "output_tokens": 16506,
+    "precise_http": null,
+    "cost": null,
+    "over_total4096": [
+      {
+        "question": "m6-g540-03-a",
+        "output": 6150,
+        "reasoning": 5556
+      },
+      {
+        "question": "m6-g540-05-a",
+        "output": 4744,
+        "reasoning": 3848
+      }
+    ],
+    "output_minus_reasoning_is_not_measured_visible_tokens": true
+  },
+  "checks": {
+    "saved_evidence_audit": 115,
+    "synthetic_installed_sdk_wire": 10,
+    "targeted_existing_tests": 9,
+    "groups_may_overlap": true,
+    "not_unique_test_total": true,
+    "not_quality_score": true,
+    "input_files_rechecked": 69
+  },
+  "this_review": {
+    "business_code_changes": 0,
+    "prompt_changes": 0,
+    "encoding_calls": 0,
+    "rerank_calls": 0,
+    "provider_inference": 0,
+    "answer_streams": 0,
+    "real_database_access": false,
+    "quality_writes": 0,
+    "default_switches": 0,
+    "subagents": 0
+  },
+  "source_proof": {
+    "path": "docs/development/reviews/M6-diagnostic-subject-source-proof-r1.json",
+    "file_sha256": "03dd6be14d9dddd73411d7f63392ceecb0a4729214800b05a4615658bdee90fe",
+    "formal_service_binding": false,
+    "no_existing_row_page_override": true
+  },
+  "next_package": {
+    "prompt": "docs/development/handoffs/M6-diagnostic-subject-usage-fix-r1.md",
+    "authorized": "two_boundary_business_repair_and_zero_inference_verification",
+    "real_probe_authorized": false,
+    "answer_resume_authorized": false,
+    "old_success_checkpoint_reuse_for_new_config": false
+  },
+  "limitations": [
+    "no_live582_or867_or67_assets_rescan",
+    "no_real_quality_ledger_read",
+    "saved54_consumer_receipts_not_new54_execution",
+    "synthetic_wire_does_not_prove_real_gateway_capability",
+    "prior_full_protection_and_slot_state_are_execution_evidence_not_independent_live_reaudit",
+    "first_audit_status_assumption_failure_retained_then_r2_passed"
+  ],
+  "evidence_hashes": {
+    "output/m6-diagnostic-subject-usage-review-20261031/r2/audit.json": "dbfc56ea7333e381462606c932d8a3106c6ff558b25ff8da7c3458babf7e6185",
+    "output/m6-diagnostic-subject-usage-review-20261031/r2/input-protection.json": "37958ebc084112d4bc486e23fe77e9538e2e337191595b4021b1667e4b6e88db",
+    "output/m6-diagnostic-subject-usage-review-20261031/r2/usage-review.json": "d292516d24ba9eefddc5969a40eee7aa0d900eacef4aa28095bf60a592ffabed",
+    "output/m6-diagnostic-subject-usage-review-20261031/r2/05-a-actual-chain.json": "ccc6f64e6fc1406b9900de945b54f121cff7cee1fcecdeff66622045aa4a9ad3",
+    "output/m6-diagnostic-subject-usage-review-20261031/r2/formal-parser-chunk-replay.json": "dd411ad47eb06f264d61ab7783011e2a10581756e59368b9cf4de9b3f1a09ce0",
+    "output/m6-diagnostic-subject-usage-review-20261031/r2/original-pages.json": "ea2b69842e118842061263219dee67a863b50775a36942830495c67fc23cd708",
+    "output/m6-diagnostic-subject-usage-review-20261031/r2/D3-physical-13.png": "1067ddf6804d4bbccdef6c7542cd4bd3c80db8ec6e480921339f8066c946709a",
+    "output/m6-diagnostic-subject-usage-review-20261031/r2/D3-physical-14.png": "d9ce5087dbd20d4d4ea274131dc29e41d6ee88f5cf4befbdbb9ddb28a1a2ef0e",
+    "output/m6-diagnostic-subject-usage-review-20261031/mock-wire-audit.json": "5f448b993a4e97e79191a63be1d0f232de41d558314e770ce848a22e3cfe6ea3",
+    "output/m6-diagnostic-subject-usage-review-20261031/mock-wire.log": "c3d6b8446426252ed2eb43192770de8f45457d9f74eed23cbc0ca1b2232d8275",
+    "output/m6-diagnostic-subject-usage-review-20261031/source-proof-receipt.json": "e781ad3097d6a27e9d7ef92aeb681fb66910db26b0ba6a57fd3a097b31d4cf0f",
+    "output/m6-diagnostic-subject-usage-review-20261031/targeted-tests-receipt.json": "38a66eea68aa5f29c8c37ccbfe83e8d3bc2f3d2b9d75b5e6385158cfe86efc67",
+    "output/m6-diagnostic-subject-usage-review-20261031/audit.py": "6de73c69d440a2968b7d1439ca43048bbdccb965990c67444b1c1912eac09dbe",
+    "output/m6-diagnostic-subject-usage-review-20261031/audit-r2.log": "6b228673e2ed2d5ea5f596fe2608c3f7e44574b3bbe0cc580a25345cd4beb77a",
+    "output/m6-diagnostic-subject-usage-review-20261031/audit-failed-r1.py": "6340cca04739a439627ac25422ecd02961f794afa5bf2e18793a5aa9764612da",
+    "output/m6-diagnostic-subject-usage-review-20261031/audit.log": "0a37c0859783325b571a1314a2100506991828a76c3ebfcd02939c1e0b15a32a",
+    "output/m6-diagnostic-subject-usage-review-20261031/mock_wire_audit.py": "ef5b570fb14a7465a375f57fe5770998b3c31eeceeb3dc0daa21d3415a9eb7f4",
+    "output/m6-diagnostic-subject-usage-review-20261031/seal_subject_proof.py": "da9fbc2fc0f947173fa263b3d220036f97bfcc951d1fd5d6e514408437cf557d",
+    "docs/development/reviews/M6-diagnostic-subject-usage-review-r1.md": "b75ccd4a52307bef2eee2df79b0ff47923c84b48ea0ebcf760d07f010a3001b2",
+    "docs/development/reviews/M6-diagnostic-subject-source-proof-r1.json": "03dd6be14d9dddd73411d7f63392ceecb0a4729214800b05a4615658bdee90fe",
+    "docs/development/handoffs/M6-diagnostic-subject-usage-fix-r1.md": "2423b8640de4b5c151871a6ce5f47e27bf32d4fca7481848cd63fde6c5cee07f"
+  }
+}
