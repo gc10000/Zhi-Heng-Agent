@@ -66,6 +66,13 @@ def bind_execution(db, control_db, context, config, question_id, checkpoint_key,
         from app.retrieval.combination import payload,validate_run_combination
         validate_run_combination(run,combination)
         identity.update(retrieval_combination=payload(combination),retrieval_combination_sha256=fingerprint(payload(combination)))
+    attribution=config.get('parameters',{}).get('evidence_attribution',{})
+    from app.answering.evidence_attribution import validate_run_attribution
+    validate_run_attribution(run,attribution)
+    if attribution.get('enabled'):
+        from app.answering.evidence_attribution import payload as attribution_payload
+        canonical=attribution_payload(attribution)
+        identity.update(evidence_attribution=canonical,evidence_attribution_sha256=fingerprint(canonical))
     if config.get('regression_source') or config.get('quality_policy') or combination.get('enabled'):
         identity['regression_source'] = config.get('regression_source')
         if config.get('quality_policy'): identity['quality_policy']=config['quality_policy']

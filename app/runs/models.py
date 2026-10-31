@@ -2,6 +2,7 @@
 from pydantic import BaseModel, ConfigDict, Field
 from app.retrieval.prerequisites import SourcePrerequisitePolicy
 from app.retrieval.combination import CombinationPolicy
+from app.answering.evidence_attribution import EvidenceAttributionPolicy
 
 TERMINAL = frozenset({'completed', 'failed', 'cancelled', 'interrupted'})
 ACTIVE = frozenset({'pending', 'running', 'awaiting_input', 'cancel_requested'})
@@ -19,6 +20,7 @@ class InternalRunInput(RunInput):
     """只供受信执行器构造，不作为HTTP请求模型；配置参与幂等身份。"""
     source_prerequisites: SourcePrerequisitePolicy | None = None
     retrieval_combination: CombinationPolicy | None = None
+    evidence_attribution: EvidenceAttributionPolicy | None = None
 
 
 def snapshot(row):

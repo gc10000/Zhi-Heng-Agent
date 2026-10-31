@@ -59,6 +59,7 @@ def open_evaluation_resources(config):
         runner = QueryRunner(repo, commands, knowledge.get, retrieval_policy=policies.retrieval,
             expansion_policy=policies.expansion,answer_budget=policies.answer_budget,enhancement_policy=policies.enhancement,
             source_prerequisites=policies.source_prerequisites,retrieval_combination=policies.retrieval_combination,
+            evidence_attribution=policies.evidence_attribution,
             llm_factory=lambda:provider_counts.wrap(get_llm_client()))
         yield {'db': db, 'conversations': conv, 'runs': repo, 'run_service': RunService(repo),
                'commands': commands, 'query_runner': runner, 'knowledge': knowledge.get, 'provider_counts':provider_counts}
@@ -101,6 +102,12 @@ class RealQueryExecutor:
         from app.retrieval.combination import validate_run_combination,payload
         combination=self.config.get('parameters',{}).get('retrieval_combination',{})
         validate_run_combination(run,combination)
+        from app.answering.evidence_attribution import payload as attribution_payload,validate_run_attribution
+        attribution=self.config.get('parameters',{}).get('evidence_attribution',{})
+        validate_run_attribution(run,attribution)
+        if attribution.get('enabled') and (saved.get('evidence_attribution')!=attribution_payload(attribution) or
+                saved.get('evidence_attribution_sha256')!=fingerprint(attribution_payload(attribution))):
+            raise ValueError('成功检查点证据归属身份不符，不自动补写')
         if combination.get('enabled') and (saved.get('retrieval_combination')!=payload(combination) or
                 saved.get('retrieval_combination_sha256')!=fingerprint(payload(combination))):
             raise ValueError('成功检查点组合身份不符，不自动补写')
@@ -151,6 +158,7 @@ class RealQueryExecutor:
                 runner.answer_budget=policies.answer_budget;runner.enhancement_policy=policies.enhancement
                 runner.source_prerequisites=policies.source_prerequisites
                 runner.retrieval_combination=policies.retrieval_combination
+                runner.evidence_attribution=policies.evidence_attribution
             self.check_corpus()
             from app.identity.models import Principal
             t = self.config['target']
@@ -228,6 +236,11 @@ class RealQueryExecutor:
             from app.retrieval.combination import payload
             canonical=payload(combination)
             combination_identity=dict(retrieval_combination=canonical,retrieval_combination_sha256=fingerprint(canonical))
+        attribution=self.config.get('parameters',{}).get('evidence_attribution',{})
+        if attribution.get('enabled'):
+            from app.answering.evidence_attribution import payload as attribution_payload
+            canonical=attribution_payload(attribution)
+            combination_identity.update(evidence_attribution=canonical,evidence_attribution_sha256=fingerprint(canonical))
         if saved is None:
             from app.conversations.models import ConversationInput
             product_ids = [self.products[name] for name in inputs['product_names']]
@@ -261,7 +274,7 @@ class RealQueryExecutor:
             previous = self.resources['runs'].get(self.user, saved['run_id'])
             if previous['state'] == 'failed' and previous.get('error', {}).get('retryable') is True:
                 request_key = fingerprint([key, 'explicit_retry', self.retry_key])
-        extra={k:v for k,v in self.config.get('parameters',{}).items() if k in {'source_prerequisites','retrieval_combination'}}
+        extra={k:v for k,v in self.config.get('parameters',{}).items() if k in {'source_prerequisites','retrieval_combination','evidence_attribution'}}
         request_type=InternalRunInput if extra else RunInput
         run = self.resources['run_service'].create(self.user, cid, request_type(kb_id=kb, question=inputs['question'], client_request_id=request_key,**extra))
         rid = run['run_id']
@@ -269,6 +282,8 @@ class RealQueryExecutor:
         persistent_run = self.resources['runs'].get(self.user,rid)
         from app.retrieval.combination import validate_run_combination
         validate_run_combination(persistent_run,combination)
+        from app.answering.evidence_attribution import validate_run_attribution
+        validate_run_attribution(persistent_run,attribution)
         if persistent_run['question'] != inputs['question']:
             raise ValueError('正式Run题目与冻结输入不同')
         if self.execution and run['state'] in {'pending', 'running', 'completed', 'awaiting_input'}:
@@ -297,8 +312,9 @@ class RealQueryExecutor:
         """首次执行和恢复共用受控投影，状态/行为/引用/图片映射不另设较窄规则。"""
         rid = row['run_id']
         if row['state'] == 'awaiting_input':
+            from .result_presentation import public_candidates
             return {'run_id': rid, 'state': row['state'], 'behavior': 'clarify', 'answer': '', 'citations': [],
-                    'candidates': row.get('candidates', [])} | (
+                    'candidates': public_candidates(row.get('candidates', []), self.products.values())} | (
                         {'retrieval_candidates': {'candidates': [], 'reranked': [], 'context': []}}
                         if self.config.get('metric_schema_version') == 1 else {})
         if row['state'] != 'completed':
@@ -329,6 +345,10 @@ class RealQueryExecutor:
                                 image['image_usage'] = 'answer' if aid in c['answer_asset_ids'] else 'context'
                             citations.append(image)
         extra = {}
+        if self.config.get('parameters', {}).get('evidence_attribution', {}).get('enabled'):
+            # 页级公开引用可能一片多页或页码未知，不能用该列表位置重编号正文[n]。
+            from copy import deepcopy
+            extra['prompt_reference_map'] = deepcopy(row['prompt_reference_map'])
         if row['citations'] and all(c.get('image_selection_version') == 1 for c in row['citations']):
             extra['image_selection_version'] = 1
         if self.config.get('metric_schema_version') == 1:

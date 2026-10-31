@@ -1,3 +1,13 @@
+## 2026-10-31 · 候选结果公开呈现、选源核验和归属候选合同
+
+未来正式结果白名单新增state／sanitized candidates（仅product_id／model，adapter限授权候选）及启用时的prompt_reference_map。历史结果／subject不回填；只读补充必须标明不是旧审阅者已见输入。编号来自最终prompt而非页级citations列表位置，未知页保留unknown，不补造定位。没有新增公开API参数或环境变量，OpenAPI保持全等。
+
+ReviewRepairs的有效source_checked逐维按最终选中原／新来源all计算；残留旧false或任意新false仍阻断，纯规则N/A不提升核验状态。critical保守合并、来源／scope／subject／artifact／独立性验证及旧原分保持。实现只投影，不修改封存记录或既定政策。
+
+内部parameters.evidence_attribution默认关闭、版本attributed_assertions_v1；与已审retrieval_combination范围／语料快照一致，绑定产品／document／revision／原件SHA。配置、请求、Run、执行关联、题级检查点及恢复均核验；生成实际prompt映射进入输出指纹。关闭原路径全等，启用Run不可跨配置复用，新策略实际质量未验证。详见[补修报告](../development/reviews/M6-candidate-evidence-quality-fix-r1.md)。旧两版blocked和原分不变，04已验收保持、05／08未验收，M6 5/7，M7不启动。
+
+以下历史保留。
+
 ## 2026-10-31 · 总控来源已正式登记，两个候选development gate均blocked
 
 当前正式事实：两候选v2双轮来源已attest；development gate均blocked，原因同时包含适用性变化、质量下降和审阅未完整。human发布pending独立保留，不新增为development阻塞。既有基线／校准与批准政策身份不可修改；新prompt／pipeline／config按实际变更版本化，禁止旧Run／proof跨身份复用。

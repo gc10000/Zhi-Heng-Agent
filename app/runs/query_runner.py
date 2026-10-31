@@ -50,7 +50,7 @@ def rerank(question, docs):
 
 
 class QueryRunner:
-    def __init__(self, repo, commands, knowledge, *, identity_store=None, embedder=encode, ranker=rerank, llm_factory=None, retrieval_policy=None, expansion_policy=None, answer_budget=None, enhancement_policy=None, source_prerequisites=None, retrieval_combination=None):
+    def __init__(self, repo, commands, knowledge, *, identity_store=None, embedder=encode, ranker=rerank, llm_factory=None, retrieval_policy=None, expansion_policy=None, answer_budget=None, enhancement_policy=None, source_prerequisites=None, retrieval_combination=None,evidence_attribution=None):
         self.repo, self.commands, self.events, self.knowledge = repo, commands, commands.events, knowledge
         self.identity_store, self.embedder, self.ranker, self.llm_factory = identity_store, embedder, ranker, llm_factory
         from app.retrieval.search import RetrievalPolicy
@@ -65,6 +65,8 @@ class QueryRunner:
         self.source_prerequisites=SourcePrerequisitePolicy.model_validate({} if source_prerequisites is None else source_prerequisites)
         from app.retrieval.combination import CombinationPolicy
         self.retrieval_combination=CombinationPolicy.model_validate({} if retrieval_combination is None else retrieval_combination)
+        from app.answering.evidence_attribution import EvidenceAttributionPolicy
+        self.evidence_attribution=EvidenceAttributionPolicy.model_validate({} if evidence_attribution is None else evidence_attribution)
         self.pool = ThreadPoolExecutor(max_workers=4, thread_name_prefix='持久问答')
         self.futures, self.lock, self.stopping = {}, threading.Lock(), threading.Event()
         self.capture_evaluation = False
@@ -134,6 +136,11 @@ class QueryRunner:
             source_policy=validate_run_policy(row,self.source_prerequisites)
             from app.retrieval.combination import validate_run_combination,validate_policies
             combination=validate_run_combination(row,self.retrieval_combination)
+            from app.answering.evidence_attribution import validate_run_attribution
+            attribution=validate_run_attribution(row,self.evidence_attribution)
+            if attribution.enabled and (not combination.enabled or attribution.scope!=combination.scope or
+                    attribution.corpus_snapshot_sha256!=combination.corpus_snapshot_sha256):
+                raise ValueError('证据归属与组合授权范围不一致')
             from app.retrieval.expansion import ExpansionPolicy
             from app.retrieval.routing import EnhancementPolicy
             from app.retrieval.search import RetrievalPolicy
@@ -215,6 +222,9 @@ class QueryRunner:
                 from app.retrieval.prerequisites import validate_scope
                 validate_scope(source_policy,owner_id=repo.owner_id,kb_id=repo.kb_id,revisions=revisions,product_ids=selected)
             combination=self.authorize_combination(g,user,repo,plan,revisions,combination)
+            from app.answering.evidence_attribution import authorize
+            authorize(attribution,repo=repo,products=products,revisions=revisions,product_ids=selected,
+                database=g.db.name,collection=g.index_factory().collection if attribution.enabled else '')
             from app.lm.runtime import ModelRuntimePolicy
             from app.retrieval.cache import QUERY_EMBEDDINGS,configured_model_identity
             runtime_policy=ModelRuntimePolicy.load()
@@ -296,6 +306,8 @@ class QueryRunner:
             covered={pid for d in state['prompt_used_docs'] for pid in d.get('metadata',{}).get('product_ids',[])}
             missing_models=[p['model'] for p in products if p['product_id'] in plan.product_ids and p['product_id'] not in covered] if plan.route=='compare' else []
             evaluation_fields = {}
+            if attribution.enabled:
+                evaluation_fields['prompt_reference_map']=copy.deepcopy(state['prompt_reference_map'])
             if self.capture_evaluation:
                 # 仅评测运行保存候选来源，不复制检索正文或标准答案。
                 evaluation_fields['evaluation_candidates'] = {name: [
@@ -428,6 +440,10 @@ class QueryRunner:
         state=dict(session_id=session_id,is_stream=True,original_query=question,item_names=item_names,
             reranked_docs=[d|{'text':controlled_markdown(d['text'],set(d['asset_ids']))} for d in docs],
             history=history,answer_budget=self.answer_budget,evidence_groups=groups)
+        from app.answering.evidence_attribution import EvidenceAttributionPolicy
+        attribution=EvidenceAttributionPolicy.model_validate(getattr(self,'evidence_attribution',None) or {})
+        if attribution.enabled:
+            state['evidence_attribution']=attribution.model_dump(mode='json')
         if plan.route=='compare':
             state['evidence_scope_note']='比较只能依据本轮参考内容，未提供某型号证据时必须明确资料不足，不得推断其参数。'
         return state,step_2_construct_prompt(state)

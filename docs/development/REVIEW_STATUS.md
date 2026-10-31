@@ -1,3 +1,15 @@
+## 2026-10-31 · 候选证据集中补修自验完成，旧v2 blocked保持
+
+接续e018489：未来结果保留授权状态／候选，审核UI区别澄清与失败；有效source_checked按逐维实际选源计算。新增默认关闭attributed_assertions_v1，冻结归属与正式prompt编号，完整接入配置／授权／Run／检查点／恢复。没有改检索规则、分数或预算；新prompt实际答案效果未验证，交总控独立定向复核，不自行关闭审查。
+
+30下降、9混合、5跨基线变化及047／048完整有来源诊断已交付，非第三轮评分。25题35必要单元和两版170旧结果／340判断保留，168原流两种分片过滤全等；97聚焦、250相关共享、58随机隔离合成、13浏览器及类型／构建／OpenAPI检查通过（组间重叠不累计质量分）。本包新增推理／真实账本访问／质量写入／子Agent均0；1205／240／609文件hash保持，未重扫live向量或默认指针。红测、Mongo不可达与夹具中间失败全部保留。
+
+两版旧gate仍blocked、原分不变；M6核心5/7，04已验收保持，05待有效反馈proof，08待新配置真实候选质量与阶段验收，M7未启动。不重做旧关闭项，不追加旧v2评分追求通过。下一动作是总控定向复核本技术包及固定有界诊断草案；本轮不执行新诊断或自动重跑170题。
+
+[补修报告](reviews/M6-candidate-evidence-quality-fix-r1.md) · [验证摘要](reviews/M6-candidate-evidence-quality-fix-validation-r1.json) · [完整矩阵](reviews/M6-candidate-evidence-quality-matrix-r1.md)
+
+以下历史按原时点保留。
+
 ## 2026-10-31 · 总控来源已正式登记，两个候选development gate均blocked
 
 总控已独立接受候选真实双轮并正式attest两版。正式development gate均blocked，完整原因applicability_changed／quality_regression／review_pending_or_changed；版1八维、版2二十二维下降，另有047材料缺口、9混合及5跨基线变化。独立性登记不追认所有语义分数，30下降也不直接等于产品缺陷。

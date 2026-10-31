@@ -50,11 +50,12 @@ def _atomic_groups(docs,groups):
     return list(result.values())
 
 
-def build_budgeted_prompt(docs,history,*,question,items,render,budget,groups=(),counter=None):
+def build_budgeted_prompt(docs,history,*,question,items,render,budget,groups=(),counter=None,attributions=None):
     budget=AnswerBudget.model_validate(budget)
     limit=budget.context_window-budget.output_tokens-budget.reserve_tokens
     def pack(indices,messages):
-        packed=pack_prompt_inputs([docs[i] for i in indices],messages,budget.max_chars)
+        packed=pack_prompt_inputs([docs[i] for i in indices],messages,budget.max_chars,
+            attributions=[attributions[i] for i in indices] if attributions is not None else None)
         prompt=render(context=packed['context'],history=packed['history'],question=question,item_names=items)
         return packed,prompt,count_tokens(prompt,counter)
     _,base,fixed=pack([],[])

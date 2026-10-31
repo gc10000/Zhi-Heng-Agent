@@ -318,3 +318,11 @@ MODEL_HOST桥接新增可选input_type=query/document，省略仍document兼容�
 完整规范载荷/hash进入Run请求身份、evaluation_items、evaluation_execution_links和缓存策略身份；原题/历史/反馈来源保持。恢复同时核Run策略、原关联输入和检查点，不给旧Run/旧checkpoint回填。中断沿RunCommands.recover；显式continuation仍须原父实验来源和正式协议，不自行改state/lease/slot。缺缓存的本包回放直接失败，不调用后备模型。
 
 关闭回切：使用新配置/请求身份移除或关闭retrieval_combination，恢复先前weighted及其原source_prerequisites配置；若全部回旧默认，再移除来源前提。新请求不读取组合术语，不执行分路保护；旧Run、catalog、修订、索引及证据保留。不通过删除数据或重用启用Run回切；源码回切正常反向提交。本次自验不授予默认切换、最终生成配置冻结或实际答案质量通过。
+
+## M6默认关闭的证据归属 attributed_assertions_v1
+
+受信评测参数 `parameters.evidence_attribution` 与 `InternalRunInput` 可显式配置；普通公开RunInput拒绝，QueryRunner默认关闭，没有新环境变量、不改.env。字段严格禁止未知项：enabled、function_version（仅attributed_assertions_v1）、scope、corpus_snapshot_sha256、documents（document_id／revision_id／original_sha256）、products（product_id→正式model）。启用须绑定完整scope／快照，与retrieval_combination一致；config核验语料及产品身份，执行再核原件修订和授权范围，缺失／漂移fail closed，不猜名称／页码。
+
+启用消费 `prompts/answer_attributed_v1.prompt`，来源元信息开销计入原字符／token预算，不提高top-k或窗口。最终prompt连续编号与document／revision／chunk／原件hash／归属／物理页进入prompt_reference_map；页级citations列表不能据位置重编号。未知页或产品仍为unknown；context图片不变成答案已展示图片。
+
+非缺省配置参与Run身份、execution link、题级检查点及恢复核验；已启用Run不能交关闭消费者，prompt映射变化也拒绝复用。关闭回切须新配置／新请求，移除或规范关闭本项回原prompt；旧记录、索引、默认修订不删不改。旧校准是否可比由正式合同核验，不从零推理回放得出质量通过。本包只完成自验，未冻结或执行新正式生成配置。见[补修报告](development/reviews/M6-candidate-evidence-quality-fix-r1.md)。

@@ -253,7 +253,7 @@ class EvaluationRepository:
 
     def save_results(self, experiment_id, attempt, questions, results):
         by_id = {row['id']: row for row in results}
-        public_keys = {'answer', 'citations', 'behavior', 'route', 'retrieval_candidates',
+        public_keys = {'answer', 'citations', 'behavior', 'route', 'state', 'candidates', 'retrieval_candidates', 'prompt_reference_map',
                        'stage_metrics', 'stage_timings', 'logical_provider_calls', 'token_usage', 'image_selection_version',
                        'logical_provider_calls_scope', 'execution_logical_provider_calls'}
         experiment = self.experiments.find_one({'experiment_id':experiment_id}) or {}
@@ -265,6 +265,9 @@ class EvaluationRepository:
                 continue
             result = record.get('result') or {}
             clean = {key: deepcopy(value) for key, value in result.items() if key in public_keys}
+            if 'candidates' in clean:
+                from .result_presentation import public_candidates
+                clean['candidates'] = public_candidates(clean['candidates'])
             row = {'experiment_id': experiment_id, 'attempt': attempt, 'question_id': question['id'],
                    'category': question['category'], 'question': question['question'],
                    'status': record['status'], 'metrics': deepcopy(record.get('metrics', {})),

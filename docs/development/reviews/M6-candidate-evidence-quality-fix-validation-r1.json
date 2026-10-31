@@ -1,0 +1,217 @@
+{
+  "date": "2026-10-31",
+  "role": "execution_self_verification_not_independent_acceptance",
+  "baseline_commit": "e0184899254a1ae0078a3394cc49e80c44ca135b",
+  "stage": {
+    "M6": "5/7",
+    "M6_04": "accepted_unchanged",
+    "M6_05": "not_accepted",
+    "M6_08": "not_accepted",
+    "M7": "not_started"
+  },
+  "commands": [
+    {
+      "id": "focused",
+      "command": ".venv/Scripts/python.exe -m pytest -q tests/unit/test_candidate_evidence_quality_fix.py tests/unit/test_evidence_attribution.py tests/unit/test_context_budget.py tests/unit/test_retrieval_combination.py tests/unit/test_review_repair_schema.py tests/unit/test_source_prerequisite_wiring.py tests/unit/test_prerequisite_contract.py tests/contract/test_answer_filter.py",
+      "exit_code": 0,
+      "passed": 97,
+      "log": "final-focused.log"
+    },
+    {
+      "id": "isolated",
+      "command": "MONGO_URL=<本包新容器回环地址> M1_TEST_DB=<final-isolation.json随机短库> .venv/Scripts/python.exe -m pytest -q tests/integration/test_candidate_evidence_quality_fix.py tests/integration/test_review_repairs.py tests/integration/test_combination_adapter.py",
+      "exit_code": 0,
+      "passed": 58,
+      "log": "final-isolation.log",
+      "kind": "synthetic_only"
+    },
+    {
+      "id": "browser",
+      "cwd": "frontend",
+      "command": "pnpm exec playwright test tests/e2e/reviews.spec.ts tests/e2e/review-presentation.spec.ts --output=../output/m6-candidate-evidence-quality-fix-20261031/browser-related",
+      "exit_code": 0,
+      "passed": 13,
+      "log": "browser-related.log"
+    },
+    {
+      "id": "typecheck",
+      "cwd": "frontend",
+      "command": "pnpm typecheck",
+      "exit_code": 0,
+      "log": "typecheck.log"
+    },
+    {
+      "id": "build",
+      "cwd": "frontend",
+      "command": "pnpm build",
+      "exit_code": 0,
+      "log": "build.log"
+    },
+    {
+      "id": "openapi",
+      "command": ".venv/Scripts/python.exe -m pytest -q tests/unit/test_prerequisite_contract.py",
+      "exit_code": 0,
+      "passed": 2,
+      "log": "openapi-check.log"
+    },
+    {
+      "id": "saved-replay",
+      "command": ".venv/Scripts/python.exe output/m6-candidate-evidence-quality-fix-20261031/replay_saved.py",
+      "exit_code": 0,
+      "log": "replay-r2.log",
+      "not_safe_to_rerun_in_place": true
+    },
+    {
+      "id": "matrix",
+      "command": ".venv/Scripts/python.exe output/m6-candidate-evidence-quality-fix-20261031/classify_matrix.py",
+      "exit_code": 0,
+      "log": "classify-r2.log",
+      "not_safe_to_rerun_in_place": true
+    }
+  ],
+  "earlier_shared_regression": {
+    "passed": 250,
+    "exit_code": 0,
+    "log": "shared-final.log",
+    "overlaps": true
+  },
+  "matrix": {
+    "regressions": 30,
+    "unchanged_prompt_regressions": 27,
+    "mixed": 9,
+    "applicability_changed": 5,
+    "categories": {
+      "已证明缺陷": 6,
+      "提取／呈现限制": 21,
+      "审阅语义待核": 3,
+      "证据不足": 0
+    },
+    "step_dimensions": 10,
+    "firmware_scopes": 4,
+    "not_new_scores": true
+  },
+  "replay": {
+    "questions": 25,
+    "necessary_units": 35,
+    "context_preserved": true,
+    "groups_preserved": true,
+    "scores_preserved": true,
+    "immutable_results": 170,
+    "immutable_judgments": 340,
+    "filtered_streams": 168,
+    "segmentations": 2,
+    "new_inference": 0,
+    "new_database_access": 0,
+    "new_quality_writes": 0,
+    "actual_new_answer_effect": "not_tested"
+  },
+  "new_model_calls": 0,
+  "new_real_quality_records": 0,
+  "new_subagents": 0,
+  "http_requests": null,
+  "token_usage": null,
+  "cost": null,
+  "usage_note": "本包无新增模型路径；历史精确HTTP/费用未知保持null，不从结果行数推断0。",
+  "old_gate_status": [
+    "blocked",
+    "blocked"
+  ],
+  "protections": [
+    {
+      "manifest": "output/m6-candidate-evidence-quality-fix-20261031/historical-files.json",
+      "manifest_sha256": "5e1d405820dbedcae777b102631f8d0d2ffd11357693ab3f4118d2297ba270c1",
+      "files": 1205,
+      "mismatches": []
+    },
+    {
+      "manifest": "output/m6-calibrated-candidate-execution-20261030/historical-files.json",
+      "manifest_sha256": "eb514d2b7b9f379bd06abfa5068a39e0f067b1b3322cc1fce87f94a927497063",
+      "files": 240,
+      "mismatches": []
+    },
+    {
+      "manifest": "output/m6-review-correction-fix-20261030/prepared-r4/historical-protection.json",
+      "manifest_sha256": "dfa57fa8ea62acc4c75bd41d7e76dff4268190c963b9f21f512be2da0f98bd6e",
+      "files": 609,
+      "mismatches": []
+    }
+  ],
+  "no_live_vectors_or_default_pointer_scan": true,
+  "default_revision_changed": false,
+  "policy": {
+    "version": "attributed_assertions_v1",
+    "default_enabled": false,
+    "new_environment_variables": false,
+    "prompt_path": "prompts/answer_attributed_v1.prompt",
+    "prompt_file_sha256": "563e8a61fd143e0e1e139272027160e362d3c66f9f9b538f4e6d26033240ead0",
+    "drafts": [
+      {
+        "candidate": 1,
+        "parent_config_sha256": "09b08b1665226f4c4301289c4b26fda081eab027c8cfd45562e31bc226d14736",
+        "code_sha256": "bcbc147ce1183fb5cf774099c8080838bc11284919bc2939d346f6e3de9932da",
+        "prompt_sha256": "5c0cb39e58800fc437c1f32b48b05540363ea8dbb8a147f5e030aa84a59aa9dc",
+        "not_frozen_generation_config": true
+      },
+      {
+        "candidate": 2,
+        "parent_config_sha256": "eca06cb0e5c52274344472741ec8e55652b9613050df5bedad1dabb83f5c4a83",
+        "code_sha256": "bcbc147ce1183fb5cf774099c8080838bc11284919bc2939d346f6e3de9932da",
+        "prompt_sha256": "5c0cb39e58800fc437c1f32b48b05540363ea8dbb8a147f5e030aa84a59aa9dc",
+        "not_frozen_generation_config": true
+      }
+    ]
+  },
+  "hashes": {
+    "output/m6-candidate-evidence-quality-fix-20261031/classified-matrix.json": "b7896df60acb1c15b5354727467e02bca069f21ef07daa26e8cadc2fa2bc8b8d",
+    "output/m6-candidate-evidence-quality-fix-20261031/matrix-source-inputs.json": "bec67dda2c62b6a4335e896ebb31fa0a4c45fc57c74ea75456b72136b8174437",
+    "output/m6-candidate-evidence-quality-fix-20261031/saved-replay-r2/saved-replay-summary.json": "4221075b88293960efaf761d3611f5cad4b17b7080ab76784907258dba1648be",
+    "output/m6-candidate-evidence-quality-fix-20261031/047-048-diagnostic-supplement.json": "8b571d84975cd9baf5dcd80671ea8dc72be662e59c9c3255c422a8a4dab2c5ec",
+    "output/m6-candidate-evidence-quality-fix-20261031/historical-047-supplements-r3.json": "1c01a4fedff02e4a339956b7d37dc888b789b4d0a5e8a63e399e25d06ed41210",
+    "docs/development/reviews/M6-candidate-evidence-quality-matrix-r1.json": "36c50d7f72d5fa3f2418f97bb2013a11104ea1ca1a2ba06496031f5e9dde284b"
+  },
+  "preserved_failures": [
+    "red-public-source.log",
+    "red-attribution.log",
+    "red-reference-map.log",
+    "browser-red.log",
+    "browser-map-red.log",
+    "browser-green.log",
+    "integration-r1.log",
+    "integration-r2.log",
+    "unit-wiring-r1.log",
+    "replay-r1.log",
+    "classify-r1.log",
+    "delivery-scan-r1.log"
+  ],
+  "next_action": "总控独立定向复核本包；通过后固定有界诊断身份及正式可比性，不自动运行新候选或proof。",
+  "saved_experiment_identities": [
+    {
+      "candidate": 1,
+      "saved_experiment_file_sha256": "fdc21eaede90bb9defe1bfd4466330341be6172ee38e06bd0890c649cb1ca681",
+      "experiment_id": "ba08ba1f-ba61-4b8d-8dc4-3e76c0703216",
+      "eval_set_id": "m6-full-dev-r1",
+      "eval_set_version": "fb-07c584730833908571fe9dd7c7c890afa3cf9e66",
+      "config_id": "m6-final-1-candidate",
+      "config_version": "v2",
+      "config_sha256": "20fbcf3e47e7275b1dd01b24a2309ceaba287a5cbf77b76587866c0fc3e5aa26",
+      "dataset_sha256": "c72a78955afe86503fbb37cc7293fa54287b0427877af4616bb762dfb57656c9",
+      "manifest_sha256": "3f2b3c3413da98773b600623200deb399f91da3e9c8b1b6dd0be3fc2d83109f9",
+      "request_sha256": "4b068452c743d480898469a7aa52626aa732ddba69faec8a64f3c5f0f379fa13",
+      "baseline_experiment_id": "2b4307e3-2f03-46d7-850c-7d1054b1f8d2"
+    },
+    {
+      "candidate": 2,
+      "saved_experiment_file_sha256": "64b48ff0d183059c4661a58827b19318624e52c367317d47e3df58ed76d13e64",
+      "experiment_id": "8dfc2b43-584e-43d7-bb13-b1be764bfa72",
+      "eval_set_id": "m6-full-dev-r1",
+      "eval_set_version": "fb-a3fa87c1adb2a6dc4e9638214164eb5f343ad008",
+      "config_id": "m6-final-2-candidate",
+      "config_version": "v2",
+      "config_sha256": "b49c1bd7bf0689935bc13f0cb975f28029525e990ae09899d4c783733c981424",
+      "dataset_sha256": "217fe6342f2389cf32aa112ec8591a0b8b09e97bb2d1356b085799f734249a04",
+      "manifest_sha256": "d1644269ffd71a8e9917c7cea4ac98d99b31ce0fc62f7c0978231fb3bb3a28d0",
+      "request_sha256": "f471ff375891787b83e78d71b0db8538711803bbe8ad55d6539e153615b7584a",
+      "baseline_experiment_id": "29d405dc-81c9-4b63-a35f-5abdcbea081c"
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 """按字符打包完整证据与最近历史；模板、问题及输出 token 另行管理。"""
 import re
+import json
 
 
 def readable_evidence(text):
@@ -16,9 +17,11 @@ def readable_evidence(text):
     return ''.join(result)
 
 
-def pack_prompt_inputs(docs, history, max_chars=12000):
+def pack_prompt_inputs(docs, history, max_chars=12000, *, attributions=None):
     if type(max_chars) is not int or max_chars < 0:
         raise ValueError('max_chars 必须是非负整数')
+    if attributions is not None and len(attributions)!=len(docs):
+        raise ValueError('证据归属必须逐条对应输入')
     context_blocks, messages, ids, indices = [], [], [], []
     used = 0
     for index, doc in enumerate(docs):
@@ -37,6 +40,10 @@ def pack_prompt_inputs(docs, history, max_chars=12000):
             meta.append(f"[score={float(doc['score']):.4f}]")
         if doc.get('title'):
             meta.append(f"[title={doc['title']}]")
+        if attributions is not None:
+            label=attributions[index]
+            meta.append('[归属='+json.dumps(label,ensure_ascii=False,separators=(',',':'))+']')
+            meta.append('[物理页='+(','.join(map(str,label['physical_pages'])) or 'unknown')+']')
         block = ' '.join(meta) + '\n' + text
         cost = len(block) + (2 if context_blocks else 0)
         if used + cost > max_chars:

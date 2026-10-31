@@ -8,6 +8,7 @@ import type { Page } from '@/lib/api/types'
 import type { QuestionResult } from './types'
 import ReviewFollowup from './ReviewFollowup.vue'
 import ReviewSources from './ReviewSources.vue'
+import ResultPresentation from './ResultPresentation.vue'
 import type { Followup } from './ReviewFollowup.vue'
 const auth=useAuthStore(),route=useRoute(),eid=computed(()=>String(route.params.eid))
 const allowed=computed(()=>['maintainer','admin'].includes(auth.user?.role||''))
@@ -74,7 +75,7 @@ async function checkGate(){const generation=epoch;const result=await api.request
 <p v-else class="review-help">已保存的审阅不能覆盖。若要补充某轮人工记录中的未知项，请选择“人工本人核对”，再选择该记录原来的第一轮或第二轮；页面会显示“未知项追加复核”。</p>
 <label>待审问题<select v-model="qid" aria-label="待审问题"><option v-for="row in rows" :key="row.question_id" :value="row.question_id">{{row.question_id}} · {{row.question}}</option></select></label>
 <button v-if="results.hasNextPage.value" :disabled="results.isFetchingNextPage.value" @click="results.fetchNextPage()">更多问题</button>
-<article v-if="current"><h2>{{current.question}}</h2><p v-if="current.result.behavior==='clarify'" role="status">本轮请求确认设备型号，未生成答案。请核对澄清行为是否符合问题；无法确认的维度保留未知。</p><p v-else-if="!current.result.answer" role="status">当前结果没有答案正文，请核对运行状态与原始资料，无法确认的维度保留未知。</p><p class="answer">{{current.result.answer}}</p>
+<article v-if="current"><h2>{{current.question}}</h2><ResultPresentation :result="current.result" :status="current.status"/><p class="answer">{{current.result.answer}}</p>
 <ReviewSources :eid="eid" :qid="qid" :sources="current.result.citations||[]" :version="current.result.image_selection_version"/></article>
 <aside v-if="current" aria-label="审阅判定依据"><h2>审阅判定依据</h2>
 <h3>步骤是否适用</h3><p>先按题意判断是否要求执行配置、排查或操作。兼容性、参数事实判断题若不需要操作步骤，可以说明理由后选择不适用；不能因为未找到步骤就自动跳过。要求操作时，核对前提、顺序、命令与风险，再评0/1/2；尚未核实保留未知。</p>

@@ -268,6 +268,8 @@ class ReviewRepairs:
             row = deepcopy(original)
             qid, n = row['question_id'], row['round']
             target = targets.get(qid)
+            # 核验属于实际来源，而不是题目永不改变的标签；规则纠错不替代原件核验。
+            checked = {d: original['source_checked'] for d in DIMENSIONS}
             sources = {d:dict(kind='original_review', review_id=row['review_id'], execution_id=row['review_execution_id'],
                 reviewer_id=row['reviewer_id'], round=n) for d in DIMENSIONS}
             if target:
@@ -276,10 +278,10 @@ class ReviewRepairs:
                     for dimension in target['replace_dimensions']:
                         row['scores'][dimension] = judgment['scores'][dimension]
                         row['dimension_evidence'][dimension] = judgment['dimension_evidence'][dimension]
+                        checked[dimension] = judgment['source_checked']
                         sources[dimension] = dict(kind='repair_review', seal_id=seal['id'], seal_sha256=seal['sha256'],
                             execution_id=seal['execution_id'], reviewer_id=seal['reviewer_id'], round=n)
                     row['critical_errors'] = sorted(set(row['critical_errors'] + judgment['critical_errors']))
-                    row['source_checked'] = row['source_checked'] and judgment['source_checked']
                 if target['correct_actionability_na']:
                     row['scores']['actionability'] = 'not_applicable'
                     sources['actionability'] = dict(kind='controller_rule_correction', case_id=case['id'], case_sha256=case['sha256'],
@@ -287,6 +289,7 @@ class ReviewRepairs:
                 if target['actionability_applicable'] is not None:
                     row.update(actionability_applicable=target['actionability_applicable'], applicability_rationale=target['rationale'])
             # 仅内存投影，不伪装成新的原审核记录；逐维保存真实来源。
+            row['source_checked'] = all(checked.values())
             row['dimension_sources'] = sources
             row['review_id'] = 'repair-projection-' + fingerprint([case['sha256'], sources])
             projected.append(row)

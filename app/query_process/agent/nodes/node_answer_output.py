@@ -55,9 +55,15 @@ def step_2_construct_prompt(state: QueryGraphState) -> str:
   from app.answering.service import AnswerBudget,build_budgeted_prompt
   budget = AnswerBudget.model_validate(state['answer_budget']) if state.get('answer_budget') is not None else AnswerBudget.load()
   item_names_str = ", ".join(item_names) if item_names else "无指定商品"
+  from app.answering.evidence_attribution import EvidenceAttributionPolicy,evidence_labels
+  attribution=EvidenceAttributionPolicy.model_validate(state.get('evidence_attribution') or {})
+  labels=evidence_labels(reranked_docs,attribution)
+  template='answer_attributed_v1' if attribution.enabled else 'answer_out'
   packed = build_budgeted_prompt(reranked_docs,history,question=question,items=item_names_str,
-    render=lambda **kw:load_prompt('answer_out',**kw),budget=budget,
-    groups=state.get('evidence_groups',()),counter=state.get('token_counter'))
+    render=lambda **kw:load_prompt(template,**kw),budget=budget,
+    groups=state.get('evidence_groups',()),counter=state.get('token_counter'),attributions=labels)
+  if labels is not None:
+    state['prompt_reference_map']=[dict(labels[i],reference_number=n+1) for n,i in enumerate(packed['used_doc_indices'])]
   context_str, history_str = packed['context'], packed['history']
   state['used_chunk_ids'] = packed['used_chunk_ids']
   state['prompt_used_docs'] = [reranked_docs[i] for i in packed['used_doc_indices']]

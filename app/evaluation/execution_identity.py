@@ -9,7 +9,8 @@ def run_input(row, db):
         'run_id', 'conversation_id', 'owner_id', 'kb_id', 'identity', 'client_request_id',
         'question', 'requested_product_ids', 'input_product_snapshot', 'input_support_version',
         'support_snapshot', 'source_prerequisites', 'source_prerequisites_sha256',
-        'retrieval_combination', 'retrieval_combination_sha256') if k in row}
+        'retrieval_combination', 'retrieval_combination_sha256',
+        'evidence_attribution', 'evidence_attribution_sha256') if k in row}
     # 与QueryRunner实际历史读取口径一致；操作时间/消息ID不属于生成输入。
     history = list(db.messages.find({'conversation_id':row['conversation_id'],
         'owner_id':row['owner_id'],'run_id':{'$ne':row['run_id']}}).sort('ordinal',-1).limit(30))
@@ -21,7 +22,7 @@ def run_output(row):
     return {k: deepcopy(row[k]) for k in (
         'state', 'answer', 'citations', 'candidates', 'resume_point', 'product_snapshot',
         'revision_snapshot', 'answer_support', 'output_truncated', 'retrieval_branches',
-        'evaluation_candidates', 'prompt_budget', 'completion_snapshot') if k in row}
+        'evaluation_candidates', 'prompt_budget', 'completion_snapshot', 'prompt_reference_map') if k in row}
 
 
 def result_subject(result):
