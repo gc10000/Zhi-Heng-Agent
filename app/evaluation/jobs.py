@@ -68,6 +68,7 @@ def execute_job(repo, catalog, output_root, experiment_id, *, executor_factory=N
             resolved['config'] = dict(resolved['config'],regression_source=row['regression_source'],
                                       regression_execution_key=row['regression_execution_key'])
         from .runner import run_experiment
+        from app.infrastructure.providers.output_contract import from_config,is_product_risk
         from .validate_dataset import validate_dataset
         from .query_adapter import RealQueryExecutor
         factory = executor_factory or RealQueryExecutor
@@ -94,7 +95,7 @@ def execute_job(repo, catalog, output_root, experiment_id, *, executor_factory=N
                 resolved['config'], output, execute,
                 should_cancel=lambda: lost.is_set() or repo.cancel_requested(experiment_id, attempt, token),
                 verify_checkpoint=executor.verify_completed_checkpoint if row.get('regression_source') or row.get('quality_policy') or
-                    resolved['config'].get('parameters',{}).get('retrieval_combination',{}).get('enabled') else None)
+                    resolved['config'].get('parameters',{}).get('retrieval_combination',{}).get('enabled') or is_product_risk(from_config(resolved['config'])) else None)
         questions = [q for q in validate_dataset(resolved['dataset_path'], manifest=resolved['manifest_path'])
                      if q['split'] == 'dev']
         results = [json.loads(line) for line in (output/'results.jsonl').read_text(encoding='utf-8').splitlines()]

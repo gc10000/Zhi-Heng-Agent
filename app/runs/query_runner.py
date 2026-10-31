@@ -358,10 +358,18 @@ class QueryRunner:
                     if output_contract is not None and output_contract.enabled:
                         from app.infrastructure.providers.clients import output_limit_options
                         from app.infrastructure.providers.output_contract import OutputLedger
+                        from app.infrastructure.providers.output_contract import is_product_risk
+                        risk_options={}
+                        if is_product_risk(output_contract):
+                            from app.infrastructure.providers.product_risk import validate_prompt,validate_runtime
+                            context=getattr(self,'risk_context',None)
+                            validate_runtime(output_contract,row,context,self.repo.db)
+                            validate_prompt(output_contract,prompt,state)
+                            risk_options['risk_context']=context
                         # 能力及wire先验明，随后才创建调用前未知窗口；绝不自动重试。
                         output_limit_options(client,self.answer_budget.output_tokens,self.answer_budget.output_token_field,contract=output_contract)
                         account=OutputLedger(self.repo.db,output_contract)
-                        account.begin(rid,row['identity'],input_reservation=state['prompt_budget']['input_tokens'])
+                        account.begin(rid,row['identity'],input_reservation=state['prompt_budget']['input_tokens'],**risk_options)
                     try:
                         step_3_generate_response(state, prompt, client=client)
                     except BaseException:

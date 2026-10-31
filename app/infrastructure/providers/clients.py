@@ -40,8 +40,8 @@ def output_limit_options(client,limit,field='max_tokens',*,contract=None):
     if type(limit) is not int or limit<1 or field not in {'max_tokens','max_completion_tokens'}:
         raise ValueError('生成输出上限或字段非法')
     if contract is not None:
-        from .output_contract import OutputContract,strict_options
-        if OutputContract.model_validate(contract).enabled:
+        from .output_contract import parse_contract,strict_options
+        if parse_contract(contract).enabled:
             return strict_options(client,limit,field,contract)
     underlying=client.client if isinstance(client,PolicyChatClient) else client
     body=dict(getattr(underlying,'extra_body',None) or {})

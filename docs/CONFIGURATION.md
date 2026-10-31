@@ -1,3 +1,11 @@
+## M6显式单题风险准入（2026-10-31）
+
+内部output_contract新增默认关闭的`diagnostic_single_product_risk_v1`，仅消费bcee539封存的版1新版05-a授权；普通`diagnostic_total_output_v2`仍拒绝unknown。风险允许与网关能力分别保存：status／semantics仍unknown、evidence为空，不认定硬限。仅本机固定槽m6-05a-product-canary-r1，控制／目标／完整题集／prompt／源码／预算／请求均绑定；无新公开API、环境变量或.env必填项，不改变默认配置。
+
+请求必须n1、qwen3.8-flash、temperature0.1、extra_body.max_completion_tokens4096、默认thinking、stream＋usage、retry0／timeout120／无redirect。started未知不重发，已settled只读复用；开启或回切须新配置身份，enabled=false沿关闭路径。前置失败后的源码冻结只追加、不改首份计划；全部仍共享唯一started，不因换manifest、nonce、目录、账户或库重获额度。总预算与prior分别记录，实际付费输出上界unknown。
+
+本轮只完成离线检查与保存输入Mock，用户要求Docker维护期间不启动；最终版集成和实时消费者预检仍缺，真实配置／实验未创建，产品调用0。见[执行报告](development/reviews/M6-single-product-canary-execution-r1.md)。
+
 ## M6行级出处与比较上下文隔离配置（2026-10-30）
 
 `parameters.retrieval.comparison_context`／`RETRIEVAL_POLICY_JSON.comparison_context` 仅接受 `global`（默认）与 `scope_first_v1`。显式模式仅对 compare 的已重排证据，在原 `context_limit=10` 内先保留各非空授权产品范围的首条，再按实际重排顺序补满；不改变候选、分数、weighted、top-k、阈值或原题。缺少召回不补造证据；低分入选不等于相关性通过。QueryRunner 与 RetrievalExecutor 使用同一函数，完整策略进入现有配置身份，关闭应创建新配置 `global`，不改旧Run。来源前提允许此显式组合，其他weighted及预算约束保持。默认.env未改。

@@ -1,0 +1,139 @@
+{
+  "passed": true,
+  "scope": "offline_files_and_saved_inputs_not_live_quality",
+  "checks": 2438,
+  "baseline": "bcee5395604bcd7169c907ddcf146f163ccc2d14",
+  "final_source_sha256": "b50b1f5b0eab66d7a4eb2a32314bcd415dba2624354cfb0ece59d2efce17ab8b",
+  "config_sha256": "22d0e525ba1074336a6d7af973cc50427eb96e4c3f5ad28d9a3c60e37ff65efc",
+  "registered_config_file_sha256": "288f014ee987675a93151e54c40c54a83ea9996968f6a7c593157d17fb0e2b04",
+  "manifest_sha256": "0e94544429f865b2f2e35193f9f915e06282de9c1faf85fafe27d4891bb85533",
+  "checkpoint_key": "9dc35acea3b1133b409e403caa2eea8bfea70cf4e91d8e0ba3c01da47f243301",
+  "request_sha256": "f3f16112c23330b0a5c142c3a64559d6cbd79f5e82ac00cd617529b5fc9526d9",
+  "target_database_sha256": "2433758918a1c350011fc991be6cd9500f94805507d37e5c938a98e5e3bec9c9",
+  "control_database_sha256": "ab1bc09b0bdb4c8c90eca4b1f30c4ecef77ee34d8a4f25fc794d72df6c3e4825",
+  "prompt_sha256": "c975587079e01a747990468487ac01c700137bc48578f130008e24ed676b5498",
+  "prior": {
+    "six_sha256": "d292516d24ba9eefddc5969a40eee7aa0d900eacef4aa28095bf60a592ffabed",
+    "probe_sha256": "7924b1898e594ea36b5e2a523d4039b8878b19f943ccd7dfae2f8bda1b6edec6",
+    "input_tokens": 23582,
+    "output_tokens": 20602,
+    "sha256": "9e6b4627952e7524a24f6a50b6e6e7d8595939078bdb0eccadca5a0e5ad6f8ac"
+  },
+  "protection": [
+    {
+      "manifest": "output/m6-single-product-canary-20261031/protected-before.json",
+      "manifest_sha256": "e4242685644e05278ba3fab78c00480a63903461f34c611091bbee406fad83ea",
+      "verified": 138,
+      "private_identity_not_read": 0
+    },
+    {
+      "manifest": "output/m6-output-contract-boundaries-probe-20261031/protected-before.json",
+      "manifest_sha256": "006625f4c59203d4579f61a097ac0b7e97dc2c4c92e02cf475445674c43e2f9d",
+      "verified": 336,
+      "private_identity_not_read": 0
+    },
+    {
+      "manifest": "output/m6-diagnostic-subject-usage-fix-20261031/protected-before.json",
+      "manifest_sha256": "25361fd1024f4822debea65ba52083312c16c9091e5a07344939511da1d542a7",
+      "verified": 597,
+      "private_identity_not_read": 0
+    },
+    {
+      "manifest": "output/m6-diagnostic-cache-completion-20261031/historical-files-r2.json",
+      "manifest_sha256": "603453698e2cb7c830f75ffcc0f40f475651a3b1a0f6727597dc68b9c80df499",
+      "verified": 1314,
+      "private_identity_not_read": 0
+    }
+  ],
+  "protected_source_files": 41,
+  "slot_started": false,
+  "slot_settled": false,
+  "new_product_streams": 0,
+  "new_external_model_calls": 0,
+  "new_local_inference": 0,
+  "exact_http_requests": null,
+  "cost": null,
+  "paid_output_upper_bound": null,
+  "live_consumer_preflight": false,
+  "formal_experiment_created": false,
+  "final_source_integration_verified": false,
+  "user_instruction": "maintenance_in_progress_do_not_start_docker",
+  "old_48_paused": true,
+  "formal_human_or_assistant_quality_writes": 0,
+  "m6": "5/7",
+  "m6_04": "accepted_unchanged",
+  "m6_05": "not_accepted",
+  "m6_08": "not_accepted",
+  "m7": "not_authorized",
+  "schema_version": 1,
+  "role": "execution_agent_self_check_not_independent_review",
+  "date": "2026-10-31",
+  "status": "offline_implementation_checked_live_preflight_blocked_by_authorized_maintenance",
+  "authorization": {
+    "commit": "bcee5395604bcd7169c907ddcf146f163ccc2d14",
+    "path": "docs/development/reviews/M6-single-product-risk-authorization-r1.json",
+    "sha256": "0270a6e7d8cdfc434a0dadf8fcbe7bae8b80e2417515f73117b83b3f1f81a591"
+  },
+  "report": "docs/development/reviews/M6-single-product-canary-execution-r1.md",
+  "tests": {
+    "final_offline": {
+      "passed": 169,
+      "exit_code": 0,
+      "warnings": 1
+    },
+    "intermediate_integration": {
+      "passed": 8,
+      "exit_code": 0,
+      "final_source": false
+    },
+    "interrupted_integration": {
+      "errors": 4,
+      "deselected": 71,
+      "exit_code": 1,
+      "reason": "mongo_maintenance"
+    },
+    "exact_saved_prompt_mock": {
+      "passed": true,
+      "exit_code": 0,
+      "quality_proof": false
+    },
+    "live_consumer_preflight": {
+      "passed": false,
+      "exit_code": 1
+    },
+    "freeze_only": {
+      "passed": true,
+      "exit_code": 0
+    },
+    "openapi_equal": true
+  },
+  "local_evidence": {
+    "directory": "output/m6-single-product-canary-20261031",
+    "audit_sha256": "ab29601d06e7badf39b50411300ac761fc9f266f89c1faf6d90ad1d57e6acec4",
+    "command_receipts_sha256": "afd089561cba6585ef9b2ef59b71df9913d2ec40ee19f6c7cf0ee965c16126ad",
+    "logs": {
+      "delivery-audit-r1.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "freeze-r2.log": "24e81cef2959b1c60be22693461842143cf1b60f9666058da077cb8088c4d591",
+      "green-integration-r2.log": "c730875620fe184d7834b249bc98a5185923ca032ffe5ebf62f1ce6366c4793b",
+      "green-joined-r1.log": "0d514438eaed2374d8e5db1a3b71b759cab772ad8b573063af9b6e92ac8ba7e6",
+      "green-joined-r2.log": "a3b4582c85cfe00bde8337ca19fdd8e903bac17dc706d448c2d1d8918ea955df",
+      "green-joined-r3.log": "b378782815eb7f8a9dbe625d6f9a5d4f4969ea7e68ec2e033712ea3e866c338d",
+      "green-joined-r4.log": "a8e46b48547cfe46b079cf4cd97001ea7357f3a3405692b7e849f29b84296176",
+      "green-unit-r1.log": "682f60e62abf98579e39b6ae49c8bac508cb55f3c987dc5ee690d96e97e000b1",
+      "green-unit-r2.log": "5dffd697235554983c19382b827ca989eb953c725e702717d62b0da4ec11eeea",
+      "green-unit-r3.log": "f7450af0ecc58a8e5b4ba387a1be274eb2d49eeb1b8d62130293d28571e06dc7",
+      "green-unit-r4.log": "e9dbf7bc4fbeb8968b4d1d056c9f780d01fc18a1401a1e3d8d69303bd277be45",
+      "openapi-r1.log": "035b05f3e6b4294f3cee73375b66d94ac68fb89a7c8d64dbea133430222ad21d",
+      "preflight-r1.log": "0527606ad6797b18a2f6f0e5a472e0acbc58ec6ec740d339c081abded8bec23d",
+      "red-disabled-r1.log": "c3cdaa5827925bcaf10ab8112bd048abd6eac9d51eb4e10d7cd29f5bc776189d",
+      "red-generation-options.log": "bba8375f2440724d42a6b074bf2ccfc0759a58b4e6212a9e61376029d58cfc9f",
+      "red-refreeze-r1.log": "c4e038e206bd6b2c7a173c4289ffac9732a9c076166bd8b81656daab3eb0ebda",
+      "red-unit-r1.log": "c0b60b4511984183e5a4d971e2c21ec5671b7635db9692aeddfda33804e7300d",
+      "red-unit-r2.log": "fbf34ddaf2c1a4494392914585b8567366e3b140e24ebe931f1598ed6bda9e4d",
+      "saved-sdk-mock-r1.log": "34d03e645dec8f453a27f7adcaf1ffd813bba8d5f1c82ff448aa2fbefbed1765",
+      "saved-sdk-mock-r2.log": "780a2bccecdc04b3a31c4ec29a9db2dcfffedeb62d2faadebf3169757b5fdfee",
+      "saved-sdk-mock-r3.log": "780a2bccecdc04b3a31c4ec29a9db2dcfffedeb62d2faadebf3169757b5fdfee"
+    }
+  },
+  "next_action": "after_maintenance_verify_final_isolated_integration_and_exact_consumer_then_one_authorized_formal_canary"
+}

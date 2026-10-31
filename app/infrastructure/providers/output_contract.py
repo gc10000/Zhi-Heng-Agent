@@ -10,6 +10,7 @@ from app.api.errors import APIError
 from app.knowledge.repository import fingerprint
 from app.answering.reviewed_subjects import GitEvidence, evidence_bytes
 from .diagnostic_usage import ABSENT
+from .product_risk import SingleProductAdmission
 
 
 class OutputContract(BaseModel):
@@ -45,9 +46,25 @@ class OutputContract(BaseModel):
         return self
 
 
+class SingleProductRiskContract(OutputContract):
+    function_version: Literal['diagnostic_single_product_risk_v1'] = 'diagnostic_single_product_risk_v1'
+    admission: SingleProductAdmission
+
+
+def parse_contract(value):
+    kind=value.get('function_version') if isinstance(value,dict) else getattr(value,'function_version',None)
+    return (SingleProductRiskContract if kind=='diagnostic_single_product_risk_v1' else OutputContract).model_validate(value)
+
+
+def is_product_risk(value):
+    if value is None:return False
+    policy=parse_contract(value)
+    return policy.enabled and policy.function_version=='diagnostic_single_product_risk_v1'
+
+
 def payload(value):
     if value is None:return None
-    policy=OutputContract.model_validate(value)
+    policy=parse_contract(value)
     return policy.model_dump(mode='json') if policy.enabled else None
 
 
@@ -76,8 +93,13 @@ def validate_run(row, value):
 
 
 def require_capability(value):
-    policy = OutputContract.model_validate(value)
+    policy = parse_contract(value)
     if not policy.enabled:return policy
+    if is_product_risk(policy):
+        # 准入依据是受控的单次风险授权，能力事实仍为unknown；普通v2分支不变。
+        from .product_risk import require
+        require(policy)
+        return policy
     if policy.status != 'verified' or policy.semantics != 'total_including_reasoning' or policy.evidence is None:
         raise APIError(422, 'output_capability_unknown', '网关总输出限制能力未知，诊断调用暂停。')
     proof = json.loads(evidence_bytes(policy.evidence))
@@ -107,6 +129,9 @@ def strict_options(client, limit, field, contract):
     policy = require_capability(contract)
     underlying = unwrap_client(client)
     if not policy.enabled:raise ValueError('关闭合同不使用严格发参入口')
+    if is_product_risk(policy):
+        from .product_risk import validate_client
+        validate_client(policy,underlying)
     if field != policy.limit_field or limit != policy.per_request_total_output_tokens:
         raise ValueError('输出字段或总预算与能力合同冲突')
     if (fingerprint(str(getattr(underlying, 'openai_api_base', ''))) != policy.endpoint_sha256 or
@@ -169,7 +194,8 @@ def usage_receipt(usage, *, reasoning=ABSENT, observations=None):
 class OutputLedger:
     """在现有Run执行边界串行结算，不调度job。未知窗口持久阻断下一题。"""
     def __init__(self, db, contract):
-        self.policy = OutputContract.model_validate(contract)
+        self.policy = parse_contract(contract)
+        self.db_name=db.name
         self.rows = db.diagnostic_output_accounts
         self.key = fingerprint(['diagnostic_total_output_v1', self.policy.ledger_id])
         self.sha = fingerprint(payload(self.policy))
@@ -185,7 +211,7 @@ class OutputLedger:
             {'$set': values, '$inc': {'version': 1}})
         if not result.matched_count:raise APIError(409, 'output_account_busy', '诊断结算并发冲突，停止派发。')
 
-    def begin(self, run_id, run_identity, *, input_reservation=0):
+    def begin(self, run_id, run_identity, *, input_reservation=0,risk_context=None):
         require_capability(self.policy)
         row = dict(contract_sha256=self.sha, version=0, state='open', pending=None,
             settled={}, new_input_tokens=0, new_output_tokens=0, known_new_input_tokens=0,known_new_output_tokens=0,
@@ -204,6 +230,9 @@ class OutputLedger:
         self._cas(saved, dict(state='pending', pending=dict(run_id=run_id, run_identity=run_identity,
             input_reservation=input_reservation,started_at=datetime.now(timezone.utc).isoformat()),
             new_input_tokens=None,new_output_tokens=None,logical_reservations=saved['logical_reservations']+1))
+        if is_product_risk(self.policy):
+            from .product_risk import start
+            start(self.policy,db_name=self.db_name,run_id=run_id,run_identity=run_identity,context=risk_context)
 
     def settle(self, run_id, run_identity, usage, *, completed, reasoning=ABSENT, logical_calls=None,observations=None):
         receipt = usage_receipt(usage, reasoning=reasoning,observations=observations) | dict(run_id=run_id, run_identity=run_identity, completed=bool(completed))
@@ -213,6 +242,9 @@ class OutputLedger:
         saved = self._read();key = fingerprint(run_id)
         if key in saved['settled']:
             if saved['settled'][key] != receipt:raise APIError(409, 'output_settlement_conflict', '相同调用的结算内容改变。')
+            if is_product_risk(self.policy):
+                from .product_risk import settle
+                settle(self.policy,receipt)
             return saved  # 崩溃重放只复用同一结算；不重置或再次增加usage。
         if not saved['pending'] or any(saved['pending'].get(k) != v for k,v in dict(run_id=run_id, run_identity=run_identity).items()):
             raise APIError(409, 'output_settlement_conflict', '没有匹配的调用前持久关联。')
@@ -230,6 +262,9 @@ class OutputLedger:
             known_new_input_tokens=input_tokens,known_new_output_tokens=output,
             new_input_tokens=input_tokens if known and completed else None,new_output_tokens=output if known and completed else None,
             unknown_windows=windows))
+        if is_product_risk(self.policy):
+            from .product_risk import settle
+            settle(self.policy,receipt)
         return self._read()
 
     def require_open(self):

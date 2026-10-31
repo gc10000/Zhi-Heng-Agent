@@ -55,7 +55,7 @@ def bind_execution(db, control_db, context, config, question_id, checkpoint_key,
     target = config['target']
     if db.name != target['database']:
         raise ValueError('题级来源目标库与冻结Run目标不匹配')
-    from app.infrastructure.providers.output_contract import from_config,validate_run,identity as output_identity
+    from app.infrastructure.providers.output_contract import from_config,validate_run,identity as output_identity,is_product_risk
     validate_run(run,from_config(config))
     identity = dict(experiment_id=context['experiment_id'], attempt=context['attempt'],
         control_database=control_db.name, target_database=db.name,
@@ -76,7 +76,7 @@ def bind_execution(db, control_db, context, config, question_id, checkpoint_key,
         from app.answering.evidence_attribution import payload as attribution_payload
         canonical=attribution_payload(attribution)
         identity.update(evidence_attribution=canonical,evidence_attribution_sha256=fingerprint(canonical))
-    if config.get('regression_source') or config.get('quality_policy') or combination.get('enabled'):
+    if config.get('regression_source') or config.get('quality_policy') or combination.get('enabled') or is_product_risk(from_config(config)):
         identity['regression_source'] = config.get('regression_source')
         if config.get('quality_policy'): identity['quality_policy']=config['quality_policy']
         from .execution_identity import run_input

@@ -39,7 +39,7 @@ def open_evaluation_resources(config):
         raise ValueError('请填写根目录.env的MONGO_URL，用于独立评测账本')
     t = config['target']
     client = MongoClient(os.environ['MONGO_URL'], serverSelectionTimeoutMS=5000, tz_aware=True)
-    knowledge, runner = None, None
+    knowledge, runner, risk_http = None, None, None
     try:
         db = client[t['database']]
         conv = ConversationRepository(db)
@@ -57,16 +57,22 @@ def open_evaluation_resources(config):
         diagnostic_client={'preserve_raw_usage':True} if policies.answer_budget.output_contract is not None and policies.answer_budget.output_contract.enabled else {}
         if policies.runtime!=ModelRuntimePolicy.load():raise ValueError('本机模型运行策略与冻结实验不一致')
         provider_counts=LogicalProviderCounts()
+        from app.infrastructure.providers.output_contract import is_product_risk
+        risk_client=None
+        if is_product_risk(policies.answer_budget.output_contract):
+            from app.infrastructure.providers.product_risk import open_client
+            risk_client,risk_http=open_client(policies.answer_budget.output_contract)
         runner = QueryRunner(repo, commands, knowledge.get, retrieval_policy=policies.retrieval,
             expansion_policy=policies.expansion,answer_budget=policies.answer_budget,enhancement_policy=policies.enhancement,
             source_prerequisites=policies.source_prerequisites,retrieval_combination=policies.retrieval_combination,
             evidence_attribution=policies.evidence_attribution,
-            llm_factory=lambda:provider_counts.wrap(get_llm_client(**diagnostic_client)))
+            llm_factory=lambda:provider_counts.wrap(risk_client if risk_client is not None else get_llm_client(**diagnostic_client)))
         yield {'db': db, 'conversations': conv, 'runs': repo, 'run_service': RunService(repo),
                'commands': commands, 'query_runner': runner, 'knowledge': knowledge.get, 'provider_counts':provider_counts}
     finally:
         if runner: runner.close()
         if knowledge: knowledge.close()
+        if risk_http: risk_http.close()
         client.close()
 
 
@@ -94,6 +100,10 @@ class RealQueryExecutor:
         """结果文件发布前崩溃：只读核实已完成Run，并登记当前attempt观察复用。"""
         from .execution_links import bind_execution, validate_execution
         validate_execution(self.control_db,self.execution,self.config)
+        from app.infrastructure.providers.output_contract import from_config,is_product_risk
+        if is_product_risk(from_config(self.config)):
+            from app.infrastructure.providers.product_risk import validate_config
+            validate_config(self.config,self.control_db.name,question=question)
         key = fingerprint([self.config,question['id']])
         saved = self.checkpoints.find_one({'_id':key})
         inputs = {k:question[k] for k in ('id','question','product_names','history')}
@@ -222,6 +232,13 @@ class RealQueryExecutor:
         self.products = {p['model']: p['product_id'] for p in g.products.collection.find({'owner_id': g.owner_id})}
 
     def __call__(self, question):
+        from app.infrastructure.providers.output_contract import from_config,is_product_risk
+        if is_product_risk(from_config(self.config)):
+            from app.infrastructure.providers.product_risk import validate_config
+            if not self.execution or self.control_db is None:raise ValueError('风险准入必须绑定正式单题job')
+            validate_config(self.config,self.control_db.name,question=question)
+            self.resources['query_runner'].risk_context=dict(config=self.config,question=question,
+                control_db=self.control_db,control_database=self.control_db.name,execution=self.execution)
         if self.execution:
             from .execution_links import validate_execution
             # 先验明控制任务，再写conversation/checkpoint/Run；不把target当控制库。
@@ -316,7 +333,7 @@ class RealQueryExecutor:
         row = self.resources['runs'].get(self.user, rid)
         accounting = self.call_accounting(row, counts_before)
         result = self.project_result(row) | accounting
-        if self.config.get('regression_source') or self.config.get('quality_policy') or combination.get('enabled'):
+        if self.config.get('regression_source') or self.config.get('quality_policy') or combination.get('enabled') or is_product_risk(output):
             from .execution_identity import freeze_outcome
             freeze_outcome(self.resources['db'],self.config,key,row,result)
         return result
