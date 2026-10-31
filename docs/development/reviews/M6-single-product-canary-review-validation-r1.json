@@ -1,0 +1,98 @@
+{
+  "passed": true,
+  "role": "coordinator_independent_targeted_review",
+  "reviewed_commit": "1cceb9ee09807725c8a800fb0f18e72c3c7480b4",
+  "start_head": "031ba1de27a32666120512c6285cdcf5a893b743",
+  "checks": 2447,
+  "tests": {
+    "unit": {
+      "passed": 169,
+      "xml_sha256": "c749e7bc40983d4ff8a40d3b97c4607f03aeda99927f93f32102035bdaa46075",
+      "log_sha256": "c9173541fa296d6ac74ecc4de479e8000fa2168bf8b93cb10c8135120fe172da"
+    },
+    "integration": {
+      "passed": 75,
+      "xml_sha256": "80e6e8a1906fb9476d5d73286570ce3aec1e51edb31c83fff3f05e085306d779",
+      "log_sha256": "0e160c899d9593ab12ea3d709776efaaff4cba5fcab681c3b99d94b7d8a690ec"
+    },
+    "independent": {
+      "passed": 12,
+      "xml_sha256": "112c2fb945abb1391148d664fdeaa35012cfef54e2a1b7eb584832f9e482f698",
+      "log_sha256": "db22d44dbc80cdcd25e77ab5611f1d9028e1f577f2089eaa4825b95d1fbedc13"
+    }
+  },
+  "protection": [
+    {
+      "manifest": "output/m6-single-product-canary-20261031/protected-before.json",
+      "manifest_sha256": "e4242685644e05278ba3fab78c00480a63903461f34c611091bbee406fad83ea",
+      "verified": 138,
+      "private_identity_not_read": 0
+    },
+    {
+      "manifest": "output/m6-output-contract-boundaries-probe-20261031/protected-before.json",
+      "manifest_sha256": "006625f4c59203d4579f61a097ac0b7e97dc2c4c92e02cf475445674c43e2f9d",
+      "verified": 336,
+      "private_identity_not_read": 0
+    },
+    {
+      "manifest": "output/m6-diagnostic-subject-usage-fix-20261031/protected-before.json",
+      "manifest_sha256": "25361fd1024f4822debea65ba52083312c16c9091e5a07344939511da1d542a7",
+      "verified": 597,
+      "private_identity_not_read": 0
+    },
+    {
+      "manifest": "output/m6-diagnostic-cache-completion-20261031/historical-files-r2.json",
+      "manifest_sha256": "603453698e2cb7c830f75ffcc0f40f475651a3b1a0f6727597dc68b9c80df499",
+      "verified": 1314,
+      "private_identity_not_read": 0
+    }
+  ],
+  "final_source_sha256": "b50b1f5b0eab66d7a4eb2a32314bcd415dba2624354cfb0ece59d2efce17ab8b",
+  "config_sha256": "22d0e525ba1074336a6d7af973cc50427eb96e4c3f5ad28d9a3c60e37ff65efc",
+  "manifest_sha256": "0e94544429f865b2f2e35193f9f915e06282de9c1faf85fafe27d4891bb85533",
+  "request_sha256": "f3f16112c23330b0a5c142c3a64559d6cbd79f5e82ac00cd617529b5fc9526d9",
+  "checkpoint_key": "9dc35acea3b1133b409e403caa2eea8bfea70cf4e91d8e0ba3c01da47f243301",
+  "prompt_sha256": "c975587079e01a747990468487ac01c700137bc48578f130008e24ed676b5498",
+  "input_reservation": 12293,
+  "embedding_cache_hits": 1,
+  "rerank_cache_hits": 20,
+  "index_cache_hits": 3,
+  "authorization": {
+    "commit": "bcee5395604bcd7169c907ddcf146f163ccc2d14",
+    "path": "docs/development/reviews/M6-single-product-risk-authorization-r1.json",
+    "sha256": "0270a6e7d8cdfc434a0dadf8fcbe7bae8b80e2417515f73117b83b3f1f81a591"
+  },
+  "prior": {
+    "six_sha256": "d292516d24ba9eefddc5969a40eee7aa0d900eacef4aa28095bf60a592ffabed",
+    "probe_sha256": "7924b1898e594ea36b5e2a523d4039b8878b19f943ccd7dfae2f8bda1b6edec6",
+    "input_tokens": 23582,
+    "output_tokens": 20602,
+    "sha256": "9e6b4627952e7524a24f6a50b6e6e7d8595939078bdb0eccadca5a0e5ad6f8ac"
+  },
+  "slot_started": false,
+  "slot_settled": false,
+  "new_product_streams": 0,
+  "new_local_inference": 0,
+  "formal_quality_writes": 0,
+  "paid_output_upper_bound": null,
+  "exact_http_requests": null,
+  "cost": null,
+  "business_source_modified": false,
+  "live_vector_full_scan": false,
+  "old_48_paused": true,
+  "m6": "5/7",
+  "m7": "not_authorized",
+  "schema_version": 1,
+  "date": "2026-10-31",
+  "report": "docs/development/reviews/M6-single-product-canary-review-r1.md",
+  "technical_status": "closed",
+  "product_result": "not_executed",
+  "remote_verified_this_turn": false,
+  "remote_blocker": "configured_proxy_unreachable_and_direct_github_443_unreachable",
+  "evidence_limitations": [
+    "no_full_live_vector_or_database_audit",
+    "cache_coverage_not_answer_quality",
+    "gateway_hard_limit_still_unknown"
+  ],
+  "next": "existing_authorized_single_product_job_only_stop_after_one_result"
+}
