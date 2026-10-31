@@ -526,11 +526,225 @@
     "real_database_access": false,
     "new_inference": 0
   },
-  "formal_attestations_created": 0,
-  "formal_gates": [],
+  "formal_attestations_created": 2,
+  "formal_gates": [
+    {
+      "candidate": 1,
+      "experiment_id": "ba08ba1f-ba61-4b8d-8dc4-3e76c0703216",
+      "attestation": {
+        "id": "2eb5aa6ecaa0945cfa4882efb7bfb098cea003a2d3bdadd3b43d08d4837d3f90",
+        "sha256": "3013121d1a4920fd1bb68ee433791b1712f3124f8bfe0ec36a10591bb708d53b",
+        "created_at": "2026-10-31T02:28:10.812168+00:00",
+        "controller_id": "3c7c3513-bb05-498c-afdf-734b7aac4117",
+        "artifact": {
+          "commit": "34e51d73c62099ba6548011e5dc10971dfd2eb0a",
+          "path": "docs/development/reviews/M6-calibrated-candidate-review-r1.md",
+          "sha256": "74aa08d08f938d997e47497c7692b2da0e250682048b0b6d89f867f0b7258b8c"
+        }
+      },
+      "formal_gate": {
+        "status": "blocked",
+        "reasons": [
+          "applicability_changed",
+          "quality_regression",
+          "review_pending_or_changed"
+        ],
+        "regressions": [
+          {
+            "question_id": "m6-g540-19-b",
+            "dimension": "factuality"
+          },
+          {
+            "question_id": "m6-g540-19-b",
+            "dimension": "citation_support"
+          },
+          {
+            "question_id": "m6-g540-20-a",
+            "dimension": "factuality"
+          },
+          {
+            "question_id": "m6-g540-20-a",
+            "dimension": "citation_support"
+          },
+          {
+            "question_id": "m6-g540-unknown-04-a",
+            "dimension": "factuality"
+          },
+          {
+            "question_id": "m6-g540-unknown-05-a",
+            "dimension": "factuality"
+          },
+          {
+            "question_id": "m6-g540-unknown-05-a",
+            "dimension": "citation_support"
+          },
+          {
+            "question_id": "support-v1-030",
+            "dimension": "citation_support"
+          }
+        ],
+        "calibration_id": "69a95e6b-c3b1-4ee1-8523-bab605451a2b",
+        "candidate_experiment_id": "ba08ba1f-ba61-4b8d-8dc4-3e76c0703216",
+        "human_review_count": 0,
+        "automatic_publish": false,
+        "quality_policy": {
+          "id": "a511cc6341b832d7af86cf900b29ffac33319ed9f8c85faeb31c42cf8d91b107",
+          "sha256": "8a4fa95f898ddc362e55c505674e71c22508c5fe1cc77bd6d6668da78e7e703f"
+        },
+        "purpose": "development_acceptance",
+        "assistant_review_count": 168,
+        "human_publication_status": "pending"
+      },
+      "incomplete": [
+        "m6-g540-unknown-01-b",
+        "m6-g540-unknown-03-b",
+        "m6-g540-unknown-04-b",
+        "m6-g540-unknown-05-b",
+        "support-v1-047"
+      ],
+      "values_count": 84,
+      "critical": [],
+      "gate_read_only": true
+    },
+    {
+      "candidate": 2,
+      "experiment_id": "8dfc2b43-584e-43d7-bb13-b1be764bfa72",
+      "attestation": {
+        "id": "10c177255fded0944f29a8212989a7cae777d47c27c902b6bd2c45ce2e3032f3",
+        "sha256": "826c7d7676bd98b5cbe7396c2cf40e81be06fc024fdbb89a0c5960b0c283f87b",
+        "created_at": "2026-10-31T02:28:19.020776+00:00",
+        "controller_id": "0c841f5c-6fd0-4512-9a26-48fb824fa071",
+        "artifact": {
+          "commit": "34e51d73c62099ba6548011e5dc10971dfd2eb0a",
+          "path": "docs/development/reviews/M6-calibrated-candidate-review-r1.md",
+          "sha256": "74aa08d08f938d997e47497c7692b2da0e250682048b0b6d89f867f0b7258b8c"
+        }
+      },
+      "formal_gate": {
+        "status": "blocked",
+        "reasons": [
+          "applicability_changed",
+          "quality_regression",
+          "review_pending_or_changed"
+        ],
+        "regressions": [
+          {
+            "question_id": "m6-g540-02-a",
+            "dimension": "factuality"
+          },
+          {
+            "question_id": "m6-g540-02-a",
+            "dimension": "citation_support"
+          },
+          {
+            "question_id": "m6-g540-02-b",
+            "dimension": "factuality"
+          },
+          {
+            "question_id": "m6-g540-02-b",
+            "dimension": "citation_support"
+          },
+          {
+            "question_id": "m6-g540-03-a",
+            "dimension": "factuality"
+          },
+          {
+            "question_id": "m6-g540-04-b",
+            "dimension": "factuality"
+          },
+          {
+            "question_id": "m6-g540-04-b",
+            "dimension": "citation_support"
+          },
+          {
+            "question_id": "m6-g540-09-a",
+            "dimension": "citation_support"
+          },
+          {
+            "question_id": "m6-g540-09-b",
+            "dimension": "factuality"
+          },
+          {
+            "question_id": "m6-g540-09-b",
+            "dimension": "citation_support"
+          },
+          {
+            "question_id": "m6-g540-11-a",
+            "dimension": "citation_support"
+          },
+          {
+            "question_id": "m6-g540-17-a",
+            "dimension": "factuality"
+          },
+          {
+            "question_id": "m6-g540-17-a",
+            "dimension": "citation_support"
+          },
+          {
+            "question_id": "m6-g540-18-a",
+            "dimension": "factuality"
+          },
+          {
+            "question_id": "m6-g540-18-a",
+            "dimension": "citation_support"
+          },
+          {
+            "question_id": "m6-g540-20-a",
+            "dimension": "factuality"
+          },
+          {
+            "question_id": "m6-g540-20-a",
+            "dimension": "citation_support"
+          },
+          {
+            "question_id": "m6-g540-unknown-04-a",
+            "dimension": "factuality"
+          },
+          {
+            "question_id": "m6-g540-unknown-04-b",
+            "dimension": "factuality"
+          },
+          {
+            "question_id": "m6-g540-unknown-05-a",
+            "dimension": "factuality"
+          },
+          {
+            "question_id": "m6-g540-unknown-05-a",
+            "dimension": "citation_support"
+          },
+          {
+            "question_id": "support-v1-008",
+            "dimension": "citation_support"
+          }
+        ],
+        "calibration_id": "379c925f-3bd9-4f2a-9607-e5a9679f0a2f",
+        "candidate_experiment_id": "8dfc2b43-584e-43d7-bb13-b1be764bfa72",
+        "human_review_count": 0,
+        "automatic_publish": false,
+        "quality_policy": {
+          "id": "a511cc6341b832d7af86cf900b29ffac33319ed9f8c85faeb31c42cf8d91b107",
+          "sha256": "62eb176019f78fe4e5d442d8f8a8a150db3b4b83eaa49d1fbf64acee135cd2b3"
+        },
+        "purpose": "development_acceptance",
+        "assistant_review_count": 168,
+        "human_publication_status": "pending"
+      },
+      "incomplete": [
+        "m6-g540-unknown-01-b",
+        "m6-g540-unknown-03-b",
+        "m6-g540-unknown-04-a",
+        "m6-g540-unknown-04-b",
+        "m6-g540-unknown-05-b",
+        "support-v1-047"
+      ],
+      "values_count": 84,
+      "critical": [],
+      "gate_read_only": true
+    }
+  ],
   "proofs_created": 0,
   "new_model_calls": 0,
-  "status": "controlled report ready; formal independence and gate receipts pending",
+  "status": "independence accepted and formally attested; both development gates blocked; old candidate v2 proof and additional real review stopped",
   "phase": {
     "M6": "5/7",
     "accepted": [
@@ -545,12 +759,22 @@
   "limits": [
     "no exhaustive OS or externally signed platform access trace",
     "fork_turns configuration based on user delivery and sealed provenance",
-    "no live Milvus rescan",
-    "exact model/provider usage HTTP cost unknown"
+    "no live Milvus rescan; Mongo evidence is not a vector rescan",
+    "known product-answer tokens retained separately; exact HTTP and cost unknown; platform reviewer usage unknown"
   ],
   "private_evidence_sha256": {
+    "output/m6-calibrated-candidate-review-20261031/attestation-1.json": "3d1d17e8b750e6a7f2073c34939ae930016fedcd286315073cdca05db05f9e11",
+    "output/m6-calibrated-candidate-review-20261031/attestation-2.json": "02dcdf9292058329a90725b18a092e132de5dcbc0c948dfab63756eb46925af0",
     "output/m6-calibrated-candidate-review-20261031/audit.py": "aff12dda07ec5eb4e1119ac29582ae4b484ec1e54570663809aca7c0deda6ae9",
     "output/m6-calibrated-candidate-review-20261031/build_review.py": "51570bfd1f1f112953eddbe2e675c2e04ae1b39ca07c62d356b602de228569fc",
+    "output/m6-calibrated-candidate-review-20261031/finalize_docs.py": "2808b971eae48bc40db2496bdded142f82bbba9796198d0ab831bb3560d5d1b4",
+    "output/m6-calibrated-candidate-review-20261031/formal-1.json": "6ae4bc9c96b6f7b9c3b65e9f8a9a0593db84b2b427d16bfa1d571e12d659097e",
+    "output/m6-calibrated-candidate-review-20261031/formal-2.json": "42672ab301c7343b33a74f242130658c96b92a8a83f52f9c4e59cecc38d64c3c",
+    "output/m6-calibrated-candidate-review-20261031/formal-results.json": "e2539479c83a4cf48c063ca19473fd132f277e99032fe678231c485cba4e9deb",
+    "output/m6-calibrated-candidate-review-20261031/formal.log": "696b04b39c8c2cbcb359238fff3e6c23e9b2b028139d03c5b2bdc8e3e489bd3f",
+    "output/m6-calibrated-candidate-review-20261031/formal.py": "d73cc3eedc016f6e42bec8726c0df1958dc8a2b7217826e14b66b5e3d6f9924c",
+    "output/m6-calibrated-candidate-review-20261031/gate-1.json": "4321c348f7d61d8193ab786a693e2e703dcd33e3a5b1fe7e42f5dfa525c50ac9",
+    "output/m6-calibrated-candidate-review-20261031/gate-2.json": "67015da505a16cfdf6a0338c0ea2af09476d0c5c7665028cb04ce49b89a87ab4",
     "output/m6-calibrated-candidate-review-20261031/initial/048-1.json": "10e80bd727719050515489853dc899f0fcac6c54825be9c813493aa0378db58d",
     "output/m6-calibrated-candidate-review-20261031/initial/048-2.json": "4ff0c74a3dc623652f13e555a580d79d2fb3d17d5734e48be2a0b629dd87d952",
     "output/m6-calibrated-candidate-review-20261031/initial/checks.json": "b00c532fddf29913fb6f724cdfca83734ae60984580628c2a03cafe1dedbbded",
@@ -561,7 +785,16 @@
     "output/m6-calibrated-candidate-review-20261031/initial/result.json": "51f4d51c565945d8639b7aba466b0b4e1f1e18e0c4bde4b50ba8b1ddd102fa71",
     "output/m6-calibrated-candidate-review-20261031/initial/row-hashes.json": "20ebe394a74aa85d2833ef2ff3da463cc56251c533cb5a36b8958f1fb5a23ef1",
     "output/m6-calibrated-candidate-review-20261031/initial.log": "99cc01ff34c2cca8e7061f2970efbbe08d9ca440275ba4b7ca6df40ce3242b83",
+    "output/m6-calibrated-candidate-review-20261031/post-audit-r2.log": "0f514d6fa4bd08edb05099d454aecfee282ad6102d29b5f864cb732a29e07649",
+    "output/m6-calibrated-candidate-review-20261031/post-audit.log": "9cee4a67324f116c32c139c8fc30f2452548369b37d1bbeb2c3e012c63f4f572",
+    "output/m6-calibrated-candidate-review-20261031/post-r2/checks.json": "50f7bca1345a3282a28c7b934aa97c031c01551ce3d817a6b475fa7170e56c7b",
+    "output/m6-calibrated-candidate-review-20261031/post-r2/result.json": "56841a5197b71c7912c9d3af098136087a218832c43abec042e68bdd4e8d47da",
+    "output/m6-calibrated-candidate-review-20261031/post-r2/row-hashes.json": "b4f65f4586882d8880cf37278064119816fc65e88fb490b89116c2e09bd1e877",
+    "output/m6-calibrated-candidate-review-20261031/post_audit.py": "91f8ddf1e606a180ca131baa75b8fce0653cf7cf9d2fcc3173694ee311b15b1e",
+    "output/m6-calibrated-candidate-review-20261031/post_audit_r2.py": "e3a56014152810c6e98867d98a16a4bd1b6e49faa90035c4ba9436381709c241",
     "output/m6-calibrated-candidate-review-20261031/prompt-comparison.json": "634d80f479d06d7f131fb9c93dcd33ef3884cf585cbcc2ab2a3543540413173f",
+    "output/m6-calibrated-candidate-review-20261031/quality-1.json": "d8d8bf42690d789cf08ccedfc587beb6996bacfd01fee60fad99a2d110f6725e",
+    "output/m6-calibrated-candidate-review-20261031/quality-2.json": "079ab80e415a091443efe51547471d04014a486fa093e6d79ac4f9589274527e",
     "output/m6-calibrated-candidate-review-20261031/source-check-probe-r2.log": "15a64312e55345b14225ddf88316d93e8fafc9d4ca7d409aa2933790b5b80b59",
     "output/m6-calibrated-candidate-review-20261031/source-check-probe-r2.py": "bd4d5ac837647c6d84f9de673cfad1814d94ae191d99ed70eada464e0a0fb090",
     "output/m6-calibrated-candidate-review-20261031/source-check-probe-r3.json": "4792a2da5f5d58ec90b0155a69b47effdc2fce77dd4cfd9829ba7948f4f1b561",
@@ -570,5 +803,104 @@
     "output/m6-calibrated-candidate-review-20261031/source-check-probe.log": "8a2dd6a4b5d245385a2db5113a5408b69d7bce86fa368153212695a04b3382d2",
     "output/m6-calibrated-candidate-review-20261031/source-check-probe.py": "738ce8189c29c1842334a5745228a305f76c1ebde758cc3099404710f8a93293"
   },
-  "evidence_counting": "audit and probes overlap; no combined unique count or quality score"
+  "evidence_counting": "audit and probes overlap; no combined unique count or quality score",
+  "formal_post_audit": {
+    "passed": true,
+    "checks": 5283,
+    "protected_rows": 5265,
+    "added": [
+      {
+        "database": "m1_test_m4_m6_review_562c2209ba994a1892074da324cc3025",
+        "collection": "evaluation_review_independence",
+        "id": "2eb5aa6ecaa0945cfa4882efb7bfb098cea003a2d3bdadd3b43d08d4837d3f90",
+        "sha256": "8cd1fffa215671ec6fc79766d8dee4aead2726023832ebbc5f57b2f35d4ee057"
+      },
+      {
+        "database": "m1_test_m4_m6_review_c1486a0a19d84c069d66d6abeff4709a",
+        "collection": "evaluation_review_independence",
+        "id": "10c177255fded0944f29a8212989a7cae777d47c27c902b6bd2c45ce2e3032f3",
+        "sha256": "fb43901f61b316da311f3de4242cc78675fdc406fec49663717698819edf979c"
+      }
+    ],
+    "formal": [
+      {
+        "candidate": 1,
+        "attestation_id": "2eb5aa6ecaa0945cfa4882efb7bfb098cea003a2d3bdadd3b43d08d4837d3f90",
+        "gate_status": "blocked",
+        "gate_reasons": [
+          "applicability_changed",
+          "quality_regression",
+          "review_pending_or_changed"
+        ],
+        "regression_dimensions": 8,
+        "incomplete_questions": [
+          "m6-g540-unknown-01-b",
+          "m6-g540-unknown-03-b",
+          "m6-g540-unknown-04-b",
+          "m6-g540-unknown-05-b",
+          "support-v1-047"
+        ]
+      },
+      {
+        "candidate": 2,
+        "attestation_id": "10c177255fded0944f29a8212989a7cae777d47c27c902b6bd2c45ce2e3032f3",
+        "gate_status": "blocked",
+        "gate_reasons": [
+          "applicability_changed",
+          "quality_regression",
+          "review_pending_or_changed"
+        ],
+        "regression_dimensions": 22,
+        "incomplete_questions": [
+          "m6-g540-unknown-01-b",
+          "m6-g540-unknown-03-b",
+          "m6-g540-unknown-04-a",
+          "m6-g540-unknown-04-b",
+          "m6-g540-unknown-05-b",
+          "support-v1-047"
+        ]
+      }
+    ],
+    "new_cases": 0,
+    "new_calibrations": 0,
+    "new_proofs": 0,
+    "new_inference": 0,
+    "read_only": true,
+    "excluded_collections": [
+      "run_events",
+      "login_sessions",
+      "login_attempts"
+    ],
+    "users_projection": "principal fields only; credentials not read"
+  },
+  "formal_gate_executed": true,
+  "initial_audit_note": "audit is the immutable pre-attestation snapshot; initial formal_gate_executed=false records chronology, not current status",
+  "closed_this_review": [
+    "candidate execution and sealed transport verified",
+    "candidate independent review provenance formally attested",
+    "formal development gates executed read-only and independently read back"
+  ],
+  "open_this_review": [
+    "047 public review projection loses state/candidates",
+    "selected-source source_checked aggregation bug",
+    "9 within-round applicability disagreements",
+    "5 cross-baseline applicability changes",
+    "30 sealed numerical score regressions requiring evidence classification; not 30 proven product defects",
+    "048 evidence reached actual model input but comparison omitted from answer",
+    "M6-05 valid server-side feedback proof",
+    "M6-08 valid candidate quality chain and phase acceptance"
+  ],
+  "next_execution_handoff": "docs/development/handoffs/M6-candidate-evidence-quality-fix-r1.md",
+  "next_package_inference_authorized": false,
+  "attested_artifact": {
+    "commit": "34e51d73c62099ba6548011e5dc10971dfd2eb0a",
+    "path": "docs/development/reviews/M6-calibrated-candidate-review-r1.md",
+    "sha256": "74aa08d08f938d997e47497c7692b2da0e250682048b0b6d89f867f0b7258b8c"
+  },
+  "database_delta_note": "exactly 2 evaluation_review_independence rows added; 5265 existing rows unchanged; TTL event/login collections excluded and users limited to public principal fields",
+  "retained_failures": [
+    "source-check-probe.py missing synthetic rationale",
+    "source-check-probe-r2.py missing synthetic attestation id",
+    "post_audit.py compared Mongo internal _id with public receipt; failed read-only; r2 excludes only _id"
+  ]
 }

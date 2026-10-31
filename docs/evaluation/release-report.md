@@ -1,3 +1,13 @@
+## 2026-10-31 · 总控来源已正式登记，两个候选development gate均blocked
+
+M6-04基线开发验收与两份预校准保持；候选v2真实双轮来源现已正式attest，但两正式development gate均blocked（8／22下降），047材料／9混合／5适用性变化也未消失。048必要正文已入实际模型，答案仍遗漏同轴／EoC比较；覆盖不是答案正确率。
+
+当前没有有效候选通过或新feedback proof，不能发布质量通过。旧候选失败、原分、基线／校准和未知费用保留；先按[集中修复指令](../development/handoffs/M6-candidate-evidence-quality-fix-r1.md)零推理验证，不重复基线或旧候选。M6核心5/7、M6-04已验收保持，05／08未验收，M7未授权；不重开旧P2／p30／001／组合／continuation，不新增human／heldout／Ragas／默认发布门槛。
+
+[总控报告及正式回执](../development/reviews/M6-calibrated-candidate-review-r1.md)
+
+以下历史按原时点保留。
+
 ## 2026-10-30 · 正式attest及预校准完成；M6-04开发验收通过
 
 总控已核验固定六结果补证及保留原来源，并以受控Git报告正式attest两版；两份85题基线预校准均成功，无unknown／混合适用性／critical，原低分和原评分保持。固定报告680个有效值与正式来源全等，抽检记录完成；按原任务合同及assistant-development-v1政策验收M6-04。**M6核心5/7（01／02／03／04／07），总核心65/76；05／08未验收，M7未授权。** human发布门槛独立保留，不当作本次开发验收新阻塞。

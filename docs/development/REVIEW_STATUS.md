@@ -1,3 +1,13 @@
+## 2026-10-31 · 总控来源已正式登记，两个候选development gate均blocked
+
+总控已独立接受候选真实双轮并正式attest两版。正式development gate均blocked，完整原因applicability_changed／quality_regression／review_pending_or_changed；版1八维、版2二十二维下降，另有047材料缺口、9混合及5跨基线变化。独立性登记不追认所有语义分数，30下降也不直接等于产品缺陷。
+
+旧v2失败保留，不追加真实补审追求过关、不生成proof。下一执行授权仅覆盖本包技术修复、保存产物零推理和隔离合成验证；新真实生成方案交独立复核后按固定身份／范围／调用预算处理，不重跑基线或改封存分。M6核心5/7、M6-04已验收保持，05／08未验收，M7未授权；不重开旧P2／p30／001／组合／continuation，不新增human／heldout／Ragas／默认发布门槛。
+
+[独立裁定与证据限制](reviews/M6-calibrated-candidate-review-r1.md) · [完整下一包](handoffs/M6-candidate-evidence-quality-fix-r1.md)
+
+以下历史按原时点保留。
+
 ## 2026-10-31 · 两版独立候选完成，340条真实双轮已封存；质量pending
 
 接续673d4b4，两个冻结candidate/v2各85题已正式执行并核账，均84回答Run＋1 awaiting_input，继承0。新增168逻辑stream，input322716／output187567 token，HTTP/费用null；历史168stream另账保留。两个全新fork_turns=none任务顺序完成两版双轮，4seal＋340条assistant正式submit，原始/正式全等；没有human、observation、候选attestation或proof新增。

@@ -1,3 +1,13 @@
+## 2026-10-31 · 总控来源已正式登记，两个候选development gate均blocked
+
+新增总控独立报告、正式attest／只读gate回执及完整下一包。关闭候选来源待核验：170结果／340原判断／4seal一致；两个gate实际blocked，下降8／22，补齐9混合以外5适用性变化和30下降的完整矩阵。定位047投影与选源checked接口缺口，确认048正文已入模型但答案未消费。
+
+初次6827／post5283检查通过（不累计质量分），真实库仅2条独立性新增、旧5265行保持；无业务源码修改、新模型、case／校准／proof。首版post误比较内部_id的失败保留。M6核心5/7、M6-04已验收保持，05／08未验收，M7未授权；不重开旧P2／p30／001／组合／continuation，不新增human／heldout／Ragas／默认发布门槛。
+
+[复核报告](reviews/M6-calibrated-candidate-review-r1.md) · [执行指令](handoffs/M6-candidate-evidence-quality-fix-r1.md)
+
+以下历史按原时点保留。
+
 ## 2026-10-31 · 两版独立候选完成，340条真实双轮已封存；质量pending
 
 接续673d4b4，两个冻结candidate/v2各85题已正式执行并核账，均84回答Run＋1 awaiting_input，继承0。新增168逻辑stream，input322716／output187567 token，HTTP/费用null；历史168stream另账保留。两个全新fork_turns=none任务顺序完成两版双轮，4seal＋340条assistant正式submit，原始/正式全等；没有human、observation、候选attestation或proof新增。

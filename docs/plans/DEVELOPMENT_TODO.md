@@ -1,3 +1,11 @@
+## 2026-10-31 · 总控来源已正式登记，两个候选development gate均blocked
+
+候选执行／真实双轮来源及正式attest子项已关闭；两个正式gate均blocked（8／22下降）。完整矩阵不止9处N/A：另有5跨基线适用性变化、047材料投影缺失和048真实生成遗漏；30个下降维度待按来源／输入／输出分类，不直接宣称30产品缺陷。
+
+下一项执行审核呈现、选源checked和通用证据消费的集中技术修复，先零推理／隔离合成，停止旧v2追加评分／proof；详见[完整执行指令](../development/handoffs/M6-candidate-evidence-quality-fix-r1.md)及[总控报告](../development/reviews/M6-calibrated-candidate-review-r1.md)。M6核心5/7、M6-04已验收保持，05／08未验收，M7未授权；不重开旧P2／p30／001／组合／continuation，不新增human／heldout／Ragas／默认发布门槛。
+
+以下历史按原时点保留。
+
 ## 2026-10-31 · 两版独立候选完成，340条真实双轮已封存；质量pending
 
 接续673d4b4，两个冻结candidate/v2各85题已正式执行并核账，均84回答Run＋1 awaiting_input，继承0。新增168逻辑stream，input322716／output187567 token，HTTP/费用null；历史168stream另账保留。两个全新fork_turns=none任务顺序完成两版双轮，4seal＋340条assistant正式submit，原始/正式全等；没有human、observation、候选attestation或proof新增。
@@ -541,10 +549,10 @@ M6-04/05/08继续未勾选，核心4/7、总核心64/76。 真实001仅只读重
 - [x] **M6-02** [实验运行器与检索指标](tasks/M6-evaluation.md#m6-02) · 依赖：M6-01,M4-02 · 134项评测单元回归通过；未运行真实实验/heldout
 - [x] **M6-03** [实验 API、队列与结果对比](tasks/M6-evaluation.md#m6-03) · 依赖：M6-02,M2-09 · 后端176、前端37单元/3定向浏览器及真实传输失败门禁7检查通过；未冒称真实模型评测成功
 - [x] **M6-04** [人工审阅与发布质量门槛](tasks/M6-evaluation.md#m6-04) · 依赖：M6-03 · 两版85 dev有效助手双轮／限定补证、总控正式attest、预校准及固定报告抽检齐备，按assistant-development-v1开发验收；human发布规则独立保留
-- [ ] **M6-05** [反馈审核转测试与资料修订](tasks/M6-evaluation.md#m6-05) · 依赖：M6-04,M5-07 · 001签审／派生／valid绑定及两版正式预校准完成；待各自独立候选有效双轮、门禁及真实服务端反馈复评proof
+- [ ] **M6-05** [反馈审核转测试与资料修订](tasks/M6-evaluation.md#m6-05) · 依赖：M6-04,M5-07 · 001签审／派生／valid绑定及两版正式预校准完成；候选v2来源已attest但两gate均blocked（8／22下降），待有效候选及真实服务端复评proof
 - [ ] **M6-06** [Ragas 辅助评审（可选）](tasks/M6-evaluation.md#m6-06) · 依赖：M6-02,M4-09 · 延期，不安装额外依赖，不替代人工
 - [x] **M6-07** [运行可观测性与质量面板](tasks/M6-evaluation.md#m6-07) · 依赖：M6-03 · 最终20定向及913后端/37单元34离线浏览器/3重导入通过；未采集保持未知
-- [ ] **M6-08** [M6 阶段验收](tasks/M6-evaluation.md#m6-08) · 依赖：M6-05,M6-07 · 冻结／无生成预检及M6-04开发验收已完成，既有技术关闭保持；待两版85 dev独立候选质量链、M6-05闭环及固定阶段报告总控验收，human发布规则单列
+- [ ] **M6-08** [M6 阶段验收](tasks/M6-evaluation.md#m6-08) · 依赖：M6-05,M6-07 · 冻结／无生成预检及M6-04验收保持；候选v2门禁已真实blocked，待集中修复后的有效候选质量链、M6-05闭环及阶段报告总控验收，human发布规则单列
 
 ### M7 · 部署、恢复与个人项目交付
 

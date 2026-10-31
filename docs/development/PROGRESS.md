@@ -1,3 +1,17 @@
+## 2026-10-31 · 总控来源已正式登记，两个候选development gate均blocked
+
+独立复核ff8331e：170个正式结果／340条原始判断／4seal全等，两个真实双轮来源接受。受控报告34e51d73c62099ba6548011e5dc10971dfd2eb0a已用于正式attest两版；两个development gate已实际只读执行并读回，均blocked（下降维度8／22），不再写成“仅来源或9维待总控”。
+
+完整阻塞矩阵：047审核投影遗漏state／candidates，不能判澄清路由错误；9处轮内N/A混合之外另有5处跨基线适用性变化；30处封存分数下降不等于30产品缺陷，其中27处prompt与基线相同。048必要正文已入实际模型输入而答案仍遗漏同轴／EoC比较，属于下游证据消费缺口。
+
+本轮初次6827项、post5283项只读审计通过，组间不累计质量分；真实状态精确仅新增2条独立性登记、5265旧行保持，无新case／校准／proof／模型调用。旧评分、失败、基线和校准不改；本轮未重扫live582／867。首版post内部_id比较失败与修后r2均保留。
+
+下一包由执行方一次修复审核呈现／选源checked接口及通用证据归属、断言与引用边界，先已存产物零推理＋随机短m1_test_m4_合成验证；停止旧v2真实补审／proof，不自动重跑170题。M6核心5/7、M6-04已验收保持，05／08未验收，M7未授权；不重开旧P2／p30／001／组合／continuation，不新增human／heldout／Ragas／默认发布门槛。
+
+[独立报告](reviews/M6-calibrated-candidate-review-r1.md) · [脱敏摘要](reviews/M6-calibrated-candidate-review-validation-r1.json) · [完整执行指令](handoffs/M6-candidate-evidence-quality-fix-r1.md)
+
+以下历史按原时点保留。
+
 ## 2026-10-31 · 当前总控：候选双轮来源与限定质量边界集中复核
 
 接续ff8331e，本轮已实际确认HEAD／origin/main／远程一致、仅tmp/。围绕候选执行与双轮封存，集中核验provenance、047材料／呈现边界、9维适用性分歧及048比较缺口；保留原分、失败和M6-04已验收结论。新私有证据使用output/m6-calibrated-candidate-review-20261031/，不原地重跑旧审计，不新增模型调用、子Agent或正式质量写入。先给出完整限定矩阵与可关闭项，再决定实际需要的处理和退出条件；M6核心5/7，05／08未验收，M7未授权。
