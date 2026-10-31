@@ -10,6 +10,8 @@ class LogicalProviderCounts:
         counts=self
         class Counted:
             @property
+            def client(self):return client
+            @property
             def extra_body(self):
                 from app.infrastructure.providers.clients import PolicyChatClient
                 underlying=client.client if isinstance(client,PolicyChatClient) else client

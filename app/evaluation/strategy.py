@@ -23,6 +23,8 @@ class EvaluationStrategy(BaseModel):
 
     @model_validator(mode="after")
     def combination_bounds(self):
+        if self.answer_budget.output_contract is not None and self.answer_budget.output_contract.enabled and self.enhancement!=EnhancementPolicy():
+            raise ValueError('诊断输出合同不允许额外生成分支')
         validate_policies(self.retrieval_combination,self.retrieval,self.source_prerequisites,self.expansion,self.enhancement)
         if self.evidence_attribution.enabled and (not self.retrieval_combination.enabled or
                 self.evidence_attribution.scope!=self.retrieval_combination.scope or

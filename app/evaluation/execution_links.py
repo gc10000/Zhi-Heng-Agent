@@ -55,12 +55,15 @@ def bind_execution(db, control_db, context, config, question_id, checkpoint_key,
     target = config['target']
     if db.name != target['database']:
         raise ValueError('题级来源目标库与冻结Run目标不匹配')
+    from app.infrastructure.providers.output_contract import from_config,validate_run,identity as output_identity
+    validate_run(run,from_config(config))
     identity = dict(experiment_id=context['experiment_id'], attempt=context['attempt'],
         control_database=control_db.name, target_database=db.name,
         question_id=question_id, checkpoint_key=checkpoint_key, input_sha256=input_sha256,
         config_sha256=fingerprint(config), registered_config_sha256=parent['config_sha256'],
         owner_id=target['owner_id'], kb_id=target['kb_id'], run_id=run['run_id'],
         conversation_id=run['conversation_id'])
+    identity.update(output_identity(from_config(config)))
     combination=config.get('parameters',{}).get('retrieval_combination',{})
     if combination.get('enabled'):
         from app.retrieval.combination import payload,validate_run_combination

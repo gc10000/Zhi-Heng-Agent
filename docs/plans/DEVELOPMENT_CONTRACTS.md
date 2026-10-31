@@ -1,3 +1,17 @@
+## 2026-10-31 · 受审对象关系与输出合同已自验，网关能力仍未知、48 job暂停
+
+接续774e7c8，实现默认关闭的`reviewed_table_subjects_v1`及`diagnostic_total_output_v1`。两表12行按已审Git证明、原件／缓存／冻结成员与scope精确绑定，LAN在新版05-a输入明确归属MateDock3；机身RJ45独立，表级p13／p14不改LAN行unknown。策略、能力合同及生效参数hash沿正式配置／Run／题级关联与恢复核验；缺失或漂移拒绝，旧路径缺省等值，不重导入、不改检索。
+
+网关总输出硬限仍unknown，显式诊断在模型调用前拒绝；不因Mock发参正确、finish_reason或累计未超就放行。CAS账本先持久预留再结算，缺usage／超限／中断／未结算阻断，reasoning不重复相加，HTTP／费用未知为null。保存54输入回放（52答案prompt＋2缓存澄清）中20份仅新增受审关系、32份答案prompt不变，原25题35必要单元保持。184离线／契约、68隔离Mongo通过，各组重叠不累计；597／1314文件hash匹配。新增真实推理、能力探测、真实DB访问、正式质量写入及默认切换均0。
+
+这是执行方自验，不是总控独立关闭或答案质量证明；新配置／旁挂绑定仅准备和消费者验证，未正式登记。M6保持5/7、04已验收保持，05待有效反馈proof、08待有效新候选质量与阶段验收；M7未授权，旧blocked和既有关闭项保持。唯一下一动作：总控定向核本包两边界并裁定适用能力证据／最小探测；本轮不执行提案，不自动恢复余48 job（46答案＋2澄清）。不让用户找PDF、账号或评分。
+
+[完整执行结果](../development/reviews/M6-diagnostic-subject-usage-fix-r1.md) · [脱敏验证摘要](../development/reviews/M6-diagnostic-subject-usage-fix-validation-r1.json)
+
+以下历史按原时点保留。
+
+新增内部合同：`parameters.evidence_attribution.reviewed_subjects`以原件／缓存／manifest／corpus snapshot及proof／review Git blob身份、表block／行坐标、chunk完整载荷hash授权；只附受审配件对象，不创建产品或更改行级出处。`parameters.answer_budget.output_contract`缺省null，固定endpoint hash／model／SDK／limit／thinking／证据／总量及累计预算。Run、execution link、checkpoint及continuation同时核合同SHA和`output_parameters_sha256`，不得给旧Run补字段。新增`diagnostic_output_accounts`位于Run库，只限显式内部诊断：`_id`绑定ledger_id、CAS version、单pending、不可变settled、历史／新增usage、known下界与unknown窗口；无清库／TTL回切。关闭须新配置／请求移除两项，数据与旧证据保留。公开API／OpenAPI不变；详见CONFIGURATION和本包报告。
+
 ## 2026-10-31 · 总控复核闭合缓存准备与六流计账，收敛两项修复
 
 独立核验6541506：固定17键／20文本、518来源pair中517复用＋1新增与54消费者预检的保存证据一致，准备子项关闭；六流正文／持久结果及输入23480／输出16506一致，封存计账通过。不是本轮重扫live或重执行54请求，不作为新质量分。

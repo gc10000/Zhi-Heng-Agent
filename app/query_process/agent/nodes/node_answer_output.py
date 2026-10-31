@@ -71,6 +71,8 @@ def step_2_construct_prompt(state: QueryGraphState) -> str:
   state['prompt_budget'] = packed['budget']
   state['answer_max_tokens'] = budget.output_tokens
   state['answer_token_field'] = budget.output_token_field
+  if budget.output_contract is not None and budget.output_contract.enabled:
+    state['output_contract']=budget.output_contract.model_dump(mode='json')
 
   # 4. 格式化 Item Names (提问商品)
   item_names_str = ", ".join(item_names) if item_names else "无指定商品"
@@ -90,9 +92,16 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
   try:
     llm = client if client is not None else get_llm_client()
     from app.infrastructure.providers.clients import output_limit_options
-    options = output_limit_options(llm,state['answer_max_tokens'],state.get('answer_token_field','max_tokens')) if state.get('answer_max_tokens') else {}
+    options = output_limit_options(llm,state['answer_max_tokens'],state.get('answer_token_field','max_tokens'),
+        contract=state.get('output_contract')) if state.get('answer_max_tokens') else {}
+    def reasoning(response):
+      usage=getattr(response,'usage_metadata',None) or (getattr(response,'response_metadata',None) or {}).get('token_usage') or {}
+      details=usage.get('output_token_details') or usage.get('completion_tokens_details') or {}
+      value=details.get('reasoning',details.get('reasoning_tokens'))
+      if type(value) is int and value>=0:state['answer_reasoning_tokens']=value
     if state.get('is_stream'):
       for chunk in llm.stream(prompt,**options):
+        reasoning(chunk)
         if (getattr(chunk,'response_metadata',None) or {}).get('finish_reason') in ('length','max_tokens'):
           state['output_truncated'] = True
         delta = getattr(chunk, 'content', '') or ''
@@ -101,6 +110,7 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
           push_to_session(session_id, SSEEvent.DELTA, {'delta': delta})
     else:
       response = llm.invoke(prompt,**options)
+      reasoning(response)
       final_text = response.content
       if (getattr(response,'response_metadata',None) or {}).get('finish_reason') in ('length','max_tokens'):
         state['output_truncated'] = True

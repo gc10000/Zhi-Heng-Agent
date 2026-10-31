@@ -35,10 +35,14 @@ class PolicyChatClient:
             raise ProviderFailure(*classify(exc)) from None
 
 
-def output_limit_options(client,limit,field='max_tokens'):
+def output_limit_options(client,limit,field='max_tokens',*,contract=None):
     """保留供应商extra_body；避免LangChain自动改写旧兼容字段。"""
     if type(limit) is not int or limit<1 or field not in {'max_tokens','max_completion_tokens'}:
         raise ValueError('生成输出上限或字段非法')
+    if contract is not None:
+        from .output_contract import OutputContract,strict_options
+        if OutputContract.model_validate(contract).enabled:
+            return strict_options(client,limit,field,contract)
     underlying=client.client if isinstance(client,PolicyChatClient) else client
     body=dict(getattr(underlying,'extra_body',None) or {})
     body.pop('max_tokens',None);body.pop('max_completion_tokens',None)

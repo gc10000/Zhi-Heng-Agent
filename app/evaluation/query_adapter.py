@@ -99,6 +99,10 @@ class RealQueryExecutor:
         if not saved or saved['input_sha256'] != fingerprint(inputs) or not saved.get('run_id'):
             raise ValueError('成功检查点缺少正式题级输入或Run，不自动回填')
         run = self.resources['runs'].get(self.user,saved['run_id'])
+        from app.infrastructure.providers.output_contract import from_config,validate_run,identity as output_identity
+        validate_run(run,from_config(self.config))
+        if any(saved.get(k)!=v for k,v in output_identity(from_config(self.config)).items()):
+            raise ValueError('成功检查点输出能力合同身份不符')
         from app.retrieval.combination import validate_run_combination,payload
         combination=self.config.get('parameters',{}).get('retrieval_combination',{})
         validate_run_combination(run,combination)
@@ -241,6 +245,9 @@ class RealQueryExecutor:
             from app.answering.evidence_attribution import payload as attribution_payload
             canonical=attribution_payload(attribution)
             combination_identity.update(evidence_attribution=canonical,evidence_attribution_sha256=fingerprint(canonical))
+        from app.infrastructure.providers.output_contract import from_config,identity as output_identity,validate_run as validate_output_run
+        output=from_config(self.config)
+        combination_identity.update(output_identity(output))
         if saved is None:
             from app.conversations.models import ConversationInput
             product_ids = [self.products[name] for name in inputs['product_names']]
@@ -264,6 +271,9 @@ class RealQueryExecutor:
             # 新组合不能借后续Run洗掉父Run的配置漂移；不改变既有来源/租约协议。
             from app.retrieval.combination import validate_run_combination
             validate_run_combination(previous,combination)
+            validate_output_run(previous,output)
+            from app.answering.evidence_attribution import validate_run_attribution
+            validate_run_attribution(previous,attribution)
             followup = prepare_continuation(self.resources['db'], self.continuation,
                 checkpoint_key=key, input_sha256=saved['input_sha256'], previous=previous,
                 request_key=request_key, question_id=question['id'], config=self.config,
@@ -275,11 +285,13 @@ class RealQueryExecutor:
             if previous['state'] == 'failed' and previous.get('error', {}).get('retryable') is True:
                 request_key = fingerprint([key, 'explicit_retry', self.retry_key])
         extra={k:v for k,v in self.config.get('parameters',{}).items() if k in {'source_prerequisites','retrieval_combination','evidence_attribution'}}
+        if output_identity(output):extra['output_contract']=output
         request_type=InternalRunInput if extra else RunInput
         run = self.resources['run_service'].create(self.user, cid, request_type(kb_id=kb, question=inputs['question'], client_request_id=request_key,**extra))
         rid = run['run_id']
         # RunService返回公开快照；输入冻结使用正式持久记录，不能把被裁剪的快照当完整身份。
         persistent_run = self.resources['runs'].get(self.user,rid)
+        validate_output_run(persistent_run,output)
         from app.retrieval.combination import validate_run_combination
         validate_run_combination(persistent_run,combination)
         from app.answering.evidence_attribution import validate_run_attribution

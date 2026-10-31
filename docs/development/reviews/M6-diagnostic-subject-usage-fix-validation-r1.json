@@ -1,0 +1,526 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-31",
+  "role": "execution_agent_self_validation",
+  "baseline": "774e7c8824e8364edb5c00099c3f4e89780a9d00",
+  "worktree_start": [
+    "?? tmp/"
+  ],
+  "status": "two_boundary_implementation_self_verified_gateway_unknown_answers_not_run",
+  "independent_review": "pending_coordinator",
+  "stage": {
+    "m6": "5/7",
+    "m6_04": "accepted_unchanged",
+    "m6_05": "not_accepted",
+    "m6_08": "not_accepted",
+    "m7": "not_authorized"
+  },
+  "subject": {
+    "function_version": "reviewed_table_subjects_v1",
+    "tables": 2,
+    "members": 12,
+    "proof_git_blob_sha256": "9f685e673853024eddc0f2d758486115d626183c63286e0824aa5ec4c00990b6",
+    "proof_payload_sha256": "f0872a623a3cdd5dbe0c7438e50cc9921b0dc6358a6e6b347e0cfdc4c12bf5ed",
+    "review_git": {
+      "commit": "774e7c8824e8364edb5c00099c3f4e89780a9d00",
+      "path": "docs/development/reviews/M6-diagnostic-subject-usage-review-r1.md",
+      "sha256": "b75ccd4a52307bef2eee2df79b0ff47923c84b48ea0ebcf760d07f010a3001b2"
+    },
+    "original_sha256": "977b5522d45fb1d3dfe8ac330c37841ad2751ffdfcbdaa64847ca753e78eff83",
+    "cache_sha256": "969fa1dfe2dd183c33d60f5e0a0a27cf54fa3add467003277be51d88777be47e",
+    "document_id": "f82f3ec8-e6e6-5130-98a4-86d37155d3ce",
+    "revision_id": "b76f3252-8a62-58af-aace-aefe45b13d82",
+    "frozen_manifest_sha256": "77f065914e2bac44fe19e1ed5d40191ca2a54a1f98ee2a9738a7de2217ab8b83",
+    "corpus_snapshot_sha256": "116e1c61cabca70e63230d9ef2bb3970b07dcd571f1443aed083098f89f9b645",
+    "binding_sha256": "6224cb931eeeb382cea27bf20de3feb5348ba7124f02934f43b43702dbd0873d",
+    "real_database_binding_registered": false,
+    "sidecar_consumer_verified": true,
+    "row_pages_unchanged": true,
+    "accessory_not_catalog_product": true
+  },
+  "output_contract": {
+    "function_version": "diagnostic_total_output_v1",
+    "status": "unknown",
+    "dispatch_blocked": true,
+    "model": "qwen3.8-flash",
+    "endpoint_sha256": "7cbf2306d7facc55fd08ea52e1d6891e0dc6bc6af6d5442df34f17403670ad2a",
+    "client_versions": {
+      "langchain-openai": "1.1.11",
+      "openai": "2.28.0"
+    },
+    "total_cap": 4096,
+    "field": "max_tokens",
+    "gateway_verified": false,
+    "sdk_mock_is_not_gateway_evidence": true,
+    "effective_parameters_sha256": "5873f129a74b96cd34d3f3abcea5db7fb114e29b0e9d1dca5ca2846db8713b7d",
+    "contract_sha256": "a0caf8935761e0da45e1fa53a1a45011cbe65c03c2f246217a861bd9ba138649",
+    "max_total_output_tokens": 212992,
+    "max_total_input_tokens": 1477632,
+    "remaining_job_count": 48,
+    "remaining_jobs_paused": true,
+    "usage_missing_and_interruption_are_null": true,
+    "known_lower_bounds_separate": true,
+    "probe_executed": false
+  },
+  "replay": {
+    "requests": 54,
+    "answer_prompts": 52,
+    "cached_clarifications": 2,
+    "changed_prompts": 20,
+    "unchanged_prompts": 32,
+    "related_unique_questions": [
+      "m6-g540-03-a",
+      "m6-g540-04-a",
+      "m6-g540-04-b",
+      "m6-g540-05-a",
+      "m6-g540-05-b",
+      "m6-g540-17-a",
+      "m6-g540-17-b",
+      "m6-g540-18-a",
+      "m6-g540-unknown-05-a",
+      "m6-g540-unknown-05-b"
+    ],
+    "context_numbering_groups_scores_order_unchanged": true,
+    "no_new_pair_scores": true,
+    "extra_cache_misses": [],
+    "original25_protected_questions": 25,
+    "original25_necessary_units": 35,
+    "original25_is_additional_cached_protection_not_new_answers": true,
+    "cached_clarification_not_rerouted": true
+  },
+  "checks": {
+    "offline_contract": 184,
+    "isolated_mongo": 68,
+    "original_red": {
+      "failed": 9,
+      "passed": 3,
+      "exit_code": 1
+    },
+    "openapi_unchanged": true,
+    "groups_overlap": true,
+    "not_quality_scores": true
+  },
+  "commands": [
+    {
+      "receipt": "consumer-replay-final-receipt.json",
+      "command": [
+        ".venv/Scripts/python.exe",
+        "output\\m6-diagnostic-subject-usage-fix-20261031\\replay_final.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "receipt": "consumer-replay-r1-receipt.json",
+      "command": [
+        ".venv/Scripts/python.exe",
+        "output\\m6-diagnostic-subject-usage-fix-20261031\\replay_consumers.py"
+      ],
+      "exit_code": 1
+    },
+    {
+      "receipt": "consumer-replay-r2-receipt.json",
+      "command": [
+        ".venv/Scripts/python.exe",
+        "output\\m6-diagnostic-subject-usage-fix-20261031\\replay_consumers.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "receipt": "integration-final-receipt.json",
+      "command": [
+        ".venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "tests/integration/test_diagnostic_output_contract.py",
+        "tests/integration/test_reviewed_subject_wiring.py",
+        "tests/integration/test_combination_adapter.py",
+        "tests/integration/test_candidate_evidence_quality_fix.py",
+        "-q",
+        "--tb=short"
+      ],
+      "exit_code": 0,
+      "test_database_prefix": "m1_test_m4_su_dc924e"
+    },
+    {
+      "receipt": "integration-r1-receipt.json",
+      "command": [
+        ".venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "tests/integration/test_diagnostic_output_contract.py",
+        "tests/integration/test_reviewed_subject_wiring.py",
+        "-q",
+        "--tb=short"
+      ],
+      "exit_code": 0,
+      "test_database_prefix": "m1_test_m4_su_9f55d6"
+    },
+    {
+      "receipt": "integration-r2-receipt.json",
+      "command": [
+        ".venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "tests/integration/test_diagnostic_output_contract.py",
+        "tests/integration/test_reviewed_subject_wiring.py",
+        "tests/integration/test_combination_adapter.py",
+        "-q",
+        "--tb=short"
+      ],
+      "exit_code": 0,
+      "test_database_prefix": "m1_test_m4_su_8c506d"
+    },
+    {
+      "receipt": "prepare-r2-receipt.json",
+      "command": [
+        ".venv/Scripts/python.exe",
+        "output\\m6-diagnostic-subject-usage-fix-20261031\\prepare_binding.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "receipt": "red-receipt.json",
+      "exit_code": 1,
+      "command": "python -m pytest tests/unit/test_reviewed_subjects.py tests/unit/test_output_contract.py -q",
+      "protected_files": 597
+    },
+    {
+      "receipt": "unit-final-receipt.json",
+      "command": [
+        ".venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "tests/unit/test_reviewed_subjects.py",
+        "tests/unit/test_output_contract.py",
+        "tests/unit/test_evidence_attribution.py",
+        "tests/unit/test_provider_clients.py",
+        "tests/unit/test_context_budget.py",
+        "tests/unit/test_telemetry_provider.py",
+        "tests/unit/test_retrieval_combination.py",
+        "tests/unit/test_prerequisite_contract.py",
+        "tests/unit/test_source_prerequisite_wiring.py",
+        "tests/contract/test_provider_capabilities.py",
+        "tests/contract/test_provider_errors.py",
+        "-q",
+        "--tb=short"
+      ],
+      "exit_code": 0
+    },
+    {
+      "receipt": "unit-r2-receipt.json",
+      "command": [
+        ".venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "tests/unit/test_reviewed_subjects.py",
+        "tests/unit/test_output_contract.py",
+        "tests/unit/test_evidence_attribution.py",
+        "tests/unit/test_provider_clients.py",
+        "tests/unit/test_context_budget.py",
+        "tests/unit/test_telemetry_provider.py",
+        "-q"
+      ],
+      "exit_code": 0
+    },
+    {
+      "receipt": "unit-r3-receipt.json",
+      "command": [
+        ".venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "tests/unit/test_reviewed_subjects.py",
+        "tests/unit/test_output_contract.py",
+        "tests/unit/test_evidence_attribution.py",
+        "tests/unit/test_provider_clients.py",
+        "tests/unit/test_context_budget.py",
+        "tests/unit/test_telemetry_provider.py",
+        "tests/unit/test_retrieval_combination.py",
+        "tests/contract/test_provider_capabilities.py",
+        "tests/contract/test_provider_errors.py",
+        "-q",
+        "--tb=short"
+      ],
+      "exit_code": 0
+    },
+    {
+      "receipt": "delivery-audit-r1-receipt.json",
+      "command": [
+        ".venv/Scripts/python.exe",
+        "output\\m6-diagnostic-subject-usage-fix-20261031\\audit_delivery.py"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "history_protection": [
+    {
+      "manifest": "output/m6-diagnostic-subject-usage-fix-20261031/protected-before.json",
+      "manifest_sha256": "25361fd1024f4822debea65ba52083312c16c9091e5a07344939511da1d542a7",
+      "verified": 597,
+      "private_identity_not_read": 0,
+      "mismatches": []
+    },
+    {
+      "manifest": "output/m6-diagnostic-cache-completion-20261031/historical-files-r2.json",
+      "manifest_sha256": "603453698e2cb7c830f75ffcc0f40f475651a3b1a0f6727597dc68b9c80df499",
+      "verified": 1314,
+      "private_identity_not_read": 0,
+      "mismatches": []
+    }
+  ],
+  "frozen_files": [
+    {
+      "path": "output/m6-fusion-reviewed-source-20261030/formal-m4/frozen-final.json",
+      "sha256": "77f065914e2bac44fe19e1ed5d40191ca2a54a1f98ee2a9738a7de2217ab8b83"
+    },
+    {
+      "path": "output/m6-fusion-reviewed-source-20261030/formal-m4/corpus-snapshot.json",
+      "sha256": "5a70a4765f6a6ab41c79dcdace61edfa32e00594a4d4da9d29764b84f67048ff"
+    },
+    {
+      "path": "output/m6-fusion-reviewed-source-20261030/formal-m4/imports/D1.json",
+      "sha256": "10b2617590e7a31566a3cf8d4dfd4ab4c9692eda60ca31ba3836bad0183c91d3"
+    },
+    {
+      "path": "output/m6-fusion-reviewed-source-20261030/formal-m4/imports/D3.json",
+      "sha256": "48e823384dbb0e736ee778d5453c96e66704cee141359490563ec743640741d2"
+    },
+    {
+      "path": "output/m6-fusion-reviewed-source-20261030/formal-m4/imports/D4.json",
+      "sha256": "ac75e679ca17853b0df8cb5cef10d973b92cc29c49dcef28e5229c7463c67db0"
+    },
+    {
+      "path": "output/m6-fusion-reviewed-source-20261030/formal-m4/imports/D5.json",
+      "sha256": "c50849d73a27feb2e5ec1803b89d18b9ffef7efcbdb2a1b10d6e56d3ab30d32b"
+    }
+  ],
+  "prior_six_streams": {
+    "input_tokens": 23480,
+    "output_tokens": 16506,
+    "logical_answer_streams": 6,
+    "exact_http_requests": null,
+    "cost": null
+  },
+  "this_package": {
+    "encoding": 0,
+    "reranking": 0,
+    "provider_inference": 0,
+    "answer_generation": 0,
+    "real_diagnostic_jobs": 0,
+    "real_database_access": false,
+    "isolated_synthetic_database_writes": true,
+    "formal_quality_writes": 0,
+    "default_switches": 0,
+    "subagents": 0,
+    "token_usage_new_real_calls": {
+      "input": 0,
+      "output": 0
+    },
+    "exact_http_requests": null,
+    "cost": null
+  },
+  "source_code_sha256": "edc3c8114d878ffa81ff82317d76708a93e73d55706c0b7ebb7b045abdb6223f",
+  "prompt_template_sha256": "5c0cb39e58800fc437c1f32b48b05540363ea8dbb8a147f5e030aa84a59aa9dc",
+  "limits": [
+    "no_new_answer_quality_evidence",
+    "no_actual_gateway_capability_proof",
+    "no_live_vector_or_default_pointer_rescan",
+    "draft_configs_not_formally_registered",
+    "no_auto_resumption_of_48_jobs",
+    "no_reopening_of_closed_technical_items"
+  ],
+  "next_action": "总控只核本包两项技术边界与能力证据／最小探测裁定；未知时保持暂停，不启动答案或M7",
+  "artifacts": [
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/audit_delivery.py",
+      "sha256": "c07e4cea2d53975e79931efc41f59deab42f6eda7439071e083675cb347e8ff0",
+      "bytes": 9047
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/consumer-replay-final-receipt.json",
+      "sha256": "047a0c1c85eb35c1961aa8fb6df96cf0247b652453a336dd52f1e24af23f3d3d",
+      "bytes": 126
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/consumer-replay-final.log",
+      "sha256": "2b0f67ea768496b8803e5813eab85ef7b76f45517b252d8390926c76111258c1",
+      "bytes": 105
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/consumer-replay-r1-receipt.json",
+      "sha256": "f60a164c7997fc9a848fbe8ad31a0c879c3b3f8c655cf38b443785030856724f",
+      "bytes": 130
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/consumer-replay-r1.log",
+      "sha256": "9435c88d92c0622cc61ab5a49e0230188aeed710878f79239188335a3233a4ce",
+      "bytes": 405
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/consumer-replay-r2-receipt.json",
+      "sha256": "b03596e41048781431acc010589caee69e22f6a2056293a2dc86734fbc56d2be",
+      "bytes": 130
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/consumer-replay-r2.log",
+      "sha256": "2b0f67ea768496b8803e5813eab85ef7b76f45517b252d8390926c76111258c1",
+      "bytes": 105
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/delivery-audit-r1-receipt.json",
+      "sha256": "c772ea722e8ed06a0bf065dd4a6c8f3f9e018cdffc65e0e3adfa7b148c9d4f0a",
+      "bytes": 128
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/delivery-audit-r1.log",
+      "sha256": "3629f8836e63488d8ab9cec0e41f762e46e90954e88eea762a5bf0ea09ecee03",
+      "bytes": 160
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/gateway-capability-inventory.json",
+      "sha256": "9fc000c25289c5d1e6a5f8f6810b5cbc3c72f5d31a01ba3c011323f096fc53fd",
+      "bytes": 1050
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/green-initial.log",
+      "sha256": "1e92ff884d1ae9cec7605aa948a831289e61b65019b24dd7da492ee819b3ad59",
+      "bytes": 101
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/integration-final-receipt.json",
+      "sha256": "73bc89d48acb6fee5100e04d294033704235b637efc6265eb5c4b3eada1432e0",
+      "bytes": 359
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/integration-final.log",
+      "sha256": "6974ca6bb2867b0ada27546b7b356af994d87a63739f73fef2533def72cc3f0d",
+      "bytes": 113
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/integration-r1-receipt.json",
+      "sha256": "ade5c1e1335724affab99299a55fbebbd2b9575deaadb8ff2bc50d20624c10fb",
+      "bytes": 250
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/integration-r1.log",
+      "sha256": "d0091677343ab9c5144f5a7bb3ba6cd5d2551ce15ce672ec52490b98b3692a4e",
+      "bytes": 102
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/integration-r2-receipt.json",
+      "sha256": "d3db92e57cfcbe6a4bb8897721f114d3fed335d73cbf5074a19286a7258b6c3d",
+      "bytes": 299
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/integration-r2.log",
+      "sha256": "d2d6f57f27e08cb867d6c128ecd8173958e59d52497cd06db82be3a6d46acb34",
+      "bytes": 102
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/minimum-probe-proposal.json",
+      "sha256": "8a6792bf86db17d0285179d2fce5f9b4f868ce01916a02d9c6f770284665f642",
+      "bytes": 1385
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/preparation-r2/subject-binding.json",
+      "sha256": "6b7b6e9062e1ca566008515a542cba0bb90daa1085f09ef81eb1ae015f00dabf",
+      "bytes": 7135
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/prepare-r2-receipt.json",
+      "sha256": "864824a04923a067d532609494841e0ae23d705034efa5ef1ec8af546c40f467",
+      "bytes": 129
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/prepare-r2.log",
+      "sha256": "f1ac0cfbec28b18f6700e196d3debdc04087541def87f6705dbfcb0a07b24780",
+      "bytes": 127
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/protection-after.json",
+      "sha256": "e233dfd8f362eff3fbc28f4b8b304cc230f0fb49b2514f447eba9a40659d5441",
+      "bytes": 1771
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/red-receipt.json",
+      "sha256": "3005420ab23f97c33418a106a01747ecb15a04cd6d66cc34fe1d309d997daf87",
+      "bytes": 146
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/red.log",
+      "sha256": "f78523f3f6fa70612a24e5c040c44d1e56d03e3309a5ab129a0f658339f63118",
+      "bytes": 5050
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/replay-final/config-v1-draft.json",
+      "sha256": "119b128d4af17c7489501c28f7ce42fc94796bd81975310e7a4aee2c5faacb30",
+      "bytes": 324141
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/replay-final/config-v2-draft.json",
+      "sha256": "b7b30484112b051c6d637b56c16834744575798b4d42cd33647bf5e91b8fd2c0",
+      "bytes": 324141
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/replay-final/summary.json",
+      "sha256": "f1c04372d0f5521c0f65f5d686fe4e8f5df34e606361eb998db539fd5f319eb4",
+      "bytes": 18479
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/replay-final/新版输入对照.html",
+      "sha256": "49e8c10ef43a4831b4eca6bb520e1ffb6adc9a017b434312e2083952c403fa56",
+      "bytes": 1217608
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/replay_consumers.py",
+      "sha256": "680d5ae979b3da2cf04ed477ed41e19b1106c88adf7ed154d5e50a456ed2bc3f",
+      "bytes": 13311
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/replay_final.py",
+      "sha256": "05453bc0aea8ed595f9d76044d593c0b6c2b7eaddf2564e0bfc47dff155cab43",
+      "bytes": 13518
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/six-saved-usage-replay.json",
+      "sha256": "0682139a29c2ba9dba3007dd83ce43dadc73c53667e9bc8e5336a5e3d9b7a147",
+      "bytes": 2944
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/subject-preparation-receipt.json",
+      "sha256": "ab1d3e46117df77159c2b3fab50bcf92fa1f01604e200239cb7246fa16b4974b",
+      "bytes": 1178
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/unit-final-receipt.json",
+      "sha256": "d0138030bab442087a5b98ddc9939f6298c6f90ef474834e3ea61dc7681b878a",
+      "bytes": 558
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/unit-final.log",
+      "sha256": "b2f53b29b8924546cd416bd55186b62e85fbb62e373af542420516d81679e2f8",
+      "bytes": 265
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/unit-r2-receipt.json",
+      "sha256": "541bf7fa9664189cc8dd852726f9a21b09d9c25c48a91e824e029e8e5d9e5aab",
+      "bytes": 317
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/unit-r2.log",
+      "sha256": "fc6f2374481169c4257312d6acab93a5994253f9d19187736aa4df7bdfd3dec4",
+      "bytes": 184
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/unit-r3-receipt.json",
+      "sha256": "31c4df6f490542f76b826e41646cb0fe4206ea5ab4ad8dead60f2c0237277a91",
+      "bytes": 465
+    },
+    {
+      "path": "output/m6-diagnostic-subject-usage-fix-20261031/unit-r3.log",
+      "sha256": "319c8a12009ba2e30e7eeaa198b5d2f7451e9446b18edae85bf0f96b1cfc768f",
+      "bytes": 265
+    }
+  ],
+  "gateway_capability_observation_scope": "applicable_saved_local_materials_only_no_live_probe_no_vendor_contract_found",
+  "documentation_report": "docs/development/reviews/M6-diagnostic-subject-usage-fix-r1.md"
+}

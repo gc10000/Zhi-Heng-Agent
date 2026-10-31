@@ -1,7 +1,8 @@
 """完整渲染后计数；模板、问题、历史和输出预留共同受模型窗口限制。"""
 import os
 from typing import Literal
-from pydantic import BaseModel,ConfigDict,Field,model_validator
+from pydantic import BaseModel,ConfigDict,Field,model_validator,model_serializer
+from app.infrastructure.providers.output_contract import OutputContract
 from app.api.errors import APIError
 from .context_budget import pack_prompt_inputs
 
@@ -13,9 +14,20 @@ class AnswerBudget(BaseModel):
     reserve_tokens:int=Field(default=256,ge=0,le=8192,strict=True)
     max_chars:int=Field(default=12000,ge=0,le=12000,strict=True)
     output_token_field:Literal['max_tokens','max_completion_tokens']='max_tokens'
+    output_contract:OutputContract | None=None
+
+    @model_serializer(mode='wrap')
+    def compatible_payload(self,handler):
+        data=handler(self)
+        if self.output_contract is None:data.pop('output_contract',None)
+        return data
 
     @model_validator(mode='after')
     def available(self):
+        if self.output_contract is not None and self.output_contract.enabled and (
+                self.output_tokens!=self.output_contract.per_request_total_output_tokens or
+                self.output_token_field!=self.output_contract.limit_field):
+            raise ValueError('答案总输出预算或字段与诊断能力合同不一致')
         if self.output_tokens+self.reserve_tokens>=self.context_window:raise ValueError('输出及安全预留超过模型窗口')
         return self
 

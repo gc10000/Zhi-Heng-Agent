@@ -8,7 +8,9 @@ SAFE_FAILURE_STAGES = {'authorization', 'product', 'retrieve', 'rerank', 'answer
 SAFE_CODES = {'upstream_timeout', 'upstream_connection_failed', 'provider_rate_limited',
     'provider_unavailable', 'provider_authentication_failed', 'provider_invalid_response',
     'provider_unknown_error', 'query_execution_failed', 'authorization_revoked', 'conversation_archived',
-    'context_changed', 'lease_expired', 'input_timeout', 'provider_capability_unsupported'}
+    'context_changed', 'lease_expired', 'input_timeout', 'provider_capability_unsupported',
+    'output_capability_unknown','output_capability_evidence_invalid','output_account_identity_conflict',
+    'output_account_busy','output_account_blocked','output_settlement_conflict','execution_config_conflict'}
 
 
 class ProviderTelemetry:

@@ -132,6 +132,11 @@ class QueryRunner:
         buffer = DeltaBuffer(lambda kind, payload: emit(kind, payload))
         try:
             boundary()
+            from app.infrastructure.providers.output_contract import validate_run as validate_output_run,require_capability
+            output_contract=self.answer_budget.output_contract
+            validate_output_run(row,output_contract)
+            if output_contract is not None and output_contract.enabled:
+                require_capability(output_contract)
             from app.retrieval.prerequisites import validate_run_policy
             source_policy=validate_run_policy(row,self.source_prerequisites)
             from app.retrieval.combination import validate_run_combination,validate_policies
@@ -225,6 +230,11 @@ class QueryRunner:
             from app.answering.evidence_attribution import authorize
             authorize(attribution,repo=repo,products=products,revisions=revisions,product_ids=selected,
                 database=g.db.name,collection=g.index_factory().collection if attribution.enabled else '')
+            if attribution.reviewed_subjects is not None:
+                from app.answering.reviewed_subjects import authorize_members
+                authorize_members(attribution.reviewed_subjects,
+                    g.index().revision_rows(repo,attribution.reviewed_subjects.revision_id,max_rows=1000),
+                    owner_id=repo.owner_id,kb_id=repo.kb_id)
             from app.lm.runtime import ModelRuntimePolicy
             from app.retrieval.cache import QUERY_EMBEDDINGS,configured_model_identity
             runtime_policy=ModelRuntimePolicy.load()
@@ -343,7 +353,26 @@ class QueryRunner:
                     else:
                         from app.lm.lm_utils import get_llm_client
                         client = ObservedClient(get_llm_client(), telemetry)
-                    step_3_generate_response(state, prompt, client=client)
+                    account=None
+                    if output_contract is not None and output_contract.enabled:
+                        from app.infrastructure.providers.clients import output_limit_options
+                        from app.infrastructure.providers.output_contract import OutputLedger
+                        # 能力及wire先验明，随后才创建调用前未知窗口；绝不自动重试。
+                        output_limit_options(client,self.answer_budget.output_tokens,self.answer_budget.output_token_field,contract=output_contract)
+                        account=OutputLedger(self.repo.db,output_contract)
+                        account.begin(rid,row['identity'],input_reservation=state['prompt_budget']['input_tokens'])
+                    try:
+                        step_3_generate_response(state, prompt, client=client)
+                    except BaseException:
+                        if account is not None:
+                            account.settle(rid,row['identity'],telemetry.snapshot()['token_usage'],completed=False,
+                                reasoning=state.get('answer_reasoning_tokens'),logical_calls=telemetry.snapshot()['logical_provider_calls'])
+                        raise
+                    if account is not None:
+                        settled=account.settle(rid,row['identity'],telemetry.snapshot()['token_usage'],completed=True,
+                            reasoning=state.get('answer_reasoning_tokens'),logical_calls=telemetry.snapshot()['logical_provider_calls'])
+                        emit('stage.changed',{'stage':stage},fields={'output_settlement':settled})
+                        account.require_open()
                 else:
                     state['answer'] = '当前授权知识库中没有找到可用证据，请补充资料或明确设备型号。'
                     safe_answer.write(state['answer'])
