@@ -1,0 +1,227 @@
+{
+  "date": "2026-10-31",
+  "role": "coordinator_independent_subject_output_contract_review",
+  "reviewed_commit": "739ee439e75f91377359759e6e299c2081b25b13",
+  "git_start": {
+    "head": "739ee439e75f91377359759e6e299c2081b25b13",
+    "origin_main": "739ee439e75f91377359759e6e299c2081b25b13",
+    "remote_main": "739ee439e75f91377359759e6e299c2081b25b13",
+    "worktree": [
+      "?? tmp/"
+    ]
+  },
+  "status": "reviewed_subject_consumer_closed_output_contract_two_direct_boundaries_open",
+  "stage": {
+    "m6": "5/7",
+    "m6_04": "accepted_unchanged",
+    "m6_05": "not_accepted",
+    "m6_08": "not_accepted",
+    "m7": "not_authorized"
+  },
+  "closed": {
+    "subject_consumer": "independently_passed",
+    "binding_members": 12,
+    "subject_tables": 2,
+    "saved_consumer_replay": "independently_reexecuted_and_equal",
+    "requests": 54,
+    "answer_prompts": 52,
+    "changed_prompts": 20,
+    "unchanged_prompts": 32,
+    "cached_clarifications": 2,
+    "clarification_rerouted": false,
+    "protected_questions": 25,
+    "protected_units": 35,
+    "old_unknown_row_page_preserved": true,
+    "real_binding_registered": false,
+    "new_answer_quality_verified": false
+  },
+  "preserved_passed": [
+    "unknown_capability_fail_closed",
+    "missing_total_usage_blocks",
+    "observed_overcap_blocks",
+    "interruption_pending_and_budget_cas",
+    "same_split_database_identity",
+    "completed_checkpoint_and_continuation_checks",
+    "default_off_legacy_equivalence"
+  ],
+  "open": {
+    "output_contract_wire_identity": {
+      "root": "generation_count_not_bound_or_checked",
+      "observations": [
+        {
+          "mode": "model_kwargs_two",
+          "actual_wire_n": 2,
+          "rejected": false,
+          "effective_sha": "5873f129a74b96cd34d3f3abcea5db7fb114e29b0e9d1dca5ca2846db8713b7d"
+        },
+        {
+          "mode": "normal_one",
+          "actual_wire_n": 1,
+          "rejected": false,
+          "effective_sha": "5873f129a74b96cd34d3f3abcea5db7fb114e29b0e9d1dca5ca2846db8713b7d"
+        },
+        {
+          "mode": "typed_two",
+          "actual_wire_n": 2,
+          "rejected": false,
+          "effective_sha": "5873f129a74b96cd34d3f3abcea5db7fb114e29b0e9d1dca5ca2846db8713b7d"
+        }
+      ]
+    },
+    "output_contract_usage_consistency": {
+      "root": "invalid_or_contradictory_reasoning_can_be_normalized_and_settled_open",
+      "formal_synthetic": [
+        {
+          "raw_reasoning": true,
+          "declared_total": 8,
+          "actual_state": "completed",
+          "ledger_state": "open",
+          "synthetic": true
+        },
+        {
+          "raw_reasoning": -1,
+          "declared_total": 8,
+          "actual_state": "completed",
+          "ledger_state": "open",
+          "synthetic": true
+        },
+        {
+          "raw_reasoning": 9,
+          "declared_total": 8,
+          "actual_state": "completed",
+          "ledger_state": "open",
+          "synthetic": true
+        }
+      ]
+    },
+    "actual_gateway_4096_total_capability": "unknown",
+    "remaining_product_jobs": 48,
+    "new05a": "not_authorized"
+  },
+  "verification": {
+    "offline_passed": 184,
+    "isolated_mongo_passed": 68,
+    "saved_evidence_audit": 2045,
+    "additional_matrix": {
+      "failed": 7,
+      "passed": 4,
+      "exit_code": 1
+    },
+    "formal_usage_faults": {
+      "failed": 3,
+      "exit_code": 1
+    },
+    "pilot_matrix": {
+      "failed": 2,
+      "passed": 1,
+      "exit_code": 1
+    },
+    "groups_overlap": true,
+    "not_quality_score": true
+  },
+  "history_protection": [
+    {
+      "manifest": "output/m6-diagnostic-subject-usage-fix-20261031/protected-before.json",
+      "verified": 597
+    },
+    {
+      "manifest": "output/m6-diagnostic-cache-completion-20261031/historical-files-r2.json",
+      "verified": 1314
+    }
+  ],
+  "this_review": {
+    "business_source_changes": 0,
+    "encoding": 0,
+    "rerank": 0,
+    "real_provider_calls": 0,
+    "product_answers": 0,
+    "real_business_database_access": false,
+    "random_isolated_mongo_writes": true,
+    "quality_writes": 0,
+    "default_switches": 0,
+    "subagents": 0
+  },
+  "next_package": {
+    "prompt": "docs/development/handoffs/M6-output-contract-boundaries-probe-r1.md",
+    "repair_scope": [
+      "effective_wire_generation_count_identity",
+      "raw_usage_validity_and_consistency"
+    ],
+    "source_consumer_reopen": false,
+    "old_A64_exit_probe": "not_adopted",
+    "probe_authorization": {
+      "slot_id": "m6-output-cap-4096-probe-r1",
+      "max_logical_streams": 1,
+      "product_answers": 0,
+      "prerequisite": "two_boundary_repairs_and_targeted_regressions_passed",
+      "endpoint_sha256": "7cbf2306d7facc55fd08ea52e1d6891e0dc6bc6af6d5442df34f17403670ad2a",
+      "model": "qwen3.8-flash",
+      "client_versions": {
+        "langchain-openai": "1.1.11",
+        "openai": "2.28.0"
+      },
+      "input_utf8_sha256": "fdad8bfe72f3c5d6b70f3432966e530a4f268727b5a761a9787668c33b0aaca9",
+      "input_canonical_sha256": "262d5a64deb1ab1ed9fb9001f7f13b2012c9d38b16fb03d6bf177619d2e6aca2",
+      "field": "max_completion_tokens",
+      "requested_limit": 4096,
+      "n": 1,
+      "thinking": "absent_gateway_default",
+      "sdk_max_retries": 0,
+      "timeout_seconds": 120,
+      "input_allowance": 1024,
+      "max_paid_output_tokens": null,
+      "unknown_paid_upper_bound_explicitly_accepted_for_single_probe": true,
+      "cumulative_output_limit_unchanged": 212992,
+      "cumulative_input_limit_unchanged": 1477632,
+      "fallback": false,
+      "auto_repeat": false,
+      "performed_this_review": false,
+      "result_cannot_auto_set_verified_or_resume_product_jobs": true
+    }
+  },
+  "limitations": [
+    "no_new_product_answer_or_quality_evidence",
+    "no_live582_867_67asset_or_default_pointer_scan",
+    "all_new_wire_and_usage_faults_are_synthetic_not_retrospective_real_failure_claims",
+    "single_probe_not_universal_server_hard_limit_proof",
+    "actual_gateway_capability_unknown"
+  ],
+  "evidence_hashes": {
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/audit.json": "514e8b90a28222a4cfec41b3bc2cc1e97c65a41573ba1d0cc1086bf47ab0cdb2",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/audit.log": "4abe1d608cc39075758bebfacec3041378556bad6e1206aa191d8d6e997d976b",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/audit.py": "344d99d452dfe6552eb7838094bf55a36cfe5056921298f382251b82e6deffec",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/boundary-observations/usage-bool-True.json": "d5a927210773003eae1477a1a7119422067b7d75f0cff0c4340ac57b01f08144",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/boundary-observations/usage-float-9.5.json": "abfc0eb456fe9c2858a5d1ba19a8d7e06be54aa0115daf4d515bda0d1c5070ae",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/boundary-observations/usage-int--1.json": "2648f385af075a7d32227781014187fc48adbf04c21c63416c02fc75e10393ab",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/boundary-observations/usage-int-0.json": "7a7f8572eb4c509d0669016792734e3bf59e9b1e442b2edb3fc62facae4d062f",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/boundary-observations/usage-int-8.json": "fd8cca33b453cc06a1fdb6082de86a9630290e8272d8eee460f3003e97435a7a",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/boundary-observations/usage-int-9.json": "23ea574ee9d36d0a7fa53d26a490c8727281cec81194796b16ca069035124ae1",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/boundary-observations/usage-NoneType-None.json": "b1ac189aa13a45e8d2bbe74023f6c12a74a63c2eb3547b0114c9c0052355b6da",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/boundary-observations/usage-str-9.json": "dcd3655b3a92f1c2058705d57db4c455188a51e90ce096d38099d7c6acf9740f",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/boundary-observations/wire-model_kwargs_two.json": "28c32a74dca286f9837615cf109de399be9bc530eb86730f067a1e72d4056fd4",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/boundary-observations/wire-normal_one.json": "ce29a146bcae4fc725c546bf51d0365831724cf4c557b492b1041a520999cc44",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/boundary-observations/wire-typed_two.json": "340ae6faed220975754be2e61722f3839b0a3e8242d1e474cecf9e073c0671fa",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/consumer-replay.log": "2b0f67ea768496b8803e5813eab85ef7b76f45517b252d8390926c76111258c1",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/extra-boundaries.log": "5f2bf2f0248b223597ec521a25c41e27e2736bb308c885fac390dcd7c8ee5fe3",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/extra-prefix.txt": "fb35b081c4b79757d394cfe9ad3c0052477d1e0717cb5b0dc2f01eb719ae70f2",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/finalize.py": "fba7d8fe48e6b2c369662cc90494b322e1644652f24ca57bd44ab91027b8e910",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/formal-prefix.txt": "ff0ecc1c14ab2348ec2189ac385a53ecfa1781e36091fe8923a77076f1fb7d60",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/formal-usage-bool-True.json": "e57b88b4c6b6a5d3c376a318e0a372683c9f4cfa9feebd0c78ee4323cb2de400",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/formal-usage-int--1.json": "67c571dcf309b03c0f545565b9f27379a50552b3b78fedf5fe1c6424b25ea309",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/formal-usage-int-9.json": "3fc564a60b90c93520f673b0e2194a9a6672faea49b2ff410d3b1dca7403221f",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/formal-usage.log": "a6b78bd70a378c807d7bcca7b437eb20a4b09d5db76896defa7aec30f02ace87",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/input-protection.json": "2a2707eb7f3c2fc32e88909e537e002a55a56b685f3a92c30268563e39454f4e",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/integration-prefix.txt": "cec7bdf8b3ed19fb214431700c33160bfa3af1b307b842232d0b35f2960ad155",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/integration.log": "03fe3819e929363dc875170c0158441cc599aa81c4658b268e1b1a88864e96aa",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/matrix-prefix.txt": "573ad4637f1586beaa8e47f6ffab9a02c155d284c04ba6c16e822fd97b0b0e12",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/matrix.log": "b58fae83113584b0d60334b3ca470d9a0b89ef6a6897226d5c331a31f93b0353",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/matrix.xml": "10f899e842ecaf3e7946fd20b0dc22effa6eddfb9e26a120e6ae41d6283c6f3b",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/offline.log": "94974e709a476885c9f9c8630a05242eacda3b3e7815b80821629de359914bfa",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/replay_copy.py": "13ebf36a43eb4fb145cd968d7a75c6d12f82318df3bad164672e12f8d3bfe263",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/test_extra_contract_boundaries.py": "27e19a9e510618b6d239e706588ae5c15f79ec1b91509e5bd0b057a78e797ee1",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/test_formal_usage_path.py": "07425bc0ab24a6fd3919f1c1d1374e2b640ec22c2bf78e933a5eed96ef067f82",
+    "output/m6-diagnostic-subject-usage-fix-review-20261031/test_output_boundary_matrix.py": "89e934cfb3ab27dad86bdea7245286513495053c4c6e137bc51710920f902f08",
+    "docs/development/reviews/M6-diagnostic-subject-usage-fix-review-r1.md": "f8e161e3a5a8dd318c77fbfea1ceab94f5e944e409b9f43d9be764a9d15ffb7b",
+    "docs/development/handoffs/M6-output-contract-boundaries-probe-r1.md": "723b609510fba414c643def17c9245dfb27f746fdfa71a6d3c372628e4f0dc41"
+  }
+}

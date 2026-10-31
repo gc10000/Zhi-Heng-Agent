@@ -1,3 +1,15 @@
+## 2026-10-31 · 总控关闭对象关系消费，输出合同两处保护仍open
+
+独立核739ee439：两表12成员重新编译／授权全等，54保存输入正式消费者复放全等（52答案prompt中20变化32不变、2缓存澄清），原25题35单元及048双方／p30保留。受审对象关系消费技术子项明确关闭，不再重找PDF、重审语义或重做检索；LAN行unknown不改，新答案效果仍未验证，真实binding未登记。
+
+184离线／契约、68随机隔离Mongo及2045项保存证据审计通过，597／1314保护hash匹配；独立新增输出边界矩阵7失败4通过，正式合成usage路径3失败，各组重叠不累计。两处同一输出合同缺口：n=2实际wire未进身份且未拒绝；矛盾／非法reasoning可结算open并允许下一题。不是过去六流已用n=2或旧账错误，不整体重开既有通过保护。
+
+实际网关4096能力仍unknown，余48产品job继续暂停。本轮新真实推理／业务库访问／评分／子Agent均0，业务源码不改。下一包一次补齐两处输出保护，红绿通过后最多一次固定4096设置、非产品长输出探测；不采用A／64作退出证据。单次探测明确接受未知付费上界，不能自动登记verified／全域硬限或恢复产品答案，不开展无界试词。M6 5/7、04保持，05／08未验收，M7未授权；P2／p30／001等关闭保持。
+
+[独立报告](../development/reviews/M6-diagnostic-subject-usage-fix-review-r1.md) · [脱敏摘要](../development/reviews/M6-diagnostic-subject-usage-fix-review-validation-r1.json) · [完整执行Prompt](../development/handoffs/M6-output-contract-boundaries-probe-r1.md)
+
+以下历史按原时点保留。
+
 ## 2026-10-31 · 受审对象关系与输出合同已自验，网关能力仍未知、48 job暂停
 
 接续774e7c8，实现默认关闭的`reviewed_table_subjects_v1`及`diagnostic_total_output_v1`。两表12行按已审Git证明、原件／缓存／冻结成员与scope精确绑定，LAN在新版05-a输入明确归属MateDock3；机身RJ45独立，表级p13／p14不改LAN行unknown。策略、能力合同及生效参数hash沿正式配置／Run／题级关联与恢复核验；缺失或漂移拒绝，旧路径缺省等值，不重导入、不改检索。
