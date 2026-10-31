@@ -1,0 +1,519 @@
+{
+  "date": "2026-10-31",
+  "role": "execution_assistant_non_acceptance_diagnostic",
+  "base_commit": "806f46f5a52041b1456e830b653e66bea68c7527",
+  "status": "stopped_at_first_identified_semantic_target_gap",
+  "m6": "5/7",
+  "m6_04": "accepted_unchanged",
+  "m6_05": "not_accepted",
+  "m6_08": "not_accepted",
+  "m7": "not_started",
+  "code_changes": 0,
+  "prompt_changes": 0,
+  "default_switches": 0,
+  "corpus_reimports": 0,
+  "subagents": 0,
+  "new_quality_records": 0,
+  "identity": {
+    "master_source_sha256": "3e4931e8ac206f243851a206ab3f888a51a59cee068ad96c18ba9138971f5467",
+    "runtime": {
+      "code": "bcbc147ce1183fb5cf774099c8080838bc11284919bc2939d346f6e3de9932da",
+      "prompt": "5c0cb39e58800fc437c1f32b48b05540363ea8dbb8a147f5e030aa84a59aa9dc",
+      "model": "565fbfe4c795fb52f84183f7b2708491fd7824fa07f2de9fd546e9d6d6e5bb90"
+    },
+    "model": "qwen3.8-flash",
+    "source_manifest_unchanged": true,
+    "requests_and_configs_unchanged": 54,
+    "strategies": [
+      "source_branch_compare_v1",
+      "attributed_assertions_v1"
+    ]
+  },
+  "preparation": {
+    "required_embedding_keys": 29,
+    "previous_exact_keys": 12,
+    "new_embedding_keys": 17,
+    "new_embedding_batches": 17,
+    "new_embedding_texts": 20,
+    "actual_rerank_pairs": 518,
+    "reused_source_bound_pairs": 517,
+    "new_rerank_pairs": 1,
+    "new_rerank_logical_requests": 1,
+    "new_rerank_inner_batches": 1,
+    "real_retrieval_method_calls": 81,
+    "consumer_preflight_requests": 54,
+    "consumer_answer_prompts": 52,
+    "consumer_clarifications": 2,
+    "consumer_misses": 0,
+    "extra_inference_during_consumption": 0
+  },
+  "execution": {
+    "completed_jobs": 6,
+    "completed_answer_streams": 6,
+    "unknown_windows": 0,
+    "diagnoses_no_clear_failure": 5,
+    "diagnoses_clear_target_gap": 1,
+    "formal_scores": 0,
+    "pending_jobs": 48,
+    "pending_answer_jobs": 46,
+    "pending_clarification_jobs": 2,
+    "remaining_scope": [
+      {
+        "version": 1,
+        "question_id": "m6-g540-05-b",
+        "expected_generation": true
+      },
+      {
+        "version": 1,
+        "question_id": "m6-g540-09-a",
+        "expected_generation": true
+      },
+      {
+        "version": 1,
+        "question_id": "m6-g540-09-b",
+        "expected_generation": true
+      },
+      {
+        "version": 1,
+        "question_id": "m6-g540-10-a",
+        "expected_generation": true
+      },
+      {
+        "version": 1,
+        "question_id": "m6-g540-10-b",
+        "expected_generation": true
+      },
+      {
+        "version": 1,
+        "question_id": "m6-g540-11-a",
+        "expected_generation": true
+      },
+      {
+        "version": 1,
+        "question_id": "m6-g540-17-a",
+        "expected_generation": true
+      },
+      {
+        "version": 1,
+        "question_id": "m6-g540-17-b",
+        "expected_generation": true
+      },
+      {
+        "version": 1,
+        "question_id": "m6-g540-18-a",
+        "expected_generation": true
+      },
+      {
+        "version": 1,
+        "question_id": "m6-g540-19-b",
+        "expected_generation": true
+      },
+      {
+        "version": 1,
+        "question_id": "m6-g540-20-a",
+        "expected_generation": true
+      },
+      {
+        "version": 1,
+        "question_id": "m6-g540-unknown-01-b",
+        "expected_generation": true
+      },
+      {
+        "version": 1,
+        "question_id": "m6-g540-unknown-03-b",
+        "expected_generation": true
+      },
+      {
+        "version": 1,
+        "question_id": "m6-g540-unknown-04-a",
+        "expected_generation": true
+      },
+      {
+        "version": 1,
+        "question_id": "m6-g540-unknown-04-b",
+        "expected_generation": true
+      },
+      {
+        "version": 1,
+        "question_id": "m6-g540-unknown-05-a",
+        "expected_generation": true
+      },
+      {
+        "version": 1,
+        "question_id": "m6-g540-unknown-05-b",
+        "expected_generation": true
+      },
+      {
+        "version": 1,
+        "question_id": "support-v1-008",
+        "expected_generation": true
+      },
+      {
+        "version": 1,
+        "question_id": "support-v1-030",
+        "expected_generation": true
+      },
+      {
+        "version": 1,
+        "question_id": "support-v1-047",
+        "expected_generation": false
+      },
+      {
+        "version": 1,
+        "question_id": "support-v1-048",
+        "expected_generation": true
+      },
+      {
+        "version": 2,
+        "question_id": "m6-g540-02-a",
+        "expected_generation": true
+      },
+      {
+        "version": 2,
+        "question_id": "m6-g540-02-b",
+        "expected_generation": true
+      },
+      {
+        "version": 2,
+        "question_id": "m6-g540-03-a",
+        "expected_generation": true
+      },
+      {
+        "version": 2,
+        "question_id": "m6-g540-04-a",
+        "expected_generation": true
+      },
+      {
+        "version": 2,
+        "question_id": "m6-g540-04-b",
+        "expected_generation": true
+      },
+      {
+        "version": 2,
+        "question_id": "m6-g540-05-a",
+        "expected_generation": true
+      },
+      {
+        "version": 2,
+        "question_id": "m6-g540-05-b",
+        "expected_generation": true
+      },
+      {
+        "version": 2,
+        "question_id": "m6-g540-09-a",
+        "expected_generation": true
+      },
+      {
+        "version": 2,
+        "question_id": "m6-g540-09-b",
+        "expected_generation": true
+      },
+      {
+        "version": 2,
+        "question_id": "m6-g540-10-a",
+        "expected_generation": true
+      },
+      {
+        "version": 2,
+        "question_id": "m6-g540-10-b",
+        "expected_generation": true
+      },
+      {
+        "version": 2,
+        "question_id": "m6-g540-11-a",
+        "expected_generation": true
+      },
+      {
+        "version": 2,
+        "question_id": "m6-g540-17-a",
+        "expected_generation": true
+      },
+      {
+        "version": 2,
+        "question_id": "m6-g540-17-b",
+        "expected_generation": true
+      },
+      {
+        "version": 2,
+        "question_id": "m6-g540-18-a",
+        "expected_generation": true
+      },
+      {
+        "version": 2,
+        "question_id": "m6-g540-19-b",
+        "expected_generation": true
+      },
+      {
+        "version": 2,
+        "question_id": "m6-g540-20-a",
+        "expected_generation": true
+      },
+      {
+        "version": 2,
+        "question_id": "m6-g540-unknown-01-b",
+        "expected_generation": true
+      },
+      {
+        "version": 2,
+        "question_id": "m6-g540-unknown-03-b",
+        "expected_generation": true
+      },
+      {
+        "version": 2,
+        "question_id": "m6-g540-unknown-04-a",
+        "expected_generation": true
+      },
+      {
+        "version": 2,
+        "question_id": "m6-g540-unknown-04-b",
+        "expected_generation": true
+      },
+      {
+        "version": 2,
+        "question_id": "m6-g540-unknown-05-a",
+        "expected_generation": true
+      },
+      {
+        "version": 2,
+        "question_id": "m6-g540-unknown-05-b",
+        "expected_generation": true
+      },
+      {
+        "version": 2,
+        "question_id": "support-v1-008",
+        "expected_generation": true
+      },
+      {
+        "version": 2,
+        "question_id": "support-v1-030",
+        "expected_generation": true
+      },
+      {
+        "version": 2,
+        "question_id": "support-v1-047",
+        "expected_generation": false
+      },
+      {
+        "version": 2,
+        "question_id": "support-v1-048",
+        "expected_generation": true
+      }
+    ],
+    "items": [
+      {
+        "version": 1,
+        "question_id": "m6-g540-02-a",
+        "experiment_id": "5ccb0331-45d0-4ed9-bbb1-792a4c3e609a",
+        "run_id": "99af47e9-102c-41f2-8029-41108f135e58",
+        "verdict": "no_clear_failure",
+        "answer_sha256": "26c36a030f5c3a7640351b70888cbb9f2986326ef87da0720427c531aab0a09e",
+        "prompt_sha256": "ec847c7602055cd01d3bca608545afd3ea919e474b55fd84040d6325f89ddc91",
+        "usage": {
+          "input_tokens": 3269,
+          "output_tokens": 710,
+          "total_tokens": 3979,
+          "input_token_details": {
+            "cache_read": 0
+          },
+          "output_token_details": {
+            "reasoning": 493
+          }
+        },
+        "diagnosis_sha256": "4c0fb13be4876e32421dddbb0dc6c4f03b9ef5e06f055797efef515f906cf88e"
+      },
+      {
+        "version": 1,
+        "question_id": "m6-g540-02-b",
+        "experiment_id": "e2dbd146-69f1-4ae3-9321-6e68fd6aad20",
+        "run_id": "7ecb0ddd-f6b7-461a-b482-190309f09b55",
+        "verdict": "no_clear_failure",
+        "answer_sha256": "1fecd487c8705bbfded2ea6d198d8745d5db961cf7b55018772610a2b8576f00",
+        "prompt_sha256": "5520df909442d7f8196098c11092d5af5ac04e645549c3b666ff084aaf2af7c0",
+        "usage": {
+          "input_tokens": 3764,
+          "output_tokens": 1797,
+          "total_tokens": 5561,
+          "input_token_details": {
+            "cache_read": 0
+          },
+          "output_token_details": {
+            "reasoning": 1543
+          }
+        },
+        "diagnosis_sha256": "edd3953b7a0291098cda58301593ea92cdac8bcbf6f813201b4f2aa0a73054ea"
+      },
+      {
+        "version": 1,
+        "question_id": "m6-g540-03-a",
+        "experiment_id": "86d98033-d73b-4346-a067-7357c7615bab",
+        "run_id": "7862a91f-e464-4efd-b188-052091737265",
+        "verdict": "no_clear_failure",
+        "answer_sha256": "41cba409c6e200ed77bf982b62bbff6c2cfa66d97eed35544172830ec5dc8499",
+        "prompt_sha256": "93b370850219e5bdf6e3d3b40cc10bee49fbb8644be605f68069686b69f78938",
+        "usage": {
+          "input_tokens": 4046,
+          "output_tokens": 6150,
+          "total_tokens": 10196,
+          "input_token_details": {
+            "cache_read": 0
+          },
+          "output_token_details": {
+            "reasoning": 5556
+          }
+        },
+        "diagnosis_sha256": "ae9bb50072665969b40444859eb38c2480e47120518b4baf1bd325a940858555"
+      },
+      {
+        "version": 1,
+        "question_id": "m6-g540-04-a",
+        "experiment_id": "7e10fd50-2b4a-4f1c-be57-7b8721ec4816",
+        "run_id": "9ab98b6f-2896-4c4a-a3e0-46482664cd1c",
+        "verdict": "no_clear_failure",
+        "answer_sha256": "2ff2ada617b0ab12a4a8bc66c2abc4c7f405f4fae760a80a25a26650dac142e2",
+        "prompt_sha256": "f47a05f03c732936703de8301781b8911a1ab1bec21fdcafafe2fd961e9343c4",
+        "usage": {
+          "input_tokens": 4072,
+          "output_tokens": 1377,
+          "total_tokens": 5449,
+          "input_token_details": {
+            "cache_read": 0
+          },
+          "output_token_details": {
+            "reasoning": 1231
+          }
+        },
+        "diagnosis_sha256": "94e6f96fbc90fd2af1261e33bdfda9eedcf69e34c29d3c45ef31d1aa277adb63"
+      },
+      {
+        "version": 1,
+        "question_id": "m6-g540-04-b",
+        "experiment_id": "d5be262b-88b7-43ea-8117-49c9019e52e3",
+        "run_id": "cfd040d3-3d60-4c88-a526-51187497e7c0",
+        "verdict": "no_clear_failure",
+        "answer_sha256": "2444be17cd4682263284944d73ae6dff3d7217296e2447524182e9c6f312f428",
+        "prompt_sha256": "a9eb9249955311ce2fed9b7b95972f9c01bd780a1e23986c7cf3e77afcb8c152",
+        "usage": {
+          "input_tokens": 3989,
+          "output_tokens": 1728,
+          "total_tokens": 5717,
+          "input_token_details": {
+            "cache_read": 0
+          },
+          "output_token_details": {
+            "reasoning": 1411
+          }
+        },
+        "diagnosis_sha256": "7abdb25c412f43fa9f9496ff8bf3228ae92c3d8ae2350d2f272907b4bb3fa028"
+      },
+      {
+        "version": 1,
+        "question_id": "m6-g540-05-a",
+        "experiment_id": "ba54aa34-735b-493a-ad65-402b4950dfba",
+        "run_id": "cb4e422f-836e-4b0f-a9f1-0ffce4d5a2e9",
+        "verdict": "clear_failure",
+        "answer_sha256": "73226983e06e50723fb872ec03f866be3c24a7ef3fc88045feec4c30183a1e9d",
+        "prompt_sha256": "ad8cbd7fe3d93c0c748be87ddf7fddfdd76587c5ef9b901b7731cd0160479533",
+        "usage": {
+          "input_tokens": 4340,
+          "output_tokens": 4744,
+          "total_tokens": 9084,
+          "input_token_details": {
+            "cache_read": 0
+          },
+          "output_token_details": {
+            "reasoning": 3848
+          }
+        },
+        "diagnosis_sha256": "10ebd114e98b7303aa4b01e37216c12551f26b9dc63e9e193bbe8eaa38dd69ad"
+      }
+    ]
+  },
+  "finding": {
+    "question_id": "m6-g540-05-a",
+    "body_rj45_correct": true,
+    "accessory_name_binding_target_met": false,
+    "source": "D3 physical 13-14",
+    "input_relation": "LAN row and MateDock3 heading separate; no explicit row-to-model binding in actual prompt",
+    "isolated_generation_cause": "unknown",
+    "not_all_facts_wrong": true,
+    "not_formal_quality_score": true
+  },
+  "ledger": {
+    "historical_verified_scope": {
+      "streams": 336,
+      "input_tokens": 644642,
+      "output_tokens": 355857,
+      "not_project_total": true
+    },
+    "package_new": {
+      "embedding_batches": 17,
+      "texts": 20,
+      "rerank_requests": 1,
+      "rerank_inner_batches": 1,
+      "rerank_pairs": 1,
+      "answer_streams": 6,
+      "input_tokens": 23480,
+      "output_tokens": 16506
+    },
+    "specified_historical_plus_package": {
+      "streams": 342,
+      "input_tokens": 668122,
+      "output_tokens": 372363,
+      "not_project_total": true
+    },
+    "provider_http_requests": null,
+    "provider_cost": null,
+    "local_tokens": null,
+    "local_cost": null,
+    "per_request_cap_effectiveness": "not_verified",
+    "usage_anomalies": [
+      {
+        "question_id": "m6-g540-03-a",
+        "request_max_tokens": 4096,
+        "total_output_tokens": 6150,
+        "reasoning_tokens": 5556
+      },
+      {
+        "question_id": "m6-g540-05-a",
+        "request_max_tokens": 4096,
+        "total_output_tokens": 4744,
+        "reasoning_tokens": 3848
+      }
+    ],
+    "limitation": "Usage anomalies were discovered only in exit accounting; do not claim per-job cap effectiveness was checked before all following jobs."
+  },
+  "protection": {
+    "old_rows_checked": 5267,
+    "old_immutable_rows_unchanged": 5266,
+    "formal_service_slot_metadata_changed": 1,
+    "slot_released": true,
+    "unexplained_old_changes": 0,
+    "historical_files": 1314,
+    "historical_group_counts": [
+      1205,
+      240,
+      609
+    ],
+    "historical_hash_mismatches": 0,
+    "run_events": "TTL excluded; no all-history unchanged assertion",
+    "live_vectors_exit_rescan": false
+  },
+  "evidence_hashes": {
+    "output/m6-diagnostic-cache-completion-20261031/startup-authorization.json": "3a73dcc5c052ff37fa5b7d05218997066b5511ccfb035f32d0f20f9c3461d6da",
+    "output/m6-diagnostic-cache-completion-20261031/preflight-result.json": "1619a6d0e3aeb2b2aa2d5d3c948018abf93d24634c37fba1a2b58a8062346b3c",
+    "output/m6-diagnostic-cache-completion-20261031/live-corpus-and-authorization.json": "a77366aeceefd547954e9e27fa3c0bc11a0020111d512d32868092c5f13b14d9",
+    "output/m6-diagnostic-cache-completion-20261031/encoding-complete.json": "924a739ea83c02055d82158d716958724759a1e0035be13c590536d46ced5079",
+    "output/m6-diagnostic-cache-completion-20261031/retrieval-complete.json": "b2a2373e3a92ebc2c6e4370f1480cee32f270b86bd7fcfbf204a658262e4f771",
+    "output/m6-diagnostic-cache-completion-20261031/missing-score-manifest.json": "e1162a0c3c07da949e8727dda20e41815f6d8b155d514fb89b677f5da7a322b8",
+    "output/m6-diagnostic-cache-completion-20261031/scores-complete.json": "baa0497f825a6b0a2558c50c464ab6c291987969e53f763775e042179fa4f4d7",
+    "output/m6-diagnostic-cache-completion-20261031/consumer-preflight-complete.json": "4d67fcc5574e00e0f1dbf7abd5b44e896fddbd7afee1c5cd17d09b726cc9e2b5",
+    "output/m6-diagnostic-cache-completion-20261031/provider-calls.jsonl": "5e7e6858a6c6c9810762533db2552ef516daf4da91b9459a47f9a30b53fe6639",
+    "output/m6-diagnostic-cache-completion-20261031/stop.json": "5e4008398287e55bb4851da0835723a4dd20f561cf00e562aaf339a001ea7fd3",
+    "output/m6-diagnostic-cache-completion-20261031/exit-audit.json": "299f8434cb9b4eda9cde22cf8fdba16fe8a6e89d183bcdc4573b73f17d1ea0a0",
+    "output/m6-diagnostic-cache-completion-20261031/exit-audit-classified.json": "a594a5bfbe7565882f82bcc5b2d6368103a5d6b4624a35cfe45d39cb492d4e96",
+    "output/m6-diagnostic-cache-completion-20261031/slot-service-change.json": "08f5f708c4cc2ab86a1fab49ccab72c1ec13a9de3985aad982a5e01c37c85df0",
+    "output/m6-diagnostic-cache-completion-20261031/token-accounting-boundaries.json": "566d440c92d55cfd8ea056672a2fb0bb6be619ddeadc6ef5ae306a0fda9ed5c3",
+    "output/m6-diagnostic-cache-completion-20261031/实际诊断逐题对照.html": "c831b930772de5c21df7445b1d8f21b7dfbc9b2cabe7116f7ebb80c20324921b"
+  },
+  "next_action": "总控只读核验05-a原件→实际prompt→输出归属链及两处usage口径，裁定有界下一步；不自动启动完整候选、重抽或proof。"
+}
