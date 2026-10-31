@@ -1,0 +1,830 @@
+{
+  "date": "2026-10-31",
+  "execution_head": "899219ca42732643956b39e85a7ecdf6c26ba5de",
+  "remote_before_delivery_commit": {
+    "command": "git -c http.proxy= -c https.proxy= -c http.connectTimeout=10 ls-remote origin refs/heads/main",
+    "exit_code": 0,
+    "github_main": "b6ce85acf8ec9b7e9b8694ac573219f92f5c6169",
+    "cached_origin_main": "b6ce85acf8ec9b7e9b8694ac573219f92f5c6169",
+    "startup_failure_preserved": true,
+    "push_status": "pending_normal_push_after_commit"
+  },
+  "reviewed_business_commit": "b6ce85acf8ec9b7e9b8694ac573219f92f5c6169",
+  "role": "bounded_diagnostic_execution",
+  "status": "stopped_at_required_cache_preflight",
+  "actual_answer_quality_result": "not_executed",
+  "runtime": {
+    "code": "bcbc147ce1183fb5cf774099c8080838bc11284919bc2939d346f6e3de9932da",
+    "prompt": "5c0cb39e58800fc437c1f32b48b05540363ea8dbb8a147f5e030aa84a59aa9dc",
+    "model": "565fbfe4c795fb52f84183f7b2708491fd7824fa07f2de9fd546e9d6d6e5bb90"
+  },
+  "model_name": "qwen3.8-flash",
+  "policy": "attributed_assertions_v1",
+  "master_source_sha256": "3e4931e8ac206f243851a206ab3f888a51a59cee068ad96c18ba9138971f5467",
+  "originals": [
+    {
+      "source": "D1",
+      "original_sha256": "72983cc9b60f7f165bf89d3f6cbe39d56c4db148fd4b894c70c37378f8be5c8e",
+      "cache_sha256": "113af69f33562d935beb9700dc1dc7e725978bfb583a766c43743b1d6ba806e7"
+    },
+    {
+      "source": "D3",
+      "original_sha256": "977b5522d45fb1d3dfe8ac330c37841ad2751ffdfcbdaa64847ca753e78eff83",
+      "cache_sha256": "969fa1dfe2dd183c33d60f5e0a0a27cf54fa3add467003277be51d88777be47e"
+    },
+    {
+      "source": "D4",
+      "original_sha256": "9eda0af991762156befd5b6ac651730835c7b8732b0c48d8761574406298ebb9",
+      "cache_sha256": "e67c2f9264306a42c02c4ce289932f97eea29fc761a55dd099cd60fa1a5b0993"
+    },
+    {
+      "source": "D5",
+      "original_sha256": "aa246f20a8b2a059b9e2c67410d0eccc2d86f3c643cc71a7b3eff6d7acff1523",
+      "cache_sha256": "09c8e9c3f99f2e54f7d2e2e514257d1898194f022301a77aba9dd11af0ed36cd"
+    }
+  ],
+  "singleton_configs": 54,
+  "questions_per_version": 27,
+  "unexecuted": [
+    {
+      "version": 1,
+      "ordinal": 1,
+      "question_id": "m6-g540-02-a",
+      "config_sha256": "b27adf001fa3736fbe6abbce76f4b2311e2c5c645cae947240d6f6a210cd99db",
+      "request_sha256": "695af05700c6422e6a51d1e12c18fda304aad38ea3f72b4cb2c46c9fe2881af3",
+      "old_subject_sha256": "091dec17bef0acb7db47ab25cea81599ee930edf4f59a721b06042cd8c88db54",
+      "old_run_id": "68d48b15-b2d1-4ed6-b0a8-53d5ce43775b",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "embedding_cache_matched_only"
+    },
+    {
+      "version": 1,
+      "ordinal": 2,
+      "question_id": "m6-g540-02-b",
+      "config_sha256": "9f9d7d03953e14c08bc9306a75bdcd0dc0ff72b279e9c54027456cefd27aa3a3",
+      "request_sha256": "59f70086061a22f67847c66a73e54b034a812ecfd8a2246662d4a0e03c650f09",
+      "old_subject_sha256": "f18cfde9e46387a3ded4324b274aba81f8fd4473eef9fd8a27e5afdd4e7ab135",
+      "old_run_id": "e9bd7ebf-5bef-4db5-baf6-5b63e2520e38",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "embedding_cache_matched_only"
+    },
+    {
+      "version": 1,
+      "ordinal": 3,
+      "question_id": "m6-g540-03-a",
+      "config_sha256": "1c4ab10470808824d2ddb14c53e20fd2af1fc9ac5bcfc116e904f5a124218f08",
+      "request_sha256": "e4d0efaeed3b10b234047e6e16ac705370da0abea586e35e8999c57d0623cc8d",
+      "old_subject_sha256": "d24843912b069a2f6a3a2cfa08830b05c9064e73bc8ddc3aa32c41397161163a",
+      "old_run_id": "bc96cb5e-af63-4a5f-b983-1c8de600355a",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "missing_embedding_cache"
+    },
+    {
+      "version": 1,
+      "ordinal": 4,
+      "question_id": "m6-g540-04-a",
+      "config_sha256": "d4af71ba39c8bd84dd5b8231dc9bff3d75f059f193532ac902b776e932bd78ca",
+      "request_sha256": "864f64881832c8a8b9855ef6b793606a9665af1489227aa65c328d131a6698ff",
+      "old_subject_sha256": "87f1050d59d6ebb64578edc96eda9355c056a98236b70f06d3cd5ca43e19a10f",
+      "old_run_id": "77bee0dd-4a23-4ad4-8f39-4d184a2152fb",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 1,
+      "ordinal": 5,
+      "question_id": "m6-g540-04-b",
+      "config_sha256": "9f50c0ad44cabb87d948403c901573d66ed61b7f7b84dbc9f6180c08a4ca0cd1",
+      "request_sha256": "e2447adb4ddd182b0b7251941a4ec7a6bb8c449e0c2c2b7feffcc14b47f0b829",
+      "old_subject_sha256": "5408d1568b0f175cc454b36f22a3c1c1e75b648070ebdf645df9085c464ba0e9",
+      "old_run_id": "a5103799-e6b5-4b0d-9497-8493727f6362",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 1,
+      "ordinal": 6,
+      "question_id": "m6-g540-05-a",
+      "config_sha256": "74c3ba06eff46d83d6fb507986d227b107b55676fa1d9fb676fee0ea6b34d3e8",
+      "request_sha256": "bd7e1171741a3a0622133168eba56525f62c5c7bb52d15aee73d5b33ab3c4f63",
+      "old_subject_sha256": "55d79f2074abd4d1deed812d8102dd7a34791d0c3800df4b4c54ce64a34b36e9",
+      "old_run_id": "945e41cb-c89d-42bb-9d26-0f54eff5bec8",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 1,
+      "ordinal": 7,
+      "question_id": "m6-g540-05-b",
+      "config_sha256": "b540a1632f25870a80d3858d478263c4862eab90b7a513559c7b34c7f5199670",
+      "request_sha256": "b20a5bb25648b3ff3e974d9495f40044285742fb0494b3b5cda525f9d2ab4c66",
+      "old_subject_sha256": "ff04805bac6f31271bb9b1406d3a74956733ca4eace83d4cac561f82e9c9057a",
+      "old_run_id": "936ac88f-1c75-46db-b83b-271f641d9d68",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 1,
+      "ordinal": 8,
+      "question_id": "m6-g540-09-a",
+      "config_sha256": "54d1100307c391cc113ed7f5ed38d2274f15f755d1aa64224f5423d43074ac0e",
+      "request_sha256": "fdb64e61897c89f5d9ce94479ebc9f2a93c7356ccc107b7cbce931a8d3f13f4f",
+      "old_subject_sha256": "ce66947382130e12b18fd68b3db23dbee86c9f193177b58b5da20182df153e9f",
+      "old_run_id": "49e1192d-c5c7-4529-b51a-f005a345571f",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 1,
+      "ordinal": 9,
+      "question_id": "m6-g540-09-b",
+      "config_sha256": "bd09fe998b1a9dafbdec3b28165c2533c810d329a0350fdfcfe2e4a3979d3882",
+      "request_sha256": "ef9a9edabfc5600deb56c92916ebf236bc34e97630f371570885c33f72a2c795",
+      "old_subject_sha256": "4396220d483ee20876b729e389f58d5d8d2e892619130ea98d9819bcc8a0fc16",
+      "old_run_id": "58fb1a40-06fa-4ef5-8332-5e05fd4db9c0",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 1,
+      "ordinal": 10,
+      "question_id": "m6-g540-10-a",
+      "config_sha256": "4281cbd89a806bd3d21fb2975db83579ef16686a5992f37c96a510bd613a4de1",
+      "request_sha256": "dbcc07ab4d6fbd8c944d3376049fd1e2d20fc605c425fd1e86a5a7b910190467",
+      "old_subject_sha256": "ec8ae05a06d0bc7ddb9b2de7c9a9aa31976368dbcef28b62768e4448f2ee72e5",
+      "old_run_id": "33796ebd-943d-4406-a252-4669b88c0274",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 1,
+      "ordinal": 11,
+      "question_id": "m6-g540-10-b",
+      "config_sha256": "f7af64052414da5d795317d3c879773e1a80a90717a51fabbb3c590caa170b0c",
+      "request_sha256": "d1c0c592e1b4e82d0dd4d22de209337622e0ee3703e8c60c0c646fc228ec8f95",
+      "old_subject_sha256": "d97a07c7d190b593f46dbe1d473518494de7265d495d71d8baf15c75e2b56623",
+      "old_run_id": "63e93ec1-c7c3-428c-aa3b-e1808e262105",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 1,
+      "ordinal": 12,
+      "question_id": "m6-g540-11-a",
+      "config_sha256": "fbb5b89093c4f5ada1165b847e745cf4dfcf2d7c7382afd9abc6e457cca32231",
+      "request_sha256": "46f94d6affe4759db1948807439ffcfd9be2660eefdf0747debf86ad666ccfaa",
+      "old_subject_sha256": "d381ae4760ba874f7629e10f05566b713e43a4431ec74f0a13820e3c77b45933",
+      "old_run_id": "59164bc5-db99-4f25-886f-cf7b2143cc26",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 1,
+      "ordinal": 13,
+      "question_id": "m6-g540-17-a",
+      "config_sha256": "b55025ed4edb5dab027bf64c972bebeb2b96abb685d3bd4761cd8f9c826edbde",
+      "request_sha256": "a68b0471d64977692f19365663bbdb97ef4527c0f1db261e069a9013e1d95efb",
+      "old_subject_sha256": "0622964bf72cb082f3106230e7ebc61add1ebcbfc00b1d2498bc34557f4c57f4",
+      "old_run_id": "5ff4f871-c1d2-4dd6-aaad-44cad9f197e4",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 1,
+      "ordinal": 14,
+      "question_id": "m6-g540-17-b",
+      "config_sha256": "c15db1af104c55f727239109794bcd0e50c3c6581f9dd8bc7eb62a6ffd848709",
+      "request_sha256": "ccce1583bba0a6ced371adf859714e358c91b9d53a73a639337f38aa2a541e0b",
+      "old_subject_sha256": "204d3504f3a9967be7e58c7723369df3281c7f114fd1c230118beed096b67809",
+      "old_run_id": "b7d47003-ba03-4818-82c9-506e122d3176",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 1,
+      "ordinal": 15,
+      "question_id": "m6-g540-18-a",
+      "config_sha256": "ed442f5063c6c00ec1dcaaa080c4fd3355765d32772b823c2b26511291d78698",
+      "request_sha256": "5c34742edadc84d16bf52a96a7e3ef84f51790ac3d862038d00cee7f95f021a0",
+      "old_subject_sha256": "9a034c097402f889189a5afcbcdc1f934e1c7ccaa576cf612c6ce173557f1169",
+      "old_run_id": "8629f79b-6917-40e2-894a-7d41d1e1e42d",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 1,
+      "ordinal": 16,
+      "question_id": "m6-g540-19-b",
+      "config_sha256": "55cce4bfe052b42fe8ffa5e7476653fb682b390867bf92669e9cf154d66013e4",
+      "request_sha256": "21d3c3c0917a275711433112fe3139eee7bd68053363b7a067a64683f1f1eab5",
+      "old_subject_sha256": "a37ae8fc660fe7617222452c920d0ae52e47f1333511e82b259925977c089d66",
+      "old_run_id": "4b1fa99f-9002-492e-9e3c-d6d29af7731b",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 1,
+      "ordinal": 17,
+      "question_id": "m6-g540-20-a",
+      "config_sha256": "a23555cb2317d4699eda6016234c8b053068a726cd6b4f17928ade4df2842612",
+      "request_sha256": "ff9f0bb7df64771852442988af8af62b7e672dd4a855b4dbf061864582f49c9e",
+      "old_subject_sha256": "377e92b39cd830c84cf4277ccd488b8879d62e29862b5b6c4a417cb7121be8a5",
+      "old_run_id": "78325146-e5f0-4eb3-a3cb-ac3c5c6c06e0",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 1,
+      "ordinal": 18,
+      "question_id": "m6-g540-unknown-01-b",
+      "config_sha256": "ccebb8dea9eb308ff7a1f399dfcf5e58f46f4eac8f085d93ca5c04167d1ed487",
+      "request_sha256": "4be8029e8fb0a706bad5a97e11884d9dd336d0605f32cf108f5baf7283f98df7",
+      "old_subject_sha256": "074cfb5c67725e4fd574a3228a40b24092c1c132bb3dbb89842fb65785b4e044",
+      "old_run_id": "ef482862-86d4-46ee-a02e-e48e1316497f",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 1,
+      "ordinal": 19,
+      "question_id": "m6-g540-unknown-03-b",
+      "config_sha256": "9e095e1fc8c45e5b81532239a80f647725f826e3656f9ab94008408365829d57",
+      "request_sha256": "709ba9acc17386c9388ef8d99929b306d3d30d3dac165b8c3b7d652342f8a815",
+      "old_subject_sha256": "1b8abf0d2d179c1afd3a6c7f7b93f15f67f0705626c722ad9097480c60da5c0a",
+      "old_run_id": "3107ed1b-12f9-4512-8ebd-aeaaa66f2e53",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 1,
+      "ordinal": 20,
+      "question_id": "m6-g540-unknown-04-a",
+      "config_sha256": "219a1a57b14afd462c6fc3c85376705b4fef357426e46afe1247d97e8a766419",
+      "request_sha256": "e15a8d1fd9f2ebab1d159071d52ef168af17439b7b3454ebe6ba0da27e6b6ac2",
+      "old_subject_sha256": "33258dabd26f84dbcde3e831c1e6ba2a78a207886fe90bf7f9986d0af8b4c8a9",
+      "old_run_id": "786b3be3-0859-4cf5-9442-dfbb131dc581",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 1,
+      "ordinal": 21,
+      "question_id": "m6-g540-unknown-04-b",
+      "config_sha256": "b48dbbb9d49e81a2d18fde60977b9f9a1542a4288f4219c1485c944543fa33aa",
+      "request_sha256": "296ecb068d5afb23fb179c16b7026a7a49500ca673993f1b538d1ee943309bbf",
+      "old_subject_sha256": "cdae769678c89ccd8359b339eabfc167e010fad94b057b96fb3ad6deb8355b65",
+      "old_run_id": "6f101f76-25ed-4538-8095-e865ed068cc2",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 1,
+      "ordinal": 22,
+      "question_id": "m6-g540-unknown-05-a",
+      "config_sha256": "32d508b15cbd7f119df0a5e5ce66bcb0243b34dc6e582943410b98bd2d30d8ef",
+      "request_sha256": "fee13bdb22c32d739a27d333a4882023164cc2c6c92c63d837aa0dd7ed7506bc",
+      "old_subject_sha256": "b6a6be0faca74a8d5202b3c69f6109d0e2afc3a1783f3027e042ccf7e54043bf",
+      "old_run_id": "5ffb234f-3757-490e-ad64-1a20e5d3b5a9",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 1,
+      "ordinal": 23,
+      "question_id": "m6-g540-unknown-05-b",
+      "config_sha256": "b9d892ac9dad87905866ffd75e0aba2dd6885312f5c8dbf105c0cd723c427db0",
+      "request_sha256": "de9e0ae6bb1f1bd893be2d97ee5a1078d1208e9e1aa071da930cd729b69b28d8",
+      "old_subject_sha256": "68d5190f6042f884a924c9654b9b6ee901a7d49cea78ee457e12cfbbb30033b7",
+      "old_run_id": "155a1509-d573-40c0-89a4-7f8da9590317",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 1,
+      "ordinal": 24,
+      "question_id": "support-v1-008",
+      "config_sha256": "ecd3784d4e5517e394cca8df43c9705bd62397a5c1ac92ee2dc7e4136a82f698",
+      "request_sha256": "898de8357be46bc1c56f76b8b970129734bc95ad2fcf1cb74a7ca769db739635",
+      "old_subject_sha256": "f7e0fc42c37035fa3bfedd96cf3c9131e2438a2e58843267e50155ebd1f6d17e",
+      "old_run_id": "1c3e6a41-059a-40a7-8165-e44e0e6e580f",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 1,
+      "ordinal": 25,
+      "question_id": "support-v1-030",
+      "config_sha256": "3b1fcdaaa5baa2f5331122a6cbd55c618fb1d61e4b04f4a1b836ac39c23454f6",
+      "request_sha256": "ff4d26585b8ba579bef7586f46990ccb47061e51be4a1ca7d668962bb0db52cc",
+      "old_subject_sha256": "002a519dc907ded814816d67a7182fd5a1361e9964c829006fc6071bd5abaaaa",
+      "old_run_id": "bee924ea-6a4f-40e9-be37-0e5a7cbf328c",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 1,
+      "ordinal": 26,
+      "question_id": "support-v1-047",
+      "config_sha256": "476301290862e96a5f5503a6a1f2f749d3ef5cef58fe35e25fb2c9af2039b235",
+      "request_sha256": "d304fbd628a3ec84baf6b6132334d9604712228df8d0c5b2dcd2c5809e2d6fea",
+      "old_subject_sha256": "135e1bfcd51d5a4dc9a89c8a9f9508ea0a10633f949c5574fde92a99f73d3049",
+      "old_run_id": "c38d5684-7381-4de8-9cc3-d45b56b4ba8b",
+      "status": "not_executed",
+      "expected_generation": false,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 1,
+      "ordinal": 27,
+      "question_id": "support-v1-048",
+      "config_sha256": "81ceffb17b264c8c562af3617960660f7010ce70e4e3699df29079a18b04a62c",
+      "request_sha256": "394f5f39a80b9e5267a864792859e0a963763aeb1ea4b4043ad6524cb23aa808",
+      "old_subject_sha256": "344885989625f90aaf598ffe693327dc3d8fcd38c90b18835450bf0c8175ec2c",
+      "old_run_id": "d5539239-0de8-4336-9e7e-f6a5c9ea3690",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 2,
+      "ordinal": 1,
+      "question_id": "m6-g540-02-a",
+      "config_sha256": "2a6dc8dab915e46ad7046e4c4c972e12794a76ae16254e78583357ff1ef231cc",
+      "request_sha256": "22801db1d1c6b1ab4d1b1a299b4cf6f93f53f85462ef2f21cc5966c630ae7b3d",
+      "old_subject_sha256": "02c665230689fc1c6b760baa41d29e28fd03a6abef1854fe4db776854c26ba54",
+      "old_run_id": "cbd1518f-261e-4540-bf9c-0b65972f4263",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 2,
+      "ordinal": 2,
+      "question_id": "m6-g540-02-b",
+      "config_sha256": "f42e11bc1563089fc0664ab12cfd5d9f21aa9c1d830e872289f86addfaac333f",
+      "request_sha256": "8a16b67c31ff29813ea3688d53b16a8315b0f818e3df76631f1176ec42ccba8e",
+      "old_subject_sha256": "665ae9e1d7de186a7f42206d4cb0509930049aa9da2e8a767617a0d37afea58f",
+      "old_run_id": "f12dc0e3-5c0e-473f-b206-419b44fcf097",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 2,
+      "ordinal": 3,
+      "question_id": "m6-g540-03-a",
+      "config_sha256": "84df672efae8f3635fb5e43ef9974f8bb6de5775b273ae406233db06d12b7d6f",
+      "request_sha256": "053da0ceac1b0ef16b03b17b46616fddf1e4d08f28642e0c77a3d6795d904ba7",
+      "old_subject_sha256": "8dff1562b984782612a5e987d12577ce0100b82f409684f21fac5f4b35efba78",
+      "old_run_id": "67c36bf0-3eb8-490e-b60b-3c5b911ef019",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 2,
+      "ordinal": 4,
+      "question_id": "m6-g540-04-a",
+      "config_sha256": "a40f0a919560f032738461c0e16a1b5244ea8af7fbd69ff036c6be866c656ff8",
+      "request_sha256": "bcef96613d0ed145f8153d92aaffc711aeb72f4dc25593ffca2a1b69602872f9",
+      "old_subject_sha256": "d9984f350f2df222c72b79ab905ad884c9be752b0fd19d3057a6fa210cb995d0",
+      "old_run_id": "8c2781d9-135f-4700-9507-207212407a8b",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 2,
+      "ordinal": 5,
+      "question_id": "m6-g540-04-b",
+      "config_sha256": "23188ccc8f1aac14b38ac616a857779c643b497e06445de7b528ed4c2e414505",
+      "request_sha256": "189436d4b3c963802c8363598191bcc396b2894265ff9cf1502f564cf611c965",
+      "old_subject_sha256": "bd20e21589a69b48b9acc7dec2814abcfdbe4e90ce92cc37cf821ebc3bf43d06",
+      "old_run_id": "6a49b51d-8cbf-4919-aa26-9deee3916451",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 2,
+      "ordinal": 6,
+      "question_id": "m6-g540-05-a",
+      "config_sha256": "f53c0384155fdfd31535d66958755d1333acda6182328a3b958e1b7ff6dd9da6",
+      "request_sha256": "74f64230a2ce32dc756099c7a4f7a35d94174219d39b10af09708cc24602be5d",
+      "old_subject_sha256": "078e1a71123ce2179eb5a08eb022c85fec218a60e69b289105cd3ebd3fd8c776",
+      "old_run_id": "6a337faa-6732-43b1-8cc5-9f93fc1b2d8c",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 2,
+      "ordinal": 7,
+      "question_id": "m6-g540-05-b",
+      "config_sha256": "c1b3433505eb5a57bbca147d94e7b9feed01edda5931a47a4cd593da744569a2",
+      "request_sha256": "71d15aa9a12264f6d0fcb5f346caf258f1f927ffc5087314b8baf6c2e5b089b7",
+      "old_subject_sha256": "11991f72cbb3efe07db6623886eb2ab99961e8da3e039cc5544b8ed6ef17f8fd",
+      "old_run_id": "67ae12ed-4cd1-409f-b3fd-7d419ee8c477",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 2,
+      "ordinal": 8,
+      "question_id": "m6-g540-09-a",
+      "config_sha256": "2959b292473a255546f40aea66f7dd19936bdca677957f7c485e6de56de3cabf",
+      "request_sha256": "05e913a842aae702ad935cbe98f7a4f99c637a86740f950812b981bec247d30d",
+      "old_subject_sha256": "e1394d91f9651b0b196664826c5aca0c9fc5fa9222717ce1c822189ef376e18c",
+      "old_run_id": "7a9f3515-16e1-439c-8b2a-ab159541c198",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 2,
+      "ordinal": 9,
+      "question_id": "m6-g540-09-b",
+      "config_sha256": "87dfe77d4d7666d5e865eed40531e1cbb641bcb78ab6a94a73b1a58cd96d1d5d",
+      "request_sha256": "2280cebec5c59b4ba25bbb7dbab3f9b0cb75ff5fa98837b960db78f2a0ba9156",
+      "old_subject_sha256": "cf1c334b765c4bf039b7fb091b609df653767622b7639477100ba894dea123df",
+      "old_run_id": "0c4cb9de-1845-473c-bda8-00ac95fafd4b",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 2,
+      "ordinal": 10,
+      "question_id": "m6-g540-10-a",
+      "config_sha256": "ba0bb02e38afeda396fdd6803f621611f0a420da3a42d241a2ff7bde51dbccb3",
+      "request_sha256": "881f0ade9991b4373f2a10cae2a7b604df9886da0ae2d6c2444af2507fcf207b",
+      "old_subject_sha256": "df94c949e61fb26b4c589ea19bc927d47d16934e38de7680661ff4148726b481",
+      "old_run_id": "c9a0bb17-7f43-43af-8ca1-48eb59ebf5a9",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 2,
+      "ordinal": 11,
+      "question_id": "m6-g540-10-b",
+      "config_sha256": "6a150b13392cdbf5450296d073e979631b00f184547ccc6cac0e45e9b9e2ee9a",
+      "request_sha256": "c769f70aec058ef213fdf63e68eba99260ede0ff12696c15409f2dd999d29126",
+      "old_subject_sha256": "77ffae6d6f491209feff5ec00ee3eaacb0ac1a100b55a50f29f5875d1f55e7de",
+      "old_run_id": "1b85bdb2-06fa-4490-b024-db59e5d1c42c",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 2,
+      "ordinal": 12,
+      "question_id": "m6-g540-11-a",
+      "config_sha256": "303cd498477af2f7c40827a9a377f5c41c7533d58dfff4f6330bc37ae7d3b62a",
+      "request_sha256": "1cebc21211e46e4e1c0660cc6de527928ada9ea6308d7b477881d99a4ab9aff7",
+      "old_subject_sha256": "6cf4f0e8b3475c16c898ccd253d45b594114b20d3ec72ec5b3a06cd2bee3ad55",
+      "old_run_id": "9f222bf5-4fd6-4b20-8f09-2f607a538f45",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 2,
+      "ordinal": 13,
+      "question_id": "m6-g540-17-a",
+      "config_sha256": "0b81682f481660fa51164c819b5322923e83c61ab7960d8b84991579a6c61a0d",
+      "request_sha256": "e69345918df12e04588233a58df75df1df2b8a63706311ce6827b19275b6fb84",
+      "old_subject_sha256": "e14b386b6a4667fcaa2ff21783633c1c096c62e7c3f3a75cc5594cacba7c49e4",
+      "old_run_id": "98d9bd12-0614-4bce-8136-fa3aaf96e409",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 2,
+      "ordinal": 14,
+      "question_id": "m6-g540-17-b",
+      "config_sha256": "1539a2ffdae1e877785a5e58939a71f037513d7a3e21019d3da7dd61a86b77cb",
+      "request_sha256": "490cd4bab576600f95b0e1427d836e5f0bb4b01d3eeae5bc4240717d1f27df68",
+      "old_subject_sha256": "8d1bd1f61e6b923ce8f6cef1deeef9d11cce0e8748cb82770cebaff8abd231e1",
+      "old_run_id": "82f05437-e2c0-4753-9043-9d5ba014c7ba",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 2,
+      "ordinal": 15,
+      "question_id": "m6-g540-18-a",
+      "config_sha256": "b7da362efb22a935d9a6630748b196bc1e1073bc7cf02e39972c21fb3df1a018",
+      "request_sha256": "d3458d3764a8fbc0a0807363069c00a44b7fdb0a98cd8ffffdbfd8385c0ec276",
+      "old_subject_sha256": "dae7b78e7c31616b4b4795ee8b9d2f387ee663039eb7469ada889a28be19fe9e",
+      "old_run_id": "39521b83-b3ac-4397-9f16-03c1670cf827",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 2,
+      "ordinal": 16,
+      "question_id": "m6-g540-19-b",
+      "config_sha256": "264af1c3ded3656319e06598a4eaf764952e45c20293d0705c96c4e03632983c",
+      "request_sha256": "aa94d74b18968eaee4e0f44aad3d73060074bd10050fc644755ddb3a9e9ad24c",
+      "old_subject_sha256": "2a4d4f3e1e5aa7d57e8a47623259f9af5bf7341db6b6ac10a5cc899f41ae145c",
+      "old_run_id": "ea5da591-95c7-4a70-8717-2c26021d22f3",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 2,
+      "ordinal": 17,
+      "question_id": "m6-g540-20-a",
+      "config_sha256": "e95f46f3a3f21dca1a79c7a37e8a4dddead4fe4f5d41cd40a6ecf0a6e74ebc93",
+      "request_sha256": "ec07ce359468ae71e917ee5d0345d55dedeb7f22930c3f2868944754ad080bdf",
+      "old_subject_sha256": "54886fa62d47f9749eb12a8618721136564dd5ab43004a42041fa3e09532a8a7",
+      "old_run_id": "b5084eff-8680-4b03-895f-09f00d4f3d64",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 2,
+      "ordinal": 18,
+      "question_id": "m6-g540-unknown-01-b",
+      "config_sha256": "d0b4702815d95b3312f98d548e77aa4c0cf75939ed23ad25626c2ef52ff973bf",
+      "request_sha256": "b0889b36d676df8e7dd94614bd89b72811981634073b59486c8418bc9ac9da46",
+      "old_subject_sha256": "6a1f6faf2506f4268a14ef41b591b71e4865d47f9eb18b6c31821049d882cabc",
+      "old_run_id": "085858cf-8207-485e-b364-fc89591494aa",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 2,
+      "ordinal": 19,
+      "question_id": "m6-g540-unknown-03-b",
+      "config_sha256": "f728e75a55933b649543365a07fa671899e823f5965c1ae4aa969db344a93f46",
+      "request_sha256": "8cdd62e6cd149139b1d68bd9f83eda6e4fdf2d62fdc9ab027a2a76560269a8a9",
+      "old_subject_sha256": "7d8af7e4a3516ccb9eb158f9713b667da8b77b40a99e8d8b8645023da47cb20a",
+      "old_run_id": "4786ea04-1ca5-44e3-a608-b14298751d9e",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 2,
+      "ordinal": 20,
+      "question_id": "m6-g540-unknown-04-a",
+      "config_sha256": "91d03633b910d57039dd8364a4f85fcafa6a87079caa072f312f9ad7d9e90cd4",
+      "request_sha256": "4ae6337033d4a9dba65acc9382b46986bcfef0184d9444fa9523ca8bf88d81d5",
+      "old_subject_sha256": "5e09f9462ea0dce4af6bb0c643462d77e4b66c209fa3c9641ee0efb777711dd2",
+      "old_run_id": "eab38193-4fbe-40af-b727-fd7ef3840a65",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 2,
+      "ordinal": 21,
+      "question_id": "m6-g540-unknown-04-b",
+      "config_sha256": "aec5a2559f16c01dbdfe9cd596abf1ce9b8894589f6d376bbb729eb835963fc1",
+      "request_sha256": "d9ec5559d4d90af41c7a96a911f6fb0f8166d22d9e981192d15aba9ee18bd843",
+      "old_subject_sha256": "1c2a44b5083c80214cbd54c14a65ac8778be8294afc0f14362e4daf26b12ae88",
+      "old_run_id": "768c26b0-f98c-4fd4-b9ed-a331765a7178",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 2,
+      "ordinal": 22,
+      "question_id": "m6-g540-unknown-05-a",
+      "config_sha256": "9091431361687e11e87d4683a423bfd38adfa22081b2c96dbeb0af3a5731b35c",
+      "request_sha256": "708c4c1ec3a56bf8cd8e67465f7d40198969e5d72413d20db5eb420807d0fb0b",
+      "old_subject_sha256": "092a7c59f6ab8a3d5a8e311ef373f78f356da661ce874b1babc746bc3e064168",
+      "old_run_id": "78b73b4c-d172-4f09-b8fa-bc488979574d",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 2,
+      "ordinal": 23,
+      "question_id": "m6-g540-unknown-05-b",
+      "config_sha256": "d11adeaf4e16c873fdf6e549382d6da68287767b90f71d3014ca4d46399c2c3c",
+      "request_sha256": "326b0af413659cded48125b9139ca1e657c86349db84c564f46864fc316cca49",
+      "old_subject_sha256": "7423d042d2c88e6edcba77f335d90b004a239f45af0ea4d1b1c564ca2423b723",
+      "old_run_id": "440bc596-4420-4ba2-a209-30c066feeb43",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 2,
+      "ordinal": 24,
+      "question_id": "support-v1-008",
+      "config_sha256": "109f762ef3541b245bca8544763b8eab574bb20645eee4c56ec0768b470f40a8",
+      "request_sha256": "95e1ad5de0f2941b559a11e0a879710d5587b0705c2a995dec39e4b467fa49c1",
+      "old_subject_sha256": "faff8cba5361265db8390971d9a3ba79fab321beac02b68f60d01bff6e4e08a8",
+      "old_run_id": "432891a5-2e64-4a8c-a681-745eae6f3670",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 2,
+      "ordinal": 25,
+      "question_id": "support-v1-030",
+      "config_sha256": "d27ff3d27d2676aac58d58f29724cc4001c932ad6b7bf1d1fc7f33559589f4e7",
+      "request_sha256": "bb95bac9bfcd0252df5655865cad6d6e982d1dbe37bf64dd80461b95d0ee4469",
+      "old_subject_sha256": "1fd375681a42f3e25e345c23ef88bc8e021ae479dc3e3831dbdcf61b6a94f169",
+      "old_run_id": "fc77a8f5-dc87-4641-8bd7-d12cbe676b3d",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 2,
+      "ordinal": 26,
+      "question_id": "support-v1-047",
+      "config_sha256": "1fd3d5aa36cbc6cc90be311c767bb55b56ab577bf9a1043d3c8c0e4fd21451e4",
+      "request_sha256": "d8b7c1e52a93d6d6f9df9fce4a76919cf373934c3b0d86b4b7816f7235e5abc8",
+      "old_subject_sha256": "6e743db926cd0990af3b39f243345fb7f871a9a9b4755dd105c167c93812f0e7",
+      "old_run_id": "dec57a91-5c9c-4774-8bfc-ff7bd521ab95",
+      "status": "not_executed",
+      "expected_generation": false,
+      "preflight_status": "not_reached"
+    },
+    {
+      "version": 2,
+      "ordinal": 27,
+      "question_id": "support-v1-048",
+      "config_sha256": "78cd75f800f5f3f259c06a56383bac1c2706f75e2c6a0c0e6ae7a5f2be892405",
+      "request_sha256": "3fafef214c098562b82b72ed22ee6a80dd92afca33fac3383ca9ed5461c02aac",
+      "old_subject_sha256": "da572686bf60a06770446e808123d48fc6f920ff6dd2c65ab145f4f99e3f8263",
+      "old_run_id": "ce10eeb1-1430-4f16-8871-f34a1455fe06",
+      "status": "not_executed",
+      "expected_generation": true,
+      "preflight_status": "not_reached"
+    }
+  ],
+  "cache": {
+    "completed_records": 44,
+    "unique_keys": 44,
+    "directories": [
+      "output/m6-layout-terminology-20261030/terminology",
+      "output/m6-page-precision-recall-label-20261030/comparison-diagnostic",
+      "output/m6-real-retrieval-20261028",
+      "output/m6-recall-convergence-20261029/masked-v2"
+    ],
+    "preceding_embedding_only_checks": [
+      {
+        "version": 1,
+        "question_id": "m6-g540-02-a",
+        "required_queries": 1
+      },
+      {
+        "version": 1,
+        "question_id": "m6-g540-02-b",
+        "required_queries": 1
+      }
+    ],
+    "first_failure": {
+      "version": 1,
+      "question_id": "m6-g540-03-a",
+      "query_sha256": "d2cf8c2d88fc83d2ecc984de1befd57cde4ec6a98227e07689af68d522cfb547",
+      "cache_key": "3370e416d3237939d907a7f6cc12cd762a7db0c792ebbee08c975cdd3e0fec3b",
+      "reason": "required_embedding_cache_missing"
+    },
+    "scope_limit": "可识别的封存model-cache/embedding_query目录；不声称全机器任何未知格式缓存均不存在",
+    "remaining_cache_coverage": "unknown_not_reached",
+    "rerank_cache": "not_reached"
+  },
+  "calls": {
+    "historical_known_scope": {
+      "logical_streams": 336,
+      "input_tokens": 644642,
+      "output_tokens": 355857,
+      "is_project_total": false,
+      "http_requests": null,
+      "cost": null
+    },
+    "batch_cumulative": {
+      "answer_streams": 0,
+      "embedding": 0,
+      "reranking": 0
+    },
+    "execution_new": {
+      "answer_streams": 0,
+      "embedding": 0,
+      "reranking": 0
+    },
+    "actual_token_usage": null,
+    "http_requests": null,
+    "cost": null
+  },
+  "real_database_access": false,
+  "new_experiments": 0,
+  "new_runs": 0,
+  "new_quality_records": 0,
+  "default_switch": false,
+  "subagents": 0,
+  "commands": [
+    {
+      "command": ".venv/Scripts/python.exe output/m6-attributed-evidence-diagnostic-20261031/startup.py",
+      "exit_code": 0,
+      "log": "startup.log"
+    },
+    {
+      "command": ".venv/Scripts/python.exe output/m6-attributed-evidence-diagnostic-20261031/cache_preflight.py",
+      "exit_code": 1,
+      "log": "cache-preflight.log",
+      "reason": "本机读取器初版不兼容已有value/sha256旧格式；不是业务源码缺陷"
+    },
+    {
+      "command": ".venv/Scripts/python.exe output/m6-attributed-evidence-diagnostic-20261031/cache_preflight_r2.py",
+      "exit_code": 2,
+      "log": "cache-preflight-r2.log",
+      "reason": "固定精确缓存缺失，按授权退出"
+    },
+    {
+      "command": ".venv/Scripts/python.exe output/m6-attributed-evidence-diagnostic-20261031/audit_and_deliver.py",
+      "exit_code": 0,
+      "audit_checks": 3741
+    }
+  ],
+  "protection": [
+    {
+      "manifest": "output/m6-attributed-evidence-diagnostic-20261031/historical-files.json",
+      "manifest_sha256": "57aa6c1e52526da2c9c7201a334ea12397dac12de8c59c90b050fb8ceaa1a7cf",
+      "count": 1182,
+      "unchanged": true
+    },
+    {
+      "manifest": "output/m6-candidate-evidence-quality-fix-20261031/historical-files.json",
+      "manifest_sha256": "5e1d405820dbedcae777b102631f8d0d2ffd11357693ab3f4118d2297ba270c1",
+      "count": 1205,
+      "unchanged": true
+    },
+    {
+      "manifest": "output/m6-calibrated-candidate-execution-20261030/historical-files.json",
+      "manifest_sha256": "eb514d2b7b9f379bd06abfa5068a39e0f067b1b3322cc1fce87f94a927497063",
+      "count": 240,
+      "unchanged": true
+    },
+    {
+      "manifest": "output/m6-review-correction-fix-20261030/prepared-r4/historical-protection.json",
+      "manifest_sha256": "dfa57fa8ea62acc4c75bd41d7e76dff4268190c963b9f21f512be2da0f98bd6e",
+      "count": 609,
+      "unchanged": true
+    }
+  ],
+  "live_permission_or_index_validation": "not_reached",
+  "staged_business_changes": false,
+  "old_v2_gates": [
+    "blocked",
+    "blocked"
+  ],
+  "M6": "5/7",
+  "M6_04": "accepted",
+  "M6_05": "not_accepted",
+  "M6_08": "not_accepted",
+  "M7": "not_started",
+  "next_action": "总控先裁定固定查询精确缓存缺项的受控补齐授权与预算；未获授权不补编码／重排，不启动答案。剩余缓存覆盖未知，不据此声称只缺1项。",
+  "evidence_hashes": {
+    "output/m6-attributed-evidence-diagnostic-20261031/runtime-before-call.json": "f23246b7c316599556e818dde7a0ba403de8b7a89d53bb7e40130fb35942c71b",
+    "output/m6-attributed-evidence-diagnostic-20261031/prepared-r2/master-source-manifest.json": "e479481dec4be520d673d561975ab7a068d8298bbc85ea4ce72bcb5ed3d4e0e0",
+    "output/m6-attributed-evidence-diagnostic-20261031/prepared-r2/execution-manifest.json": "1e50c370a38d2668e3d409a1099949f801704b0b5363d9ee4caa3444900e6a81",
+    "output/m6-attributed-evidence-diagnostic-20261031/embedding-cache-preflight.json": "b581151231a094811b31784dba2e98f251726e1c927842c9358ca6cbe25ba2f4",
+    "output/m6-attributed-evidence-diagnostic-20261031/embedding-cache-inventory.json": "1368db497536705a21595bdeb6474f80067a87197f504be33fd63cb9f3324bcc",
+    "output/m6-attributed-evidence-diagnostic-20261031/stop.json": "9b517802a3746816398dce82a27e525250318993b8f7b1f0aaa7869ff8fadc14",
+    "output/m6-attributed-evidence-diagnostic-20261031/exit-audit.json": "361dc373e71a5448bc41d704ccb6e22710f9b209573e2e1af72e567bd37168a6"
+  }
+}
