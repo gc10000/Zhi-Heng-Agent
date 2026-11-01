@@ -1,3 +1,9 @@
+## M6已审来源关系048单次内部配置（2026-11-01）
+
+默认关闭的output_contract.function_version=`diagnostic_source_relation_048_v1`只接受封存Git授权的单成员新批次。须enabled=true且显式布尔thinking=false、n1、unknown状态及精确manifest／输入／旧账前值；普通v2 unknown拒绝不变。仅锚配置的experiment_id、versions.code、output_contract、output_token_field四处可变。完整题集与固定max_completion_tokens4096／非思考profile不改，无新环境变量、公开API或全局默认，.env.example无需新增键。
+
+本固定槽已经一次真实消费，来源拒绝后账户blocked，不能拿配置再派发；不是通用供应商能力声明或43题恢复授权。精确hash与实际6116／859结算见[执行报告](development/reviews/M6-source-relation-048-canary-execution-r1.md)。以下历史保留。
+
 ## M6角色边界补修与离线配置身份（2026-11-01）
 
 现有source_relation_spans_v1只在内部显式启用；本次无新配置键、环境变量、API或默认变化。完整候选语法歧义回退unknown，原句／scope／引用保留，明确关系仍解析。582载荷policy与答题prompt版本不改，但源码canonical及两版完整离线配置必须独立冻结，旧输入、Run、检查点和已消费槽不能静默升级。

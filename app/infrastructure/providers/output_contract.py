@@ -68,23 +68,31 @@ class NonthinkingManifestContract(OutputContract):
         return self
 
 
+class SourceRelation048Contract(NonthinkingManifestContract):
+    function_version: Literal['diagnostic_source_relation_048_v1'] = 'diagnostic_source_relation_048_v1'
+
+
 def parse_contract(value):
     kind=value.get('function_version') if isinstance(value,dict) else getattr(value,'function_version',None)
     return {'diagnostic_single_product_risk_v1':SingleProductRiskContract,
             'diagnostic_remaining_manifest_r1':RemainingManifestContract,
-            'diagnostic_nonthinking_manifest_r1':NonthinkingManifestContract}.get(kind,OutputContract).model_validate(value)
+            'diagnostic_nonthinking_manifest_r1':NonthinkingManifestContract,
+            'diagnostic_source_relation_048_v1':SourceRelation048Contract}.get(kind,OutputContract).model_validate(value)
 
 
 def is_product_risk(value):
     if value is None:return False
     policy=parse_contract(value)
-    return policy.enabled and policy.function_version in ('diagnostic_single_product_risk_v1','diagnostic_remaining_manifest_r1','diagnostic_nonthinking_manifest_r1')
+    return policy.enabled and policy.function_version in ('diagnostic_single_product_risk_v1','diagnostic_remaining_manifest_r1','diagnostic_nonthinking_manifest_r1','diagnostic_source_relation_048_v1')
 
 
 def risk_handler(value):
     """保持旧单题含义；新清单只进入其自己的封存授权及共享账本。"""
     policy=parse_contract(value)
     if not is_product_risk(policy):raise ValueError('关闭或普通合同不使用风险准入')
+    if policy.function_version=='diagnostic_source_relation_048_v1':
+        from . import source_relation_048_risk
+        return source_relation_048_risk
     if policy.function_version=='diagnostic_nonthinking_manifest_r1':
         from . import nonthinking_risk
         return nonthinking_risk
@@ -226,6 +234,9 @@ class OutputLedger:
     """在现有Run执行边界串行结算，不调度job。未知窗口持久阻断下一题。"""
     def __new__(cls,db,contract):
         policy=parse_contract(contract)
+        if policy.enabled and policy.function_version=='diagnostic_source_relation_048_v1':
+            from .source_relation_048_risk import SourceRelation048Ledger
+            return SourceRelation048Ledger(db,contract)
         if policy.enabled and policy.function_version=='diagnostic_nonthinking_manifest_r1':
             from .nonthinking_risk import NonthinkingLedger
             return NonthinkingLedger(db,contract)

@@ -103,7 +103,7 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
   from contextlib import nullcontext
   from app.infrastructure.providers.diagnostic_usage import capture_usage,record_response,summarize,record_reasoning
   observations=[] if (state.get('output_contract') or {}).get('enabled') else None
-  mode=[] if observations is not None and state['output_contract'].get('function_version')=='diagnostic_nonthinking_manifest_r1' else None
+  mode=[] if observations is not None and state['output_contract'].get('function_version') in ('diagnostic_nonthinking_manifest_r1','diagnostic_source_relation_048_v1') else None
   if mode is not None:state['answer_mode_observations']=mode
   if observations is not None:state['answer_usage_observations']=observations
   try:
