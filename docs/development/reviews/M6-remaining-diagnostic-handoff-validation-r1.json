@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-01",
+  "timezone": "Asia/Shanghai",
+  "kind": "handoff_document_and_frozen_input_consistency_validation",
+  "status": "passed",
+  "previous_execution_and_review_push_verified": true,
+  "synced_sha_before_handoff": "0b0a913b719b900aa232c4d88f454190e077f3d6",
+  "authorization_path": "docs/development/reviews/M6-remaining-diagnostic-authorization-r1.json",
+  "authorization_sha256": "c25f9c21cd995604edc00712e415bdb506dbc25a65c2660e36301a7de6d0056d",
+  "handoff_path": "docs/development/handoffs/M6-remaining-diagnostic-continuation-r1.md",
+  "handoff_sha256": "e375ed5305f701c13acdb1131d2db927ec8c04c5f38e62c0742e4bccb54b99bb",
+  "frozen_members": 48,
+  "answer_members": 46,
+  "zero_generation_clarifications": 2,
+  "version_member_counts": {
+    "v1": 21,
+    "v2": 27
+  },
+  "prioritized_answers": 7,
+  "other_answers": 39,
+  "input_files_and_prompt_or_clarification_hashes": "matched",
+  "members_match_original_unexecuted_subset": true,
+  "consumed_canary_excluded": true,
+  "unique_slots_and_dispatch_order": "matched",
+  "historical_navigation_bytes_preserved": 7,
+  "json_parse": "passed",
+  "git_diff_check": "passed",
+  "initial_validation_failure": "replay_actual_new_generation_zero_was_misread_as_expected_route; local_checker_corrected_using_original_manifest_and_result_shape; no_input_or_authorization_changed",
+  "initial_validation_failure_preserved": "output/m6-next-execution-handoff-20261101/validation-first-failure.txt",
+  "diagnostic_prior_usage": {
+    "input_tokens": 28747,
+    "output_tokens_including_reasoning": 22304
+  },
+  "unchanged_observed_budget": {
+    "input_tokens": 1477632,
+    "output_tokens": 212992
+  },
+  "gateway_hard_limit": "unknown",
+  "max_paid_output_tokens": null,
+  "new_inference": 0,
+  "real_database_access": false,
+  "real_database_writes": 0,
+  "business_source_modified": false,
+  "subagents": 0,
+  "existing_closed_findings_preserved": true,
+  "M6": "5/7",
+  "M6_04": "accepted",
+  "M6_05": "not_accepted",
+  "M6_08": "not_accepted",
+  "M7": "not_authorized",
+  "evidence_limits": [
+    "local_saved_input_and_handoff_consistency_only",
+    "no_new_business_test_suite_or_live_corpus_audit",
+    "no_next_package_admission_implementation_or_real_execution_yet",
+    "prior_independent_05a_closure_reused_without_reaudit",
+    "conditional_coordinator_risk_decision_not_user_capability_attestation",
+    "checks_are_not_answer_quality_or_stage_acceptance"
+  ]
+}
