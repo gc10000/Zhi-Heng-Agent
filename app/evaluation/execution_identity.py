@@ -23,7 +23,7 @@ def run_output(row):
     return {k: deepcopy(row[k]) for k in (
         'state', 'answer', 'citations', 'candidates', 'resume_point', 'product_snapshot',
         'revision_snapshot', 'answer_support', 'output_truncated', 'retrieval_branches',
-        'evaluation_candidates', 'prompt_budget', 'completion_snapshot', 'prompt_reference_map') if k in row}
+        'evaluation_candidates', 'prompt_budget', 'completion_snapshot', 'prompt_reference_map', 'answer_binding') if k in row}
 
 
 def result_subject(result):

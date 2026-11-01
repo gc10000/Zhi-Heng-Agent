@@ -1,0 +1,91 @@
+{
+  "role": "coordinator_implementer_self_validation_not_independent_acceptance",
+  "base_commit": "0f8922f3546e30db7ec3c01ff961be3e0984701e",
+  "strategy": "assertion_binding_v1",
+  "default_enabled": false,
+  "offline": {
+    "tests": 1427,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "integration": {
+    "tests": 65,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "targeted": 27,
+  "replay": {
+    "requests": 54,
+    "answer_inputs": 52,
+    "clarifications": 2,
+    "protected_questions": 25,
+    "protected_units": 35,
+    "assertions": 1313,
+    "synthetic_selection_only": true,
+    "failed_sealed_048_rejected": true
+  },
+  "protections": {
+    "delivery-files-r2.json": 89,
+    "protected-before.json": 4686,
+    "output/m6-single-product-canary-20261031/protected-before.json": 138,
+    "output/m6-output-contract-boundaries-probe-20261031/protected-before.json": 336,
+    "output/m6-diagnostic-subject-usage-fix-20261031/protected-before.json": 597,
+    "output/m6-diagnostic-cache-completion-20261031/historical-files-r2.json": 1314
+  },
+  "passed": [
+    "strict_selection_and_full_scope_rendering",
+    "stream_buffering",
+    "formal_identity_checkpoint_and_drift_rejection",
+    "old_default_compatibility",
+    "saved_input_replay"
+  ],
+  "open": [
+    "independent_review_of_this_implementation",
+    "new_048_real_selection_completeness_and_answer_utility",
+    "M6-08_valid_candidate_quality",
+    "M6-05_feedback_reevaluation_proof"
+  ],
+  "evidence_limits": [
+    "no_new_real_model_calls",
+    "no_live_business_database_scan",
+    "only_random_isolated_synthetic_mongo_writes",
+    "no_new_score_or_gate",
+    "extractive_rendering_is_not_comparative_semantic_accuracy"
+  ],
+  "accounting": {
+    "new_product_streams": 0,
+    "new_local_inference": 0,
+    "new_supplier_calls": 0,
+    "historical_diagnostic_input_tokens": 53089,
+    "historical_diagnostic_output_tokens": 30412,
+    "historical_http_count": null,
+    "historical_cost": null,
+    "paid_upper_bound": "unknown"
+  },
+  "stage": {
+    "M6": "5/7",
+    "accepted": [
+      "04"
+    ],
+    "not_accepted": [
+      "05",
+      "08"
+    ],
+    "M7_started": false
+  },
+  "source_sha256": {
+    "app/answering/assertion_binding.py": "c8f51c1041a6d79afa871644e19b754b333b0a03b7fc895b9718c9491a19ad72",
+    "app/answering/evidence_attribution.py": "e2b067e430de38fdc5b774d3c361bece2ff0a734e19f7f36379863a0e29d4748",
+    "app/query_process/agent/nodes/node_answer_output.py": "730d7b8d7edfd313d474b47a111792bb6ee39d0415e9cc117192bb9b483aeba4",
+    "app/runs/query_runner.py": "78e339720a6424764d74e58474e4bbcc8af71a55dd2b10be7140862a7efe0cbc",
+    "app/runs/telemetry.py": "ccd6e1ddecfb0bb1bce6a63dc5b6edc22542c4b50f206f8bb21cc0fc66ecbc78",
+    "app/evaluation/execution_identity.py": "9c5a092b01f7bf9e6751e69a916eee6cf8ffca54e7dbe1d1f3409ebe52225ec2",
+    "app/evaluation/query_adapter.py": "9e7304b35ca70c7a2d0f4664db94f121002fe8f697929ecc7825f5e2b19b5f33",
+    "app/evaluation/repository.py": "36be64f93c0ec9b2d5001746faaac2002da8e207df37a78e07cc742a2888c797",
+    "prompts/answer_assertion_binding_v1.prompt": "85bf921d36c7783c68d6f78fd6e8b22dc2fc5ab4237aec1ff9fb20c61421c617",
+    "tests/unit/test_assertion_binding.py": "154625624907726fa109fb819762b6ddbbc9af62589c98d8748c7e73c6ee9936",
+    "tests/integration/test_assertion_binding_wiring.py": "0f6372b9afa2bce8f6259673658eb0cc88d569cdc12d978d2b64f2d6ffc2b754"
+  }
+}

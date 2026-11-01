@@ -22,6 +22,9 @@ def step_1_check_answer(state) -> bool:
   answer = state.get("answer", None)
   is_stream = state.get("is_stream" )
   if answer:
+    if ((state.get('evidence_attribution') or {}).get('assertion_binding') or {}).get('enabled'):
+      from app.answering.assertion_binding import validate_saved_binding
+      validate_saved_binding(dict(state,citations=state.get('prompt_used_docs') or []))
     if is_stream:
       logger.info("---Step 1: 发现已有答案，执行流式推送---")
       push_to_session(state["session_id"], SSEEvent.DELTA, {"delta": answer})
@@ -60,16 +63,44 @@ def step_2_construct_prompt(state: QueryGraphState) -> str:
   labels=evidence_labels(reranked_docs,attribution)
   template='answer_attributed_v1' if attribution.enabled else 'answer_out'
   relations=attribution.source_relations is not None and attribution.source_relations.enabled
+  binding=attribution.assertion_binding is not None and attribution.assertion_binding.enabled
   baseline=None
   if relations:
-    oldlabels=[{k:v for k,v in label.items() if k!='source_relations'} for label in labels]
-    baseline=build_budgeted_prompt(reranked_docs,history,question=question,items=item_names_str,
-      render=lambda **kw:load_prompt('answer_attributed_v1',**kw),budget=budget,
-      groups=state.get('evidence_groups',()),counter=state.get('token_counter'),attributions=oldlabels)
+    if binding:
+      # 新策略以已接线的关系提示为基线，额外矩阵不能挤出任何原证据或历史。
+      baseline=build_budgeted_prompt(reranked_docs,history,question=question,items=item_names_str,
+        render=lambda **kw:load_prompt('answer_source_relations_v1',**kw),budget=budget,
+        groups=state.get('evidence_groups',()),counter=state.get('token_counter'),attributions=labels)
+      oldlabels=[{k:v for k,v in label.items() if k!='source_relations'} for label in labels]
+      original=build_budgeted_prompt(reranked_docs,history,question=question,items=item_names_str,
+        render=lambda **kw:load_prompt('answer_attributed_v1',**kw),budget=budget,
+        groups=state.get('evidence_groups',()),counter=state.get('token_counter'),attributions=oldlabels)
+      if baseline['used_doc_indices']!=original['used_doc_indices'] or baseline['history']!=original['history']:
+        from app.api.errors import APIError
+        raise APIError(422,'source_relation_budget_exceeded','关系呈现不能挤出原证据或历史。')
+    else:
+      oldlabels=[{k:v for k,v in label.items() if k!='source_relations'} for label in labels]
+      baseline=build_budgeted_prompt(reranked_docs,history,question=question,items=item_names_str,
+        render=lambda **kw:load_prompt('answer_attributed_v1',**kw),budget=budget,
+        groups=state.get('evidence_groups',()),counter=state.get('token_counter'),attributions=oldlabels)
     template='answer_source_relations_v1'
-  packed = build_budgeted_prompt(reranked_docs,history,question=question,items=item_names_str,
-    render=lambda **kw:load_prompt(template,**kw),budget=budget,
-    groups=state.get('evidence_groups',()),counter=state.get('token_counter'),attributions=labels)
+  if binding:
+    from app.answering.assertion_binding import render_assertion_matrix
+    matrix_labels=[dict(labels[i],reference_number=n+1) for n,i in enumerate(baseline['used_doc_indices'])]
+    assertion_matrix=render_assertion_matrix(matrix_labels)
+    chosen=baseline['used_doc_indices']
+    bound_docs=[reranked_docs[i] for i in chosen]
+    bound_ids={str(d.get('chunk_uid',d.get('chunk_id'))) for d in bound_docs}
+    bound_groups=[g for g in state.get('evidence_groups',()) if all(uid in bound_ids for uid in g)]
+    packed = build_budgeted_prompt(bound_docs,history,question=question,items=item_names_str,
+      render=lambda **kw:load_prompt('answer_assertion_binding_v1',assertion_matrix=assertion_matrix,**kw),budget=budget,
+      groups=bound_groups,counter=state.get('token_counter'),attributions=[labels[i] for i in chosen])
+    packed['used_doc_indices']=[chosen[i] for i in packed['used_doc_indices']]
+    packed['budget']['omitted_documents']=len(reranked_docs)-len(packed['used_doc_indices'])
+  else:
+    packed = build_budgeted_prompt(reranked_docs,history,question=question,items=item_names_str,
+      render=lambda **kw:load_prompt(template,**kw),budget=budget,
+      groups=state.get('evidence_groups',()),counter=state.get('token_counter'),attributions=labels)
   if relations and (packed['used_doc_indices']!=baseline['used_doc_indices'] or packed['history']!=baseline['history']):
     from app.api.errors import APIError
     raise APIError(422,'source_relation_budget_exceeded','关系呈现不能挤出原证据或历史，请停止并核对冻结输入。')
@@ -104,6 +135,17 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
   from app.infrastructure.providers.diagnostic_usage import capture_usage,record_response,summarize,record_reasoning
   observations=[] if (state.get('output_contract') or {}).get('enabled') else None
   mode=[] if observations is not None and state['output_contract'].get('function_version') in ('diagnostic_nonthinking_manifest_r1','diagnostic_source_relation_048_v1') else None
+  from app.answering.evidence_attribution import EvidenceAttributionPolicy
+  attribution=EvidenceAttributionPolicy.model_validate(state.get('evidence_attribution') or {})
+  binding=attribution.assertion_binding is not None and attribution.assertion_binding.enabled
+  if binding:
+    from app.answering.evidence_attribution import evidence_labels
+    from app.answering.assertion_binding import checked_sources
+    docs=state.get('prompt_used_docs') or []
+    expected=[dict(label,reference_number=n+1) for n,label in enumerate(evidence_labels(docs,attribution))]
+    if expected!=state.get('prompt_reference_map'):
+      raise ValueError('原句选择输入与冻结来源映射不一致')
+    checked_sources(expected,docs)
   if mode is not None:state['answer_mode_observations']=mode
   if observations is not None:state['answer_usage_observations']=observations
   try:
@@ -135,7 +177,8 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
           delta = getattr(chunk, 'content', '') or ''
           if delta:
             final_text += delta
-            push_to_session(session_id, SSEEvent.DELTA, {'delta': delta})
+            if not binding:
+              push_to_session(session_id, SSEEvent.DELTA, {'delta': delta})
       else:
         response = llm.invoke(prompt,**options)
         reasoning(response)
@@ -148,6 +191,21 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
     raise AnswerGenerationError(partial_answer=final_text) from exc
   finally:
     if observations is not None:state['answer_usage_validation']=summarize(observations)
+  if binding:
+    from app.answering.assertion_binding import bind_response
+    from app.api.errors import APIError
+    try:
+      if state.get('output_truncated'):
+        raise ValueError('原句选择输出被截断')
+      bound,proof=bind_response(final_text,state.get('prompt_reference_map') or [],state.get('prompt_used_docs') or [])
+    except (ValueError,TypeError,KeyError) as exc:
+      state['answer_binding_failure']=dict(function_version='assertion_binding_v1',raw_selection=final_text)
+      raise AnswerGenerationError('原句选择与证据不一致，已拒绝写入。',partial_answer=final_text) from APIError(
+        422,'answer_binding_invalid','原句选择与冻结证据不一致。')
+    state['answer_binding']=proof | dict(raw_selection=final_text)
+    final_text=bound
+    if state.get('is_stream'):
+      push_to_session(session_id, SSEEvent.DELTA, {'delta': final_text})
   state['answer'] = final_text
   return state
 

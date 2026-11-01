@@ -1,3 +1,9 @@
+## 2026-11-01 · 生成端原句约束补修（实现自验，默认关闭）
+
+总控按用户授权承担实现，新增内部assertion_binding_v1：严格编号选择、完整原段程序呈现、流式缓冲、证明入Run/outcome及恢复拒绝。旧默认/旧策略不升级；不按关键词启发式判语义。最终1427离线/契约、65隔离集成及54成员+25题/35单元回放通过；不证明新048质量。新增真实推理0，旧43暂停、blocked/已消费槽保持；M6仍5/7，04保持、05/08未验收，M7未启动。
+
+新模式限制自由断言，代价是原文摘录未必完成比较。下一步仅独立定向核验与一个新身份048真实验证提案，本条不授权模型调用。完整策略沿既有归属身份与冻结来源核验；无新增环境变量，.env.example无需新键，公开OpenAPI不变。详见[报告及完整执行Prompt](development/reviews/M6-assertion-binding-fix-r1.md)。以下历史保留。
+
 ## M6已审来源关系048单次内部配置（2026-11-01）
 
 默认关闭的output_contract.function_version=`diagnostic_source_relation_048_v1`只接受封存Git授权的单成员新批次。须enabled=true且显式布尔thinking=false、n1、unknown状态及精确manifest／输入／旧账前值；普通v2 unknown拒绝不变。仅锚配置的experiment_id、versions.code、output_contract、output_token_field四处可变。完整题集与固定max_completion_tokens4096／非思考profile不改，无新环境变量、公开API或全局默认，.env.example无需新增键。

@@ -389,6 +389,11 @@ class RealQueryExecutor:
                                 image['image_usage'] = 'answer' if aid in c['answer_asset_ids'] else 'context'
                             citations.append(image)
         extra = {}
+        from app.answering.assertion_binding import validate_saved_binding
+        binding = validate_saved_binding(row)
+        if binding is not None:
+            from copy import deepcopy
+            extra['answer_binding'] = deepcopy(binding)
         if self.config.get('parameters', {}).get('evidence_attribution', {}).get('enabled'):
             # 页级公开引用可能一片多页或页码未知，不能用该列表位置重编号正文[n]。
             from copy import deepcopy

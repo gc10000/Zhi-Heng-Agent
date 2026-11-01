@@ -374,6 +374,8 @@ class QueryRunner:
                     try:
                         step_3_generate_response(state, prompt, client=client)
                     except BaseException:
+                        if state.get('answer_binding_failure'):
+                            emit('stage.changed',{'stage':stage},fields={'answer_binding_failure':state['answer_binding_failure']})
                         if account is not None:
                             telemetry.diagnostic_usage(state.get('answer_usage_observations',[]))
                             settled=account.settle(rid,row['identity'],telemetry.snapshot()['token_usage'],completed=False,
@@ -409,11 +411,18 @@ class QueryRunner:
                 raise ValueError('模型没有生成有效答案')
             citations = select_answer_images(answer, citations)
             completion = {'text': answer, 'citations': citations, 'product_snapshot': product_snapshot}
+            binding_fields = {}
+            if state.get('answer_binding'):
+                from app.answering.assertion_binding import validate_saved_binding
+                validate_saved_binding(dict(evidence_attribution=state['evidence_attribution'],
+                    answer_binding=state['answer_binding'],answer=answer,citations=citations,
+                    prompt_reference_map=state['prompt_reference_map']))
+                binding_fields['answer_binding']=state['answer_binding']
             self.commands.finish(user, rid, token, 'completed', {'answer': answer, 'citations': citations, 'message_id': row['assistant_message_id']},
                 fields={'answer': answer, 'citations': citations, 'stage': 'completed', 'completion_snapshot': completion,
                     'output_truncated':bool(state.get('output_truncated'))} |
                     ({'answer_support':'partial_output'} if state.get('output_truncated') else {}) |
-                    {'telemetry_measurements': telemetry.snapshot()})
+                    {'telemetry_measurements': telemetry.snapshot()} | binding_fields)
         except ExecutionStopped:
             # 合作取消已由boundary落终态；关机/失联由原租约扫描收敛interrupted。
             pass
