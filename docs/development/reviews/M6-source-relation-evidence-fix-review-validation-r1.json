@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-01",
+  "kind": "coordinator_independent_source_relation_evidence_fix_review",
+  "reviewed_commit": "f54f0a3ae817810e7eb9734371ebc8072478bf0d",
+  "status": "mechanical_subitems_closed_role_grammar_open",
+  "source_sha256": "f5c4598c45d395d77c85e5aa9397bb512bb911d71bc8110fb712deb83f936f5f",
+  "prompt_version": "213dbfdf1fcb35595442dab7fc16549c5976704263153b4432aef75810ea4354",
+  "stage": {
+    "M6": "5/7",
+    "M6_04": "accepted_kept",
+    "M6_05": "not_accepted",
+    "M6_08": "not_accepted",
+    "M7": "not_started"
+  },
+  "passed": [
+    "default_off_compatibility_and_frozen_source_binding",
+    "budget_no_displacement_and_full_run_checkpoint_identity",
+    "54_saved_input_and_25_question_35_unit_independent_mechanical_replay",
+    "77_sdk_mock_messages_and_profile",
+    "blocked_account_and_43_designated_unexecuted_surfaces_kept"
+  ],
+  "open": [
+    "source_relation_known_roles_are_not_always_semantically_valid",
+    "048_new_actual_answer_effect",
+    "valid_new_formal_candidate_quality_chain",
+    "real_feedback_reevaluation_proof"
+  ],
+  "failed_role_boundary": {
+    "total": 12,
+    "passed": 7,
+    "failed": 5,
+    "actual_source_examples": 2,
+    "affected_inputs": [
+      "v1-m6-g540-unknown-03-b",
+      "v2-m6-g540-unknown-03-b"
+    ],
+    "chunk_uid": "6ba58823-e791-5cd5-bf01-962ddbf94e9c",
+    "classes": [
+      "word_internal_relation_marker_and_wrong_entity_split",
+      "negation_or_relative_clause_misparsed_as_service",
+      "conjoined_clause_swallowed_into_role"
+    ],
+    "one_remaining_family": true,
+    "does_not_prove_new_answer_regression": true,
+    "counterexamples_sha256": "3f1a31d69768a3635921dc7f2bbbbcfd16ccb4b22477e7327a858dddd6139e51"
+  },
+  "tests": {
+    "unit": {
+      "tests": 75,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 75,
+      "log_sha256": "294c8bc3a81ea733d62d70af54507e6a557fe0b691f1e91292add1087f62bd40",
+      "xml_sha256": "4b5c284d7470408ed230901f92be44856dc774248108655a40235ddc940bcab2"
+    },
+    "integration": {
+      "tests": 44,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 44,
+      "log_sha256": "21e4d84238e2f6d79bf1a6b505e050e461f827e75d9208b875f3c641020b5f43",
+      "xml_sha256": "87658657589da8864167b962bbe2018d2052ea3067f6b9e7a060131e45c72dd5"
+    },
+    "boundaries-r3": {
+      "tests": 12,
+      "failures": 5,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 7,
+      "log_sha256": "c4ba06be1af9ea71ef8820397d62ea5bc65e73c07cbbf64d8f7083276d565e30",
+      "xml_sha256": "7ab97e634d68d786a0be9455a65665efee77cf01b5063f72547a0e0b2658c7ce"
+    }
+  },
+  "independent_replay": {
+    "members": 54,
+    "answer_prompts": 52,
+    "cached_clarifications": 2,
+    "protected_questions": 25,
+    "protected_units": 35,
+    "exact_reproduced_files": 156,
+    "sdk_mock_requests": 77,
+    "input_assertions": 7839,
+    "artifact_sha256": "3e96717b88aa0a13ca2fc3d6113b749b42c8c0de4fbd66ecfbf2ff15f9c85ef0"
+  },
+  "independent_protection": {
+    "assertions": 10683,
+    "delivery_files": 325,
+    "protected_files": 3387,
+    "historical_groups": [
+      138,
+      336,
+      597,
+      1314
+    ],
+    "artifact_sha256": "e9f29463d9732e45b6abc6cd1517edf0deadd2d921b83fc7902aae4e5ee8f900"
+  },
+  "accounting": {
+    "new_review_product_streams": 0,
+    "new_review_model_calls": 0,
+    "new_local_inference": 0,
+    "real_database_writes": 0,
+    "cumulative_input": 46973,
+    "cumulative_output": 29553,
+    "reasoning_detail": null,
+    "http": null,
+    "cost": null,
+    "paid_output_upper_bound": null
+  },
+  "old_batch": {
+    "state": "blocked",
+    "consumed_slots": 2,
+    "unexecuted": 43,
+    "pending": null,
+    "unknown_windows": [],
+    "resumed": false
+  },
+  "prior_closures": "kept_not_reopened",
+  "coordinate_probe": {
+    "initial_wrong_display_equals_original_assumption_withdrawn": true,
+    "final_original_hash_and_coordinates_passed": true,
+    "no_new_SQ_or_page_precision_blocker": true
+  },
+  "evidence_limitations": [
+    "file_protection_not_full_live_vector_or_quality_history_scan",
+    "original_source_coordinates_not_display_coordinates",
+    "mechanical_replay_not_role_accuracy_or_answer_quality",
+    "no_new_048_answer_or_gateway_capability_evidence",
+    "not_all_other_role_semantics_proven_by_span_hash",
+    "no_new_048_answer_quality_evidence",
+    "no_independent_formal_quality_score"
+  ],
+  "next_scope": {
+    "handoff": "docs/development/handoffs/M6-source-relation-role-boundary-fix-r1.md",
+    "implementation": "one_bounded_role_grammar_correction_and_selected_frame_matrix",
+    "new_inference_budget": 0,
+    "new_048_authorized": false,
+    "old_43_resume_authorized": false
+  }
+}

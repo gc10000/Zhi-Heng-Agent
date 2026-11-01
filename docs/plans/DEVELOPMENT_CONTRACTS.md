@@ -1,3 +1,11 @@
+## 2026-11-01 · 总控关闭关系呈现接线与机械回放；角色语法剩余项未通过
+
+独立复核f54f0a3：75单元、44随机隔离集成通过；54成员／25题35单元重放、156文件逐字复现、77 SDK Mock／7839断言及10683项保护／只读检查通过。明确关闭默认兼容、冻结来源、预算保护、恢复身份和机械回放子项，不再整体标待复审。
+
+角色抽取仍open：最终矩阵5失败／7通过，同一词内“为”及复杂子句边界导致误标；两版unknown-03-b引用6真实出现发起端“华”等错误角色，跨度hash正确不等于角色正确。原048输入槽位机械正确，但52份prompt均变，不能据此放行整策略或声称新答案通过。原坐标针对raw source而非显示文本，核对后不新增SQ／出处阻塞，初始探针误假设及失败日志保留。
+
+下一包仅由执行方完成[角色边界最小补修](../development/handoffs/M6-source-relation-role-boundary-fix-r1.md)、原矩阵及已选关系有限核对，真实推理预算0；不恢复43题，不重新做已关闭接线。累计46973／29553、blocked／两槽消费及43未执行实核保持，未知usage／费用不改。M6仍5/7，04保持，05／08未验收，M7未启动。[独立报告](../development/reviews/M6-source-relation-evidence-fix-review-r1.md)及对应validation JSON列明passed／open／证据限制；以下历史保留。
+
 ## M6原句关系跨度呈现合同（2026-11-01，执行自验待独立复核）
 
 `EvidenceAttributionPolicy.source_relations`缺省None且序列化省略。显式`enabled=true`、`function_version=source_relation_spans_v1`须外层归属已开启，并绑定完整corpus.snapshot的chunk_uid→payload SHA256表（最多1000）；缺失／重复／额外成员及漂移拒绝。原件／修订／切片／正文／ordinal／metadata和source_refs与原归属范围一起核验。没有自报reviewed或可输入的关系断言字段；各字段只能来自当前原句可定位跨度，不从产品、标题或别的子句补主语。
