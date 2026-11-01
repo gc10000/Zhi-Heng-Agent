@@ -1,0 +1,158 @@
+{
+  "passed": true,
+  "role": "coordinator_readonly_runtime_and_identity_review",
+  "at": "2026-11-01T02:27:06.094649+00:00",
+  "reviewed_execution": "ab2e1d5f4f3e7a5c767d8c6768e5477c9fe8f379",
+  "checks": 2415,
+  "counts": {
+    "experiments_for_request": 0,
+    "experiments_for_config": 0,
+    "target_accounts_for_key": 0,
+    "target_accounts_for_contract": 0,
+    "target_links_for_config": 0,
+    "target_links_for_contract": 0,
+    "checkpoint_for_key": 0,
+    "control_accounts_for_key": 0
+  },
+  "protection": [
+    {
+      "manifest": "output/m6-single-product-canary-20261031/protected-before.json",
+      "matched": 138,
+      "skipped_private_identity": 0
+    },
+    {
+      "manifest": "output/m6-output-contract-boundaries-probe-20261031/protected-before.json",
+      "matched": 336,
+      "skipped_private_identity": 0
+    },
+    {
+      "manifest": "output/m6-diagnostic-subject-usage-fix-20261031/protected-before.json",
+      "matched": 597,
+      "skipped_private_identity": 0
+    },
+    {
+      "manifest": "output/m6-diagnostic-cache-completion-20261031/historical-files-r2.json",
+      "matched": 1314,
+      "skipped_private_identity": 0
+    }
+  ],
+  "source_sha256": "b50b1f5b0eab66d7a4eb2a32314bcd415dba2624354cfb0ece59d2efce17ab8b",
+  "config_sha256": "22d0e525ba1074336a6d7af973cc50427eb96e4c3f5ad28d9a3c60e37ff65efc",
+  "request_sha256": "f3f16112c23330b0a5c142c3a64559d6cbd79f5e82ac00cd617529b5fc9526d9",
+  "manifest_sha256": "0e94544429f865b2f2e35193f9f915e06282de9c1faf85fafe27d4891bb85533",
+  "corrected_driver_sha256": "f45e94989079eab370d971ff0a4004f3d87747890c262ff5480582b23069e19d",
+  "started": false,
+  "settled": false,
+  "account_current_state": "absent_by_current_read",
+  "actual_user_scope_verified": true,
+  "previous_technical_closures": "kept",
+  "new_product_streams_by_this_review": 0,
+  "new_local_inference": 0,
+  "real_database_writes_by_this_review": 0,
+  "prior_input_tokens": 23582,
+  "prior_output_tokens": 20602,
+  "exact_http_requests": null,
+  "cost": null,
+  "paid_output_upper_bound": null,
+  "old_48_paused": true,
+  "m6": "5/7",
+  "m7": "not_authorized",
+  "limitation": "point_in_time_read_does_not_replace_atomic_formal_job_claim",
+  "schema_version": 1,
+  "date": "2026-11-01",
+  "report": "docs/development/reviews/M6-single-product-runtime-review-r1.md",
+  "environment_blocker": "resolved_at_current_read",
+  "technical_review": "closed_unchanged",
+  "services": [
+    {
+      "name": "product-knowledge-rag-etcd-1",
+      "state": "running",
+      "health": "healthy",
+      "started_at": "2026-11-01T02:23:31.328382288Z",
+      "log_config": {
+        "Type": "json-file",
+        "Config": {
+          "max-file": "3",
+          "max-size": "20m"
+        }
+      },
+      "oom_killed": false,
+      "restart_count": 0
+    },
+    {
+      "name": "product-knowledge-rag-minio-1",
+      "state": "running",
+      "health": "healthy",
+      "started_at": "2026-11-01T02:23:31.3188782Z",
+      "log_config": {
+        "Type": "json-file",
+        "Config": {
+          "max-file": "3",
+          "max-size": "20m"
+        }
+      },
+      "oom_killed": false,
+      "restart_count": 0
+    },
+    {
+      "name": "product-knowledge-rag-mongo-1",
+      "state": "running",
+      "health": "healthy",
+      "started_at": "2026-11-01T02:23:31.330304754Z",
+      "log_config": {
+        "Type": "json-file",
+        "Config": {
+          "max-file": "3",
+          "max-size": "20m"
+        }
+      },
+      "oom_killed": false,
+      "restart_count": 0
+    },
+    {
+      "name": "product-knowledge-rag-redis-1",
+      "state": "running",
+      "health": "healthy",
+      "started_at": "2026-11-01T02:23:31.323042293Z",
+      "log_config": {
+        "Type": "json-file",
+        "Config": {
+          "max-file": "3",
+          "max-size": "20m"
+        }
+      },
+      "oom_killed": false,
+      "restart_count": 0
+    },
+    {
+      "name": "product-knowledge-rag-milvus-1",
+      "state": "running",
+      "health": "healthy",
+      "started_at": "2026-11-01T02:23:31.326691403Z",
+      "log_config": {
+        "Type": "json-file",
+        "Config": {
+          "max-file": "3",
+          "max-size": "20m"
+        }
+      },
+      "oom_killed": false,
+      "restart_count": 0
+    }
+  ],
+  "service_start_by_this_review": false,
+  "initial_readonly_audit": "failed_during_mongo_startup_log_preserved",
+  "corrected_driver_guard_cases": 3,
+  "corrected_driver_executed": false,
+  "remote_verified": false,
+  "new_input_tokens": 0,
+  "new_output_tokens": 0,
+  "evidence_sha256": {
+    "audit.json": "8a45e5c7fa09629aae1df56d7ec7aafe2c5c895c8a72f18e9782e980ce6e5f34",
+    "audit-checks.json": "e1dee57a01ce31f49fc965e917757cc5f5b879c885535d34507f031611da8789",
+    "service-after.json": "a061885fc465ebbff87292d7cfba6cd969c5ad81a93960fee01248eeaa57fe72",
+    "current-counts.json": "26c13168b6f658e95b8807d1bf6c568aa1ab1574e174f341451c15a973acf371",
+    "readonly-audit.log": "5f816cd3c2cc8e54fef07f1de980857d6f4efb9909a853162cb067c89ebe5ed2",
+    "readonly-audit-r2.log": "2f8ebc405f4529daf725ebee0e1c3bbc084150471b57cdc5a8d80d484b6a02f4"
+  }
+}
