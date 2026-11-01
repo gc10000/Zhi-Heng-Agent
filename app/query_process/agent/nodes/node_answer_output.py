@@ -113,6 +113,8 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
       if state.get('is_stream'):
         for chunk in llm.stream(prompt,**options):
           reasoning(chunk)
+          if (getattr(chunk,'response_metadata',None) or {}).get('finish_reason'):
+            state['answer_finish_reason']=chunk.response_metadata['finish_reason']
           if (getattr(chunk,'response_metadata',None) or {}).get('finish_reason') in ('length','max_tokens'):
             state['output_truncated'] = True
           delta = getattr(chunk, 'content', '') or ''
@@ -122,6 +124,7 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
       else:
         response = llm.invoke(prompt,**options)
         reasoning(response)
+        state['answer_finish_reason']=(getattr(response,'response_metadata',None) or {}).get('finish_reason')
         final_text = response.content
         if (getattr(response,'response_metadata',None) or {}).get('finish_reason') in ('length','max_tokens'):
           state['output_truncated'] = True

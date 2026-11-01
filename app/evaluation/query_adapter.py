@@ -60,8 +60,8 @@ def open_evaluation_resources(config):
         from app.infrastructure.providers.output_contract import is_product_risk
         risk_client=None
         if is_product_risk(policies.answer_budget.output_contract):
-            from app.infrastructure.providers.product_risk import open_client
-            risk_client,risk_http=open_client(policies.answer_budget.output_contract)
+            from app.infrastructure.providers.output_contract import risk_handler
+            risk_client,risk_http=risk_handler(policies.answer_budget.output_contract).open_client(policies.answer_budget.output_contract)
         runner = QueryRunner(repo, commands, knowledge.get, retrieval_policy=policies.retrieval,
             expansion_policy=policies.expansion,answer_budget=policies.answer_budget,enhancement_policy=policies.enhancement,
             source_prerequisites=policies.source_prerequisites,retrieval_combination=policies.retrieval_combination,
@@ -102,8 +102,8 @@ class RealQueryExecutor:
         validate_execution(self.control_db,self.execution,self.config)
         from app.infrastructure.providers.output_contract import from_config,is_product_risk
         if is_product_risk(from_config(self.config)):
-            from app.infrastructure.providers.product_risk import validate_config
-            validate_config(self.config,self.control_db.name,question=question)
+            from app.infrastructure.providers.output_contract import risk_handler
+            risk_handler(from_config(self.config)).validate_config(self.config,self.control_db.name,question=question)
         key = fingerprint([self.config,question['id']])
         saved = self.checkpoints.find_one({'_id':key})
         inputs = {k:question[k] for k in ('id','question','product_names','history')}
@@ -234,9 +234,9 @@ class RealQueryExecutor:
     def __call__(self, question):
         from app.infrastructure.providers.output_contract import from_config,is_product_risk
         if is_product_risk(from_config(self.config)):
-            from app.infrastructure.providers.product_risk import validate_config
+            from app.infrastructure.providers.output_contract import risk_handler
             if not self.execution or self.control_db is None:raise ValueError('风险准入必须绑定正式单题job')
-            validate_config(self.config,self.control_db.name,question=question)
+            risk_handler(from_config(self.config)).validate_config(self.config,self.control_db.name,question=question)
             self.resources['query_runner'].risk_context=dict(config=self.config,question=question,
                 control_db=self.control_db,control_database=self.control_db.name,execution=self.execution)
         if self.execution:
@@ -326,7 +326,21 @@ class RealQueryExecutor:
             observe_continuation(self.resources['db'], followup, self.resources['runs'].get(self.user, rid))
         try:
             if run['state'] == 'pending':
+                zero_account=None
+                if is_product_risk(output):
+                    from app.infrastructure.providers.output_contract import parse_contract,OutputLedger
+                    policy=parse_contract(output)
+                    if policy.function_version=='diagnostic_remaining_manifest_r1':
+                        from app.infrastructure.providers.remaining_risk import sources
+                        if not sources(policy)[1]['expected_generation']:
+                            zero_account=OutputLedger(self.resources['db'],output)
+                            zero_account.begin(rid,persistent_run['identity'],input_reservation=0,
+                                risk_context=self.resources['query_runner'].risk_context,zero_generation=True)
                 self.resources['query_runner'].execute(rid)
+                if zero_account is not None:
+                    zero_run=self.resources['runs'].get(self.user,rid)
+                    zero_account.settle_clarification(zero_run,self.project_result(zero_run))
+                    zero_account.require_open()
         finally:
             if followup:
                 observe_continuation(self.resources['db'], followup, self.resources['runs'].get(self.user, rid))

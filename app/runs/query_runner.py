@@ -361,10 +361,11 @@ class QueryRunner:
                         from app.infrastructure.providers.output_contract import is_product_risk
                         risk_options={}
                         if is_product_risk(output_contract):
-                            from app.infrastructure.providers.product_risk import validate_prompt,validate_runtime
+                            from app.infrastructure.providers.output_contract import risk_handler
+                            handler=risk_handler(output_contract)
                             context=getattr(self,'risk_context',None)
-                            validate_runtime(output_contract,row,context,self.repo.db)
-                            validate_prompt(output_contract,prompt,state)
+                            handler.validate_runtime(output_contract,row,context,self.repo.db)
+                            handler.validate_prompt(output_contract,prompt,state)
                             risk_options['risk_context']=context
                         # 能力及wire先验明，随后才创建调用前未知窗口；绝不自动重试。
                         output_limit_options(client,self.answer_budget.output_tokens,self.answer_budget.output_token_field,contract=output_contract)
@@ -381,8 +382,12 @@ class QueryRunner:
                         raise
                     if account is not None:
                         telemetry.diagnostic_usage(state.get('answer_usage_observations',[]))
+                        product_options={}
+                        if output_contract.function_version=='diagnostic_remaining_manifest_r1':
+                            product_options['product_state']=dict(visible_body=bool(safe_answer.answer.strip()),
+                                truncated=bool(state.get('output_truncated')),finish_reason=state.get('answer_finish_reason'))
                         settled=account.settle(rid,row['identity'],telemetry.snapshot()['token_usage'],completed=True,
-                            observations=state.get('answer_usage_observations'),logical_calls=telemetry.snapshot()['logical_provider_calls'])
+                            observations=state.get('answer_usage_observations'),logical_calls=telemetry.snapshot()['logical_provider_calls'],**product_options)
                         emit('stage.changed',{'stage':stage},fields={'output_settlement':settled})
                         account.require_open()
                 else:

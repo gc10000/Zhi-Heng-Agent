@@ -11,6 +11,7 @@ from app.knowledge.repository import fingerprint
 from app.answering.reviewed_subjects import GitEvidence, evidence_bytes
 from .diagnostic_usage import ABSENT
 from .product_risk import SingleProductAdmission
+from .remaining_risk import RemainingAdmission
 
 
 class OutputContract(BaseModel):
@@ -51,15 +52,32 @@ class SingleProductRiskContract(OutputContract):
     admission: SingleProductAdmission
 
 
+class RemainingManifestContract(OutputContract):
+    function_version: Literal['diagnostic_remaining_manifest_r1'] = 'diagnostic_remaining_manifest_r1'
+    admission: RemainingAdmission
+
+
 def parse_contract(value):
     kind=value.get('function_version') if isinstance(value,dict) else getattr(value,'function_version',None)
-    return (SingleProductRiskContract if kind=='diagnostic_single_product_risk_v1' else OutputContract).model_validate(value)
+    return {'diagnostic_single_product_risk_v1':SingleProductRiskContract,
+            'diagnostic_remaining_manifest_r1':RemainingManifestContract}.get(kind,OutputContract).model_validate(value)
 
 
 def is_product_risk(value):
     if value is None:return False
     policy=parse_contract(value)
-    return policy.enabled and policy.function_version=='diagnostic_single_product_risk_v1'
+    return policy.enabled and policy.function_version in ('diagnostic_single_product_risk_v1','diagnostic_remaining_manifest_r1')
+
+
+def risk_handler(value):
+    """保持旧单题含义；新清单只进入其自己的封存授权及共享账本。"""
+    policy=parse_contract(value)
+    if not is_product_risk(policy):raise ValueError('关闭或普通合同不使用风险准入')
+    if policy.function_version=='diagnostic_remaining_manifest_r1':
+        from . import remaining_risk
+        return remaining_risk
+    from . import product_risk
+    return product_risk
 
 
 def payload(value):
@@ -97,8 +115,7 @@ def require_capability(value):
     if not policy.enabled:return policy
     if is_product_risk(policy):
         # 准入依据是受控的单次风险授权，能力事实仍为unknown；普通v2分支不变。
-        from .product_risk import require
-        require(policy)
+        risk_handler(policy).require(policy)
         return policy
     if policy.status != 'verified' or policy.semantics != 'total_including_reasoning' or policy.evidence is None:
         raise APIError(422, 'output_capability_unknown', '网关总输出限制能力未知，诊断调用暂停。')
@@ -130,8 +147,7 @@ def strict_options(client, limit, field, contract):
     underlying = unwrap_client(client)
     if not policy.enabled:raise ValueError('关闭合同不使用严格发参入口')
     if is_product_risk(policy):
-        from .product_risk import validate_client
-        validate_client(policy,underlying)
+        risk_handler(policy).validate_client(policy,underlying)
     if field != policy.limit_field or limit != policy.per_request_total_output_tokens:
         raise ValueError('输出字段或总预算与能力合同冲突')
     if (fingerprint(str(getattr(underlying, 'openai_api_base', ''))) != policy.endpoint_sha256 or
@@ -193,6 +209,13 @@ def usage_receipt(usage, *, reasoning=ABSENT, observations=None):
 
 class OutputLedger:
     """在现有Run执行边界串行结算，不调度job。未知窗口持久阻断下一题。"""
+    def __new__(cls,db,contract):
+        policy=parse_contract(contract)
+        if policy.enabled and policy.function_version=='diagnostic_remaining_manifest_r1':
+            from .remaining_risk import RemainingLedger
+            return RemainingLedger(db,contract)
+        return super().__new__(cls)
+
     def __init__(self, db, contract):
         self.policy = parse_contract(contract)
         self.db_name=db.name

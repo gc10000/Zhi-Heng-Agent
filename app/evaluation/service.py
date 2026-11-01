@@ -44,8 +44,8 @@ class EvaluationService:
             raise APIError(409, 'evaluation_frozen_identity_invalid', '题集登记后发生变化，请登记新版本。')
         from app.infrastructure.providers.output_contract import from_config,is_product_risk
         if is_product_risk(from_config(resolved['config'])):
-            from app.infrastructure.providers.product_risk import validate_config
-            validate_config(resolved['config'],self.repo.db.name)
+            from app.infrastructure.providers.output_contract import risk_handler
+            risk_handler(from_config(resolved['config'])).validate_config(resolved['config'],self.repo.db.name)
         if data.get('quality_policy') != resolved['config'].get('quality_policy'):
             raise APIError(409,'quality_policy_mismatch','请求与冻结配置的政策身份不一致。')
         if data.get('quality_policy'):

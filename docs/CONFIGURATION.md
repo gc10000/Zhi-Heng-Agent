@@ -1,3 +1,17 @@
+## M6剩余清单已触发持久停止（2026-11-01）
+
+本批m6-remaining-diagnostic-r1在版1 17-b出现length／空答，4个成员槽已消费，唯一共享账户blocked。即使pending为null、usage合法且有settled，也不代表可继续或补额度；根halt不可删改，余44成员不派发。没有新环境变量／公开API／默认profile。后续输出策略仅交总控裁定，本包不改thinking、模型或4096请求。详见[实际执行报告](development/reviews/M6-remaining-diagnostic-execution-r1.md)。
+
+## M6剩余清单限定准入（2026-11-01）
+
+内部`parameters.answer_budget.output_contract`新增默认关闭的`diagnostic_remaining_manifest_r1`，仅消费e54043f封存的本包Git授权；`admission`含Git commit／path／SHA256、固定批次manifest SHA和`member_slot`。它不升级普通v2能力，也不改变已消费单题合同。无新环境变量、公开API或默认配置，`.env.example`无需新增必填项；普通v2的unknown拒绝不变。
+
+固定批次`m6-remaining-diagnostic-r1`在授权原版1控制库的`diagnostic_remaining_accounts`共用一个CAS文档，两个原控制库、所有成员及进程均寻址同一账户。前值28747／22304只初始化一次；每成员固定磁盘planned／started／settled，调用前原子预留该成员、唯一在途及输入／输出预算，CAS后磁盘失败仍保留pending。不能换ledger、库、nonce、目录或清理槽来重领。
+
+合法结算进入`awaiting_review`，执行方逐题保存来源诊断后才允许下一固定成员；坏usage、未知窗口、空答、length／截断或来源失败保持blocked。成功恢复走既有完整outcome和题级关联，不重发。047以正式澄清消费者记0生成，不借旧top3绕过目录。所有固定成员完整题集仍150题／dev85／heldout65，输入来自已审完整题集，初次冻结也不允许只保留同题号而换问题。
+
+能力及实际付费输出上界仍unknown；4096是请求与观测约束，HTTP／费用不可观测为null，reasoning包含在output内。私有驱动每次只接一个成员，经EvaluationService／execute_job／默认RealQueryExecutor，精确缓存仅替代embedding／rank及封存检索响应读取口；未启动worker，不恢复旧批量job。实现自验不等于总控独立技术或M6质量验收，M6保持5/7。
+
 ## M6唯一单题诊断已消费（2026-11-01）
 
 固定slot m6-05a-product-canary-r1现已started／settled，唯一版1新版05-a完成且限定诊断成功。账户open仅表示合法结算，不能作为新调用额度；同一固定槽只可依正式协议只读复用，不删除或手改slot／账户／lease。原封存profile、prompt、配置及源码身份未改，能力及付费上界unknown仍保持，无新公开API或环境变量。
