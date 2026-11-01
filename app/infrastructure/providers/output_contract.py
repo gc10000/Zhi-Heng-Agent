@@ -57,22 +57,37 @@ class RemainingManifestContract(OutputContract):
     admission: RemainingAdmission
 
 
+class NonthinkingManifestContract(OutputContract):
+    function_version: Literal['diagnostic_nonthinking_manifest_r1'] = 'diagnostic_nonthinking_manifest_r1'
+    thinking: bool = Field(strict=True)
+    admission: RemainingAdmission
+
+    @model_validator(mode='after')
+    def explicit_false(self):
+        if self.thinking is not False:raise ValueError('非思考清单仅允许显式false')
+        return self
+
+
 def parse_contract(value):
     kind=value.get('function_version') if isinstance(value,dict) else getattr(value,'function_version',None)
     return {'diagnostic_single_product_risk_v1':SingleProductRiskContract,
-            'diagnostic_remaining_manifest_r1':RemainingManifestContract}.get(kind,OutputContract).model_validate(value)
+            'diagnostic_remaining_manifest_r1':RemainingManifestContract,
+            'diagnostic_nonthinking_manifest_r1':NonthinkingManifestContract}.get(kind,OutputContract).model_validate(value)
 
 
 def is_product_risk(value):
     if value is None:return False
     policy=parse_contract(value)
-    return policy.enabled and policy.function_version in ('diagnostic_single_product_risk_v1','diagnostic_remaining_manifest_r1')
+    return policy.enabled and policy.function_version in ('diagnostic_single_product_risk_v1','diagnostic_remaining_manifest_r1','diagnostic_nonthinking_manifest_r1')
 
 
 def risk_handler(value):
     """保持旧单题含义；新清单只进入其自己的封存授权及共享账本。"""
     policy=parse_contract(value)
     if not is_product_risk(policy):raise ValueError('关闭或普通合同不使用风险准入')
+    if policy.function_version=='diagnostic_nonthinking_manifest_r1':
+        from . import nonthinking_risk
+        return nonthinking_risk
     if policy.function_version=='diagnostic_remaining_manifest_r1':
         from . import remaining_risk
         return remaining_risk
@@ -211,6 +226,9 @@ class OutputLedger:
     """在现有Run执行边界串行结算，不调度job。未知窗口持久阻断下一题。"""
     def __new__(cls,db,contract):
         policy=parse_contract(contract)
+        if policy.enabled and policy.function_version=='diagnostic_nonthinking_manifest_r1':
+            from .nonthinking_risk import NonthinkingLedger
+            return NonthinkingLedger(db,contract)
         if policy.enabled and policy.function_version=='diagnostic_remaining_manifest_r1':
             from .remaining_risk import RemainingLedger
             return RemainingLedger(db,contract)

@@ -1,3 +1,13 @@
+本配置实际诊断已在版1 048来源错误处封存：新增2 stream，17-b限定来源诊断通过、048拒绝，余43未执行。新账户blocked，两个槽已消费；不可用配置说明重新派发。两次未上报reasoning计数，保持null；网关能力unknown。见[本包报告](development/reviews/M6-nonthinking-diagnostic-execution-r1.md)，M6仍5/7。
+
+## M6显式非思考有界诊断配置（2026-11-01）
+
+内部`diagnostic_nonthinking_manifest_r1`默认关闭；启用必须消费0e61ada封存Git授权及45成员新manifest，`thinking`必填且只能为严格布尔false。专用客户端实际wire仅比旧成员增加`enable_thinking=false`，保留`max_completion_tokens=4096`、n1、stream及usage、SDK重试0和120秒超时；无新环境变量或全局默认变化，`.env.example`不新增变量。普通v2 unknown拒绝、旧单题槽和旧remaining合同保持。
+
+新批次`m6-nonthinking-diagnostic-r1`以原版1控制库`diagnostic_nonthinking_accounts`共用唯一CAS账户；旧remaining账户和根halt只读全等核验，保持blocked。前值37541／28633由旧结算来源逐级hash绑定，只计一次；最多45新stream，先新版17-b，逐题合法结算及来源决定后再接44题。固定槽、唯一在途、预算及崩溃窗口复用已审账本核心，不返还失败额度。
+
+模式观测在SDK归一化前扫描raw reasoning_content；非空内容或任一usage片正reasoning计数均阻断后续。省略reasoning明细保留null；未观测到thinking不证明网关硬关闭。请求4096、客户端超时和账户观测预算均非供应商费用硬上界，HTTP／费用及可见token不可观测为null；网关能力仍unknown。本包不产生正式质量候选、评分、校准、gate或反馈proof。
+
 ## M6剩余清单已触发持久停止（2026-11-01）
 
 本批m6-remaining-diagnostic-r1在版1 17-b出现length／空答，4个成员槽已消费，唯一共享账户blocked。即使pending为null、usage合法且有settled，也不代表可继续或补额度；根halt不可删改，余44成员不派发。没有新环境变量／公开API／默认profile。后续输出策略仅交总控裁定，本包不改thinking、模型或4096请求。详见[实际执行报告](development/reviews/M6-remaining-diagnostic-execution-r1.md)。

@@ -383,9 +383,12 @@ class QueryRunner:
                     if account is not None:
                         telemetry.diagnostic_usage(state.get('answer_usage_observations',[]))
                         product_options={}
-                        if output_contract.function_version=='diagnostic_remaining_manifest_r1':
+                        if output_contract.function_version in ('diagnostic_remaining_manifest_r1','diagnostic_nonthinking_manifest_r1'):
                             product_options['product_state']=dict(visible_body=bool(safe_answer.answer.strip()),
                                 truncated=bool(state.get('output_truncated')),finish_reason=state.get('answer_finish_reason'))
+                            if output_contract.function_version=='diagnostic_nonthinking_manifest_r1':
+                                product_options['product_state'].update(observed_reasoning=bool(state.get('answer_mode_observations')),
+                                    mode_observations=state.get('answer_mode_observations',[]))
                         settled=account.settle(rid,row['identity'],telemetry.snapshot()['token_usage'],completed=True,
                             observations=state.get('answer_usage_observations'),logical_calls=telemetry.snapshot()['logical_provider_calls'],**product_options)
                         emit('stage.changed',{'stage':stage},fields={'output_settlement':settled})

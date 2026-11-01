@@ -9,6 +9,7 @@ import re
 import json
 
 _SINK=ContextVar('diagnostic_usage_sink',default=None)
+_MODE_SINK=ContextVar('diagnostic_mode_sink',default=None)
 ABSENT=object()
 
 
@@ -70,10 +71,31 @@ def summarize(observations):
 
 
 @contextmanager
-def capture_usage(observations):
+def capture_usage(observations,*,mode_observations=None):
     token=_SINK.set(observations)
+    mode_token=_MODE_SINK.set(mode_observations)
     try:yield
-    finally:_SINK.reset(token)
+    finally:
+        _SINK.reset(token)
+        _MODE_SINK.reset(mode_token)
+
+
+def record_reasoning(value,*,source):
+    """仅本模式记录存在性；不把推理内容归入答案，也不保存任意供应商对象。"""
+    target=_MODE_SINK.get()
+    if target is not None and value is not None and value!='':
+        target.append(dict(source=source,nonempty=True,raw_type=type(value).__name__,
+            characters=len(value) if isinstance(value,str) else None))
+
+
+def record_raw_mode(raw):
+    if _MODE_SINK.get() is None or not isinstance(raw,dict):return
+    for choice in raw.get('choices',[]) or []:
+        if not isinstance(choice,dict):continue
+        for name in ('delta','message'):
+            part=choice.get(name)
+            if isinstance(part,dict) and 'reasoning_content' in part:
+                record_reasoning(part['reasoning_content'],source='sdk_raw.'+name)
 
 
 def record_raw(usage):
@@ -94,6 +116,7 @@ def instrument_sdk_stream(client):
                     try:raw=event.json()
                     except (ValueError,TypeError):record_raw('malformed_sse_event')
                     else:
+                        record_raw_mode(raw)
                         if isinstance(raw,dict) and 'usage' in raw and raw['usage'] is not None:record_raw(raw['usage'])
                 yield event
     client._make_sse_decoder=lambda:Decoder(original())
@@ -102,6 +125,7 @@ def instrument_sdk_stream(client):
             try:raw=json.loads(response.read())
             except (ValueError,TypeError):record_raw('malformed_json_response')
             else:
+                record_raw_mode(raw)
                 if isinstance(raw,dict) and 'usage' in raw:record_raw(raw['usage'])
     client._client.event_hooks['response'].append(json_usage)
     client._diagnostic_decoder_v2=True

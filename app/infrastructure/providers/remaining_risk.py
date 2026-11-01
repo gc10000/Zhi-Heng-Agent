@@ -2,6 +2,7 @@
 import copy
 import hashlib
 import json
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -15,6 +16,7 @@ from .product_risk import SingleProductAdmission, exclusive, code_version, open_
 ROOT = Path(__file__).resolve().parents[3]
 VERSION = 'diagnostic_remaining_manifest_r1'
 BATCH = 'm6-remaining-diagnostic-r1'
+ACCOUNT_COLLECTION = 'diagnostic_remaining_accounts'
 AUTHORIZED_GIT = dict(commit='e54043f2e0d247d269785b3eb34fcf537a2c461a',
     path='docs/development/reviews/M6-remaining-diagnostic-authorization-r1.json',
     sha256='1ec3415c25a2deaee7f143a8ce77d9aa9400a41247ac51e1780d14f7dab17acd')
@@ -108,9 +110,10 @@ def config_subject(config):
     return value
 
 
-def authorized_inputs(auth,member):
+def authorized_inputs(auth,member,*,profile=None):
     """输入直接取原完整题集；首次冻结也不能用同题号改写问题或历史。"""
-    directory=local(auth['original_master_path']).parent/'catalog'
+    h=profile or sys.modules[__name__]
+    directory=h.local(auth['original_master_path']).parent/'catalog'
     dataset=directory/('version-'+str(member['version'])+'.jsonl')
     manifest=directory/('version-'+str(member['version'])+'-manifest.json')
     if sha(dataset)!=member['dataset_sha256'] or sha(manifest)!=member['split_manifest_sha256']:
@@ -121,17 +124,18 @@ def authorized_inputs(auth,member):
         sum(q['split']=='heldout' for q in rows)!=auth['heldout_rows_per_version']):
         raise ValueError('原题集不完整，不缩题集领取额度')
     question=next(q for q in rows if q['id']==member['question_id'])
-    entry=next(e for e in read(local(auth['original_execution_manifest_path']))['entries']
+    entry=next(e for e in read(h.local(auth['original_execution_manifest_path']))['entries']
         if e['version']==member['version'] and e['ordinal']==member['ordinal'])
     if entry['question_id']!=question['id'] or fingerprint(question)!=entry['source']['question_sha256'] or question['split']!='dev':
         raise ValueError('原请求、原序号及题目身份不一致')
     return {k:question[k] for k in ('id','question','product_names','history')}
 
 
-def build_member(config,question,control_database):
+def build_member(config,question,control_database,*,profile=None):
     from .output_contract import parse_contract
     policy=parse_contract(config['parameters']['answer_budget']['output_contract'])
-    auth, member, anchor, parent = sources(policy)
+    h=profile or sys.modules[__name__]
+    auth, member, anchor, parent = h.sources(policy)
     actual, expected = copy.deepcopy(config),copy.deepcopy(anchor['new_config'])
     for value in (actual,expected):
         value.pop('experiment_id',None);value.pop('question_ids',None)
@@ -141,7 +145,7 @@ def build_member(config,question,control_database):
     if (actual!=expected or control_database!=parent['control_database'] or
         any(config['target'][k]!=parent[k] for k in ('owner_id','kb_id')) or
         config['question_ids']!=[member['question_id']] or question['id']!=member['question_id'] or
-        config['experiment_id']!=member['fixed_slot'] or config['versions']['code']!=code_version() or
+        config['experiment_id']!=member['fixed_slot'] or config['versions']['code']!=h.code_version() or
         config['dataset_sha256']!=member['dataset_sha256'] or config['split_manifest_sha256']!=member['split_manifest_sha256']):
         raise ValueError('成员配置、控制库、题集、主体或源码超出授权')
     budget=config['parameters']['answer_budget'];limits=auth['budget']
@@ -149,7 +153,7 @@ def build_member(config,question,control_database):
         ('reserve_tokens','reserve_tokens'),('max_chars','max_chars')]) or budget['output_token_field']!=auth['runtime']['limit_field']:
         raise ValueError('成员预算变化')
     inputs={k:question[k] for k in ('id','question','product_names','history')}
-    if inputs!=authorized_inputs(auth,member):raise ValueError('初次冻结的问题输入不匹配封存完整题集')
+    if inputs!=h.authorized_inputs(auth,member):raise ValueError('初次冻结的问题输入不匹配封存完整题集')
     return dict(member=member,control_database=control_database,config_subject=config_subject(config),
         question=inputs,input_sha256=fingerprint(inputs),parent_request_key=anchor.get('new_request_key'),
         source_result_sha256=fingerprint(anchor['result']))
@@ -170,31 +174,33 @@ def build_manifest(items, *, artifacts=None):
         entries=[by_slot[s] for s in auth['dispatch_order']],artifacts=artifacts or {})
 
 
-def prepare_manifest(manifest):
-    path=batch_dir()/'planned.json';path.parent.mkdir(parents=True,exist_ok=True)
+def prepare_manifest(manifest,*,profile=None):
+    h=profile or sys.modules[__name__]
+    path=h.batch_dir()/'planned.json';path.parent.mkdir(parents=True,exist_ok=True)
     if path.exists():
         if read(path)!=manifest:raise ValueError('固定批次计划不可覆盖或换目录重领')
     else:
-        try:exclusive(path,manifest)
+        try:h.exclusive(path,manifest)
         except FileExistsError:
             if read(path)!=manifest:raise ValueError('固定批次并发计划冲突')
     for entry in manifest['entries']:
-        directory=batch_dir()/'members'/entry['member']['fixed_slot'];directory.mkdir(parents=True,exist_ok=True)
+        directory=h.batch_dir()/'members'/entry['member']['fixed_slot'];directory.mkdir(parents=True,exist_ok=True)
         p=directory/'planned.json';value=dict(manifest_sha256=fingerprint(manifest),entry=entry)
         if p.exists():
             if read(p)!=value:raise ValueError('成员计划不一致')
         else:
-            try:exclusive(p,value)
+            try:h.exclusive(p,value)
             except FileExistsError:
                 if read(p)!=value:raise ValueError('成员并发计划冲突')
 
 
-def require(policy):
-    sources(policy)
-    planned=read(batch_dir()/'planned.json')
-    if fingerprint(planned)!=policy.admission.manifest_sha256 or planned['authorization']!=AUTHORIZED_GIT:
+def require(policy,*,profile=None):
+    h=profile or sys.modules[__name__]
+    h.sources(policy)
+    planned=read(h.batch_dir()/'planned.json')
+    if fingerprint(planned)!=policy.admission.manifest_sha256 or planned['authorization']!=h.AUTHORIZED_GIT:
         raise ValueError('缺少一致的固定批次冻结')
-    if read(slot_dir(policy)/'planned.json')!=dict(manifest_sha256=fingerprint(planned),entry=entry_for(policy,planned)):
+    if read(h.slot_dir(policy)/'planned.json')!=dict(manifest_sha256=fingerprint(planned),entry=entry_for(policy,planned)):
         raise ValueError('成员固定槽计划不一致')
     return planned
 
@@ -203,17 +209,19 @@ def entry_for(policy,manifest):
     return next(e for e in manifest['entries'] if e['member']['fixed_slot']==policy.admission.member_slot)
 
 
-def validate_config(config,control_database,*,question=None):
+def validate_config(config,control_database,*,question=None,profile=None):
     from .output_contract import parse_contract
-    policy=parse_contract(config['parameters']['answer_budget']['output_contract']);planned=require(policy)
+    h=profile or sys.modules[__name__]
+    policy=parse_contract(config['parameters']['answer_budget']['output_contract']);planned=h.require(policy)
     entry=entry_for(policy,planned)
-    if build_member(config,question if question is not None else entry['question'],control_database)!=entry:
+    if h.build_member(config,question if question is not None else entry['question'],control_database)!=entry:
         raise ValueError('正式请求不匹配固定成员执行身份')
     return planned
 
 
-def validate_prompt(policy,prompt,state):
-    auth,member,anchor,_=sources(policy)
+def validate_prompt(policy,prompt,state,*,profile=None):
+    h=profile or sys.modules[__name__]
+    auth,member,anchor,_=h.sources(policy)
     if not member['expected_generation']:raise ValueError('零生成成员不得进入答案模型')
     expected=anchor['result']
     if (prompt!=expected['prompt'] or state['prompt_used_docs']!=expected['context'] or
@@ -223,9 +231,10 @@ def validate_prompt(policy,prompt,state):
         raise ValueError('成员实际prompt、context、引用、分组或预算漂移')
 
 
-def validate_runtime(policy,run,context,db):
+def validate_runtime(policy,run,context,db,*,profile=None):
+    h=profile or sys.modules[__name__]
     if not context:raise ValueError('清单准入只能沿正式job消费')
-    validate_config(context['config'],context['control_database'],question=context['question'])
+    h.validate_config(context['config'],context['control_database'],question=context['question'])
     from app.evaluation.execution_links import validate_execution
     from app.evaluation.execution_identity import run_input
     validate_execution(context['control_db'],context['execution'],context['config'])
@@ -237,9 +246,10 @@ def validate_runtime(policy,run,context,db):
         raise ValueError('清单正式Run执行关联缺失或漂移')
 
 
-def validate_client(policy,client):
+def validate_client(policy,client,*,profile=None):
     from .output_contract import unwrap_client
-    client=unwrap_client(client);runtime=sources(policy)[0]['runtime']
+    h=profile or sys.modules[__name__]
+    client=unwrap_client(client);runtime=h.sources(policy)[0]['runtime']
     if (client.temperature!=runtime['temperature'] or float(client.request_timeout)!=runtime['timeout_seconds'] or
         client.stream_usage is not True or client.root_client._client.follow_redirects is not False):
         raise ValueError('清单实际客户端profile不一致')
@@ -250,13 +260,14 @@ def validate_client(policy,client):
 
 class RemainingLedger:
     """同一个Mongo文档原子预留成员、在途和预算；跨库客户端始终寻址封存的共享控制库。"""
-    def __init__(self,db,contract):
+    def __init__(self,db,contract,*,profile=None):
         from .output_contract import parse_contract
-        self.policy=parse_contract(contract);self.manifest=require(self.policy)
+        self.handler=profile or sys.modules[__name__]
+        self.policy=parse_contract(contract);self.manifest=self.handler.require(self.policy)
         self.db=db;self.entry=entry_for(self.policy,self.manifest);self.slot=self.policy.admission.member_slot
         if db.name!=self.entry['config_subject']['target']['database']:raise ValueError('目标库不能用于重领清单额度')
-        self.rows=db.client[self.manifest['shared_control_database']].diagnostic_remaining_accounts
-        self.key=fingerprint([VERSION,BATCH]);self.sha=fingerprint(self.manifest)
+        self.rows=db.client[self.manifest['shared_control_database']][self.handler.ACCOUNT_COLLECTION]
+        self.key=fingerprint([self.handler.VERSION,self.handler.BATCH]);self.sha=fingerprint(self.manifest)
 
     def _read(self):
         row=self.rows.find_one({'_id':self.key})
@@ -270,15 +281,15 @@ class RemainingLedger:
     def begin(self,run_id,run_identity,*,input_reservation=0,risk_context=None,zero_generation=False):
         context=risk_context
         if not context:raise ValueError('缺少正式清单执行上下文')
-        validate_config(context['config'],context['control_database'],question=context['question'])
+        self.handler.validate_config(context['config'],context['control_database'],question=context['question'])
         run=self.db.runs.find_one({'run_id':run_id})
         if not run or run.get('identity')!=run_identity:raise ValueError('预留Run完整身份不一致')
-        validate_runtime(self.policy,run,context,self.db)
+        self.handler.validate_runtime(self.policy,run,context,self.db)
         member=self.entry['member'];expected=member['expected_generation']
         if zero_generation==expected or type(input_reservation) is not int or input_reservation<0:
             raise ValueError('成员生成类型或输入预留不一致')
         if expected:
-            anchor=sources(self.policy)[2]
+            anchor=self.handler.sources(self.policy)[2]
             if input_reservation!=anchor['result']['budget']['input_tokens']:raise ValueError('输入预留必须匹配实际保守预算')
         elif input_reservation!=0:raise ValueError('澄清生成预算必须为0')
         row=dict(manifest_sha256=self.sha,version=0,state='open',pending=None,settled={},reviews={},cursor=0,
@@ -292,8 +303,8 @@ class RemainingLedger:
             saved['cursor']>=len(order) or order[saved['cursor']]!=self.slot or
             saved['prior_input_tokens']+saved['known_new_input_tokens']+input_reservation>self.policy.max_total_input_tokens or
             saved['prior_output_tokens']+saved['known_new_output_tokens']+out_reservation>self.policy.max_total_output_tokens or
-            (batch_dir()/'halt.json').exists() or
-            (slot_dir(self.policy)/'started.json').exists() or (slot_dir(self.policy)/'settled.json').exists()):
+            (self.handler.batch_dir()/'halt.json').exists() or
+            (self.handler.slot_dir(self.policy)/'started.json').exists() or (self.handler.slot_dir(self.policy)/'settled.json').exists()):
             raise APIError(409,'output_account_blocked','清单有在途、停止、重复、乱序或预算不足，禁止派发。')
         pending=dict(slot=self.slot,run_id=run_id,run_identity=run_identity,input_reservation=input_reservation,
             output_reservation=out_reservation,expected_generation=expected,at=now(),
@@ -302,20 +313,20 @@ class RemainingLedger:
             execution={k:context['execution'][k] for k in ('experiment_id','attempt','config_sha256')})
         self._cas(saved,dict(state='pending',pending=pending,new_input_tokens=None,new_output_tokens=None,
             logical_reservations=saved['logical_reservations']+int(expected),job_reservations=saved['job_reservations']+1))
-        if (batch_dir()/'halt.json').exists():
+        if (self.handler.batch_dir()/'halt.json').exists():
             self._cas(self._read(),dict(state='blocked'))
             raise APIError(409,'output_account_blocked','批次已封存停止，保留本次预留，不联网。')
         # CAS后磁盘失败仍留pending，不能重领；两个位置都确认完成后才允许联网。
-        exclusive(slot_dir(self.policy)/'started.json',dict(manifest_sha256=self.sha,**pending))
+        self.handler.exclusive(self.handler.slot_dir(self.policy)/'started.json',dict(manifest_sha256=self.sha,**pending))
 
     def _seal(self,receipt):
-        started=read(slot_dir(self.policy)/'started.json')
+        started=read(self.handler.slot_dir(self.policy)/'started.json')
         if any(started[k]!=receipt[k] for k in ('run_id','run_identity')):raise ValueError('成员结算Run漂移')
-        value=dict(manifest_sha256=self.sha,receipt=receipt);path=slot_dir(self.policy)/'settled.json'
+        value=dict(manifest_sha256=self.sha,receipt=receipt);path=self.handler.slot_dir(self.policy)/'settled.json'
         if path.exists():
             if read(path)!=value:raise ValueError('成员结算内容改变')
         else:
-            try:exclusive(path,value)
+            try:self.handler.exclusive(path,value)
             except FileExistsError:
                 if read(path)!=value:raise ValueError('成员并发结算内容改变')
 
@@ -340,8 +351,7 @@ class RemainingLedger:
         product=receipt.get('product_state') or {}
         good=(known and receipt['completed'] and receipt['usage_validation']['valid'] and receipt['output_tokens']<=4096 and
             saved['prior_input_tokens']+ni<=self.policy.max_total_input_tokens and saved['prior_output_tokens']+no<=self.policy.max_total_output_tokens and
-            (product.get('clarification_valid') is True if zero else
-             product.get('visible_body') is True and product.get('truncated') is False and product.get('finish_reason')=='stop'))
+            self.product_valid(receipt,zero))
         windows=list(saved['unknown_windows'])
         if not known or not receipt['completed'] or not receipt['usage_validation']['valid']:
             windows.append(dict(slot=self.slot,reason='invalid_usage_or_incomplete',run_id=receipt['run_id'],reported=receipt['usage_validation']['reported']))
@@ -353,8 +363,13 @@ class RemainingLedger:
         self._seal(receipt)
         return self._read()
 
+    def product_valid(self,receipt,zero):
+        product=receipt.get('product_state') or {}
+        return (product.get('clarification_valid') is True if zero else
+            product.get('visible_body') is True and product.get('truncated') is False and product.get('finish_reason')=='stop')
+
     def settle_clarification(self,run,result):
-        expected=sources(self.policy)[2]['result']
+        expected=self.handler.sources(self.policy)[2]['result']
         wanted=expected.get('candidates',[])
         actual=result.get('candidates',[])
         valid=(run['state']=='awaiting_input' and not result.get('answer') and
@@ -375,10 +390,10 @@ class RemainingLedger:
         # 必须先有完整磁盘结算；DB先提交后崩溃只能恢复同等结算，不能误派发。
         self._seal(saved['settled'][self.slot])
         if accepted and saved['state']!='awaiting_review':raise ValueError('坏usage或未知窗口不能由人工诊断放行')
-        path=slot_dir(self.policy)/'source-review.json'
+        path=self.handler.slot_dir(self.policy)/'source-review.json'
         if path.exists():
             if read(path)!=value:raise ValueError('磁盘来源诊断冲突')
-        else:exclusive(path,value)
+        else:self.handler.exclusive(path,value)
         self._cas(saved,dict(state='open' if accepted else 'blocked',reviews=saved['reviews']|{self.slot:value},
             cursor=saved['cursor']+int(accepted)))
         return self._read()
@@ -393,7 +408,7 @@ class RemainingLedger:
     def halt(self,evidence):
         """前置或来源失败只增加停止证据；不清pending、不返还额度。"""
         if not isinstance(evidence,dict) or not evidence:raise ValueError('停止必须保留具体证据')
-        seal_stop(evidence)
+        self.handler.seal_stop(evidence)
         if self.rows.find_one({'_id':self.key}) is None:return None
         saved=self._read()
         if saved.get('halt'):

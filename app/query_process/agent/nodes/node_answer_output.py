@@ -90,8 +90,10 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
   session_id = state.get('session_id')
   final_text = ''
   from contextlib import nullcontext
-  from app.infrastructure.providers.diagnostic_usage import capture_usage,record_response,summarize
+  from app.infrastructure.providers.diagnostic_usage import capture_usage,record_response,summarize,record_reasoning
   observations=[] if (state.get('output_contract') or {}).get('enabled') else None
+  mode=[] if observations is not None and state['output_contract'].get('function_version')=='diagnostic_nonthinking_manifest_r1' else None
+  if mode is not None:state['answer_mode_observations']=mode
   if observations is not None:state['answer_usage_observations']=observations
   try:
     llm = client if client is not None else get_llm_client()
@@ -101,6 +103,8 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
     seen_observations=0
     def reasoning(response):
       nonlocal seen_observations
+      if mode is not None:
+        record_reasoning((getattr(response,'additional_kwargs',None) or {}).get('reasoning_content'),source='normalized.additional_kwargs')
       if observations is not None:
         record_response(response,observations,seen_observations)
         seen_observations=len(observations)
@@ -109,7 +113,7 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
       details=usage.get('output_token_details') or usage.get('completion_tokens_details') or {}
       value=details.get('reasoning',details.get('reasoning_tokens'))
       if type(value) is int and value>=0:state['answer_reasoning_tokens']=value
-    with capture_usage(observations) if observations is not None else nullcontext():
+    with capture_usage(observations,mode_observations=mode) if observations is not None else nullcontext():
       if state.get('is_stream'):
         for chunk in llm.stream(prompt,**options):
           reasoning(chunk)

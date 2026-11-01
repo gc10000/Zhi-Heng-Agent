@@ -15,8 +15,9 @@ def test_remaining_contract_is_explicit_and_default_off():
     assert parse_contract(p.model_dump(mode='json')) == p
 
 
-def make_remaining_case(tmp_path, monkeypatch, *, configs=None, questions=None, expected=None, controls=None,targets=None):
+def make_remaining_case(tmp_path, monkeypatch, *, configs=None, questions=None, expected=None, controls=None,targets=None,profile=None):
     from app.infrastructure.providers import remaining_risk as r
+    if profile is not None:r=profile
     from app.infrastructure.providers import product_risk as single
     from app.infrastructure.providers.output_contract import parse_contract
     from app.knowledge.repository import fingerprint as fp
@@ -51,10 +52,15 @@ def make_remaining_case(tmp_path, monkeypatch, *, configs=None, questions=None, 
         risk=dict(gateway_capability_status='unknown',coordinator_accepts_unknown_paid_upper_bound_only_for_fixed_remaining_manifest=True),
         runtime=dict(n=1,model='synthetic',endpoint_sha256=fp('https://synthetic.invalid/v1'),client_versions=versions,limit_field='max_completion_tokens',requested_total_output_tokens=4096,temperature=.1,timeout_seconds=120),
         budget=dict(prior_diagnostic_input_tokens=10,prior_diagnostic_output_tokens=8,max_total_diagnostic_input_tokens=1477632,max_total_diagnostic_output_tokens=212992,max_new_product_streams=2,single_input_limit=28416,context_window=32768,output_tokens_requested=4096,reserve_tokens=256,max_chars=12000))
+    if r.VERSION=='diagnostic_nonthinking_manifest_r1':
+        auth.update(kind='coordinator_scoped_nonthinking_diagnostic_authorization',single_experimental_change='effective_wire_enable_thinking_false')
+        auth['risk']['coordinator_accepts_unknown_paid_upper_bound_only_for_this_fixed_manifest']=True
+        auth['runtime']['thinking']=False
     monkeypatch.setattr(r,'AUTHORIZED_GIT',ref);monkeypatch.setattr(r,'evidence_bytes',lambda v:json.dumps(auth).encode())
     for cfg,m in zip(configs,members):
         cfg.update(experiment_id=m['fixed_slot'])
         cfg['parameters']['answer_budget'].update(output_token_field='max_completion_tokens',output_contract=dict(enabled=True,function_version=r.VERSION,n=1,status='unknown',semantics='unknown',model='synthetic',endpoint_sha256=auth['runtime']['endpoint_sha256'],client_versions=versions,limit_field='max_completion_tokens',ledger_id=r.BATCH,prior_input_tokens=10,prior_output_tokens=8,prior_source_sha256=prior['sha256'],max_total_input_tokens=1477632,max_total_output_tokens=212992,admission=dict(authorization=ref,manifest_sha256='0'*64,member_slot=m['fixed_slot'])))
+        if r.VERSION=='diagnostic_nonthinking_manifest_r1':cfg['parameters']['answer_budget']['output_contract']['thinking']=False
     manifest=r.build_manifest([(cfg,q,control) for cfg,q,control in zip(configs,questions,controls)])
     for cfg in configs:cfg['parameters']['answer_budget']['output_contract']['admission']['manifest_sha256']=fp(manifest)
     r.prepare_manifest(manifest)

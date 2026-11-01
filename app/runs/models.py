@@ -3,7 +3,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from app.retrieval.prerequisites import SourcePrerequisitePolicy
 from app.retrieval.combination import CombinationPolicy
 from app.answering.evidence_attribution import EvidenceAttributionPolicy
-from app.infrastructure.providers.output_contract import OutputContract,SingleProductRiskContract,RemainingManifestContract
+from app.infrastructure.providers.output_contract import OutputContract,SingleProductRiskContract,RemainingManifestContract,NonthinkingManifestContract
 
 TERMINAL = frozenset({'completed', 'failed', 'cancelled', 'interrupted'})
 ACTIVE = frozenset({'pending', 'running', 'awaiting_input', 'cancel_requested'})
@@ -22,7 +22,7 @@ class InternalRunInput(RunInput):
     source_prerequisites: SourcePrerequisitePolicy | None = None
     retrieval_combination: CombinationPolicy | None = None
     evidence_attribution: EvidenceAttributionPolicy | None = None
-    output_contract: OutputContract | SingleProductRiskContract | RemainingManifestContract | None = None
+    output_contract: OutputContract | SingleProductRiskContract | RemainingManifestContract | NonthinkingManifestContract | None = None
 
 
 def snapshot(row):
