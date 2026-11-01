@@ -1,3 +1,9 @@
+## M6唯一单题诊断已消费（2026-11-01）
+
+固定slot m6-05a-product-canary-r1现已started／settled，唯一版1新版05-a完成且限定诊断成功。账户open仅表示合法结算，不能作为新调用额度；同一固定槽只可依正式协议只读复用，不删除或手改slot／账户／lease。原封存profile、prompt、配置及源码身份未改，能力及付费上界unknown仍保持，无新公开API或环境变量。
+
+实际新增input5165／含reasoning output1702，前值23582／20602，累计28747／22304；本地推理0。精确HTTP／费用null，不能用本机1个request／200 response hook充当端到端付费计量。完整dataset150／dev85保留，原48 job暂停。见[实际执行与退出边界](development/reviews/M6-single-product-canary-execution-r4.md)。下方各历史状态按原时点保留。
+
 ## M6当前运行环境边界（2026-11-01）
 
 总控d41b3a4技术关闭保持。当前Mongo连接拒绝、Docker引擎管道不存在，唯一05-a修正版驱动未启动，磁盘槽无started／settled，数据库现场unknown不可读；不能将既有预检通过冒充当前现场可用。没有更改配置、来源身份、模型profile或新增环境变量。恢复服务后须先核同槽／账户／输入，再沿原授权执行唯一job；详见[实际环境失败记录](development/reviews/M6-single-product-canary-execution-r3.md)。

@@ -1,3 +1,13 @@
+## 2026-11-01 · 唯一新版05-a已实际完成并结算，限定诊断成功后停止
+
+接续6960af7，仅版1新版m6-g540-05-a沿EvaluationService／execute_job／默认RealQueryExecutor实际执行一次。实验与Run均completed；固定槽m6-05a-product-canary-r1已started／settled、单次预留与结算、无pending或unknown窗口，今后仅只读复用。可见正文272字符、finish stop、未截断；机身RJ45与HUAWEI MateDock 3的LAN明确分开、引用对应选中证据，LAN旧行unknown保持。完整150题／dev85精确复用，未缩水题集或替换旧05-a。
+
+新增产品stream1、本地推理0，精确缓存1／20／3命中且miss0；input5165／含reasoning output1702（reasoning1510已包含），诊断累计28747／22304，预算不变。HTTP／费用null、付费输出上界及网关全域能力unknown保持。正式冻结完整结果与唯一attempt全等，末次只读及2423项来源／文件／结算审计通过，138／336／597／1314保护hash匹配；组间不累计，不充质量分。两次私有审计投影／日期导出失败及旧r2／r3失败保留，无再次模型调用或app源码修改。
+
+这是执行方单题来源诊断，待总控对实际结果独立复核，不是批量授权、正式质量通过或M6验收。原48 job暂停，无新评分／候选／attest／校准／gate／feedback proof；M6仍5/7、04保持、05／08未验收、M7未启动。唯一下一动作：执行方交付只读封存结果与结算材料供总控裁定后续范围，不生成下一题。[实际结果报告](../../development/reviews/M6-single-product-canary-execution-r4.md)及同目录validation-r4摘要。
+
+以下历史按原时点保留。
+
 ## 2026-11-01 · 当前服务及同槽账户已实核，执行端可直接接续唯一05-a
 
 总控只读核ab2e1d5后的当前现场：Docker已自行启动，Mongo经历恢复／加载后与其余4项基础服务均healthy，20m×3轮转保持，未清库／改参／启动worker。首次启动期连接失败保留；就绪后同请求／配置实验、固定key与合同账户、关联、checkpoint均0，started／settled均不存在，账户由当前不可读改为本次读取确认不存在，r3历史不改。源码／封存输入／runtime／收据hash保持，150总题／85 dev及修正版计数3项离线核验通过，2415项审计和138／336／597／1314保护hash匹配，不计质量分。

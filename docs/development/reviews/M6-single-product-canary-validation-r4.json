@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-01",
+  "role": "execution_agent_single_product_diagnostic_not_independent_quality_review",
+  "status": "one_formal_product_stream_settled_diagnostic_success_stopped",
+  "diagnostic_success": true,
+  "start_head": "6960af72c8bf7b541acce638ac654053cd9f4750",
+  "source_sha256": "b50b1f5b0eab66d7a4eb2a32314bcd415dba2624354cfb0ece59d2efce17ab8b",
+  "business_source_modified": false,
+  "config_sha256": "22d0e525ba1074336a6d7af973cc50427eb96e4c3f5ad28d9a3c60e37ff65efc",
+  "manifest_sha256": "0e94544429f865b2f2e35193f9f915e06282de9c1faf85fafe27d4891bb85533",
+  "request_sha256": "f3f16112c23330b0a5c142c3a64559d6cbd79f5e82ac00cd617529b5fc9526d9",
+  "checkpoint_key": "9dc35acea3b1133b409e403caa2eea8bfea70cf4e91d8e0ba3c01da47f243301",
+  "request_key": "0b0d21e83dbdc7ef28605dec2f35c3790a3d043252b9b5cd23c1cc0ddb70b790",
+  "experiment_id": "281d874c-0a8c-4520-b214-a69c54b0b0be",
+  "run_id": "d3649c7a-e79b-4b91-9165-b83462634cb4",
+  "experiment_state": "completed",
+  "run_state": "completed",
+  "attempt": 1,
+  "full_dataset_questions": 150,
+  "dev_questions": 85,
+  "registered_dataset_mode": "exact_reuse_full_dataset",
+  "fixed_slot": "m6-05a-product-canary-r1",
+  "started": true,
+  "settled": true,
+  "consumed": true,
+  "read_only_reuse_only": true,
+  "account_state": "open",
+  "account_pending": null,
+  "unknown_windows": [],
+  "logical_reservations": 1,
+  "source_diagnosis": {
+    "body_rj45": true,
+    "accessory_named_matedock3": true,
+    "object_boundary_explicit": true,
+    "citations_match": true,
+    "lan_unknown_preserved": true
+  },
+  "finish": "stop",
+  "output_truncated": false,
+  "visible_chars": 272,
+  "visible_tokens": null,
+  "raw_json_events": 530,
+  "done_events": 1,
+  "raw_usage_valid": true,
+  "raw_usage_complete": true,
+  "raw_usage_sha256": "ee26bd8811919a12243d8df6f0a04faddcab8e7893b41145aad12f438f176f7e",
+  "raw_response_sha256": "52005c2445c2ff21aaebd88be00f8dfdfaffe522e150e586ae99c51a7700d462",
+  "wire_sha256": "b7d1614fe243432097896a533dc7ad0c1364de4e89fb95f487bfcbebeeea6640",
+  "new_product_streams": 1,
+  "new_local_inference": 0,
+  "new_input_tokens": 5165,
+  "new_output_tokens": 1702,
+  "reasoning_tokens_included": 1510,
+  "prior_input_tokens": 23582,
+  "prior_output_tokens": 20602,
+  "cumulative_input_tokens": 28747,
+  "cumulative_output_tokens": 22304,
+  "max_total_input_tokens": 1477632,
+  "max_total_output_tokens": 212992,
+  "input_reservation": 12293,
+  "input_limit": 28416,
+  "output_requested_limit": 4096,
+  "exact_http_requests": null,
+  "cost": null,
+  "paid_output_upper_bound": null,
+  "gateway_capability_status": "unknown",
+  "local_hooks": {
+    "request": 1,
+    "response": 1,
+    "response_status_code": 200,
+    "not_exact_end_to_end_http_count": true
+  },
+  "exact_cache_hits": {
+    "embedding": 1,
+    "rerank": 20,
+    "retrieval": 3
+  },
+  "cache_misses": 0,
+  "actual_execution_command": {
+    "at": "2026-11-01T02:32:57.345878+00:00",
+    "command": [
+      ".venv/Scripts/python.exe",
+      "output/m6-single-product-canary-20261031/execute_canary_r2.py"
+    ],
+    "exit_code": 0
+  },
+  "final_audit_command": {
+    "command": [
+      ".venv/Scripts/python.exe",
+      "output/m6-single-product-canary-20261031/audit_execution_r4c.py"
+    ],
+    "exit_code": 0
+  },
+  "final_audit_checks": 2423,
+  "protection": [
+    {
+      "manifest": "output/m6-single-product-canary-20261031/protected-before.json",
+      "sha256": "e4242685644e05278ba3fab78c00480a63903461f34c611091bbee406fad83ea",
+      "matched": 138
+    },
+    {
+      "manifest": "output/m6-output-contract-boundaries-probe-20261031/protected-before.json",
+      "sha256": "006625f4c59203d4579f61a097ac0b7e97dc2c4c92e02cf475445674c43e2f9d",
+      "matched": 336
+    },
+    {
+      "manifest": "output/m6-diagnostic-subject-usage-fix-20261031/protected-before.json",
+      "sha256": "25361fd1024f4822debea65ba52083312c16c9091e5a07344939511da1d542a7",
+      "matched": 597
+    },
+    {
+      "manifest": "output/m6-diagnostic-cache-completion-20261031/historical-files-r2.json",
+      "sha256": "603453698e2cb7c830f75ffcc0f40f475651a3b1a0f6727597dc68b9c80df499",
+      "matched": 1314
+    }
+  ],
+  "live_outcome_verified": true,
+  "previous_final_source_tests": {
+    "offline": 169,
+    "integration": 75,
+    "independent_coordinator": 12,
+    "rerun_this_execution": false,
+    "intermediate_8_not_substitute": true
+  },
+  "audit_failures_preserved": [
+    "public_result_projection_used_for_full_outcome",
+    "mongodb_datetime_export_serialization"
+  ],
+  "source_authorization": {
+    "commit": "bcee5395604bcd7169c907ddcf146f163ccc2d14",
+    "path": "docs/development/reviews/M6-single-product-risk-authorization-r1.json",
+    "sha256": "0270a6e7d8cdfc434a0dadf8fcbe7bae8b80e2417515f73117b83b3f1f81a591"
+  },
+  "formal_quality_writes": 0,
+  "old_48_paused": true,
+  "old_05a_replaced": false,
+  "additional_probe": false,
+  "scope_expansion_authorized": false,
+  "m6": "5/7",
+  "m6_04": "accepted_unchanged",
+  "m6_05": "not_accepted",
+  "m6_08": "not_accepted",
+  "m7": "not_started",
+  "evidence_dir": "output/m6-single-product-canary-20261031/continuation-r4",
+  "formal_job_evidence_dir": "output/m6-single-product-canary-20261031/continuation-r2/formal-job-r2",
+  "evidence_manifest_sha256": "0838e7b0c91623aaadfe1324329bd93641e6609272a08aa217039dd72b781106",
+  "report": "docs/development/reviews/M6-single-product-canary-execution-r4.md",
+  "next_action": "executor_deliver_readonly_result_and_settlement_for_coordinator_independent_review_no_more_generation"
+}
