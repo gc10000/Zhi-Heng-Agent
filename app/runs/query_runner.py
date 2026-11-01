@@ -318,6 +318,8 @@ class QueryRunner:
             evaluation_fields = {}
             if attribution.enabled:
                 evaluation_fields['prompt_reference_map']=copy.deepcopy(state['prompt_reference_map'])
+                if attribution.assertion_binding is not None and attribution.assertion_binding.enabled:
+                    evaluation_fields['prompt_used_docs']=copy.deepcopy(state['prompt_used_docs'])
             if self.capture_evaluation:
                 # 仅评测运行保存候选来源，不复制检索正文或标准答案。
                 evaluation_fields['evaluation_candidates'] = {name: [
@@ -398,6 +400,10 @@ class QueryRunner:
                 else:
                     state['answer'] = '当前授权知识库中没有找到可用证据，请补充资料或明确设备型号。'
                     safe_answer.write(state['answer'])
+                    policy=state.get('evidence_attribution') or {}
+                    if ((policy.get('assertion_binding') or {}).get('enabled')):
+                        from app.answering.assertion_binding import insufficient_evidence_binding
+                        state['answer_binding']=insufficient_evidence_binding(state['answer'])
             finally:
                 run_event_sink.reset(binding)
             citation_guard.write('', final=True)
@@ -414,9 +420,13 @@ class QueryRunner:
             binding_fields = {}
             if state.get('answer_binding'):
                 from app.answering.assertion_binding import validate_saved_binding
+                from app.answering.evidence_attribution import payload
+                from app.knowledge.repository import fingerprint
                 validate_saved_binding(dict(evidence_attribution=state['evidence_attribution'],
+                    evidence_attribution_sha256=fingerprint(payload(state['evidence_attribution'])),
                     answer_binding=state['answer_binding'],answer=answer,citations=citations,
-                    prompt_reference_map=state['prompt_reference_map']))
+                    prompt_reference_map=state.get('prompt_reference_map') or [],
+                    prompt_used_docs=state.get('prompt_used_docs') or []),state['evidence_attribution'])
                 binding_fields['answer_binding']=state['answer_binding']
             self.commands.finish(user, rid, token, 'completed', {'answer': answer, 'citations': citations, 'message_id': row['assistant_message_id']},
                 fields={'answer': answer, 'citations': citations, 'stage': 'completed', 'completion_snapshot': completion,

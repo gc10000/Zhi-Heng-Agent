@@ -51,7 +51,7 @@ def test_review_dynamic_fences_preserve_source_and_inert_content(ticks):
     assert safe.answer==answer and text in answer
     assert proof['raw_selection_sha256']==fingerprint(raw)
     row=dict(evidence_attribution=s['evidence_attribution'],prompt_reference_map=s['prompt_reference_map'],
-        citations=s['prompt_used_docs'],answer=answer,answer_binding=proof|dict(raw_selection=raw))
+        prompt_used_docs=s['prompt_used_docs'],citations=s['prompt_used_docs'],answer=answer,answer_binding=proof|dict(raw_selection=raw))
     assert validate_saved_binding(row)==row['answer_binding']
 
 
@@ -63,6 +63,36 @@ def test_review_cached_proof_recomputes_without_call(field):
     s['answer_binding'][field]={'raw_selection':'{"references":[1]} ', 'reference_map_sha256':'0'*64,
         'answer_sha256':'0'*64,'selected_references':[],'extra':'untrusted'}[field]
     with pytest.raises(ValueError):node.step_1_check_answer(s)
+
+
+def test_review_frozen_payload_hash_rejects_coordinated_source_rewrite():
+    from app.knowledge.models import content_hash
+    from app.answering.source_relations import extract_frames
+    s,_=binding_state();raw='{"references":[1]}'
+    docs=s['prompt_used_docs'];refs=s['prompt_reference_map']
+    docs[0]['text']='设备甲通过无线方式上联到设备乙。'
+    rel=refs[0]['source_relations']
+    rel['source']['content_sha256']=content_hash(docs[0]['text'].encode())
+    rel['frames']=extract_frames(docs[0]['text'])
+    answer,proof=bind_response(raw,refs,docs)
+    from app.answering.evidence_attribution import payload
+    row=dict(evidence_attribution=payload(s['evidence_attribution']),prompt_reference_map=refs,
+        evidence_attribution_sha256=fingerprint(payload(s['evidence_attribution'])),
+        prompt_used_docs=docs,citations=docs,answer=answer,answer_binding=proof|dict(raw_selection=raw))
+    with pytest.raises(ValueError):validate_saved_binding(row)
+
+
+def test_review_zero_evidence_has_explicit_non_generated_binding():
+    from app.answering.assertion_binding import insufficient_evidence_binding
+    s,_=binding_state();answer='当前授权知识库中没有找到可用证据，请补充资料或明确设备型号。'
+    proof=insufficient_evidence_binding(answer)
+    from app.answering.evidence_attribution import payload
+    row=dict(evidence_attribution=payload(s['evidence_attribution']),
+        evidence_attribution_sha256=fingerprint(payload(s['evidence_attribution'])),prompt_reference_map=[],
+        citations=[],answer=answer,answer_binding=proof)
+    assert validate_saved_binding(row)==proof
+    row['answer']='伪造的成功回答'
+    with pytest.raises(ValueError):validate_saved_binding(row)
 
 
 @pytest.mark.parametrize('mode',['length','invalid','disconnect'])
@@ -81,3 +111,8 @@ def test_review_stream_no_raw_delta_and_failure_partial_available(monkeypatch,mo
     assert err.value.partial_answer==raw[:7] if mode=='disconnect' else err.value.partial_answer==raw
     assert not sent and not s.get('answer') and not s.get('answer_binding')
     if mode!='disconnect':assert s['answer_binding_failure']['raw_selection']==raw
+    else:
+        failure=s['answer_binding_failure']
+        assert failure['raw_selection']==raw[:7]
+        assert failure['failure_code']=='answer_generation_interrupted'
+        assert failure['input_sha256']

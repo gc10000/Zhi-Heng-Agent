@@ -145,7 +145,7 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
     expected=[dict(label,reference_number=n+1) for n,label in enumerate(evidence_labels(docs,attribution))]
     if expected!=state.get('prompt_reference_map'):
       raise ValueError('原句选择输入与冻结来源映射不一致')
-    checked_sources(expected,docs)
+    checked_sources(expected,docs,attribution)
   if mode is not None:state['answer_mode_observations']=mode
   if observations is not None:state['answer_usage_observations']=observations
   try:
@@ -188,6 +188,14 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
           state['output_truncated'] = True
   except Exception as exc:
     logger.error('回答生成失败，session={}，异常类型={}，部分字符数={}', session_id, type(exc).__name__, len(final_text))
+    if binding:
+      from app.knowledge.repository import fingerprint
+      state['answer_binding_failure']=dict(function_version='assertion_binding_v1',
+        raw_selection=final_text[:4096],received_chars=len(final_text),
+        failure_code='answer_generation_interrupted' if final_text else 'answer_generation_failed',
+        input_sha256=fingerprint(dict(prompt_sha256=fingerprint(prompt),
+          reference_map_sha256=fingerprint(state.get('prompt_reference_map') or []),
+          evidence_attribution_sha256=fingerprint(attribution.model_dump(mode='json')))))
     raise AnswerGenerationError(partial_answer=final_text) from exc
   finally:
     if observations is not None:state['answer_usage_validation']=summarize(observations)
@@ -197,7 +205,7 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
     try:
       if state.get('output_truncated'):
         raise ValueError('原句选择输出被截断')
-      bound,proof=bind_response(final_text,state.get('prompt_reference_map') or [],state.get('prompt_used_docs') or [])
+      bound,proof=bind_response(final_text,state.get('prompt_reference_map') or [],state.get('prompt_used_docs') or [],attribution)
     except (ValueError,TypeError,KeyError) as exc:
       state['answer_binding_failure']=dict(function_version='assertion_binding_v1',raw_selection=final_text)
       raise AnswerGenerationError('原句选择与证据不一致，已拒绝写入。',partial_answer=final_text) from APIError(

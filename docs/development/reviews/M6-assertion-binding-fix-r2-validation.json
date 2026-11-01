@@ -1,0 +1,118 @@
+{
+  "role": "coordinator_implementation_self_validation_not_independent_acceptance",
+  "date": "2026-11-01",
+  "base_commit": "225e78cec843c2569c24885e31a09c3af9148eb7",
+  "business_changes": [
+    "R1 frozen source revalidation in first outcome and recovery projection",
+    "R2 bounded partial raw selection persisted with failure/input identity",
+    "R3 explicit no-generation insufficient-evidence binding result"
+  ],
+  "tests": {
+    "unit_contract_openapi": {
+      "command": "pytest tests/unit/test_assertion_binding.py tests/unit/test_assertion_binding_review.py tests/unit/test_evidence_attribution.py tests/unit/test_source_relations.py tests/unit/test_evaluation_query_adapter.py tests/unit/test_prerequisite_contract.py::test_openapi_still_matches_checked_contract",
+      "passed": 108,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "isolated_mongo_new_and_affected_paths": {
+      "passed": 16,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "coverage": [
+        "coordinated frozen-source rewrite rejected before first outcome",
+        "same/separate database interrupted selection persistence",
+        "same/separate database zero-evidence result consistency",
+        "same/separate database normal result and reuse"
+      ]
+    },
+    "old_output_contract_and_source_relation_boundaries": {
+      "passed": 89,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "red_green": {
+      "unit_expected_failures_before_fix": 3,
+      "integration_expected_failures_before_fix": 4,
+      "final_directed_paths_passed": true
+    }
+  },
+  "final_confirmation": {
+    "python": "project .venv",
+    "unit_contract_openapi_rerun": {
+      "passed": 108,
+      "failed": 0,
+      "errors": 0
+    },
+    "isolated_mongo_rerun": {
+      "database_prefix": "m1_test_m4_r2verify_1101",
+      "passed": 16,
+      "failed": 0,
+      "errors": 0
+    },
+    "precondition_errors_preserved_locally": [
+      "system pytest environment lacked FastAPI; collection did not start",
+      "one isolated prefix failed the required M4 target-name guard before Run creation"
+    ]
+  },
+  "R1": {
+    "status": "implementation_self_validation_passed",
+    "full_prompt_docs_persisted": true,
+    "frozen_policy_recomputed": true,
+    "coordinated_rewrite_rejected_before_first_outcome": true,
+    "additional_model_calls": 0
+  },
+  "R2": {
+    "status": "implementation_self_validation_passed",
+    "raw_partial_limit_chars": 4096,
+    "failure_reason_and_input_hash_persisted": true,
+    "same_and_separate_database": true,
+    "raw_selection_streamed_to_user": false,
+    "failed_usage_missing_values": null,
+    "retry_or_outcome_created": false
+  },
+  "R3": {
+    "status": "implementation_self_validation_passed",
+    "status_value": "insufficient_evidence",
+    "model_calls": 0,
+    "citations": 0,
+    "evaluation_projection_consistent": true,
+    "old_policy_compatibility": true
+  },
+  "product_quality": {
+    "assertion_binding_is_complete_comparison_answer": false,
+    "new_048_answer_created": false,
+    "new_048_authorized": false,
+    "candidate_quality_proved": false
+  },
+  "accounting": {
+    "new_real_model_calls": 0,
+    "new_real_streams": 0,
+    "new_local_inference": 0,
+    "new_real_business_database_writes": 0,
+    "historical_input_tokens": 53089,
+    "historical_output_tokens": 30412,
+    "historical_reasoning": null,
+    "historical_http": null,
+    "historical_cost": null,
+    "gateway_hard_limit": "unknown",
+    "paid_output_upper_bound": "unknown"
+  },
+  "stage": {
+    "M6": "5/7",
+    "M6-04": "accepted_and_unchanged",
+    "M6-05": "open_missing_feedback_reevaluation_proof",
+    "M6-08": "open_missing_valid_candidate_quality_and_stage_evidence",
+    "M7_started": false,
+    "heldout65_run": false,
+    "original43_resumed": false
+  },
+  "evidence_limits": [
+    "implementation self-validation only, independent review pending",
+    "synthetic isolated Mongo data only",
+    "no live business database scan",
+    "full comparison output remains unsupported by extractive mode"
+  ]
+}

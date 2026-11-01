@@ -18,6 +18,10 @@ assertion_binding仍默认关闭，配置键／function_version无变化，无�
 
 [本包报告与集中矩阵](../development/reviews/M6-assertion-binding-execution-review-r1.md) · [脱敏摘要](../development/reviews/M6-assertion-binding-execution-review-validation-r1.json)。以下历史保留。
 
+## 2026-11-01 · Assertion binding失败、恢复与零证据结果 r2
+
+显式开启`assertion_binding_v1`时，Run保存与prompt map对应的完整`prompt_used_docs`并纳入`run_output`身份；结果投影／恢复必须用当前冻结归属及source_relations重派生label/map，并确认citation与原输入逐字段相符，之后才复核raw selection／answer proof。stream异常保存最多4096字符部分选择、接收长度、有限failure code及prompt／map／策略fingerprint；仍失败，不重试，不将部分内容发给用户。零证据不伪造引用选择，固定不足证据正文绑定`status=insufficient_evidence`、空引用map hash及答案hash，0模型调用；策略关闭的旧结果维持既有形式。上述是实现自验，独立复核待办；不代表该摘录模式能给出比较结论，不增加阶段门槛。配置键、公开API/OpenAPI及环境变量未变。
+
 ## 2026-11-01 · 生成端原句约束补修（实现自验，默认关闭）
 
 总控按用户授权承担实现，新增内部assertion_binding_v1：严格编号选择、完整原段程序呈现、流式缓冲、证明入Run/outcome及恢复拒绝。旧默认/旧策略不升级；不按关键词启发式判语义。最终1427离线/契约、65隔离集成及54成员+25题/35单元回放通过；不证明新048质量。新增真实推理0，旧43暂停、blocked/已消费槽保持；M6仍5/7，04保持、05/08未验收，M7未启动。

@@ -459,3 +459,4 @@ MODEL_HOST桥接新增可选input_type=query/document，省略仍document兼容�
 实际准备差异、零推理结果及待裁定探测见[执行报告](development/reviews/M6-diagnostic-subject-usage-fix-r1.md)。不得把本节或草拟配置当成48个job恢复授权。
 
 2026-10-31已执行唯一授权非产品探测：固定`qwen3.8-flash`／SDK1.1.11与2.28.0，`extra_body.max_completion_tokens=4096`、n=1、默认thinking、timeout120、重试0。观测input102／含reasoning总output4096／reasoning4096，finish=`length`，仅分类为`observed_limit_4096_at_fixed_profile`。这不是原产品`max_tokens`字段或网关全域硬限证明，不登记verified，不恢复48 job。固定授权槽、原子独占started、原流及未知费用本机封存；不得重复探测。见[本轮执行报告](development/reviews/M6-output-contract-boundaries-probe-r1.md)。
+2026-11-01 assertion_binding r2仅改Run内部源载荷留存／proof恢复校验和评测投影，不新增环境变量、配置键、公开API或OpenAPI合同。实施自验108/16/89，独立复核待办；不改变默认关闭，不授权新048调用。见[补修报告](development/reviews/M6-assertion-binding-fix-r2.md)。

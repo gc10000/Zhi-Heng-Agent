@@ -390,7 +390,7 @@ class RealQueryExecutor:
                             citations.append(image)
         extra = {}
         from app.answering.assertion_binding import validate_saved_binding
-        binding = validate_saved_binding(row)
+        binding = validate_saved_binding(row,self.config.get('parameters',{}).get('evidence_attribution'))
         if binding is not None:
             from copy import deepcopy
             extra['answer_binding'] = deepcopy(binding)

@@ -10,6 +10,7 @@ from app.knowledge.repository import fingerprint
 from .source_relations import extract_frames
 
 VERSION = 'assertion_binding_v1'
+INSUFFICIENT_ANSWER = '当前授权知识库中没有找到可用证据，请补充资料或明确设备型号。'
 
 
 class AssertionBindingPolicy(BaseModel):
@@ -23,10 +24,16 @@ class Selection(BaseModel):
     references: list[int] = Field(min_length=1, max_length=20)
 
 
-def checked_sources(reference_map, docs):
+def checked_sources(reference_map, docs, policy=None):
     """原文、关系跨度及连续编号与实际输入全等；不信任模型自报的关系字段。"""
     if not docs or len(reference_map) != len(docs):
         raise ValueError('原句选择缺少完整输入映射')
+    attribution = None
+    if policy is not None:
+        from .evidence_attribution import EvidenceAttributionPolicy
+        attribution = EvidenceAttributionPolicy.model_validate(policy)
+        if not attribution.enabled or attribution.source_relations is None or not attribution.source_relations.enabled:
+            raise ValueError('恢复核验缺少冻结来源关系策略')
     for number, (row, doc) in enumerate(zip(reference_map, docs), 1):
         relation = row.get('source_relations') or {}
         source = relation.get('source') or {}
@@ -42,7 +49,9 @@ def checked_sources(reference_map, docs):
                 source.get('original_sha256') != row.get('original_sha256') or
                 source.get('source_refs_sha256') != fingerprint(refs) or
                 row.get('physical_pages') != pages or row.get('page_status') != ('exact' if exact else 'unknown') or
-                relation.get('frames') != extract_frames(text)):
+                relation.get('frames') != extract_frames(text) or
+                (attribution is not None and source.get('payload_sha256') !=
+                 attribution.source_relations.frozen_payloads.get(uid))):
             raise ValueError('原句选择的来源、内容或关系跨度漂移')
     return reference_map
 
@@ -66,12 +75,12 @@ def _unique_object(pairs):
     return value
 
 
-def bind_response(raw, reference_map, docs):
+def bind_response(raw, reference_map, docs, policy=None):
     """只接受严格编号选择JSON；程序引用完整原段，不生成新的网络关系结论。
 
     通过仅证明没有新增关系断言，不证明所选内容相关、完整或优于旧答案。
     """
-    checked_sources(reference_map, docs)
+    checked_sources(reference_map, docs, policy)
     if not isinstance(raw, str) or len(raw) > 4096:
         raise ValueError('原句选择输出缺失或超长')
     value = json.loads(raw, object_pairs_hook=_unique_object)
@@ -100,14 +109,47 @@ def bind_response(raw, reference_map, docs):
     return answer, proof
 
 
-def validate_saved_binding(row):
+def insufficient_evidence_binding(answer):
+    if answer != INSUFFICIENT_ANSWER:
+        raise ValueError('不足证据结果不匹配固定答案')
+    return dict(function_version=VERSION, status='insufficient_evidence', selected_references=[],
+                raw_selection_sha256=None, reference_map_sha256=fingerprint([]),
+                answer_sha256=fingerprint(answer))
+
+
+def validate_saved_binding(row, current_policy=None):
     """首次投影与恢复复用同一证明；旧配置没有该字段，结果身份保持原样。"""
     policy = (row.get('evidence_attribution') or {}).get('assertion_binding') or {}
     if not policy.get('enabled'):
         return None
+    from .evidence_attribution import payload, validate_run_attribution
+    current = current_policy if current_policy is not None else row.get('evidence_attribution')
+    if current_policy is not None or 'evidence_attribution_sha256' in row:
+        validate_run_attribution(row, current)
     saved = row.get('answer_binding') or {}
+    if saved.get('status') == 'insufficient_evidence':
+        if row.get('prompt_reference_map') != [] or row.get('citations') != []:
+            raise ValueError('不足证据结果不得携带虚构来源')
+        expected = insufficient_evidence_binding(row.get('answer'))
+        if saved != expected:
+            raise ValueError('不足证据结果证明漂移')
+        return saved
     raw = saved.get('raw_selection')
-    answer, proof = bind_response(raw, row.get('prompt_reference_map') or [], row.get('citations') or [])
+    from .evidence_attribution import evidence_labels
+    docs = row.get('prompt_used_docs')
+    if not docs:
+        raise ValueError('恢复核验缺少完整原始输入载荷')
+    policy_payload = payload(current)
+    expected_map = [dict(label, reference_number=n+1) for n,label in enumerate(evidence_labels(docs,policy_payload))]
+    if expected_map != row.get('prompt_reference_map'):
+        raise ValueError('恢复输入与冻结来源映射不一致')
+    citations = row.get('citations') or []
+    expected_citations = [(d.get('chunk_uid',d.get('chunk_id')),d.get('document_id'),d.get('revision_id'),d.get('text'),
+                           d.get('source_refs',(d.get('metadata') or {}).get('source_refs',[])),d.get('asset_ids',[])) for d in docs]
+    actual_citations = [(d.get('chunk_uid'),d.get('document_id'),d.get('revision_id'),d.get('text'),d.get('source_refs'),d.get('asset_ids')) for d in citations]
+    if expected_citations != actual_citations:
+        raise ValueError('恢复引用与冻结原始输入不一致')
+    answer, proof = bind_response(raw, row.get('prompt_reference_map') or [], docs, policy_payload)
     if saved != proof | dict(raw_selection=raw) or answer != row.get('answer'):
         raise ValueError('原句约束结果或证明漂移，不允许恢复复用')
     return saved
