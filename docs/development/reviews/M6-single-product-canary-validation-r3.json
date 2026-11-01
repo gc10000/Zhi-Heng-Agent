@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "role": "execution_agent_environment_precondition_report",
+  "date": "2026-11-01",
+  "status": "stopped_before_corrected_driver_local_services_unavailable",
+  "product_result": "not_executed",
+  "coordinator_commit": "d41b3a4dddda4ca25208d44dfbab979cb7abeece",
+  "technical_review": "closed_unchanged",
+  "source_sha256": "b50b1f5b0eab66d7a4eb2a32314bcd415dba2624354cfb0ece59d2efce17ab8b",
+  "config_sha256": "22d0e525ba1074336a6d7af973cc50427eb96e4c3f5ad28d9a3c60e37ff65efc",
+  "manifest_sha256": "0e94544429f865b2f2e35193f9f915e06282de9c1faf85fafe27d4891bb85533",
+  "request_sha256": "f3f16112c23330b0a5c142c3a64559d6cbd79f5e82ac00cd617529b5fc9526d9",
+  "checkpoint_key": "9dc35acea3b1133b409e403caa2eea8bfea70cf4e91d8e0ba3c01da47f243301",
+  "slot": "m6-05a-product-canary-r1",
+  "started": false,
+  "settled": false,
+  "account_current_state": "unknown_unreadable",
+  "formal_experiment_created_by_this_execution": false,
+  "final_source_integration_previous": {
+    "passed": 75,
+    "exit_code": 0,
+    "rerun_this_resumption": false
+  },
+  "consumer_preflight_previous": {
+    "passed": true,
+    "new_inference": 0,
+    "rerun_this_resumption": false
+  },
+  "driver_count_fix_previous": {
+    "passed": 3,
+    "actual_execution": false
+  },
+  "previous_failure": "private_driver_count_assertion_85_dev_vs_150_full_before_create",
+  "current_failure": {
+    "at": "2026-11-01T02:18:02.437273+00:00",
+    "local_date": "2026-11-01",
+    "check": "pre_send_readonly_identity_and_consumption_state",
+    "exit_code": 1,
+    "source_identity_checked": true,
+    "runtime_exact": true,
+    "prepared_config_exact": true,
+    "preflight_receipt_hashes_exact": true,
+    "failure_type": "ServerSelectionTimeoutError",
+    "cause": "local_mongodb_connection_refused",
+    "selection_timeout_seconds": 5,
+    "database_current_state": "unknown_unreadable",
+    "current_counts": null,
+    "docker_readonly_check": {
+      "api_available": false,
+      "engine_pipe_missing": true,
+      "desktop_processes_found": 0
+    },
+    "corrected_driver_started": false,
+    "formal_create_experiment_invoked": false,
+    "new_product_streams": 0,
+    "new_local_inference": 0,
+    "slot_disk": {
+      "started": false,
+      "settled": false
+    },
+    "account_current_state": "unknown_unreadable",
+    "exact_http_requests": null,
+    "cost": null,
+    "paid_output_upper_bound": null,
+    "automatic_retry": false
+  },
+  "protection": [
+    {
+      "manifest": "output/m6-single-product-canary-20261031/protected-before.json",
+      "sha256": "e4242685644e05278ba3fab78c00480a63903461f34c611091bbee406fad83ea",
+      "matched": 138
+    },
+    {
+      "manifest": "output/m6-output-contract-boundaries-probe-20261031/protected-before.json",
+      "sha256": "006625f4c59203d4579f61a097ac0b7e97dc2c4c92e02cf475445674c43e2f9d",
+      "matched": 336
+    },
+    {
+      "manifest": "output/m6-diagnostic-subject-usage-fix-20261031/protected-before.json",
+      "sha256": "25361fd1024f4822debea65ba52083312c16c9091e5a07344939511da1d542a7",
+      "matched": 597
+    },
+    {
+      "manifest": "output/m6-diagnostic-cache-completion-20261031/historical-files-r2.json",
+      "sha256": "603453698e2cb7c830f75ffcc0f40f475651a3b1a0f6727597dc68b9c80df499",
+      "matched": 1314
+    }
+  ],
+  "new_product_streams": 0,
+  "new_local_inference": 0,
+  "new_input_tokens": 0,
+  "new_output_tokens": 0,
+  "observed_diagnostic_prior_input": 23582,
+  "observed_diagnostic_prior_output": 20602,
+  "max_total_input": 1477632,
+  "max_total_output": 212992,
+  "exact_http_requests": null,
+  "cost": null,
+  "paid_output_upper_bound": null,
+  "gateway_status": "unknown",
+  "formal_quality_writes": 0,
+  "old_48_paused": true,
+  "expand_scope_supported": false,
+  "m6": "5/7",
+  "m6_04": "accepted_unchanged",
+  "m6_05": "not_accepted",
+  "m6_08": "not_accepted",
+  "m7": "not_started",
+  "private_evidence_dir": "output/m6-single-product-canary-20261031/continuation-r3",
+  "report": "docs/development/reviews/M6-single-product-canary-execution-r3.md",
+  "next_executor_action": "restore_local_runtime_availability_then_readonly_slot_account_check_before_one_existing_authorized_formal_job",
+  "evidence_sha256": {
+    "output/m6-single-product-canary-20261031/continuation-r3/environment-precondition-failure.json": "d383e9ca1a2fd8579c43a50a57ec57cf8c14523daa3fef9b2405ff4540f20335"
+  },
+  "source_receipt_sha256": {
+    "output/m6-single-product-canary-20261031/continuation-r2/integration-receipt.json": "ef4322b892e1ebaa3eac5e052dafaa1665fd2594af73012f3e5b86731704d0db",
+    "output/m6-single-product-canary-20261031/preflight-complete.json": "9e31d430af2b81dd54b3e346c228315f54b061644ad7e36ceea3dfb70f3edeb1",
+    "output/m6-single-product-canary-20261031/continuation-r2/green-dataset-guard-receipt.json": "3fc6682ee497ab6c100635ed7d99052a55081f819d710a0a3f2dca53f401f7d9",
+    "output/m6-single-product-canary-20261031/execute_canary_r2.py": "f45e94989079eab370d971ff0a4004f3d87747890c262ff5480582b23069e19d"
+  }
+}

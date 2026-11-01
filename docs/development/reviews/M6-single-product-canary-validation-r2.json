@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-31",
+  "role": "execution_agent_self_check_not_independent_review",
+  "status": "stopped_at_private_driver_precondition_full_dataset_count_assertion",
+  "product_result": "not_executed",
+  "maintenance": "user_confirmed_complete",
+  "source_commit": "1cceb9ee09807725c8a800fb0f18e72c3c7480b4",
+  "startup_head": "031ba1de27a32666120512c6285cdcf5a893b743",
+  "concurrent_coordinator_commit": "d41b3a4dddda4ca25208d44dfbab979cb7abeece",
+  "technical_review": "closed_by_coordinator_review_r1_unchanged",
+  "source_sha256": "b50b1f5b0eab66d7a4eb2a32314bcd415dba2624354cfb0ece59d2efce17ab8b",
+  "config_sha256": "22d0e525ba1074336a6d7af973cc50427eb96e4c3f5ad28d9a3c60e37ff65efc",
+  "manifest_sha256": "0e94544429f865b2f2e35193f9f915e06282de9c1faf85fafe27d4891bb85533",
+  "request_sha256": "f3f16112c23330b0a5c142c3a64559d6cbd79f5e82ac00cd617529b5fc9526d9",
+  "request_key": "0b0d21e83dbdc7ef28605dec2f35c3790a3d043252b9b5cd23c1cc0ddb70b790",
+  "checkpoint_key": "9dc35acea3b1133b409e403caa2eea8bfea70cf4e91d8e0ba3c01da47f243301",
+  "authorization": {
+    "commit": "bcee5395604bcd7169c907ddcf146f163ccc2d14",
+    "path": "docs/development/reviews/M6-single-product-risk-authorization-r1.json",
+    "sha256": "0270a6e7d8cdfc434a0dadf8fcbe7bae8b80e2417515f73117b83b3f1f81a591"
+  },
+  "slot": "m6-05a-product-canary-r1",
+  "started": false,
+  "settled": false,
+  "formal_experiment_created": false,
+  "formal_run_created": false,
+  "account_reserved": false,
+  "live_consumer_preflight": true,
+  "input_reservation": 12293,
+  "input_limit": 28416,
+  "full_dataset_questions": 150,
+  "dev_questions": 85,
+  "tests": {
+    "final_source_integration": {
+      "passed": 75,
+      "exit_code": 0,
+      "command": [
+        ".venv/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "tests/integration/test_single_product_risk_jobs.py",
+        "tests/integration/test_diagnostic_output_contract.py",
+        "tests/integration/test_output_contract_boundaries.py",
+        "tests/integration/test_evaluation_split_ledger.py",
+        "tests/integration/test_evaluation_run_adapter.py",
+        "-q",
+        "--tb=short"
+      ]
+    },
+    "live_preflight": {
+      "passed": true,
+      "exit_code": 0
+    },
+    "driver_count_red": {
+      "exit_code": 1
+    },
+    "driver_count_green": {
+      "passed": 3,
+      "exit_code": 0
+    }
+  },
+  "exact_cache_hits": {
+    "embedding": 1,
+    "rerank": 20,
+    "retrieval": 3
+  },
+  "cache_misses": 0,
+  "corrected_private_driver": "execute_canary_r2.py",
+  "corrected_driver_executed": false,
+  "new_product_streams": 0,
+  "new_external_model_calls": 0,
+  "new_local_inference": 0,
+  "new_input_tokens": 0,
+  "new_output_tokens": 0,
+  "prior_input_tokens": 23582,
+  "prior_output_tokens": 20602,
+  "max_total_input_tokens": 1477632,
+  "max_total_output_tokens": 212992,
+  "exact_http_requests": null,
+  "cost": null,
+  "paid_output_upper_bound": null,
+  "gateway_capability_status": "unknown",
+  "failure": {
+    "interface": "private_driver_full_dataset_descriptor_assertion_before_EvaluationService.create_experiment",
+    "expected_incorrectly": 85,
+    "actual": 150,
+    "dev_count": 85,
+    "type": "AssertionError",
+    "request_hooks": 0,
+    "response_hooks": 0
+  },
+  "protection": [
+    {
+      "manifest": "output/m6-single-product-canary-20261031/protected-before.json",
+      "sha256": "e4242685644e05278ba3fab78c00480a63903461f34c611091bbee406fad83ea",
+      "matched": 138
+    },
+    {
+      "manifest": "output/m6-output-contract-boundaries-probe-20261031/protected-before.json",
+      "sha256": "006625f4c59203d4579f61a097ac0b7e97dc2c4c92e02cf475445674c43e2f9d",
+      "matched": 336
+    },
+    {
+      "manifest": "output/m6-diagnostic-subject-usage-fix-20261031/protected-before.json",
+      "sha256": "25361fd1024f4822debea65ba52083312c16c9091e5a07344939511da1d542a7",
+      "matched": 597
+    },
+    {
+      "manifest": "output/m6-diagnostic-cache-completion-20261031/historical-files-r2.json",
+      "sha256": "603453698e2cb7c830f75ffcc0f40f475651a3b1a0f6727597dc68b9c80df499",
+      "matched": 1314
+    }
+  ],
+  "business_source_modified": false,
+  "formal_quality_writes": 0,
+  "old_48_paused": true,
+  "expanded_scope_supported": false,
+  "m6": "5/7",
+  "m6_04": "accepted_unchanged",
+  "m6_05": "not_accepted",
+  "m6_08": "not_accepted",
+  "m7": "not_started",
+  "evidence_dir": "output/m6-single-product-canary-20261031/continuation-r2",
+  "report": "docs/development/reviews/M6-single-product-canary-execution-r2.md",
+  "next_action": "executor_readonly_identity_and_unconsumed_slot_check_then_corrected_driver_one_formal_job_under_existing_authorization",
+  "evidence_sha256": {
+    "output/m6-single-product-canary-20261031/continuation-r2/check_full_dataset_guard.py": "6af933962e5d574922e31163d460fecc53502a6d43fc8aad808abbb10a1dcab2",
+    "output/m6-single-product-canary-20261031/continuation-r2/creation-precondition-diagnosis.json": "873c0b49fc4122a37b13b759ff9ab52bc13fc854657e5089c26ac948c92da40e",
+    "output/m6-single-product-canary-20261031/continuation-r2/driver-offline-review.json": "4d55c7f9f4ae90eaa33a45c61d130ae5bcd3b786275e5fb703d38c67cf2c2fb7",
+    "output/m6-single-product-canary-20261031/continuation-r2/execute-canary-failed-r1.py": "1cceae988de07ecc7f68f0d9c656101dfc5f197c1e84e765d2eeb3558cebb9e6",
+    "output/m6-single-product-canary-20261031/continuation-r2/execute-command-receipt.json": "eceb137b0ceec8baf4d262d45fd510aff3354a809b930e3a032000a47b52ff1c",
+    "output/m6-single-product-canary-20261031/continuation-r2/execute.log": "c412f8bf56079290bd4e00f061241de8cf6b510fe3515cba1dcbce6f28241116",
+    "output/m6-single-product-canary-20261031/continuation-r2/final-readonly-audit.json": "b40623751179b6014ab012674195f3e068c4871e7e41a25697faa129db6d0e99",
+    "output/m6-single-product-canary-20261031/continuation-r2/green-dataset-guard-receipt.json": "3fc6682ee497ab6c100635ed7d99052a55081f819d710a0a3f2dca53f401f7d9",
+    "output/m6-single-product-canary-20261031/continuation-r2/green-dataset-guard.log": "b460f15e694432cc1f56b112b3911f18370739347184e5fa49f5a78257102ab4",
+    "output/m6-single-product-canary-20261031/continuation-r2/integration-receipt.json": "ef4322b892e1ebaa3eac5e052dafaa1665fd2594af73012f3e5b86731704d0db",
+    "output/m6-single-product-canary-20261031/continuation-r2/integration.log": "24ba9c7d9db5f3d20ef6d54f88e95673f2d8a3abbc0ecb4064c144827118e919",
+    "output/m6-single-product-canary-20261031/continuation-r2/preflight-receipt.json": "0a9670447b8cd1371d7d9e8a32dce5762f1a3ad1f244e90da575a9452c5ce539",
+    "output/m6-single-product-canary-20261031/continuation-r2/preflight.log": "f982e672e7798361c0e767d56ffbf553d3ac39ba132d452c680e4c3233386c64",
+    "output/m6-single-product-canary-20261031/continuation-r2/red-dataset-guard-receipt.json": "99717e33b931144d6765ef76392ee39c4e660a02984083a28fe1ad1ef428f305",
+    "output/m6-single-product-canary-20261031/continuation-r2/red-dataset-guard.log": "3bdae1b74279627591fdf9655b54ae9cd72ddf2a8613b5240047bcd1010069c4",
+    "output/m6-single-product-canary-20261031/continuation-r2/red-full-dataset-count.json": "9e7eda27049742f5851f1c41dcbc3de4764f91e405c5c3280e6d7dc4854eb2ae",
+    "output/m6-single-product-canary-20261031/continuation-r2/startup-live.json": "8183547c806a24d34aa728ea8db2a1be4d0c3b0c0f17bcd5735fc09034c773b0",
+    "output/m6-single-product-canary-20261031/continuation-r2/formal-job/accounts.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "output/m6-single-product-canary-20261031/continuation-r2/formal-job/checkpoints.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "output/m6-single-product-canary-20261031/continuation-r2/formal-job/exit-receipt.json": "464ac735ac1ad5d64afa64fbc0ae15f9ca9a4840c969f87cf06ceca7cf56ab7f",
+    "output/m6-single-product-canary-20261031/continuation-r2/formal-job/final-experiment.json": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "output/m6-single-product-canary-20261031/continuation-r2/formal-job/final-runs-and-links.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "output/m6-single-product-canary-20261031/continuation-r2/formal-job/planned.json": "2068ef2ee073ab1f989df9767fa3d3d7f8c747cfa6796aa292b04e19bce5e2ba",
+    "output/m6-single-product-canary-20261031/continuation-r2/formal-job/results.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  "driver_sha256": {
+    "execute_canary.py": "1cceae988de07ecc7f68f0d9c656101dfc5f197c1e84e765d2eeb3558cebb9e6",
+    "execute_canary_r2.py": "f45e94989079eab370d971ff0a4004f3d87747890c262ff5480582b23069e19d"
+  }
+}

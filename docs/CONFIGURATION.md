@@ -1,3 +1,13 @@
+## M6当前运行环境边界（2026-11-01）
+
+总控d41b3a4技术关闭保持。当前Mongo连接拒绝、Docker引擎管道不存在，唯一05-a修正版驱动未启动，磁盘槽无started／settled，数据库现场unknown不可读；不能将既有预检通过冒充当前现场可用。没有更改配置、来源身份、模型profile或新增环境变量。恢复服务后须先核同槽／账户／输入，再沿原授权执行唯一job；详见[实际环境失败记录](development/reviews/M6-single-product-canary-execution-r3.md)。
+
+## M6维护后接续状态（2026-10-31）
+
+单题风险准入、最终集成及精确消费者已由总控d41b3a4独立关闭；prepared-r2身份保持，实际配置仅供这一题诊断，不扩大授权。完整冻结dataset为150行，其中dev85；私有执行驱动须分别按完整文件核总数和dev数，不将dev数当question_count，不缩水题集或改历史登记。
+
+本轮新驱动在创建实验前因该计数错误停止，修正版仅离线核验、未再次执行；无新实验／Run／账户预留，固定slot无started／settled。无新增环境变量或公开API，unknown能力／付费上界及原固定profile保持。见[执行报告r2](development/reviews/M6-single-product-canary-execution-r2.md)。下方原执行时点记录保留。
+
 ## M6显式单题风险准入（2026-10-31）
 
 内部output_contract新增默认关闭的`diagnostic_single_product_risk_v1`，仅消费bcee539封存的版1新版05-a授权；普通`diagnostic_total_output_v2`仍拒绝unknown。风险允许与网关能力分别保存：status／semantics仍unknown、evidence为空，不认定硬限。仅本机固定槽m6-05a-product-canary-r1，控制／目标／完整题集／prompt／源码／预算／请求均绑定；无新公开API、环境变量或.env必填项，不改变默认配置。
