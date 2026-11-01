@@ -59,9 +59,20 @@ def step_2_construct_prompt(state: QueryGraphState) -> str:
   attribution=EvidenceAttributionPolicy.model_validate(state.get('evidence_attribution') or {})
   labels=evidence_labels(reranked_docs,attribution)
   template='answer_attributed_v1' if attribution.enabled else 'answer_out'
+  relations=attribution.source_relations is not None and attribution.source_relations.enabled
+  baseline=None
+  if relations:
+    oldlabels=[{k:v for k,v in label.items() if k!='source_relations'} for label in labels]
+    baseline=build_budgeted_prompt(reranked_docs,history,question=question,items=item_names_str,
+      render=lambda **kw:load_prompt('answer_attributed_v1',**kw),budget=budget,
+      groups=state.get('evidence_groups',()),counter=state.get('token_counter'),attributions=oldlabels)
+    template='answer_source_relations_v1'
   packed = build_budgeted_prompt(reranked_docs,history,question=question,items=item_names_str,
     render=lambda **kw:load_prompt(template,**kw),budget=budget,
     groups=state.get('evidence_groups',()),counter=state.get('token_counter'),attributions=labels)
+  if relations and (packed['used_doc_indices']!=baseline['used_doc_indices'] or packed['history']!=baseline['history']):
+    from app.api.errors import APIError
+    raise APIError(422,'source_relation_budget_exceeded','关系呈现不能挤出原证据或历史，请停止并核对冻结输入。')
   if labels is not None:
     state['prompt_reference_map']=[dict(labels[i],reference_number=n+1) for n,i in enumerate(packed['used_doc_indices'])]
   context_str, history_str = packed['context'], packed['history']

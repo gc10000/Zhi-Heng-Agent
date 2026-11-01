@@ -1,3 +1,11 @@
+## M6来源关系跨度索引：仅内部显式配置（2026-11-01）
+
+默认关闭，旧配置不增加字段。新键`parameters.evidence_attribution.source_relations`结构为`{enabled: true, function_version: "source_relation_spans_v1", frozen_payloads: {chunk_uid: payload_sha256, ...}}`；这里是结构示意，成员必须从同一正式完整corpus.snapshot精确生成，不能手填示意hash。必须与外层归属scope／documents／corpus hash一致，不接受`reviewed=true`或自定义关系事实。省略enabled不会开启；启用但缺完整成员、同修订正文或元数据漂移即拒绝。
+
+启用仅选择新模板并附原句跨度，不改旧模板、检索、输出预算、model或thinking设置；不会取得额外推理授权。无新环境变量、全局默认或API；`.env.example`仅追加说明。元信息若挤出旧策略证据或历史则422拒绝，不扩大字符／token预算。配置变更须新请求及检查点，不用旧Run或已消费槽恢复；新策略及全量来源hash通过原归属canonical贯穿正式恢复。
+
+本包`output/m6-source-relation-evidence-fix-20261101/replay-r1/`仅是本机离线输入投影草案；原54成员历史输出合同仍unknown／阻断，不是可派发的新048配置。SDK Mock另外复用已封存最新非思考wire固定profile，只替换messages，不能当新授权、实际网关遵从或新答案效果。未写真实配置／实验／Run，43题继续暂停。
+
 本配置实际诊断已在版1 048来源错误处封存：新增2 stream，17-b限定来源诊断通过、048拒绝，余43未执行。新账户blocked，两个槽已消费；不可用配置说明重新派发。两次未上报reasoning计数，保持null；网关能力unknown。见[本包报告](development/reviews/M6-nonthinking-diagnostic-execution-r1.md)，M6仍5/7。
 
 ## M6显式非思考有界诊断配置（2026-11-01）

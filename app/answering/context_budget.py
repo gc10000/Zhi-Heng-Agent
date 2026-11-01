@@ -42,9 +42,14 @@ def pack_prompt_inputs(docs, history, max_chars=12000, *, attributions=None):
             meta.append(f"[title={doc['title']}]")
         if attributions is not None:
             label=attributions[index]
-            meta.append('[归属='+json.dumps(label,ensure_ascii=False,separators=(',',':'))+']')
+            # 关系完整跨度证明留在正式引用映射；这里单独呈现，避免把JSON当新事实。
+            visible={k:v for k,v in label.items() if k!='source_relations'}
+            meta.append('[归属='+json.dumps(visible,ensure_ascii=False,separators=(',',':'))+']')
             meta.append('[物理页='+(','.join(map(str,label['physical_pages'])) or 'unknown')+']')
         block = ' '.join(meta) + '\n' + text
+        if attributions is not None and 'source_relations' in attributions[index]:
+            from .source_relations import render_relations
+            block += render_relations(attributions[index]['source_relations'])
         cost = len(block) + (2 if context_blocks else 0)
         if used + cost > max_chars:
             continue

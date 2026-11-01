@@ -2,6 +2,7 @@
 from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field, model_validator, model_serializer
 from .reviewed_subjects import ReviewedSubjects
+from .source_relations import SourceRelationPolicy
 from app.api.errors import APIError
 from app.knowledge.repository import fingerprint
 from app.retrieval.prerequisites import SourcePrerequisiteScope, validate_scope
@@ -23,15 +24,19 @@ class EvidenceAttributionPolicy(BaseModel):
     documents: list[AttributionDocument] = Field(default_factory=list,max_length=20)
     products: dict[str,str] = Field(default_factory=dict,max_length=50)
     reviewed_subjects: ReviewedSubjects | None = None
+    source_relations: SourceRelationPolicy | None = None
 
     @model_serializer(mode='wrap')
     def compatible_payload(self, handler):
         data=handler(self)
         if self.reviewed_subjects is None:data.pop('reviewed_subjects',None)
+        if self.source_relations is None:data.pop('source_relations',None)
         return data
 
     @model_validator(mode='after')
     def complete(self):
+        if self.source_relations is not None and self.source_relations.enabled and not self.enabled:
+            raise ValueError('来源关系只允许显式开启的冻结证据归属范围')
         if self.reviewed_subjects is not None:
             p=self.reviewed_subjects
             if (not self.enabled or p.corpus_snapshot_sha256!=self.corpus_snapshot_sha256 or
@@ -65,6 +70,8 @@ def validate_config(config,policy):
         from .reviewed_subjects import checked_proof
         checked_proof(policy.reviewed_subjects)
     corpus=config.get('corpus',{});snapshot=corpus.get('snapshot',{});target=config['target']
+    from .source_relations import validate_snapshot
+    validate_snapshot(policy.source_relations,snapshot)
     if policy.reviewed_subjects is not None:
         binding=policy.reviewed_subjects
         frozen=next((d for d in snapshot.get('documents',[]) if d['document_id']==binding.document_id and d['revision_id']==binding.revision_id),None)
@@ -118,4 +125,7 @@ def evidence_labels(docs,value):
             from .reviewed_subjects import attach_subject
             subject=attach_subject(doc,policy.reviewed_subjects)
             if subject is not None:result[-1]['reviewed_subject']=subject
+        if policy.source_relations is not None and policy.source_relations.enabled:
+            from .source_relations import attach_relations
+            result[-1]['source_relations']=attach_relations(doc,policy)
     return result

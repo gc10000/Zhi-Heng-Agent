@@ -1,3 +1,13 @@
+## M6原句关系跨度呈现合同（2026-11-01，执行自验待独立复核）
+
+`EvidenceAttributionPolicy.source_relations`缺省None且序列化省略。显式`enabled=true`、`function_version=source_relation_spans_v1`须外层归属已开启，并绑定完整corpus.snapshot的chunk_uid→payload SHA256表（最多1000）；缺失／重复／额外成员及漂移拒绝。原件／修订／切片／正文／ordinal／metadata和source_refs与原归属范围一起核验。没有自报reviewed或可输入的关系断言字段；各字段只能来自当前原句可定位跨度，不从产品、标题或别的子句补主语。
+
+完整策略沿现有配置canonical、InternalRunInput、Run归属SHA、题级checkpoint、execution link、run_input与outcome身份进入幂等／恢复核验；旧Run不静默升级。新模板`answer_source_relations_v1.prompt`与旧模板分离。完整跨度证明进prompt_reference_map；各引用旁放字段与Unicode半开坐标／正文UTF8 SHA，坐标不是物理页。直接句法连接、提供服务、两端是否检查、建立连接及登录原句分开索引；未知不表示不支持；不跨对象／引用拼接媒介或用途。否定、版本、条件及排障解释范围为完整原段落，不将其标为现场成功或全域能力。
+
+新元信息计入12000字符及32768／4096／256窗口；与关闭新策略的正式打包结果比较，任何证据、历史或编号被挤出即`source_relation_budget_exceeded`。固定模板本身超窗仍走原prompt_budget_exceeded。weighted .5/.5、20/20/20/20/10、source_branch_compare_v1、p30目标行／表头及LAN行unknown保持。没有新推理、供应商能力认证、质量评分或批次授权；旧两流已消费／blocked、余43暂停。离线草案只用于保存输入投影，历史输出合同保持unknown且不能派发；后续真实验证须另行冻结新身份和预算，不复用旧槽或旧prompt的正式质量证明。
+
+有限语法抽取不是全面关系理解，不推断省略主语；未覆盖语法仍保留原句及未知。文本呈现若与冻结载荷不同即拒绝，不相似匹配或补缓存。实际048新效果、05／08质量／反馈链仍未闭合，M6 5/7及M7未授权保持。
+
 ## 2026-11-01 · 总控关闭非思考技术边界及17-b限定效果；048关系错误仍open
 
 独立复核c690389：142单元、130随机隔离集成、12新增独立边界探针分别通过；12245项真实只读／保存证据审计及90项wire差异检查通过，各组不累计。明确关闭新非思考合同／模式观测及受影响旧路由、本次版1 17-b具名配件来源效果、两流结算和048首来源失败持久停止。两个Run／job／outcome技术completed保持；新账blocked、两槽消费、余43指定消费面实核未执行，旧blocked与既有关闭均保持。

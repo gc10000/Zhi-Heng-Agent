@@ -1,0 +1,140 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-01",
+  "kind": "executor_source_relation_span_fix_offline_validation",
+  "base_commit": "5ada9997a02924231635dfa37e9d36d5c2ea1ea1",
+  "status": "self_verified_pending_coordinator_targeted_review",
+  "stage": {
+    "M6": "5/7",
+    "M6_04": "accepted_kept",
+    "M6_05": "not_accepted",
+    "M6_08": "not_accepted",
+    "M7": "not_started"
+  },
+  "source_sha256": "f5c4598c45d395d77c85e5aa9397bb512bb911d71bc8110fb712deb83f936f5f",
+  "prompt_version": "213dbfdf1fcb35595442dab7fc16549c5976704263153b4432aef75810ea4354",
+  "policy_version": "source_relation_spans_v1",
+  "policy_sha256": "22caa02292ffdf62a06f94e9cb9aa89a29c1ea8d67d92861ff1f0dd7a6304d0a",
+  "offline_projection_config_sha256": {
+    "1": "5059e639d505316e9425f7d3aafe3bd443674065b3e68e11e7de487686bf0712",
+    "2": "c33f0cc813734c9b58384299ed9b078395fa7f5a2e896e3dd53cba03debd4c69"
+  },
+  "tests": {
+    "unit": {
+      "tests": 75,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "log_sha256": "ebef6c98a30d59e3c6667185ea7882a899bdfb3660f0b2067b356b60217b82b3",
+      "xml_sha256": "24d060217d472e3ace6acc08475acf41b656cd1d544e980075f8d0a200cfc079"
+    },
+    "integration": {
+      "tests": 44,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "log_sha256": "4ee74832eef7e9d12c8ad7a5fb4189f623db69e91469ff8fb65bea10ea06651a",
+      "xml_sha256": "08ddc695b57d6e879bea51799a857d5bb8b3f73779c827c402be2637cba60114"
+    }
+  },
+  "replay": {
+    "members": 54,
+    "changed_answer_prompts": 52,
+    "unchanged_cached_clarifications": 2,
+    "protected_questions": 25,
+    "protected_units": 35,
+    "protected_prompt_diffs": 25,
+    "frozen_payload_members": 582,
+    "new_embeddings": 0,
+    "new_rerank": 0,
+    "forbidden_attempts": [],
+    "dispatch_blocked": true,
+    "prospective_dispatch_config": false,
+    "summary_sha256": "1368a421b248f45d5f5a9a4f9cf331de5094d707a8debcc621e36c0fe4346fbe",
+    "sdk_mock_requests_final": 77,
+    "input_assertions": 7839,
+    "input_audit_sha256": "3e96717b88aa0a13ca2fc3d6113b749b42c8c0de4fbd66ecfbf2ff15f9c85ef0",
+    "alignment_sha256": "515b2b2e95463f7aa5b97fbf80dad9fa1a3112067b40994783afe04f0479886d",
+    "actual_048_new_answer": "not_generated_effect_open",
+    "actual_048_input_upper_bound": 15097,
+    "input_limit": 28416,
+    "max_54_input_upper_bound": 17398
+  },
+  "protection": {
+    "assertions": 7061,
+    "files": 3387,
+    "historical_groups": [
+      138,
+      336,
+      597,
+      1314
+    ],
+    "groups_overlap": true,
+    "audit_sha256": "6af7b918882677ff36986a1477fb7e68c98a42e1bf95604466a3cb4f98236398",
+    "real_database_methods": [
+      "find",
+      "find_one",
+      "count_documents"
+    ],
+    "full_historical_live_scan": false
+  },
+  "accounting": {
+    "new_product_streams": 0,
+    "new_nonproduct_streams": 0,
+    "new_model_review": 0,
+    "new_local_inference": 0,
+    "new_imports": 0,
+    "real_database_writes": 0,
+    "new_real_experiments": 0,
+    "new_real_runs": 0,
+    "cumulative_input": 46973,
+    "cumulative_output": 29553,
+    "reasoning_detail": null,
+    "http": null,
+    "cost": null,
+    "paid_output_upper_bound": null
+  },
+  "prior_closures": "kept_including_nonthinking_17b_and_two_stream_settlement",
+  "old_batch": {
+    "state": "blocked",
+    "consumed_slots": 2,
+    "unexecuted": 43,
+    "resumed": false,
+    "original_scores_changed": false
+  },
+  "retained_failures": [
+    {
+      "artifact": "red-r1.log",
+      "reason": "new_policy_not_implemented_expected_red_13_failed_6_passed"
+    },
+    {
+      "artifact": "green-r1.log",
+      "reason": "synthetic_fixture_omitted_metadata_source_refs_13_failed_6_passed"
+    },
+    {
+      "artifact": "green-r2.log",
+      "reason": "unit_run_input_fixture_missing_messages_cursor_1_failed_18_passed"
+    },
+    {
+      "artifact": "input-audit-r1.log",
+      "reason": "protected25_auditor_aligned_candidate_order_instead_of_formal_packed_reference_order; r2 corrected_without_input_change"
+    },
+    {
+      "artifact": "protection-after-r1.log",
+      "reason": "saved_public_link_has_no_mongo_id; r2 queried_formal_keys_and_compared_all_saved_fields"
+    }
+  ],
+  "limitations": [
+    "bounded_literal_grammar_not_general_semantic_understanding",
+    "omitted_subject_and_unproven_roles_remain_unknown",
+    "all_prompt_changes_listed_old_answers_not_revalidated",
+    "sdk_mock_not_gateway_or_answer_quality",
+    "historical_output_contract_retained_only_for_offline_projection_not_dispatch",
+    "no_new_formal_candidate_or_scores_calibration_attest_gate_feedback_proof",
+    "no_live_vector_default_ttl_or_historical_event_rescan"
+  ],
+  "next_action": "executor_deliver_for_coordinator_targeted_review_then_coordinator_decides_new_fixed_048_identity_and_budget",
+  "real_generation_authorized": false
+}
