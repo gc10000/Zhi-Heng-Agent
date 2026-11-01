@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-01",
+  "kind": "coordinator_independent_nonthinking_diagnostic_review",
+  "reviewed_commit": "c69038909304553b208274c951d18fbffbeef486",
+  "source_sha256": "b971b22c4cb5a66e5b39695d47fa35cd15f9aeeeaa70cd067af190fdffe06925",
+  "stage": {
+    "M6": "5/7",
+    "M6_04": "accepted_kept",
+    "M6_05": "not_accepted",
+    "M6_08": "not_accepted",
+    "M7": "not_started"
+  },
+  "passed": [
+    "scoped_nonthinking_contract_wire_and_profile_identity",
+    "raw_mode_observation_and_affected_legacy_routes",
+    "v1_17b_actual_named_accessory_source_diagnosis",
+    "two_stream_formal_completion_and_settlement",
+    "first_source_rejection_blocked_and_43_unexecuted"
+  ],
+  "open": [
+    "048_client_access_misrepresented_as_device_upstream",
+    "new_relation_input_strategy_and_its_actual_answer_effect",
+    "43_unexecuted_not_quality_passed",
+    "valid_new_formal_candidate_quality_chain",
+    "real_feedback_reevaluation_proof"
+  ],
+  "formal_quality_score": false,
+  "tests": {
+    "unit": {
+      "tests": 142,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "log_sha256": "8d07aabbe7251551ae7d3015937cb4adca2a5cc71773315b40e899d6c9ddb65d",
+      "xml_sha256": "24ce997dc24a9c49d3fa22a3cded798ac1274fb4e2f1c176cb01d7c60d7212c4"
+    },
+    "integration": {
+      "tests": 130,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "log_sha256": "c0933e1b159fa7eef7f6b2a9e5c43aeb3d77c1686eb88232bb85de5584fe00b5",
+      "xml_sha256": "7b538f0b6e6dd51bfd49e7a3eebc7009f9a47e40d8f38deeb1fc3d503d6d43ec"
+    },
+    "independent": {
+      "tests": 12,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "log_sha256": "f0aa9c5e60a6e4ba4748ee150f42cdbfb7c424de05b936bd6844dd4d14efb097",
+      "xml_sha256": "2a51c16772c5b2d4029e80312df6f998b6c0aaf600eb43156d9d64fbef2685ee"
+    }
+  },
+  "independent_readonly_audit": {
+    "passed": true,
+    "assertions": 12245,
+    "members": 45,
+    "consumed": 2,
+    "unexecuted": 43,
+    "delivery_files": 417,
+    "protected_files": 2891,
+    "historical_group_counts": [
+      138,
+      336,
+      597,
+      1314
+    ],
+    "audit_sha256": "ab8987a4dc1d7253db8638d42e45a0e2499f29a4ae69e5b2bc2808075f592d51",
+    "checks_sha256": "bd593fe7fd72383a0e8403cfd838f836840ee9e426a22a2b868cc79d1b20bf95"
+  },
+  "wire_and_source_review": {
+    "wire_assertions": 90,
+    "members": 45,
+    "semantic_results": 2,
+    "artifact_sha256": "b5b2c73eb0e450831680135b02d941d0c450573ccfc1ce525ad1866063882368"
+  },
+  "accounting": {
+    "new_input": 9432,
+    "new_output": 920,
+    "cumulative_input": 46973,
+    "cumulative_output": 29553,
+    "reasoning": null,
+    "http": null,
+    "cost": null,
+    "paid_upper_bound": null
+  },
+  "new_review_inference": 0,
+  "real_database_writes": 0,
+  "technical_state": {
+    "both_runs_jobs_outcomes": "completed_kept",
+    "source_diagnosis": [
+      "accepted",
+      "rejected"
+    ],
+    "account": "blocked",
+    "pending": null,
+    "unknown_windows": [],
+    "cursor": 1,
+    "consumed_slots": 2,
+    "previous_batch": "blocked_unchanged"
+  },
+  "evidence_limitations": [
+    "designated_45_members_only_not_full_database",
+    "no_582_867_vector_or_default_pointer_rescan",
+    "saved_source_proofs_not_new_full_pdf_review",
+    "no_gateway_internal_trace_or_verified_hard_limit",
+    "no_formal_quality_scoring_or_stage_acceptance"
+  ],
+  "retained_intermediate_failures": [
+    {
+      "log": "regression.log",
+      "reason": "unit_integration_duplicate_module_basename_collection_error",
+      "resolution": "separate_fresh_unit_and_integration_runs_no_cache_deletion"
+    },
+    {
+      "log": "audit-r1.log",
+      "reason": "auditor_compared_transport_enriched_evidence_to_bare_source_decision",
+      "resolution": "compare_all_original_fields_plus_exact_file_digest_and_added_run_slot_settlement_identity; r2 full_pass"
+    }
+  ],
+  "next_scope": {
+    "role": "executor",
+    "handoff": "docs/development/handoffs/M6-source-relation-evidence-fix-r1.md",
+    "work": "bounded_general_source_relation_input_fix_and_offline_replay",
+    "real_inference_budget": 0,
+    "real_quality_write_budget": 0,
+    "old_43_resume_authorized": false
+  }
+}
