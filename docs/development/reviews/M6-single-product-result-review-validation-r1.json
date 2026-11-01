@@ -1,0 +1,105 @@
+{
+  "passed": true,
+  "role": "coordinator_independent_single_product_result_review",
+  "date": "2026-11-01",
+  "checks": 5448,
+  "reviewed_commit": "3017a61573f2e6d34edd95f9bb39e88824e0e4b7",
+  "source_sha256": "b50b1f5b0eab66d7a4eb2a32314bcd415dba2624354cfb0ece59d2efce17ab8b",
+  "diagnostic_success": true,
+  "source_diagnosis": {
+    "body_rj45": true,
+    "named_matedock3_lan": true,
+    "explicit_object_boundary": true,
+    "cited_evidence_matches": true,
+    "lan_row_unknown_kept": true
+  },
+  "experiment_id": "281d874c-0a8c-4520-b214-a69c54b0b0be",
+  "run_id": "d3649c7a-e79b-4b91-9165-b83462634cb4",
+  "manifest_sha256": "0e94544429f865b2f2e35193f9f915e06282de9c1faf85fafe27d4891bb85533",
+  "config_sha256": "22d0e525ba1074336a6d7af973cc50427eb96e4c3f5ad28d9a3c60e37ff65efc",
+  "raw_response_sha256": "52005c2445c2ff21aaebd88be00f8dfdfaffe522e150e586ae99c51a7700d462",
+  "answer_sha256": "d465d76b448bcb22d77ac2233a5de06047f42cadf5175e9e7cf3dc900fedbe9a",
+  "visible_chars": 272,
+  "reasoning_chars": 3022,
+  "finish": [
+    "stop"
+  ],
+  "product_streams_in_reviewed_execution": 1,
+  "new_product_streams_by_this_review": 0,
+  "new_local_inference_by_this_review": 0,
+  "real_database_writes_by_this_review": 0,
+  "input_tokens": 5165,
+  "output_tokens": 1702,
+  "reasoning_tokens_included": 1510,
+  "prior_input_tokens": 23582,
+  "prior_output_tokens": 20602,
+  "cumulative_input_tokens": 28747,
+  "cumulative_output_tokens": 22304,
+  "exact_http_requests": null,
+  "cost": null,
+  "visible_tokens": null,
+  "paid_output_upper_bound": null,
+  "gateway_capability_status": "unknown",
+  "fixed_slot_consumed": true,
+  "read_only_reuse_only": true,
+  "account_pending": null,
+  "unknown_windows": [],
+  "counts": {
+    "request_experiments": 1,
+    "catalog_file_config_experiments": 1,
+    "key_accounts": 1
+  },
+  "protection": [
+    {
+      "manifest": "output/m6-single-product-canary-20261031/protected-before.json",
+      "matched": 138,
+      "manifest_sha256": "e4242685644e05278ba3fab78c00480a63903461f34c611091bbee406fad83ea"
+    },
+    {
+      "manifest": "output/m6-output-contract-boundaries-probe-20261031/protected-before.json",
+      "matched": 336,
+      "manifest_sha256": "006625f4c59203d4579f61a097ac0b7e97dc2c4c92e02cf475445674c43e2f9d"
+    },
+    {
+      "manifest": "output/m6-diagnostic-subject-usage-fix-20261031/protected-before.json",
+      "matched": 597,
+      "manifest_sha256": "25361fd1024f4822debea65ba52083312c16c9091e5a07344939511da1d542a7"
+    },
+    {
+      "manifest": "output/m6-diagnostic-cache-completion-20261031/historical-files-r2.json",
+      "matched": 1314,
+      "manifest_sha256": "603453698e2cb7c830f75ffcc0f40f475651a3b1a0f6727597dc68b9c80df499"
+    }
+  ],
+  "old_48_paused": true,
+  "formal_quality_writes": 0,
+  "m6": "5/7",
+  "m6_04": "accepted_unchanged",
+  "m6_05": "not_accepted",
+  "m6_08": "not_accepted",
+  "m7": "not_authorized",
+  "evidence_limitations": [
+    "single_product_result_not_batch_quality",
+    "no_full_corpus_or_old_quality_database_audit",
+    "one_observed_exchange_not_end_to_end_http_billing_count"
+  ],
+  "schema_version": 1,
+  "report": "docs/development/reviews/M6-single-product-result-review-r1.md",
+  "closed_subitems": [
+    "single_05a_real_answer_body_accessory_attribution",
+    "single_05a_formal_execution_and_usage_settlement"
+  ],
+  "stage_accepted": false,
+  "scope_expansion_authorized": false,
+  "registered_config_file_sha256": "288f014ee987675a93151e54c40c54a83ea9996968f6a7c593157d17fb0e2b04",
+  "audit_initial_failure": "catalog_file_sha_vs_canonical_query_fixed_in_readonly_script_only",
+  "local_evidence_sha256": {
+    "audit.json": "3aac566a5a9b9cda57f0a8842afea28876946e56e3031eae29e2aee28b431025",
+    "audit-checks.json": "6205db884142f5426b2dc00609cb98be2e0266d2301fead9c3847df8c568bf18",
+    "audit.log": "9a22d35d8349ef02df14d8c9177d47abf297a6954b8eb9be263526578e902116",
+    "audit-r2.log": "056adceed0977a2b5e7d1e60702dfab65a8170d6362b99fa3bc1e3bf61ae33ad",
+    "count-diagnosis.json": "7ea6e2fad4620cf1f416aa6348ec7d37894aeff464c96cd161c7b42846d4a60f",
+    "live-readonly.json": "cf2f415792d92e45c973b8ec9215e807dce8be40b4d27075ef0d387df770864a",
+    "semantic-review.json": "e1b720f9e61f5c938a99c8ceac7d64bfc06ce45284d154a30d565345159d416c"
+  }
+}

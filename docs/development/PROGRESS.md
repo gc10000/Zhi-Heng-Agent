@@ -1,3 +1,17 @@
+## 2026-11-01 · 总控独立关闭唯一05-a真实归属效果及本次执行结算
+
+独立核3017a61：原SSE、Run、完整attempt、正式outcome、题级关联、账户与固定槽结算一致，正文272字符、stop、未截断；机身RJ45与HUAWEI MateDock 3的LAN明确分开，引用对应实际证据，LAN旧行unknown保持。明确关闭该题真实归属效果与单次正式执行／计量结算子项，不再写待复核。固定槽已消费，仅只读复用，账户open不代表可再调用。
+
+执行方新增1产品stream，input5165／output1702含reasoning1510，诊断累计28747／22304；总控新增推理及真实库写入0，HTTP／费用null、网关全域硬限unknown保持。本轮5448项文件／流／来源／状态断言通过，保护138／336／597／1314组hash匹配；catalog文件hash误按canonical查询的首轮审计失败及修后r2均保留，正式数据未改。不是批量质量或正式双轮评分；原48 job暂停、不扩范围、不再生成，本次不批准下一批。M6 5/7、04保持、05缺真实proof、08缺有效新候选质量与阶段验收，M7未授权。[独立报告](reviews/M6-single-product-result-review-r1.md)及同目录脱敏摘要。
+
+以下历史按原时点保留。
+
+## 2026-11-01 · 总控独立核唯一05-a实际结果与结算
+
+接续3017a61，本轮仅审实际原流／输入／来源映射／正式outcome／固定槽与账本，保留既有技术关闭，不重跑已完成回归，不生成或扩大范围。私有证据另存output/m6-single-product-result-review-20261101；核验完成后明确关闭或保留具体子项，同步执行提交与本次脱敏文档。原48 job暂停，M6 5/7、M7未授权。
+
+以下历史按原时点保留。
+
 ## 2026-11-01 · 唯一新版05-a已实际完成并结算，限定诊断成功后停止
 
 接续6960af7，仅版1新版m6-g540-05-a沿EvaluationService／execute_job／默认RealQueryExecutor实际执行一次。实验与Run均completed；固定槽m6-05a-product-canary-r1已started／settled、单次预留与结算、无pending或unknown窗口，今后仅只读复用。可见正文272字符、finish stop、未截断；机身RJ45与HUAWEI MateDock 3的LAN明确分开、引用对应选中证据，LAN旧行unknown保持。完整150题／dev85精确复用，未缩水题集或替换旧05-a。
