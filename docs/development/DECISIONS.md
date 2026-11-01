@@ -1,3 +1,11 @@
+## 2026-11-01 · 总控关闭限定效果与首停止技术边界，输出模式另作有界对照
+
+独立核de4b118：当前源码57直接回归、6项新增隔离故障边界、5项受影响旧路由检查分别通过；8024项保存字节与指定48成员真实只读审计通过，组间不累计。明确关闭新清单身份／共享预留／持久停止和结算受审技术边界、两版047零生成呈现及版1 05-b真实具名归属／引用消费；旧05-a等关闭保持，不再待复核。
+
+17-b仍open：必要具名配件证据已在精确prompt，原SSE一个DONE，4096输出全记reasoning、length且正文0，Run／job failed、无成功outcome；完整接收usage不等于产品成功。4旧槽已消费、账户blocked、根halt保持，余44成员指定消费面实核未执行。诊断累计37541／28633，HTTP／费用null、网关硬限及付费上界unknown。本轮总控新增真实推理和真实库写入0，未全量重扫582／867、旧质量全库或默认指针；472交付文件和138／336／597／1314历史组hash匹配。
+
+总控下一包仅裁定显式enable_thinking=false的条件性新模式对照：新17-b先行，通过真实正文／来源／计量闸门后在同包接原44成员，最多45新stream、共享前值及原累计预算不变，首失败封存。旧blocked批次不解锁、不退款；官方参数语法不证明当前网关支持，实际模式效果尚未验证，本轮未实现或调用。M6仍5/7，04保持、05／08未验收，M7未授权，不推进正式质量链。[独立报告](reviews/M6-remaining-diagnostic-review-r1.md)；完整Prompt与封存授权为M6-nonthinking-diagnostic-execution-r1.md及M6-nonthinking-diagnostic-authorization-r1.json。以下历史按原时点保留。
+
 ## 2026-11-01 · 以实际可见正文完成性停止，而非以合法usage放行
 
 版1 17-b原始usage合法且完整流结算，但4096均为reasoning、length且正文0。按既定首停止规则持久blocked，保留Run/job failed、原始usage及失败attempt，不以结算completed=true冒充产品完成，也不以失败摘要null补0。未继续048或余44题，未修改已审来源／prompt／profile；唯一下一选择交总控复核停止与结算，另行裁定输出策略。

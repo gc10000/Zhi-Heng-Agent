@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-01",
+  "timezone": "Asia/Shanghai",
+  "kind": "coordinator_independent_remaining_diagnostic_review",
+  "reviewed_commit": "de4b118c7aa08e04daf4a426b55225a9bf5ce0e2",
+  "startup_HEAD_origin_and_remote": "matched_de4b118",
+  "result": "passed_scoped_technical_and_047_05b_effects; open_17b_output_and_stage_quality",
+  "closed": [
+    "reviewed_fixed_manifest_identity_and_cross_database_shared_account",
+    "reviewed_crash_and_persistent_first_stop_paths",
+    "legal_settlement_of_the_two_observed_streams_including_failed_product",
+    "v1_and_v2_047_actual_zero_generation_presentation",
+    "v1_05b_actual_named_subject_and_citation_consumption"
+  ],
+  "open": [
+    "17b_visible_answer_under_default_thinking_4096_profile",
+    "44_unexecuted_members",
+    "new_nonthinking_mode_support_and_actual_effect",
+    "old_v1_03a_04a_04b_latest_input_answer_evidence",
+    "M6_08_valid_new_candidate_independent_reviews_gate_and_acceptance",
+    "M6_05_real_feedback_server_proof"
+  ],
+  "checks": [
+    {
+      "scope": "shared",
+      "passed": 57,
+      "failures": 0,
+      "log_sha256": "6bbdce1af99c9f4f8d439e4bb5d2628fee6a476a3286469bacfa7ec2f2a9b2c6"
+    },
+    {
+      "scope": "boundaries",
+      "passed": 6,
+      "failures": 0,
+      "log_sha256": "c964fec00cf5f0f32cf8e5e865e3c7525e9657bb271c44d39187940c98de5534"
+    },
+    {
+      "scope": "routing",
+      "passed": 5,
+      "failures": 0,
+      "log_sha256": "3d695fc663fb292be206fc8c1edc48282d5350197b82ef16df69c8fec8bd08f6"
+    }
+  ],
+  "saved_and_live_assertions_passed": 8024,
+  "delivery_files_hash_matched": 472,
+  "historical_protection_group_counts": [
+    138,
+    336,
+    597,
+    1314
+  ],
+  "counts_not_unique_or_quality_scores": true,
+  "actual_jobs": 4,
+  "actual_product_streams": 2,
+  "unexecuted_members": 44,
+  "raw05b_visible_chars": 1380,
+  "raw17b": {
+    "visible_chars": 0,
+    "reasoning_chars": 9342,
+    "finish": "length",
+    "input_tokens": 4725,
+    "output_tokens": 4096,
+    "reasoning_tokens_included": 4096,
+    "DONE": 1
+  },
+  "accounting": {
+    "prior_input": 28747,
+    "prior_output": 22304,
+    "new_input": 8794,
+    "new_output": 6329,
+    "cumulative_input": 37541,
+    "cumulative_output": 28633,
+    "exact_http_requests": null,
+    "cost": null,
+    "visible_tokens": null,
+    "max_paid_output_tokens": null
+  },
+  "live_account": {
+    "state": "blocked",
+    "pending": null,
+    "unknown_windows": [],
+    "cursor": 3,
+    "job_reservations": 4,
+    "stream_reservations": 2
+  },
+  "next_package": {
+    "authorization_path": "docs/development/reviews/M6-nonthinking-diagnostic-authorization-r1.json",
+    "authorization_sha256": "3c283b38c85f4211fd2dbc1d660624078c3daae13b57fc429e40316b49abcba8",
+    "handoff_path": "docs/development/handoffs/M6-nonthinking-diagnostic-execution-r1.md",
+    "handoff_git_blob_sha256": "0ba02298987cc4dcde607322506ef8166c5cb80c4b569e9dd8e03442a9dceb58",
+    "source_members": 45,
+    "new_stream_cap": 45,
+    "first": "new_v1_17b_nonthinking",
+    "remaining_after_first_pass": 44,
+    "implemented": false,
+    "executed": false,
+    "requested_output_margin": 39
+  },
+  "intermediate_failures_preserved": [
+    "system_python_no_pytest_then_project_venv_success",
+    "audit_r1_missing_success_terminal_output_truncated_field_on_failed_run_then_raw_stream_and_settlement_projection_r2_success"
+  ],
+  "new_review_real_inference": 0,
+  "new_review_real_database_writes": 0,
+  "synthetic_tests_use_random_short_m1_test_m4_prefix": true,
+  "business_source_modified_by_coordinator": false,
+  "subagents": 0,
+  "M6": "5/7",
+  "M6_04": "accepted_kept",
+  "M6_05": "not_accepted",
+  "M6_08": "not_accepted",
+  "M7": "not_authorized",
+  "evidence_limits": [
+    "only_designated_48_live_consumption_surfaces_not_full_database",
+    "no_582_867_vector_or_default_pointer_rescan",
+    "raw_body_characters_not_visible_token_counts",
+    "no_gateway_internal_reasoning_causal_trace_or_verified_hard_limit",
+    "no_independent_formal_quality_scoring"
+  ],
+  "private_directory": "output/m6-remaining-diagnostic-review-20261101",
+  "raw_audit_result_sha256": "9776d2c994c575033cb66c7d9f67831ba896e4f0cb7eb7ae8504bda0d99a26dd",
+  "raw_audit_checks_sha256": "7353ca732039ead9a01a00c5d58b0d5155df89cc8b7c85a8c3e902862d6ee862",
+  "full_attempt_and_live_outcome_supplementary_assertions": 20,
+  "full_attempt_supplementary_sha256": "f82d6a459b0dae8ec15d8f047b4fa14ebe6cec71f883520d43b6fca79b119eed"
+}
