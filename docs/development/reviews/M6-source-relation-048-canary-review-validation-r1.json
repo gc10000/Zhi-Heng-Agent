@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-01",
+  "kind": "coordinator_independent_source_relation_048_real_result_review",
+  "reviewed_commit": "4f9ad52881971e317e7a6912e52c6b7ceb989748",
+  "status": "single_technical_chain_closed_actual_answer_source_rejection_supported",
+  "stage": {
+    "M6": "5/7",
+    "M6_04": "accepted_kept",
+    "M6_05": "not_accepted",
+    "M6_08": "not_accepted",
+    "M7": "not_started"
+  },
+  "passed": [
+    "scoped_single_member_admission_and_formal_identity",
+    "exact_input_and_saved_wire_consumption",
+    "new_mode_usage_and_affected_prior_routes",
+    "raw_stream_full_attempt_and_outcome_consistency",
+    "single_settlement_source_rejection_and_durable_stop",
+    "old_blocked_two_slots_and_43_unexecuted"
+  ],
+  "open": [
+    "048_generated_assertion_relation_composition_and_comparison_scope",
+    "effective_new_candidate_quality",
+    "real_feedback_reevaluation_proof"
+  ],
+  "semantic_ruling": {
+    "executor_rejection_supported": true,
+    "primary": "coax_web_access_unsupported_composition_and_client_access_in_uplink_comparison",
+    "improvement": "Cable_coax_and_LA_management_evidence_actually_cited",
+    "secondary_canary_scope": "EoC_condition_not_explained",
+    "standalone_EoC_keyword_gate": false,
+    "standalone_GM_GU_version_label_blocker": false,
+    "explicit_wireless_backhaul_claim_not_proven": true,
+    "general_model_inability_not_proven": true,
+    "retrieval_missing_not_supported": true,
+    "role_parser_regression_not_supported": true
+  },
+  "tests": {
+    "unit": {
+      "tests": 64,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "log_sha256": "1f34046c4865d6d1b702462ebc52677cb18c1e45542cd140855ed8fa53f3d35f",
+      "xml_sha256": "91d6df103f4e2c4a0f67df42a5a420b3dde92df233665e1f6ab238b5dbe98fe8"
+    },
+    "integration": {
+      "tests": 42,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "log_sha256": "cddf76e1bd1a3037f4f00a68436d15838fc176b6fc26daaffcf93bfebf6bf3da",
+      "xml_sha256": "4ef1e03aed1fe1875fe2f226dacc651eabb9530592603a1c9754cda302b04a2d"
+    }
+  },
+  "independent_audit": {
+    "assertions": 12209,
+    "artifact_sha256": "5616302e7c80f13f3f529838a3e3b73220ad6b686fb5604f9b69bdd53eed2f9c",
+    "semantic_artifact_sha256": "cd05b5d572241ef844393e2e4957d4f748d7cdea20ff217a1c2a4e0281ce479f",
+    "delivery_files": 89,
+    "protected_files": 4686,
+    "historical_groups": [
+      138,
+      336,
+      597,
+      1314
+    ],
+    "groups_overlap": true,
+    "stale_protection_count_field": 3985,
+    "actual_files_mapping_count": 4686
+  },
+  "execution": {
+    "run_id": "5b6a0133-7880-423e-9547-a513b4cf7a63",
+    "experiment_id": "8043541e-678d-4103-aee3-56d02e54e555",
+    "state": "completed",
+    "finish": "stop",
+    "answer_chars": 1317,
+    "answer_canonical_sha256": "b256c42a399b5823ced4d9935e1efce751ee65b332dcca17736aee3a9ba1ce09",
+    "source_accepted": false
+  },
+  "accounting": {
+    "review_new_product_streams": 0,
+    "review_new_model_calls": 0,
+    "review_new_embeddings": 0,
+    "review_new_rerank": 0,
+    "review_real_database_writes": 0,
+    "isolated_integration_writes": true,
+    "reviewed_execution_streams": 1,
+    "reviewed_execution_input": 6116,
+    "reviewed_execution_output": 859,
+    "cumulative_input": 53089,
+    "cumulative_output": 30412,
+    "reasoning_detail": null,
+    "http": null,
+    "cost": null,
+    "paid_output_upper_bound": null
+  },
+  "state": {
+    "new_account": "blocked",
+    "consumed_new_slots": 1,
+    "pending": null,
+    "unknown_windows": [],
+    "cursor": 0,
+    "halt_reason": "single_result_sealed",
+    "old_consumed_slots": 2,
+    "old_43_unexecuted": true
+  },
+  "retained_review_failures": [
+    "canonical_answer_hash_vs_UTF8_hash_draft_error",
+    "cache_misses_list_vs_numeric_draft_error"
+  ],
+  "evidence_limitations": [
+    "not_full_live_vector_default_pointer_TTL_or_quality_history_scan",
+    "one_result_not_general_model_inability_proof",
+    "technical_tests_not_answer_quality"
+  ],
+  "next_scope": {
+    "stop_same_profile_prompt_tweaks": true,
+    "new_model_call_authorized": false,
+    "old_43_resume_authorized": false,
+    "suggested_direction": "generation_assertion_evidence_binding_and_verifiable_output_constraints_not_implemented_or_verified"
+  }
+}
