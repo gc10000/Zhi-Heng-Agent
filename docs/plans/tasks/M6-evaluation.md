@@ -907,3 +907,4 @@ R1恢复结果使用持久Run累计，另存adapter新增；R2由正式job在模
 
 定向验证：隔离Mongo/API `tests/integration/test_feedback_triage_workflow.py`与`tests/contract/test_feedback_triage.py` 8 passed；离线浏览器`feedback-loop.spec.ts` 2 passed；`pnpm -C frontend typecheck`及`git diff --check`退出0。验证仅覆盖本次状态修正和界面分支，不计M6任务完成。见[执行报告](../../development/reviews/M6-08-feedback-regression-route-r1.md)及[验证摘要](../../development/reviews/M6-08-feedback-regression-route-validation-r1.json)。M6-04/05/08仍未验收，M7未启动。
 2026-11-01 assertion_binding r2实现修复R1恢复冻结来源、R2断流材料、R3空证据投影合同；108单元/契约、16隔离集成及89受影响旧路径通过，均为总控实现自验，待独立复核。没有完整比较答案或新048质量证明。M6仍5/7、04保持、05／08未验收、M7未启动；43题及heldout保持暂停。
+2026-11-01继续复核R2发现完整流协议拒绝分支的raw selection此前无长度上限；现统一限4096字符并绑定失败身份。109定向单测/契约/OpenAPI及18项隔离Mongo通过，待独立复核；没有新增模型调用或正式质量proof，M6仍5/7，05/08未验收，M7未启动。

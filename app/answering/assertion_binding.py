@@ -10,6 +10,7 @@ from app.knowledge.repository import fingerprint
 from .source_relations import extract_frames
 
 VERSION = 'assertion_binding_v1'
+MAX_SELECTION_CHARS = 4096
 INSUFFICIENT_ANSWER = '当前授权知识库中没有找到可用证据，请补充资料或明确设备型号。'
 
 
@@ -81,7 +82,7 @@ def bind_response(raw, reference_map, docs, policy=None):
     通过仅证明没有新增关系断言，不证明所选内容相关、完整或优于旧答案。
     """
     checked_sources(reference_map, docs, policy)
-    if not isinstance(raw, str) or len(raw) > 4096:
+    if not isinstance(raw, str) or len(raw) > MAX_SELECTION_CHARS:
         raise ValueError('原句选择输出缺失或超长')
     value = json.loads(raw, object_pairs_hook=_unique_object)
     if not isinstance(value, dict) or set(value) != {'references'}:
@@ -107,6 +108,15 @@ def bind_response(raw, reference_map, docs, policy=None):
                  raw_selection_sha256=fingerprint(raw), reference_map_sha256=fingerprint(reference_map),
                  answer_sha256=fingerprint(answer))
     return answer, proof
+
+
+def failure_record(raw, prompt, reference_map, policy, failure_code):
+    raw = raw if isinstance(raw, str) else ''
+    return dict(function_version=VERSION, raw_selection=raw[:MAX_SELECTION_CHARS],
+                received_chars=len(raw), failure_code=failure_code,
+                input_sha256=fingerprint(dict(prompt_sha256=fingerprint(prompt),
+                    reference_map_sha256=fingerprint(reference_map or []),
+                    evidence_attribution_sha256=fingerprint(policy.model_dump(mode='json')))))
 
 
 def insufficient_evidence_binding(answer):

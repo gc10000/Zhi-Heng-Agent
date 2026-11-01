@@ -81,6 +81,24 @@ def test_review_disconnect_persists_partial_selection_and_unknown_usage(evaluati
     assert res['db'].evaluation_outcomes.count_documents({})==0
 
 
+@pytest.mark.parametrize('separate',[False,True])
+def test_review_oversized_invalid_selection_is_bounded_in_failed_run(evaluation_context,tmp_path,monkeypatch,separate):
+    raw='x'*5000
+    cfg,res,prompts,q,repo,service,user,data,catalog=setup(
+        evaluation_context,tmp_path,monkeypatch,separate,raw=raw)
+    job=service.create_experiment(user,data)
+    execute_job(repo,catalog,tmp_path/'oversized',job['experiment_id'])
+    row=res['db'].runs.find_one({});failure=row['answer_binding_failure']
+    assert row['state']=='failed' and row['error']['code']=='answer_binding_invalid'
+    assert failure['raw_selection']==raw[:4096] and failure['received_chars']==len(raw)
+    assert failure['failure_code']=='answer_selection_rejected' and failure['input_sha256']
+    events=list(res['db'].run_events.find({'run_id':row['run_id']}))
+    assert all('raw_selection' not in event['payload'] for event in events)
+    assert repo.get_experiment(user,job['experiment_id'])['state']=='failed'
+    assert res['db'].evaluation_outcomes.count_documents({'run_id':row['run_id']})==0
+    assert len(prompts)==1
+
+
 def test_review_coordinated_source_rewrite_rejected_before_first_outcome(evaluation_context,tmp_path,monkeypatch):
     from app.answering.assertion_binding import bind_response
     from app.answering.source_relations import extract_frames

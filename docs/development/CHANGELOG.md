@@ -16,6 +16,10 @@
 
 [本包报告与集中矩阵](reviews/M6-assertion-binding-execution-review-r1.md) · [脱敏摘要](reviews/M6-assertion-binding-execution-review-validation-r1.json)。以下历史保留。
 
+## 2026-11-01 · M6 assertion_binding失败材料上限补修 r3
+
+继续复核发现完整流被选择协议拒绝时，内部失败材料会无界保存raw selection。新增统一构造器，使断流及完整拒绝分支都限制4096字符并记录长度、类别和输入身份。109定向离线与18隔离Mongo自验通过；提交独立复核，未新增真实调用。原句摘录和048完整比较产品边界不变。
+
 ## 2026-11-01 · M6 assertion_binding 生命周期补修 r2
 
 总控按用户要求修复R1冻结来源恢复校验、R2断流材料留证、R3空证据结果合同。Run身份保存完整本轮原始docs；使用当前冻结策略重新派生来源映射；断流保存有界raw、失败类别与输入身份；零证据使用不调用模型的明确proof。108单元/契约/OpenAPI、16隔离集成和89旧合同/来源关系自验通过，待独立复核。摘录形态仍不支持完整048比较；无新调用，M6 5/7保持。

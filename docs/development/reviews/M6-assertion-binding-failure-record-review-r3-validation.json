@@ -1,0 +1,74 @@
+{
+  "role": "coordinator_implementation_self_validation_not_independent_acceptance",
+  "date": "2026-11-01",
+  "base_commit": "82de2981235075f538ee962928ec3a5a51565c2d",
+  "finding": {
+    "id": "R2-complete-selection-unbounded-failure-material",
+    "status": "fixed_self_validation_pending_independent_review",
+    "trigger": "complete streamed output exceeds 4096 characters and is rejected by selection validation",
+    "before": "failure branch persisted full final_text without received length, failure category, or input identity",
+    "after": "all assertion-binding failure paths share a 4096-character bound, total length, failure category, and prompt/map/policy input hash"
+  },
+  "tests": {
+    "red_before_fix": {
+      "test": "test_review_completed_invalid_selection_failure_is_bounded_and_identified",
+      "result": "failed_as_expected",
+      "observed": "5000 characters persisted where 4096 were required"
+    },
+    "unit_contract_openapi": {
+      "passed": 109,
+      "failed": 0,
+      "errors": 0
+    },
+    "isolated_mongo_full_matrix": {
+      "passed": 18,
+      "failed": 0,
+      "errors": 0,
+      "synthetic_database_prefix": "m1_test_m4_r3full_1101"
+    },
+    "oversized_failure_persistence_cases": {
+      "passed": 2,
+      "failed": 0,
+      "layout": ["same_database", "separate_control_database"]
+    }
+  },
+  "failure_boundary": {
+    "persisted_raw_selection_max_chars": 4096,
+    "received_chars_persisted": true,
+    "failure_code": "answer_selection_rejected",
+    "input_sha256_persisted": true,
+    "raw_selection_in_run_event_payload": false,
+    "run_state": "failed",
+    "evaluation_outcome_created": false,
+    "synthetic_model_calls_per_case": 1
+  },
+  "accounting": {
+    "new_real_model_calls": 0,
+    "new_local_inference": 0,
+    "new_real_business_database_writes": 0,
+    "historical_input_tokens": 53089,
+    "historical_output_tokens": 30412,
+    "reasoning": null,
+    "http": null,
+    "cost": null,
+    "gateway_hard_limit": "unknown",
+    "paid_output_upper_bound": "unknown"
+  },
+  "stage": {
+    "M6": "5/7",
+    "M6-04": "accepted_and_unchanged",
+    "M6-05": "open_missing_feedback_reevaluation_proof",
+    "M6-08": "open_missing_valid_candidate_quality_and_stage_evidence",
+    "M7_started": false,
+    "heldout65_run": false,
+    "original43_resumed": false,
+    "new_048_authorized": false,
+    "complete_comparison_quality_proved": false
+  },
+  "evidence_limits": [
+    "implementation self-validation only; independent review pending",
+    "synthetic Mongo fixtures only",
+    "no public API runtime call made; snapshot whitelist and event payload checked by tests/source",
+    "full comparison answer remains unsupported by assertion_binding_v1"
+  ]
+}

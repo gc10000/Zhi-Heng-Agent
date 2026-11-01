@@ -148,6 +148,8 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
     checked_sources(expected,docs,attribution)
   if mode is not None:state['answer_mode_observations']=mode
   if observations is not None:state['answer_usage_observations']=observations
+  if binding:
+    from app.answering.assertion_binding import failure_record
   try:
     llm = client if client is not None else get_llm_client()
     from app.infrastructure.providers.clients import output_limit_options
@@ -189,13 +191,8 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
   except Exception as exc:
     logger.error('回答生成失败，session={}，异常类型={}，部分字符数={}', session_id, type(exc).__name__, len(final_text))
     if binding:
-      from app.knowledge.repository import fingerprint
-      state['answer_binding_failure']=dict(function_version='assertion_binding_v1',
-        raw_selection=final_text[:4096],received_chars=len(final_text),
-        failure_code='answer_generation_interrupted' if final_text else 'answer_generation_failed',
-        input_sha256=fingerprint(dict(prompt_sha256=fingerprint(prompt),
-          reference_map_sha256=fingerprint(state.get('prompt_reference_map') or []),
-          evidence_attribution_sha256=fingerprint(attribution.model_dump(mode='json')))))
+      state['answer_binding_failure']=failure_record(final_text,prompt,state.get('prompt_reference_map'),attribution,
+        'answer_generation_interrupted' if final_text else 'answer_generation_failed')
     raise AnswerGenerationError(partial_answer=final_text) from exc
   finally:
     if observations is not None:state['answer_usage_validation']=summarize(observations)
@@ -207,7 +204,8 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
         raise ValueError('原句选择输出被截断')
       bound,proof=bind_response(final_text,state.get('prompt_reference_map') or [],state.get('prompt_used_docs') or [],attribution)
     except (ValueError,TypeError,KeyError) as exc:
-      state['answer_binding_failure']=dict(function_version='assertion_binding_v1',raw_selection=final_text)
+      state['answer_binding_failure']=failure_record(final_text,prompt,state.get('prompt_reference_map'),attribution,
+        'answer_selection_rejected')
       raise AnswerGenerationError('原句选择与证据不一致，已拒绝写入。',partial_answer=final_text) from APIError(
         422,'answer_binding_invalid','原句选择与冻结证据不一致。')
     state['answer_binding']=proof | dict(raw_selection=final_text)

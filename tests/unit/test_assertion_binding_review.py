@@ -116,3 +116,20 @@ def test_review_stream_no_raw_delta_and_failure_partial_available(monkeypatch,mo
         assert failure['raw_selection']==raw[:7]
         assert failure['failure_code']=='answer_generation_interrupted'
         assert failure['input_sha256']
+
+
+def test_review_completed_invalid_selection_failure_is_bounded_and_identified(monkeypatch):
+    from app.answering.errors import AnswerGenerationError
+    s,prompt=binding_state();s['is_stream']=True;sent=[]
+    monkeypatch.setattr(node,'push_to_session',lambda *a:sent.append(a[2]))
+    raw='x'*5000
+    def stream(*a,**kw):
+        yield SimpleNamespace(content=raw,response_metadata={'finish_reason':'stop'})
+    with pytest.raises(AnswerGenerationError):
+        node.step_3_generate_response(s,prompt,client=SimpleNamespace(stream=stream))
+    failure=s['answer_binding_failure']
+    assert failure['raw_selection']==raw[:4096]
+    assert failure['received_chars']==len(raw)
+    assert failure['failure_code']=='answer_selection_rejected'
+    assert failure['input_sha256']
+    assert not sent and not s.get('answer') and not s.get('answer_binding')

@@ -16,6 +16,10 @@
 
 [本包报告与集中矩阵](../development/reviews/M6-assertion-binding-execution-review-r1.md) · [脱敏摘要](../development/reviews/M6-assertion-binding-execution-review-validation-r1.json)。以下历史保留。
 
+## 2026-11-01 · 总控继续复核：R2完整拒绝材料限长（待独立复核）
+
+修正完整流的协议拒绝分支此前会无界保存raw selection；现与断流使用统一4096字符限制、接收长度、失败类别及输入hash。109单测/契约/OpenAPI、18隔离Mongo通过，同/分库超长持久化2通过。实现自验，不勾阶段任务；原文摘录不等于完整比较答案，M6仍5/7。
+
 ## 2026-11-01 · 总控修复 assertion_binding R1/R2/R3（待独立复核）
 
 R1恢复重绑冻结原始载荷、R2断流部分选择持久留证、R3零证据Run／结果合同一致已实现；108离线/契约与16隔离集成、89受影响旧路径通过。实现自验不能勾选阶段任务或写成独立关闭。输出仍是摘录且048完整比较质量open；M6保持5/7、04保持验收、05／08未验收。
