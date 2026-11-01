@@ -1,0 +1,197 @@
+{
+  "role": "executor_targeted_review_not_coordinator_independent_closure",
+  "reviewed_commit": "0f31c7872e7f40245f943f7ace54ba5ea36b244b",
+  "app_canonical_sha256": "0563dd43a855b309013093b00efbb6d8740591faf91198fdb5b1a25172ed46c9",
+  "source_sha256": {
+    "app/answering/assertion_binding.py": "c8f51c1041a6d79afa871644e19b754b333b0a03b7fc895b9718c9491a19ad72",
+    "app/answering/evidence_attribution.py": "e2b067e430de38fdc5b774d3c361bece2ff0a734e19f7f36379863a0e29d4748",
+    "app/query_process/agent/nodes/node_answer_output.py": "730d7b8d7edfd313d474b47a111792bb6ee39d0415e9cc117192bb9b483aeba4",
+    "app/runs/query_runner.py": "78e339720a6424764d74e58474e4bbcc8af71a55dd2b10be7140862a7efe0cbc",
+    "app/runs/telemetry.py": "ccd6e1ddecfb0bb1bce6a63dc5b6edc22542c4b50f206f8bb21cc0fc66ecbc78",
+    "app/evaluation/execution_identity.py": "9c5a092b01f7bf9e6751e69a916eee6cf8ffca54e7dbe1d1f3409ebe52225ec2",
+    "app/evaluation/query_adapter.py": "9e7304b35ca70c7a2d0f4664db94f121002fe8f697929ecc7825f5e2b19b5f33",
+    "app/evaluation/repository.py": "36be64f93c0ec9b2d5001746faaac2002da8e207df37a78e07cc742a2888c797",
+    "prompts/answer_assertion_binding_v1.prompt": "85bf921d36c7783c68d6f78fd6e8b22dc2fc5ab4237aec1ff9fb20c61421c617",
+    "tests/unit/test_assertion_binding.py": "154625624907726fa109fb819762b6ddbbc9af62589c98d8748c7e73c6ee9936",
+    "tests/integration/test_assertion_binding_wiring.py": "0f6372b9afa2bce8f6259673658eb0cc88d569cdc12d978d2b64f2d6ffc2b754"
+  },
+  "business_implementation_changed": false,
+  "strategy": "assertion_binding_v1",
+  "default_enabled": false,
+  "overall_status": "not_passed_two_open_roots_and_answer_format_limit",
+  "passed": [
+    "strict_json_and_reference_indices",
+    "full_source_scope_and_dynamic_fences",
+    "pre_inference_frozen_source_drift_rejection",
+    "raw_stream_buffering",
+    "ordinary_cached_proof_single_field_drift_rejection",
+    "full_policy_run_checkpoint_link_identity",
+    "normal_outcome_reuse_one_synthetic_call",
+    "raw_selection_and_result_proof_persistence",
+    "synthetic_token_usage_separate_from_rendered_characters",
+    "saved_input_replay",
+    "public_openapi_unchanged"
+  ],
+  "open": [
+    {
+      "id": "R1",
+      "priority": "high",
+      "root": "saved_proof_not_rebound_to_frozen_payload",
+      "failing_examples": 2,
+      "first_outcome_window_reproduced": true,
+      "existing_outcome_single_field_protection_preserved": true,
+      "real_data_tampering_observed": false
+    },
+    {
+      "id": "R2",
+      "priority": "medium",
+      "root": "disconnect_partial_selection_not_persisted",
+      "failing_examples": 2,
+      "same_and_separate_database": true,
+      "run_failed_no_answer_leak_no_second_call": true
+    }
+  ],
+  "checks": {
+    "unit": {
+      "tests": 61,
+      "passed": 61,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "original_tests": 27,
+      "added_tests": 34
+    },
+    "integration": {
+      "tests": 15,
+      "passed": 11,
+      "failures": 4,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 1,
+      "original_passed": 9,
+      "new_public_passed": 2,
+      "private_red_probes": 4,
+      "isolated_db_prefix": "m1_test_m4_abr_b30311"
+    },
+    "replay": {
+      "assertions": 1313,
+      "exit_code": 0,
+      "members": 54,
+      "answer_inputs": 52,
+      "clarifications": 2,
+      "protected_questions": 25,
+      "necessary_units": 35,
+      "synthetic_selections_only": true,
+      "new_formal_jobs": 0
+    },
+    "openapi": {
+      "tests": 1,
+      "passed": 1,
+      "exit_code": 0
+    },
+    "local_audit": {
+      "exit_code": 0,
+      "startup_protected": 465,
+      "source_hashes": 11,
+      "historical_groups": {
+        "delivery-files-r2.json": 89,
+        "protected-before.json": 4686,
+        "output/m6-single-product-canary-20261031/protected-before.json": 138,
+        "output/m6-output-contract-boundaries-probe-20261031/protected-before.json": 336,
+        "output/m6-diagnostic-subject-usage-fix-20261031/protected-before.json": 597,
+        "output/m6-diagnostic-cache-completion-20261031/historical-files-r2.json": 1314
+      },
+      "overlapping_not_unique_total": true
+    },
+    "frozen_control": {
+      "current_saved_validator_accepts": true,
+      "full_frozen_policy_rejects": true,
+      "rejection_type": "ValueError"
+    }
+  },
+  "evidence_sha256": {
+    "target-unit-r1.log": "8b59291ceddf757837c6770c07f2642113e2e34205dd338fa36e4d4f12817c5c",
+    "target-unit-r1.xml": "bc128c925160081bd9063b2c07835c8bb6e25b8a278c275049e6c1eeb9703604",
+    "target-integration-r1.log": "d83aba72d8bf094db3d5ce7895152c2f0afa3c956acd73ae5fde5db62c65e339",
+    "target-integration-r1.xml": "d636e813231618898fc1ec93d1032b0964dc556d7acf7a6d19fd2c46857be9f5",
+    "test_failure_probes.py": "79378bed309456c06c34fc6ece6bfe26dfb71eec52334342ee15cd02fda727d3",
+    "replay-r1.log": "b7c5a052c30902cb22e09c584dfdad9660541358162ae0481cf6af42c8d992ab",
+    "replay-r1/summary.json": "2030e335b35405b73322fc6900ca07077ae50fed53c3f83c39d404d83d26e1fb",
+    "replay_review.py": "93f4ced60a83bce1bf47690e03b2793570618beef6c0a166cf0a150fe422827c",
+    "file-audit-r1.json": "cbe313d3b3d9a5d0fe43293a50a7f7ab1edfb60a626ad5152a59c70ffaa78e95",
+    "historical-protection-r1.json": "ae93926f7e18f0119edb61355af33ac9d7c909f697f9ba2da4c7798377262de2",
+    "openapi-r1.log": "e80e98ab893f7f9cb5989642a3c0d9afda844d17cbd5a2f36ae4b2d57a8fc1fe"
+  },
+  "input_anchor": {
+    "path": "output/m6-assertion-binding-review-20261101/replay-r1/inputs/v1-support-v1-048.json",
+    "file_sha256": "d7a9419132afd2a63a9f9beed855a78a1ba5a6d3b92cce1148a3d4035803f348",
+    "prompt_utf8_sha256": "50aae51ac20ceeef6b7368eeed7bb77b30b83b0071c18035516bebc7e1987175",
+    "prompt_canonical_fingerprint": "d14ee996739c36732866ec561dfe99328918487b517e5ccb2e9bf3e5fede8f77",
+    "context": 10,
+    "groups": 10,
+    "input_reserve": 14169,
+    "input_limit": 28416,
+    "dispatchable": false,
+    "old_draft_contract_must_not_be_reused": true
+  },
+  "proposal": {
+    "name": "diagnostic_assertion_binding_048_v1",
+    "version": "r1",
+    "condition_only": true,
+    "authorized": false,
+    "registered_ids": false,
+    "max_future_streams": 1,
+    "future_calls_performed": 0,
+    "blocked_by": [
+      "R1",
+      "R2",
+      "complete_comparison_output_applicability"
+    ],
+    "current_provable_scope": "evidence_excerpt_view_not_complete_comparison"
+  },
+  "accounting": {
+    "new_real_streams": 0,
+    "new_supplier_calls": 0,
+    "new_local_inference": 0,
+    "new_real_model_tokens": {
+      "input": 0,
+      "output": 0
+    },
+    "real_business_database_writes": 0,
+    "synthetic_usage_not_real": {
+      "input": 101,
+      "output": 7
+    },
+    "historical_input": 53089,
+    "historical_output": 30412,
+    "historical_reasoning": null,
+    "historical_http": null,
+    "historical_cost": null,
+    "paid_upper_bound": "unknown",
+    "pending_43_resumed": false
+  },
+  "limits": [
+    "no_new_real_answer",
+    "no_live_business_database_scan",
+    "implementation_history_1427_65_not_this_review",
+    "fence_filter_checks_not_full_browser_render_audit",
+    "full_original_text_is_not_complete_answer",
+    "no_coordinator_independent_closure_or_stage_acceptance"
+  ],
+  "stage": {
+    "M6": "5/7",
+    "accepted": [
+      "04"
+    ],
+    "not_accepted": [
+      "05",
+      "08"
+    ],
+    "M7_started": false
+  },
+  "review_test_sha256": {
+    "tests/unit/test_assertion_binding_review.py": "6fa29459e2f94a6f8f4fa113ff55bfad40f534c7b3fc2b0f80990175c08c268b",
+    "tests/integration/test_assertion_binding_review.py": "4eba974c37fe8362c6ca7c56ecd3c66773b55e8874b3e8cfeb2616ecab63ae2c"
+  }
+}
