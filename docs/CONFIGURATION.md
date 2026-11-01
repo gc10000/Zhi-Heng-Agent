@@ -1,3 +1,9 @@
+## M6角色边界补修与离线配置身份（2026-11-01）
+
+现有source_relation_spans_v1只在内部显式启用；本次无新配置键、环境变量、API或默认变化。完整候选语法歧义回退unknown，原句／scope／引用保留，明确关系仍解析。582载荷policy与答题prompt版本不改，但源码canonical及两版完整离线配置必须独立冻结，旧输入、Run、检查点和已消费槽不能静默升级。
+
+本轮草案在output/m6-source-relation-role-boundary-fix-20261101/replay-r1，仅为54／25保存输入零推理投影；普通输出合同unknown仍阻断，不是可派发048配置。安装SDK Mock保持已封存非思考profile，不能据此获得真实调用授权。未写真实配置／实验／Run，43题仍暂停；总控只需复核新角色差异与原失败矩阵。精确新旧hash与限制见[执行报告](development/reviews/M6-source-relation-role-boundary-fix-execution-r1.md)。以下历史保留。
+
 ## M6来源关系跨度索引：仅内部显式配置（2026-11-01）
 
 默认关闭，旧配置不增加字段。新键`parameters.evidence_attribution.source_relations`结构为`{enabled: true, function_version: "source_relation_spans_v1", frozen_payloads: {chunk_uid: payload_sha256, ...}}`；这里是结构示意，成员必须从同一正式完整corpus.snapshot精确生成，不能手填示意hash。必须与外层归属scope／documents／corpus hash一致，不接受`reviewed=true`或自定义关系事实。省略enabled不会开启；启用但缺完整成员、同修订正文或元数据漂移即拒绝。

@@ -63,6 +63,26 @@ _ACCESS = re.compile(r'通过(?P<medium>[^，,。；;\n|]+?)建立网络连接')
 _LOGIN = re.compile(r'(?:登录|登陆)(?P<destination>[^，,。；;\n|”]+?Web页面)')
 
 
+def _role_ambiguity(kind, clause):
+    """只准入直接单动作句；先看完整候选，不能只看已被正则切短的发起端。"""
+    if re.search(r'不|未|若|如果|是否|只有|除非|仅', clause):
+        return 'negation_or_condition'
+    # 关系从句、名词化或使役需要另一套解析；本索引不把其中片段提升为端点。
+    if re.search(r'的|将|把', clause):
+        return 'relative_or_disposal_clause'
+    # 逗号后独立的“并向…”仍可保留部分角色；无标点复合动作不猜切句或继承主语。
+    body = re.sub(r'^(?:并且|并|且|再)\s*', '', clause.strip())
+    if re.search(r'并且|并|且|同时|然后|再', body):
+        return 'unpunctuated_coordination'
+    if kind == 'service' and clause.count('为') + clause.count('向') != 1:
+        return 'non_unique_service_marker'
+    if (clause.count('提供') > (kind == 'service') or
+            clause.count('通过') > (kind == 'connection') or
+            clause.count('连接到') > (kind == 'connection')):
+        return 'nested_action'
+    return None
+
+
 def extract_frames(text):
     """返回同一原文内的半开字符坐标；原段落是所有否定、条件、时态的解释范围。"""
     from app.core.markdown_source import block_code_ranges, inline_code_ranges
@@ -75,6 +95,16 @@ def extract_frames(text):
                 continue
             fields = {name: _group(text, match, name) if name in match.groupdict() else None
                       for name in ('origin', 'medium', 'destination', 'purpose')}
+            reason = _role_ambiguity(kind, match.group()) if kind in {'connection', 'service'} else None
+            if reason:
+                # 同一复合句可能被两种模式命中，只保留一条完整原句及未知角色。
+                if not any(f['kind'] == 'unresolved' and f['clause']['start'] == match.start()
+                           and f['clause']['end'] == match.end() for f in result):
+                    result.append(dict(kind='unresolved', direction='unknown',
+                        fields=dict.fromkeys(fields), role_boundary_reason=reason,
+                        clause=_span(text, match.start(), match.end()), scope=_span(text, 0, len(text)),
+                        assertion='literal_only_not_capability_or_live_state'))
+                continue
             origin = fields['origin']
             if origin and (origin['text'] in {'并', '并且', '再', '且'} or
                     re.search(r'若|如果|是否|不|未|仅|只有|除非|请|为了', origin['text'])):
