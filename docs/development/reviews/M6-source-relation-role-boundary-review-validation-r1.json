@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-01",
+  "kind": "coordinator_independent_source_relation_role_boundary_review",
+  "reviewed_commit": "ad93f7d09b44047b1de366f0d0fe11db832d9cf2",
+  "status": "role_boundary_and_selected_relation_scope_independently_closed",
+  "stage": {
+    "M6": "5/7",
+    "M6_04": "accepted_kept",
+    "M6_05": "not_accepted",
+    "M6_08": "not_accepted",
+    "M7": "not_started"
+  },
+  "source_sha256": "922df76f6fbd4c762fc78adcf379d0778e4eeee092c8fa9104a72a589ae8091c",
+  "extractor_sha256": "91d9f065c05639428176fc73b8f14d0482c191b8907bbe23677161a23c6ad10f",
+  "prompt_version": "213dbfdf1fcb35595442dab7fc16549c5976704263153b4432aef75810ea4354",
+  "passed": [
+    "original_12_boundary_matrix",
+    "four_actual_role_mislabels_unknown_with_original_preserved",
+    "139_selected_roles_and_677_uses",
+    "explicit_positive_roles_preserved",
+    "54_members_and_25_questions_35_units_saved_input_replay",
+    "77_sdk_mock_messages",
+    "affected_recovery_paths",
+    "prior_closed_wiring_kept",
+    "old_blocked_two_consumed_43_unexecuted"
+  ],
+  "open": [
+    "048_new_real_answer_effect",
+    "effective_new_formal_candidate_quality",
+    "real_feedback_reevaluation_proof"
+  ],
+  "tests": {
+    "focused": {
+      "tests": 55,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "log_sha256": "2791f0104abdc5375998be5b47939f58df6323417a027edb4ee15272a4262624",
+      "xml_sha256": "99a2d39b34d7290a584c6c9066d19d908ccb1fb5661a52ca9a26cc6eba34ab4f"
+    },
+    "recovery_integration": {
+      "tests": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "log_sha256": "b671bd2038e3d0d58e99173f4dfe3428476db24b5dddc2972eb8e766f73b5747",
+      "xml_sha256": "6f5a4fc70188d1ddbf6b0f3e236bf45a482d4eb8557281afdbc76436fe6db2dc"
+    },
+    "initial_integration_fixture_error": {
+      "tests": 16,
+      "failures": 0,
+      "errors": 16,
+      "skipped": 0,
+      "log_sha256": "38e9d55c3ba3898972a8f2cc591bb61d43b0a8fa44fc65ecd277e5ada80daa6b",
+      "xml_sha256": "3a2c6f7f64577584277a8c827923abc2d4867d5ea1462dacac9ca633b68f38de"
+    }
+  },
+  "initial_failures": {
+    "integration": "M1_TEST_DB missing; fixture rejected before DB access; corrected short prefix and retained first log",
+    "display": "GBK U+2022 display error; corrected PYTHONIOENCODING; receipt retained"
+  },
+  "selected_relations": {
+    "sources": 177,
+    "unique_frames": 139,
+    "uses": 677,
+    "changed_frames": 4,
+    "dispositions": {
+      "all_unknown": 124,
+      "partial_unknown_direction": 9,
+      "direct_known": 5,
+      "physical_check": 1
+    },
+    "scope": "finite_selected_sources_not_general_chinese_parser_correctness"
+  },
+  "independent_replay": {
+    "members": 54,
+    "answer_prompts": 52,
+    "cached_clarifications": 2,
+    "protected_questions": 25,
+    "protected_units": 35,
+    "byte_equal_files": 156,
+    "parent_member_prompt_changes": 12,
+    "parent_protected25_prompt_changes": 4,
+    "sdk_mock_messages": 77,
+    "input_assertions": 7719
+  },
+  "independent_audit": {
+    "assertions": 11303,
+    "artifact_sha256": "8bd7bd37fd628185773cf115f6d672a699c44e0141c07d2e29dd97cdde6f0c13",
+    "delivery_files": 358,
+    "protected_files": 3985,
+    "historical_groups": [
+      138,
+      336,
+      597,
+      1314
+    ],
+    "groups_overlap_not_summed": true
+  },
+  "live_readonly": {
+    "assertions": 226,
+    "artifact_sha256": "b0c1e251e976212800d7b287043ecbb20c0fd43c3a46d11636904c63d9eb23bd",
+    "old_account": "blocked",
+    "consumed_slots": 2,
+    "unexecuted": 43
+  },
+  "accounting": {
+    "new_product_streams": 0,
+    "new_nonproduct_streams": 0,
+    "new_model_reviews": 0,
+    "new_embeddings": 0,
+    "new_rerank": 0,
+    "real_database_writes": 0,
+    "isolated_synthetic_integration_writes": true,
+    "cumulative_input": 46973,
+    "cumulative_output": 29553,
+    "reasoning_detail": null,
+    "http": null,
+    "cost": null,
+    "paid_output_upper_bound": null
+  },
+  "evidence_limitations": [
+    "no_new_real_048_answer",
+    "mechanical_replay_not_answer_quality",
+    "finite_selected_role_review_not_global_parser_proof",
+    "no_full_live_582_867_vector_default_pointer_TTL_or_quality_history_scan",
+    "SDK_usage_is_synthetic_not_real_ledger"
+  ],
+  "next_scope": {
+    "handoff": "docs/development/handoffs/M6-source-relation-048-canary-r1.md",
+    "authorization": "docs/development/reviews/M6-source-relation-048-canary-authorization-r1.json",
+    "authorization_sha256": "2ea1b4868be934979d3d62f1524b3df18aa0c72028760b8acf466c9be7a75129",
+    "conditionally_authorized_new_product_streams": 1,
+    "allowed_question": "v1 support-v1-048 only",
+    "old_43_resume_authorized": false,
+    "executed_this_review": false
+  }
+}
