@@ -38,13 +38,13 @@
       "question_id": "support-v1-048",
       "expected_generation": true,
       "fixed_slot": "m6-comparison-answer-048-r1-r1-support-v1-048",
-      "source_input_path": "output/m6-comparison-answer-048-runtime-identity-r2/source/comparison-anchor.json",
-      "source_input_file_sha256": "1a00f8c60f214ac665c79e14d934d5ab10379fc3311dbd6292e110c8ad1f5512",
-      "source_config_sha256": "46969a7c88ebf5988a9a0e30560196fc51964a6761167d88030703b51ef471e0",
+      "source_input_path": "output/m6-comparison-answer-048-execution-r2/source/comparison-anchor.json",
+      "source_input_file_sha256": "409718ea985d072b23d9d09dce6bc19ecaf29df5f5b1d7be8a7cf5680c23fa57",
+      "source_config_sha256": "06f6601fec259818e8226555563be41808f83a0818076a948c55a6e7b7cb780d",
       "source_result_sha256": "5266931ebe2bd5f895475c7a748f553e45701e8077ca434ea3088a2cc939ec8c",
       "prompt_utf8_sha256": "bfde72968f529a24e20d5fd1fbbe3626a512fb4e808441e8116f4f64a3bc8772",
-      "dataset_sha256": "217fe6342f2389cf32aa112ec8591a0b8b09e97bb2d1356b085799f734249a04",
-      "split_manifest_sha256": "d1644269ffd71a8e9917c7cea4ac98d99b31ce0fc62f7c0978231fb3bb3a28d0"
+      "dataset_sha256": "c72a78955afe86503fbb37cc7293fa54287b0427877af4616bb762dfb57656c9",
+      "split_manifest_sha256": "3f2b3c3413da98773b600623200deb399f91da3e9c8b1b6dd0be3fc2d83109f9"
     }
   ],
   "dispatch_order": ["m6-comparison-answer-048-r1-r1-support-v1-048"],
