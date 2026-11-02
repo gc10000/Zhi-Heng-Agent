@@ -8,6 +8,16 @@
 
 详见[执行前置报告](reviews/M6-comparison-answer-048-preflight-r1.md)、[脱敏摘要](reviews/M6-comparison-answer-048-preflight-validation-r1.json)和[记录](records/M6-comparison-answer-048-preflight-r1.md)。M6保持5/7：04已验收，05缺真实反馈复评proof，08缺有效候选质量及阶段证据；43题暂停，heldout未运行，M7未启动。下一步恢复/冻结与当前受审运行身份一致的代码及模型，并先独立复核风险档案修复；指纹不全匹配则继续停止。
 
+## 2026-11-02 · 048运行身份复核更正：模型已在本机，当前代码需新身份
+
+更正上方前置报告对模型目录的表述：BGE-M3与bge-reranker-large从项目早期已配置并验证；主项目`.env`及两个权重目录都存在，未丢失。上轮在隔离worktree中以相对路径从不同工作目录解析，导致误报目录缺失。沿历史本地评测环境显式设`MODEL_HOST_URL`为空字符串后，不加载权重、不推理地重算当前运行：model指纹与原冻结值一致，prompt指纹也一致。未改`.env`或模型文件。
+
+仍不能沿用原登记配置：它冻结的code指纹是旧代码；当前已受审比较答复分支的新code指纹不同，这是本次唯一功能变量应产生的身份差异，不得手改旧配置版本值。当前代码指纹为`72e8370f18bf4f9f970daa570640b73cd4f55624298ec480d658f205c7fd29c2`，prompt为`cd3c40ef0e6af5de7edc7d4257aa09edeb92ac895aaeff16683d00110b395dc6`，model为`565fbfe4c795fb52f84183f7b2708491fd7824fa07f2de9fd546e9d6d6e5bb90`；原正式配置code指纹为`0d0dd5e47fd0de685e60541804441b1fbf4145819f1139f41e1fc2eb5efea6c6`。
+
+因此没有修改或覆盖旧catalog/config，也没有发送请求。下一步是把本次实际比较输入、当前code指纹及已批准的一次性预算完整冻结到新身份，验证风险档案正向路径后再执行唯一048 stream。缺任一输入/授权hash、身份不全等或请求前校验不符即停；不得把本地模型hash通过当成完整runtime/请求准入通过。此更正没有新增模型推理、provider请求、正式数据库写入或usage；授权尚未消费，累计仍53089/30412，费用/HTTP及付费上界仍unknown。M6保持5/7，43题暂停，heldout未运行，M7未启动。
+
+详见[运行身份复核与更正](reviews/M6-comparison-answer-048-runtime-identity-r2.md)及[脱敏摘要](reviews/M6-comparison-answer-048-runtime-identity-validation-r2.json)。
+
 ## 2026-11-02 · 048授权正向来源绑定合成复核完成，真实授权与答案质量仍开放
 
 按用户确认，只补授权存在时的无调用正向技术验证。新增2项合成测试实际运行sources、完整题集输入提取、manifest冻结/不可覆盖、require、validate_config与validate_prompt；GitEvidence解析、commit/path和SHA验证保留真实代码，仅git-show输出为合成字节。9个相关单元模块166 passed、OpenAPI2 passed；compileall和diff-check通过。生产实现未改。该结果只关闭合成正向路径，不证明远程Git授权真实存在，不创建正式授权，不访问正式catalog/Mongo，不调用模型，不恢复43题或运行heldout。
