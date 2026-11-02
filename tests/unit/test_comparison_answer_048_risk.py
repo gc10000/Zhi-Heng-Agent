@@ -102,6 +102,304 @@ def test_comparison_risk_profile_has_no_authorization_or_old_slot_fallback():
         risk.open_client(policy)
 
 
+def make_authorized_comparison_case(tmp_path, monkeypatch):
+    import copy
+    import hashlib
+    import json
+
+    from app.infrastructure.providers import comparison_answer_048_risk as risk
+    from app.infrastructure.providers.output_contract import parse_contract
+    from app.knowledge.repository import fingerprint
+
+    monkeypatch.setattr(risk, 'ROOT', tmp_path)
+
+    def save(relative, value):
+        path = tmp_path / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(value, ensure_ascii=False), encoding='utf-8')
+        return risk.sha(path)
+
+    question = {
+        'id': risk.QUESTION_ID,
+        'question': '比较两款合成设备的上联介质。',
+        'product_names': ['合成A', '合成B'],
+        'history': [],
+        'split': 'dev',
+    }
+    dataset_path = tmp_path / 'output/catalog/version-1.jsonl'
+    dataset_path.parent.mkdir(parents=True)
+    dataset_path.write_text(json.dumps(question, ensure_ascii=False) + '\n', encoding='utf-8')
+    dataset_sha256 = risk.sha(dataset_path)
+    split_manifest_sha256 = save('output/catalog/version-1-manifest.json', {'version': 1, 'rows': 1})
+
+    config = {
+        'strategy': 'm6-comparison-synthetic',
+        'target': {
+            'database': 'm1_test_m4_comparison_target',
+            'collection': 'synthetic_products',
+            'owner_id': 'synthetic-owner',
+            'kb_id': 'synthetic-kb',
+            'bucket': 'synthetic-bucket',
+            'object_prefix': 'synthetic/comparison/',
+        },
+        'parameters': {
+            'answer_budget': {
+                'context_window': 32768,
+                'output_tokens': 4096,
+                'reserve_tokens': 256,
+                'max_chars': 12000,
+            },
+            'evidence_attribution': {
+                'enabled': True,
+                'source_relations': {'enabled': True, 'function_version': 'source_relation_spans_v1'},
+                'comparison_answer': {'enabled': True, 'function_version': 'comparison_answer_v1'},
+            },
+        },
+        'question_ids': [risk.QUESTION_ID],
+        'dataset_sha256': dataset_sha256,
+        'split_manifest_sha256': split_manifest_sha256,
+        'versions': {'code': risk.code_version(), 'prompt': 'synthetic-prompt-v1', 'model': 'synthetic'},
+        'phase': 'development',
+        'split': 'dev',
+        'execution_mode': 'real_query_runner',
+        'metric_schema_version': 1,
+        'experiment_id': risk.SLOT,
+    }
+    result = {
+        'prompt': '合成冻结prompt：只比较设备上联。',
+        'context': [{'text': '合成冻结证据原文。'}],
+        'groups': [{'group': 'uplink', 'source_ids': ['synthetic-source']}],
+        'prompt_reference_map': [{'reference': 1, 'source_id': 'synthetic-source'}],
+        'budget': {'input_tokens': 123, 'input_limit': 28416},
+    }
+    source_config = copy.deepcopy(config)
+    source_config['experiment_id'] = 'synthetic-parent-experiment'
+    anchor = {'new_config': source_config, 'result': result, 'new_request_key': 'synthetic-request-key'}
+    source_input_path = 'output/anchor.json'
+    source_input_sha256 = save(source_input_path, anchor)
+
+    execution_manifest = {
+        'entries': [{
+            'version': 1,
+            'ordinal': 27,
+            'question_id': risk.QUESTION_ID,
+            'source': {'question_sha256': fingerprint(question)},
+        }],
+    }
+    execution_manifest_path = 'output/original-execution.json'
+    execution_manifest_sha256 = save(execution_manifest_path, execution_manifest)
+    master = {
+        'version_sources': [{
+            'version': 1,
+            'control_database': 'm1_test_m4_comparison_control',
+            'owner_id': 'synthetic-owner',
+            'kb_id': 'synthetic-kb',
+            'dataset_sha256': dataset_sha256,
+            'split_manifest_sha256': split_manifest_sha256,
+        }],
+    }
+    master_path = 'output/master.json'
+    master_sha256 = save(master_path, master)
+
+    history_path = 'output/history-receipt.json'
+    history_source_sha256 = save(history_path, {'sealed': 'synthetic usage receipt'})
+    prior = {
+        'input_tokens': 53089,
+        'output_tokens': 30412,
+        'sources': {'history': {'path': history_path, 'sha256': history_source_sha256}},
+    }
+    prior['sha256'] = fingerprint(prior)
+
+    authorization_ref = {
+        'commit': 'c' * 40,
+        'path': 'docs/development/reviews/M6-comparison-answer-048-authorization-r1.json',
+        'sha256': 'd' * 64,
+    }
+    member = {
+        'version': 1,
+        'ordinal': 27,
+        'question_id': risk.QUESTION_ID,
+        'expected_generation': True,
+        'fixed_slot': risk.SLOT,
+        'source_input_path': source_input_path,
+        'source_input_file_sha256': source_input_sha256,
+        'source_config_sha256': fingerprint(source_config),
+        'source_result_sha256': fingerprint(result),
+        'prompt_utf8_sha256': hashlib.sha256(result['prompt'].encode()).hexdigest(),
+        'dataset_sha256': dataset_sha256,
+        'split_manifest_sha256': split_manifest_sha256,
+    }
+    endpoint_sha256 = 'a' * 64
+    authorization = {
+        'kind': 'coordinator_scoped_comparison_answer_048_authorization',
+        'admission_version': risk.VERSION,
+        'fixed_batch_slot': risk.BATCH,
+        'single_experimental_change': 'comparison_answer_v1_with_assertion_binding_disabled',
+        'risk': {
+            'gateway_capability_status': 'unknown',
+            'coordinator_accepts_unknown_paid_upper_bound_only_for_this_one_stream': True,
+        },
+        'members': [member],
+        'dispatch_order': [risk.SLOT],
+        'original_master_path': master_path,
+        'original_master_file_sha256': master_sha256,
+        'original_execution_manifest_path': execution_manifest_path,
+        'original_execution_manifest_sha256': execution_manifest_sha256,
+        'full_dataset_rows_per_version': 1,
+        'dev_rows_per_version': 1,
+        'heldout_rows_per_version': 0,
+        'prior_usage': prior,
+        'runtime': {
+            'n': 1,
+            'model': 'qwen3.8-flash',
+            'endpoint_sha256': endpoint_sha256,
+            'client_versions': {'openai': '2.28.0', 'langchain-openai': '1.1.11'},
+            'limit_field': 'max_completion_tokens',
+            'requested_total_output_tokens': 4096,
+            'thinking': False,
+            'temperature': 0.1,
+            'timeout_seconds': 120,
+            'sdk_max_retries': 0,
+            'stream': True,
+        },
+        'budget': {
+            'context_window': 32768,
+            'output_tokens_requested': 4096,
+            'reserve_tokens': 256,
+            'max_chars': 12000,
+            'single_input_limit': 28416,
+            'prior_diagnostic_input_tokens': 53089,
+            'prior_diagnostic_output_tokens': 30412,
+            'max_total_diagnostic_input_tokens': 81505,
+            'max_total_diagnostic_output_tokens': 34508,
+            'max_new_product_jobs': 1,
+            'max_new_product_streams': 1,
+            'max_attempts_per_member': 1,
+        },
+    }
+    authorization_bytes = json.dumps(authorization).encode('utf-8')
+    authorization_ref['sha256'] = hashlib.sha256(authorization_bytes).hexdigest()
+    monkeypatch.setattr(risk, 'AUTHORIZED_GIT', authorization_ref)
+    from app.answering import reviewed_subjects
+    import subprocess
+
+    def git_show(args, *, cwd, capture_output, timeout):
+        assert args == ['git', 'show', f"{authorization_ref['commit']}:{authorization_ref['path']}"]
+        assert reviewed_subjects.Path(cwd) == reviewed_subjects.Path(reviewed_subjects.__file__).resolve().parents[2]
+        assert capture_output is True and timeout == 10
+        return subprocess.CompletedProcess(args, 0, stdout=authorization_bytes, stderr=b'')
+
+    reviewed_subjects._git_bytes.cache_clear()
+    monkeypatch.setattr(reviewed_subjects.subprocess, 'run', git_show)
+
+    contract = comparison_contract(enabled=True)
+    contract['endpoint_sha256'] = endpoint_sha256
+    contract['admission']['authorization'] = authorization_ref
+    contract['prior_source_sha256'] = risk.prior_receipt(authorization)['sha256']
+    policy = parse_contract(contract)
+    config['parameters']['answer_budget'].update(
+        output_token_field='max_completion_tokens',
+        output_contract=policy.model_dump(mode='json'),
+    )
+    return {
+        'risk': risk,
+        'policy': policy,
+        'config': config,
+        'question': question,
+        'result': result,
+        'authorization': authorization,
+        'save': save,
+        'fingerprint': fingerprint,
+    }
+
+
+def test_authorized_comparison_freezes_and_validates_the_complete_synthetic_source_path(tmp_path, monkeypatch):
+    from app.knowledge.repository import fingerprint
+
+    case = make_authorized_comparison_case(tmp_path, monkeypatch)
+    risk = case['risk']
+    policy = case['policy']
+
+    auth, member, anchor, parent = risk.sources(policy)
+    assert auth['fixed_batch_slot'] == risk.BATCH
+    assert member['fixed_slot'] == risk.SLOT
+    assert anchor['result']['prompt'] == '合成冻结prompt：只比较设备上联。'
+    assert parent['control_database'] == 'm1_test_m4_comparison_control'
+    assert risk.authorized_inputs(auth, member) == {
+        'id': 'support-v1-048',
+        'question': '比较两款合成设备的上联介质。',
+        'product_names': ['合成A', '合成B'],
+        'history': [],
+    }
+
+    manifest = risk.build_manifest([(
+        case['config'], case['question'], 'm1_test_m4_comparison_control',
+    )])
+    assert manifest['dispatch_order'] == ['m6-comparison-answer-048-r1-r1-support-v1-048']
+    assert manifest['entries'][0]['question']['question'] == '比较两款合成设备的上联介质。'
+    assert manifest['entries'][0]['input_sha256'] == fingerprint({
+        'id': 'support-v1-048',
+        'question': '比较两款合成设备的上联介质。',
+        'product_names': ['合成A', '合成B'],
+        'history': [],
+    })
+
+    frozen = risk.build_manifest([(
+        case['config'], case['question'], 'm1_test_m4_comparison_control',
+    )])
+    assert frozen == manifest
+    policy = policy.model_copy(update={
+        'admission': policy.admission.model_copy(update={'manifest_sha256': fingerprint(manifest)}),
+    })
+    case['config']['parameters']['answer_budget']['output_contract'] = policy.model_dump(mode='json')
+    risk.prepare_manifest(manifest)
+    assert risk.require(policy) == manifest
+    assert risk.validate_config(case['config'], 'm1_test_m4_comparison_control', question=case['question']) == manifest
+    with pytest.raises(ValueError, match='不可覆盖'):
+        risk.prepare_manifest(manifest | {'artifacts': {'changed': True}})
+
+    changed_config = __import__('copy').deepcopy(case['config'])
+    changed_config['target']['collection'] = 'unfrozen_collection'
+    with pytest.raises(ValueError):
+        risk.validate_config(changed_config, 'm1_test_m4_comparison_control', question=case['question'])
+
+    prompt_state = {
+        'prompt_used_docs': case['result']['context'],
+        'prompt_reference_map': case['result']['prompt_reference_map'],
+        'evidence_groups': case['result']['groups'],
+        'prompt_budget': case['result']['budget'] | {'policy': 'synthetic-policy'},
+    }
+    risk.validate_prompt(policy, case['result']['prompt'], prompt_state)
+    with pytest.raises(ValueError, match='prompt'):
+        risk.validate_prompt(policy, case['result']['prompt'] + '漂移', prompt_state)
+
+
+def test_authorized_comparison_rejects_source_and_question_drift_after_freeze(tmp_path, monkeypatch):
+    import copy
+
+    case = make_authorized_comparison_case(tmp_path, monkeypatch)
+    risk = case['risk']
+    manifest = risk.build_manifest([(
+        case['config'], case['question'], 'm1_test_m4_comparison_control',
+    )])
+    policy = case['policy'].model_copy(update={
+        'admission': case['policy'].admission.model_copy(update={
+            'manifest_sha256': case['fingerprint'](manifest),
+        }),
+    })
+    case['config']['parameters']['answer_budget']['output_contract'] = policy.model_dump(mode='json')
+    risk.prepare_manifest(manifest)
+
+    changed_question = copy.deepcopy(case['question'])
+    changed_question['question'] = '改写后的合成问题。'
+    with pytest.raises(ValueError, match='身份|不匹配|冻结'):
+        risk.validate_config(case['config'], 'm1_test_m4_comparison_control', question=changed_question)
+
+    case['save']('output/anchor.json', case['authorization']['members'][0] | {'tampered': True})
+    with pytest.raises(ValueError, match='漂移'):
+        risk.sources(policy)
+
+
 def test_comparison_prior_usage_requires_the_frozen_receipt_and_source_hashes(tmp_path, monkeypatch):
     from app.infrastructure.providers import comparison_answer_048_risk as risk
     from app.knowledge.repository import fingerprint

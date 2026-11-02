@@ -1,3 +1,7 @@
+## 2026-11-02 · M6-048风险合同授权正向路径合成复核
+
+新增2项临时目录合成验证，实际运行授权来源、冻结题集/原执行manifest、单成员预算与配置绑定、manifest不可覆盖及prompt来源核验；GitEvidence和SHA代码真实运行，git-show返回体为合成字节。相关单元166、OpenAPI2通过，未修改生产实现。没有正式授权、模型调用、正式库写入或真实答案；M6保持5/7。详见[独立报告](reviews/M6-comparison-answer-risk-forward-review-r1.md)。
+
 ## 2026-11-02 · M6-048比较风险合同与单槽账本总控独立复核
 
 总控独立复核确认有限技术边界通过：默认关闭与无授权失败关闭、旧消费账本来源核对、新CAS账本隔离结算及不重领。164项相关单元、52项隔离Mongo、2项OpenAPI契约通过；授权后的正向路径未验证，未产生真实答案或质量证据，M6保持5/7。详见[独立复核](reviews/M6-comparison-answer-risk-review-r1.md)和[摘要](reviews/M6-comparison-answer-risk-review-validation-r1.json)。

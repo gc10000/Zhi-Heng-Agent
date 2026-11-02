@@ -1,3 +1,7 @@
+## 2026-11-02 · 048授权正向风险档案代码路径合成复核
+
+新增2项无调用合成正向测试：GitEvidence结构及内容hash核验、冻结题集/题级输入绑定、单成员manifest创建和不可覆盖、require/config/prompt正向验证与漂移拒绝通过；9个相关单元模块166 passed、OpenAPI2 passed。`git show`返回字节为合成输入，实际远程Git授权对象未验证；无生产实现修改、正式库写入、模型调用或答案质量proof。M6仍5/7，M6-05/08质量证据未补，43题暂停、heldout未跑、M7未启动。详见[复核报告](../../development/reviews/M6-comparison-answer-risk-forward-review-r1.md)和[脱敏摘要](../../development/reviews/M6-comparison-answer-risk-forward-review-validation-r1.json)。
+
 ## 2026-11-02 · 比较答复风险合同与单槽预算账本独立复核（有限范围通过）
 
 新增默认关闭的`diagnostic_comparison_answer_048_v1`合同、单成员风险档案和CAS账本路由。固定`support-v1-048`，历史usage 53089/30412，单次预留输入/输出28416/4096，累计算术上限81505/34508。无独立新Git授权时，服务准入、客户端构造、清单准备均失败关闭；正式catalog继续`output_contract=null`。不创建正式experiment、slot、Run或质量记录。

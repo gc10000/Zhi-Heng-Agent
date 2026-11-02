@@ -1,3 +1,7 @@
+## 2026-11-02 · M6-048风险合同授权正向路径已做合成复核；真实授权/质量开放
+
+2项新增正向测试以临时文件和合成授权字节执行真实风险校验逻辑，166个相关单元及OpenAPI2通过；manifest/配置/prompt绑定和漂移拒绝均有覆盖。生产代码未改。此项不产生正式授权或调用许可，真实远程Git授权、模型端点、比较答案质量、M6-05/08正式证据仍开放，M6保持5/7。见[独立报告](../development/reviews/M6-comparison-answer-risk-forward-review-r1.md)及[摘要](../development/reviews/M6-comparison-answer-risk-forward-review-validation-r1.json)。
+
 ## 2026-11-02 · M6-048风险合同与单槽账本：有界技术项独立通过，授权执行与质量仍开放
 
 `diagnostic_comparison_answer_048_v1`合同、专用授权失败关闭risk档案和CAS账本路由经独立定向复核：默认关闭/缺授权拒绝、旧消费账本collection与hash校验、新单槽CAS及不重领边界通过；9个相关单元164通过、隔离Mongo52通过、OpenAPI2通过。授权正向路径未实测，没有新Git授权，配置仍`output_contract=null`；不派发真实048，答案质量与M6-05/08证据仍缺，阶段保持5/7。实现自验和独立复核材料：[实现报告](../development/reviews/M6-comparison-answer-risk-r1.md)、[总控独立报告](../development/reviews/M6-comparison-answer-risk-review-r1.md)、[脱敏摘要](../development/reviews/M6-comparison-answer-risk-review-validation-r1.json)。

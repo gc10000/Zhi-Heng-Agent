@@ -1,3 +1,9 @@
+## 2026-11-02 · 048授权正向来源绑定合成复核完成，真实授权与答案质量仍开放
+
+按用户确认，只补授权存在时的无调用正向技术验证。新增2项合成测试实际运行sources、完整题集输入提取、manifest冻结/不可覆盖、require、validate_config与validate_prompt；GitEvidence解析、commit/path和SHA验证保留真实代码，仅git-show输出为合成字节。9个相关单元模块166 passed、OpenAPI2 passed；compileall和diff-check通过。生产实现未改。该结果只关闭合成正向路径，不证明远程Git授权真实存在，不创建正式授权，不访问正式catalog/Mongo，不调用模型，不恢复43题或运行heldout。
+
+首次红测中一项是夹具缺dataset计数，另两项为测试断言文案/Path类型问题；均已修正，未发现生产缺陷，私有过程留在`output/m6-comparison-answer-048-forward-review-20261102/`。M6保持5/7：05缺反馈复评proof，08缺有效候选质量及阶段证据；详见[本轮复核报告](reviews/M6-comparison-answer-risk-forward-review-r1.md)和[脱敏摘要](reviews/M6-comparison-answer-risk-forward-review-validation-r1.json)。
+
 ## 2026-11-02 · 当前总控独立复核：048风险合同有界技术通过，真实质量仍开放
 
 本轮独立复核关闭默认关闭合同解析/路由、缺新专属Git授权时的实验与客户端/清单失败关闭、旧048消费账本来源collection/hash核对、新单槽CAS及未知usage/断流不重领边界。9个相关单元164通过，隔离Mongo52通过，OpenAPI2通过；首次集成启动缺根`.env`的MONGO_URL、未进测试体且未写库，静默加载后复跑通过。

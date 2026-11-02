@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-02",
+  "task": "M6-comparison-answer-048-authorized-positive-path-synthetic-review-r1",
+  "branch": "codex/m6-source-bound-comparison",
+  "baseline_commit": "443b455209d85b0cbf871c61cd82167e394879d7",
+  "status": "synthetic_positive_path_passed_real_authorization_and_quality_open",
+  "scope": {
+    "production_code_changed": false,
+    "formal_git_authorization_created": false,
+    "formal_catalog_read": false,
+    "formal_mongo_write": false,
+    "real_model_calls": 0,
+    "local_inference_calls": 0,
+    "formal_run_or_outcome_created": false,
+    "quality_record_or_proof_written": false
+  },
+  "verified": [
+    "synthetic GitEvidence reference and SHA-256 content verification through the real evidence reader with only the git-show subprocess output replaced",
+    "authorization/batch/member/runtime/budget checks in comparison_answer_048_risk.sources",
+    "complete frozen dataset and execution manifest source binding",
+    "authorized_inputs reconstructs only version 1 ordinal 27 support-v1-048 dev input",
+    "build_manifest produces one fixed member with bound config, question, input hash and historical usage receipt",
+    "prepare_manifest writes to pytest temporary storage and refuses changed-plan overwrite",
+    "require and validate_config accept the exact frozen identity and reject changed question or target collection",
+    "validate_prompt accepts the exact frozen prompt state and rejects prompt drift",
+    "tampered frozen source-input file is rejected by hash"
+  ],
+  "verification": {
+    "focused_new_tests": {"tests": 2, "passed": 2, "failed": 0},
+    "related_unit_modules": {"tests": 166, "passed": 166, "failed": 0, "warnings": 1},
+    "openapi_contract": {"tests": 2, "passed": 2, "failed": 0},
+    "compileall_app": "passed",
+    "git_diff_check": "passed"
+  },
+  "preserved_test_setup_failures": "output/m6-comparison-answer-048-forward-review-20261102/initial-test-failures.json",
+  "open": [
+    "synthetic test does not prove the referenced authorization commit/path exists on the actual Git remote",
+    "no formal authorization, formal catalog/Mongo job, real client/HTTP/model stream, answer, or answer-quality proof",
+    "M6-05 feedback re-review proof and M6-08 candidate quality/stage evidence remain missing"
+  ],
+  "m6": {
+    "stage_count": "5/7",
+    "m6_04": "accepted",
+    "m6_05": "missing_real_feedback_review_proof",
+    "m6_08": "missing_valid_candidate_quality_and_stage_evidence",
+    "original_43_questions_paused": true,
+    "heldout_65_run": false,
+    "m7_started": false
+  }
+}
