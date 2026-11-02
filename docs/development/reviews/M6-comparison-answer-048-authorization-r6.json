@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "kind": "coordinator_scoped_comparison_answer_048_authorization",
+  "date": "2026-11-03",
+  "timezone": "Asia/Shanghai",
+  "status": "authorized_for_one_stream_only",
+  "authority": "explicit_user_authorization_in_active_conversation",
+  "user_authorization": {
+    "verbatim": "授权新批次对 support-v1-048 执行一次验证，最多一个模型调用，接受费用上限未知，失败即停止。",
+    "question_id": "support-v1-048",
+    "max_provider_streams": 1,
+    "paid_upper_bound": "unknown_accepted_for_this_attempt",
+    "stop_on_first_failure": true
+  },
+  "authorization_continuation": {
+    "user_steering": "遇到问题你要修改啊，不要直接停止啊",
+    "scope": "修复r3冻结顺序、r4 Windows审阅行尾及r5内部Run合同接线；所有失败身份原样封存。已证实此前新增provider stream为0，使用新r6身份继续同一次、总计最多1次stream验证。",
+    "provider_streams_started_before_continuation": 0,
+    "provider_streams_started_by_superseded_attempts": 0,
+    "max_provider_streams_for_this_validation": 1,
+    "reuse_or_retry_superseded_slots": false
+  },
+  "admission_version": "diagnostic_comparison_answer_048_v1",
+  "fixed_batch_slot": "m6-comparison-answer-048-risk-r6",
+  "single_experimental_change": "comparison_answer_v1_with_assertion_binding_disabled",
+  "evaluation_control_database": "product_knowledge_rag_m6_eval_control",
+  "supersedes_failed_attempt": {
+    "batch": "m6-comparison-answer-048-risk-r5",
+    "slot": "m6-comparison-answer-048-r5-support-v1-048",
+    "halt_path": "output/m6-authorized-products/m6-comparison-answer-048-risk-r5/halt.json",
+    "halt_sha256": "912827f9b4964b5ea2c813f634972ac5f95ade08e34159f03389c03f5418b39f",
+    "authorization_commit": "25d824e981eb0e5e5c8f1d6d229ead8870cefd21",
+    "authorization_sha256": "35b258248415e5befd7f2ef60538af879822882c1419a254739c84cd114dcdb6",
+    "halt_must_remain_unchanged": true,
+    "retry_or_reuse_authorized": false,
+    "failure": "InternalRunInput未接比较合同；experiment failed、失败result1、checkpoint/conversation存在，Run/risk账户/provider请求/stream均0"
+  },
+  "previous_batch": "m6-source-relation-048-canary-r1",
+  "previous_batch_must_remain_blocked": true,
+  "previous_halt_sha256": "3a91ce882614bf4b6046e3068c786a2a70d9e54d1ebb4b9106440bc3b37da819",
+  "previous_manifest_sha256": "3101798563cabe255a2b27a41bc1d0e2f4f28b05637336f9c1ac58931e707be7",
+  "previous_account_snapshot_path": "output/m6-comparison-answer-048-runtime-identity-r2/prior-source-relation-account.json",
+  "previous_account_snapshot_sha256": "62ef77ef79899fdc311fbfbb5ec6c67f54851cce7f1eaab1c6094c7b7af1a1d7",
+  "previous_settlement_source_path": "output/m6-comparison-answer-048-runtime-identity-r2/prior-source-relation-settlement.json",
+  "previous_settlement_source_sha256": "cf2ee18a3620a6a838c5865e703347d7ed590363ac07b5ce6b7ab5ea04e8dcd9",
+  "original_master_path": "output/m6-comparison-answer-048-runtime-identity-r2/master-source-manifest.json",
+  "original_master_file_sha256": "e479481dec4be520d673d561975ab7a068d8298bbc85ea4ce72bcb5ed3d4e0e0",
+  "original_execution_manifest_path": "output/m6-comparison-answer-048-runtime-identity-r2/execution-manifest.json",
+  "original_execution_manifest_sha256": "1e50c370a38d2668e3d409a1099949f801704b0b5363d9ee4caa3444900e6a81",
+  "source_versions": [
+    "fb-07c584730833908571fe9dd7c7c890afa3cf9e66"
+  ],
+  "full_dataset_rows_per_version": 150,
+  "dev_rows_per_version": 85,
+  "heldout_rows_per_version": 65,
+  "members": [
+    {
+      "version": 1,
+      "ordinal": 27,
+      "question_id": "support-v1-048",
+      "expected_generation": true,
+      "fixed_slot": "m6-comparison-answer-048-r6-support-v1-048",
+      "source_input_path": "output/m6-comparison-answer-048-execution-r2/source/comparison-anchor-registered.json",
+      "source_input_file_sha256": "7452b374385df38cb9c3ce6355fc445bacb8a6832286dd1ce4b2a28f59ff2361",
+      "source_config_sha256": "33ded3b18f44f491b8860d368033de5bd960eef259c384abaa902d3e14122952",
+      "source_result_sha256": "5266931ebe2bd5f895475c7a748f553e45701e8077ca434ea3088a2cc939ec8c",
+      "prompt_utf8_sha256": "bfde72968f529a24e20d5fd1fbbe3626a512fb4e808441e8116f4f64a3bc8772",
+      "dataset_sha256": "c72a78955afe86503fbb37cc7293fa54287b0427877af4616bb762dfb57656c9",
+      "split_manifest_sha256": "3f2b3c3413da98773b600623200deb399f91da3e9c8b1b6dd0be3fc2d83109f9"
+    }
+  ],
+  "dispatch_order": [
+    "m6-comparison-answer-048-r6-support-v1-048"
+  ],
+  "prior_usage": {
+    "input_tokens": 53089,
+    "output_tokens": 30412,
+    "sources": {
+      "source_relation_execution_report": {
+        "path": "docs/development/reviews/M6-source-relation-048-canary-execution-r1.md",
+        "sha256": "09e09a3c1ec9fcf993df697002967b89f4e2ce6163fb28e1a186b5a888761165"
+      },
+      "source_relation_validation_summary": {
+        "path": "docs/development/reviews/M6-source-relation-048-canary-validation-r1.json",
+        "sha256": "f4af25098318284b6a363a9ea90c6b852c17926b0db56dd26bd7edf90876068d"
+      }
+    },
+    "sha256": "78c633550fb765b50f01ec3507ca9f62abc411dbacef849b4d57fcc862cf8353"
+  },
+  "runtime": {
+    "n": 1,
+    "model": "qwen3.8-flash",
+    "endpoint_sha256": "7cbf2306d7facc55fd08ea52e1d6891e0dc6bc6af6d5442df34f17403670ad2a",
+    "client_versions": {
+      "openai": "2.28.0",
+      "langchain-openai": "1.1.11"
+    },
+    "limit_field": "max_completion_tokens",
+    "requested_total_output_tokens": 4096,
+    "thinking": false,
+    "temperature": 0.1,
+    "timeout_seconds": 120,
+    "sdk_max_retries": 0,
+    "stream": true
+  },
+  "risk": {
+    "gateway_capability_status": "unknown",
+    "server_hard_limit_verified": false,
+    "max_paid_output_tokens": null,
+    "exact_http_requests": null,
+    "cost": null,
+    "coordinator_accepts_unknown_paid_upper_bound_only_for_this_one_stream": true,
+    "request_limit_and_timeout_are_not_cost_guarantees": true
+  },
+  "budget": {
+    "context_window": 32768,
+    "output_tokens_requested": 4096,
+    "reserve_tokens": 256,
+    "max_chars": 12000,
+    "single_input_limit": 28416,
+    "prior_diagnostic_input_tokens": 53089,
+    "prior_diagnostic_output_tokens": 30412,
+    "max_total_diagnostic_input_tokens": 81505,
+    "max_total_diagnostic_output_tokens": 34508,
+    "max_new_product_jobs": 1,
+    "max_new_product_streams": 1,
+    "max_attempts_per_member": 1
+  }
+}
