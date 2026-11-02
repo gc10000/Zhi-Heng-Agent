@@ -1,3 +1,7 @@
+## 2026-11-03 · 048前置故障补修，剩余唯一stream继续执行
+
+用户要求遇到前置问题直接修复。已修复Windows审阅行尾误拒、InternalRunInput遗漏比较合同，以及比较产品名称依赖数据库自然顺序导致精确prompt不匹配。106相关单元/契约（含OpenAPI2）和14随机隔离Mongo通过。r4/r5/r6失败身份保留；r6已有failed Run，本机BGE编码已实际运行，但持久telemetry证明invoke/stream均0，无风险账户/started/settled。r7仅续接此前未消费的一个stream，不复用失败身份。尚无新答案或质量proof；M6保持5/7，43题暂停、heldout未运行、M7未启动。详见[补修记录](records/M6-comparison-answer-execution-preflight-fix-r1.md)。以下历史保留。
+
 ## 2026-11-02 · 新048授权r3在最终身份校验失败后封存，未派发
 
 新授权r3已停在provider派发前：冻结清单源码指纹`26212526c3be318c51ce7a5725e103f78bbc57c456b1e47bd17500dc64b5ae65`与清单准备后包含源码注释变更的当前指纹`7e3ba59d194934c41e593c161aefcd94279c4ab4e629fad597ffe462321fad25`不一致。校验在Mongo读取、experiment创建和provider派发前失败；因此按“失败即停止”封存新r3 halt，不能重算或重试本槽。旧048 r2 halt与旧blocked账本未变。本次provider请求/stream、本地推理、正式业务写入、Run/experiment创建及usage增量均0。

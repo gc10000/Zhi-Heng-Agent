@@ -312,8 +312,16 @@ class QueryRunner:
             docs = [h.document() for h in expansion.selected]
             stage = 'answer'
             from app.query_process.agent.nodes.node_answer_output import step_3_generate_response
+            prompt_names=[p['model'] for p in products if p['product_id'] in selected]
+            if comparison_enabled:
+                # 比较展示遵循冻结输入选择顺序，不依赖Mongo自然顺序或检索分支排序。
+                input_ids=current['input_product_snapshot']['product_ids']
+                ordered_ids=[pid for pid in input_ids if pid in selected]
+                ordered_ids.extend(pid for pid in selected if pid not in ordered_ids)
+                product_names={p['product_id']:p['model'] for p in products}
+                prompt_names=[product_names[pid] for pid in ordered_ids]
             state,prompt=self.evidence_prompt(row['question'],docs,expansion.groups,plan,
-                item_names=[p['model'] for p in products if p['product_id'] in selected],
+                item_names=prompt_names,
                 history=self._history(user,current),session_id=rid,product_ids=selected)
             used = {d['chunk_id'] for d in state['prompt_used_docs']}
             used_keys = {stable_key(d) for d in state['prompt_used_docs']}

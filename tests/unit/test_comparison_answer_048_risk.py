@@ -10,15 +10,15 @@ def test_new_authorized_comparison_attempt_uses_fresh_identity():
         COMPARISON_ANSWER_048_SLOT,
     )
 
-    assert risk.BATCH == 'm6-comparison-answer-048-risk-r6'
-    assert risk.SLOT == 'm6-comparison-answer-048-r6-support-v1-048'
+    assert risk.BATCH == 'm6-comparison-answer-048-risk-r7'
+    assert risk.SLOT == 'm6-comparison-answer-048-r7-support-v1-048'
     assert risk.BATCH != 'm6-comparison-answer-048-risk-r3'
     assert risk.SLOT != 'm6-comparison-answer-048-r3-support-v1-048'
     assert risk.BATCH != 'm6-comparison-answer-048-risk-r2'
     assert risk.SLOT != 'm6-comparison-answer-048-r2-r2-support-v1-048'
     assert risk.SLOT == COMPARISON_ANSWER_048_SLOT
     assert risk.AUTHORIZED_GIT['path'] == COMPARISON_ANSWER_048_AUTHORIZATION_PATH
-    assert risk.AUTHORIZED_GIT['path'].endswith('M6-comparison-answer-048-authorization-r6.json')
+    assert risk.AUTHORIZED_GIT['path'].endswith('M6-comparison-answer-048-authorization-r7.json')
     assert risk.AUTHORIZED_GIT['commit'] != 'bb77462df031088cbfd03b17c100ceaa31d84748'
     assert risk.ACCOUNT_COLLECTION != consumed.ACCOUNT_COLLECTION
 
@@ -36,7 +36,7 @@ def comparison_contract(*, enabled=False):
         'client_versions': {'openai': '2.28.0', 'langchain-openai': '1.1.11'},
         'limit_field': 'max_completion_tokens',
         'per_request_total_output_tokens': 4096,
-        'ledger_id': 'm6-comparison-answer-048-canary-r6',
+        'ledger_id': 'm6-comparison-answer-048-canary-r7',
         'prior_input_tokens': 53089,
         'prior_output_tokens': 30412,
         'prior_source_sha256': 'b' * 64,
@@ -45,11 +45,11 @@ def comparison_contract(*, enabled=False):
         'admission': {
             'authorization': {
                 'commit': 'c' * 40,
-                'path': 'docs/development/reviews/M6-comparison-answer-048-authorization-r6.json',
+                'path': 'docs/development/reviews/M6-comparison-answer-048-authorization-r7.json',
                 'sha256': 'd' * 64,
             },
             'manifest_sha256': 'e' * 64,
-            'member_slot': 'm6-comparison-answer-048-r6-support-v1-048',
+            'member_slot': 'm6-comparison-answer-048-r7-support-v1-048',
         },
     }
 
@@ -111,7 +111,7 @@ def test_comparison_contract_rejects_unbounded_or_mutated_identity():
         {'max_total_output_tokens': 34507},
         {'ledger_id': 'old-blocked-ledger'},
         {'admission': {'authorization': {'commit': 'c' * 40,
-            'path': 'docs/development/reviews/M6-comparison-answer-048-authorization-r6.json',
+            'path': 'docs/development/reviews/M6-comparison-answer-048-authorization-r7.json',
             'sha256': 'd' * 64}, 'manifest_sha256': 'e' * 64, 'member_slot': 'another-slot'}},
     ):
         bad = comparison_contract(enabled=True) | change
@@ -127,9 +127,9 @@ def test_comparison_risk_profile_binds_only_the_new_authorization_and_slot():
     import json
 
     assert risk.AUTHORIZED_GIT == {
-        'commit': 'ced704033b6be6704c16485dc4637b71046f5179',
-        'path': 'docs/development/reviews/M6-comparison-answer-048-authorization-r6.json',
-        'sha256': 'd2871685f00753c9429ca0c8b1ec0bf85857d9e9bf30a48a7c2d0d8311437a51',
+        'commit': '1381cb0448be5e9f84060f8d1256c37084a10622',
+        'path': 'docs/development/reviews/M6-comparison-answer-048-authorization-r7.json',
+        'sha256': '7567092c6a11d533f04e3edbbbfbd20ede1bf5f0eb64c39835f98aff910468a4',
     }
     authorized_contract = comparison_contract(enabled=True)
     authorized_contract['admission']['authorization'] = risk.AUTHORIZED_GIT
@@ -265,7 +265,7 @@ def make_authorized_comparison_case(tmp_path, monkeypatch, *, evaluation_control
 
     authorization_ref = {
         'commit': 'c' * 40,
-        'path': 'docs/development/reviews/M6-comparison-answer-048-authorization-r6.json',
+        'path': 'docs/development/reviews/M6-comparison-answer-048-authorization-r7.json',
         'sha256': 'd' * 64,
     }
     member = {
@@ -337,22 +337,22 @@ def make_authorized_comparison_case(tmp_path, monkeypatch, *, evaluation_control
             'max_attempts_per_member': 1,
         },
     }
-    halt_path = 'output/m6-authorized-products/m6-comparison-answer-048-risk-r5/halt.json'
+    halt_path = 'output/m6-authorized-products/m6-comparison-answer-048-risk-r6/halt.json'
     old_halt = {
-        'kind': 'm6_comparison_answer_048_run_input_stop',
-        'authorization_commit': '25d824e981eb0e5e5c8f1d6d229ead8870cefd21',
-        'authorization_sha256': '35b258248415e5befd7f2ef60538af879822882c1419a254739c84cd114dcdb6',
+        'kind': 'm6_comparison_answer_048_prompt_order_stop',
+        'authorization_commit': 'ced704033b6be6704c16485dc4637b71046f5179',
+        'authorization_sha256': 'd2871685f00753c9429ca0c8b1ec0bf85857d9e9bf30a48a7c2d0d8311437a51',
         'batch': risk.SUPERSEDED_BATCH,
         'slot': risk.SUPERSEDED_SLOT,
         'question_id': risk.QUESTION_ID,
         'failure_stage': 'final_pre_dispatch_runtime_identity_check',
-        'failure_code': 'internal_run_input_missing_comparison_contract',
+        'failure_code': 'comparison_prompt_product_order_drift',
         'retry_authorized': False,
         'provider_requests': 0,
         'provider_streams': 0,
         'formal_experiment_created': True,
         'formal_result_rows': 1,
-        'run_created': False,
+        'run_created': True,
         'risk_account_created': False,
     }
     authorization['supersedes_failed_attempt'] = {
@@ -360,8 +360,8 @@ def make_authorized_comparison_case(tmp_path, monkeypatch, *, evaluation_control
         'slot': risk.SUPERSEDED_SLOT,
         'halt_path': halt_path,
         'halt_sha256': save(halt_path, old_halt),
-        'authorization_commit': '25d824e981eb0e5e5c8f1d6d229ead8870cefd21',
-        'authorization_sha256': '35b258248415e5befd7f2ef60538af879822882c1419a254739c84cd114dcdb6',
+        'authorization_commit': 'ced704033b6be6704c16485dc4637b71046f5179',
+        'authorization_sha256': 'd2871685f00753c9429ca0c8b1ec0bf85857d9e9bf30a48a7c2d0d8311437a51',
         'halt_must_remain_unchanged': True,
         'retry_or_reuse_authorized': False,
     }
@@ -423,7 +423,7 @@ def test_authorized_comparison_freezes_and_validates_the_complete_synthetic_sour
     manifest = risk.build_manifest([(
         case['config'], case['question'], 'm1_test_m4_comparison_control',
     )])
-    assert manifest['dispatch_order'] == ['m6-comparison-answer-048-r6-support-v1-048']
+    assert manifest['dispatch_order'] == ['m6-comparison-answer-048-r7-support-v1-048']
     assert manifest['entries'][0]['question']['question'] == '比较两款合成设备的上联介质。'
     assert manifest['entries'][0]['input_sha256'] == fingerprint({
         'id': 'support-v1-048',

@@ -15,7 +15,7 @@ pytestmark = pytest.mark.integration
 
 
 def setup(ctx, tmp_path, monkeypatch, *, separate, raw=None, interrupted=False,
-          question_text=None, no_evidence=False):
+          question_text=None, no_evidence=False, product_names=None):
     cfg, _, resources, prompts, question, _ = ctx
     g = resources['knowledge']()
     user = Principal(user_id=cfg['target']['owner_id'], username='比较隔离验证',
@@ -74,7 +74,7 @@ def setup(ctx, tmp_path, monkeypatch, *, separate, raw=None, interrupted=False,
     resources['synthetic_embedding_calls'] = embedding_calls
 
     question.update(question=question_text or '比较AX与BX的上联方式是否相同？请分别引用资料比较。',
-        product_names=['AX', 'BX'])
+        product_names=product_names or ['AX', 'BX'])
 
     class Model:
         def stream(self, prompt, **kwargs):
@@ -195,3 +195,21 @@ def test_invalid_complete_selection_fails_without_answer_delta_or_outcome(
     assert resources['db'].evaluation_outcomes.count_documents({}) == 0
     events = list(resources['db'].run_events.find({'run_id':run['run_id']}, {'payload':1}))
     assert 'not-json' not in str(events) and len(prompts) == 1
+
+
+def test_comparison_prompt_preserves_frozen_input_product_order(
+        evaluation_context, tmp_path, monkeypatch):
+    cfg, resources, prompts, question, repo, service, user, data, catalog = setup(
+        evaluation_context, tmp_path, monkeypatch, separate=False, product_names=['BX', 'AX'])
+    collection = resources['knowledge']().products.collection
+    real_find = collection.find
+    def reordered_find(query, *args, **kwargs):
+        result = real_find(query, *args, **kwargs)
+        if isinstance(query.get('product_id'), dict) and '$in' in query['product_id']:
+            return sorted(list(result), key=lambda product: product['model'])
+        return result
+    monkeypatch.setattr(collection, 'find', reordered_find)
+    job = service.create_experiment(user, data)
+    execute_job(repo, catalog, tmp_path / 'ordered', job['experiment_id'])
+    assert repo.get_experiment(user, job['experiment_id'])['state'] == 'completed'
+    assert prompts[0].split('产品名称：\n', 1)[1].split('\n', 1)[0] == 'BX, AX'
