@@ -5,7 +5,8 @@ import pytest
 
 from app.answering.evidence_attribution import EvidenceAttributionPolicy, payload
 from app.answering.comparison_answers import (
-    build_frame_catalog, classify_frame, derive_facts, render_frame_catalog, validate_frame_selection,
+    build_frame_catalog, classify_frame, compare_facts, create_comparison_proof, derive_facts,
+    render_comparison_answer, render_frame_catalog, validate_frame_selection,
 )
 from app.knowledge.models import content_hash
 from app.knowledge.repository import fingerprint
@@ -144,3 +145,67 @@ def test_frame_catalog_rendering_quotes_full_source_without_executable_markup():
     assert parsed == [dict(reference=1, frame=0, products={'p': '合成网关'}, original_sentence=text)]
     assert parsed[0]['original_sentence'] == text
     assert 'device_uplink' not in rendered
+
+
+def _fact(product_id, category, medium, reference, text):
+    return dict(product_id=product_id, category=category, medium=medium,
+        origin='本设备', destination='核心网', purpose=None,
+        reference_number=reference, frame_index=0, frame_sha256=str(reference) * 64,
+        document_id=f'd{reference}', revision_id=f'r{reference}', chunk_uid=f'c{reference}',
+        original_sha256='a' * 64, physical_pages=[reference], page_status='exact',
+        scoped_text=text, source_refs=[dict(kind='pdf', page=reference)], clause=text, scope=None)
+
+
+def test_same_uplink_medium_yields_direct_answer_with_per_product_sources():
+    facts = [_fact('la', 'device_uplink', '以太网', 1, 'LA2608设备上联采用以太网。'),
+             _fact('cb', 'device_uplink', 'Ethernet', 2, 'CB304n设备上联采用Ethernet。')]
+    result = compare_facts('device_uplink', ['la', 'cb'], facts)
+    answer = render_comparison_answer(result, {'la': 'LA2608', 'cb': 'CB304n'})
+    assert result['status'] == 'same'
+    assert '相同' in answer
+    assert 'LA2608' in answer and '[1]' in answer
+    assert 'CB304n' in answer and '[2]' in answer
+
+
+@pytest.mark.parametrize(('left', 'right', 'expected'), [
+    ('同轴', '光纤', 'different'),
+    ('无线', '无线', 'insufficient_comparison'),
+])
+def test_only_explicitly_mapped_uplink_media_can_be_compared(left, right, expected):
+    facts = [_fact('la', 'device_uplink', left, 1, f'LA2608上联介质为{left}。'),
+             _fact('cb', 'device_uplink', right, 2, f'CB304n上联介质为{right}。')]
+    assert compare_facts('device_uplink', ['la', 'cb'], facts)['status'] == expected
+
+
+def test_non_uplink_facts_are_explained_but_never_promoted_to_comparison():
+    facts = [_fact('la', 'management_link', 'Wi-Fi', 1, 'LA2608连接无线控制器用于管理。'),
+             _fact('cb', 'client_access', '同轴', 2, '用户通过同轴访问CB304n。')]
+    result = compare_facts('device_uplink', ['la', 'cb'], facts)
+    answer = render_comparison_answer(result, {'la': 'LA2608', 'cb': 'CB304n'})
+    assert result['status'] == 'insufficient_comparison'
+    assert '不能据此认定' in answer
+    assert '管理连接' in answer and '客户端访问' in answer
+    assert '[1]' in answer and '[2]' in answer
+    assert '原文不代替比较' not in answer
+
+
+def test_one_sided_uplink_and_duplicate_product_fact_fail_closed():
+    left = _fact('la', 'device_uplink', '以太网', 1, 'LA2608上联采用以太网。')
+    assert compare_facts('device_uplink', ['la', 'cb'], [left])['status'] == 'insufficient_comparison'
+    duplicate = left | dict(reference_number=2, chunk_uid='c2')
+    assert compare_facts('device_uplink', ['la', 'cb'], [left, duplicate])['status'] == 'insufficient_comparison'
+
+
+def test_comparison_proof_binds_selection_facts_and_answer():
+    facts = [_fact('la', 'device_uplink', '以太网', 1, 'LA2608设备上联采用以太网。'),
+             _fact('cb', 'device_uplink', '以太网', 2, 'CB304n设备上联采用以太网。')]
+    result = compare_facts('device_uplink', ['la', 'cb'], facts)
+    answer = render_comparison_answer(result, {'la': 'LA2608', 'cb': 'CB304n'})
+    proof = create_comparison_proof('device_uplink', 'a' * 64, 'b' * 64,
+        [{'reference': 1, 'frame': 0}], facts, result, answer)
+    assert proof['function_version'] == 'comparison_answer_v1'
+    assert proof['comparison_status'] == 'same'
+    assert proof['answer_sha256']
+    with pytest.raises(ValueError):
+        create_comparison_proof('client_access', 'a' * 64, 'b' * 64,
+            [{'reference': 1, 'frame': 0}], facts, result, answer)

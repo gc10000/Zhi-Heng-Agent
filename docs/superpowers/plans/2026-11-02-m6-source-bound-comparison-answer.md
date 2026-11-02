@@ -170,7 +170,7 @@ git commit -m "feat(M6): 从冻结原句派生比较事实"
 - `render_comparison_answer(result, product_labels)` returns user-facing Chinese text with direct conclusion, product-by-product evidence, limits, and citations carried by each derived fact.
 - `create_comparison_proof(...)` binds target, policy and implementation versions, prompt-used identity, catalog/selection/facts/result/answer hashes, and cited source identities.
 
-- [ ] **Step 1: Add failing comparison and rendering tests**
+- [x] **Step 1: Add failing comparison and rendering tests**
 
 ```python
 def test_missing_uplink_on_one_side_renders_full_insufficient_comparison():
@@ -191,25 +191,25 @@ def test_missing_uplink_on_one_side_renders_full_insufficient_comparison():
     assert '原文不代替比较' not in answer
 ```
 
-- [ ] **Step 2: Run the focused tests and confirm they fail**
+- [x] **Step 2: Run the focused tests and confirm they fail**
 
 Run: `.\.venv\Scripts\python.exe -m pytest tests/unit/test_comparison_answers.py -q --tb=short`
 
 Expected: comparison and complete-answer functions are not implemented.
 
-- [ ] **Step 3: Implement strict comparator and deterministic renderer**
+- [x] **Step 3: Implement strict comparator and deterministic renderer**
 
 Use this exact versioned `COMPARABLE_VALUES_V1` table and no additional entries: `以太网` and `Ethernet` map to `ethernet`; `同轴` and `coaxial` map to `coaxial`; `光纤` and `fiber` map to `fiber`. Only English values are case-folded and trimmed. Do not infer synonyms at runtime. This version compares only `device_uplink`; both products need independently classified uplink facts and one recognized medium. Equal canonical media yield `same`; distinct canonical media yield `different`; an unrecognized or composite value yields `insufficient_comparison`. A `diagnostic_check`, `client_access`, or `management_link` fact may be described with its source but never enters uplink comparison. A relation category mismatch is a reason for insufficiency, not proof that device capability differs.
 
 Render a direct conclusion first, then one cited sentence per product containing only program-derived facts and complete original citations, then the exact missing target/field or semantic boundary. Use a fixed citation renderer based on the existing citation/source mapping; never interpolate model text outside original evidence.
 
-- [ ] **Step 4: Verify positive, negative, and incomplete comparisons**
+- [x] **Step 4: Verify positive, negative, and incomplete comparisons**
 
 Run: `.\.venv\Scripts\python.exe -m pytest tests/unit/test_comparison_answers.py -q --tb=short`
 
 Expected: matching known media yield `same`; distinct known media yield `different`; one-sided, mismatched-category, ambiguous, or unknown media yield `insufficient_comparison`; all returned claims cite their own source frame.
 
-- [ ] **Step 5: Commit the task**
+- [x] **Step 5: Commit the task**
 
 ```powershell
 git add app/answering/comparison_answers.py tests/unit/test_comparison_answers.py

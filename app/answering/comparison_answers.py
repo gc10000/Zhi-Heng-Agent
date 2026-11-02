@@ -11,6 +11,22 @@ VERSION = 'comparison_answer_v1'
 SCHEMA_VERSION = 'comparison_frame_selection_v1'
 MAX_SELECTION_CHARS = 4096
 MAX_SELECTED_FRAMES = 100
+COMPARABLE_VALUES_V1 = {
+    '以太网': 'ethernet',
+    'ethernet': 'ethernet',
+    '同轴': 'coaxial',
+    'coaxial': 'coaxial',
+    '光纤': 'fiber',
+    'fiber': 'fiber',
+}
+_MEDIUM_LABELS = {'ethernet': '以太网', 'coaxial': '同轴', 'fiber': '光纤'}
+_CATEGORY_LABELS = {
+    'device_uplink': '设备上联',
+    'client_access': '客户端访问',
+    'management_link': '管理连接',
+    'diagnostic_check': '排障检查条件',
+    'unknown': '关系类别未能确定',
+}
 
 
 class ComparisonAnswerPolicy(BaseModel):
@@ -182,3 +198,117 @@ def derive_facts(selection, catalog, product_ids):
                 source_refs=item['source_refs'])
             facts.append(fact)
     return facts
+
+
+def _canonical_medium(value):
+    if not isinstance(value, str):
+        return None
+    normalized = value.strip().casefold() if value.isascii() else value.strip()
+    return COMPARABLE_VALUES_V1.get(normalized)
+
+
+def compare_facts(target, product_ids, facts):
+    if target != 'device_uplink' or len(product_ids) != 2 or len(set(product_ids)) != len(product_ids):
+        raise ValueError('当前比较器只接受两个不同产品的设备上联问题')
+    by_product = {product_id: [] for product_id in product_ids}
+    for fact in facts:
+        product_id = fact.get('product_id')
+        if product_id not in by_product:
+            raise ValueError('比较事实超出本轮冻结产品范围')
+        by_product[product_id].append(fact)
+    keys = {product_id: [] for product_id in product_ids}
+    normalized = {}
+    for product_id, items in by_product.items():
+        for item in items:
+            if item.get('category') != 'device_uplink':
+                continue
+            key = item.get('document_id'), item.get('revision_id'), item.get('chunk_uid'), item.get('frame_index')
+            keys[product_id].append(key)
+            normalized[(product_id, key)] = _canonical_medium(item.get('medium'))
+    status = 'insufficient_comparison'
+    compared = {}
+    if all(len(keys[pid]) == 1 for pid in product_ids):
+        values = [normalized[(pid, keys[pid][0])] for pid in product_ids]
+        if all(value is not None for value in values):
+            status = 'same' if len(set(values)) == 1 else 'different'
+            compared = dict(field='medium', canonical_values=dict(zip(product_ids, values)))
+    missing = {}
+    for product_id in product_ids:
+        key = keys[product_id][0] if len(keys[product_id]) == 1 else None
+        missing[product_id] = ('uplink_or_comparable_medium'
+            if key is None or normalized.get((product_id, key)) is None else None)
+    return dict(function_version=VERSION, comparison_target=target, status=status,
+        product_ids=list(product_ids), products={pid: by_product[pid] for pid in product_ids},
+        compared=compared, missing=missing)
+
+
+def _citation(fact):
+    pages = fact.get('physical_pages') or []
+    page_text = '、'.join(str(page) for page in pages) if fact.get('page_status') == 'exact' and pages else '页码未知'
+    return f"[{fact['reference_number']}]（{page_text}）"
+
+
+def _fact_description(fact):
+    category = fact.get('category', 'unknown')
+    label = _CATEGORY_LABELS.get(category, _CATEGORY_LABELS['unknown'])
+    if category == 'device_uplink':
+        medium = _canonical_medium(fact.get('medium'))
+        if medium:
+            return f"资料记载的上联介质为{_MEDIUM_LABELS[medium]}"
+        return '资料有上联表述，但介质未能按当前比较范围确认'
+    if category == 'management_link':
+        return f'资料记载{label}，不能据此认定设备上联方式'
+    if category == 'client_access':
+        return f'资料记载{label}，不能据此认定设备上联方式'
+    if category == 'diagnostic_check':
+        return '资料描述的是排障检查条件，不代表链路已经连接'
+    return '资料原句的关系类别未能按当前规则确定'
+
+
+def render_comparison_answer(result, product_labels):
+    if result.get('comparison_target') != 'device_uplink':
+        raise ValueError('答案渲染目标与已验证比较结果不一致')
+    status = result.get('status')
+    names = result['product_ids']
+    if status == 'same':
+        first = '现有资料支持两台设备的上联介质相同。'
+    elif status == 'different':
+        first = '现有资料支持两台设备的上联介质不同。'
+    elif status == 'insufficient_comparison':
+        first = '现有证据不足以判断两台设备的上联方式是否相同或不同。'
+    else:
+        raise ValueError('比较结果状态无效')
+    lines = [first]
+    for product_id in names:
+        label = product_labels.get(product_id, product_id)
+        facts = result['products'][product_id]
+        usable = [fact for fact in facts if fact.get('category') in _CATEGORY_LABELS]
+        if not usable:
+            lines.append(f'{label}：本轮引用资料中没有可用的关系记录。')
+            continue
+        for fact in usable:
+            lines.append(f"{label}：{_fact_description(fact)}{_citation(fact)}。")
+    if status == 'insufficient_comparison':
+        missing = [product_labels.get(pid, pid) for pid, reason in result['missing'].items() if reason]
+        if missing:
+            lines.append('缺少可比较的设备上联介质证据：' + '、'.join(missing) + '。')
+    return '\n'.join(lines)
+
+
+def create_comparison_proof(target, policy_sha256, prompt_used_sha256,
+                            selection, facts, result, answer):
+    if target != result.get('comparison_target') or result.get('function_version') != VERSION:
+        raise ValueError('比较proof目标或实现版本不一致')
+    for value in (policy_sha256, prompt_used_sha256):
+        if not isinstance(value, str) or not re.fullmatch(r'[a-f0-9]{64}', value):
+            raise ValueError('比较proof输入身份hash无效')
+    expected_facts = fingerprint(facts)
+    if result.get('products') is None:
+        raise ValueError('比较proof缺少派生事实结果')
+    return dict(function_version=VERSION, schema_version=SCHEMA_VERSION,
+        classifier_version='source_frame_classifier_v1', comparator_version='same_uplink_medium_v1',
+        renderer_version='comparison_answer_renderer_v1', comparison_target=target,
+        policy_sha256=policy_sha256, prompt_used_sha256=prompt_used_sha256,
+        selection_sha256=fingerprint(selection), facts_sha256=expected_facts,
+        result_sha256=fingerprint(result), answer_sha256=fingerprint(answer),
+        selected_frames=selection, comparison_status=result['status'])
