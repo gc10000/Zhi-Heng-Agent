@@ -1,9 +1,39 @@
 """评测通过正式持久运行入口执行；不将标准答案传入生成上下文。"""
 from contextlib import contextmanager, ExitStack
 import copy
+import hashlib
 import os
+from pathlib import Path
 import re
-from .validate_dataset import fingerprint, file_sha
+import subprocess
+from .validate_dataset import fingerprint
+
+
+def accepted_dataset_document_matches(path, expected_sha256, *, root=None):
+    """Verify frozen review bytes while tolerating a clean Git LF/CRLF checkout."""
+    path = Path(path).resolve()
+    if not path.is_file():
+        return False
+    digest = lambda value: hashlib.sha256(value).hexdigest()
+    actual = path.read_bytes()
+    if digest(actual) == expected_sha256:
+        return True
+
+    root = Path(root).resolve() if root else Path(__file__).resolve().parents[2]
+    try:
+        relative = path.relative_to(root).as_posix()
+    except ValueError:
+        return False
+    clean = subprocess.run(['git', 'diff', '--quiet', 'HEAD', '--', relative], cwd=root,
+        check=False, capture_output=True, timeout=10)
+    if clean.returncode != 0:
+        return False
+    blob = subprocess.run(['git', 'show', f'HEAD:{relative}'], cwd=root,
+        check=False, capture_output=True, timeout=10)
+    if blob.returncode != 0:
+        return False
+    tracked_bytes = blob.stdout
+    return expected_sha256 in {digest(tracked_bytes), digest(tracked_bytes.replace(b'\n', b'\r\n'))}
 
 
 def validate_target(config):
@@ -90,7 +120,7 @@ class RealQueryExecutor:
             raise ValueError('真实评测须冻结完整语料快照，不能只记录原件和活动指针')
         if resource_factory is None:
             acceptance = config.get('dataset_acceptance', [])
-            if not acceptance or any(file_sha(a['path']) != a['sha256'] for a in acceptance):
+            if not acceptance or any(not accepted_dataset_document_matches(a['path'], a['sha256']) for a in acceptance):
                 raise ValueError('须绑定真实题集接受结论，拒绝缺失或被改动的审阅材料')
         from .strategy import strategy_policies
         policies=strategy_policies(config)

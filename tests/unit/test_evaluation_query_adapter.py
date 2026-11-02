@@ -1,7 +1,9 @@
 """真实入口的隔离门禁不得在客户端构造后才执行。"""
 from contextlib import contextmanager
+import hashlib
+import subprocess
 import pytest
-from app.evaluation.query_adapter import RealQueryExecutor
+from app.evaluation.query_adapter import RealQueryExecutor, accepted_dataset_document_matches
 
 
 def config():
@@ -46,3 +48,36 @@ def test_configured_m4_strategy_is_validated_then_reaches_resource_boundary():
     with pytest.raises(RuntimeError,match='validated-resource-boundary'):
         with RealQueryExecutor(cfg,resource_factory=resources):pass
     assert seen[0]['parameters']['retrieval']['fusion']=='rrf'
+
+
+def test_dataset_acceptance_accepts_git_clean_lf_crlf_checkout(tmp_path, monkeypatch):
+    from app.evaluation import query_adapter
+
+    path = tmp_path / 'review.md'
+    path.write_bytes(b'accepted\r\nreview\r\n')
+    expected = hashlib.sha256(b'accepted\nreview\n').hexdigest()
+
+    def git(args, *, cwd, check, capture_output, timeout):
+        if args == ['git', 'diff', '--quiet', 'HEAD', '--', 'review.md']:
+            return subprocess.CompletedProcess(args, 0, stdout=b'', stderr=b'')
+        if args == ['git', 'show', 'HEAD:review.md']:
+            return subprocess.CompletedProcess(args, 0, stdout=b'accepted\nreview\n', stderr=b'')
+        pytest.fail(f'unexpected git command: {args}')
+
+    monkeypatch.setattr(query_adapter.subprocess, 'run', git)
+    assert accepted_dataset_document_matches(path, expected, root=tmp_path)
+
+
+def test_dataset_acceptance_rejects_git_dirty_review_even_if_normalized(tmp_path, monkeypatch):
+    from app.evaluation import query_adapter
+
+    path = tmp_path / 'review.md'
+    path.write_bytes(b'accepted\r\nchanged\r\n')
+    expected = hashlib.sha256(b'accepted\nreview\n').hexdigest()
+
+    def git(args, *, cwd, check, capture_output, timeout):
+        assert args == ['git', 'diff', '--quiet', 'HEAD', '--', 'review.md']
+        return subprocess.CompletedProcess(args, 1, stdout=b'', stderr=b'')
+
+    monkeypatch.setattr(query_adapter.subprocess, 'run', git)
+    assert not accepted_dataset_document_matches(path, expected, root=tmp_path)
