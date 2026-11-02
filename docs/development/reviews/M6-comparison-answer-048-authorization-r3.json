@@ -18,6 +18,8 @@
   "evaluation_control_database": "product_knowledge_rag_m6_eval_control",
   "supersedes_failed_attempt": {
     "batch": "m6-comparison-answer-048-risk-r2",
+    "halt_path": "output/m6-authorized-products/m6-comparison-answer-048-risk-r2/halt.json",
+    "halt_sha256": "59e04d769ca3fcd7137fb6f37577de7b1d4c15834f0c74b3189136b868c2dc0c",
     "halt_must_remain_unchanged": true,
     "retry_or_reuse_authorized": false,
     "failure": "eval_set_version_conflict before experiment creation; no provider request"
