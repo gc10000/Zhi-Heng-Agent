@@ -1,3 +1,19 @@
+## 2026-11-02 · 当前总控独立复核：048风险合同有界技术通过，真实质量仍开放
+
+本轮独立复核关闭默认关闭合同解析/路由、缺新专属Git授权时的实验与客户端/清单失败关闭、旧048消费账本来源collection/hash核对、新单槽CAS及未知usage/断流不重领边界。9个相关单元164通过，隔离Mongo52通过，OpenAPI2通过；首次集成启动缺根`.env`的MONGO_URL、未进测试体且未写库，静默加载后复跑通过。
+
+未关闭：授权后的正向冻结/运行路径未实测；没有真实048答案，不能判断完整比较回答；M6-05反馈复评proof、M6-08候选质量与阶段证据仍缺。配置仍`output_contract=null`，不派发048、不恢复43、不跑heldout。M6保持5/7。
+
+详见[独立复核报告](reviews/M6-comparison-answer-risk-review-r1.md)和[脱敏验证摘要](reviews/M6-comparison-answer-risk-review-validation-r1.json)。
+
+## 2026-11-02 · 048风险合同实现自验记录（下方已有总控独立复核）
+
+接续`857a4dd`。新增默认关闭的`diagnostic_comparison_answer_048_v1`合同、专用风险档案和CAS账本；固定support-v1-048一个成员/attempt/stream、历史usage 53089/30412、输入/输出单次预留28416/4096、累计算术上限81505/34508。合同绑定未知能力、`qwen3.8-flash`、`n=1`、非思考、SDK 1.1.11/2.28.0和`max_completion_tokens`。risk档案没有新的受审Git授权；现有catalog保持`output_contract=null`，启用合同在service、client、manifest入口拒绝，不会创建experiment/Run/slot。
+
+执行自验：相关单元164 passed，新账本随机隔离Mongo5 passed（同库/分库、CAS并发、settlement后不重领、未知usage/断流blocked），旧比较及source-relation 048隔离Mongo47 passed。失败启动/夹具记录留本机`output/m6-comparison-answer-risk-20261102/`；本报告和摘要分别记录红测与已修正的测试前置失败。真实模型/本地推理/正式库写入均0；未核答案质量，不生成评分、候选或proof。实现自验不等于独立技术关闭。
+
+下一步由当前总控对专用合同/handler/CAS边界作定向独立复核。即便技术复核通过，也不能直接派发；须另有新专属Git授权和模型身份核验。M6仍5/7：04保持验收，05缺真实反馈复评proof，08缺候选质量及阶段证据；43题暂停，heldout未运行，M7未启动。模型权重当前不可用、fingerprint未重算，reasoning/HTTP/费用及付费上界继续未知。详见[实现报告](reviews/M6-comparison-answer-risk-r1.md)及[摘要](reviews/M6-comparison-answer-risk-validation-r1.json)。
+
 ## 2026-11-02 · M6正式控制账本与048比较模式配置已登记，真实执行仍关闭
 
 接续`415f077`的`comparison_answer_v1`独立技术边界。本轮在独立分支修正`EvaluationService`准入：比较配置缺少专用风险合同、携带旧合同或未知合同均在实验/槽位创建前以422拒绝。代码预留的`diagnostic_comparison_answer_048_v1`尚未进入合同解析器／风险处理器，当前所有比较模式实验都不可派发。最终定向单元/随机隔离Mongo共45 passed（含4项准入用例）；一次错误隔离库前缀执行失败保留，按正确前缀复跑通过。比较模式接线只由合成模型测试覆盖。

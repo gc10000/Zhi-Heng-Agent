@@ -1,3 +1,15 @@
+## 2026-11-02接续：风险合同与单槽账本独立复核
+
+总控独立关闭有限技术子项：默认关闭合同解析/专用路由、无新授权时实验/客户端/manifest失败关闭、旧048账户collection与冻结hash核对，以及隔离CAS账本结算/失败不重领。授权后的正向manifest/runtime路径仍未验证；不放行调用。真实比较答案和质量未产生，M6保持5/7，05/08证据仍缺。验证为164相关单元、52隔离Mongo、2 OpenAPI契约通过；首次集成启动前置失败及修复留本机。详见[独立复核](../reviews/M6-comparison-answer-risk-review-r1.md)及[验证摘要](../reviews/M6-comparison-answer-risk-review-validation-r1.json)。
+
+## 2026-11-02接续：风险合同与单槽账本实现自验
+
+上述“合同解析类型／处理器未实现”是该记录创建时点的现状。接续`857a4dd`后，已实现独立默认关闭的`diagnostic_comparison_answer_048_v1`合同、专用risk档案和CAS账本路由。新risk使用不同batch、成员slot、collection和ledger_id；唯一题为`support-v1-048`。预算沿历史input/output `53089/30412`，单次预留`28416/4096`，累计算术上限`81505/34508`。启用合同仍无新的受审Git授权，正式catalog `output_contract`保持`null`；service、client和manifest入口失败关闭。
+
+164项相关单元、5项随机隔离Mongo新账本和47项旧比较／source-relation隔离Mongo自验通过。首轮红测、cwd、MONGO_URL环境装载和slot目录夹具失败均留本机`output/m6-comparison-answer-risk-20261102/`；修复情况和禁止真实调用边界见[风险合同实现报告](../reviews/M6-comparison-answer-risk-r1.md)。
+
+本接续仍为实现自验，等待独立定向复核。正式账本未写experiment/Run/slot/outcome，模型调用/本地推理/质量记录均0；模型权重不可用、model fingerprint未重算。M6保持5/7，04已验收，05反馈复评proof与08有效候选/阶段proof仍缺；43题暂停、heldout未运行、M7未启动。旧“下一目标”文本按原提交时点保留。
+
 # M6 比较答复正式控制账本记录 r1
 
 日期：2026-11-02

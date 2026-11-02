@@ -1,6 +1,12 @@
+## 2026-11-02 · 比较答复风险合同与单槽预算账本独立复核（有限范围通过）
+
+新增默认关闭的`diagnostic_comparison_answer_048_v1`合同、单成员风险档案和CAS账本路由。固定`support-v1-048`，历史usage 53089/30412，单次预留输入/输出28416/4096，累计算术上限81505/34508。无独立新Git授权时，服务准入、客户端构造、清单准备均失败关闭；正式catalog继续`output_contract=null`。不创建正式experiment、slot、Run或质量记录。
+
+独立总控复核确认默认关闭/缺授权失败关闭、旧消费账本正确collection与冻结hash核对、新单槽CAS和失败不重领边界；9个相关单元164、随机隔离Mongo52、OpenAPI2通过。授权正向manifest/runtime路径因无新专属授权而未验证，仍不派发。新调用0，真实048质量、M6-05反馈复评proof和M6-08候选/阶段proof仍缺；M6保持5/7。详见[总控独立报告](../../development/reviews/M6-comparison-answer-risk-review-r1.md)、[验证摘要](../../development/reviews/M6-comparison-answer-risk-review-validation-r1.json)和[原实现自验](../../development/reviews/M6-comparison-answer-risk-r1.md)。
+
 ## 2026-11-02 · 比较配置与控制账本准备，不等于 M6 质量验收
 
-正式控制库仅登记冻结题集 `m6-full-dev-r1`（150题，85 dev／65 heldout）及受限维护主体；catalog 配置仅选择 `support-v1-048` 并开启 `comparison_answer_v1`。实验／结果／slot／Run／outcome及输出预算账本均为空。配置不含风险合同；当前比较合同解析类型／处理器尚未实现，服务在实验槽预留前以422拒绝。该准备不创建候选、质量proof或真实Run，不能勾选M6-05／M6-08，也不改变M6 5/7。详见[控制账本记录](../../development/records/M6-comparison-control-ledger-r1.md)。
+正式控制库仅登记冻结题集 `m6-full-dev-r1`（150题，85 dev／65 heldout）及受限维护主体；catalog 配置仅选择 `support-v1-048` 并开启 `comparison_answer_v1`。实验／结果／slot／Run／outcome及输出预算账本均为空。配置不含风险合同；比较专用合同已实现，但因没有独立新Git授权，当前仍不可派发，服务在实验槽预留前以422拒绝。该准备不创建候选、质量proof或真实Run，不能勾选M6-05／M6-08，也不改变M6 5/7。详见[控制账本记录](../../development/records/M6-comparison-control-ledger-r1.md)。
 
 ## 2026-11-01 · 总控独立关闭原句选择具体子项；三项缺陷及比较形态未通过
 

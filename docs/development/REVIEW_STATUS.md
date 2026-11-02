@@ -1,3 +1,19 @@
+## 2026-11-02 · 048风险合同独立复核：有界技术通过，未放行真实执行
+
+总控独立复核确认默认关闭、授权缺失失败关闭、旧消费账本正确collection/hash校验及新CAS账本边界；164项相关单元、52项隔离Mongo和2项OpenAPI契约通过。授权正向路径尚未验证，且没有真实048答案或质量proof；M6-05/08仍开放，M6保持5/7。
+
+配置继续`output_contract=null`，不创建实验/Run、不调用模型、不恢复43题。
+
+见[独立报告](reviews/M6-comparison-answer-risk-review-r1.md)和[验证摘要](reviews/M6-comparison-answer-risk-review-validation-r1.json)。
+
+## 2026-11-02 · 048比较风险合同与单槽预算账本实现自验完成，仍未授权派发
+
+新增专用`diagnostic_comparison_answer_048_v1`合同／风险档案和独立CAS账本路由；固定历史usage 53089/30412、单次输入/输出预留28416/4096、总量上限81505/34508，唯一成员`support-v1-048`。合同默认关闭；新Git授权缺失，风险档案明确拒绝服务准入、客户端构造和计划冻结。正式catalog的`output_contract`仍为null，不创建experiment、Run、slot、答案、评分或proof。下方[独立复核报告](reviews/M6-comparison-answer-risk-review-r1.md)关闭了上述失败关闭和隔离账本子项；授权正向路径与产品质量仍开放。
+
+执行自验：相关单元164 passed；新比较账本随机隔离Mongo 5 passed，覆盖同库/分库CAS、并发单赢家、结算后不重领及未知usage/断流永久阻断；旧比较Run与source-relation 048隔离Mongo 47 passed。另增反例发现旧账读取collection错位及Git授权核验超时未归一，均已修正并有对应回归。首次隔离账本测试分别因未从仓库根目录读取`MONGO_URL`、缺少合成slot目录而失败，原因及修复保留在本轮本机输出。以上均是执行自验，不是独立技术关闭。
+
+没有新的模型或本地推理调用、没有真实评测控制库写入；历史53089/30412保持，reasoning/精确HTTP/费用及付费上界仍未知。原句摘录与完整比较答复的产品边界仍需真实答案验证。M6保持5/7：04已验收，05缺真实反馈复评proof，08缺有效候选质量及阶段证据；43题暂停、heldout未运行、M7未启动。模型权重当前不可用，model fingerprint未重算。见[实现报告](reviews/M6-comparison-answer-risk-r1.md)与[脱敏摘要](reviews/M6-comparison-answer-risk-validation-r1.json)。
+
 ## 2026-11-02 · 正式评测控制账本已登记，比较配置未获派发准入
 
 当前`M6_EVALUATION_CATALOG`指向本机冻结catalog；完整`m6-full-dev-r1`版本`fb-07c584730833908571fe9dd7c7c890afa3cf9e66`已在独立M6控制库正式登记，配置`m6-comparison-answer-048-r1/r1`仅选择`support-v1-048`。官方catalog resolve确认150题/85 dev/65 heldout及1题选择。注册主体和题集已写入；服务端准入试探在实验/slot写入前拒绝，experiment/result/slot/Run/outcome均0。用户密码凭据仅本机DPAPI保护，不入Git。
@@ -857,7 +873,7 @@ M4执行自验10/10、核心53/76，现提交待审查，未自行标记总控�
 | M3 | 通过 | 第2轮总控关闭R1/R2；独立346后端/37单元/24离线浏览器/既有3/只读8及原反例2项、新交错通过；11/11、核心43/76，本轮付费0 | [第二轮总控结论](reviews/M3-review-r2.md) · [独立摘要](reviews/M3-review-validation-r2.json) · [第二轮提交](reviews/M3-submission-r2.md) · [本轮快照](reviews/M3-artifact-manifest-r2.json) · [首轮审查](reviews/M3-review.md) |
 | M4 | 通过 | 第2轮关闭R1，10/10、核心53/76；独立717后端/原3反例/前端37单元24浏览器/既有3/类型/构建、新dev140题次实际输入与诊断、旧真实产物只读通过；本轮新增付费0，未生成新答案/heldout | [第2轮总控结论](reviews/M4-review-r2.md) · [独立摘要](reviews/M4-review-validation-r2.json) · [第二次提交](reviews/M4-submission-r2.md) · [提交快照](reviews/M4-artifact-manifest-r2.json) · [首轮结论](reviews/M4-review.md) |
 | M5 | 通过 | 第五轮总控关闭R3，R1/R2保持关闭；核心7/7、总核心60/76；06延期，M6仍未授权 | [第五轮总控结论](reviews/M5-review-r5.md) · [独立摘要](reviews/M5-review-validation-r5.json) · [第五轮提交](reviews/M5-submission-r5.md) · [第四轮总控](reviews/M5-review-r4.md) |
-| M6 | 未提交 | 核心4/7：01/02/03/07完成自验，04追加复核机制已实现但真实unknown尚待本人逐轮追加，05真实反馈/复评、08完整阶段验收未完成。当前阶段回归951 passed/2 deselected/0 skipped，3重导入、前端37单元/37离线浏览器及typecheck/build通过；本轮未重调模型，heldout未运行，06延期。 | [M6-04追加复核交付](reviews/M6-04-unknown-followup-r1.md) · [验证摘要](reviews/M6-04-unknown-followup-validation-r1.json) · [独立快照](reviews/M6-04-unknown-followup-manifest-r1.json) · [M6-08记录](records/M6-08.md) · [固定质量报告](../evaluation/release-report.md) |
+| M6 | 未提交 | 核心5/7：01/02/03/04/07已有验收；05缺真实反馈复评proof，08缺有效候选质量与阶段验收证据。048风险合同/账本的有限失败关闭与CAS边界已独立通过；授权正向路径未验证，无真实答案／质量proof，heldout未运行，06延期，M7未启动。 | [048独立复核](reviews/M6-comparison-answer-risk-review-r1.md) · [风险合同实现报告](reviews/M6-comparison-answer-risk-r1.md) · [M6控制账本记录](records/M6-comparison-control-ledger-r1.md) · [M6-08记录](records/M6-08.md) |
 | M7 | 未提交 | 等待前置阶段与总控授权；不包含自动公开发布 | 尚无 |
 
 审查状态仅使用：未提交、待审查、需修复、通过。开发会话可提交“待审查”，不得自行改成总控“通过”。总控的阻塞项修复后，开发会话重新提交，保留前次审查及验证历史。

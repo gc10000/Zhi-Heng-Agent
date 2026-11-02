@@ -1,6 +1,12 @@
+## 2026-11-02 · M6-048比较单槽风险合同（默认关闭、未授权）
+
+内部合同`diagnostic_comparison_answer_048_v1`固定未知网关能力、不思考、`n=1`、`qwen3.8-flash`、SDK `openai 2.28.0`／`langchain-openai 1.1.11`、`max_completion_tokens=4096`、新账本`m6-comparison-answer-048-canary-r1`及专属成员`m6-comparison-answer-048-r1-r1-support-v1-048`。历史计量53089/30412；单次输入预留28416、输出预留4096；累计算术上限81505/34508。usage未知时不估算为0，reasoning/HTTP/费用可未知；CAS账本不允许同一slot重领，未知usage或断流保持blocked。旧048风险profile、已消费槽和blocked账户不复用。
+
+合同解析类型仅允许关闭配置序列化。当前专属Git授权为缺省不存在；开启合同在正式service创建实验前、客户端构造前和清单冻结前拒绝。catalog保持`output_contract=null`。任何新授权必须由单独提交的审查材料固定唯一题、完整catalog/输入和历史usage来源，并经独立复核；本实现和测试均不产生该授权，也不放行模型调用。
+
 ## 2026-11-02 · 比较答复评测准入边界
 
-冻结catalog可登记`comparison_answer_v1`配置，但仅开启该策略不能创建正式实验。`EvaluationService`必须在experiment／slot写入前核对专用风险合同；缺失、旧版或未知合同均以422 `comparison_admission_required`拒绝。当前比较合同解析类型／风险处理器尚未实现，配置保持`output_contract=null`，因此所有比较模式实验均不可派发。该准入拒绝不改变已有非比较v2合同，也不授权真实调用。
+冻结catalog可登记`comparison_answer_v1`配置，但仅开启该策略不能创建正式实验。`EvaluationService`必须在experiment／slot写入前核对专用风险合同；缺失、旧版或未知合同均以422 `comparison_admission_required`拒绝。专用合同解析类型／CAS账本路由已实现自验，但风险档案没有新Git授权，故配置保持`output_contract=null`，所有比较模式实验仍不可派发。该准入拒绝不改变已有非比较v2合同，也不授权真实调用。
 
 ## 2026-11-01 · 总控独立关闭原句选择具体子项；三项缺陷及比较形态未通过
 

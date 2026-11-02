@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-02",
+  "task": "M6-comparison-answer-048-risk-independent-review-r1",
+  "branch": "codex/m6-source-bound-comparison",
+  "baseline_commit": "857a4ddddd3b0c150c8e2c6dcda008361b0d61fa",
+  "status": "bounded_technical_pass_quality_and_authorization_open",
+  "passed": [
+    "default-off comparison contract parsing and isolated routing",
+    "missing-new-authorization fails closed before experiment/slot creation",
+    "missing-new-authorization fails closed before client construction and manifest preparation",
+    "old consumed 048 account reads the source-relation account collection and verifies frozen hashes",
+    "new single-slot CAS ledger, separate database addressing, concurrency single-winner, settlement no-reclaim",
+    "unknown usage or interrupted stream permanently blocks retry"
+  ],
+  "open": [
+    "authorized positive-path manifest/runtime validation not independently exercised because authorization is intentionally absent",
+    "no real 048 stream or answer quality evidence",
+    "M6-05 feedback re-review proof missing",
+    "M6-08 valid candidate quality and stage evidence missing"
+  ],
+  "evidence_limits": [
+    "implementation self-validation is not counted as independent acceptance",
+    "no new model/provider HTTP/local inference/formal evaluation writes",
+    "original 43 questions paused; heldout 65 not run; M7 not started",
+    "did not rescan full vector store, all historical runs, or quality database"
+  ],
+  "verification": {
+    "focused_unit_modules": {
+      "tests": 164,
+      "passed": 164,
+      "failed": 0,
+      "warnings": 1
+    },
+    "isolated_mongodb_matrix": {
+      "tests": 52,
+      "passed": 52,
+      "failed": 0,
+      "new_ledger": 5,
+      "existing_wiring": 47,
+      "database_prefix": "random m1_test_m4_"
+    },
+    "openapi_contract": {
+      "tests": 2,
+      "passed": 2,
+      "failed": 0
+    },
+    "compileall_app": "passed",
+    "git_diff_check": "passed",
+    "startup_failure": "MONGO_URL absent before test body because linked-worktree fixture did not load repository-root dotenv; rerun loaded dotenv silently and passed; no database write",
+    "private_startup_record": "output/m6-comparison-answer-risk-review-20261102/fresh-integration-startup-failure.json"
+  },
+  "authorization": {
+    "new_git_authorization_registered": false,
+    "formal_experiment_or_slot_created": false,
+    "real_model_calls": 0,
+    "formal_run_or_outcome_created": false,
+    "quality_record_or_proof_written": false
+  },
+  "m6": {
+    "stage_count": "5/7",
+    "m6_04": "accepted",
+    "m6_05": "missing_real_feedback_review_proof",
+    "m6_08": "missing_valid_candidate_quality_and_stage_evidence",
+    "original_43_questions_paused": true,
+    "heldout_65_run": false,
+    "m7_started": false
+  },
+  "next_exit_condition": "Only after a separately reviewed new authorization and frozen inputs may the positive path be validated; real execution still requires separate authorization. Quality closes only with a complete comparison answer, not citation excerpts."
+}

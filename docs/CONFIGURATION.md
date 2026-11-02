@@ -305,7 +305,7 @@ MODEL_HOST_PORT默认8011，MODEL_HOST_URL为worker可达宿主地址，MODEL_HO
 
 `M6_EVALUATION_CATALOG`为API和模型宿主共同读取的本机catalog JSON路径，目录项只接受相对该文件目录的受控文件。未填写时仅关闭评测登记/创建入口，不影响问答。`M6_EVALUATION_WORK_DIR`为模型宿主的独立持久输出根目录，实验按UUID建立子目录，保留manifest/attempts/results和崩溃现场；不得指向课程原件或解析缓存，不提交Git。
 
-`comparison_answer_v1`可作为冻结开发配置登记，但不能仅凭配置开关派发。服务端要求独立比较风险合同；当前专用合同解析类型／风险处理器尚未实现，配置应保持`output_contract=null`，创建experiment时会在预留slot之前返回`422 comparison_admission_required`。不要把旧source-relation合同改名复用，也不要以未知版本字段绕过准入。
+`comparison_answer_v1`可作为冻结开发配置登记，但不能仅凭配置开关派发。内部专用`diagnostic_comparison_answer_048_v1`合同与CAS风险档案已实现自验；它固定support-v1-048、历史usage 53089/30412、单次输入/输出预留28416/4096和累计算术上限81505/34508。当前缺少新专属Git授权，因此catalog必须保持`output_contract=null`；即使手工加合同，正式service也会在预留slot前返回`422 comparison_admission_required`，而客户端/计划冻结入口同样拒绝。不要把旧source-relation合同改名复用，不得把合同注册误作调用授权；完整自然语言比较答案和真实质量仍未验证。
 
 `M6_QUEUE_NAME`默认knowledge-evaluation，必须非空且与`M2_QUEUE_NAME`不同。专用Linux worker并发1/prefetch1，只接收实验ID，调用已有`MODEL_HOST_URL`和`MODEL_HOST_TOKEN`保护的宿主接口；不向Linux安装PyTorch或复制权重。API/宿主共享`M2_DB_NAME`与catalog，模型宿主仍使用当前`.venv`核验真实运行版本和完整语料。根`.env`不自动修改，新增变量均不进入前端bundle。
 

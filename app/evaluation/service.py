@@ -1,4 +1,6 @@
 """登记目录和所有者账本的应用服务；不在HTTP请求执行模型。"""
+import subprocess
+
 from app.api.errors import APIError
 from .repository import public_experiment
 
@@ -59,7 +61,14 @@ class EvaluationService:
                     not is_product_risk(comparison_contract)):
                 raise APIError(422, 'comparison_admission_required', '比较答复缺少独立单次风险准入，暂停登记实验。')
             from app.infrastructure.providers.output_contract import risk_handler
-            risk_handler(comparison_contract).validate_config(resolved['config'], self.repo.db.name)
+            try:
+                risk_handler(comparison_contract).validate_config(resolved['config'], self.repo.db.name)
+            except (TypeError, ValueError, OSError, KeyError):
+                raise APIError(422, 'comparison_admission_required',
+                    '比较答复单次风险合同缺少有效授权或冻结来源，暂停登记实验。') from None
+            except subprocess.TimeoutExpired:
+                raise APIError(422, 'comparison_admission_required',
+                    '比较答复风险授权核验超时，暂停登记实验。') from None
         elif is_product_risk(output_contract):
             from app.infrastructure.providers.output_contract import risk_handler
             risk_handler(output_contract).validate_config(resolved['config'],self.repo.db.name)

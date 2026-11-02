@@ -1,3 +1,7 @@
+## 2026-11-02 · M6-048风险合同与单槽账本：有界技术项独立通过，授权执行与质量仍开放
+
+`diagnostic_comparison_answer_048_v1`合同、专用授权失败关闭risk档案和CAS账本路由经独立定向复核：默认关闭/缺授权拒绝、旧消费账本collection与hash校验、新单槽CAS及不重领边界通过；9个相关单元164通过、隔离Mongo52通过、OpenAPI2通过。授权正向路径未实测，没有新Git授权，配置仍`output_contract=null`；不派发真实048，答案质量与M6-05/08证据仍缺，阶段保持5/7。实现自验和独立复核材料：[实现报告](../development/reviews/M6-comparison-answer-risk-r1.md)、[总控独立报告](../development/reviews/M6-comparison-answer-risk-review-r1.md)、[脱敏摘要](../development/reviews/M6-comparison-answer-risk-review-validation-r1.json)。
+
 ## 2026-11-02 · M6正式控制账本和比较配置准备完成；质量阶段保持5/7
 
 使用当前冻结的`m6-full-dev-r1` 150题完整题集及manifest，在专用M6数据库完成正式`evaluation_sets`登记；只加入针对`support-v1-048`的`comparison_answer_v1`开发配置。专用比较风险合同尚无解析类型／处理器，当前配置不可派发；准入服务对缺合同、旧合同或未知合同均在创建experiment/slot前拒绝。因此本项只完成控制账本/配置准备，不登记experiment、Run、slot、评分、候选或proof。最终45项相关单元/隔离集成通过；本机目录解析/登记读回与Windows DPAPI账号验证通过。模型权重目录当前不存在，配置中的model版本沿已保存profile，未重新计算。输出仅在被忽略的本机`output/`。

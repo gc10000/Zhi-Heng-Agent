@@ -1,3 +1,11 @@
+## 2026-11-02 · M6-048比较风险合同与单槽账本总控独立复核
+
+总控独立复核确认有限技术边界通过：默认关闭与无授权失败关闭、旧消费账本来源核对、新CAS账本隔离结算及不重领。164项相关单元、52项隔离Mongo、2项OpenAPI契约通过；授权后的正向路径未验证，未产生真实答案或质量证据，M6保持5/7。详见[独立复核](reviews/M6-comparison-answer-risk-review-r1.md)和[摘要](reviews/M6-comparison-answer-risk-review-validation-r1.json)。
+
+## 2026-11-02 · M6-048完整比较答复风险合同实现自验
+
+新增默认关闭的048比较风险合同及独立CAS账本路由，限定support-v1-048一个成员和固定runtime/usage预算；未取得新专属Git授权时正式服务、客户端及清单冻结均拒绝启用合同。旧已消费账本reader经反例修复为正确collection/hash，Git授权读取超时统一失败关闭。相关单元164 passed，新账本隔离Mongo 5 passed，旧比较及source-relation接线回归47 passed。真实stream、正式experiment/Run、质量写入均为0；M6仍5/7，真实答案质量未验证。
+
 ## 2026-11-02 · M6控制账本登记及048比较配置准备
 
 为冻结完整150题dev/heldout题集登记了独立评测控制账本，并加入只选择`support-v1-048`的`comparison_answer_v1`配置。配置关闭原句摘录并保持输出风险合同为空；比较风险合同类型／处理器尚未实现，服务在预留实验槽前拒绝比较任务。45项相关单元/隔离集成通过，专用账本中仅有维护账号和题集，没有experiment、Run、slot或质量记录；真实模型调用为0。M6保持5/7，真实048答案质量未验证。

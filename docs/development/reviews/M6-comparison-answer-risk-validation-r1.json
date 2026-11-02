@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-02",
+  "task": "M6-comparison-answer-048-risk-r1",
+  "branch": "codex/m6-source-bound-comparison",
+  "baseline_commit": "857a4dd",
+  "status": "implementation_self_validation_waiting_for_independent_review",
+  "authorization": {
+    "new_git_authorization_registered": false,
+    "comparison_catalog_output_contract": null,
+    "risk_profile_authorized": false,
+    "real_model_calls": 0,
+    "local_inference_calls": 0,
+    "formal_experiment_or_slot_created": false,
+    "formal_run_or_outcome_created": false,
+    "quality_record_or_proof_written": false
+  },
+  "contract": {
+    "function_version": "diagnostic_comparison_answer_048_v1",
+    "default_enabled": false,
+    "fixed_question_id": "support-v1-048",
+    "fixed_member_slot": "m6-comparison-answer-048-r1-r1-support-v1-048",
+    "new_batch": "m6-comparison-answer-048-risk-r1",
+    "new_account_collection": "diagnostic_comparison_answer_048_accounts",
+    "ledger_id": "m6-comparison-answer-048-canary-r1",
+    "authorization_ref": null,
+    "model": "qwen3.8-flash",
+    "client_versions": {
+      "openai": "2.28.0",
+      "langchain-openai": "1.1.11"
+    },
+    "thinking": false,
+    "output_limit_field": "max_completion_tokens",
+    "per_request_total_output_tokens": 4096
+  },
+  "budget": {
+    "prior_input_tokens": 53089,
+    "prior_output_tokens": 30412,
+    "single_reserved_input_tokens": 28416,
+    "single_reserved_output_tokens": 4096,
+    "max_total_input_tokens": 81505,
+    "max_total_output_tokens": 34508,
+    "prior_receipt_sha_required": true,
+    "unknown_usage_becomes_zero": false,
+    "unknown_http_and_cost_are_null": true
+  },
+  "verification": {
+    "focused_unit_groups": {
+      "tests": 164,
+      "passed": 164,
+      "failed": 0,
+      "scope": "9 relevant unit modules, fresh rerun before commit"
+    },
+    "new_comparison_account_random_isolated_mongodb": {
+      "tests": 5,
+      "passed": 5,
+      "failed": 0,
+      "covered": [
+        "same_database_single_cas_reservation",
+        "separate_database_shared_control_account",
+        "concurrent_single_winner",
+        "settlement_never_reclaims_member_slot",
+        "unknown_usage_or_interruption_blocks_without_retry"
+      ]
+    },
+    "existing_comparison_and_source_relation_048_random_isolated_mongodb": {
+      "tests": 47,
+      "passed": 47,
+      "failed": 0
+    },
+    "initial_red": {
+      "failed": 2,
+      "passed": 1,
+      "classification": "expected_missing_contract_registration"
+    },
+    "old_consumed_account_collection_red_green": {
+      "expected_red": "reader initially selected nonthinking account collection",
+      "result": "fixed_reader_to_source_relation_048_collection_and_bind_manifest_snapshot_settlement_hashes",
+      "targeted_unit_test": "passed"
+    },
+    "git_authorization_timeout_red_green": {
+      "expected_red": "subprocess timeout escaped EvaluationService admission handling",
+      "result": "mapped_to_422_comparison_admission_required_before_repository_create",
+      "targeted_unit_test": "passed"
+    },
+    "quality_answer_validation": "not_run",
+    "commit_preparation_rerun": {
+      "isolated_mongodb_tests": 52,
+      "passed": 52,
+      "failed": 0,
+      "new_comparison_ledger": 5,
+      "existing_comparison_and_source_relation_wiring": 47,
+      "database_prefix": "random m1_test_m4_",
+      "initial_setup_failure": "MONGO_URL absent because linked-worktree fixture did not load repository-root dotenv; failed before test body and before database writes",
+      "rerun_resolution": "repository-root dotenv loaded silently in process; same 52 tests passed",
+      "private_failure_record": "output/m6-comparison-answer-risk-review-20261102/fresh-integration-startup-failure.json"
+    },
+    "openapi_contract": {
+      "tests": 2,
+      "passed": 2,
+      "failed": 0,
+      "scope": "tests/unit/test_prerequisite_contract.py"
+    },
+    "compileall_app": "passed",
+    "git_diff_check": "passed"
+  },
+  "preserved_startup_failures": {
+    "random_mongo_first_run": "missing MONGO_URL in test process environment; rerun only after loading the variable from repository-root dotenv without printing it",
+    "random_mongo_second_run": "synthetic fixed-slot directory was not created before atomic started-file write; fixture corrected",
+    "old_comparison_joint_run": "started from repository parent, so relative prompt file lookup failed; rerun from the worktree root, 47 tests passed"
+  },
+  "m6": {
+    "stage_count": "5/7",
+    "m6_04": "accepted",
+    "m6_05": "missing_real_feedback_review_proof",
+    "m6_08": "missing_valid_candidate_quality_and_stage_evidence",
+    "heldout_65_run": false,
+    "original_43_questions_paused": true,
+    "m7_started": false,
+    "model_weights_available": false,
+    "model_fingerprint_recomputed": false,
+    "historical_input_output_tokens": [
+      53089,
+      30412
+    ],
+    "reasoning_http_cost_and_paid_output_upper_bound": "unknown_or_null"
+  },
+  "private_evidence_directory": "output/m6-comparison-answer-risk-20261102/",
+  "independent_review_completed": false
+}
