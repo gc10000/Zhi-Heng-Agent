@@ -4,6 +4,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator, model_serial
 from .reviewed_subjects import ReviewedSubjects
 from .source_relations import SourceRelationPolicy
 from .assertion_binding import AssertionBindingPolicy
+from .comparison_answers import ComparisonAnswerPolicy
 from app.api.errors import APIError
 from app.knowledge.repository import fingerprint
 from app.retrieval.prerequisites import SourcePrerequisiteScope, validate_scope
@@ -27,6 +28,7 @@ class EvidenceAttributionPolicy(BaseModel):
     reviewed_subjects: ReviewedSubjects | None = None
     source_relations: SourceRelationPolicy | None = None
     assertion_binding: AssertionBindingPolicy | None = None
+    comparison_answer: ComparisonAnswerPolicy | None = None
 
     @model_serializer(mode='wrap')
     def compatible_payload(self, handler):
@@ -34,6 +36,7 @@ class EvidenceAttributionPolicy(BaseModel):
         if self.reviewed_subjects is None:data.pop('reviewed_subjects',None)
         if self.source_relations is None:data.pop('source_relations',None)
         if self.assertion_binding is None:data.pop('assertion_binding',None)
+        if self.comparison_answer is None:data.pop('comparison_answer',None)
         return data
 
     @model_validator(mode='after')
@@ -43,6 +46,9 @@ class EvidenceAttributionPolicy(BaseModel):
         if self.assertion_binding is not None and self.assertion_binding.enabled and (
                 not self.enabled or self.source_relations is None or not self.source_relations.enabled):
             raise ValueError('断言绑定只允许显式开启的冻结来源关系范围')
+        if self.comparison_answer is not None and self.comparison_answer.enabled and (
+                not self.enabled or self.source_relations is None or not self.source_relations.enabled):
+            raise ValueError('比较答复只允许显式开启的冻结来源关系范围')
         if self.reviewed_subjects is not None:
             p=self.reviewed_subjects
             if (not self.enabled or p.corpus_snapshot_sha256!=self.corpus_snapshot_sha256 or

@@ -111,7 +111,7 @@ git commit -m "feat(M6): 显式记录比较目标"
 - `derive_facts(selection, catalog, product_ids)` recomputes every fact from the frozen frame and source text; the model cannot submit a category or fact value.
 - `classify_frame(frame, clause, product_id, source_product_ids)` returns one source-derived relation category and never reads a model-supplied category.
 
-- [ ] **Step 1: Add failing policy, selection, and classification tests**
+- [x] **Step 1: Add failing policy, selection, and classification tests**
 
 ```python
 from app.answering.comparison_answers import classify_frame
@@ -134,25 +134,25 @@ def test_physical_check_stays_conditional_and_is_never_link_success():
     assert fact['operational_status'] == 'unknown'
 ```
 
-- [ ] **Step 2: Run the focused tests and confirm they fail**
+- [x] **Step 2: Run the focused tests and confirm they fail**
 
 Run: `.\.venv\Scripts\python.exe -m pytest tests/unit/test_comparison_answers.py -q --tb=short`
 
 Expected: the comparison policy and frame-selection module do not exist.
 
-- [ ] **Step 3: Implement policy, prompt, and source-derived classification**
+- [x] **Step 3: Implement policy, prompt, and source-derived classification**
 
 Create strict Pydantic models with `extra='forbid'`. The required payload shape is `{"schema_version":"comparison_frame_selection_v1","frames":[{"reference":1,"frame":0}]}`. `validate_frame_selection` must reject duplicate JSON keys, free text, unknown fields, boolean/string/float indices, duplicate frame pairs, empty lists, and indices outside the catalog. In `classify_frame`, map `physical_check` only to conditional `diagnostic_check`; map `access`/`login` to `client_access` only when the frame itself names the accessed object; map `service` to `management_link` only when its literal purpose includes `管理` and both endpoints exist; for `connection`, first map to `management_link` when its literal purpose includes `管理` and endpoints exist, otherwise map to `device_uplink` only when the same clause contains literal `上联` or case-insensitive `uplink`, the frame's frozen `source_product_ids` contains exactly the target product unless the clause names the target product explicitly, and medium and destination exist. If a source frame is tagged to multiple products and the clause does not name the target product, its origin remains unknown. A connection clause with negation or a conditional marker is `unknown` in this version. All other frames become `unknown`. Keep each fact tied to one frame; never merge frames.
 
 The prompt lists stable frame identifiers and complete scoped original sentences, requests only the versioned JSON selection shape above, and forbids explanation or user-facing text. It must not ask the model to provide labels or normalized values.
 
-- [ ] **Step 4: Verify selection and category boundaries**
+- [x] **Step 4: Verify selection and category boundaries**
 
 Run: `.\.venv\Scripts\python.exe -m pytest tests/unit/test_comparison_answers.py tests/unit/test_source_relations.py tests/unit/test_assertion_binding.py -q --tb=short`
 
 Expected: new frame protocol and classifier cases pass; existing source relation and assertion-binding contracts remain unchanged.
 
-- [ ] **Step 5: Commit the task**
+- [x] **Step 5: Commit the task**
 
 ```powershell
 git add app/answering/evidence_attribution.py app/answering/comparison_answers.py prompts/answer_comparison_v1.prompt tests/unit/test_comparison_answers.py
