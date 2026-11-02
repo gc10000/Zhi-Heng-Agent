@@ -1,3 +1,15 @@
+## 2026-11-02 · M6正式控制账本与048比较模式配置已登记，真实执行仍关闭
+
+接续`415f077`的`comparison_answer_v1`独立技术边界。本轮在独立分支修正`EvaluationService`准入：比较配置缺少专用风险合同、携带旧合同或未知合同均在实验/槽位创建前以422拒绝。代码预留的`diagnostic_comparison_answer_048_v1`尚未进入合同解析器／风险处理器，当前所有比较模式实验都不可派发。最终定向单元/随机隔离Mongo共45 passed（含4项准入用例）；一次错误隔离库前缀执行失败保留，按正确前缀复跑通过。比较模式接线只由合成模型测试覆盖。
+
+本机正式catalog位于`output/m6-comparison-answer-048-r1/catalog/catalog.json`，配置`m6-comparison-answer-048-r1/r1`从冻结source-relation profile派生，只改为完整比较答复；原句摘录策略显式关闭。catalog官方解析为150题、85 dev/65 heldout，唯一定向选择`support-v1-048`，config SHA为`60f5e896a3b1ca0cf44114959f8a04b96f60f51ab25be8c8d44aa857b1aacf0d`。当前配置不附输出风险合同，不能创建实验；比较模式字段开启不等同调用授权。根本机`.env`指向该catalog/work目录及当前功能worktree，未增加公开环境变量。
+
+已按正式身份/评测服务写入专用`M2_DB_NAME=product_knowledge_rag_m6_eval_control`：仅新增限定该KB的maintainer及完整冻结题集descriptor。独立进程核实账号密码、catalog与题集绑定；现有计数为用户1、题集1、experiment/result/slot/Run/execution-link/outcome/输出预算账本均0。一次正式服务准入试探在写实验前以422拒绝。凭据由Windows DPAPI CurrentUser加密保存在`output/m6-comparison-answer-048-r1/control-private/`；不入Git、不在本报告或对话泄露。无真实模型调用、答案Run、job、评分、候选、proof或heldout执行；历史53089/30412与unknown计量不变。
+
+M6仍5/7：M6-04保持验收；M6-05缺真实反馈复评proof；M6-08缺有效候选质量和阶段证据。43题仍暂停，M7未启动。由于本机模型权重目录不可用，当前不执行`runtime_versions`本机模型核验；真实比较答案质量尚未验证。下一步须单独建立并受审全新048风险合同/授权后，才可决定是否进行最多一次真实stream；本次配置不创建该授权。
+
+详见[本次控制账本记录](records/M6-comparison-control-ledger-r1.md)。以下历史按原时点保留。
+
 ## 2026-11-02 · comparison_answer_v1独立技术边界已过，048准入配置已落本机但执行身份未就绪
 
 接续`415f077`独立通过的默认关闭比较答复技术边界及CMP-R1/R2。本轮已直接配置仓库根本机`.env`：`M6_EVALUATION_CATALOG`指向`output/m6-comparison-answer-048-r1/catalog/catalog.json`，`M6_EVALUATION_WORK_DIR`指向`output/m6-comparison-answer-048-r1/work`。新catalog从本机受控冻结材料复制`m6-full-dev-r1`版本`fb-07c584730833908571fe9dd7c7c890afa3cf9e66`完整150题和manifest，dataset/manifest SHA分别为`c72a78955afe86503fbb37cc7293fa54287b0427877af4616bb762dfb57656c9`和`3f2b3c3413da98773b600623200deb399f91da3e9c8b1b6dd0be3fc2d83109f9`；当前分割为85 dev/65 heldout。使用当前分支`EvaluationCatalog`离线解析成功，复制件哈希与冻结来源相同；输出仍在Git忽略的本机`output/`，未提交。

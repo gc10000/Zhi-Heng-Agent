@@ -43,9 +43,26 @@ class EvaluationService:
         if any(descriptor[k] != resolved[k] for k in ('dataset_sha256', 'manifest_sha256')):
             raise APIError(409, 'evaluation_frozen_identity_invalid', '题集登记后发生变化，请登记新版本。')
         from app.infrastructure.providers.output_contract import from_config,is_product_risk
-        if is_product_risk(from_config(resolved['config'])):
+        output_contract = from_config(resolved['config'])
+        comparison = resolved['config'].get('parameters', {}).get('evidence_attribution', {}).get('comparison_answer', {})
+        if comparison.get('enabled'):
+            # 比较答复必须绑定单独的、已审风险合同；普通unknown合同不能先占用槽位再由worker失败。
+            if not isinstance(output_contract, dict):
+                raise APIError(422, 'comparison_admission_required', '比较答复缺少独立单次风险准入，暂停登记实验。')
+            from app.infrastructure.providers.output_contract import parse_contract
+            try:
+                comparison_contract = parse_contract(output_contract)
+            except (TypeError, ValueError):
+                raise APIError(422, 'comparison_admission_required', '比较答复风险准入版本未登记或合同无效，暂停登记实验。') from None
+            if (not comparison_contract.enabled or
+                    comparison_contract.function_version != 'diagnostic_comparison_answer_048_v1' or
+                    not is_product_risk(comparison_contract)):
+                raise APIError(422, 'comparison_admission_required', '比较答复缺少独立单次风险准入，暂停登记实验。')
             from app.infrastructure.providers.output_contract import risk_handler
-            risk_handler(from_config(resolved['config'])).validate_config(resolved['config'],self.repo.db.name)
+            risk_handler(comparison_contract).validate_config(resolved['config'], self.repo.db.name)
+        elif is_product_risk(output_contract):
+            from app.infrastructure.providers.output_contract import risk_handler
+            risk_handler(output_contract).validate_config(resolved['config'],self.repo.db.name)
         if data.get('quality_policy') != resolved['config'].get('quality_policy'):
             raise APIError(409,'quality_policy_mismatch','请求与冻结配置的政策身份不一致。')
         if data.get('quality_policy'):

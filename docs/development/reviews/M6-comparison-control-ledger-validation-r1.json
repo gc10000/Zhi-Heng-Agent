@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "kind": "m6_comparison_control_ledger_preparation_validation",
+  "date": "2026-11-02",
+  "status": "prepared_not_dispatchable",
+  "independent_review": "not_claimed",
+  "phase_acceptance": "not_claimed",
+  "dataset": {
+    "id": "m6-full-dev-r1",
+    "version": "fb-07c584730833908571fe9dd7c7c890afa3cf9e66",
+    "question_count": 150,
+    "dev_count": 85,
+    "heldout_count": 65,
+    "sha256": "c72a78955afe86503fbb37cc7293fa54287b0427877af4616bb762dfb57656c9",
+    "manifest_sha256": "3f2b3c3413da98773b600623200deb399f91da3e9c8b1b6dd0be3fc2d83109f9"
+  },
+  "config": {
+    "id": "m6-comparison-answer-048-r1",
+    "version": "r1",
+    "sha256": "60f5e896a3b1ca0cf44114959f8a04b96f60f51ab25be8c8d44aa857b1aacf0d",
+    "catalog_sha256": "f44721cedc0d6bf08067781923ab92e00953b3f151b8061b16797f7de42bb20d",
+    "selected_question_ids": ["support-v1-048"],
+    "comparison_answer_enabled": true,
+    "assertion_binding_enabled": false,
+    "output_contract": null,
+    "code_sha256_matches": true,
+    "prompt_sha256_matches": true,
+    "model_sha256_recomputed": false
+  },
+  "control_ledger": {
+    "users": 1,
+    "evaluation_sets": 1,
+    "evaluation_experiments": 0,
+    "evaluation_results": 0,
+    "evaluation_slots": 0,
+    "runs": 0,
+    "evaluation_execution_links": 0,
+    "evaluation_outcomes": 0,
+    "diagnostic_output_accounts": 0,
+    "model_calls": 0
+  },
+  "admission_preflight": {
+    "http_status": 422,
+    "error_code": "comparison_admission_required",
+    "created_experiment": false,
+    "created_slot": false
+  },
+  "verification": {
+    "targeted_tests": "45 passed",
+    "first_attempt": "7 integration failures because m1_test_m6cmpctl_ target names fail the m1_test_m4_ allowlist; corrected-prefix rerun passed",
+    "private_evidence": "output/m6-comparison-control-ledger-r1-20261102-155443/"
+  },
+  "open": [
+    "diagnostic_comparison_answer_048_v1 has no registered contract parser or risk handler",
+    "local model weights unavailable; model fingerprint was inherited and not recomputed",
+    "real support-v1-048 answer quality untested",
+    "M6-05 feedback reassessment proof missing",
+    "M6-08 valid candidate quality and phase evidence missing"
+  ],
+  "m6_stage": "5/7",
+  "heldout_executed": false,
+  "original_43_paused": true,
+  "m7_started": false,
+  "historical_input_output": [53089, 30412],
+  "reasoning_http_cost": "unknown_or_null"
+}

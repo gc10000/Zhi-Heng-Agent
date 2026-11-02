@@ -86,7 +86,18 @@ def setup(ctx, tmp_path, monkeypatch, *, separate, raw=None, interrupted=False,
                 raise TimeoutError('synthetic comparison stream interruption')
 
     resources['query_runner'].llm_factory = Model
-    return formal_case(ctx, tmp_path, monkeypatch, separate=separate)
+    case = formal_case(ctx, tmp_path, monkeypatch, separate=separate)
+    # This suite exercises answer wiring with a synthetic model. The production
+    # admission gate is covered separately; create only isolated synthetic jobs
+    # through the repository so these wiring tests don't claim live admission.
+    _, _, _, _, repo, service, _, _, catalog = case
+    def create_synthetic_experiment(user, data):
+        descriptor = repo.get_set(user, data['kb_id'], data['eval_set_id'], data['eval_set_version'])
+        resolved = catalog.resolve(data['eval_set_id'], data['eval_set_version'],
+            data['config_id'], data['config_version'], kb_id=data['kb_id'])
+        return repo.create(user, data, descriptor=descriptor, resolved=resolved)
+    monkeypatch.setattr(service, 'create_experiment', create_synthetic_experiment)
+    return case
 
 
 @pytest.mark.parametrize('separate', [False, True])

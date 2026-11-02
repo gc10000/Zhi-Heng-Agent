@@ -1,3 +1,11 @@
+## 2026-11-02 · 正式评测控制账本已登记，比较配置未获派发准入
+
+当前`M6_EVALUATION_CATALOG`指向本机冻结catalog；完整`m6-full-dev-r1`版本`fb-07c584730833908571fe9dd7c7c890afa3cf9e66`已在独立M6控制库正式登记，配置`m6-comparison-answer-048-r1/r1`仅选择`support-v1-048`。官方catalog resolve确认150题/85 dev/65 heldout及1题选择。注册主体和题集已写入；服务端准入试探在实验/slot写入前拒绝，experiment/result/slot/Run/outcome均0。用户密码凭据仅本机DPAPI保护，不入Git。
+
+本次服务门禁改动与合成比较接线回归为执行实现自验：45项相关单元/隔离集成通过，不作为另一方独立关闭或M6任务验收。比较配置没有风险合同；对应的风险合同解析类型／处理器尚未实现，故当前不能调度真实job。模型权重路径当前缺失，本地runtime model指纹未重新计算。真实048答案质量、反馈复评proof和候选阶段proof仍缺。M6 5/7，04保持验收，05/08未验收；43题暂停、heldout不运行、M7未启动。
+
+记录：[M6比较配置及控制账本执行记录](records/M6-comparison-control-ledger-r1.md)。
+
 ## 2026-11-02 · 来源约束完整比较答复：限定技术子项独立通过，048质量未验证
 
 本轮复核默认关闭的`comparison_answer_v1`并定向补修两处：CMP-R1结果投影协调降级、CMP-R2无相关帧时schema强制选择。最终全量单元/契约1496通过，当前比较Run随机隔离Mongo7通过，保存输入回放267断言通过；两次错误`M1_TEST_DB`前缀导致的前置失败保留，正确随机`m1_test_m4_`隔离库复跑通过。检验涵盖冻结问题重规划、来源/产品绑定、完整比较渲染、失败留证、恢复proof及旧路径/OpenAPI兼容。
