@@ -113,9 +113,9 @@ def test_comparison_risk_profile_binds_only_the_new_authorization_and_slot():
     import json
 
     assert risk.AUTHORIZED_GIT == {
-        'commit': 'b9e9cb89d73bbb5c37788ca07a2684bb7ffe45a8',
+        'commit': 'ba70b394b5cf558cedf8721e290ae2ba5b546df9',
         'path': 'docs/development/reviews/M6-comparison-answer-048-authorization-r4.json',
-        'sha256': '690115d0f8603fd8a1838a484783feb04bce05e1fbc355e12b5891f868bb9d1f',
+        'sha256': 'a4ef18acd481e3fd961664cbae0138bae8e5b2b6287a103ffbd63761342646f4',
     }
     authorized_contract = comparison_contract(enabled=True)
     authorized_contract['admission']['authorization'] = risk.AUTHORIZED_GIT
@@ -130,6 +130,8 @@ def test_comparison_risk_profile_binds_only_the_new_authorization_and_slot():
     assert authorized['supersedes_failed_attempt']['batch'] == risk.SUPERSEDED_BATCH
     assert authorized['supersedes_failed_attempt']['slot'] == risk.SUPERSEDED_SLOT
     assert authorized['supersedes_failed_attempt']['retry_or_reuse_authorized'] is False
+    halt = authorized['supersedes_failed_attempt']
+    assert risk.sha(risk.local(halt['halt_path'])) == halt['halt_sha256']
     assert risk.BATCH != old.BATCH
     assert risk.SLOT != old.SLOT
     assert risk.ACCOUNT_COLLECTION != old.ACCOUNT_COLLECTION
@@ -271,6 +273,12 @@ def make_authorized_comparison_case(tmp_path, monkeypatch, *, evaluation_control
         'kind': 'coordinator_scoped_comparison_answer_048_authorization',
         'admission_version': risk.VERSION,
         'fixed_batch_slot': risk.BATCH,
+        'user_authorization': {'max_provider_streams': 1, 'stop_on_first_failure': True},
+        'authorization_continuation': {
+            'provider_streams_started_before_continuation': 0,
+            'max_provider_streams_for_this_validation': 1,
+            'reuse_or_retry_r3': False,
+        },
         'evaluation_control_database': evaluation_control_database or 'm1_test_m4_comparison_control',
         'single_experimental_change': 'comparison_answer_v1_with_assertion_binding_disabled',
         'risk': {

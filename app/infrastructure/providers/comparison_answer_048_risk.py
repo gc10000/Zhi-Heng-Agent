@@ -23,9 +23,9 @@ SUPERSEDED_SLOT = 'm6-comparison-answer-048-r3-support-v1-048'
 
 # 只绑定本包单次授权；授权文件位于受审提交中，不复用旧048消费槽。
 AUTHORIZED_GIT = dict(
-    commit='b9e9cb89d73bbb5c37788ca07a2684bb7ffe45a8',
+    commit='ba70b394b5cf558cedf8721e290ae2ba5b546df9',
     path='docs/development/reviews/M6-comparison-answer-048-authorization-r4.json',
-    sha256='690115d0f8603fd8a1838a484783feb04bce05e1fbc355e12b5891f868bb9d1f',
+    sha256='a4ef18acd481e3fd961664cbae0138bae8e5b2b6287a103ffbd63761342646f4',
 )
 
 read = base.read
@@ -99,6 +99,11 @@ def sources(policy):
             auth.get('admission_version') != VERSION or auth.get('fixed_batch_slot') != BATCH or
             auth.get('single_experimental_change') != 'comparison_answer_v1_with_assertion_binding_disabled' or
             auth.get('risk', {}).get('gateway_capability_status') != 'unknown' or
+            auth.get('user_authorization', {}).get('max_provider_streams') != 1 or
+            auth.get('user_authorization', {}).get('stop_on_first_failure') is not True or
+            auth.get('authorization_continuation', {}).get('provider_streams_started_before_continuation') != 0 or
+            auth.get('authorization_continuation', {}).get('max_provider_streams_for_this_validation') != 1 or
+            auth.get('authorization_continuation', {}).get('reuse_or_retry_r3') is not False or
             auth.get('risk', {}).get('coordinator_accepts_unknown_paid_upper_bound_only_for_this_one_stream') is not True):
         raise ValueError('比较答复专用授权内容不适用')
     stopped = auth.get('supersedes_failed_attempt', {})
