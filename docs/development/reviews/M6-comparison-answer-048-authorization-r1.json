@@ -3,7 +3,8 @@
   "kind": "coordinator_scoped_comparison_answer_048_authorization",
   "date": "2026-11-02",
   "timezone": "Asia/Shanghai",
-  "status": "authorized_for_one_stream_only",
+  "status": "superseded_before_dispatch",
+  "superseded_reason": "正式执行前发现执行关联要求评测账号等于知识库owner；旧本地manifest未派发，保留原文件并由r2新身份替代。单次用户授权未消耗。",
   "authority": "explicit_user_authorization_in_active_conversation",
   "user_authorization": {
     "question_id": "support-v1-048",
