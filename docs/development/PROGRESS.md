@@ -1,3 +1,11 @@
+## 2026-11-02 · 新048授权r3在最终身份校验失败后封存，未派发
+
+新授权r3已停在provider派发前：冻结清单源码指纹`26212526c3be318c51ce7a5725e103f78bbc57c456b1e47bd17500dc64b5ae65`与清单准备后包含源码注释变更的当前指纹`7e3ba59d194934c41e593c161aefcd94279c4ab4e629fad597ffe462321fad25`不一致。校验在Mongo读取、experiment创建和provider派发前失败；因此按“失败即停止”封存新r3 halt，不能重算或重试本槽。旧048 r2 halt与旧blocked账本未变。本次provider请求/stream、本地推理、正式业务写入、Run/experiment创建及usage增量均0。
+
+原离线冻结及较早只读预检通过不覆盖最终指纹检查失败；不能把这次attempt说成已调用或产生答案。完整停止报告与摘要见[执行前停止报告](reviews/M6-comparison-answer-048-authorized-execution-r3.md)及[验证摘要](reviews/M6-comparison-answer-048-authorized-execution-validation-r3.json)。测试为53定向单元/契约、5比较账本隔离Mongo、24归属/恢复隔离Mongo通过；首次集成启动缺当前worktree的`MONGO_URL`而未连接服务，显式加载根`.env`后通过。
+
+M6保持5/7：04验收保留，05反馈复评proof、08候选质量和阶段证据仍缺；43题暂停，heldout65未运行，M7未授权。任何后续尝试须新单题授权及全新身份，先冻结最终代码后不得再改参与指纹的源码。
+
 ## 2026-11-02 · 新048授权r3已冻结，调用前预检通过
 
 用户已明确授权新批次仅对`support-v1-048`执行一次、最多一个模型调用、接受费用上限未知、失败即停。新Git授权文件在提交`4a49b6a`固定，绑定新风险批次`m6-comparison-answer-048-risk-r3`、槽`m6-comparison-answer-048-r3-support-v1-048`及旧r2 halt哈希；旧r2不得重试。风险合同已切换到新路径/ledger并在准入时重新校验旧halt，注册题集只读复用，不重复`register_set`。

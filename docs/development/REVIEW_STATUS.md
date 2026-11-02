@@ -1,3 +1,9 @@
+## 2026-11-02 · 新048授权r3最终指纹不一致，按fail-stop封存
+
+`support-v1-048`新授权r3在调用前发现冻结源码指纹`26212526c3be318c51ce7a5725e103f78bbc57c456b1e47bd17500dc64b5ae65`与最终源码指纹`7e3ba59d194934c41e593c161aefcd94279c4ab4e629fad597ffe462321fad25`不一致。拒绝发生在Mongo读取、正式实验创建及provider派发之前；attempt记录provider request/stream、本地推理、业务写入、实验/Run及usage增量均0。新r3批次和槽已按明确授权的首败停止要求封存，不重算、不解锁、不重领。旧source-relation消费账本与旧048 halt保持。
+
+53单测/契约、5比较账本隔离Mongo、24归属/恢复隔离Mongo通过；第一次集成启动的环境前置错误未连接Mongo，显式静默加载根配置后通过。当前没有答案，不能判048质量；M6仍5/7，04保持验收、05/08未验收，43题暂停、heldout65未跑、M7未授权。见[独立接续报告](reviews/M6-comparison-answer-048-authorized-execution-r3.md)。
+
 ## 2026-11-02 · 新048单题授权r3冻结并通过调用前只读核验
 
 当前授权明确限`support-v1-048`一次、至多1个模型调用、费用上界unknown、首败停止。新授权Git文件为`4a49b6a`，风险批次/槽为`m6-comparison-answer-048-risk-r3`与`m6-comparison-answer-048-r3-support-v1-048`；旧`r2` halt未动。新流程读取已登记题集descriptor而不重复登记。离线输入/runtime冻结与正式只读预检通过，注册数据及权限匹配；正式experiment/result/slot/Run/link/outcome/预算账本皆空，新增模型调用和正式库写入为0。报告结果及本机证据导航见[PROGRESS当前接续](PROGRESS.md)。

@@ -1,3 +1,7 @@
+## 2026-11-02 · M6-048授权r3在派发前停止
+
+新授权批次在最终执行身份核验时发现源码hash与清单冻结值不一致，按“失败即停止”封存。无Mongo/实验/Run/模型请求或usage增量；旧批次状态保留。M6仍5/7，真实答案质量未产生。详见[执行前停止报告](reviews/M6-comparison-answer-048-authorized-execution-r3.md)。
+
 ## 2026-11-02 · M6-048新授权身份r3冻结
 
 为用户新授权建立独立Git证明、风险批次、成员槽和ledger ID，并将风险合同固定绑定新授权；新准入同时核对旧`r2`停止证明哈希和不可重试状态。运行编排改为只读取用已登记题集descriptor，交由`EvaluationService.create_experiment`校验冻结dataset/manifest，避免重复`register_set`冲突。调用前正式只读预检通过，尚未创建实验或调用模型。M6仍5/7，答案质量未证明。
