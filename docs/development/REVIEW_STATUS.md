@@ -948,3 +948,10 @@ Docker/Mongo恢复；过期020 Run已由正式恢复协议转为interrupted并�
 AF-R1/AF-R1-R的总控独立通过结论保留，不重开。执行端已修正新regression草稿错误继承revision发布状态，并在FeedbackQueue隐藏regression的revision绑定/证明控件；revision支路行为未变。隔离Mongo/API 8项、离线浏览器2项及typecheck通过，详见[路线报告](reviews/M6-08-feedback-regression-route-r1.md)。
 
 本轮只核清流程断点，没有实现完整regression闭环。Question标注审阅、dev题集新版本冻结与catalog接入、feedback→题目→manifest→experiment来源绑定、反馈后同范围实验质量证明仍待执行端接线；M6-04全题人工双轮/预校准为后续候选评测前置。不得把revision的affected→full发布证明套用于regression。M6仍4/7；M6-04/05/08未验收；M7未授权。执行自验不构成独立复审或阶段验收。
+## 2026-11-02 · M6执行身份补修完成；唯一048授权预调度失败并封存
+
+评测maintainer与冻结知识owner可分离，执行关联绑定experiment发起者、knowledge owner、KB权限及租约；同库/分库恢复、终态复用、撤权、错误owner和旧记录反例定向验证通过。单元/契约1512 passed，正式隔离job/恢复48 passed，owner/撤权10 passed。模型目录及冻结指纹可用。
+
+唯一support-v1-048调用授权在正式experiment创建前因重复登记已注册题集而触发`eval_set_version_conflict`；已登记题集dataset/manifest一致，只有config白名单不同。没有experiment/result/slot/Run、新预算账本、provider请求/stream或推理；新授权槽halt已封存，不重试。代码修复与预调度失败均为本轮执行证据，尚未由另一审查方独立技术关闭。
+
+M6仍5/7：04保持验收；05缺反馈复评proof；08缺有效候选质量及阶段证据。无新答案或质量证明；43题暂停、heldout65未运行、M7未授权。详见[M6执行报告](reviews/M6-comparison-answer-execution-owner-review-r1.md)及[验证摘要](reviews/M6-comparison-answer-execution-owner-review-validation-r1.json)。

@@ -1,3 +1,11 @@
+## 2026-11-02 · M6执行归属补修完成；唯一048授权在预调度校验失败后封存
+
+修复正式评测维护者与知识库owner为不同主体时题级来源拒绝的问题：新experiment冻结知识owner，运行与来源恢复按评测发起人查找实验，同时核对冻结owner、KB维护权限、父Run来源与租约；旧缺少owner绑定的跨主体记录拒绝追认。修正比较风险合同r2授权路径/slot身份。单元/契约1512 passed；隔离Mongo正式job及恢复/复用矩阵48 passed，补充撤权矩阵10 passed。先前失败记录保留在本机`output/m6-execution-owner-fix-20261102-764061/`。
+
+本机两个BGE模型目录和冻结model fingerprint均已核实。使用全新代码身份、原`fb-07c584730833908571fe9dd7c7c890afa3cf9e66`完整题集及唯一support-v1-048授权进行只读预检后，预调度脚本对已登记相同题集重复执行`register_set`，触发`eval_set_version_conflict`。正式登记题集与数据/manifest hash一致，冲突在同版本登记配置列表；实验/结果/slot/Run/新预算账户均为0，provider stream/request、本地推理和usage增量为0。按用户“失败即停止”封存新r2槽位的halt，不重试该授权；旧048 blocked账本保持不动。详细见[执行复核](reviews/M6-comparison-answer-execution-owner-review-r1.md)、[摘要](reviews/M6-comparison-answer-execution-owner-review-validation-r1.json)与[记录](records/M6-comparison-answer-execution-owner-review-r1.md)。
+
+该结果修复并验证了执行身份接线，但没有真实048答案，不能关闭比较答案质量。M6仍5/7：04保持验收，05缺真实反馈复评proof，08缺有效候选质量和阶段证据；43题暂停，heldout65未运行，M7未授权。任何新048尝试需新授权，不得复用已封存停止槽。
+
 ## 2026-11-02 · 用户授权的048单次验证停在runtime前置门，未派发
 
 用户明确授权 `support-v1-048` 一次比较验证，接受费用上界未知并要求失败即停。只读核实官方catalog/配置与正式题集注册一致，maintainer范围有效，正式experiment/result/slot/Run/link/outcome及预算账户仍为0；先前已消费048账户与封存快照一致，仍blocked、无pending/unknown窗口。未读凭据。

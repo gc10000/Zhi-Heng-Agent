@@ -15,7 +15,7 @@ def comparison_contract(*, enabled=False):
         'client_versions': {'openai': '2.28.0', 'langchain-openai': '1.1.11'},
         'limit_field': 'max_completion_tokens',
         'per_request_total_output_tokens': 4096,
-        'ledger_id': 'm6-comparison-answer-048-canary-r1',
+        'ledger_id': 'm6-comparison-answer-048-canary-r2',
         'prior_input_tokens': 53089,
         'prior_output_tokens': 30412,
         'prior_source_sha256': 'b' * 64,
@@ -24,11 +24,11 @@ def comparison_contract(*, enabled=False):
         'admission': {
             'authorization': {
                 'commit': 'c' * 40,
-                'path': 'docs/development/reviews/M6-comparison-answer-048-authorization-r1.json',
+                'path': 'docs/development/reviews/M6-comparison-answer-048-authorization-r2.json',
                 'sha256': 'd' * 64,
             },
             'manifest_sha256': 'e' * 64,
-            'member_slot': 'm6-comparison-answer-048-r1-r1-support-v1-048',
+            'member_slot': 'm6-comparison-answer-048-r2-r2-support-v1-048',
         },
     }
 
@@ -76,7 +76,7 @@ def test_comparison_contract_rejects_unbounded_or_mutated_identity():
         {'max_total_output_tokens': 34507},
         {'ledger_id': 'old-blocked-ledger'},
         {'admission': {'authorization': {'commit': 'c' * 40,
-            'path': 'docs/development/reviews/M6-comparison-answer-048-authorization-r1.json',
+            'path': 'docs/development/reviews/M6-comparison-answer-048-authorization-r2.json',
             'sha256': 'd' * 64}, 'manifest_sha256': 'e' * 64, 'member_slot': 'another-slot'}},
     ):
         bad = comparison_contract(enabled=True) | change
@@ -84,22 +84,32 @@ def test_comparison_contract_rejects_unbounded_or_mutated_identity():
             parse_contract(bad)
 
 
-def test_comparison_risk_profile_has_no_authorization_or_old_slot_fallback():
+def test_comparison_risk_profile_binds_only_the_new_authorization_and_slot():
     from app.infrastructure.providers import comparison_answer_048_risk as risk
     from app.infrastructure.providers import source_relation_048_risk as old
     from app.infrastructure.providers.output_contract import parse_contract
+    from app.answering.reviewed_subjects import evidence_bytes
+    import json
 
-    policy = parse_contract(comparison_contract(enabled=True))
-    assert risk.AUTHORIZED_GIT is None
+    assert risk.AUTHORIZED_GIT == {
+        'commit': 'bb77462df031088cbfd03b17c100ceaa31d84748',
+        'path': 'docs/development/reviews/M6-comparison-answer-048-authorization-r2.json',
+        'sha256': 'a03ae58460630f43509571e64e669b6152e204985e7cb01975d5c6648f7eea6b',
+    }
+    authorized_contract = comparison_contract(enabled=True)
+    authorized_contract['admission']['authorization'] = risk.AUTHORIZED_GIT
+    policy = parse_contract(authorized_contract)
+    authorized = json.loads(evidence_bytes(risk.AUTHORIZED_GIT))
+    assert authorized['status'] == 'authorized_for_one_stream_only'
+    assert authorized['user_authorization']['question_id'] == risk.QUESTION_ID
+    assert authorized['user_authorization']['max_provider_streams'] == 1
     assert risk.BATCH != old.BATCH
     assert risk.SLOT != old.SLOT
     assert risk.ACCOUNT_COLLECTION != old.ACCOUNT_COLLECTION
-    with pytest.raises(ValueError, match='授权'):
-        risk.sources(policy)
-    with pytest.raises(ValueError, match='授权'):
-        risk.prepare_manifest({'authorization': None})
-    with pytest.raises(ValueError, match='授权'):
-        risk.open_client(policy)
+    assert policy.admission.authorization.model_dump(mode='json') == risk.AUTHORIZED_GIT
+    wrong_policy = parse_contract(comparison_contract(enabled=True))
+    with pytest.raises(ValueError, match='固定Git授权'):
+        risk.sources(wrong_policy)
 
 
 def make_authorized_comparison_case(tmp_path, monkeypatch, *, evaluation_control_database=None):
@@ -212,7 +222,7 @@ def make_authorized_comparison_case(tmp_path, monkeypatch, *, evaluation_control
 
     authorization_ref = {
         'commit': 'c' * 40,
-        'path': 'docs/development/reviews/M6-comparison-answer-048-authorization-r1.json',
+        'path': 'docs/development/reviews/M6-comparison-answer-048-authorization-r2.json',
         'sha256': 'd' * 64,
     }
     member = {
@@ -336,7 +346,7 @@ def test_authorized_comparison_freezes_and_validates_the_complete_synthetic_sour
     manifest = risk.build_manifest([(
         case['config'], case['question'], 'm1_test_m4_comparison_control',
     )])
-    assert manifest['dispatch_order'] == ['m6-comparison-answer-048-r1-r1-support-v1-048']
+    assert manifest['dispatch_order'] == ['m6-comparison-answer-048-r2-r2-support-v1-048']
     assert manifest['entries'][0]['question']['question'] == '比较两款合成设备的上联介质。'
     assert manifest['entries'][0]['input_sha256'] == fingerprint({
         'id': 'support-v1-048',

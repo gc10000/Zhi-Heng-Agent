@@ -23,6 +23,7 @@ def begin_parent_execution(cfg, resources):
     repo = EvaluationRepository(resources['db'])
     target = cfg['target']
     user = Principal(user_id=target['owner_id'], username='隔离执行来源', role='maintainer', kb_ids=(target['kb_id'],))
+    resources['db'].users.insert_one(user.model_dump(mode='json') | {'enabled': True})
     descriptor = dict(id='set', version='r1', kb_id=target['kb_id'], dataset_sha256=cfg['dataset_sha256'],
         manifest_sha256='b'*64, question_count=50, dev_count=1, review_eligible_count=0,
         configs=[dict(id='control', version='r1')])

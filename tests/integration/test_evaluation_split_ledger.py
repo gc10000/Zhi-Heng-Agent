@@ -232,3 +232,35 @@ def test_control_lease_lost_after_run_creation_uses_formal_pending_recovery(eval
     assert target.runs.find_one({'run_id': pending['run_id']})['state'] == 'interrupted'
     assert target.run_events.count_documents({'run_id': pending['run_id'], 'type': 'run.interrupted'}) == 1
     assert resources['conversations'].conversations.find_one({'conversation_id': pending['conversation_id']})['active_run_id'] is None
+
+
+def test_delegated_owner_revocation_stops_continuation_before_new_run(
+        evaluation_context, tmp_path, monkeypatch):
+    cfg, resources, prompts, _, repo, service, _, data, catalog = formal_case(
+        evaluation_context, tmp_path, monkeypatch, separate=True)
+    maintainer = Principal(user_id='revoked-eval-maintainer', username='撤权执行者',
+        role='maintainer', kb_ids=(cfg['target']['kb_id'],))
+    repo.db.users.insert_one(maintainer.model_dump(mode='json') | {'enabled': True})
+    service.register_set(maintainer, dict(kb_id=cfg['target']['kb_id'], eval_set_id='set', version='r1'))
+    parent = service.create_experiment(maintainer, data)
+    original_execute = resources['query_runner'].execute
+
+    def interrupted(run_id):
+        original_execute(run_id)
+        interrupt(resources, run_id)
+        raise RuntimeError('合成中断')
+
+    monkeypatch.setattr(resources['query_runner'], 'execute', interrupted)
+    execute_job(repo, catalog, tmp_path/'out', parent['experiment_id'])
+    failed = repo.get_experiment(maintainer, parent['experiment_id'])
+    child = service.create_experiment(maintainer, data | dict(client_request_id='revoked-child',
+        continuation=dict(source_experiment_id=failed['experiment_id'],
+            source_attempt=failed['attempt'], source_version=failed['version'], reason='撤权拒绝恢复')))
+    repo.db.users.update_one({'user_id': maintainer.user_id}, {'$set': {'enabled': False}})
+    monkeypatch.setattr(resources['query_runner'], 'execute', original_execute)
+
+    execute_job(repo, catalog, tmp_path/'out', child['experiment_id'])
+
+    assert repo.get_experiment(maintainer, child['experiment_id'])['state'] == 'failed'
+    assert len(prompts) == 1
+    assert resources['db'].evaluation_continuations.count_documents({}) == 0

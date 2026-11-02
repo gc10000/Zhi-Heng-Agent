@@ -1079,3 +1079,8 @@ M6-02实现使用`metric_schema_version=1`启用新报告契约；M4既有配置
 模型只提交严格`comparison_frame_selection_v1` JSON，`frames`最多100项，可为空；每项必须对应本轮冻结prompt-used目录中真实且不重复的引用/帧编号。空选择表示模型未找到相关帧，程序渲染双方缺少可比较的上联证据；无效JSON、自由文本、额外字段、重复或越界编号均拒绝。关系分类、介质规范化、比较结论和中文用户答复由版本化程序从冻结原句帧派生，不能由模型自报，也不能跨帧拼关系。
 
 完成Run保存帧选择和proof，绑定冻结问题/策略/prompt-used来源、产品、派生事实、比较结果及答案hash。首个结果投影和检查点恢复须从正式题目、产品选择、历史与冻结来源重新计算计划及proof；只有同一proof、引用和答案都相等时接受。用户结果只输出已渲染答复与脱敏比较摘要；内部raw selection不进入事件或公开快照，失败选择最多保存4096字符并只留在受控Run记录。该能力仍默认关闭；proof有效不等于真实答案质量通过、候选有效或M6验收。
+## 2026-11-02 · M6比较执行归属与单次调用fail-stop
+
+正式experiment owner表示发起评测的maintainer；冻结config target.owner_id表示知识归属。创建任务时需固定knowledge_owner_id；Run来源关联应同时核验评测发起者有效KB维护权限、冻结知识owner、KB和租约。旧跨主体记录缺少冻结归属时拒绝自动追认。
+
+唯一048授权失败停止时，不重试、退款或重领；必须保留原registered dataset descriptor和r2授权halt。此次只因调度脚本重复登记已有题集触发配置列表冲突，未创建experiment/slot/Run或provider stream。该记录不是答案质量证据或M6验收，M6仍5/7。

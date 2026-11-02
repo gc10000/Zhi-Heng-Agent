@@ -72,8 +72,8 @@ class SourceRelation048Contract(NonthinkingManifestContract):
     function_version: Literal['diagnostic_source_relation_048_v1'] = 'diagnostic_source_relation_048_v1'
 
 
-COMPARISON_ANSWER_048_SLOT = 'm6-comparison-answer-048-r1-r1-support-v1-048'
-COMPARISON_ANSWER_048_AUTHORIZATION_PATH = 'docs/development/reviews/M6-comparison-answer-048-authorization-r1.json'
+COMPARISON_ANSWER_048_SLOT = 'm6-comparison-answer-048-r2-r2-support-v1-048'
+COMPARISON_ANSWER_048_AUTHORIZATION_PATH = 'docs/development/reviews/M6-comparison-answer-048-authorization-r2.json'
 
 
 class ComparisonAnswer048Admission(SingleProductAdmission):
@@ -94,7 +94,7 @@ class ComparisonAnswer048Contract(NonthinkingManifestContract):
                 self.client_versions != {'openai': '2.28.0', 'langchain-openai': '1.1.11'} or
                 self.limit_field != 'max_completion_tokens' or self.thinking is not False or
                 self.reasoning_budget is not None or self.per_request_total_output_tokens != 4096 or
-                self.ledger_id != 'm6-comparison-answer-048-canary-r1' or
+                self.ledger_id != 'm6-comparison-answer-048-canary-r2' or
                 self.prior_input_tokens != 53089 or self.prior_output_tokens != 30412 or
                 self.prior_source_sha256 is None or self.max_total_input_tokens != 81505 or
                 self.max_total_output_tokens != 34508):

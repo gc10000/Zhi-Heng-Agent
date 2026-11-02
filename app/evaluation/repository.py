@@ -150,6 +150,7 @@ class EvaluationRepository:
         self._reserve(user.user_id, experiment_id)
         now = datetime.now(timezone.utc).isoformat()
         row = self._scope(user, data['kb_id']) | {
+            'knowledge_owner_id': resolved.get('config', {}).get('target', {}).get('owner_id', user.user_id),
             'experiment_id': experiment_id, 'client_request_id': data['client_request_id'],
             'request_sha256': identity, 'eval_set_id': data['eval_set_id'],
             'eval_set_version': data['eval_set_version'], 'dataset_sha256': descriptor['dataset_sha256'],

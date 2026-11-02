@@ -14,10 +14,20 @@ def validate_execution(control_db, context, config):
     target = config['target']
     parent = control_db.evaluation_experiments.find_one(dict(experiment_id=context['experiment_id'],
         attempt=context['attempt'], worker_token=context['worker_token'],
-        config_sha256=context['config_sha256'], owner_id=target['owner_id'], kb_id=target['kb_id'],
+        config_sha256=context['config_sha256'], kb_id=target['kb_id'],
         state={'$in': ['running', 'cancel_requested']}, lease_until={'$gt': datetime.now(timezone.utc)}))
     if parent is None:
         raise ValueError('当前实验执行身份或租约无效，拒绝建立题级来源')
+    # 新实验固定知识归属；历史实验只接受原来同owner的执行边界。
+    if parent.get('knowledge_owner_id', parent['owner_id']) != target['owner_id']:
+        raise ValueError('正式实验绑定的知识归属与运行目标不一致')
+    if parent['owner_id'] != target['owner_id']:
+        executor = control_db.users.find_one({
+            'user_id': parent['owner_id'], 'enabled': True,
+            'role': {'$in': ['maintainer', 'admin']}, 'kb_ids': target['kb_id'],
+        })
+        if executor is None:
+            raise ValueError('评测实验发起者已无该知识库维护权限，拒绝建立题级来源')
     if (parent.get('regression_source') != config.get('regression_source') or
             parent.get('regression_execution_key') != config.get('regression_execution_key') or
             parent.get('quality_policy') != config.get('quality_policy') or
@@ -109,9 +119,16 @@ def require_source_link(db, control_db, context, *, checkpoint_key, input_sha256
         raise ValueError('缺少正式父实验控制账本，拒绝核验题级来源')
     source = context['source']
     target = config['target']
+    # 当前租约由调用方validate_execution核验；此处只核冻结来源归属。
+    current = control_db.evaluation_experiments.find_one(dict(
+        experiment_id=context['experiment_id'], kb_id=target['kb_id']))
+    if current is None or current.get('knowledge_owner_id', current['owner_id']) != target['owner_id']:
+        raise ValueError('后续实验执行身份或冻结知识归属无效')
     parent = control_db.evaluation_experiments.find_one(dict(experiment_id=source['source_experiment_id'],
         attempt=source['source_attempt'], version=source['source_version'],
-        owner_id=target['owner_id'], kb_id=target['kb_id'], state={'$in': ['failed', 'cancelled', 'incomplete']}))
+        owner_id=current['owner_id'], kb_id=target['kb_id'], state={'$in': ['failed', 'cancelled', 'incomplete']}))
+    if parent is not None and parent.get('knowledge_owner_id', parent['owner_id']) != target['owner_id']:
+        raise ValueError('父实验冻结知识归属与运行目标不匹配')
     key = fingerprint([source['source_experiment_id'], source['source_attempt'], question_id])
     link = db.evaluation_execution_links.find_one({'_id': key})
     expected = dict(experiment_id=source['source_experiment_id'], attempt=source['source_attempt'],

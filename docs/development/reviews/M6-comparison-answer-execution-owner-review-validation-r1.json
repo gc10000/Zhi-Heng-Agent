@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "kind": "m6_comparison_answer_execution_owner_review",
+  "date": "2026-11-02",
+  "passed": [
+    "maintainer_and_knowledge_owner_separation",
+    "frozen_knowledge_owner_binding",
+    "delegated_execution_and_source_recovery_same_db_and_split_db",
+    "completed_run_observed_reuse",
+    "permission_revocation_and_scope_rejection",
+    "expired_lease_and_legacy_cross_owner_row_rejection",
+    "offline_execution_identity_preflight"
+  ],
+  "test_results": {
+    "unit_and_contract": {"passed": 1512, "failed": 0, "warnings": 6},
+    "formal_job_and_recovery_integration": {"passed": 48, "failed": 0},
+    "owner_scope_and_revocation_integration": {"passed": 10, "failed": 0}
+  },
+  "authorized_attempt": {
+    "question_id": "support-v1-048",
+    "dataset_version": "fb-07c584730833908571fe9dd7c7c890afa3cf9e66",
+    "authorization_sha256": "a03ae58460630f43509571e64e669b6152e204985e7cb01975d5c6648f7eea6b",
+    "outcome": "stopped_before_experiment_creation",
+    "failure_code": "eval_set_version_conflict",
+    "registered_dataset_and_manifest_match": true,
+    "registered_config_list_contains_attempt": false,
+    "experiment_count": 0,
+    "result_count": 0,
+    "slot_count": 0,
+    "new_budget_account_count": 0,
+    "provider_requests": 0,
+    "provider_streams": 0,
+    "local_inference": 0,
+    "new_usage": {"input": 0, "output": 0},
+    "halt_sha256": "59e04d769ca3fcd7137fb6f37577de7b1d4c15834f0c74b3189136b868c2dc0c",
+    "retry_authorized": false
+  },
+  "historical_usage": {"input": 53089, "output": 30412},
+  "unknown": ["reasoning_tokens", "exact_http_requests", "cost", "paid_output_upper_bound"],
+  "m6": {
+    "status": "5/7",
+    "m6_04": "accepted_and_preserved",
+    "m6_05": "missing_feedback_reassessment_proof",
+    "m6_08": "missing_valid_candidate_quality_and_stage_evidence",
+    "original_43_questions": "paused",
+    "heldout_65": "not_run",
+    "m7": "not_authorized"
+  },
+  "quality_passed": false,
+  "limitation": "No product answer was generated; this is not a comparison-quality result."
+}

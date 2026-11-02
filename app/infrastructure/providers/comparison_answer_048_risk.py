@@ -1,9 +1,4 @@
-"""048完整比较答复的独立风险档案。
-
-该档案先于任何真实执行身份存在，但在新的、受审Git授权登记前始终拒绝准入。
-它不引用旧source-relation批次、旧账户或旧消费槽；CAS结算实现只在授权补齐后复用
-共享的剩余清单核心。
-"""
+"""仅用于support-v1-048单次完整比较答复的专用风险档案。"""
 import sys
 import copy
 import hashlib
@@ -19,13 +14,17 @@ from .product_risk import exclusive, code_version
 
 ROOT = Path(__file__).resolve().parents[3]
 VERSION = 'diagnostic_comparison_answer_048_v1'
-BATCH = 'm6-comparison-answer-048-risk-r1'
-SLOT = 'm6-comparison-answer-048-r1-r1-support-v1-048'
+BATCH = 'm6-comparison-answer-048-risk-r2'
+SLOT = 'm6-comparison-answer-048-r2-r2-support-v1-048'
 QUESTION_ID = 'support-v1-048'
 ACCOUNT_COLLECTION = 'diagnostic_comparison_answer_048_accounts'
 
-# 这是有意的硬门：本轮没有新的Git授权，不能把条件性提案变成可执行许可。
-AUTHORIZED_GIT = None
+# 只绑定本包单次授权；授权文件位于受审提交中，不复用旧048消费槽。
+AUTHORIZED_GIT = dict(
+    commit='bb77462df031088cbfd03b17c100ceaa31d84748',
+    path='docs/development/reviews/M6-comparison-answer-048-authorization-r2.json',
+    sha256='a03ae58460630f43509571e64e669b6152e204985e7cb01975d5c6648f7eea6b',
+)
 
 read = base.read
 sha = base.sha
@@ -87,7 +86,7 @@ def prior_receipt(auth=None):
 
 
 def sources(policy):
-    """只接受未来专用授权；当前明确拒绝，避免任何旧合同降级。"""
+    """只接受r2单题授权、冻结题集和完整提示来源。"""
     if AUTHORIZED_GIT is None:
         raise ValueError('比较答复专用Git授权尚未登记，禁止真实执行')
     ref = policy.admission.authorization.model_dump(mode='json')
@@ -147,7 +146,7 @@ def sources(policy):
         n=1, model=runtime['model'], endpoint_sha256=runtime['endpoint_sha256'],
         client_versions=runtime['client_versions'], limit_field=runtime['limit_field'],
         thinking=False, reasoning_budget=None, per_request_total_output_tokens=4096,
-        ledger_id='m6-comparison-answer-048-canary-r1', prior_input_tokens=prior['input_tokens'],
+        ledger_id='m6-comparison-answer-048-canary-r2', prior_input_tokens=prior['input_tokens'],
         prior_output_tokens=prior['output_tokens'], prior_source_sha256=prior['sha256'],
         max_total_input_tokens=81505, max_total_output_tokens=34508)
     if any(getattr(policy, key) != value for key, value in expected_contract.items()):

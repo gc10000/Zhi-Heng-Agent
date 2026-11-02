@@ -921,3 +921,6 @@ M6-04/05/08继续未勾选，核心4/7、总核心64/76。 真实001仅只读重
 | 部署和恢复变化 | 对应 Windows/Ubuntu runbook、配置拓扑、恢复/容量实测 |
 
 本轮只建立计划与维护机制。首次实施从 **M0-01** 开始，暂不执行迁移、模型更换或全量重导入。
+## 2026-11-02 · M6比较执行身份补修与授权停止记录
+
+已完成受限执行归属接线和撤权/恢复隔离验证，但不得勾选M6质量任务。用户授权的唯一support-v1-048尝试在experiment创建前因同版本题集重复登记的config白名单冲突停止，provider/local inference均0；新授权槽已halt，不重试。M6保持5/7：04已验收，05缺反馈复评proof，08缺有效候选质量和阶段证据；43题暂停、heldout65未跑、M7未授权。详见[执行记录](../development/records/M6-comparison-answer-execution-owner-review-r1.md)。
