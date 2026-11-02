@@ -12,6 +12,35 @@ def contract():
     return comparison_contract(enabled=True)
 
 
+def test_comparison_contract_is_preserved_by_formal_run_creation(mongo_db):
+    from app.conversations.repository import ConversationRepository
+    from app.conversations.models import ConversationInput
+    from app.runs.repository import RunRepository
+    from app.runs.service import RunService
+    from app.runs.models import InternalRunInput
+    from app.identity.models import Principal
+    from app.infrastructure.providers.output_contract import identity, validate_run
+    conv = ConversationRepository(mongo_db)
+    runs = RunRepository(mongo_db, conv)
+    user = Principal(user_id='synthetic-owner', username='隔离合同验证',
+        role='maintainer', kb_ids=('synthetic-kb',))
+    cid = conv.create(user, ConversationInput(kb_id='synthetic-kb'))['conversation_id']
+    policy = contract()
+    request = InternalRunInput(kb_id='synthetic-kb', question='比较上联方式',
+        client_request_id='synthetic-comparison', output_contract=policy,
+        comparison_target='device_uplink', comparison_target_reason='explicit_single_target')
+    service = RunService(runs)
+    first = service.create(user, cid, request)
+    second = service.create(user, cid, request)
+    assert first['run_id'] == second['run_id']
+    row = runs.get(user, first['run_id'])
+    validate_run(row, policy)
+    assert all(row[key] == value for key, value in identity(policy).items())
+    assert row['state'] == 'pending' and row['comparison_target'] == 'device_uplink'
+    assert mongo_db.runs.count_documents({}) == 1
+    assert mongo_db.diagnostic_comparison_answer_048_accounts.count_documents({}) == 0
+
+
 def isolated_ledger(mongo_db, tmp_path, monkeypatch, *, separate=False):
     from types import SimpleNamespace
     from app.infrastructure.providers import comparison_answer_048_risk as risk
