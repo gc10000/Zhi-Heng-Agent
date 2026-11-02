@@ -780,3 +780,8 @@ M6-03核对发现原Linux导入镜像仅有处理/队列依赖，不含PyTorch/F
 正式评测由有KB维护权限的评测账号发起时，evaluation_experiments.owner_id继续代表发起人，新增knowledge_owner_id固定目标知识归属。Run来源关联不得把两种身份压成一个字段；执行及恢复均需用发起人做控制账本查找、用knowledge_owner_id匹配冻结config，并检查当前maintainer权限和租约。旧记录缺归属身份时不做跨主体恢复。
 
 048新授权采用单题单槽；任何调度失败即封存，不在原槽重试。本次失败来自对已登记相同题集版本重复register_set，config目录清单不同导致冲突；正式job尚未创建。即使没有provider请求，也不自动恢复该授权。
+
+
+2026-11-03：解释算法变更必须显式版本化，保留v1字节和proof恢复；v2由冻结策略选择，不信任proof自报版本，不升级真实已完成Run。唯一真实048质量失败后封存账本，继续零调用修复，而非重新扣费抽样。展示原文仅改善可解释性，模型选择完整性仍是独立产品问题，不降低完整比较标准。
+
+2026-11-03同包续修：v2以known_frozen_relations_v1从同一冻结目录补齐所有已识别关系；proof保留原selected_frames，并单独绑定supplemental_frames、rendered_frames和catalog_sha256。缺省v1不补入。恢复重算覆盖、答案和证明；不把程序补入伪称模型选择，不把离线候选当正式质量proof。

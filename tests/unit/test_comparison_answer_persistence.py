@@ -15,11 +15,12 @@ from app.runs.query_runner import QueryRunner
 from tests.unit.test_comparison_answers import _frozen_inputs
 
 
-def _projector_fixture():
+def _projector_fixture(version='comparison_answer_v1'):
     text = '本设备上联通过以太网连接到核心网。'
     policy, doc, _ = _frozen_inputs(text)
     policy['products']['q'] = '另一合成网关'
     policy['scope']['product_ids'].append('q')
+    policy['comparison_answer']['function_version'] = version
     policy = payload(policy)
     parsed = EvidenceAttributionPolicy.model_validate(policy)
     reference_map = [dict(evidence_labels([doc], parsed)[0], reference_number=1)]
@@ -30,7 +31,7 @@ def _projector_fixture():
     policy_hash = fingerprint(parsed.model_dump(mode='json'))
     raw = '{"schema_version":"comparison_frame_selection_v1","frames":[{"reference":1,"frame":0}]}'
     answer, proof = bind_comparison_response(raw,build_frame_catalog(reference_map, [doc], parsed),
-        ['p', 'q'], target, policy_hash, prompt_hash, parsed.products)
+        ['p', 'q'], target, policy_hash, prompt_hash, parsed.products, version=version)
     citation = {key: deepcopy(doc[key]) for key in (
         'chunk_uid', 'document_id', 'revision_id', 'text', 'source_refs', 'asset_ids')}
     row = dict(run_id='synthetic-run', state='completed', answer=answer, citations=[citation], question=question,
@@ -58,12 +59,26 @@ def _projector_fixture():
     return executor, row
 
 
-def test_first_projection_recomputes_comparison_and_exposes_only_sanitized_summary():
-    executor, row = _projector_fixture()
+@pytest.mark.parametrize('version', ['comparison_answer_v1','comparison_answer_v2'])
+def test_first_projection_recomputes_comparison_and_exposes_only_sanitized_summary(version):
+    executor, row = _projector_fixture(version)
     result = executor.project_result(row,question=executor.comparison_question)
     assert result['comparison_summary']['comparison_status'] == 'insufficient_comparison'
     assert 'raw_selection' not in result['comparison_summary']
     assert 'comparison_frame_selection_v1' not in result['answer']
+    assert result['comparison_summary']['function_version'] == version
+
+
+def test_first_projection_rejects_coordinated_old_proof_under_new_policy():
+    executor, row = _projector_fixture('comparison_answer_v2')
+    policy = executor.config['parameters']['evidence_attribution']
+    old_answer, old_proof = bind_comparison_response(row['comparison_answer']['raw_selection'],
+        build_frame_catalog(row['prompt_reference_map'], row['prompt_used_docs'], policy),
+        ['p','q'], row['comparison_target'], row['comparison_policy_sha256'],
+        row['comparison_prompt_used_sha256'], policy['products'])
+    row.update(answer=old_answer, comparison_answer=old_proof)
+    with pytest.raises(ValueError):
+        executor.project_result(row,question=executor.comparison_question)
 
 
 def test_first_projection_rejects_coordinated_saved_source_rewrite():

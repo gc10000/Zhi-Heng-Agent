@@ -22,6 +22,31 @@ def step_1_check_answer(state) -> bool:
   answer = state.get("answer", None)
   is_stream = state.get("is_stream" )
   if answer:
+    from app.answering.evidence_attribution import EvidenceAttributionPolicy
+    attribution = EvidenceAttributionPolicy.model_validate(state.get('evidence_attribution') or {})
+    if state.get('comparison_mode') is True and attribution.comparison_answer and attribution.comparison_answer.enabled:
+      from app.answering.comparison_answers import build_frame_catalog,prompt_used_identity,validate_saved_comparison
+      from app.knowledge.repository import fingerprint
+      target = state.get('comparison_target')
+      if target is None:
+        if (answer != '请明确需要比较两台设备的哪一项信息。' or
+            state.get('comparison_answer_clarification') is not True or state.get('comparison_answer')):
+          raise ValueError('缓存比较澄清与固定结果不一致')
+      else:
+        docs = state.get('prompt_used_docs') or []
+        refs = state.get('prompt_reference_map') or []
+        catalog = build_frame_catalog(refs,docs,attribution)
+        question = state.get('rewritten_query') or state.get('original_query') or ''
+        if state.get('evidence_scope_note'):
+          question += '\n\n证据限制：' + state['evidence_scope_note']
+        policy_hash = fingerprint(attribution.model_dump(mode='json'))
+        prompt_hash = prompt_used_identity(question,refs,docs,target)
+        if (state.get('comparison_policy_sha256') != policy_hash or
+            state.get('comparison_prompt_used_sha256') != prompt_hash):
+          raise ValueError('缓存比较输入或策略身份漂移')
+        validate_saved_comparison(state,catalog,state.get('comparison_product_ids') or [],target,
+          policy_hash,prompt_hash,state.get('comparison_product_labels') or {},
+          version=attribution.comparison_answer.function_version)
     if ((state.get('evidence_attribution') or {}).get('assertion_binding') or {}).get('enabled'):
       from app.answering.assertion_binding import validate_saved_binding
       validate_saved_binding(dict(state,citations=state.get('prompt_used_docs') or []))
@@ -122,7 +147,7 @@ def step_2_construct_prompt(state: QueryGraphState) -> str:
       prompt_hash=prompt_used_identity(question,compare_labels,compare_docs,target)
       state['answer'],state['comparison_answer']=bind_comparison_selection([],catalog,
         state['comparison_product_ids'],target,state['comparison_policy_sha256'],prompt_hash,
-        state.get('comparison_product_labels') or {})
+        state.get('comparison_product_labels') or {}, version=attribution.comparison_answer.function_version)
       state['comparison_answer_short_circuit']=True
     else:
       from app.answering.service import build_budgeted_prompt
@@ -277,7 +302,7 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
       answer,proof=bind_comparison_response(final_text,state.get('comparison_frame_catalog') or [],
         state.get('comparison_product_ids') or [],state.get('comparison_target'),
         state['comparison_policy_sha256'],state['comparison_prompt_used_sha256'],
-        state.get('comparison_product_labels') or {})
+        state.get('comparison_product_labels') or {}, version=attribution.comparison_answer.function_version)
     except (ValueError,TypeError,KeyError) as exc:
       state['comparison_answer_failure']=comparison_failure_record(final_text,prompt,
         state.get('prompt_reference_map'),attribution,'comparison_selection_rejected')

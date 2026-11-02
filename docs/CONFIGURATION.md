@@ -462,3 +462,8 @@ MODEL_HOST桥接新增可选input_type=query/document，省略仍document兼容�
 
 2026-10-31已执行唯一授权非产品探测：固定`qwen3.8-flash`／SDK1.1.11与2.28.0，`extra_body.max_completion_tokens=4096`、n=1、默认thinking、timeout120、重试0。观测input102／含reasoning总output4096／reasoning4096，finish=`length`，仅分类为`observed_limit_4096_at_fixed_profile`。这不是原产品`max_tokens`字段或网关全域硬限证明，不登记verified，不恢复48 job。固定授权槽、原子独占started、原流及未知费用本机封存；不得重复探测。见[本轮执行报告](development/reviews/M6-output-contract-boundaries-probe-r1.md)。
 2026-11-01 assertion_binding r2仅改Run内部源载荷留存／proof恢复校验和评测投影，不新增环境变量、配置键、公开API或OpenAPI合同。实施自验108/16/89，独立复核待办；不改变默认关闭，不授权新048调用。见[补修报告](development/reviews/M6-assertion-binding-fix-r2.md)。
+
+
+2026-11-03：内部evidence_attribution.comparison_answer.function_version新增comparison_answer_v2，可显式用于离线候选；enabled仍默认false、版本仍默认comparison_answer_v1。缺省和旧Run不升级。v2改进精确简称、客户端接入、完整scope条件与原文呈现；生成和恢复严格绑定策略版本。无新环境变量，公开OpenAPI未变。现048专用风险授权仅v1且已消费封存，本包不修改正式catalog或模型调用授权。
+
+2026-11-03同包续修：v2以known_frozen_relations_v1从同一冻结目录补齐所有已识别关系；proof保留原selected_frames，并单独绑定supplemental_frames、rendered_frames和catalog_sha256。缺省v1不补入。恢复重算覆盖、答案和证明；不把程序补入伪称模型选择，不把离线候选当正式质量proof。

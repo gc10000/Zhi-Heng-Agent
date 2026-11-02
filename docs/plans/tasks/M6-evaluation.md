@@ -1,3 +1,11 @@
+## 2026-11-03 · 048唯一真实调用质量拒绝，继续零调用补修
+
+唯一r7 stream已执行：Run／experiment completed，finish=stop、未截断；新增usage1575／37，累计54664／30449。正式来源拒绝与halt已封存，账本blocked、无pending或未知窗口，不重试。实际答案遗漏必要关系且解释仅暴露规则失败，完整比较质量未通过。
+
+已新增显式comparison_answer_v2，修复唯一来源精确简称、客户端接入分类、完整scope条件、原文惰性呈现和缓存自由答案推送绕过；默认v1及旧Run/proof保持。最终离线429 passed（1条既有警告，含OpenAPI），随机隔离Mongo29 passed；10份原输入回放保持原选择及旧proof，v2仍证据不足。补修后新增模型调用和本地推理0；整个真实执行包本地BGE已运行、正式写入非0。实现自验不签独立关闭。
+
+M6保持5/7，04验收保留，05缺反馈复评proof，08缺有效候选质量和阶段证据；43题暂停、heldout不运行、M7未启动。已继续零调用补齐冻结目录中已识别的必要关系，模型选择与程序补入分开证明；下一步是对v2独立复审及完整性复评，不能把离线候选冒充真实质量通过。报告：docs/development/reviews/M6-comparison-answer-048-execution-and-repair-r1.md；摘要同名前缀validation-r1.json。以下历史保留。
+
 ## 2026-11-02 · 048授权正向风险档案代码路径合成复核
 
 新增2项无调用合成正向测试：GitEvidence结构及内容hash核验、冻结题集/题级输入绑定、单成员manifest创建和不可覆盖、require/config/prompt正向验证与漂移拒绝通过；9个相关单元模块166 passed、OpenAPI2 passed。`git show`返回字节为合成输入，实际远程Git授权对象未验证；无生产实现修改、正式库写入、模型调用或答案质量proof。M6仍5/7，M6-05/08质量证据未补，43题暂停、heldout未跑、M7未启动。详见[复核报告](../../development/reviews/M6-comparison-answer-risk-forward-review-r1.md)和[脱敏摘要](../../development/reviews/M6-comparison-answer-risk-forward-review-validation-r1.json)。

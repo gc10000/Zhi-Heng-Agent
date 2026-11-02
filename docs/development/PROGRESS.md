@@ -1,3 +1,11 @@
+## 2026-11-03 · 048唯一真实调用质量拒绝，继续零调用补修
+
+唯一r7 stream已执行：Run／experiment completed，finish=stop、未截断；新增usage1575／37，累计54664／30449。正式来源拒绝与halt已封存，账本blocked、无pending或未知窗口，不重试。实际答案遗漏必要关系且解释仅暴露规则失败，完整比较质量未通过。
+
+已新增显式comparison_answer_v2，修复唯一来源精确简称、客户端接入分类、完整scope条件、原文惰性呈现和缓存自由答案推送绕过；默认v1及旧Run/proof保持。最终离线429 passed（1条既有警告，含OpenAPI），随机隔离Mongo29 passed；10份原输入回放保持原选择及旧proof，v2仍证据不足。补修后新增模型调用和本地推理0；整个真实执行包本地BGE已运行、正式写入非0。实现自验不签独立关闭。
+
+M6保持5/7，04验收保留，05缺反馈复评proof，08缺有效候选质量和阶段证据；43题暂停、heldout不运行、M7未启动。已继续零调用补齐冻结目录中已识别的必要关系，模型选择与程序补入分开证明；下一步是对v2独立复审及完整性复评，不能把离线候选冒充真实质量通过。报告：docs/development/reviews/M6-comparison-answer-048-execution-and-repair-r1.md；摘要同名前缀validation-r1.json。以下历史保留。
+
 ## 2026-11-03 · 048前置故障补修，剩余唯一stream继续执行
 
 用户要求遇到前置问题直接修复。已修复Windows审阅行尾误拒、InternalRunInput遗漏比较合同，以及比较产品名称依赖数据库自然顺序导致精确prompt不匹配。106相关单元/契约（含OpenAPI2）和14随机隔离Mongo通过。r4/r5/r6失败身份保留；r6已有failed Run，本机BGE编码已实际运行，但持久telemetry证明invoke/stream均0，无风险账户/started/settled。r7仅续接此前未消费的一个stream，不复用失败身份。尚无新答案或质量proof；M6保持5/7，43题暂停、heldout未运行、M7未启动。详见[补修记录](records/M6-comparison-answer-execution-preflight-fix-r1.md)。以下历史保留。

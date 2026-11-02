@@ -1084,3 +1084,8 @@ M6-02实现使用`metric_schema_version=1`启用新报告契约；M4既有配置
 正式experiment owner表示发起评测的maintainer；冻结config target.owner_id表示知识归属。创建任务时需固定knowledge_owner_id；Run来源关联应同时核验评测发起者有效KB维护权限、冻结知识owner、KB和租约。旧跨主体记录缺少冻结归属时拒绝自动追认。
 
 唯一048授权失败停止时，不重试、退款或重领；必须保留原registered dataset descriptor和r2授权halt。此次只因调度脚本重复登记已有题集触发配置列表冲突，未创建experiment/slot/Run或provider stream。该记录不是答案质量证据或M6验收，M6仍5/7。
+
+
+2026-11-03：比较子策略新增显式comparison_answer_v2，缺省仍v1。classifier／renderer版本随冻结策略进入proof；生成、完成核验、评测恢复、缓存和失败记录均消费该版本，协调降级拒绝。v2只接受唯一来源精确端点简称，完整scope保留且条件／否定保守处理；原文惰性呈现不等于完整比较。现真实授权和消费槽仍v1且blocked，不得升级真实Run或重试。实现自验429／29通过，独立技术与真实质量仍open。
+
+2026-11-03同包续修：v2以known_frozen_relations_v1从同一冻结目录补齐所有已识别关系；proof保留原selected_frames，并单独绑定supplemental_frames、rendered_frames和catalog_sha256。缺省v1不补入。恢复重算覆盖、答案和证明；不把程序补入伪称模型选择，不把离线候选当正式质量proof。

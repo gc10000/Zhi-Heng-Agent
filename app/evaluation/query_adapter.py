@@ -508,7 +508,7 @@ class RealQueryExecutor:
                 proof=validate_saved_comparison(row,catalog,
                     row.get('product_snapshot',{}).get('product_ids',[]),row['comparison_target'],
                     policy_hash,prompt_hash,
-                    policy.products)
+                    policy.products, version=policy.comparison_answer.function_version)
                 extra['comparison_summary']={key:proof[key] for key in (
                     'function_version','comparison_target','comparison_status','answer_sha256')}
             elif row.get('comparison_answer'):

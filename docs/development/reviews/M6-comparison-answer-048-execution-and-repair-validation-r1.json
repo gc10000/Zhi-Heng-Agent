@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-03",
+  "role": "implementation_execution_self_validation",
+  "branch": "codex/m6-source-bound-comparison",
+  "execution_source_commit": "d5760d605208f756a3533189403165f656aad637",
+  "question_id": "support-v1-048",
+  "dataset_version": "fb-07c584730833908571fe9dd7c7c890afa3cf9e66",
+  "batch": "m6-comparison-answer-048-risk-r7",
+  "slot": "m6-comparison-answer-048-r7-support-v1-048",
+  "experiment_id": "47a30deb-12d9-41bc-8345-ecbae15e5165",
+  "run_id": "9d241bee-c2e6-443b-849a-001a5602b8ba",
+  "execution": {
+    "run_state": "completed",
+    "experiment_state": "completed",
+    "result_count": 1,
+    "outcome_count": 1,
+    "finish": "stop",
+    "truncated": false,
+    "stream_started": 1,
+    "invoke_started": 0,
+    "usage_source": "sdk_raw",
+    "input_tokens": 1575,
+    "output_tokens": 37,
+    "prior_input_tokens": 53089,
+    "prior_output_tokens": 30412,
+    "cumulative_input_tokens": 54664,
+    "cumulative_output_tokens": 30449,
+    "reasoning_tokens": null,
+    "exact_http_requests": null,
+    "cost": null,
+    "gateway_hard_limit": "unknown",
+    "paid_output_upper_bound": "unknown",
+    "local_model_inference_occurred": true,
+    "exact_rerank_inference_count": null,
+    "real_database_writes_occurred": true
+  },
+  "settlement": {
+    "state": "blocked",
+    "pending": false,
+    "unknown_windows": 0,
+    "logical_reservations": 1,
+    "settled": 1,
+    "source_rejected": true,
+    "halt": true,
+    "old_account_unchanged": true,
+    "review_role": "implementation_quality_rejection"
+  },
+  "repair": {
+    "function_version": "comparison_answer_v2",
+    "default_version": "comparison_answer_v1",
+    "default_upgraded": false,
+    "live_config_changed": false,
+    "additional_provider_calls": 0,
+    "additional_local_model_inference": 0,
+    "frozen_single_product_exact_alias": true,
+    "client_access_classification": true,
+    "complete_scope_conditions_checked": true,
+    "inert_full_scope_rendering": true,
+    "cached_free_answer_bypass_rejected": true,
+    "old_answer_and_proof_preserved": true,
+    "version_downgrade_rejected": true,
+    "coverage_version": "known_frozen_relations_v1",
+    "known_relation_coverage_from_frozen_catalog": true,
+    "model_selection_and_program_supplements_separately_bound": true,
+    "empty_model_selection_cannot_omit_known_relations": true
+  },
+  "validation": {
+    "offline_passed": 429,
+    "offline_failed": 0,
+    "existing_warnings": 1,
+    "isolated_mongo_passed": 29,
+    "isolated_mongo_failed": 0,
+    "openapi_consistent": true,
+    "saved_prompt_documents": 10,
+    "saved_v1_proof_recomputed": true,
+    "same_raw_selection_replayed": true,
+    "candidate_status": "insufficient_comparison",
+    "all_frames_used_for_diagnosis_only": true,
+    "historical_1313_assertions_rerun": false,
+    "affected_legacy_paths_included": true,
+    "program_supplemental_frames": [
+      {
+        "reference": 2,
+        "frame": 1
+      },
+      {
+        "reference": 3,
+        "frame": 1
+      },
+      {
+        "reference": 3,
+        "frame": 2
+      },
+      {
+        "reference": 4,
+        "frame": 0
+      }
+    ]
+  },
+  "status": {
+    "implementation_self_validation": "passed",
+    "independent_technical_review": "open",
+    "real_048_complete_comparison_quality": "open",
+    "selection_completeness": "known_relations_covered_in_offline_candidate_unresolved_semantics_open",
+    "stage_acceptance": "open",
+    "m6": "5/7",
+    "m6_04": "accepted",
+    "m6_05": "feedback_reevaluation_proof_missing",
+    "m6_08": "candidate_quality_and_stage_evidence_missing",
+    "original_43": "paused",
+    "heldout_65": "not_run",
+    "m7": "not_started"
+  },
+  "evidence_limits": [
+    "offline candidate is not a new product answer",
+    "no independent acceptance signed",
+    "no full live vector/default-pointer/TTL/old-quality audit",
+    "raw inputs, Run and logs remain private",
+    "scope condition classifier remains conservative rather than a general semantic validator",
+    "known relation coverage is bounded by the existing frozen frame classifier"
+  ]
+}

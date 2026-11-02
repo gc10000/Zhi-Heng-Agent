@@ -15,7 +15,7 @@ pytestmark = pytest.mark.integration
 
 
 def setup(ctx, tmp_path, monkeypatch, *, separate, raw=None, interrupted=False,
-          question_text=None, no_evidence=False, product_names=None):
+          question_text=None, no_evidence=False, product_names=None, version='comparison_answer_v1'):
     cfg, _, resources, prompts, question, _ = ctx
     g = resources['knowledge']()
     user = Principal(user_id=cfg['target']['owner_id'], username='比较隔离验证',
@@ -36,7 +36,7 @@ def setup(ctx, tmp_path, monkeypatch, *, separate, raw=None, interrupted=False,
     policy['source_relations'] = dict(enabled=True, function_version='source_relation_spans_v1',
         frozen_payloads={c['chunk_uid']: c['payload_sha256']
             for d in snapshot['documents'] for c in d['chunks']})
-    policy['comparison_answer'] = dict(enabled=True, function_version='comparison_answer_v1')
+    policy['comparison_answer'] = dict(enabled=True, function_version=version)
     cfg['parameters']['evidence_attribution'] = policy
 
     from app.retrieval.adapters import score_record
@@ -101,16 +101,18 @@ def setup(ctx, tmp_path, monkeypatch, *, separate, raw=None, interrupted=False,
 
 
 @pytest.mark.parametrize('separate', [False, True])
+@pytest.mark.parametrize('version', ['comparison_answer_v1','comparison_answer_v2'])
 def test_formal_comparison_persists_complete_answer_and_reuses_one_selection(
-        evaluation_context, tmp_path, monkeypatch, separate):
+        evaluation_context, tmp_path, monkeypatch, separate, version):
     cfg, resources, prompts, question, repo, service, user, data, catalog = setup(
-        evaluation_context, tmp_path, monkeypatch, separate=separate)
+        evaluation_context, tmp_path, monkeypatch, separate=separate, version=version)
     for key in ('first', 'reuse'):
         job = service.create_experiment(user, data | {'client_request_id': key})
         execute_job(repo, catalog, tmp_path / key, job['experiment_id'])
         assert repo.get_experiment(user, job['experiment_id'])['state'] == 'completed'
         result = repo.results.find_one({'experiment_id':job['experiment_id']})['result']
         assert result['comparison_summary']['comparison_status'] == 'insufficient_comparison'
+        assert result['comparison_summary']['function_version'] == version
         assert set(result['comparison_summary']) == {
             'function_version', 'comparison_target', 'comparison_status', 'answer_sha256'}
         assert '现有证据不足以判断' in result['answer']
@@ -128,11 +130,12 @@ def test_formal_comparison_persists_complete_answer_and_reuses_one_selection(
 
 
 @pytest.mark.parametrize('separate', [False, True])
+@pytest.mark.parametrize('version', ['comparison_answer_v1','comparison_answer_v2'])
 def test_interrupted_comparison_selection_is_bounded_persisted_and_never_leaks(
-        evaluation_context, tmp_path, monkeypatch, separate):
+        evaluation_context, tmp_path, monkeypatch, separate, version):
     cfg, resources, prompts, question, repo, service, user, data, catalog = setup(
         evaluation_context, tmp_path, monkeypatch, separate=separate,
-        raw='{"schema_version":"comparison_frame_selection_v1",', interrupted=True)
+        raw='{"schema_version":"comparison_frame_selection_v1",', interrupted=True, version=version)
     job = service.create_experiment(user, data)
     execute_job(repo, catalog, tmp_path / 'failed', job['experiment_id'])
     assert repo.get_experiment(user, job['experiment_id'])['state'] == 'failed'
@@ -140,6 +143,7 @@ def test_interrupted_comparison_selection_is_bounded_persisted_and_never_leaks(
     assert row['state'] == 'failed'
     assert row['comparison_answer_failure']['raw_selection'] == '{"schema_version":"comparison_frame_selection_v1",'
     assert row['comparison_answer_failure']['failure_code'] == 'answer_generation_interrupted'
+    assert row['comparison_answer_failure']['function_version'] == version
     assert row['telemetry']['token_usage'] == {'input': None, 'output': None}
     assert not row.get('answer') and not row.get('completion_snapshot')
     assert resources['db'].evaluation_outcomes.count_documents({}) == 0
@@ -165,10 +169,11 @@ def test_unresolved_comparison_target_returns_clarification_without_generation(
     assert not run.get('comparison_answer')
 
 
+@pytest.mark.parametrize('version', ['comparison_answer_v1','comparison_answer_v2'])
 def test_empty_frame_catalog_returns_cited_insufficiency_without_generation(
-        evaluation_context, tmp_path, monkeypatch):
+        evaluation_context, tmp_path, monkeypatch, version):
     cfg, resources, prompts, question, repo, service, user, data, catalog = setup(
-        evaluation_context, tmp_path, monkeypatch, separate=False, no_evidence=True)
+        evaluation_context, tmp_path, monkeypatch, separate=False, no_evidence=True, version=version)
     job = service.create_experiment(user, data)
     execute_job(repo, catalog, tmp_path / 'empty', job['experiment_id'])
     assert repo.get_experiment(user, job['experiment_id'])['state'] == 'completed'
@@ -181,10 +186,11 @@ def test_empty_frame_catalog_returns_cited_insufficiency_without_generation(
     assert resources['synthetic_embedding_calls'] == []
 
 
+@pytest.mark.parametrize('version', ['comparison_answer_v1','comparison_answer_v2'])
 def test_invalid_complete_selection_fails_without_answer_delta_or_outcome(
-        evaluation_context, tmp_path, monkeypatch):
+        evaluation_context, tmp_path, monkeypatch, version):
     cfg, resources, prompts, question, repo, service, user, data, catalog = setup(
-        evaluation_context, tmp_path, monkeypatch, separate=False, raw='not-json')
+        evaluation_context, tmp_path, monkeypatch, separate=False, raw='not-json', version=version)
     job = service.create_experiment(user, data)
     execute_job(repo, catalog, tmp_path / 'invalid', job['experiment_id'])
     assert repo.get_experiment(user, job['experiment_id'])['state'] == 'failed'

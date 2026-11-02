@@ -472,7 +472,8 @@ class QueryRunner:
                 validate_saved_comparison(dict(comparison_answer=state['comparison_answer'],answer=answer),
                     state.get('comparison_frame_catalog') or [],state.get('comparison_product_ids') or [],
                     state.get('comparison_target'),state['comparison_policy_sha256'],
-                    state['comparison_prompt_used_sha256'],state.get('comparison_product_labels') or {})
+                    state['comparison_prompt_used_sha256'],state.get('comparison_product_labels') or {},
+                    version=state['evidence_attribution']['comparison_answer']['function_version'])
                 comparison_fields={key:state[key] for key in (
                     'comparison_answer','comparison_target','comparison_policy_sha256',
                     'comparison_prompt_used_sha256') if key in state}

@@ -1,3 +1,11 @@
+## 2026-11-03 · 048唯一真实调用质量拒绝，继续零调用补修
+
+唯一r7 stream已执行：Run／experiment completed，finish=stop、未截断；新增usage1575／37，累计54664／30449。正式来源拒绝与halt已封存，账本blocked、无pending或未知窗口，不重试。实际答案遗漏必要关系且解释仅暴露规则失败，完整比较质量未通过。
+
+已新增显式comparison_answer_v2，修复唯一来源精确简称、客户端接入分类、完整scope条件、原文惰性呈现和缓存自由答案推送绕过；默认v1及旧Run/proof保持。最终离线429 passed（1条既有警告，含OpenAPI），随机隔离Mongo29 passed；10份原输入回放保持原选择及旧proof，v2仍证据不足。补修后新增模型调用和本地推理0；整个真实执行包本地BGE已运行、正式写入非0。实现自验不签独立关闭。
+
+M6保持5/7，04验收保留，05缺反馈复评proof，08缺有效候选质量和阶段证据；43题暂停、heldout不运行、M7未启动。已继续零调用补齐冻结目录中已识别的必要关系，模型选择与程序补入分开证明；下一步是对v2独立复审及完整性复评，不能把离线候选冒充真实质量通过。报告：docs/development/reviews/M6-comparison-answer-048-execution-and-repair-r1.md；摘要同名前缀validation-r1.json。以下历史保留。
+
 ## 2026-11-02 · M6-048风险合同授权正向路径已做合成复核；真实授权/质量开放
 
 2项新增正向测试以临时文件和合成授权字节执行真实风险校验逻辑，166个相关单元及OpenAPI2通过；manifest/配置/prompt绑定和漂移拒绝均有覆盖。生产代码未改。此项不产生正式授权或调用许可，真实远程Git授权、模型端点、比较答案质量、M6-05/08正式证据仍开放，M6保持5/7。见[独立报告](../development/reviews/M6-comparison-answer-risk-forward-review-r1.md)及[摘要](../development/reviews/M6-comparison-answer-risk-forward-review-validation-r1.json)。

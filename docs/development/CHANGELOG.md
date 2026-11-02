@@ -1445,3 +1445,8 @@ M4-R1复交验证：完整717、定向89（重叠不累加）、既有3及前端
 修复正式评测maintainer与知识库owner分离时的Run来源关联拒绝；保存knowledge_owner_id，并覆盖跨owner执行、恢复、观察复用、撤权、错误范围和旧缺失绑定。比较风险合同固定r2槽和授权路径。1512离线、48正式隔离集成及10权限/撤权矩阵通过。
 
 唯一048授权在experiment创建前被已有题集descriptor的config白名单冲突阻断，未发起provider请求或本地推理；按fail-stop将r2槽halt封存，不重试。M6仍5/7，无新答案或质量proof。
+
+
+2026-11-03：048唯一真实stream技术完成但质量拒绝，正式封存risk-r7，累计usage54664／30449。继续零调用修复comparison_answer_v2的精确简称、客户端分类、条件范围、原文惰性显示及缓存推送校验；旧v1恢复保持。离线429、隔离Mongo29通过，自验不等于独立验收；真实完整比较仍open。
+
+2026-11-03同包续修：v2以known_frozen_relations_v1从同一冻结目录补齐所有已识别关系；proof保留原selected_frames，并单独绑定supplemental_frames、rendered_frames和catalog_sha256。缺省v1不补入。恢复重算覆盖、答案和证明；不把程序补入伪称模型选择，不把离线候选当正式质量proof。
