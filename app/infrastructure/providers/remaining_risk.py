@@ -142,7 +142,11 @@ def build_member(config,question,control_database,*,profile=None):
         value['versions'].pop('code',None)
         value['parameters']['answer_budget'].pop('output_contract',None)
         value['parameters']['answer_budget'].pop('output_token_field',None)
-    if (actual!=expected or control_database!=parent['control_database'] or
+    expected_control_database = parent['control_database']
+    control_database_for = getattr(h, 'execution_control_database', None)
+    if control_database_for is not None:
+        expected_control_database = control_database_for(auth, parent)
+    if (actual!=expected or control_database!=expected_control_database or
         any(config['target'][k]!=parent[k] for k in ('owner_id','kb_id')) or
         config['question_ids']!=[member['question_id']] or question['id']!=member['question_id'] or
         config['experiment_id']!=member['fixed_slot'] or config['versions']['code']!=h.code_version() or

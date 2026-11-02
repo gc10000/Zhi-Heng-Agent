@@ -1,3 +1,13 @@
+## 2026-11-02 · 用户授权的048单次验证停在runtime前置门，未派发
+
+用户明确授权 `support-v1-048` 一次比较验证，接受费用上界未知并要求失败即停。只读核实官方catalog/配置与正式题集注册一致，maintainer范围有效，正式experiment/result/slot/Run/link/outcome及预算账户仍为0；先前已消费048账户与封存快照一致，仍blocked、无pending/unknown窗口。未读凭据。
+
+复核发现正式执行入口在检索前必须以 `runtime_versions()` 重算当前配置的完整runtime身份。本机配置的 `BGE_M3_PATH` 和 `BGE_RERANKER_LARGE` 对应目录均不存在；对现存候选目录的只读hash显示代码与模型fingerprint均不匹配冻结配置，prompt匹配。未改路径、未下载、未推理、不创建实验或请求。provider请求、产品stream、本地推理、正式库写入和usage增量均0，累计仍53089/30412。此次授权未消耗，但本次执行在dispatch前停止。
+
+修复一项比较风险档案问题：本次正式评测控制库可以与历史来源执行数据库分离，授权将显式绑定正式evaluation control database，冻结来源的owner/KB/题集约束保留。回归先复现后通过；风险档案和准入关联单测16通过。此修复只有实现自验，尚未独立技术关闭。
+
+详见[执行前置报告](reviews/M6-comparison-answer-048-preflight-r1.md)、[脱敏摘要](reviews/M6-comparison-answer-048-preflight-validation-r1.json)和[记录](records/M6-comparison-answer-048-preflight-r1.md)。M6保持5/7：04已验收，05缺真实反馈复评proof，08缺有效候选质量及阶段证据；43题暂停，heldout未运行，M7未启动。下一步恢复/冻结与当前受审运行身份一致的代码及模型，并先独立复核风险档案修复；指纹不全匹配则继续停止。
+
 ## 2026-11-02 · 048授权正向来源绑定合成复核完成，真实授权与答案质量仍开放
 
 按用户确认，只补授权存在时的无调用正向技术验证。新增2项合成测试实际运行sources、完整题集输入提取、manifest冻结/不可覆盖、require、validate_config与validate_prompt；GitEvidence解析、commit/path和SHA验证保留真实代码，仅git-show输出为合成字节。9个相关单元模块166 passed、OpenAPI2 passed；compileall和diff-check通过。生产实现未改。该结果只关闭合成正向路径，不证明远程Git授权真实存在，不创建正式授权，不访问正式catalog/Mongo，不调用模型，不恢复43题或运行heldout。

@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "kind": "m6_comparison_answer_048_authorized_preflight",
+  "date": "2026-11-02",
+  "status": "stopped_before_dispatch",
+  "independent_review": false,
+  "phase_acceptance": false,
+  "user_authorization": {
+    "one_question": "support-v1-048",
+    "max_streams": 1,
+    "paid_upper_bound": "unknown_accepted_for_this_attempt",
+    "stop_on_first_failure": true
+  },
+  "identity": {
+    "dataset_id": "m6-full-dev-r1",
+    "dataset_version": "fb-07c584730833908571fe9dd7c7c890afa3cf9e66",
+    "question_count": 150,
+    "dev_count": 85,
+    "heldout_count": 65,
+    "selected_question_ids": ["support-v1-048"],
+    "catalog_and_config_hashes_match_saved_registration": true,
+    "maintainer_scope_verified_read_only": true,
+    "registered_dataset_matches_catalog": true,
+    "endpoint_profile_fingerprint_matches": true
+  },
+  "control_ledger": {
+    "pre_dispatch_counts": {
+      "users": 1,
+      "evaluation_sets": 1,
+      "evaluation_experiments": 0,
+      "evaluation_results": 0,
+      "evaluation_slots": 0,
+      "runs": 0,
+      "evaluation_execution_links": 0,
+      "evaluation_outcomes": 0,
+      "diagnostic_output_accounts": 0
+    },
+    "prior_source_relation_048_account_matches_snapshot": true,
+    "prior_account_state": "blocked",
+    "prior_pending": null,
+    "prior_unknown_windows": 0,
+    "prior_settled_slots": 1
+  },
+  "runtime_preflight": {
+    "configured_runtime_versions_recomputed": false,
+    "embedding_directory_present": false,
+    "reranker_directory_present": false,
+    "candidate_local_model_paths_hashed_without_inference": true,
+    "candidate_code_fingerprint_matches_frozen": false,
+    "candidate_model_fingerprint_matches_frozen": false,
+    "candidate_prompt_fingerprint_matches_frozen": true,
+    "candidate_runtime_exact_match": false,
+    "mandatory_query_adapter_runtime_gate": true,
+    "failure_point": "before_formal_experiment_and_model_request"
+  },
+  "code_fix": {
+    "scope": "comparison profile binds the formally registered evaluation control database separately from the source experiment database",
+    "test_red_reproduced": true,
+    "targeted_tests_passed": 16,
+    "independent_technical_review": false
+  },
+  "execution": {
+    "authorization_git_created": false,
+    "manifest_created": false,
+    "formal_experiment_created": false,
+    "slot_or_run_created": false,
+    "provider_requests": 0,
+    "product_streams": 0,
+    "local_inference": 0,
+    "formal_database_writes": 0,
+    "new_input_tokens": 0,
+    "new_output_tokens": 0,
+    "cumulative_input_tokens": 53089,
+    "cumulative_output_tokens": 30412,
+    "reasoning_http_cost_and_paid_upper_bound": "unknown_or_null"
+  },
+  "quality": {
+    "real_answer_observed": false,
+    "complete_comparison_quality": "not_evaluated"
+  },
+  "m6_stage": "5/7",
+  "m6_04": "accepted",
+  "m6_05": "feedback_reassessment_proof_missing",
+  "m6_08": "valid_candidate_quality_and_phase_evidence_missing",
+  "original_43_paused": true,
+  "heldout_executed": false,
+  "m7_started": false
+}

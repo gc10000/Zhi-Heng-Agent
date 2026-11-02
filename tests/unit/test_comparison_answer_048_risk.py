@@ -102,7 +102,7 @@ def test_comparison_risk_profile_has_no_authorization_or_old_slot_fallback():
         risk.open_client(policy)
 
 
-def make_authorized_comparison_case(tmp_path, monkeypatch):
+def make_authorized_comparison_case(tmp_path, monkeypatch, *, evaluation_control_database=None):
     import copy
     import hashlib
     import json
@@ -234,6 +234,7 @@ def make_authorized_comparison_case(tmp_path, monkeypatch):
         'kind': 'coordinator_scoped_comparison_answer_048_authorization',
         'admission_version': risk.VERSION,
         'fixed_batch_slot': risk.BATCH,
+        'evaluation_control_database': evaluation_control_database or 'm1_test_m4_comparison_control',
         'single_experimental_change': 'comparison_answer_v1_with_assertion_binding_disabled',
         'risk': {
             'gateway_capability_status': 'unknown',
@@ -372,6 +373,34 @@ def test_authorized_comparison_freezes_and_validates_the_complete_synthetic_sour
     risk.validate_prompt(policy, case['result']['prompt'], prompt_state)
     with pytest.raises(ValueError, match='prompt'):
         risk.validate_prompt(policy, case['result']['prompt'] + '漂移', prompt_state)
+
+
+def test_comparison_run_uses_authorized_evaluation_database_separate_from_source_database(tmp_path, monkeypatch):
+    official_database = 'product_knowledge_rag_m6_eval_control'
+    case = make_authorized_comparison_case(
+        tmp_path, monkeypatch, evaluation_control_database=official_database,
+    )
+    risk = case['risk']
+
+    manifest = risk.build_manifest([(
+        case['config'], case['question'], official_database,
+    )])
+
+    assert manifest['shared_control_database'] == official_database
+    assert manifest['entries'][0]['control_database'] == official_database
+    policy = case['policy'].model_copy(update={
+        'admission': case['policy'].admission.model_copy(update={
+            'manifest_sha256': case['fingerprint'](manifest),
+        }),
+    })
+    case['config']['parameters']['answer_budget']['output_contract'] = policy.model_dump(mode='json')
+    risk.prepare_manifest(manifest)
+    assert risk.validate_config(case['config'], official_database, question=case['question']) == manifest
+
+    with pytest.raises(ValueError, match='配置|主体|源码|冻结'):
+        risk.build_manifest([(
+            case['config'], case['question'], 'unauthorized-evaluation-database',
+        )])
 
 
 def test_authorized_comparison_rejects_source_and_question_drift_after_freeze(tmp_path, monkeypatch):

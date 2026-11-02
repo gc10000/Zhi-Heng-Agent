@@ -159,6 +159,13 @@ def authorized_inputs(auth, member):
     return base.authorized_inputs(auth, member, profile=sys.modules[__name__])
 
 
+def execution_control_database(auth, parent):
+    database = auth.get('evaluation_control_database')
+    if not isinstance(database, str) or not database:
+        raise ValueError('比较答复授权缺少正式评测控制库')
+    return database
+
+
 def build_member(config, question, control_database):
     from .output_contract import parse_contract
     anchor = sources(parse_contract(config['parameters']['answer_budget']['output_contract']))[2]
