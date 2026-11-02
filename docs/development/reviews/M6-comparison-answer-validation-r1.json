@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "review_status": "passed_limited_technical_scope",
+  "base_commit": "03a48c2921af8b119f975f7a58ff4bf6adc7f8e0",
+  "source_sha256": {
+    "app/answering/comparison_answers.py": "f6921f45cc53e7784c55041468a54388b9d7a6ac81b2615e1fc900208a945dad",
+    "app/answering/evidence_attribution.py": "f3edf1f4e00a84e7f7fef69e22581ca2b1c3e797a969563ead326f00e064ed3b",
+    "app/evaluation/execution_identity.py": "f1e1565362e521549080b3fef22fd0e3689b4329e1ccd337f8bdae3ab4708757",
+    "app/evaluation/execution_links.py": "26d79e27809bec5e2ceb26c5622dde40de3de6c012621a25f19f0097733d9861",
+    "app/evaluation/query_adapter.py": "fb4446beb22fab030cf3bfaf7dc53d18d64f8c4fdf134e13fc2aa556da981eab",
+    "app/evaluation/repository.py": "f7f4985f74bf1d644f32aaad9e8d73d2c5b0b74e3e003326ccfe0a090c6156ec",
+    "app/query_process/agent/nodes/node_answer_output.py": "113d9d1e46398924cb7a7559fdbbe047914f95b543b80512b5350261e16b18ff",
+    "app/retrieval/query_planner.py": "0a8fdc472a1962556e442e8ed753dfc43fb70e5060089d3599f0e9dc74fe93b7",
+    "app/runs/models.py": "70d879a4167ff60f830234dc60faa4af66e5a0dddb4df69fb5c6baceaa1576f0",
+    "app/runs/query_runner.py": "b6530cdd36dea20338111f5426822215745b9a774873bace28574446b57c9c5a",
+    "app/runs/repository.py": "a0f43e335fec882da6c21bc1effa5fc020fd600705a21faf6cb50a5b1af67491",
+    "app/runs/telemetry.py": "40dd48f692f85afdad9b60b56d5bab3e1367f0d98e547b6ffd10833f745b4839",
+    "prompts/answer_comparison_v1.prompt": "20d433d0e9c93dd532275fa1f2f8e3d0bf2055d47813858ba509c2259555d0ea",
+    "tests/unit/test_comparison_answers.py": "c8e304ec224a61c0d4227fab9c5f445e12df276e4ffc77e936f2f9e06c806218",
+    "tests/integration/test_comparison_answer_wiring.py": "a1811e22b300887f9dc3045fdbf38487d48d9dfa6bc5a3fe67f51737c75dab70",
+    "tests/unit/test_comparison_answer_persistence.py": "d4a97b1fb31dc23fd51d7926f7ac447c747a00c770e7f1acfc4b52599dce0901"
+  },
+  "tests": {
+    "offline_unit_contract": {"passed": 1496, "failed": 0, "skipped": 0},
+    "isolated_mongo_comparison_run_recovery": {"passed": 7, "failed": 0, "skipped": 0},
+    "pre_empty_selection_isolated_mongo_matrix": {"passed": 42, "failed": 0, "skipped": 0, "note": "completed before final empty-selection schema/prompt change"},
+    "saved_input_replay": {
+      "passed_assertions": 267,
+      "failed_assertions": 0,
+      "requests": 54,
+      "answer_inputs": 52,
+      "clarifications": 2,
+      "protected_questions": 25,
+      "protected_units": 35,
+      "synthetic_selection_only": true
+    },
+    "coordinated_route_downgrade_red_green": {
+      "before_fix": "failed_as_expected_did_not_raise",
+      "after_fix_comparison_and_persistence_tests": {"passed": 28, "failed": 0}
+    },
+    "empty_selection_red_green": {
+      "red": "failed_as_expected_frames_min_length_1",
+      "green": "passed_in_final_offline_unit_and_contract_run"
+    },
+    "diff_check": "passed"
+  },
+  "calls_and_writes": {
+    "new_provider_generation_streams": 0,
+    "new_local_embedding_or_rerank_inference": 0,
+    "real_business_database_writes": 0,
+    "formal_answer_runs": 0,
+    "quality_records": 0,
+    "isolated_synthetic_mongo_tests": 7,
+    "pre_empty_selection_isolated_synthetic_mongo_tests": 42
+  },
+  "historical_usage": {
+    "input_tokens": 53089,
+    "output_tokens": 30412,
+    "reasoning_tokens": null,
+    "http_requests": null,
+    "cost": null,
+    "gateway_hard_limit": "unknown",
+    "paid_output_upper_bound": "unknown"
+  },
+  "quality_and_stage": {
+    "real_048_answer_quality": "not_measured",
+    "m6": "5/7",
+    "m6_04": "accepted_and_unchanged",
+    "m6_05": "open_feedback_reassessment_proof_missing",
+    "m6_08": "open_valid_candidate_quality_and_stage_evidence_missing",
+    "question_43": "paused",
+    "heldout": "not_run",
+    "m7": "not_authorized"
+  },
+  "private_evidence_directories": [
+    "output/m6-comparison-answer-implementation-20261102-r1/",
+    "output/m6-comparison-answer-independent-final-20261102/",
+    "output/m6-comparison-answer-independent-replay-r3/"
+  ],
+  "real_048_authorized": false
+}

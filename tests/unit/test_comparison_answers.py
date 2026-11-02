@@ -5,11 +5,14 @@ import pytest
 
 from app.answering.evidence_attribution import EvidenceAttributionPolicy, payload
 from app.answering.comparison_answers import (
-    build_frame_catalog, classify_frame, compare_facts, create_comparison_proof, derive_facts,
-    render_comparison_answer, render_frame_catalog, validate_frame_selection,
+    bind_comparison_response, build_frame_catalog, classify_frame, compare_facts,
+    bind_comparison_selection, create_comparison_proof, derive_facts, render_comparison_answer, render_frame_catalog,
+    validate_frame_selection, validate_saved_comparison,
 )
 from app.knowledge.models import content_hash
 from app.knowledge.repository import fingerprint
+from app.answering.source_relations import extract_frames
+from app.query_process.agent.nodes.node_answer_output import step_2_construct_prompt
 from tests.unit.test_evidence_attribution import policy
 from tests.unit.test_evidence_attribution import document
 
@@ -114,6 +117,26 @@ def test_frame_selection_is_strict_and_source_indexed():
             validate_frame_selection(value, catalog)
 
 
+def test_empty_frame_selection_can_report_no_relevant_uplink_evidence():
+    text = '用户登录合成网关的Web页面。'
+    attribution, doc, reference_map = _frozen_inputs(text)
+    catalog = build_frame_catalog(reference_map, [doc], attribution)
+    raw = '{"schema_version":"comparison_frame_selection_v1","frames":[]}'
+
+    selection = validate_frame_selection(raw, catalog)
+    answer, proof = bind_comparison_response(raw, catalog, ['p', 'q'], 'device_uplink',
+        fingerprint(attribution), 'f' * 64, {'p': '合成网关', 'q': '另一网关'})
+    restored = validate_saved_comparison({'comparison_answer': proof, 'answer': answer},
+        catalog, ['p', 'q'], 'device_uplink', fingerprint(attribution), 'f' * 64,
+        {'p': '合成网关', 'q': '另一网关'})
+
+    assert selection == []
+    assert restored == proof
+    assert proof['comparison_status'] == 'insufficient_comparison'
+    assert '[1]' not in answer
+    assert '缺少可比较的设备上联介质证据' in answer
+
+
 def test_frame_catalog_recomputes_frozen_source_and_preserves_full_scope():
     text = '本设备上联通过以太网连接到核心网。若链路异常，请检查状态。'
     attribution, doc, reference_map = _frozen_inputs(text)
@@ -132,6 +155,17 @@ def test_frame_catalog_recomputes_frozen_source_and_preserves_full_scope():
     changed = [dict(reference_map[0], source_relations={**reference_map[0]['source_relations'], 'frames': []})]
     with pytest.raises(ValueError):
         build_frame_catalog(changed, [doc], attribution)
+
+
+def test_frame_catalog_rejects_coordinated_source_and_mapping_rewrite():
+    text = '本设备上联通过以太网连接到核心网。'
+    attribution, doc, reference_map = _frozen_inputs(text)
+    changed = '本设备上联通过同轴连接到核心网。'
+    doc['text'] = changed
+    reference_map[0]['source_relations']['frames'] = extract_frames(changed)
+    reference_map[0]['source_relations']['source']['content_sha256'] = content_hash(changed.encode('utf-8'))
+    with pytest.raises(ValueError, match='冻结成员漂移'):
+        build_frame_catalog(reference_map, [doc], attribution)
 
 
 def test_frame_catalog_rendering_quotes_full_source_without_executable_markup():
@@ -209,3 +243,104 @@ def test_comparison_proof_binds_selection_facts_and_answer():
     with pytest.raises(ValueError):
         create_comparison_proof('client_access', 'a' * 64, 'b' * 64,
             [{'reference': 1, 'frame': 0}], facts, result, answer)
+
+
+def test_binding_and_recovery_recompute_full_comparison_from_saved_frames():
+    catalog = [
+        dict(reference_number=1, frame_index=0, document_id='d1', revision_id='r1', chunk_uid='c1',
+            original_sha256='a' * 64, source_product_ids=['la'], product_labels={'la': 'LA2608'},
+            physical_pages=[1], page_status='exact', frame=_frame('connection', '本设备', '以太网', '核心网'),
+            frame_sha256='b' * 64, source_text='LA2608本设备上联通过以太网连接到核心网。',
+            scoped_text='LA2608本设备上联通过以太网连接到核心网。', source_refs=[]),
+        dict(reference_number=2, frame_index=0, document_id='d2', revision_id='r2', chunk_uid='c2',
+            original_sha256='c' * 64, source_product_ids=['cb'], product_labels={'cb': 'CB304n'},
+            physical_pages=[2], page_status='exact', frame=_frame('connection', '本设备', 'Ethernet', '核心网'),
+            frame_sha256='d' * 64, source_text='CB304n本设备上联通过Ethernet连接到核心网。',
+            scoped_text='CB304n本设备上联通过Ethernet连接到核心网。', source_refs=[]),
+    ]
+    catalog[0]['frame']['clause'] = dict(text='LA2608本设备上联通过以太网连接到核心网。')
+    catalog[1]['frame']['clause'] = dict(text='CB304n本设备上联通过Ethernet连接到核心网。')
+    raw = '{"schema_version":"comparison_frame_selection_v1","frames":[{"reference":1,"frame":0},{"reference":2,"frame":0}]}'
+    answer, proof = bind_comparison_response(raw, catalog, ['la', 'cb'], 'device_uplink',
+        'e' * 64, 'f' * 64, {'la': 'LA2608', 'cb': 'CB304n'})
+    row = dict(comparison_answer=proof, answer=answer)
+    assert validate_saved_comparison(row, catalog, ['la', 'cb'], 'device_uplink',
+        'e' * 64, 'f' * 64, {'la': 'LA2608', 'cb': 'CB304n'}) == proof
+    changed = [dict(catalog[0]), dict(catalog[1])]
+    changed[1]['frame'] = _frame('connection', '本设备', '同轴', '核心网')
+    changed[1]['frame']['clause'] = dict(text='CB304n本设备上联通过同轴连接到核心网。')
+    with pytest.raises(ValueError):
+        validate_saved_comparison(row, changed, ['la', 'cb'], 'device_uplink',
+            'e' * 64, 'f' * 64, {'la': 'LA2608', 'cb': 'CB304n'})
+
+
+def test_query_node_uses_frame_selection_prompt_and_zero_call_clarification(monkeypatch):
+    from pathlib import Path
+    monkeypatch.setattr('app.core.load_prompt.PROJECT_ROOT', Path(__file__).resolve().parents[2])
+    text = '本设备上联通过以太网连接到核心网。'
+    attribution, doc, _ = _frozen_inputs(text)
+    state = dict(session_id='synthetic', is_stream=True, original_query='比较设备上联方式',
+        item_names=['合成网关', '另一网关'], history=[], reranked_docs=[doc],
+        evidence_attribution=attribution, comparison_mode=True, comparison_target='device_uplink',
+        comparison_product_ids=['p', 'q'], comparison_product_labels={'p': '合成网关', 'q': '另一网关'})
+    prompt = step_2_construct_prompt(state)
+    assert 'comparison_frame_selection_v1' in prompt
+    assert '本设备上联通过以太网连接到核心网。' in prompt
+    assert '答案、关系类别、端点、介质' in prompt
+    assert state['comparison_frame_catalog'] and state['prompt_reference_map']
+
+    clarify = dict(session_id='synthetic', is_stream=True, original_query='比较两个产品',
+        item_names=['合成网关', '另一网关'], history=[], reranked_docs=[doc],
+        evidence_attribution=attribution, comparison_mode=True, comparison_target=None,
+        comparison_product_ids=['p', 'q'], comparison_product_labels={'p': '合成网关', 'q': '另一网关'})
+    assert step_2_construct_prompt(clarify) == ''
+    assert clarify['comparison_answer_short_circuit'] is True
+    assert '明确' in clarify['answer']
+
+    ordinary = dict(session_id='synthetic', is_stream=True, original_query='合成网关的上联接口是什么？',
+        item_names=['合成网关'], history=[], reranked_docs=[doc], evidence_attribution=attribution)
+    ordinary_prompt = step_2_construct_prompt(ordinary)
+    assert ordinary_prompt and 'comparison_frame_selection_v1' not in ordinary_prompt
+    assert 'comparison_answer_short_circuit' not in ordinary
+
+
+def test_empty_frozen_catalog_produces_valid_insufficient_proof_without_model():
+    attribution, _, _ = _frozen_inputs('没有可解析关系帧。')
+    catalog = build_frame_catalog([], [], attribution)
+    answer, proof = bind_comparison_selection([], catalog, ['p', 'q'], 'device_uplink',
+        fingerprint(attribution), 'f' * 64, {'p': '合成网关', 'q': '另一网关'})
+    row = dict(answer=answer, comparison_answer=proof)
+    assert proof['comparison_status'] == 'insufficient_comparison'
+    assert validate_saved_comparison(row, catalog, ['p', 'q'], 'device_uplink',
+        fingerprint(attribution), 'f' * 64, {'p': '合成网关', 'q': '另一网关'}) == proof
+
+
+def test_comparison_short_circuit_never_calls_a_model_client():
+    from app.query_process.agent.nodes.node_answer_output import step_3_generate_response
+    state = dict(comparison_answer_short_circuit=True, answer='确定性澄清')
+    class NoCall:
+        def invoke(self, *args, **kwargs): pytest.fail('短路路径不得调用模型')
+        def stream(self, *args, **kwargs): pytest.fail('短路路径不得调用模型')
+    assert step_3_generate_response(state, '', client=NoCall()) is state
+
+
+def test_valid_frame_selection_is_rendered_as_complete_comparison_answer(monkeypatch):
+    from pathlib import Path
+    from types import SimpleNamespace
+    from app.query_process.agent.nodes.node_answer_output import step_3_generate_response
+    monkeypatch.setattr('app.core.load_prompt.PROJECT_ROOT', Path(__file__).resolve().parents[2])
+    attribution, doc, _ = _frozen_inputs('本设备上联通过以太网连接到核心网。')
+    state = dict(session_id='synthetic', is_stream=False, original_query='比较两台设备上联方式是否相同',
+        item_names=['合成网关', '另一网关'], history=[], reranked_docs=[doc],
+        evidence_attribution=attribution, comparison_mode=True, comparison_target='device_uplink',
+        comparison_product_ids=['p', 'q'], comparison_product_labels={'p': '合成网关', 'q': '另一网关'})
+    prompt = step_2_construct_prompt(state)
+    class Model:
+        def invoke(self, _prompt, **_kwargs):
+            return SimpleNamespace(content='{"schema_version":"comparison_frame_selection_v1","frames":[{"reference":1,"frame":0}]}',
+                response_metadata={'finish_reason':'stop'})
+    step_3_generate_response(state, prompt, client=Model())
+    assert state['comparison_answer']['selected_frames'] == [{'reference':1,'frame':0}]
+    assert state['answer'].startswith('现有证据不足以判断两台设备的上联方式')
+    assert 'comparison_frame_selection_v1' not in state['answer']
+    assert '本轮引用资料中没有可用的关系记录' in state['answer']

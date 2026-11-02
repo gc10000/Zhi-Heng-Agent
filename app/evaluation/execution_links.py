@@ -64,6 +64,9 @@ def bind_execution(db, control_db, context, config, question_id, checkpoint_key,
         owner_id=target['owner_id'], kb_id=target['kb_id'], run_id=run['run_id'],
         conversation_id=run['conversation_id'])
     identity.update(output_identity(from_config(config)))
+    if 'comparison_target_reason' in run:
+        identity.update(comparison_target=run.get('comparison_target'),
+            comparison_target_reason=run['comparison_target_reason'])
     combination=config.get('parameters',{}).get('retrieval_combination',{})
     if combination.get('enabled'):
         from app.retrieval.combination import payload,validate_run_combination
@@ -115,6 +118,12 @@ def require_source_link(db, control_db, context, *, checkpoint_key, input_sha256
         control_database=control_db.name, target_database=target['database'],
         question_id=question_id, checkpoint_key=checkpoint_key, input_sha256=input_sha256,
         run_id=run_id, config_sha256=fingerprint(config), owner_id=target['owner_id'], kb_id=target['kb_id'])
+    if config.get('parameters',{}).get('evidence_attribution',{}).get('comparison_answer',{}).get('enabled'):
+        run=db.runs.find_one({'run_id':run_id})
+        if run is None or 'comparison_target_reason' not in run:
+            raise ValueError('父Run缺少冻结比较目标身份')
+        expected.update(comparison_target=run.get('comparison_target'),
+            comparison_target_reason=run['comparison_target_reason'])
     if (db.name != target['database'] or parent is None or link is None or
             any(link.get(k) != v for k, v in expected.items()) or
             link.get('registered_config_sha256') != parent['config_sha256'] or

@@ -18,6 +18,13 @@ def validate_target(config):
         raise ValueError('须显式选择既有测试桶，不自动建桶或修改策略')
 
 
+def comparison_target_identity(question, products, product_ids, history, candidate_search=None):
+    from app.retrieval.query_planner import plan_query,comparison_target_identity as identity
+    plan=plan_query(question,products,selected_ids=product_ids,requested_ids=(),messages=history,
+        candidate_search=candidate_search)
+    return identity(plan)
+
+
 @contextmanager
 def open_evaluation_resources(config):
     """独立账本连接真实服务，但不运行API后台扫描其他实验。"""
@@ -128,7 +135,7 @@ class RealQueryExecutor:
             raise ValueError('成功检查点组合身份不符，不自动补写')
         self.check_corpus()
         from .execution_identity import run_input, outcome_identity, result_subject
-        result = self.project_result(run)
+        result = self.project_result(run, question=question)
         frozen = self.resources['db'].evaluation_outcomes.find_one({'_id':fingerprint([key,run['run_id']])})
         if (run['question'] != inputs['question'] or not frozen or
                 any(frozen.get(k) != v for k,v in outcome_identity(self.resources['db'],self.config,key,run,result).items()) or
@@ -252,6 +259,7 @@ class RealQueryExecutor:
         saved = self.checkpoints.find_one({'_id': key})
         conv = self.resources['conversations']
         kb = self.config['target']['kb_id']
+        product_ids = [self.products[name] for name in inputs['product_names']]
         combination=self.config.get('parameters',{}).get('retrieval_combination',{})
         combination_identity={}
         if combination.get('enabled'):
@@ -263,12 +271,22 @@ class RealQueryExecutor:
             from app.answering.evidence_attribution import payload as attribution_payload
             canonical=attribution_payload(attribution)
             combination_identity.update(evidence_attribution=canonical,evidence_attribution_sha256=fingerprint(canonical))
+        comparison_target_fields={}
+        if attribution.get('comparison_answer',{}).get('enabled'):
+            gateway=self.resources['knowledge']()
+            product_kb_ids=gateway.product_kbs.distinct('product_id',
+                {'owner_id':gateway.owner_id,'kb_id':kb})
+            products=list(gateway.products.collection.find({'owner_id':gateway.owner_id,
+                'product_id':{'$in':product_kb_ids}}))
+            runner=self.resources.get('query_runner')
+            comparison_target_fields=comparison_target_identity(inputs['question'],products,product_ids,
+                inputs['history'],getattr(runner,'_product_candidates',None))
+            combination_identity.update(comparison_target_fields)
         from app.infrastructure.providers.output_contract import from_config,identity as output_identity,validate_run as validate_output_run
         output=from_config(self.config)
         combination_identity.update(output_identity(output))
         if saved is None:
             from app.conversations.models import ConversationInput
-            product_ids = [self.products[name] for name in inputs['product_names']]
             cid = conv.create(self.user, ConversationInput(kb_id=kb, title='M4隔离评测', product_ids=product_ids))['conversation_id']
             self.checkpoints.update_one({'_id': key}, {'$setOnInsert': {'conversation_id': cid, 'input_sha256': fingerprint(inputs)}|combination_identity}, upsert=True)
             saved = self.checkpoints.find_one({'_id': key})
@@ -303,6 +321,7 @@ class RealQueryExecutor:
             if previous['state'] == 'failed' and previous.get('error', {}).get('retryable') is True:
                 request_key = fingerprint([key, 'explicit_retry', self.retry_key])
         extra={k:v for k,v in self.config.get('parameters',{}).items() if k in {'source_prerequisites','retrieval_combination','evidence_attribution'}}
+        extra.update(comparison_target_fields)
         if output_identity(output):extra['output_contract']=output
         request_type=InternalRunInput if extra else RunInput
         run = self.resources['run_service'].create(self.user, cid, request_type(kb_id=kb, question=inputs['question'], client_request_id=request_key,**extra))
@@ -339,20 +358,20 @@ class RealQueryExecutor:
                 self.resources['query_runner'].execute(rid)
                 if zero_account is not None:
                     zero_run=self.resources['runs'].get(self.user,rid)
-                    zero_account.settle_clarification(zero_run,self.project_result(zero_run))
+                    zero_account.settle_clarification(zero_run,self.project_result(zero_run,question=question))
                     zero_account.require_open()
         finally:
             if followup:
                 observe_continuation(self.resources['db'], followup, self.resources['runs'].get(self.user, rid))
         row = self.resources['runs'].get(self.user, rid)
         accounting = self.call_accounting(row, counts_before)
-        result = self.project_result(row) | accounting
+        result = self.project_result(row,question=question) | accounting
         if self.config.get('regression_source') or self.config.get('quality_policy') or combination.get('enabled') or is_product_risk(output):
             from .execution_identity import freeze_outcome
             freeze_outcome(self.resources['db'],self.config,key,row,result)
         return result
 
-    def project_result(self, row):
+    def project_result(self, row, *, question=None):
         """首次执行和恢复共用受控投影，状态/行为/引用/图片映射不另设较窄规则。"""
         rid = row['run_id']
         if row['state'] == 'awaiting_input':
@@ -398,6 +417,69 @@ class RealQueryExecutor:
             # 页级公开引用可能一片多页或页码未知，不能用该列表位置重编号正文[n]。
             from copy import deepcopy
             extra['prompt_reference_map'] = deepcopy(row['prompt_reference_map'])
+        attribution=self.config.get('parameters',{}).get('evidence_attribution',{})
+        comparison=attribution.get('comparison_answer',{})
+        if comparison.get('enabled'):
+            plan=row.get('query_plan') or {}
+            identity_keys=('comparison_target','comparison_target_reason')
+            if (not isinstance(question,dict) or question.get('question')!=row.get('question') or
+                    any(key not in plan for key in (*identity_keys,'route','product_ids')) or
+                    any(key not in row for key in identity_keys)):
+                raise ValueError('比较结果缺少冻结题目或查询身份')
+            from app.answering.evidence_attribution import EvidenceAttributionPolicy
+            from app.retrieval.query_planner import plan_query,comparison_target_identity
+            policy=EvidenceAttributionPolicy.model_validate(attribution)
+            products=[dict(product_id=pid,model=label,aliases=[])
+                for pid,label in policy.products.items()]
+            try:
+                product_ids=[self.products[name] for name in question.get('product_names',[])]
+            except KeyError:
+                raise ValueError('比较结果题目产品不在冻结映射内') from None
+            expected_plan=plan_query(question['question'],products,selected_ids=product_ids,
+                requested_ids=(),messages=question.get('history') or [])
+            expected_identity=comparison_target_identity(expected_plan)
+            if (plan.get('route')!=expected_plan.route or
+                    plan.get('product_ids')!=list(expected_plan.product_ids) or
+                    any(row.get(key)!=expected_identity[key] or plan.get(key)!=expected_identity[key]
+                        for key in identity_keys)):
+                raise ValueError('恢复比较目标与冻结题目重新规划结果不一致')
+            if plan.get('route')=='compare' and row.get('comparison_target') is None:
+                if (row.get('comparison_answer') is not None or
+                        row.get('answer')!='请明确需要比较两台设备的哪一项信息。'):
+                    raise ValueError('未解析比较目标只能恢复确定性澄清结果')
+            if row.get('comparison_target') is not None:
+                from app.answering.comparison_answers import build_frame_catalog,validate_saved_comparison,prompt_used_identity
+                from app.knowledge.repository import fingerprint
+                policy_hash=fingerprint(policy.model_dump(mode='json'))
+                if row.get('comparison_policy_sha256')!=policy_hash:
+                    raise ValueError('恢复比较策略身份hash不一致')
+                reference_map=row.get('prompt_reference_map') or []
+                docs=row.get('prompt_used_docs') or []
+                catalog=build_frame_catalog(reference_map,docs,policy)
+                cited=[(c.get('chunk_uid'),c.get('document_id'),c.get('revision_id'),c.get('text'),
+                        c.get('source_refs'),c.get('asset_ids')) for c in row.get('citations',[])]
+                expected_citations=[(d.get('chunk_uid',d.get('chunk_id')),d.get('document_id'),d.get('revision_id'),
+                        d.get('text'),d.get('source_refs',(d.get('metadata') or {}).get('source_refs',[])),
+                        d.get('asset_ids',[])) for d in docs]
+                if cited!=expected_citations:
+                    raise ValueError('恢复比较引用与实际prompt-used文档不一致')
+                plan=row.get('query_plan') or {}
+                prompt_question=plan.get('rewritten_query') or row['question']
+                if plan.get('route')=='compare':
+                    prompt_question+='\n\n证据限制：比较只能依据本轮参考内容，未提供某型号证据时必须明确资料不足，不得推断其参数。'
+                prompt_hash=prompt_used_identity(prompt_question,reference_map,docs,row['comparison_target'])
+                if prompt_hash!=row.get('comparison_prompt_used_sha256'):
+                    raise ValueError('恢复比较输入与prompt-used身份hash不一致')
+                if not row.get('comparison_answer'):
+                    raise ValueError('已解析比较目标的已完成Run缺少比较来源proof')
+                proof=validate_saved_comparison(row,catalog,
+                    row.get('product_snapshot',{}).get('product_ids',[]),row['comparison_target'],
+                    policy_hash,prompt_hash,
+                    policy.products)
+                extra['comparison_summary']={key:proof[key] for key in (
+                    'function_version','comparison_target','comparison_status','answer_sha256')}
+            elif row.get('comparison_answer'):
+                raise ValueError('未解析比较目标的Run不得保存比较proof')
         if row['citations'] and all(c.get('image_selection_version') == 1 for c in row['citations']):
             extra['image_selection_version'] = 1
         if self.config.get('metric_schema_version') == 1:

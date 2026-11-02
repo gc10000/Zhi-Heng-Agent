@@ -32,6 +32,15 @@ def serialize_query_plan(plan, *, include_comparison=False):
     return value
 
 
+def comparison_target_identity(plan):
+    if plan.route != 'compare':
+        return dict(comparison_target=None, comparison_target_reason='not_comparison')
+    if len(plan.product_ids) != 2:
+        return dict(comparison_target=None, comparison_target_reason='unsupported_or_missing_target')
+    return dict(comparison_target=plan.comparison_target,
+        comparison_target_reason=plan.comparison_target_reason)
+
+
 def plan_query(question, products, *, selected_ids=(), requested_ids=(), messages=(), confirmed=False,
                context_reset=False, candidate_search=None):
     directory = {p['product_id']: p for p in products}

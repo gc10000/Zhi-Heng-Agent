@@ -11,6 +11,7 @@ def run_input(row, db):
         'support_snapshot', 'source_prerequisites', 'source_prerequisites_sha256',
         'retrieval_combination', 'retrieval_combination_sha256',
         'evidence_attribution', 'evidence_attribution_sha256',
+        'comparison_target', 'comparison_target_reason',
         'output_contract', 'output_contract_sha256', 'output_parameters_sha256') if k in row}
     # 与QueryRunner实际历史读取口径一致；操作时间/消息ID不属于生成输入。
     history = list(db.messages.find({'conversation_id':row['conversation_id'],
@@ -24,7 +25,9 @@ def run_output(row):
         'state', 'answer', 'citations', 'candidates', 'resume_point', 'product_snapshot',
         'revision_snapshot', 'answer_support', 'output_truncated', 'retrieval_branches',
         'evaluation_candidates', 'prompt_budget', 'completion_snapshot', 'prompt_reference_map', 'prompt_used_docs',
-        'answer_binding', 'answer_binding_failure') if k in row}
+        'answer_binding', 'answer_binding_failure', 'comparison_answer',
+        'comparison_answer_failure', 'comparison_target', 'comparison_target_reason', 'comparison_policy_sha256',
+        'comparison_prompt_used_sha256') if k in row}
 
 
 def result_subject(result):

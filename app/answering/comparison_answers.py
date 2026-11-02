@@ -44,7 +44,7 @@ class SelectedFrame(BaseModel):
 class FrameSelection(BaseModel):
     model_config = ConfigDict(extra='forbid', frozen=True)
     schema_version: Literal[SCHEMA_VERSION]
-    frames: list[SelectedFrame] = Field(min_length=1, max_length=MAX_SELECTED_FRAMES)
+    frames: list[SelectedFrame] = Field(max_length=MAX_SELECTED_FRAMES)
 
 
 def _unique_object(pairs):
@@ -71,14 +71,19 @@ def validate_frame_selection(raw_json, catalog):
 def build_frame_catalog(reference_map, docs, attribution):
     """校验既有冻结归属和帧跨度后，建立稳定的引用号/帧号目录。"""
     from .assertion_binding import checked_sources
-    from .evidence_attribution import EvidenceAttributionPolicy
+    from .evidence_attribution import EvidenceAttributionPolicy, evidence_labels
 
     policy = EvidenceAttributionPolicy.model_validate(attribution)
     if (not policy.enabled or policy.source_relations is None or
             not policy.source_relations.enabled or
             policy.comparison_answer is None or not policy.comparison_answer.enabled):
         raise ValueError('比较答复缺少显式冻结来源策略')
-    checked_sources(reference_map, docs, policy)
+    if docs or reference_map:
+        expected = [dict(label, reference_number=n + 1)
+            for n, label in enumerate(evidence_labels(docs, policy))]
+        if expected != reference_map:
+            raise ValueError('比较目录与冻结来源重新派生结果不一致')
+        checked_sources(reference_map, docs, policy)
     catalog = []
     for row, doc in zip(reference_map, docs):
         relation = row['source_relations']
@@ -113,6 +118,11 @@ def render_frame_catalog(catalog):
         rows.append(dict(reference=item['reference_number'], frame=item['frame_index'],
             products=item['product_labels'], original_sentence=item['scoped_text']))
     return json.dumps(rows, ensure_ascii=False, separators=(',', ':'))
+
+
+def prompt_used_identity(question, reference_map, docs, target):
+    return fingerprint(dict(question=question, reference_map=reference_map,
+        documents=docs, target=target))
 
 
 _NEGATION_OR_CONDITION = re.compile(r'若|如果|除非|只有|不支持|不能|无法|未|不|是否|仅')
@@ -312,3 +322,53 @@ def create_comparison_proof(target, policy_sha256, prompt_used_sha256,
         selection_sha256=fingerprint(selection), facts_sha256=expected_facts,
         result_sha256=fingerprint(result), answer_sha256=fingerprint(answer),
         selected_frames=selection, comparison_status=result['status'])
+
+
+def bind_comparison_response(raw_json, catalog, product_ids, target,
+                             policy_sha256, prompt_used_sha256, product_labels):
+    selection = validate_frame_selection(raw_json, catalog)
+    return bind_comparison_selection(selection, catalog, product_ids, target,
+        policy_sha256, prompt_used_sha256, product_labels, raw_selection=raw_json)
+
+
+def bind_comparison_selection(selection, catalog, product_ids, target,
+                              policy_sha256, prompt_used_sha256, product_labels, *, raw_selection=None):
+    if selection and any((item['reference'], item['frame']) not in {
+            (row['reference_number'], row['frame_index']) for row in catalog} for item in selection):
+        raise ValueError('比较答复选择超出冻结帧目录')
+    facts = derive_facts(selection, catalog, product_ids)
+    result = compare_facts(target, product_ids, facts)
+    answer = render_comparison_answer(result, product_labels)
+    proof = create_comparison_proof(target, policy_sha256, prompt_used_sha256,
+        selection, facts, result, answer)
+    if raw_selection is not None:
+        proof['raw_selection'] = raw_selection
+    return answer, proof
+
+
+def validate_saved_comparison(row, catalog, product_ids, target,
+                              policy_sha256, prompt_used_sha256, product_labels):
+    saved = row.get('comparison_answer') or {}
+    raw = saved.get('raw_selection')
+    if raw is None and saved.get('selected_frames') == [] and not catalog:
+        answer, expected = bind_comparison_selection([], catalog, product_ids, target,
+            policy_sha256, prompt_used_sha256, product_labels)
+    elif isinstance(raw, str):
+        answer, expected = bind_comparison_response(raw, catalog, product_ids, target,
+            policy_sha256, prompt_used_sha256, product_labels)
+        expected['raw_selection'] = raw
+    else:
+        raise ValueError('恢复核验缺少原始帧选择')
+    if saved != expected or row.get('answer') != answer:
+        raise ValueError('恢复比较事实、来源或渲染答案发生漂移')
+    return saved
+
+
+def comparison_failure_record(raw, prompt, reference_map, policy, failure_code):
+    raw = raw if isinstance(raw, str) else ''
+    from .evidence_attribution import payload
+    return dict(function_version=VERSION, raw_selection=raw[:MAX_SELECTION_CHARS],
+        received_chars=len(raw), failure_code=failure_code,
+        input_sha256=fingerprint(dict(prompt_sha256=fingerprint(prompt),
+            reference_map_sha256=fingerprint(reference_map or []),
+            evidence_attribution_sha256=fingerprint(payload(policy)))))

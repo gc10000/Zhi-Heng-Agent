@@ -1,4 +1,5 @@
 """运行请求标识与持久状态；幂等键不复用消息或会话ID。"""
+from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field
 from app.retrieval.prerequisites import SourcePrerequisitePolicy
 from app.retrieval.combination import CombinationPolicy
@@ -22,6 +23,10 @@ class InternalRunInput(RunInput):
     source_prerequisites: SourcePrerequisitePolicy | None = None
     retrieval_combination: CombinationPolicy | None = None
     evidence_attribution: EvidenceAttributionPolicy | None = None
+    comparison_target: Literal['device_uplink'] | None = None
+    comparison_target_reason: Literal[
+        'explicit_single_target', 'ambiguous_targets', 'unsupported_or_missing_target', 'not_comparison'
+    ] | None = None
     output_contract: OutputContract | SingleProductRiskContract | RemainingManifestContract | NonthinkingManifestContract | SourceRelation048Contract | None = None
 
 

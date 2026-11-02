@@ -49,6 +49,9 @@ class EvidenceAttributionPolicy(BaseModel):
         if self.comparison_answer is not None and self.comparison_answer.enabled and (
                 not self.enabled or self.source_relations is None or not self.source_relations.enabled):
             raise ValueError('比较答复只允许显式开启的冻结来源关系范围')
+        if (self.comparison_answer is not None and self.comparison_answer.enabled and
+                self.assertion_binding is not None and self.assertion_binding.enabled):
+            raise ValueError('比较答复与原句摘录策略不能同时开启')
         if self.reviewed_subjects is not None:
             p=self.reviewed_subjects
             if (not self.enabled or p.corpus_snapshot_sha256!=self.corpus_snapshot_sha256 or

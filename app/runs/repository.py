@@ -29,7 +29,8 @@ class RunRepository:
         if data.kb_id != conv['kb_id'] or conv['archived']:
             raise APIError(409, 'conversation_unavailable', '会话知识范围不匹配或已归档。')
         key = {'owner_id': user.user_id, 'conversation_id': cid, 'client_request_id': data.client_request_id}
-        fields=data.model_dump(exclude={'source_prerequisites','retrieval_combination','evidence_attribution','output_contract'})
+        fields=data.model_dump(exclude={'source_prerequisites','retrieval_combination','evidence_attribution','output_contract',
+            'comparison_target','comparison_target_reason'})
         from app.retrieval.prerequisites import policy_payload,SourcePrerequisitePolicy
         source=policy_payload(getattr(data,'source_prerequisites',None))
         # 缺省关闭维持历史请求指纹；显式非缺省配置（含scope/版本/预算）独立标识。
@@ -46,6 +47,10 @@ class RunRepository:
         from app.infrastructure.providers.output_contract import identity as output_identity
         output_fields=output_identity(getattr(data,'output_contract',None))
         if output_fields:fields['output_contract']=output_fields['output_contract']
+        comparison_target=getattr(data,'comparison_target',None)
+        comparison_reason=getattr(data,'comparison_target_reason',None)
+        if comparison_reason is not None:
+            fields.update(comparison_target=comparison_target,comparison_target_reason=comparison_reason)
         identity = fingerprint(fields)
         saved = self.runs.find_one(key)
         if saved is None:
@@ -65,6 +70,8 @@ class RunRepository:
             if 'evidence_attribution' in fields:
                 row.update(evidence_attribution=copy.deepcopy(attribution),evidence_attribution_sha256=fingerprint(attribution))
             row.update(copy.deepcopy(output_fields))
+            if comparison_reason is not None:
+                row.update(comparison_target=comparison_target,comparison_target_reason=comparison_reason)
             row['requested_product_ids'] = list(data.product_ids)
             row['input_support_version'] = conv.get('support', {}).get('version', 0)
             from app.support.commands import freeze_support

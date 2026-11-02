@@ -61,6 +61,8 @@ def step_2_construct_prompt(state: QueryGraphState) -> str:
   from app.answering.evidence_attribution import EvidenceAttributionPolicy,evidence_labels
   attribution=EvidenceAttributionPolicy.model_validate(state.get('evidence_attribution') or {})
   labels=evidence_labels(reranked_docs,attribution)
+  comparison=(state.get('comparison_mode') is True and attribution.comparison_answer is not None
+    and attribution.comparison_answer.enabled)
   template='answer_attributed_v1' if attribution.enabled else 'answer_out'
   relations=attribution.source_relations is not None and attribution.source_relations.enabled
   binding=attribution.assertion_binding is not None and attribution.assertion_binding.enabled
@@ -101,6 +103,51 @@ def step_2_construct_prompt(state: QueryGraphState) -> str:
     packed = build_budgeted_prompt(reranked_docs,history,question=question,items=item_names_str,
       render=lambda **kw:load_prompt(template,**kw),budget=budget,
       groups=state.get('evidence_groups',()),counter=state.get('token_counter'),attributions=labels)
+  if comparison:
+    from app.answering.comparison_answers import build_frame_catalog,render_frame_catalog,bind_comparison_selection,prompt_used_identity
+    from app.knowledge.repository import fingerprint
+    chosen=baseline['used_doc_indices']
+    compare_docs=[reranked_docs[i] for i in chosen]
+    compare_labels=[dict(labels[i],reference_number=n+1) for n,i in enumerate(chosen)]
+    catalog=build_frame_catalog(compare_labels,compare_docs,attribution)
+    state['comparison_frame_catalog']=catalog
+    state['comparison_policy_sha256']=fingerprint(attribution.model_dump(mode='json'))
+    state['comparison_product_ids']=list(state.get('comparison_product_ids') or [])
+    target=state.get('comparison_target')
+    if target is None:
+      state['answer']='请明确需要比较两台设备的哪一项信息。'
+      state['comparison_answer_clarification']=True
+      state['comparison_answer_short_circuit']=True
+    elif not catalog:
+      prompt_hash=prompt_used_identity(question,compare_labels,compare_docs,target)
+      state['answer'],state['comparison_answer']=bind_comparison_selection([],catalog,
+        state['comparison_product_ids'],target,state['comparison_policy_sha256'],prompt_hash,
+        state.get('comparison_product_labels') or {})
+      state['comparison_answer_short_circuit']=True
+    else:
+      from app.answering.service import build_budgeted_prompt
+      frame_catalog=render_frame_catalog(catalog)
+      selected_groups=[g for g in state.get('evidence_groups',()) if all(
+        uid in {str(d.get('chunk_uid',d.get('chunk_id'))) for d in compare_docs} for uid in g)]
+      packed=build_budgeted_prompt(compare_docs,history,question=question,items=item_names_str,
+        render=lambda **kw:load_prompt('answer_comparison_v1',frame_catalog=frame_catalog,**kw),budget=budget,
+        groups=selected_groups,counter=state.get('token_counter'),attributions=compare_labels)
+      if packed['used_doc_indices']!=list(range(len(compare_docs))) or packed['history']!=baseline['history']:
+        from app.api.errors import APIError
+        raise APIError(422,'comparison_budget_exceeded','比较帧目录不能挤出已冻结证据或历史。')
+      packed['used_doc_indices']=chosen
+      packed['budget']['omitted_documents']=len(reranked_docs)-len(chosen)
+      state['prompt_reference_map']=compare_labels
+      state['comparison_prompt_used_sha256']=prompt_used_identity(question,compare_labels,compare_docs,target)
+    if state.get('comparison_answer_short_circuit'):
+      state['prompt_reference_map']=compare_labels
+      state['prompt_used_docs']=compare_docs
+      state['prompt_input_chars']=baseline['used_chars']
+      state['prompt_budget']=baseline['budget']
+      state['answer_max_tokens']=budget.output_tokens
+      state['answer_token_field']=budget.output_token_field
+      state['comparison_prompt_used_sha256']=prompt_used_identity(question,compare_labels,compare_docs,target)
+      return ''
   if relations and (packed['used_doc_indices']!=baseline['used_doc_indices'] or packed['history']!=baseline['history']):
     from app.api.errors import APIError
     raise APIError(422,'source_relation_budget_exceeded','关系呈现不能挤出原证据或历史，请停止并核对冻结输入。')
@@ -129,6 +176,8 @@ def step_2_construct_prompt(state: QueryGraphState) -> str:
 
 def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None) -> QueryGraphState:
   """生成失败统一抛出携带部分文本的异常，由外层处理任务终态。"""
+  if state.get('comparison_answer_short_circuit'):
+    return state
   session_id = state.get('session_id')
   final_text = ''
   from contextlib import nullcontext
@@ -138,6 +187,9 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
   from app.answering.evidence_attribution import EvidenceAttributionPolicy
   attribution=EvidenceAttributionPolicy.model_validate(state.get('evidence_attribution') or {})
   binding=attribution.assertion_binding is not None and attribution.assertion_binding.enabled
+  comparison=(state.get('comparison_mode') is True and attribution.comparison_answer is not None
+    and attribution.comparison_answer.enabled)
+  buffer_output=binding or comparison
   if binding:
     from app.answering.evidence_attribution import evidence_labels
     from app.answering.assertion_binding import checked_sources
@@ -179,7 +231,7 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
           delta = getattr(chunk, 'content', '') or ''
           if delta:
             final_text += delta
-            if not binding:
+            if not buffer_output:
               push_to_session(session_id, SSEEvent.DELTA, {'delta': delta})
       else:
         response = llm.invoke(prompt,**options)
@@ -193,6 +245,10 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
     if binding:
       state['answer_binding_failure']=failure_record(final_text,prompt,state.get('prompt_reference_map'),attribution,
         'answer_generation_interrupted' if final_text else 'answer_generation_failed')
+    if comparison:
+      from app.answering.comparison_answers import comparison_failure_record
+      state['comparison_answer_failure']=comparison_failure_record(final_text,prompt,
+        state.get('prompt_reference_map'),attribution,'answer_generation_interrupted' if final_text else 'answer_generation_failed')
     raise AnswerGenerationError(partial_answer=final_text) from exc
   finally:
     if observations is not None:state['answer_usage_validation']=summarize(observations)
@@ -212,6 +268,25 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
     final_text=bound
     if state.get('is_stream'):
       push_to_session(session_id, SSEEvent.DELTA, {'delta': final_text})
+  if comparison:
+    from app.answering.comparison_answers import bind_comparison_response,comparison_failure_record
+    from app.api.errors import APIError
+    try:
+      if state.get('output_truncated'):
+        raise ValueError('比较帧选择输出被截断')
+      answer,proof=bind_comparison_response(final_text,state.get('comparison_frame_catalog') or [],
+        state.get('comparison_product_ids') or [],state.get('comparison_target'),
+        state['comparison_policy_sha256'],state['comparison_prompt_used_sha256'],
+        state.get('comparison_product_labels') or {})
+    except (ValueError,TypeError,KeyError) as exc:
+      state['comparison_answer_failure']=comparison_failure_record(final_text,prompt,
+        state.get('prompt_reference_map'),attribution,'comparison_selection_rejected')
+      raise AnswerGenerationError('比较帧选择无效，已拒绝写入。',partial_answer=final_text) from APIError(
+        422,'comparison_selection_invalid','比较帧选择与冻结来源不一致。')
+    state['comparison_answer']=proof
+    final_text=answer
+    if state.get('is_stream'):
+      push_to_session(session_id,SSEEvent.DELTA,{'delta':final_text})
   state['answer'] = final_text
   return state
 

@@ -195,7 +195,19 @@ class QueryRunner:
                 messages=plan_messages, confirmed=bool(current.get('resumed_at')), context_reset=context_reset,
                 candidate_search=self._product_candidates)
             plan = plan.model_copy(update={'original_query': row['question']})
-            emit('stage.changed', {'stage': 'product', 'reason': plan.reason}, fields={'query_plan': plan.model_dump(mode='json')})
+            plan_fields={'query_plan': plan.model_dump(mode='json')}
+            comparison_strategy=(attribution.comparison_answer is not None and attribution.comparison_answer.enabled)
+            comparison_enabled=comparison_strategy and plan.route=='compare'
+            if comparison_strategy:
+                from app.retrieval.query_planner import serialize_query_plan,comparison_target_identity
+                target_identity=comparison_target_identity(plan)
+                if ((row.get('comparison_target') is not None or row.get('comparison_target_reason') is not None) and
+                        any(row.get(key)!=value for key,value in target_identity.items())):
+                    raise ValueError('运行比较目标与冻结题级比较身份不一致')
+                plan_fields.update(target_identity)
+                plan_fields['query_plan']=serialize_query_plan(plan,include_comparison=True)
+                plan_fields['query_plan'].update(target_identity)
+            emit('stage.changed', {'stage': 'product', 'reason': plan.reason}, fields=plan_fields)
             if plan.route == 'clarify':
                 if len(plan.candidates) > 50:
                     raise APIError(422, 'product_selection_required', '请先在产品目录选择型号。')
@@ -244,6 +256,9 @@ class QueryRunner:
                 model=configured_model_identity(),strategy=dict(retrieval=policy.model_dump(),plan=plan.model_dump(mode='json')))
             if combination.enabled:
                 cache_scope["strategy"]["retrieval_combination"]=combination.model_dump(mode="json")
+            if comparison_strategy:
+                from app.retrieval.query_planner import comparison_target_identity
+                cache_scope['strategy']['comparison_target_identity']=comparison_target_identity(plan)
             scoped_embedder=lambda texts:QUERY_EMBEDDINGS.get_or_compute(cache_scope,texts,self.embedder,runtime_policy)
             from app.retrieval.graph import run_retrieval_graph
             from app.retrieval.routing import EnhancementPolicy
@@ -276,8 +291,13 @@ class QueryRunner:
                     'title': '/'.join(metadata.get('heading_path', [])), 'asset_ids': metadata.get('asset_ids', []),
                     'source_refs': metadata.get('source_refs', [])})
             stage = 'rerank'
+            plan_snapshot=(serialize_query_plan(plan,include_comparison=True) if comparison_strategy
+                else plan.model_dump(mode='json'))
+            if comparison_strategy:
+                from app.retrieval.query_planner import comparison_target_identity
+                plan_snapshot.update(comparison_target_identity(plan))
             emit('stage.changed', {'stage': stage}, fields={'stage': stage, 'retrieval_trace': pack.trace(),
-                'query_plan': plan.model_dump(mode='json'), 'retrieval_policy': policy.model_dump(), 'model_runtime':runtime_policy.model_dump()})
+                'query_plan': plan_snapshot, 'retrieval_policy': policy.model_dump(), 'model_runtime':runtime_policy.model_dump()})
             from app.retrieval.rerank import rank_hits
             ranked = rank_hits(row['question'], candidates, ranker=self.ranker, policy=policy)
             pack = EvidencePack(plan=plan, candidates=candidates, reranked=ranked)
@@ -294,7 +314,7 @@ class QueryRunner:
             from app.query_process.agent.nodes.node_answer_output import step_3_generate_response
             state,prompt=self.evidence_prompt(row['question'],docs,expansion.groups,plan,
                 item_names=[p['model'] for p in products if p['product_id'] in selected],
-                history=self._history(user,current),session_id=rid)
+                history=self._history(user,current),session_id=rid,product_ids=selected)
             used = {d['chunk_id'] for d in state['prompt_used_docs']}
             used_keys = {stable_key(d) for d in state['prompt_used_docs']}
             pack = EvidencePack(plan=plan, candidates=candidates, reranked=ranked,
@@ -319,6 +339,8 @@ class QueryRunner:
             if attribution.enabled:
                 evaluation_fields['prompt_reference_map']=copy.deepcopy(state['prompt_reference_map'])
                 if attribution.assertion_binding is not None and attribution.assertion_binding.enabled:
+                    evaluation_fields['prompt_used_docs']=copy.deepcopy(state['prompt_used_docs'])
+                if attribution.comparison_answer is not None and attribution.comparison_answer.enabled:
                     evaluation_fields['prompt_used_docs']=copy.deepcopy(state['prompt_used_docs'])
             if self.capture_evaluation:
                 # 仅评测运行保存候选来源，不复制检索正文或标准答案。
@@ -349,7 +371,7 @@ class QueryRunner:
                     emit('stage.changed', {'stage': stage})
             binding = run_event_sink.set(sink)
             try:
-                if used:
+                if used and not state.get('comparison_answer_short_circuit'):
                     if self.llm_factory:
                         client = ObservedClient(self.llm_factory(), telemetry)
                     else:
@@ -397,6 +419,8 @@ class QueryRunner:
                             observations=state.get('answer_usage_observations'),logical_calls=telemetry.snapshot()['logical_provider_calls'],**product_options)
                         emit('stage.changed',{'stage':stage},fields={'output_settlement':settled})
                         account.require_open()
+                elif state.get('comparison_answer_short_circuit'):
+                    safe_answer.write(state['answer'])
                 else:
                     state['answer'] = '当前授权知识库中没有找到可用证据，请补充资料或明确设备型号。'
                     safe_answer.write(state['answer'])
@@ -428,11 +452,27 @@ class QueryRunner:
                     prompt_reference_map=state.get('prompt_reference_map') or [],
                     prompt_used_docs=state.get('prompt_used_docs') or []),state['evidence_attribution'])
                 binding_fields['answer_binding']=state['answer_binding']
+            comparison_fields={}
+            if state.get('comparison_answer'):
+                from app.answering.comparison_answers import prompt_used_identity,validate_saved_comparison
+                prompt_question=plan.rewritten_query or row['question']
+                if plan.route=='compare':
+                    prompt_question+='\n\n证据限制：比较只能依据本轮参考内容，未提供某型号证据时必须明确资料不足，不得推断其参数。'
+                if prompt_used_identity(prompt_question,state.get('prompt_reference_map') or [],
+                        state.get('prompt_used_docs') or [],state.get('comparison_target'))!=state['comparison_prompt_used_sha256']:
+                    raise ValueError('比较生成输入与prompt-used身份hash不一致')
+                validate_saved_comparison(dict(comparison_answer=state['comparison_answer'],answer=answer),
+                    state.get('comparison_frame_catalog') or [],state.get('comparison_product_ids') or [],
+                    state.get('comparison_target'),state['comparison_policy_sha256'],
+                    state['comparison_prompt_used_sha256'],state.get('comparison_product_labels') or {})
+                comparison_fields={key:state[key] for key in (
+                    'comparison_answer','comparison_target','comparison_policy_sha256',
+                    'comparison_prompt_used_sha256') if key in state}
             self.commands.finish(user, rid, token, 'completed', {'answer': answer, 'citations': citations, 'message_id': row['assistant_message_id']},
                 fields={'answer': answer, 'citations': citations, 'stage': 'completed', 'completion_snapshot': completion,
                     'output_truncated':bool(state.get('output_truncated'))} |
                     ({'answer_support':'partial_output'} if state.get('output_truncated') else {}) |
-                    {'telemetry_measurements': telemetry.snapshot()} | binding_fields)
+                    {'telemetry_measurements': telemetry.snapshot()} | binding_fields | comparison_fields)
         except ExecutionStopped:
             # 合作取消已由boundary落终态；关机/失联由原租约扫描收敛interrupted。
             pass
@@ -456,7 +496,9 @@ class QueryRunner:
                     if retryable is not None and code != 'query_execution_failed':
                         error['retryable'] = retryable
                     self.commands.finish(user, rid, token, 'failed', {'error': error}, fields={'error': error, 'stage': stage,
-                        'telemetry_measurements': telemetry.snapshot()})
+                        'telemetry_measurements': telemetry.snapshot()} |
+                        ({'comparison_answer_failure':state['comparison_answer_failure']}
+                         if 'state' in locals() and state.get('comparison_answer_failure') else {}))
             except Exception:
                 # 存储/租约失败不伪造终态，保留账本供恢复扫描。
                 logging.getLogger(__name__).error('问答终态暂未收敛，阶段：%s', stage)
@@ -501,7 +543,7 @@ class QueryRunner:
         return select_context(ranked,limit=policy.context_limit,
             scope_groups=plan.scope_groups if plan.route=='compare' else (),mode=policy.comparison_context),{}
 
-    def evidence_prompt(self,question,docs,groups,plan,*,item_names,history,session_id):
+    def evidence_prompt(self,question,docs,groups,plan,*,item_names,history,session_id,product_ids=None):
         """共享正式prompt消费者；不生成答案，不改变调用方的主体/历史。"""
         from app.knowledge.citation_api import controlled_markdown
         from app.query_process.agent.nodes.node_answer_output import step_2_construct_prompt
@@ -512,6 +554,15 @@ class QueryRunner:
         attribution=EvidenceAttributionPolicy.model_validate(getattr(self,'evidence_attribution',None) or {})
         if attribution.enabled:
             state['evidence_attribution']=attribution.model_dump(mode='json')
+        comparison_enabled=(attribution.comparison_answer is not None and attribution.comparison_answer.enabled
+            and plan.route=='compare')
+        if comparison_enabled:
+            state['comparison_mode']=True
+            state['comparison_target']=plan.comparison_target if len(plan.product_ids)==2 else None
+            state['comparison_product_ids']=list(product_ids or plan.product_ids)
+            state['comparison_product_labels']={pid:attribution.products[pid] for pid in state['comparison_product_ids']
+                if pid in attribution.products}
+            state['rewritten_query']=plan.rewritten_query
         if plan.route=='compare':
             state['evidence_scope_note']='比较只能依据本轮参考内容，未提供某型号证据时必须明确资料不足，不得推断其参数。'
         return state,step_2_construct_prompt(state)

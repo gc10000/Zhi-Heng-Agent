@@ -1061,3 +1061,11 @@ M6-02实现使用`metric_schema_version=1`启用新报告契约；M4既有配置
 本轮保留所有旧评测结果及账本，新增image_selection_version=1，asset_ids与answer_asset_ids分离；答案图仅由受控显式图片语法选出，不代替语义相关性评价。评测citation.image_usage明确answer/context，版本和来源持久化并参与题指纹。Vue仅默认加载新答案图，其他及历史图像通过展开溯源；历史0分保留，折叠不是得分变更。
 
 聊天observations不可变、当前题级指纹绑定、同转录者source_message_id唯一且幂等；只能是assistant转录，不得写human声明/轮次、不进入校准。后续独立ReviewInput可引用observation_id，不自动复制语义分或声明。question-purpose-v1显式记录步骤适用性和理由，false须N/A，true不可N/A；追加未知不能改变适用性。混合版本不完整，跨版本/适用性变化门槛pending；legacy请求指纹及已冻结校准不回写。重新采用规则必须先形成新基线独立审阅和校准，再创建候选。详见[审阅协议](../evaluation/release-gates.md)。M6三项与全dev仍未验收，M7未授权。
+
+## M6来源约束比较答复（2026-11-02，默认关闭）
+
+`EvidenceAttributionPolicy.comparison_answer`是内部可选策略；只有冻结归属及`source_relations`均开启时才可开启。缺省`None`时不序列化、不改变旧策略及Run身份。首版目标仅为唯一明确的`device_uplink`；规划目标及原因只在此策略启用时进入持久运行身份。
+
+模型只提交严格`comparison_frame_selection_v1` JSON，`frames`最多100项，可为空；每项必须对应本轮冻结prompt-used目录中真实且不重复的引用/帧编号。空选择表示模型未找到相关帧，程序渲染双方缺少可比较的上联证据；无效JSON、自由文本、额外字段、重复或越界编号均拒绝。关系分类、介质规范化、比较结论和中文用户答复由版本化程序从冻结原句帧派生，不能由模型自报，也不能跨帧拼关系。
+
+完成Run保存帧选择和proof，绑定冻结问题/策略/prompt-used来源、产品、派生事实、比较结果及答案hash。首个结果投影和检查点恢复须从正式题目、产品选择、历史与冻结来源重新计算计划及proof；只有同一proof、引用和答案都相等时接受。用户结果只输出已渲染答复与脱敏比较摘要；内部raw selection不进入事件或公开快照，失败选择最多保存4096字符并只留在受控Run记录。该能力仍默认关闭；proof有效不等于真实答案质量通过、候选有效或M6验收。
