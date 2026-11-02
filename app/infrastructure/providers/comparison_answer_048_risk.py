@@ -14,17 +14,18 @@ from .product_risk import exclusive, code_version
 
 ROOT = Path(__file__).resolve().parents[3]
 VERSION = 'diagnostic_comparison_answer_048_v1'
-BATCH = 'm6-comparison-answer-048-risk-r3'
-SLOT = 'm6-comparison-answer-048-r3-support-v1-048'
+BATCH = 'm6-comparison-answer-048-risk-r4'
+SLOT = 'm6-comparison-answer-048-r4-support-v1-048'
 QUESTION_ID = 'support-v1-048'
 ACCOUNT_COLLECTION = 'diagnostic_comparison_answer_048_accounts'
-SUPERSEDED_BATCH = 'm6-comparison-answer-048-risk-r2'
+SUPERSEDED_BATCH = 'm6-comparison-answer-048-risk-r3'
+SUPERSEDED_SLOT = 'm6-comparison-answer-048-r3-support-v1-048'
 
 # 只绑定本包单次授权；授权文件位于受审提交中，不复用旧048消费槽。
 AUTHORIZED_GIT = dict(
-    commit='4a49b6ae4223edc0f110b4a7ca4f1da0871bfb87',
-    path='docs/development/reviews/M6-comparison-answer-048-authorization-r3.json',
-    sha256='5a3d2d2f03efc94ab2d2748a1df213e524eb40b0ddadd175f72773be007f0293',
+    commit='b9e9cb89d73bbb5c37788ca07a2684bb7ffe45a8',
+    path='docs/development/reviews/M6-comparison-answer-048-authorization-r4.json',
+    sha256='690115d0f8603fd8a1838a484783feb04bce05e1fbc355e12b5891f868bb9d1f',
 )
 
 read = base.read
@@ -104,18 +105,25 @@ def sources(policy):
     halt_relative = stopped.get('halt_path') if isinstance(stopped, dict) else None
     if (not isinstance(halt_relative, str) or not halt_relative or
             stopped.get('batch') != SUPERSEDED_BATCH or
+            stopped.get('slot') != SUPERSEDED_SLOT or
+            stopped.get('authorization_commit') != '4a49b6ae4223edc0f110b4a7ca4f1da0871bfb87' or
+            stopped.get('authorization_sha256') != '5a3d2d2f03efc94ab2d2748a1df213e524eb40b0ddadd175f72773be007f0293' or
             stopped.get('halt_must_remain_unchanged') is not True or
             stopped.get('retry_or_reuse_authorized') is not False):
-        raise ValueError('旧048失败批次停止证明缺失或已变化')
+        raise ValueError('048前次失败批次停止证明缺失或身份变化')
     halt_path = local(halt_relative)
     if sha(halt_path) != stopped.get('halt_sha256'):
-        raise ValueError('旧048失败批次停止证明缺失或已变化')
+        raise ValueError('048前次失败批次停止证明缺失或已变化')
     halt = read(halt_path)
-    if (halt.get('retry_authorized') is not False or
-            halt.get('failure_code') != 'eval_set_version_conflict' or
-            halt.get('authorization_sha256') != 'a03ae58460630f43509571e64e669b6152e204985e7cb01975d5c6648f7eea6b' or
-            halt.get('provider_requests') != 0 or halt.get('provider_streams') != 0):
-        raise ValueError('旧048失败槽未保持原停止状态')
+    if (halt.get('kind') != 'm6_comparison_answer_048_pre_dispatch_stop' or
+            halt.get('batch') != SUPERSEDED_BATCH or halt.get('slot') != SUPERSEDED_SLOT or
+            halt.get('question_id') != QUESTION_ID or halt.get('failure_code') != 'code_fingerprint_mismatch' or
+            halt.get('authorization_commit') != stopped.get('authorization_commit') or
+            halt.get('authorization_sha256') != stopped.get('authorization_sha256') or
+            halt.get('provider_requests') != 0 or halt.get('provider_streams') != 0 or
+            halt.get('new_experiment_or_run_created') is not False or
+            halt.get('retry_authorized') is not False):
+        raise ValueError('048前次失败槽未保持派发前停止状态')
     members = auth.get('members')
     if (not isinstance(members, list) or len(members) != 1 or
             auth.get('dispatch_order') != [SLOT] or policy.admission.member_slot != SLOT):
@@ -163,7 +171,7 @@ def sources(policy):
         n=1, model=runtime['model'], endpoint_sha256=runtime['endpoint_sha256'],
         client_versions=runtime['client_versions'], limit_field=runtime['limit_field'],
         thinking=False, reasoning_budget=None, per_request_total_output_tokens=4096,
-        ledger_id='m6-comparison-answer-048-canary-r3', prior_input_tokens=prior['input_tokens'],
+        ledger_id='m6-comparison-answer-048-canary-r4', prior_input_tokens=prior['input_tokens'],
         prior_output_tokens=prior['output_tokens'], prior_source_sha256=prior['sha256'],
         max_total_input_tokens=81505, max_total_output_tokens=34508)
     if any(getattr(policy, key) != value for key, value in expected_contract.items()):
