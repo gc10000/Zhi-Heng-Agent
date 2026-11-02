@@ -2,7 +2,7 @@
 
 接续`415f077`独立通过的默认关闭比较答复技术边界及CMP-R1/R2。本轮已直接配置仓库根本机`.env`：`M6_EVALUATION_CATALOG`指向`output/m6-comparison-answer-048-r1/catalog/catalog.json`，`M6_EVALUATION_WORK_DIR`指向`output/m6-comparison-answer-048-r1/work`。新catalog从本机受控冻结材料复制`m6-full-dev-r1`版本`fb-07c584730833908571fe9dd7c7c890afa3cf9e66`完整150题和manifest，dataset/manifest SHA分别为`c72a78955afe86503fbb37cc7293fa54287b0427877af4616bb762dfb57656c9`和`3f2b3c3413da98773b600623200deb399f91da3e9c8b1b6dd0be3fc2d83109f9`；当前分割为85 dev/65 heldout。使用当前分支`EvaluationCatalog`离线解析成功，复制件哈希与冻结来源相同；输出仍在Git忽略的本机`output/`，未提交。
 
-新catalog的`configs`目前为空：旧冻结配置没有`comparison_answer_v1`且含旧预算身份，不能复用。正式API启动预检还发现根`.env`和当前进程均未配置必需的`M2_DB_NAME`；不猜测账本数据库、不启动API/模型宿主/worker。未登记dataset、experiment、Run或slot，真实调用/库写入/质量记录均0，未读取或输出凭据。下一步须确定既有正式M6控制账本的数据库身份，并为比较模式形成独立、经受控风险准入的配置；之后才能启动正式宿主并只读核账户/预算。该路径配置本身不授权真实调用。
+新catalog的`configs`目前为空：旧冻结配置没有`comparison_answer_v1`且含旧预算身份，不能复用。正式API启动预检还发现根`.env`和当前进程均未配置必需的`M2_DB_NAME`。只读检查当前Mongo后，唯一非测试数据库仅有会话`chat_message`集合，没有正式评测用户/实验/输出账本集合；不能把会话库误用作M6控制库，也没有可从既有正式账本推导的数据库名。未登记dataset、experiment、Run或slot，真实调用/库写入/质量记录均0，未读取或输出凭据。后续须在不复用会话库的前提下建立/配置受控评测控制库及正式维护者身份，并为比较模式形成独立、经受控风险准入的配置；之后才能启动正式宿主并只读核账户/预算。该路径配置本身不授权真实调用。
 
 真实048答案质量仍未验证。M6保持5/7，04保持验收，05缺真实反馈复评proof，08缺有效候选质量及阶段证据；43题暂停、heldout未运行、M7未启动。累计历史53089/30412、reasoning/HTTP/费用未知保持。分支`codex/m6-source-bound-comparison`远程基线仍为`2d33d8139a5f2000c115b25d21b6f33b28496b15`；远程main为`f49d06b70aaa0c96856b2f6c3a9bc065f8f0e3c8`。
 
