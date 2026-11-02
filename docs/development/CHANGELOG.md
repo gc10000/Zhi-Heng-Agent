@@ -1,3 +1,7 @@
+## 2026-11-02 · M6-048已登记题集复用预检
+
+修正后的只读预检确认应复用正式登记descriptor而非重复登记；dataset/manifest和maintainer范围一致，experiment/result/slot/Run/outcome及新风险账户仍为空。原r2 halt继续有效，未调用模型；下一次真实尝试需新的明确单题授权与全新批次身份。详见[预检报告](reviews/M6-comparison-answer-registration-preflight-r2.md)。
+
 ## 2026-11-02 · M6-048风险档案控制库身份修复与单次验证前置核验
 
 比较048风险清单现在允许授权显式绑定本次正式EvaluationService控制库，与历史来源实验库分开；其他风险profile行为不变。新增跨库身份回归，相关16项风险合同/准入单测通过。用户批准的单次验证因本机embedding和reranker权重目录缺失，在实验/Run创建和模型请求前停止；无新增stream、推理、正式库写入或usage。修复待独立技术复核，M6仍5/7。

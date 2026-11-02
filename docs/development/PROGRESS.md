@@ -96,6 +96,12 @@ M6仍5/7：M6-04保持验收；M6-05缺真实反馈复评proof；M6-08缺有效�
 
 真实模型调用、真实业务库写入及正式Run均0。M6仍5/7，04保持验收、05/08未验收；43题暂停，heldout未运行，M7未启动。下一步按计划为冻结原句帧选择与程序派生分类建立红绿测试。
 
+## 2026-11-02 · 048已登记题集复用预检通过，等待全新单题授权
+
+接续`718d4d8`。独立复核最新只读预检材料：正式控制库中的反馈题集版本`fb-07c584730833908571fe9dd7c7c890afa3cf9e66`、dataset与manifest身份匹配，维护权限有效；纠正后的调度流程复用已有descriptor，不重复`register_set`。experiment/result/slot/Run/outcome及新风险账户均为0，provider request/stream、本地推理和正式业务写入均为0。首轮预检摘要关闭客户端后读取计数的脚本异常已保留，修正后只读复跑结果见[报告](reviews/M6-comparison-answer-registration-preflight-r2.md)与[脱敏摘要](reviews/M6-comparison-answer-registration-preflight-validation-r2.json)。
+
+旧单题授权批次`m6-comparison-answer-048-risk-r2`仍有有效halt，不能重用或清除；修正只读路径不构成新调用授权。下一步仅在收到明确的新`support-v1-048`单次授权后，创建全新授权/批次/槽身份，再做一次调用前冻结核验；此前不得创建experiment、Run或slot，也不得派发provider。BGE-M3与reranker-large已存在且冻结指纹匹配，无需下载。真实答案与质量仍未知；M6保持5/7，04验收保留，05缺反馈复评proof、08缺候选质量及阶段证据，43题暂停、heldout65未运行、M7未授权。
+
 ## 2026-11-02 · M6比较回答方案通过总控审阅，进入零调用实现计划
 
 总控对照当前查询规划器、来源关系帧、答案节点及Run投影复核设计。原稿缺少用户比较目标的结构字段，且来源跨度hash不能证明模型自报的关系类别；已收紧为QueryPlan显式比较目标、模型仅选择冻结原句帧、程序依版本化保守规则派生类别并完成同层比较和完整自然语言渲染。无法分类、目标含混或比较键不可靠时返回引用支撑的澄清／证据不足，不回退自由文本。接受较低覆盖率以避免错误分类。
