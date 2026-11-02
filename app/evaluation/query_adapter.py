@@ -10,7 +10,7 @@ from .validate_dataset import fingerprint
 
 
 def accepted_dataset_document_matches(path, expected_sha256, *, root=None):
-    """Verify frozen review bytes while tolerating a clean Git LF/CRLF checkout."""
+    """冻结审阅原字节或Git干净且仅行尾变化的检出副本可以接受。"""
     path = Path(path).resolve()
     if not path.is_file():
         return False
@@ -33,7 +33,10 @@ def accepted_dataset_document_matches(path, expected_sha256, *, root=None):
     if blob.returncode != 0:
         return False
     tracked_bytes = blob.stdout
-    return expected_sha256 in {digest(tracked_bytes), digest(tracked_bytes.replace(b'\n', b'\r\n'))}
+    normalized = tracked_bytes.replace(b'\r\n', b'\n')
+    return (actual.replace(b'\r\n', b'\n') == normalized and
+            expected_sha256 in {digest(tracked_bytes), digest(normalized),
+                                digest(normalized.replace(b'\n', b'\r\n'))})
 
 
 def validate_target(config):

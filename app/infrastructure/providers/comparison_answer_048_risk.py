@@ -14,18 +14,18 @@ from .product_risk import exclusive, code_version
 
 ROOT = Path(__file__).resolve().parents[3]
 VERSION = 'diagnostic_comparison_answer_048_v1'
-BATCH = 'm6-comparison-answer-048-risk-r4'
-SLOT = 'm6-comparison-answer-048-r4-support-v1-048'
+BATCH = 'm6-comparison-answer-048-risk-r5'
+SLOT = 'm6-comparison-answer-048-r5-support-v1-048'
 QUESTION_ID = 'support-v1-048'
 ACCOUNT_COLLECTION = 'diagnostic_comparison_answer_048_accounts'
-SUPERSEDED_BATCH = 'm6-comparison-answer-048-risk-r3'
-SUPERSEDED_SLOT = 'm6-comparison-answer-048-r3-support-v1-048'
+SUPERSEDED_BATCH = 'm6-comparison-answer-048-risk-r4'
+SUPERSEDED_SLOT = 'm6-comparison-answer-048-r4-support-v1-048'
 
 # 只绑定本包单次授权；授权文件位于受审提交中，不复用旧048消费槽。
 AUTHORIZED_GIT = dict(
-    commit='ba70b394b5cf558cedf8721e290ae2ba5b546df9',
-    path='docs/development/reviews/M6-comparison-answer-048-authorization-r4.json',
-    sha256='a4ef18acd481e3fd961664cbae0138bae8e5b2b6287a103ffbd63761342646f4',
+    commit='25d824e981eb0e5e5c8f1d6d229ead8870cefd21',
+    path='docs/development/reviews/M6-comparison-answer-048-authorization-r5.json',
+    sha256='35b258248415e5befd7f2ef60538af879822882c1419a254739c84cd114dcdb6',
 )
 
 read = base.read
@@ -103,7 +103,7 @@ def sources(policy):
             auth.get('user_authorization', {}).get('stop_on_first_failure') is not True or
             auth.get('authorization_continuation', {}).get('provider_streams_started_before_continuation') != 0 or
             auth.get('authorization_continuation', {}).get('max_provider_streams_for_this_validation') != 1 or
-            auth.get('authorization_continuation', {}).get('reuse_or_retry_r3') is not False or
+            auth.get('authorization_continuation', {}).get('reuse_or_retry_superseded_slots') is not False or
             auth.get('risk', {}).get('coordinator_accepts_unknown_paid_upper_bound_only_for_this_one_stream') is not True):
         raise ValueError('比较答复专用授权内容不适用')
     stopped = auth.get('supersedes_failed_attempt', {})
@@ -111,8 +111,8 @@ def sources(policy):
     if (not isinstance(halt_relative, str) or not halt_relative or
             stopped.get('batch') != SUPERSEDED_BATCH or
             stopped.get('slot') != SUPERSEDED_SLOT or
-            stopped.get('authorization_commit') != '4a49b6ae4223edc0f110b4a7ca4f1da0871bfb87' or
-            stopped.get('authorization_sha256') != '5a3d2d2f03efc94ab2d2748a1df213e524eb40b0ddadd175f72773be007f0293' or
+            stopped.get('authorization_commit') != 'ba70b394b5cf558cedf8721e290ae2ba5b546df9' or
+            stopped.get('authorization_sha256') != 'a4ef18acd481e3fd961664cbae0138bae8e5b2b6287a103ffbd63761342646f4' or
             stopped.get('halt_must_remain_unchanged') is not True or
             stopped.get('retry_or_reuse_authorized') is not False):
         raise ValueError('048前次失败批次停止证明缺失或身份变化')
@@ -120,15 +120,17 @@ def sources(policy):
     if sha(halt_path) != stopped.get('halt_sha256'):
         raise ValueError('048前次失败批次停止证明缺失或已变化')
     halt = read(halt_path)
-    if (halt.get('kind') != 'm6_comparison_answer_048_pre_dispatch_stop' or
+    if (halt.get('kind') != 'm6_comparison_answer_048_executor_initialization_stop' or
             halt.get('batch') != SUPERSEDED_BATCH or halt.get('slot') != SUPERSEDED_SLOT or
-            halt.get('question_id') != QUESTION_ID or halt.get('failure_code') != 'code_fingerprint_mismatch' or
+            halt.get('question_id') != QUESTION_ID or
+            halt.get('failure_code') != 'dataset_acceptance_newline_checkout_mismatch' or
             halt.get('authorization_commit') != stopped.get('authorization_commit') or
             halt.get('authorization_sha256') != stopped.get('authorization_sha256') or
             halt.get('provider_requests') != 0 or halt.get('provider_streams') != 0 or
-            halt.get('new_experiment_or_run_created') is not False or
+            halt.get('formal_experiment_created') is not True or halt.get('formal_result_rows') != 0 or
+            halt.get('run_created') is not False or halt.get('risk_account_created') is not False or
             halt.get('retry_authorized') is not False):
-        raise ValueError('048前次失败槽未保持派发前停止状态')
+        raise ValueError('048前次失败槽未保持资源初始化停止状态')
     members = auth.get('members')
     if (not isinstance(members, list) or len(members) != 1 or
             auth.get('dispatch_order') != [SLOT] or policy.admission.member_slot != SLOT):
@@ -176,7 +178,7 @@ def sources(policy):
         n=1, model=runtime['model'], endpoint_sha256=runtime['endpoint_sha256'],
         client_versions=runtime['client_versions'], limit_field=runtime['limit_field'],
         thinking=False, reasoning_budget=None, per_request_total_output_tokens=4096,
-        ledger_id='m6-comparison-answer-048-canary-r4', prior_input_tokens=prior['input_tokens'],
+        ledger_id='m6-comparison-answer-048-canary-r5', prior_input_tokens=prior['input_tokens'],
         prior_output_tokens=prior['output_tokens'], prior_source_sha256=prior['sha256'],
         max_total_input_tokens=81505, max_total_output_tokens=34508)
     if any(getattr(policy, key) != value for key, value in expected_contract.items()):
