@@ -1,10 +1,10 @@
-## 2026-11-02 · comparison_answer_v1独立技术边界已过，048正式准入被本机配置阻断
+## 2026-11-02 · comparison_answer_v1独立技术边界已过，048准入配置已落本机但执行身份未就绪
 
-接续`415f077`已完成的默认关闭比较答复技术复核。本轮继续执行唯一048验证的正式准入追查：`M6_EVALUATION_CATALOG`与`M6_EVALUATION_WORK_DIR`在当前进程、用户级/机器级环境及仓库根`.env`均未配置；运行中的Docker仅有基础存储/队列服务，没有评测API或worker。正式API在缺少这两个入口时返回`503 evaluation_unconfigured`。因此无法从受控catalog核验冻结题集、manifest、账户/slot和预算，也未创建实验/Run/消费槽、调用模型或写真实库；未读取或输出凭据。
+接续`415f077`独立通过的默认关闭比较答复技术边界及CMP-R1/R2。本轮已直接配置仓库根本机`.env`：`M6_EVALUATION_CATALOG`指向`output/m6-comparison-answer-048-r1/catalog/catalog.json`，`M6_EVALUATION_WORK_DIR`指向`output/m6-comparison-answer-048-r1/work`。新catalog从本机受控冻结材料复制`m6-full-dev-r1`版本`fb-07c584730833908571fe9dd7c7c890afa3cf9e66`完整150题和manifest，dataset/manifest SHA分别为`c72a78955afe86503fbb37cc7293fa54287b0427877af4616bb762dfb57656c9`和`3f2b3c3413da98773b600623200deb399f91da3e9c8b1b6dd0be3fc2d83109f9`；当前分割为85 dev/65 heldout。使用当前分支`EvaluationCatalog`离线解析成功，复制件哈希与冻结来源相同；输出仍在Git忽略的本机`output/`，未提交。
 
-已关闭并保持：`comparison_answer_v1`受审默认关闭技术路径及CMP-R1/R2定向边界；不代表048真实答案质量通过。M6仍5/7，04保持验收，05缺真实反馈复评proof，08缺有效候选质量与阶段证据；43题暂停、heldout未运行、M7未启动。唯一下一步是由正式执行宿主配置受控catalog与独立持久work目录，并启动/接通正式评测API/worker后重新只读准入；通过后最多一次新身份048验证。不得临时伪造catalog、私有SDK直连或沿用旧slot/账户/proof。
+新catalog的`configs`目前为空：旧冻结配置没有`comparison_answer_v1`且含旧预算身份，不能复用。正式API启动预检还发现根`.env`和当前进程均未配置必需的`M2_DB_NAME`；不猜测账本数据库、不启动API/模型宿主/worker。未登记dataset、experiment、Run或slot，真实调用/库写入/质量记录均0，未读取或输出凭据。下一步须确定既有正式M6控制账本的数据库身份，并为比较模式形成独立、经受控风险准入的配置；之后才能启动正式宿主并只读核账户/预算。该路径配置本身不授权真实调用。
 
-本轮未改业务实现，无产品stream、Run、质量记录或真实业务库写入；历史累计53089/30412、reasoning/HTTP/费用未知保持。分支`codex/m6-source-bound-comparison`工作区干净，执行时本地与远程该分支均为`415f0775d120bb77e1d78b096df9c488b6855422`；远程main为`f49d06b70aaa0c96856b2f6c3a9bc065f8f0e3c8`。
+真实048答案质量仍未验证。M6保持5/7，04保持验收，05缺真实反馈复评proof，08缺有效候选质量及阶段证据；43题暂停、heldout未运行、M7未启动。累计历史53089/30412、reasoning/HTTP/费用未知保持。分支`codex/m6-source-bound-comparison`远程基线仍为`2d33d8139a5f2000c115b25d21b6f33b28496b15`；远程main为`f49d06b70aaa0c96856b2f6c3a9bc065f8f0e3c8`。
 
 ## 2026-11-02 · M6比较答复定向复核通过；无相关帧可安全返回证据不足
 
