@@ -5,6 +5,33 @@ from app.products.resolver import resolve_catalog
 from .models import QueryPlan
 
 
+_COMPARISON_DIMENSIONS = (
+    ('device_uplink', re.compile(r'上联方式|上联链路|uplink', re.IGNORECASE)),
+    ('client_access', re.compile(r'客户端访问|用户访问|访问方式', re.IGNORECASE)),
+    ('management_link', re.compile(r'管理连接|管理链路|management\s+link', re.IGNORECASE)),
+    ('diagnostic_check', re.compile(r'排障检查|物理检查|检查条件|diagnostic\s+check', re.IGNORECASE)),
+)
+
+
+def _comparison_target(question, route):
+    if route != 'compare':
+        return None, 'not_comparison'
+    matches = {target for target, pattern in _COMPARISON_DIMENSIONS if pattern.search(question)}
+    if len(matches) > 1:
+        return None, 'ambiguous_targets'
+    if matches == {'device_uplink'}:
+        return 'device_uplink', 'explicit_single_target'
+    return None, 'unsupported_or_missing_target'
+
+
+def serialize_query_plan(plan, *, include_comparison=False):
+    value = plan.model_dump(mode='json')
+    if include_comparison:
+        value['comparison_target'] = plan.comparison_target
+        value['comparison_target_reason'] = plan.comparison_target_reason
+    return value
+
+
 def plan_query(question, products, *, selected_ids=(), requested_ids=(), messages=(), confirmed=False,
                context_reset=False, candidate_search=None):
     directory = {p['product_id']: p for p in products}
@@ -26,7 +53,9 @@ def plan_query(question, products, *, selected_ids=(), requested_ids=(), message
         if ids and reason == 'confirmed_context' and re.search(r'它|该设备|这个型号|上述设备|那个型号', question):
             values['rewritten_query'] = f'设备型号：{slots["device"]}\n原问题：{question}'
             values['search_queries'] = (values['rewritten_query'],)
-        return QueryPlan(**values, product_ids=ids, route=route, slots=slots, scope_groups=groups, reason=reason)
+        target, target_reason = _comparison_target(question, route)
+        return QueryPlan(**values, product_ids=ids, route=route, slots=slots, scope_groups=groups,
+            reason=reason, comparison_target=target, comparison_target_reason=target_reason)
     def clarify(ids, reason):
         return QueryPlan(**base, route='clarify', candidates=tuple(dict.fromkeys(ids)), slots=slots, reason=reason)
     if confirmed and selected_ids:

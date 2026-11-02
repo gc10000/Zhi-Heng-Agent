@@ -1,7 +1,7 @@
 """纯目录/上下文路由，不联网、不调用模型，不从候选补事实。"""
 import copy
 import pytest
-from app.retrieval.query_planner import plan_query
+from app.retrieval.query_planner import plan_query, serialize_query_plan
 
 
 @pytest.fixture
@@ -68,6 +68,35 @@ def test_series_general_and_comparison_have_distinct_scopes(directory):
     assert series.route == 'series' and series.scope_groups == (('a', 'b'),)
     assert general.route == 'general' and general.product_ids == ()
     assert compare.route == 'compare' and compare.scope_groups == (('a',), ('b',))
+
+
+def test_explicit_uplink_comparison_has_structured_target():
+    products = [{'product_id': 'la', 'model': 'LA2608', 'aliases': [], 'brand': 'H3C'},
+                {'product_id': 'cb', 'model': 'CB304n', 'aliases': [], 'brand': '安信'}]
+    plan = plan_query('比较LA2608与CB304n的上联方式是否相同', products)
+    assert plan.route == 'compare'
+    assert getattr(plan, 'comparison_target', None) == 'device_uplink'
+    assert getattr(plan, 'comparison_target_reason', None) == 'explicit_single_target'
+
+
+def test_ambiguous_comparison_target_is_not_guessed():
+    products = [{'product_id': 'la', 'model': 'LA2608', 'aliases': [], 'brand': 'H3C'},
+                {'product_id': 'cb', 'model': 'CB304n', 'aliases': [], 'brand': '安信'}]
+    plan = plan_query('比较LA2608与CB304n的客户端访问和上联方式', products)
+    assert plan.route == 'compare'
+    assert getattr(plan, 'comparison_target', None) is None
+    assert getattr(plan, 'comparison_target_reason', None) == 'ambiguous_targets'
+
+
+def test_comparison_target_is_omitted_from_legacy_plan_serialization():
+    products = [{'product_id': 'la', 'model': 'LA2608', 'aliases': [], 'brand': 'H3C'},
+                {'product_id': 'cb', 'model': 'CB304n', 'aliases': [], 'brand': '安信'}]
+    plan = plan_query('比较LA2608与CB304n的上联方式是否相同', products)
+    legacy = serialize_query_plan(plan)
+    assert legacy == plan.model_dump(mode='json')
+    assert 'comparison_target' not in legacy
+    assert serialize_query_plan(plan, include_comparison=True)['comparison_target'] == 'device_uplink'
+    assert serialize_query_plan(plan, include_comparison=True)['comparison_target_reason'] == 'explicit_single_target'
 
 
 @pytest.mark.parametrize('question', [

@@ -50,7 +50,7 @@
 - `QueryPlan.comparison_target_reason` is one of `explicit_single_target`, `ambiguous_targets`, `unsupported_or_missing_target`, or `not_comparison`.
 - `serialize_query_plan(plan, include_comparison=False)` returns the legacy dump unless explicitly asked to include the new target fields.
 
-- [ ] **Step 1: Add failing planner tests**
+- [x] **Step 1: Add failing planner tests**
 
 ```python
 def test_explicit_uplink_comparison_has_structured_target():
@@ -71,25 +71,25 @@ def test_ambiguous_or_unsupported_comparison_target_is_not_guessed():
     assert plan.comparison_target_reason == 'ambiguous_targets'
 ```
 
-- [ ] **Step 2: Run the focused tests and confirm they fail**
+- [x] **Step 2: Run the focused tests and confirm they fail**
 
 Run: `.\.venv\Scripts\python.exe -m pytest tests/unit/test_query_plans.py -q --tb=short`
 
 Expected: the new fields and explicit-target parsing are absent.
 
-- [ ] **Step 3: Implement deterministic target extraction**
+- [x] **Step 3: Implement deterministic target extraction**
 
 Add `_comparison_target(question, route)` in `query_planner.py`. Detect `device_uplink` from `上联方式|上联链路|uplink`, `client_access` from `客户端访问|用户访问|访问方式`, `management_link` from `管理连接|管理链路|management link`, and `diagnostic_check` from `排障检查|物理检查|检查条件`. In this version only a single `device_uplink` target resolves; one single unsupported target returns `unsupported_or_missing_target`, multiple distinct targets return `ambiguous_targets`, and no marker returns `unsupported_or_missing_target`. Do not infer from product names, retrieved documents, or conversation history. Run target resolution only when `route == 'compare'`.
 
 Declare the two `QueryPlan` fields with `exclude=True`, then implement `serialize_query_plan`. Its default result must equal the old `QueryPlan.model_dump(mode='json')` shape after removing only the newly added excluded fields; with `include_comparison=True`, append both comparison fields. Use it only for the new policy's query-plan persistence and cache identity.
 
-- [ ] **Step 4: Verify target parsing and legacy shape**
+- [x] **Step 4: Verify target parsing and legacy shape**
 
 Run: `.\.venv\Scripts\python.exe -m pytest tests/unit/test_query_plans.py -q --tb=short`
 
 Expected: explicit uplink targets resolve; zero/multiple/unsupported markers remain unresolved; all prior plan-routing tests pass; disabled serialization omits the new fields.
 
-- [ ] **Step 5: Commit the task**
+- [x] **Step 5: Commit the task**
 
 ```powershell
 git add app/retrieval/models.py app/retrieval/query_planner.py tests/unit/test_query_plans.py

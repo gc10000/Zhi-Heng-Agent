@@ -19,6 +19,10 @@ class QueryPlan(BaseModel):
     product_ids: tuple[str, ...] = ()
     revision_ids: tuple[str, ...] = ()
     route: Literal['answer', 'clarify', 'compare', 'insufficient', 'general', 'series'] = 'answer'
+    comparison_target: Literal['device_uplink'] | None = Field(default=None, exclude=True)
+    comparison_target_reason: Literal[
+        'explicit_single_target', 'ambiguous_targets', 'unsupported_or_missing_target', 'not_comparison'
+    ] = Field(default='not_comparison', exclude=True)
     slots: dict[str, str] = Field(default_factory=dict)
     scope_groups: tuple[tuple[str, ...], ...] = ()
     candidates: tuple[str, ...] = ()
