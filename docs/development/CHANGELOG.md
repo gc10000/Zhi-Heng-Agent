@@ -1,3 +1,7 @@
+## 2026-11-02 · M6-048新授权身份r3冻结
+
+为用户新授权建立独立Git证明、风险批次、成员槽和ledger ID，并将风险合同固定绑定新授权；新准入同时核对旧`r2`停止证明哈希和不可重试状态。运行编排改为只读取用已登记题集descriptor，交由`EvaluationService.create_experiment`校验冻结dataset/manifest，避免重复`register_set`冲突。调用前正式只读预检通过，尚未创建实验或调用模型。M6仍5/7，答案质量未证明。
+
 ## 2026-11-02 · M6-048已登记题集复用预检
 
 修正后的只读预检确认应复用正式登记descriptor而非重复登记；dataset/manifest和maintainer范围一致，experiment/result/slot/Run/outcome及新风险账户仍为空。原r2 halt继续有效，未调用模型；下一次真实尝试需新的明确单题授权与全新批次身份。详见[预检报告](reviews/M6-comparison-answer-registration-preflight-r2.md)。

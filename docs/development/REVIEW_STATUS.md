@@ -1,3 +1,9 @@
+## 2026-11-02 · 新048单题授权r3冻结并通过调用前只读核验
+
+当前授权明确限`support-v1-048`一次、至多1个模型调用、费用上界unknown、首败停止。新授权Git文件为`4a49b6a`，风险批次/槽为`m6-comparison-answer-048-risk-r3`与`m6-comparison-answer-048-r3-support-v1-048`；旧`r2` halt未动。新流程读取已登记题集descriptor而不重复登记。离线输入/runtime冻结与正式只读预检通过，注册数据及权限匹配；正式experiment/result/slot/Run/link/outcome/预算账本皆空，新增模型调用和正式库写入为0。报告结果及本机证据导航见[PROGRESS当前接续](PROGRESS.md)。
+
+尚未调用模型或创建experiment；本次唯一下一步为按已确认身份派发一次。任何失败均停止，不解锁/重试。真实048答案质量尚无结论；M6仍5/7，04保持验收，05缺反馈复评proof，08缺候选质量与阶段证据，43题暂停，heldout未跑，M7未授权。
+
 ## 2026-11-02 · M6-048重复登记预调度缺陷已核清；r2停止状态保留
 
 只读复核确认正式登记题集、dataset/manifest和维护权限匹配；错误为调度重复登记已存在版本，修正路径复用descriptor后通过只读预检。计数仍为experiment/result/slot/Run/outcome/新风险账户均0，新增provider请求、stream、本地推理及正式业务写入0。失败脚本异常和原409/halt保留。

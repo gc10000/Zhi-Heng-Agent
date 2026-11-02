@@ -1,3 +1,9 @@
+## 2026-11-02 · 新048授权r3已冻结，调用前预检通过
+
+用户已明确授权新批次仅对`support-v1-048`执行一次、最多一个模型调用、接受费用上限未知、失败即停。新Git授权文件在提交`4a49b6a`固定，绑定新风险批次`m6-comparison-answer-048-risk-r3`、槽`m6-comparison-answer-048-r3-support-v1-048`及旧r2 halt哈希；旧r2不得重试。风险合同已切换到新路径/ledger并在准入时重新校验旧halt，注册题集只读复用，不重复`register_set`。
+
+全新私有目录`output/m6-comparison-answer-048-execution-r5/`完成输入冻结与正式只读预检：唯一题`support-v1-048`，完整题集版本`fb-07c584730833908571fe9dd7c7c890afa3cf9e66`（150题/85 dev/65 heldout），dataset、manifest、问题、prompt及runtime身份匹配；BGE-M3/reranker指纹匹配。maintainer有目标KB权限，且与知识owner分离；正式experiment/result/slot/Run/link/outcome和新预算账户均不存在，旧source-relation账户仍blocked。当前尚未创建experiment或发起provider请求；唯一下一步是用该新request identity执行一次。若请求或运行失败，不重试、不复用槽。真实答案质量仍未证明；M6继续5/7，04保持验收，05/08质量证据未齐，43题暂停，heldout未运行，M7未授权。
+
 ## 2026-11-02 · M6执行归属补修完成；唯一048授权在预调度校验失败后封存
 
 修复正式评测维护者与知识库owner为不同主体时题级来源拒绝的问题：新experiment冻结知识owner，运行与来源恢复按评测发起人查找实验，同时核对冻结owner、KB维护权限、父Run来源与租约；旧缺少owner绑定的跨主体记录拒绝追认。修正比较风险合同r2授权路径/slot身份。单元/契约1512 passed；隔离Mongo正式job及恢复/复用矩阵48 passed，补充撤权矩阵10 passed。先前失败记录保留在本机`output/m6-execution-owner-fix-20261102-764061/`。
