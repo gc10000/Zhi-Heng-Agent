@@ -506,7 +506,7 @@ def bind_connection_comparison_selection(selection, catalog, product_ids, target
         policy_sha256, prompt_used_sha256, product_labels, *, raw_selection=None,
         comparison_context=None):
     from .connection_semantics import VERSION as connection_version
-    from .connection_semantics import compare_connections, derive_connection_facts, render_connection_comparison
+    from .connection_semantics import compare_connections, derive_connection_facts, derive_source_contexts, render_connection_comparison
     from copy import deepcopy
     for value in (policy_sha256, prompt_used_sha256):
         if not isinstance(value, str) or not re.fullmatch(r'[a-f0-9]{64}', value):
@@ -531,12 +531,13 @@ def bind_connection_comparison_selection(selection, catalog, product_ids, target
             content_sha256=(item.get('frozen_source') or {}).get('content_sha256'))
         docs.append(doc)
     facts = derive_connection_facts(docs, product_ids, product_labels)
-    result = compare_connections(target, product_ids, facts)
+    result = compare_connections(target, product_ids, facts,
+        source_contexts=derive_source_contexts(docs, product_ids))
     answer = render_connection_comparison(result, product_labels)
     proof = dict(function_version=connection_version, schema_version=SCHEMA_VERSION,
         classifier_version='connection_semantics_' + connection_version,
-        comparator_version='qualified_connection_medium_v1',
-        renderer_version='connection_comparison_renderer_' + connection_version,
+        comparator_version='qualified_connection_medium_v2',
+        renderer_version='connection_comparison_renderer_context_v2',
         comparison_target=target, policy_sha256=policy_sha256,
         prompt_used_sha256=prompt_used_sha256, selection_sha256=fingerprint(selection),
         facts_sha256=fingerprint(facts), result_sha256=fingerprint(result),

@@ -1,0 +1,170 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-03",
+  "task": "M6-connection-comparison-review-fix-r1",
+  "branch": "codex/m6-source-bound-comparison",
+  "base_commit": "a34465a018a47edb16a0fa5bf242a0ddccbb57c9",
+  "cumulative_review_base": "88e359cbab2bf93234d64e0ddd395363576a616f",
+  "role": "implementation_controller",
+  "implementation_self_validation": "passed",
+  "independent_acceptance": "separate_reviewer_report_is_authoritative",
+  "independent_report": "M6-connection-comparison-independent-review-r1.md",
+  "mode": "connection_comparison_v1",
+  "default_enabled": false,
+  "formal_admission": "rejected",
+  "new_048_authorized": false,
+  "new_048_executed": false,
+  "fixed": [
+    "unclassified_child_context_not_rendered",
+    "enclosing_example_and_obsolete_scope",
+    "compound_endpoint_for_link_and_diagnostic",
+    "condition_heading_elision",
+    "image_description_promoted_to_fact"
+  ],
+  "introduced_and_fixed": [
+    "original_pdf_table_overfiltered"
+  ],
+  "checks": {
+    "final_offline_contract_including_openapi": {
+      "tests": 315,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 315
+    },
+    "final_isolated_mongo": {
+      "tests": 71,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 71
+    }
+  },
+  "saved_input_replay": {
+    "cells": {
+      "A": {
+        "status": "insufficient_comparison",
+        "documents": 10,
+        "new_mode": false
+      },
+      "C": {
+        "status": "rejected_missing_assembly",
+        "capability_found": false,
+        "error_type": "ValueError",
+        "documents": 10
+      },
+      "B": {
+        "status": "insufficient_comparison",
+        "documents": 10,
+        "new_mode": false
+      },
+      "D": {
+        "status": "qualified_medium_difference",
+        "documents": 10,
+        "source_facts": 4,
+        "new_mode": true,
+        "checks": {
+          "management": true,
+          "cable_capability": true,
+          "coaxial_path": true,
+          "no_web_purpose_on_path": true,
+          "no_live_claim": true,
+          "catv_preserved": true,
+          "controller_limit": true,
+          "budgets": true,
+          "numbered": true,
+          "source_spans": true
+        },
+        "input_sha256": "4a5ee902045f4d2c28f4f50d495ee54c98dbd0c28f9f1168da113f9bbf137125",
+        "assembly_sha256": "e684f6e921a956f18c836b72fe99892ea14b9d3537f2da7c07a81dce526b1ceb"
+      }
+    },
+    "old_v2_proof_unchanged": true,
+    "scalar_pool": 333,
+    "original_pool": 582,
+    "scope": "explicit_two_document_offline_projection",
+    "formal_run": false,
+    "quality_proof": false,
+    "synthetic_selection_calls": 1,
+    "normal_finish_and_cache_checked": true,
+    "provider_calls": 0,
+    "local_inference": 0,
+    "business_db_reads": 0,
+    "business_db_writes": 0
+  },
+  "source_sha256": {
+    "app/answering/comparison_context.py": "08c846835b042179b91e67c1bff4607c06c490bedbdd94ce5e1430f1786f622a",
+    "app/answering/connection_semantics.py": "8b7819aa442200d1ce9306197e6951a0e2773887b18903183441699ade6c0487",
+    "app/answering/comparison_answers.py": "2b982763a2c641f5e6e50f4e3d398048921dd5b3a01c1177103b31be14ec8ef7",
+    "tests/unit/test_connection_scope_consumption.py": "2a40c9982f4e425ec9d310db014f5b063956f47f09f736fd642d863a5c46a261",
+    "tests/unit/test_comparison_source_assembly.py": "99d6a617bd2aca1b975423e7063a7b964a52c713280c8cb395a493fc09dc2dc1",
+    "tests/integration/test_connection_comparison_jobs.py": "03fd68f511200870d252bd0d3eed6d9c8efa1d331b1978296c75196c41efbaaf"
+  },
+  "preserved_red": {
+    "initial_scope": {
+      "tests": 13,
+      "failures": 13,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 0
+    },
+    "condition_title": {
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 0
+    },
+    "neighbor": {
+      "tests": 23,
+      "failures": 10,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 13
+    },
+    "table_regression": {
+      "tests": 25,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 24
+    }
+  },
+  "accounting": {
+    "new_provider_streams": 0,
+    "new_local_model_inference": 0,
+    "real_business_db_reads": 0,
+    "real_business_db_writes": 0,
+    "new_formal_runs_scores_or_quality_proofs": 0,
+    "cumulative_input_tokens": 56239,
+    "cumulative_output_tokens": 30516,
+    "reasoning_tokens": null,
+    "exact_http_requests": null,
+    "cost": null,
+    "gateway_paid_output_upper_bound": "unknown"
+  },
+  "open": [
+    "real_answer_quality_proof",
+    "M6_05_feedback_reevaluation_proof",
+    "M6_08_candidate_quality_and_phase_evidence",
+    "new_connection_mode_scoped_risk_admission_contract"
+  ],
+  "evidence_limits": [
+    "bounded_grammar_not_universal_semantic_verifier",
+    "source_contexts_more_verbose_not_quality_proof",
+    "333_member_projection_not_582_full_scope",
+    "no_real_vectors_pointers_ttl_or_quality_db_scan",
+    "overlapping_test_groups_not_unique_quality_counts"
+  ],
+  "m6": {
+    "status": "5/7",
+    "M6_04": "accepted_preserved",
+    "M6_05": "proof_missing",
+    "M6_08": "quality_and_phase_evidence_missing",
+    "original_43": "paused",
+    "heldout_65": "not_run",
+    "M7": "not_started"
+  },
+  "private_evidence_path": "output/m6-independent-review-fix-20261103-r1",
+  "next_unique_goal": "scoped_new_mode_risk_admission_and_catalog_preflight_zero_real_calls"
+}

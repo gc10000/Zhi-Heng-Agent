@@ -1,3 +1,9 @@
+## 2026-11-03 · connection模式完整来源语境与受限关系独立技术通过
+
+仅显式connection_comparison_v1：完整已装配单产品来源通过result.source_contexts保存原段/hash/出处并带自身引用呈现；条件子标题不得作结构标题丢弃。完整scope/heading的示例及明确废弃状态不供强关系；连接/排障共用单对端边界。只有PDF原文text/table准入强事实，image_description或混合图片来源不准入；unknown页码和安全字面呈现保持。比较器qualified_connection_medium_v2、renderer connection_comparison_renderer_context_v2；保存/首次恢复重算，漂移拒绝，旧Run不升级。无外部API或环境变量新增。
+
+用户授权的独立审查已签具体技术边界，见[报告](../development/reviews/M6-connection-comparison-independent-review-r1.md)。当前专用风险/准入合同未完成、正式登记仍拒绝，不因该签署直接派发新048；真实质量及M6-05/08证据open。原已关闭协议不整体重开。
+
 ## 2026-11-02 · M6-048比较单槽风险合同（默认关闭、未授权）
 
 内部合同`diagnostic_comparison_answer_048_v1`固定未知网关能力、不思考、`n=1`、`qwen3.8-flash`、SDK `openai 2.28.0`／`langchain-openai 1.1.11`、`max_completion_tokens=4096`、新账本`m6-comparison-answer-048-canary-r1`及专属成员`m6-comparison-answer-048-r1-r1-support-v1-048`。历史计量53089/30412；单次输入预留28416、输出预留4096；累计算术上限81505/34508。usage未知时不估算为0，reasoning/HTTP/费用可未知；CAS账本不允许同一slot重领，未知usage或断流保持blocked。旧048风险profile、已消费槽和blocked账户不复用。

@@ -1,0 +1,210 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-03",
+  "task": "M6-connection-comparison-independent-review-r1",
+  "role": "independent_reviewer_not_involved_in_implementation",
+  "delegation_authorized_by_user": true,
+  "reviewer_delegated": false,
+  "reviewer_modified_business_sources": false,
+  "reviewer_modified_existing_tests": false,
+  "base": "88e359cbab2bf93234d64e0ddd395363576a616f",
+  "initial_head": "a34465a018a47edb16a0fa5bf242a0ddccbb57c9",
+  "final_git_head": "a34465a018a47edb16a0fa5bf242a0ddccbb57c9",
+  "final_review_target": "initial head plus explicit uncommitted hash-frozen r2 repair",
+  "final_candidate": {
+    "app/answering/comparison_context.py": "08c846835b042179b91e67c1bff4607c06c490bedbdd94ce5e1430f1786f622a",
+    "app/answering/connection_semantics.py": "8b7819aa442200d1ce9306197e6951a0e2773887b18903183441699ade6c0487",
+    "app/answering/comparison_answers.py": "2b982763a2c641f5e6e50f4e3d398048921dd5b3a01c1177103b31be14ec8ef7",
+    "tests/unit/test_connection_scope_consumption.py": "2a40c9982f4e425ec9d310db014f5b063956f47f09f736fd642d863a5c46a261",
+    "tests/unit/test_comparison_source_assembly.py": "99d6a617bd2aca1b975423e7063a7b964a52c713280c8cb395a493fc09dc2dc1",
+    "tests/integration/test_connection_comparison_jobs.py": "03fd68f511200870d252bd0d3eed6d9c8efa1d331b1978296c75196c41efbaaf"
+  },
+  "initial_head_business_tree_unchanged": false,
+  "other_original_business_files_verified": 8,
+  "initial_technical_review": "failed",
+  "first_repair_candidate": "failed_table_regression",
+  "final_technical_review": "passed_with_specific_boundaries",
+  "unresolved_reproduced_technical_findings": [],
+  "findings": [
+    {
+      "id": "R1",
+      "priority": "P1",
+      "problem": "已装配的无事实条件子段没有进入答案",
+      "root": "仅遍历连接事实的来源，丢弃没有连接事实的必要子段",
+      "exit": "完整来源语境绑定进结果/proof，子条件以自己的引用进入答案",
+      "status": "closed_by_independent_retest"
+    },
+    {
+      "id": "R2",
+      "priority": "P1",
+      "problem": "跨句错误示例或废弃限定被抛弃后形成强关系",
+      "root": "只检查候选单句、有限条件词；未检查完整scope和章节语境",
+      "exit": "完整框定句、冒号标题、章节语境及已废弃状态拒绝强事实；其他未分类限制保留出处",
+      "status": "closed_by_independent_retest"
+    },
+    {
+      "id": "R3",
+      "priority": "P1",
+      "problem": "复合对端/介质关系被吞入destination并选用首介质",
+      "root": "任意字符的对端正则未校验单一对象；排障与普通连接入口保护不一致",
+      "exit": "连接和排障共用单对象边界，复合关系不进入强比较",
+      "status": "closed_by_independent_retest"
+    },
+    {
+      "id": "R4",
+      "priority": "P1",
+      "problem": "孤立条件子标题被误当冗余标题而移出prompt",
+      "root": "正文等于heading末级即省槽，未区分介绍根标题和有独立条件的子标题",
+      "exit": "只省有正文的介绍根标题；条件子标题保留为独立来源",
+      "status": "closed_by_independent_retest"
+    },
+    {
+      "id": "R5",
+      "priority": "P1",
+      "problem": "图片描述纯文本能被提升为上联事实",
+      "root": "只保护Markdown图片语法，未检查content_kind及source_ref.kind",
+      "exit": "图摘要/混合图片出处不提供强事实；可信PDF原文保留，代码/HTML仍隔离",
+      "status": "closed_by_independent_retest"
+    },
+    {
+      "id": "R6",
+      "priority": "P1",
+      "problem": "第一修复候选误排除PDF表格，使保存输入完整比较退化为不足",
+      "root": "修复R5时把原文白名单缩成text，漏掉合法table",
+      "exit": "可信PDF text/table准入，表格排障正向与图摘要负向均通过，333保存输入恢复限定比较",
+      "status": "closed_by_independent_retest",
+      "introduced_by_first_repair": true
+    }
+  ],
+  "actual_final_checks": {
+    "offline_contract": {
+      "tests": 233,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "isolated_mongo": {
+      "tests": 69,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "independent_synthetic_offline_probes": 13,
+    "independent_synthetic_mongo_probes": 12,
+    "saved_input": {
+      "status": "passed",
+      "projection_members": 333,
+      "original_members": 582,
+      "projection_documents": 2,
+      "prompt_documents": 10,
+      "facts": 4,
+      "verified_spans": 16,
+      "synthetic_calls": 1,
+      "provider_calls": 0,
+      "local_inference": 0,
+      "business_database_reads": 0,
+      "business_database_writes": 0,
+      "old_v2_proof_valid": true,
+      "same_assembled_input_v3": "insufficient_comparison",
+      "new_status": "qualified_medium_difference",
+      "answer_sha256": "5cb1e259b6845ed3efd12b08f6137c534261ba3a80866ad46128b54956d44f67",
+      "source_condition_citations_reviewed": true,
+      "quality_proof": false,
+      "phase_acceptance": false,
+      "subject_or_role_equivalence_required": false
+    },
+    "frontend": {
+      "cases": 2,
+      "checks": 56,
+      "actual_renderEvidence": true,
+      "provider_calls": 0,
+      "remote_assets": 0
+    }
+  },
+  "retained_initial_reds": {
+    "initial-red.xml": {
+      "tests": 4,
+      "failures": 4,
+      "errors": 0,
+      "skipped": 0
+    },
+    "assembly-red.xml": {
+      "tests": 2,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    "neighbor-red.xml": {
+      "tests": 4,
+      "failures": 4,
+      "errors": 0,
+      "skipped": 0
+    },
+    "table-regression-red.xml": {
+      "tests": 3,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "private_evidence_directory": "output/m6-independent-technical-review-20261103-r1",
+  "evidence_sha256": {
+    "initial-red.xml": "221859dd381915607fb91c954e4926c86b6d6ffff903eb36461c9b132b67a792",
+    "assembly-red.xml": "8a0757364680062a6a19102307664d8ccba47c3a40a1e3b352718a05d4fef4df",
+    "neighbor-red.xml": "fc8155413a4b4add54c51f926f3ec0b97d337b914c9117975c07c28846b04217",
+    "table-regression-red.xml": "d85628b44162059038f0e407aa1f2ac8bc82e33ed7a53dbb3a3b619a01f64777",
+    "candidate-offline.xml": "0ae1bfaa3a8dbf3c6fd788297d1d71016dd6421f3904a729dc52ffcd7c565a3d",
+    "candidate-mongo.xml": "8b9df5dfea3bc70123aa4955eb801fb8055002c9cc1f7fa628ef6f9068419ed8",
+    "candidate-replay.log": "f02306a1b525b8a2dbbc89ed89dbc20d05cf74138e0a4e13ced31c2a2761d751",
+    "final-offline.xml": "3df094a3bc8e171f8bc0b93add859983fa2be3fd106788ec3c283905c4a0fa0b",
+    "final-mongo.xml": "a103559f038a1ff610532f48dfcef51bd080c192586d086b0ccd48146849ca6f",
+    "final-freeze-before.json": "8c4895489a9a0c62e2a7807d7f17e5afb2c788586da9a07cce082c9a831b31c3",
+    "final-freeze-after.json": "8c4895489a9a0c62e2a7807d7f17e5afb2c788586da9a07cce082c9a831b31c3",
+    "final-replay/summary.json": "b3cd42b2dbbfe2f938a66db0f6949d6720e7c91810bd03bce668ca0152134eae",
+    "final-replay/frontend-summary.json": "0471873a5ed4bb43c36504dd97e2befb2e763b68f5cf5f8b67635edf21afc49b",
+    "test_independent_boundaries.py": "792ce42c05ab86a483994e789d5b564922255a5fe4d74c791f972a19436745d5",
+    "test_independent_assembly_edges.py": "eee48c5a1945572b37d0900c3d67efc96835ce48443a5a27182bf71fc47744a0",
+    "test_independent_near_neighbors.py": "9f55f4ce5897caa35d0e686ba786448539119e4b8f55c6464030803d593300c4",
+    "test_independent_table_regression.py": "a48c37b94ade349b668bb831aac403283385cf550ad786b7209aff28724f7f5e",
+    "test_independent_mongo.py": "5e96ed0a2284e1369557202b0c95748a0c85491697be6eb4cde252c1bdf2d86f",
+    "replay_independent.py": "e8c001e92b8a3b8cb609cfa61b4ae9eb4d07cb4f1f1d8be50182e95dded702e2",
+    "frontend_independent.mjs": "5346ea37b6050e6d45e546c4e760ef7fab6d39233278820f3cada611f779a70f",
+    "commands-private.json": "3240ce126ff8d2ec104af49dd6f2c6d5a1ed09ebbdcfc857e8d434ab1f83c577"
+  },
+  "harness_corrections": [
+    "Long output basetemp caused pre-Run FileNotFoundError; a fresh shorter output basetemp resolved it; not a business failure.",
+    "Early checkpoint observer incorrectly expected completion-only hashes in a running Run; reconstructed input hashes from already persisted prompt sources instead.",
+    "The prepared whole-answer Web ban was too strict and was corrected before final replay; quoted Web context with its own citation is allowed and Cable purpose remains untransplanted.",
+    "Dispatch hashes for other original sources use LF-normalized UTF-8 text; raw CRLF hashes and normalized hashes were recorded separately; final candidate freeze uses raw bytes."
+  ],
+  "evidence_limits": [
+    "Only explicit saved two-document 333-member scalar projection of the original 582 members was replayed; no current real corpus scan.",
+    "Synthetic model outputs only; no new provider requests, local inference, real business database access, formal scoring or proof registration.",
+    "Bounded grammar and source-type admission; no claim of complete natural-language understanding.",
+    "Full source-context supplements can be verbose and include copyright/configuration excerpts; direct qualified comparison remains present; overall real answer quality is not signed."
+  ],
+  "open": {
+    "real_answer_quality_proof": true,
+    "new_mode_risk_admission": true,
+    "M6_05_feedback_reevaluation_proof": true,
+    "M6_08_candidate_quality_and_phase_evidence": true,
+    "phase_acceptance": true
+  },
+  "unchanged_state": {
+    "cumulative_real_usage_input": 56239,
+    "cumulative_real_usage_output": 30516,
+    "usage_source": "historical preserved record; not remeasured",
+    "M6": "5/7",
+    "M6_04": "accepted",
+    "new_048_authorized": false,
+    "real_43_resumed": false,
+    "real_heldout_started": false,
+    "M7_started": false,
+    "provider_calls": 0,
+    "local_inference": 0,
+    "real_business_db_reads": 0,
+    "real_business_db_writes": 0,
+    "formal_runs_or_slots_or_candidates_or_scores_or_proofs_created": 0
+  },
+  "report_signed_scope": "source assembly, supported constrained comparison semantics, citation identity, strict selection/cache refusal, durable pre-call input, outcome recovery, terminal/failure lifecycle and affected old exits only"
+}

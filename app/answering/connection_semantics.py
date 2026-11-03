@@ -29,6 +29,46 @@ def _span(text, start, end):
     return dict(start=start, end=end, text=text[start:end], sha256=content_hash(text[start:end].encode('utf-8')))
 
 
+def _sentences(text):
+    return [m.group().strip() for m in re.finditer(r'[^。；;\n|]+', text) if m.group().strip()]
+
+
+def _scope_status(text):
+    """只识别完整的语境声明句，不从其中截出后续的肯定关系。"""
+    for clause in _sentences(text):
+        clause = clause.rstrip('：:').strip()
+        if re.fullmatch(r'(?:(?:以下|下列|下面)(?:仅)?(?:为|是))?(?:一个)?(?:错误|假设|配置|历史|演示|正确)?(?:示例|场景|记录)', clause):
+            return 'non_assertive_scope'
+        if re.fullmatch(r'(?:该|上述|此|本设备的)?(?:上联方式|管理链路|连接方式|链路)(?:已经|已)(?:废弃|停用|失效)', clause):
+            return 'noncurrent_scope'
+    return 'source_statement'
+
+
+def _single_endpoint(value):
+    """连接和排障共用对象边界，不把复合关系当作一个对端名称。"""
+    return not re.search(r'或|和|与|及|并|通过|连接|上联|提供|[,，:：;；]', value)
+
+
+def derive_source_contexts(assembly, product_ids):
+    """每份已核验来源都进入结果，包含没有可分类连接事实的条件子段。"""
+    contexts = []
+    for doc in assembly:
+        ids = (doc.get('metadata') or {}).get('product_ids') or []
+        if len(ids) != 1 or ids[0] not in product_ids:
+            continue
+        refs = (doc.get('metadata') or {}).get('source_refs', doc.get('source_refs', [])) or []
+        text = doc.get('text') or ''
+        exact = bool(refs) and all(r.get('kind') == 'pdf' and type(r.get('page')) is int and r['page'] > 0 for r in refs)
+        contexts.append(dict(product_id=ids[0], source_chunk_uid=doc.get('chunk_uid', doc.get('chunk_id')),
+            document_id=doc.get('document_id'), revision_id=doc.get('revision_id'),
+            original_sha256=doc.get('original_sha256'), payload_sha256=doc.get('payload_sha256'),
+            scope_text=text, context_sha256=fingerprint(text), scope_status=_scope_status(text),
+            reference_number=doc.get('reference_number'),
+            physical_pages=sorted({r['page'] for r in refs if r.get('kind') == 'pdf' and type(r.get('page')) is int and r['page'] > 0}),
+            page_status='exact' if exact else 'unknown'))
+    return contexts
+
+
 def _protected(text):
     # 不从HTML、图片或代码中抽取业务关系；原文仍完整保存在scope。
     ranges = block_code_ranges(text) + inline_code_ranges(text)
@@ -88,6 +128,15 @@ def derive_connection_facts(assembly, product_ids, product_labels=None):
         if len(ids) != 1 or ids[0] not in product_ids:
             continue
         pid, text = ids[0], doc.get('text') or ''
+        metadata = doc.get('metadata') or {}
+        refs = metadata.get('source_refs', doc.get('source_refs', [])) or []
+        # 描述块保留为带出处资料，但只有PDF原文text/table能形成强关系；
+        # 未知或混合来源类型也不能靠纯文本外形升级。
+        if (metadata.get('content_kind') not in {'text', 'table'} or not refs or
+                any(r.get('kind') != 'pdf' for r in refs) or
+                _scope_status(text) != 'source_statement' or
+                any(_scope_status(h) != 'source_statement' for h in metadata.get('heading_path', []))):
+            continue
         protected = _protected(text)
         names = _names(pid, product_labels)
         subjects = '|'.join(re.escape(n) for n in sorted(names, key=lambda n: (-len(n), n)))
@@ -104,6 +153,8 @@ def derive_connection_facts(assembly, product_ids, product_labels=None):
                 r')是否(?:插牢|连接正确|接好|连接牢固)[,，]\s*(?P=medium)另一端与'
                 r'(?P<destination>[^，,]+?)是否(?:连接正确|接好|连接牢固)', sentence, re.IGNORECASE)
             if path:
+                if not _single_endpoint(path.group('destination')):
+                    continue
                 add(path, role='documented_physical_path', speech='diagnostic_instruction',
                     rule='physical_path_v1', interpretation='qualified_path_interpretation')
                 continue
@@ -128,6 +179,10 @@ def derive_connection_facts(assembly, product_ids, product_labels=None):
                 r'(?P<medium>' + _MEDIA + r')\s*连接到\s*(?P<destination>[^，,]+?)'
                 r'(?:[，,]\s*(?:用于)(?P<after>[^，,]+))?', sentence, re.IGNORECASE)
             if link:
+                # 对端只能是一个对象，不能把另一关系或并列介质吞入对端字段。
+                if (len(re.findall(_MEDIA, sentence, re.IGNORECASE)) != 1 or
+                        not _single_endpoint(link.group('destination'))):
+                    continue
                 purpose_name = 'before' if link.group('before') else 'after'
                 purpose = link.group(purpose_name)
                 a, b = link.span(purpose_name) if purpose else (0, 0)
@@ -152,7 +207,7 @@ def derive_connection_facts(assembly, product_ids, product_labels=None):
     return facts
 
 
-def compare_connections(target, product_ids, facts):
+def compare_connections(target, product_ids, facts, *, source_contexts=None):
     if target != 'device_uplink' or len(product_ids) != 2 or len(set(product_ids)) != 2:
         raise ValueError('连接比较只接受两个产品的device_uplink目标')
     observations = {pid: [] for pid in product_ids}
@@ -173,11 +228,24 @@ def compare_connections(target, product_ids, facts):
     values = {pid: _canonical(i['medium']) for pid, i in selected.items()}
     status = ('conflict' if conflicts else 'insufficient' if len(selected) != 2 else
         'qualified_medium_same' if len(set(values.values())) == 1 else 'qualified_medium_difference')
+    if source_contexts is None:
+        source_contexts = []
+        seen_contexts = set()
+        for fact in facts:
+            key = fact['product_id'], fact.get('source_chunk_uid'), fact.get('scope_text')
+            if key not in seen_contexts:
+                seen_contexts.add(key)
+                source_contexts.append({k: deepcopy(fact.get(k)) for k in (
+                    'product_id','source_chunk_uid','document_id','revision_id','original_sha256',
+                    'payload_sha256','scope_text','reference_number','physical_pages','page_status')} |
+                    dict(context_sha256=fingerprint(fact.get('scope_text') or ''),
+                         scope_status=_scope_status(fact.get('scope_text') or '')))
     return dict(function_version=VERSION, comparison_target=target, status=status,
         product_ids=list(product_ids), selected={} if conflicts else selected,
         compared=dict(field='medium', canonical_values=values) if len(selected) == 2 and not conflicts else {},
         support_fact_ids=list(dict.fromkeys(support)) if len(selected) == 2 and not conflicts else [],
-        conflicts=conflicts, missing=[pid for pid in product_ids if pid not in selected], observations=observations)
+        conflicts=conflicts, missing=[pid for pid in product_ids if pid not in selected], observations=observations,
+        source_contexts=deepcopy(source_contexts))
 
 
 def _literal(value):
@@ -244,5 +312,19 @@ def render_connection_comparison(result, product_labels):
                     qualifiers.append(clause)
             if qualifiers:
                 lines.append('适用条件与限制：' + '；'.join(_literal(q) for q in qualifiers) + '。' + _citation(f))
+        # 不能只遍历有连接事实的来源：未分类子条件及相邻语境也必须独立呈现。
+        # 不猜其用途、不将它并到另一引用的断言字段，也不按几个条件关键词筛选。
+        for context in result.get('source_contexts', []):
+            if context['product_id'] != pid:
+                continue
+            related = [f for f in meaningful if f.get('source_chunk_uid') == context['source_chunk_uid']]
+            already = {f.get('clause') for f in related}
+            remainder = [clause for clause in _sentences(context.get('scope_text') or '')
+                if clause not in already and not any(
+                    re.search(r'目前|只支持|仅|如果|若|是否|以下描述|缺省配置|不影响', clause)
+                    for f in related)]
+            if remainder:
+                lines.append(f'{label}来源语境（保留原文，不新增连接关系）：' +
+                    '；'.join(_literal(clause) for clause in remainder) + '。' + _citation(context))
     lines.append('以上按各条来源的连接角色与用途分别解释；静态资料不能证明现场已连接。')
     return '\n'.join(lines)

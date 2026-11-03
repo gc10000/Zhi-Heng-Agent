@@ -63,6 +63,18 @@ def test_no_implicit_permission_to_drop_selected_evidence(sources):
     assert result.documents == []
 
 
+def test_condition_only_heading_without_child_body_is_not_a_redundant_title(sources):
+    pool,kw=sources
+    condition='仅在安装指定专用SIM卡时适用'
+    child=row('pc-title','p',3,['1 产品简介',condition],condition)
+    pool.append(child)
+    kw['frozen_payloads'][child['chunk_uid']]=fingerprint(child)
+    result=assemble(pool[2:4],pool,**(kw | dict(max_docs=5)))
+    assert result.status=='complete'
+    assert 'pc-title' in [d['chunk_uid'] for d in result.documents]
+    assert condition in next(d['text'] for d in result.documents if d['chunk_uid']=='pc-title')
+
+
 def test_full_section_includes_child_condition_and_preserves_unknown_page(sources):
     pool, kw = sources
     extra = row('condition', 'p', 1, ['1 产品简介', '限制'], '仅在条件A成立时支持；不证明已连通。')

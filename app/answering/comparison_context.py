@@ -180,7 +180,15 @@ def assemble_comparison_context(selected_docs, frozen_pool, *, product_ids, scop
         members.sort(key=lambda uid: (pool[uid]['ordinal'], uid))
         # 纯标题已逐字存在于正文成员的heading_path，不重复占用正文槽；
         # 仍记录在完整池与依赖身份中。任何条件/子段都不能据此省略。
-        titles = [uid for uid in members if _structural_title(pool[uid])]
+        # 仅介绍根标题可省槽；子标题即便text与heading完全相等，仍可能
+        # 独立承载限制，必须保留正文和自己的引用。根标题无任何正文也不算介绍。
+        root_titles = [uid for uid in members if _structural_title(pool[uid]) and
+            tuple(pool[uid]['metadata']['heading_path']) == path]
+        retained = [uid for uid in members if uid not in root_titles]
+        if not retained:
+            issues.append(dict(product_id=pid, code='introduction_body_not_in_frozen_pool'))
+            continue
+        titles = root_titles
         members = [uid for uid in members if uid not in titles]
         if not members:
             issues.append(dict(product_id=pid, code='introduction_body_not_in_frozen_pool'))

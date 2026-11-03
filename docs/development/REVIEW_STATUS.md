@@ -1,3 +1,9 @@
+## 2026-11-03 · 独立技术通过：来源装配及有界连接比较，正式质量仍open
+
+用户明确授权的未参与实现Agent本人审查累计包及r2哈希补修，签署passed_with_specific_boundaries；原5根因及本次PDF表格回归共6组均独立关闭。233离线/契约、69隔离Mongo、前端56项、保存输入逐载荷/逐字段与自然语言比较审阅通过；实现总控另315/71自验不作独立计数。具体签署范围见[独立报告](reviews/M6-connection-comparison-independent-review-r1.md)及[摘要](reviews/M6-connection-comparison-independent-review-r1.json)，未承诺任意自然语言语义验证或所有问题已发现。
+
+完整限定比较可达，原文语境较冗长；真实新答案质量、专用风险准入及阶段证据open。新模式保持默认关闭/正式登记拒绝；下一项为新风险/准入合同及catalog预检的零调用实现，见[方案](handoffs/M6-connection-comparison-048-proposal-r1.md)。无新048调用授权。M6 5/7、04验收、05反馈复评proof缺口、08候选质量/阶段缺口、旧拒绝/槽/blocked/halt及43/heldout/M7限制保持。
+
 ## 2026-11-03 · 新连接模式结束证据补修自验通过，独立技术／正式质量open
 
 基于657e87f又复现合法JSON在无stop／异常终止下仍展示、缓存缺结束证据仍推送，以及终止后接收正文，红测9失败及1失败／1正向通过均保留。已只对connection_comparison_v1补本次调用结束核验、成功Run结束原因保存、缓存及首次outcome前恢复拒绝；新模式输出身份绑定结束原因，默认与旧版本不升级。最终275离线／契约、65隔离Mongo、实际前端2组21断言及保存输入10语义／17内容／16span检查通过；调用前记录重复／冲突也通过。

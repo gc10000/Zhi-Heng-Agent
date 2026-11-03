@@ -95,8 +95,9 @@ def case(ctx,tmp_path,monkeypatch,*,separate=False,fault=None,**kwargs):
 
 
 @pytest.mark.parametrize('separate',[False,True])
-def test_formal_success_reuse_and_sanitized_public_result(evaluation_context,tmp_path,monkeypatch,separate):
-    cfg,res,prompts,question,repo,service,user,data,catalog=case(evaluation_context,tmp_path,monkeypatch,separate=separate)
+@pytest.mark.parametrize('fault',[None,'condition'])
+def test_formal_success_reuse_and_sanitized_public_result(evaluation_context,tmp_path,monkeypatch,separate,fault):
+    cfg,res,prompts,question,repo,service,user,data,catalog=case(evaluation_context,tmp_path,monkeypatch,separate=separate,fault=fault)
     for key in ['first','reuse']:
         job=service.create_experiment(user,data|dict(client_request_id=key))
         execute_job(repo,catalog,tmp_path/key,job['experiment_id'])
@@ -110,7 +111,12 @@ def test_formal_success_reuse_and_sanitized_public_result(evaluation_context,tmp
     assert [d['chunk_uid'] for d in run['prompt_used_docs']]==run['comparison_context_assembly']['documents']
     assert res['db'].runs.count_documents({})==1 and len(prompts)==1
     assert res['db'].evaluation_outcomes.count_documents({})==1
-    assert len(run['prompt_used_docs'])==3
+    assert len(run['prompt_used_docs'])==(4 if fault else 3)
+    if fault:
+        context=next(c for c in run['comparison_answer']['result']['source_contexts'] if c['source_chunk_uid']=='b-condition')
+        assert context['context_sha256']==fingerprint(context['scope_text'])
+        assert '仅在配合指定网络集中器时适用' in run['answer']
+        assert '['+str(context['reference_number'])+']' in run['answer']
     events=list(res['db'].run_events.find({},{'payload':1}))
     assert RAW not in str(events) and 'source_facts' not in str(events)
 
@@ -134,7 +140,7 @@ def test_failed_selection_persists_raw_without_outcome_or_retry(evaluation_conte
 @pytest.mark.parametrize('separate',[False,True])
 @pytest.mark.parametrize('mutation',[None,'source_facts','result','assembly','coordinated_source',
     'coordinated_deletion','delete_condition','missing_input_checkpoint','changed_input_checkpoint',
-    'missing_finish','changed_finish'])
+    'missing_finish','changed_finish','source_contexts','renderer_version'])
 def test_first_outcome_recovery_rebinds_sources_without_new_call(evaluation_context,tmp_path,monkeypatch,separate,mutation):
     cfg,res,prompts,question,repo,service,user,data,catalog=case(evaluation_context,tmp_path,monkeypatch,
         separate=separate,fault='condition' if mutation=='delete_condition' else None)
@@ -150,6 +156,8 @@ def test_first_outcome_recovery_rebinds_sources_without_new_call(evaluation_cont
     assert res['db'].evaluation_outcomes.count_documents({})==0
     if mutation=='source_facts': row['comparison_answer']['source_facts'][0]['medium']='ethernet'
     if mutation=='result': row['comparison_answer']['result']['status']='qualified_medium_same'
+    if mutation=='source_contexts': row['comparison_answer']['result']['source_contexts'][0]['scope_text']='合成篡改'
+    if mutation=='renderer_version': row['comparison_answer']['renderer_version']='connection_comparison_renderer_v1'
     if mutation=='assembly': row['comparison_context_assembly']['max_docs']=99
     if mutation=='missing_finish': del row['answer_finish_reason']
     if mutation=='changed_finish': row['answer_finish_reason']='content_filter'

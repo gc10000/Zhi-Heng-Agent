@@ -1,3 +1,7 @@
+## 2026-11-03 · 最新结果：用户授权的独立技术审查已完成
+
+下方为历史待审交接。现已由1名未参与实现Agent覆盖88e359c至a34465a及r2修复hash完成审查，6组已复现问题独立关闭。具体passed/open、233/69/56及限制以[独立报告](../reviews/M6-connection-comparison-independent-review-r1.md)和[摘要](../reviews/M6-connection-comparison-independent-review-r1.json)为准，不再把下方“待不同身份审查”作为当前阻塞。新模式风险准入和真实质量仍open；下一唯一目标按[具体048方案](M6-connection-comparison-048-proposal-r1.md)做专用合同/预检，真实调用0。下方历史不删除。
+
 # M6连接比较补修的独立技术验收交接
 
 本文件是准备就绪的审查范围，不是独立通过结论或新模型调用许可。当前实现总控不签独立通过；用户禁止自行委派子Agent。分支`codex/m6-source-bound-comparison`，以`e3178ca80540b9845d10ad79b2a8b7d86d38ae13`为本轮差异基点。先读[报告](../reviews/M6-connection-comparison-acceptance-evidence-r1.md)及[摘要](../reviews/M6-connection-comparison-acceptance-evidence-r1-validation.json)，保留上一包及既有关闭结论。
