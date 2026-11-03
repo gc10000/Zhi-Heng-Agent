@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "kind": "coordinator_scoped_comparison_answer_048_authorization",
+  "date": "2026-11-03",
+  "timezone": "Asia/Shanghai",
+  "status": "authorized_for_one_stream_only",
+  "authority": "explicit_user_authorization_in_active_conversation",
+  "user_authorization": {
+    "verbatim": "授权新批次对 support-v1-048 执行一次验证，最多一个模型调用，接受费用上限未知，失败即停止。",
+    "question_id": "support-v1-048",
+    "max_provider_streams": 1,
+    "paid_upper_bound": "unknown_accepted_for_this_attempt",
+    "stop_on_first_failure": true
+  },
+  "authorization_continuation": {
+    "user_steering": "你直接调用就好了",
+    "scope": "新模式v2单题验证，最多一个provider stream，接受费用上限未知，失败即停止；不恢复43题或运行heldout。",
+    "provider_streams_started_before_continuation": 0,
+    "provider_streams_started_by_superseded_attempts": 1,
+    "max_provider_streams_for_this_validation": 1,
+    "reuse_or_retry_superseded_slots": false
+  },
+  "admission_version": "diagnostic_comparison_answer_048_v2",
+  "fixed_batch_slot": "m6-comparison-answer-048-risk-r8",
+  "single_experimental_change": "comparison_answer_v2_with_assertion_binding_disabled",
+  "evaluation_control_database": "product_knowledge_rag_m6_eval_control",
+  "supersedes_failed_attempt": {
+    "batch": "m6-comparison-answer-048-risk-r7",
+    "slot": "m6-comparison-answer-048-r7-support-v1-048",
+    "halt_path": "output/m6-authorized-products/m6-comparison-answer-048-risk-r7/halt.json",
+    "halt_sha256": "33ed7ac7b6aadc9607fd02a3821b9ecb039baa2d988bb084df6b4e0411bfb535",
+    "authorization_commit": "1381cb0448be5e9f84060f8d1256c37084a10622",
+    "authorization_sha256": "7567092c6a11d533f04e3edbbbfbd20ede1bf5f0eb64c39835f98aff910468a4",
+    "run_id": "9d241bee-c2e6-443b-849a-001a5602b8ba",
+    "halt_must_remain_unchanged": true,
+    "retry_or_reuse_authorized": false,
+    "failure": "r7真实答案未完成比较，正式质量拒绝并halt；禁止重试旧槽。"
+  },
+  "previous_batch": "m6-comparison-answer-048-risk-r7",
+  "previous_batch_must_remain_blocked": true,
+  "previous_halt_sha256": "33ed7ac7b6aadc9607fd02a3821b9ecb039baa2d988bb084df6b4e0411bfb535",
+  "original_master_path": "output/m6-comparison-answer-048-runtime-identity-r2/master-source-manifest.json",
+  "original_master_file_sha256": "e479481dec4be520d673d561975ab7a068d8298bbc85ea4ce72bcb5ed3d4e0e0",
+  "original_execution_manifest_path": "output/m6-comparison-answer-048-runtime-identity-r2/execution-manifest.json",
+  "original_execution_manifest_sha256": "1e50c370a38d2668e3d409a1099949f801704b0b5363d9ee4caa3444900e6a81",
+  "source_versions": [
+    "fb-07c584730833908571fe9dd7c7c890afa3cf9e66"
+  ],
+  "full_dataset_rows_per_version": 150,
+  "dev_rows_per_version": 85,
+  "heldout_rows_per_version": 65,
+  "members": [
+    {
+      "version": 1,
+      "ordinal": 27,
+      "question_id": "support-v1-048",
+      "expected_generation": true,
+      "fixed_slot": "m6-comparison-answer-048-r8-support-v1-048",
+      "source_input_path": "output/m6-comparison-answer-048-execution-r10/source/comparison-anchor-v2.json",
+      "source_input_file_sha256": "22f791e43b8dafbd624b3326018840127b4dfbab560b951a770e494bf97e05bd",
+      "source_config_sha256": "ecb2d1bad39ecb18c7b7fdab199b7770acdbd80304dec4603dacfc3e8686b728",
+      "source_result_sha256": "5266931ebe2bd5f895475c7a748f553e45701e8077ca434ea3088a2cc939ec8c",
+      "prompt_utf8_sha256": "bfde72968f529a24e20d5fd1fbbe3626a512fb4e808441e8116f4f64a3bc8772",
+      "dataset_sha256": "c72a78955afe86503fbb37cc7293fa54287b0427877af4616bb762dfb57656c9",
+      "split_manifest_sha256": "3f2b3c3413da98773b600623200deb399f91da3e9c8b1b6dd0be3fc2d83109f9"
+    }
+  ],
+  "dispatch_order": [
+    "m6-comparison-answer-048-r8-support-v1-048"
+  ],
+  "prior_usage": {
+    "input_tokens": 54664,
+    "output_tokens": 30449,
+    "sources": {
+      "r7_execution_report": {
+        "path": "docs/development/reviews/M6-comparison-answer-048-execution-and-repair-r1.md",
+        "sha256": "d51ce47b877d2c25c2c861031dd9f49812c9efacee5f7aaa53ea5088855f72ff"
+      },
+      "r7_validation_summary": {
+        "path": "docs/development/reviews/M6-comparison-answer-048-execution-and-repair-validation-r1.json",
+        "sha256": "8d4d9d7981e8d7e7d682a67ef1d6d054d02b2d993f4f63abcfa99c386621cffc"
+      }
+    },
+    "sha256": "77df7b84095677a5bb57b5064b4f2440f142c8316018bf16e42b09f0f3dd65da"
+  },
+  "runtime": {
+    "n": 1,
+    "model": "qwen3.8-flash",
+    "endpoint_sha256": "7cbf2306d7facc55fd08ea52e1d6891e0dc6bc6af6d5442df34f17403670ad2a",
+    "client_versions": {
+      "openai": "2.28.0",
+      "langchain-openai": "1.1.11"
+    },
+    "limit_field": "max_completion_tokens",
+    "requested_total_output_tokens": 4096,
+    "thinking": false,
+    "temperature": 0.1,
+    "timeout_seconds": 120,
+    "sdk_max_retries": 0,
+    "stream": true
+  },
+  "risk": {
+    "gateway_capability_status": "unknown",
+    "server_hard_limit_verified": false,
+    "max_paid_output_tokens": null,
+    "exact_http_requests": null,
+    "cost": null,
+    "coordinator_accepts_unknown_paid_upper_bound_only_for_this_one_stream": true,
+    "request_limit_and_timeout_are_not_cost_guarantees": true
+  },
+  "budget": {
+    "context_window": 32768,
+    "output_tokens_requested": 4096,
+    "reserve_tokens": 256,
+    "max_chars": 12000,
+    "single_input_limit": 28416,
+    "prior_diagnostic_input_tokens": 54664,
+    "prior_diagnostic_output_tokens": 30449,
+    "max_total_diagnostic_input_tokens": 83080,
+    "max_total_diagnostic_output_tokens": 34545,
+    "max_new_product_jobs": 1,
+    "max_new_product_streams": 1,
+    "max_attempts_per_member": 1
+  }
+}
