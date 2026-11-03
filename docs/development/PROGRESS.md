@@ -1,3 +1,7 @@
+## 2026-11-03 · comparison_answer_v2 单题执行完成，真实质量复评拒绝
+
+r8新批次/槽已按当前授权对`support-v1-048`执行唯一1次provider stream。experiment与Run完成，result/outcome各1，v2 proof从正式Run重新计算通过；答案仍未回答冻结rubric要求的CB304n Cable上联比较，质量复评拒绝。正式风险账本review(false)+halt后blocked，settled 1、pending 0、unknown窗口0，不重试。新增usage1575/67，累计56239/30516；费用、reasoning与精确HTTP未知。r7账户保持不变，heldout及43题未运行。下一包不再调用048，唯一目标为补齐“端口/接入介质与诊断状态”关系表达能力并用隔离保存输入证明完整比较，不降低门槛。M6仍5/7，04保持验收，05缺反馈复评proof，08缺有效候选质量/阶段证据，M7未启动。执行报告见[reviews/M6-comparison-answer-048-v2-execution-r8.md](reviews/M6-comparison-answer-048-v2-execution-r8.md)及验证摘要；私有原始材料留在本机`output/m6-comparison-answer-048-execution-r10/`。
+
 ## 2026-11-03 · comparison_answer_v2 单题真实验证准备
 
 用户已授权在新身份对 `support-v1-048` 执行一次验证，最多一个模型stream，接受费用上限未知，失败即停止。r7 已因完整比较质量拒绝并halt，严禁重用；本次唯一变量为策略从 `comparison_answer_v1` 切换到已技术复核的 `comparison_answer_v2`。当前在隔离分支增加r8专用合同、风险路由和新请求身份，模型调用尚未执行。验证对象为冻结题集 `fb-07c584730833908571fe9dd7c7c890afa3cf9e66` 的单题 `support-v1-048`；不运行heldout、不恢复43题、不生成正式候选评分或阶段验收。累计使用量54664/30449，r8单次预留28416/4096，累计算术上限83080/34545；费用及网关硬上限仍unknown。下一步：提交r8明文授权，冻结最终源码与输入哈希，完成正式只读预检后最多派发一次。
