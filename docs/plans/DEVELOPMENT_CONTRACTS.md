@@ -1,3 +1,13 @@
+## 2026-11-03 · 连接048专属风险合同与默认关闭catalog
+
+新模式专属合同、登记前验证、独立CAS账本及正式Run结算已实现；补修新合同思考输出观测遗漏。222离线/契约、72新及连接模式隔离Mongo、66旧风险隔离Mongo通过。方案指定目录的关闭catalog实际预检通过：完整150题85/65，仅选048，4资料582成员冻结映射保持；正式派发blocked_no_new_authorization。
+
+这是当前实现总控自验，新风险/准入包未自签独立通过；上一包连接算法独立关闭保持。尚未实际全scope读取标量并冻结精确生产prompt，保存模型指纹不等于重核权重。无新调用授权、正式实验/Run/槽/评分；真实调用、本地推理、真实业务库读写0，累计56239/30516。M6仍5/7，04验收，05反馈复评proof与08有效候选质量/阶段证据open；43暂停、heldout/M7不启动。
+
+下一项：对本包定向独立复核并落实生产输入冻结准备；未获新单题授权不执行048。详见[实现报告](../development/reviews/M6-connection-048-admission-r1.md)，不勾选仍缺正式证据的阶段任务。历史保留。
+
+合同`diagnostic_connection_comparison_048_v1`仅配`connection_comparison_v1`及新固定单题槽；旧合同不可替借。开启须新Git授权、精确来源/prompt锚和固定清单；缺失在正式登记前拒绝。失败、思考或未知usage锁住本次额度；新独立collection与历史usage分账。关闭配置不造假授权；OpenAPI实际一致。
+
 ## 2026-11-03 · connection模式完整来源语境与受限关系独立技术通过
 
 仅显式connection_comparison_v1：完整已装配单产品来源通过result.source_contexts保存原段/hash/出处并带自身引用呈现；条件子标题不得作结构标题丢弃。完整scope/heading的示例及明确废弃状态不供强关系；连接/排障共用单对端边界。只有PDF原文text/table准入强事实，image_description或混合图片来源不准入；unknown页码和安全字面呈现保持。比较器qualified_connection_medium_v2、renderer connection_comparison_renderer_context_v2；保存/首次恢复重算，漂移拒绝，旧Run不升级。无外部API或环境变量新增。

@@ -1,3 +1,13 @@
+## 2026-11-03 · 新连接048配置已由程序准备，无需用户填写路径
+
+新模式专属合同、登记前验证、独立CAS账本及正式Run结算已实现；补修新合同思考输出观测遗漏。222离线/契约、72新及连接模式隔离Mongo、66旧风险隔离Mongo通过。方案指定目录的关闭catalog实际预检通过：完整150题85/65，仅选048，4资料582成员冻结映射保持；正式派发blocked_no_new_authorization。
+
+这是当前实现总控自验，新风险/准入包未自签独立通过；上一包连接算法独立关闭保持。尚未实际全scope读取标量并冻结精确生产prompt，保存模型指纹不等于重核权重。无新调用授权、正式实验/Run/槽/评分；真实调用、本地推理、真实业务库读写0，累计56239/30516。M6仍5/7，04验收，05反馈复评proof与08有效候选质量/阶段证据open；43暂停、heldout/M7不启动。
+
+下一项：对本包定向独立复核并落实生产输入冻结准备；未获新单题授权不执行048。详见[实现报告](development/reviews/M6-connection-048-admission-r1.md)，不勾选仍缺正式证据的阶段任务。历史保留。
+
+已实际生成的catalog文件为`D:/Desktop/AnXin/ansen_code/Product-Knowledge-Rag/.worktrees/m6-source-bound-comparison/output/m6-connection-comparison-048-r1/catalog/catalog.json`，持久输出为同级`execution/`。config_id/version=`m6-connection-comparison-048-r1`/`connection-r1`。`scripts/verification/prepare_m6_connection_048.py`默认准备上述目录，已存在即拒绝，不重复运行覆盖。无新增环境变量，不自动替换服务目录；当前合同enabled=false/admission=null/AUTHORIZED_GIT=None。
+
 ## 2026-11-03 · 新连接模式技术通过但仍不可正式派发
 
 connection_comparison_v1经用户授权的独立Agent完成具体技术审查及6组补修复测；新增完整来源语境结果和PDF text/table类型约束，无新环境变量或外部配置键，仍需显式模式和冻结来源。比较器/renderer新版本证明漂移拒绝，不自动升级旧Run。默认关闭、EvaluationService正式登记拒绝保持，不能用旧048风险合同绕过。

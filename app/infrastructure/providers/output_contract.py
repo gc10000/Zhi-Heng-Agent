@@ -130,6 +130,36 @@ class ComparisonAnswer048V2Contract(NonthinkingManifestContract):
         return self
 
 
+CONNECTION_048_VERSION = 'diagnostic_connection_comparison_048_v1'
+CONNECTION_048_SLOT = 'm6-connection-comparison-048-r1-support-v1-048'
+CONNECTION_048_AUTHORIZATION_PATH = 'docs/development/reviews/M6-connection-comparison-048-authorization-r1.json'
+
+
+class ConnectionComparison048Admission(SingleProductAdmission):
+    member_slot: Literal[CONNECTION_048_SLOT]
+
+
+class ConnectionComparison048Contract(NonthinkingManifestContract):
+    function_version: Literal['diagnostic_connection_comparison_048_v1'] = CONNECTION_048_VERSION
+    admission: ConnectionComparison048Admission | None = None
+
+    @model_validator(mode='after')
+    def fixed_connection_profile(self):
+        if self.enabled and self.admission is None:
+            raise ValueError('连接048开启合同必须有专属授权，不以预检代替')
+        if self.admission is not None and self.admission.authorization.path != CONNECTION_048_AUTHORIZATION_PATH:
+            raise ValueError('连接048不能借用旧Git授权')
+        expected = dict(status='unknown', semantics='unknown', evidence=None, n=1,
+            model='qwen3.8-flash', client_versions={'openai':'2.28.0','langchain-openai':'1.1.11'},
+            limit_field='max_completion_tokens', thinking=False, reasoning_budget=None,
+            per_request_total_output_tokens=4096, ledger_id='m6-connection-comparison-048-r1',
+            prior_input_tokens=56239, prior_output_tokens=30516,
+            max_total_input_tokens=84655, max_total_output_tokens=34612)
+        if any(getattr(self,k) != v for k,v in expected.items()) or self.prior_source_sha256 is None:
+            raise ValueError('连接048合同超出固定单题身份或预算')
+        return self
+
+
 def parse_contract(value):
     kind=value.get('function_version') if isinstance(value,dict) else getattr(value,'function_version',None)
     return {'diagnostic_single_product_risk_v1':SingleProductRiskContract,
@@ -137,19 +167,23 @@ def parse_contract(value):
             'diagnostic_nonthinking_manifest_r1':NonthinkingManifestContract,
             'diagnostic_source_relation_048_v1':SourceRelation048Contract,
             'diagnostic_comparison_answer_048_v1':ComparisonAnswer048Contract,
-            'diagnostic_comparison_answer_048_v2':ComparisonAnswer048V2Contract}.get(kind,OutputContract).model_validate(value)
+            'diagnostic_comparison_answer_048_v2':ComparisonAnswer048V2Contract,
+            CONNECTION_048_VERSION:ConnectionComparison048Contract}.get(kind,OutputContract).model_validate(value)
 
 
 def is_product_risk(value):
     if value is None:return False
     policy=parse_contract(value)
-    return policy.enabled and policy.function_version in ('diagnostic_single_product_risk_v1','diagnostic_remaining_manifest_r1','diagnostic_nonthinking_manifest_r1','diagnostic_source_relation_048_v1','diagnostic_comparison_answer_048_v1','diagnostic_comparison_answer_048_v2')
+    return policy.enabled and policy.function_version in ('diagnostic_single_product_risk_v1','diagnostic_remaining_manifest_r1','diagnostic_nonthinking_manifest_r1','diagnostic_source_relation_048_v1','diagnostic_comparison_answer_048_v1','diagnostic_comparison_answer_048_v2',CONNECTION_048_VERSION)
 
 
 def risk_handler(value):
     """保持旧单题含义；新清单只进入其自己的封存授权及共享账本。"""
     policy=parse_contract(value)
     if not is_product_risk(policy):raise ValueError('关闭或普通合同不使用风险准入')
+    if policy.function_version == CONNECTION_048_VERSION:
+        from . import connection_comparison_048_risk
+        return connection_comparison_048_risk
     if policy.function_version=='diagnostic_source_relation_048_v1':
         from . import source_relation_048_risk
         return source_relation_048_risk
@@ -300,6 +334,9 @@ class OutputLedger:
     """在现有Run执行边界串行结算，不调度job。未知窗口持久阻断下一题。"""
     def __new__(cls,db,contract):
         policy=parse_contract(contract)
+        if policy.enabled and policy.function_version == CONNECTION_048_VERSION:
+            from .connection_comparison_048_risk import ConnectionComparison048Ledger
+            return ConnectionComparison048Ledger(db,contract)
         if policy.enabled and policy.function_version=='diagnostic_source_relation_048_v1':
             from .source_relation_048_risk import SourceRelation048Ledger
             return SourceRelation048Ledger(db,contract)

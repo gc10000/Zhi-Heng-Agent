@@ -2,6 +2,10 @@
 
 2026-11-03，分支`codex/m6-source-bound-comparison`。这是具体准备方案，**未登记、未预留、未授权、未执行**。独立技术结论以[独立报告](../reviews/M6-connection-comparison-independent-review-r1.md)为准；技术通过也不产生模型调用许可。旧r7/r8、已消费槽、blocked账户及原质量拒绝保持。
 
+## 2026-11-03准备状态更新
+
+专属风险/准入合同及关闭catalog已实际实现并通过自验，路径已由程序准备，用户无需填写。正式实验/Run/槽仍未登记或预留，未授权调用；精确生产prompt及全scope标量装配尚待落实，新风险包独立技术审查open。222离线、72新及连接模式隔离Mongo、66旧风险隔离Mongo通过。详见[实现报告](../reviews/M6-connection-048-admission-r1.md)与摘要。以下原方案预算、退出及历史限制保留；静态预检不改变完整比较要求。
+
 ## 对象、来源和唯一变更范围
 
 仅反馈题集`fb-07c584730833908571fe9dd7c7c890afa3cf9e66`的dev题`support-v1-048`，原问题逐字为：**LA2608与CB304n的上联方式相同吗？请分别引用资料比较。** 产品H3C LA2608、Aolynk CB304n，历史对话为空；原rubric只用于事后判断，不进入prompt。模型沿冻结配置的`qwen3.8-flash`，不思考、`n=1`；SDK固定`openai 2.28.0`、`langchain-openai 1.1.11`，不换embedding/reranker、检索或模型。
@@ -12,7 +16,7 @@
 
 ## 具体身份与落盘位置
 
-| 项目 | 拟用新值（尚未创建） |
+| 项目 | 新配置值（目录已准备，正式对象尚未创建） |
 | --- | --- |
 | batch | `m6-connection-comparison-048-r1` |
 | slot | `m6-connection-comparison-048-r1-support-v1-048` |
@@ -21,7 +25,7 @@
 | catalog绝对路径 | `D:/Desktop/AnXin/ansen_code/Product-Knowledge-Rag/.worktrees/m6-source-bound-comparison/output/m6-connection-comparison-048-r1/catalog` |
 | 独立持久输出绝对路径 | `D:/Desktop/AnXin/ansen_code/Product-Knowledge-Rag/.worktrees/m6-source-bound-comparison/output/m6-connection-comparison-048-r1/execution` |
 
-由执行端创建并配置这两个目录，用户无需手工拼路径。它们本轮未创建；使用排他创建，遇冲突即停。正式experiment_id、run_id和题级execution link只能由新正式服务分配并保存，不能预造为已经存在。新账本和专用准入合同必须先实现并验证；当前EvaluationService明确拒绝该模式登记，不得复用旧风险路由或仅改字符串绕过。
+由执行端创建并配置这两个目录，用户无需手工拼路径。它们已在本包排他创建；再次运行遇冲突即停，不覆盖。正式experiment_id、run_id和题级execution link只能由新正式服务分配并保存，不能预造为已经存在。新账本和专用准入合同已实现并完成自验；当前EvaluationService因关闭合同/缺新授权继续拒绝登记，不得复用旧风险路由或仅改字符串绕过。
 
 模型调用前须将精确问题、产品快照、4资料完整冻结成员、装配输入/输出、prompt全文、实际连续引用映射、来源载荷、模型/SDK/源码版本和预算身份落盘并交叉校验。需要重新实际装配才能得到本次正式prompt字节及hash；当前不虚构它们已经冻结。未分类条件子段、表格原文和原件版本同样受约束；图摘要不能供强连接事实。调用前`comparison_generation_inputs`独立持久锚成功后才可派发。
 
@@ -41,4 +45,4 @@
 
 仅摘录、缺一方关系或仅答“程序无法判定”不算完整比较通过；不得新增同角色/同用途、EoC、GM/GU字样门槛。程序给出的限定比较可达与真实模型调用后的答案质量分别评价，不宣称模型独立推理了程序结论。即使单题通过，也不直接关闭M6-05反馈复评proof或M6-08有效候选质量/阶段验收。
 
-**下一唯一实施目标：**在独立技术通过的代码上实现并审查新模式专用风险/准入合同及新catalog预检；仍为零真实调用。它通过且获得明确的新单题授权后，才执行上述1次验证。本方案不新增heldout、Ragas或默认发布门槛。
+**下一唯一目标：**定向独立复核本次新准入/账本包，并落实完整生产输入的实际装配和冻结；仍为零模型调用。上述前置完成且获得明确的新单题授权后，才执行1次验证。本方案不新增heldout、Ragas或默认发布门槛。

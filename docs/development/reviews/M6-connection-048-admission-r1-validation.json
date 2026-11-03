@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "task_id": "M6-connection-048-admission-r1",
+  "date": "2026-11-03",
+  "branch": "codex/m6-source-bound-comparison",
+  "base_commit": "17103bfb9a37c786185557f25fc4602b62cb682d",
+  "review_kind": "implementation_self_validation",
+  "implementation_status": "passed_with_evidence_limits",
+  "independent_technical_review": "open",
+  "prior_algorithm_independent_review": "preserved",
+  "algorithm_files_unchanged": true,
+  "profile": "diagnostic_connection_comparison_048_v1",
+  "mode": "connection_comparison_v1",
+  "batch": "m6-connection-comparison-048-r1",
+  "slot": "m6-connection-comparison-048-r1-support-v1-048",
+  "config_id": "m6-connection-comparison-048-r1",
+  "config_version": "connection-r1",
+  "discovered_and_fixed": [
+    "new_profile_missing_reasoning_observation_wiring"
+  ],
+  "reports": {
+    "final-offline": {
+      "passed": 222,
+      "failures": 0,
+      "errors": 0,
+      "xml_sha256": "9348e53e237c01651dc7bc80289888312677d25dfd99e0f59ca78521c7add0e8",
+      "log_sha256": "30c76245c8eac9d6e95433959c5b375adcf172a24c9964c5afea454a5bf3da4a"
+    },
+    "regression-integration-r2": {
+      "passed": 72,
+      "failures": 0,
+      "errors": 0,
+      "xml_sha256": "5c23f171009193930479bf2f12728752b4e37c763074607489ecc87eff08d210",
+      "log_sha256": "a9cf5f60c83271a6df6d31af8b464659c0323970a92bef89e6ddc29d5af7124d"
+    },
+    "legacy-integration-r1": {
+      "passed": 66,
+      "failures": 0,
+      "errors": 0,
+      "xml_sha256": "25f754d8819aa7784ad0c175e23f3ca8a2b98107049bbeb31feeba9100daa988",
+      "log_sha256": "c7cd5a18b7f7a214f10248b0f0244695b20a9b769db37ea450dc88ae1b70bf11"
+    }
+  },
+  "new_unit_tests_included": 35,
+  "new_isolated_integration_tests_included": 21,
+  "static_preflight": {
+    "status": "passed",
+    "dataset_version": "fb-07c584730833908571fe9dd7c7c890afa3cf9e66",
+    "dataset_sha256": "c72a78955afe86503fbb37cc7293fa54287b0427877af4616bb762dfb57656c9",
+    "split_manifest_sha256": "3f2b3c3413da98773b600623200deb399f91da3e9c8b1b6dd0be3fc2d83109f9",
+    "config_file_sha256": "333659a544ececa12d29cab124c0577786d68281127c8cf1010ac08915dc628a",
+    "config_subject_sha256": "a4f53d8dc0227915ac1d69adc279a813eecaaff1637610e8e16e55f629a02644",
+    "runtime_versions": {
+      "code": "dca8d645c7558cc006cccbfe63fa3ff712a8e2eea617e2e16d14ed6461bd9960",
+      "prompt": "cd3c40ef0e6af5de7edc7d4257aa09edeb92ac895aaeff16683d00110b395dc6",
+      "model": "565fbfe4c795fb52f84183f7b2708491fd7824fa07f2de9fd546e9d6d6e5bb90"
+    },
+    "selected_questions": 1,
+    "full_dataset_rows": 150,
+    "dev_rows": 85,
+    "heldout_rows": 65,
+    "question_input_sha256": "2d128ff6b746e280fb203ac2aaceccc5e4efd20c49f66dea74e79cbaed88def9",
+    "frozen_documents": 4,
+    "frozen_payload_members": 582,
+    "full_scope_scalar_payloads_replayed": false,
+    "exact_production_prompt_frozen": false,
+    "prompt_utf8_sha256": null,
+    "dispatch_admission": "blocked_no_new_authorization",
+    "model_identity": "preserved_saved_fingerprint_not_fresh_weight_verification",
+    "source_config": {
+      "path": "output/m6-comparison-answer-048-execution-r10/catalog/configs/m6-comparison-answer-048-execution-r8-final.json",
+      "sha256": "ac0a4178f91fa638fd13ea08c9f897e26bf396005aa3581216e6e82ce8095b50"
+    },
+    "technical_review": {
+      "commit": "17103bfb9a37c786185557f25fc4602b62cb682d",
+      "path": "docs/development/reviews/M6-connection-comparison-independent-review-r1.json",
+      "sha256": "3b5b5c32dc8e35b3b60b2a1405fa34e000ff4f740bf605a8def75211ba9360d4"
+    },
+    "prior_receipt": {
+      "input_tokens": 56239,
+      "output_tokens": 30516,
+      "sources": {
+        "r8": {
+          "commit": "17103bfb9a37c786185557f25fc4602b62cb682d",
+          "path": "docs/development/reviews/M6-comparison-answer-048-v2-execution-r8-validation.json",
+          "sha256": "5f55fa8f7adda4cfa511700ba9f288cc1b446df1466cf8e9e6171393d3b13721"
+        }
+      },
+      "sha256": "4a7276c413c601c3670da971b570bce35e9b9bb0bdd58b1617d14ab84ba51566"
+    }
+  },
+  "prepared_catalog_verification": {
+    "valid_catalog": true,
+    "service_denied_before_create": true,
+    "network_calls": 0,
+    "question_rejected": true,
+    "snapshot_rejected": true,
+    "contract_rejected": true,
+    "dataset_rejected": true,
+    "no_new_authorization": true,
+    "no_formal_manifest": true,
+    "reviewed_algorithm_files_unchanged": true,
+    "source_config_unchanged": true
+  },
+  "authorization_created": false,
+  "formal_experiment_created": false,
+  "formal_run_created": false,
+  "formal_slot_reserved": false,
+  "quality_proof_created": false,
+  "new_provider_streams": 0,
+  "new_local_inference": 0,
+  "real_business_db_reads": 0,
+  "real_business_db_writes": 0,
+  "cumulative_input_tokens": 56239,
+  "cumulative_output_tokens": 30516,
+  "maximum_new_reservation": {
+    "input_tokens": 28416,
+    "output_tokens": 4096
+  },
+  "arithmetic_cumulative_budget": {
+    "input_tokens": 84655,
+    "output_tokens": 34612
+  },
+  "reasoning_tokens": null,
+  "exact_http_requests": null,
+  "exact_cost": null,
+  "gateway_hard_limit": "unknown",
+  "cost_upper_bound": "unknown",
+  "stage": {
+    "M6": "5/7",
+    "M6_04": "accepted",
+    "M6_05": "open_real_feedback_reevaluation_proof",
+    "M6_08": "open_candidate_quality_and_stage_evidence",
+    "original_43": "paused",
+    "heldout_65": "not_started",
+    "M7": "not_started"
+  },
+  "limitations": [
+    "no_new_independent_review_of_admission_package",
+    "no_full_scope_scalar_payload_replay",
+    "no_frozen_exact_production_prompt",
+    "no_new_model_weight_fingerprint_verification",
+    "no_live_default_pointer_ttl_or_quality_database_scan",
+    "no_new_real_answer_quality_proof"
+  ],
+  "intermediate_results_preserved": [
+    {
+      "name": "contract-red",
+      "failed": 3,
+      "passed": 16
+    },
+    {
+      "name": "source-validation-r1",
+      "failed": 1,
+      "passed": 29,
+      "cause": "synthetic_fixture_budget_mismatch"
+    },
+    {
+      "name": "preflight-red",
+      "failed": 0,
+      "passed": 3,
+      "note": "red_not_observed"
+    },
+    {
+      "name": "formal-r1",
+      "failed": 2,
+      "passed": 19,
+      "cause": "new_profile_missing_reasoning_observation"
+    },
+    {
+      "name": "prepared-verification",
+      "status": "script_error_wrong_APIError_attribute_then_corrected"
+    }
+  ],
+  "next_action": "focused_independent_admission_review_then_freeze_full_production_input_before_new_scoped_authorization"
+}

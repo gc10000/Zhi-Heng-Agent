@@ -48,10 +48,6 @@ class EvaluationService:
         output_contract = from_config(resolved['config'])
         comparison = resolved['config'].get('parameters', {}).get('evidence_attribution', {}).get('comparison_answer', {})
         if comparison.get('enabled'):
-            if comparison.get('function_version') == 'connection_comparison_v1':
-                # 新语义只有隔离接线自验，不能继承旧048授权或先占正式槽。
-                raise APIError(422, 'comparison_admission_required',
-                    '连接比较模式尚未登记独立风险准入，暂停登记实验。')
             # 比较答复必须绑定单独的、已审风险合同；普通unknown合同不能先占用槽位再由worker失败。
             if not isinstance(output_contract, dict):
                 raise APIError(422, 'comparison_admission_required', '比较答复缺少独立单次风险准入，暂停登记实验。')
@@ -60,9 +56,11 @@ class EvaluationService:
                 comparison_contract = parse_contract(output_contract)
             except (TypeError, ValueError):
                 raise APIError(422, 'comparison_admission_required', '比较答复风险准入版本未登记或合同无效，暂停登记实验。') from None
+            allowed = (('diagnostic_connection_comparison_048_v1',)
+                if comparison.get('function_version') == 'connection_comparison_v1' else
+                ('diagnostic_comparison_answer_048_v1','diagnostic_comparison_answer_048_v2'))
             if (not comparison_contract.enabled or
-                    comparison_contract.function_version not in ('diagnostic_comparison_answer_048_v1',
-                        'diagnostic_comparison_answer_048_v2') or
+                    comparison_contract.function_version not in allowed or
                     not is_product_risk(comparison_contract)):
                 raise APIError(422, 'comparison_admission_required', '比较答复缺少独立单次风险准入，暂停登记实验。')
             from app.infrastructure.providers.output_contract import risk_handler

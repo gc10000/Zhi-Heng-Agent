@@ -245,7 +245,7 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
   from contextlib import nullcontext
   from app.infrastructure.providers.diagnostic_usage import capture_usage,record_response,summarize,record_reasoning
   observations=[] if (state.get('output_contract') or {}).get('enabled') else None
-  mode=[] if observations is not None and state['output_contract'].get('function_version') in ('diagnostic_nonthinking_manifest_r1','diagnostic_source_relation_048_v1','diagnostic_comparison_answer_048_v1','diagnostic_comparison_answer_048_v2') else None
+  mode=[] if observations is not None and state['output_contract'].get('function_version') in ('diagnostic_nonthinking_manifest_r1','diagnostic_source_relation_048_v1','diagnostic_comparison_answer_048_v1','diagnostic_comparison_answer_048_v2','diagnostic_connection_comparison_048_v1') else None
   from app.answering.evidence_attribution import EvidenceAttributionPolicy
   attribution=EvidenceAttributionPolicy.model_validate(state.get('evidence_attribution') or {})
   binding=attribution.assertion_binding is not None and attribution.assertion_binding.enabled
