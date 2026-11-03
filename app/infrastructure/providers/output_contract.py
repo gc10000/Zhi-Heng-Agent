@@ -131,8 +131,8 @@ class ComparisonAnswer048V2Contract(NonthinkingManifestContract):
 
 
 CONNECTION_048_VERSION = 'diagnostic_connection_comparison_048_v1'
-CONNECTION_048_SLOT = 'm6-connection-comparison-048-r1-support-v1-048'
-CONNECTION_048_AUTHORIZATION_PATH = 'docs/development/reviews/M6-connection-comparison-048-authorization-r1.json'
+CONNECTION_048_SLOT = 'm6-connection-comparison-048-r2-support-v1-048'
+CONNECTION_048_AUTHORIZATION_PATH = 'docs/development/reviews/M6-connection-comparison-048-authorization-r2.json'
 
 
 class ConnectionComparison048Admission(SingleProductAdmission):
@@ -152,7 +152,7 @@ class ConnectionComparison048Contract(NonthinkingManifestContract):
         expected = dict(status='unknown', semantics='unknown', evidence=None, n=1,
             model='qwen3.8-flash', client_versions={'openai':'2.28.0','langchain-openai':'1.1.11'},
             limit_field='max_completion_tokens', thinking=False, reasoning_budget=None,
-            per_request_total_output_tokens=4096, ledger_id='m6-connection-comparison-048-r1',
+            per_request_total_output_tokens=4096, ledger_id='m6-connection-comparison-048-r2',
             prior_input_tokens=56239, prior_output_tokens=30516,
             max_total_input_tokens=84655, max_total_output_tokens=34612)
         if any(getattr(self,k) != v for k,v in expected.items()) or self.prior_source_sha256 is None:

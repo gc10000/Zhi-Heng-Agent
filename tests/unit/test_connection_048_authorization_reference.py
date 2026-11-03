@@ -14,9 +14,9 @@ def test_missing_reference_is_disabled_without_git_io(tmp_path, monkeypatch):
 
 @pytest.mark.parametrize('case', ['valid', 'uncommitted', 'wrong_path', 'malformed'])
 def test_reference_requires_committed_exact_bytes_and_new_authorization_path(tmp_path, monkeypatch, case):
-    ref = dict(commit='a'*40, path='docs/development/reviews/M6-connection-comparison-048-authorization-r1.json', sha256='b'*64)
+    ref = dict(commit='a'*40, path='docs/development/reviews/M6-connection-comparison-048-authorization-r2.json', sha256='b'*64)
     if case == 'wrong_path': ref['path'] = 'docs/development/reviews/M6-comparison-answer-048-authorization-r8.json'
-    pin = tmp_path / 'docs/development/reviews/M6-connection-comparison-048-authorization-reference-r1.json'
+    pin = tmp_path / 'docs/development/reviews/M6-connection-comparison-048-authorization-reference-r2.json'
     pin.parent.mkdir(parents=True)
     payload = json.dumps(ref).encode() if case != 'malformed' else b'{}'
     pin.write_bytes(payload)
@@ -27,6 +27,6 @@ def test_reference_requires_committed_exact_bytes_and_new_authorization_path(tmp
     monkeypatch.setattr('subprocess.run', run)
     if case == 'valid':
         assert risk.load_authorization_reference(tmp_path) == ref
-        assert calls == [['git', 'show', 'HEAD:docs/development/reviews/M6-connection-comparison-048-authorization-reference-r1.json']]
+        assert calls == [['git', 'show', 'HEAD:docs/development/reviews/M6-connection-comparison-048-authorization-reference-r2.json']]
     else:
         with pytest.raises(ValueError): risk.load_authorization_reference(tmp_path)

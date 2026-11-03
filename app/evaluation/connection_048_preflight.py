@@ -15,7 +15,7 @@ DATASET_VERSION='fb-07c584730833908571fe9dd7c7c890afa3cf9e66'
 CONFIG_ID=risk.BATCH
 CONFIG_VERSION='connection-r1'
 SOURCE_CATALOG='output/m6-comparison-answer-048-execution-r10/catalog/catalog.json'
-DEFAULT_OUTPUT='output/m6-connection-comparison-048-r1'
+DEFAULT_OUTPUT='output/'+risk.BATCH
 
 
 def write_once(path,value):

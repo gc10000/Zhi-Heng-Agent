@@ -537,3 +537,7 @@ MODEL_HOST桥接新增可选input_type=query/document，省略仍document兼容�
 ## 2026-11-03 · 048授权引用加载时点补充
 
 授权引用在可选048 profile模块导入时读取并冻结到AUTHORIZED_GIT；load_authorization_reference会核HEAD原字节，但文件热改不会自动更新已加载常量，不能当作热撤销机制。部署/切换引用须重启相应执行进程；真正停止仍由固定批次halt与不可重领账本约束。默认服务启动不提前加载该可选profile。独立真实临时Git与新模块导入探针已覆盖该边界；旧r1已halt，本轮不借新引用重用。
+
+## 2026-11-03 · 用户再次授权后的048 r2固定身份
+
+用户明确要求完整修复闭环并允许调用模型。当前专属合同固定batch/ledger为m6-connection-comparison-048-r2，slot为该batch加-support-v1-048；仅接受authorization-r2.json和authorization-reference-r2.json，引用仍限定已提交原字节及LF。默认静态准备目录随当前batch取output/m6-connection-comparison-048-r2，关闭合同无授权不能派发。旧r1正文、引用、Run及halt原件保持，当前准入拒绝旧r1合同。没有新增环境变量、浏览器API、供应商或模型；预算和CAS生命周期保持。固定身份切换属总控实施自验，原独立报告按其源码范围保留。

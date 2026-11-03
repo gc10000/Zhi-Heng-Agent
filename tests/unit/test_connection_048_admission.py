@@ -8,19 +8,19 @@ from app.evaluation.service import EvaluationService
 from tests.unit.test_comparison_experiment_admission import Repository, Catalog
 
 VERSION='diagnostic_connection_comparison_048_v1'
-SLOT='m6-connection-comparison-048-r1-support-v1-048'
+SLOT='m6-connection-comparison-048-r2-support-v1-048'
 
 
 def contract(enabled=False):
     value=dict(enabled=enabled,function_version=VERSION,thinking=False,status='unknown',semantics='unknown',
         n=1,endpoint_sha256='a'*64,model='qwen3.8-flash',
         client_versions={'openai':'2.28.0','langchain-openai':'1.1.11'},limit_field='max_completion_tokens',
-        per_request_total_output_tokens=4096,ledger_id='m6-connection-comparison-048-r1',
+        per_request_total_output_tokens=4096,ledger_id='m6-connection-comparison-048-r2',
         prior_input_tokens=56239,prior_output_tokens=30516,prior_source_sha256='b'*64,
         max_total_input_tokens=84655,max_total_output_tokens=34612,admission=None)
     if enabled:
         value['admission']=dict(authorization=dict(commit='c'*40,
-            path='docs/development/reviews/M6-connection-comparison-048-authorization-r1.json',sha256='d'*64),
+            path='docs/development/reviews/M6-connection-comparison-048-authorization-r2.json',sha256='d'*64),
             member_slot=SLOT,manifest_sha256='e'*64)
     return value
 

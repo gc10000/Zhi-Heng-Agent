@@ -15,11 +15,11 @@ from .product_risk import exclusive, code_version
 
 ROOT = Path(__file__).resolve().parents[3]
 VERSION = 'diagnostic_connection_comparison_048_v1'
-BATCH = 'm6-connection-comparison-048-r1'
+BATCH = 'm6-connection-comparison-048-r2'
 SLOT = BATCH + '-support-v1-048'
 QUESTION_ID = 'support-v1-048'
 ACCOUNT_COLLECTION = 'diagnostic_connection_comparison_048_accounts'
-AUTHORIZATION_REFERENCE_PATH = 'docs/development/reviews/M6-connection-comparison-048-authorization-reference-r1.json'
+AUTHORIZATION_REFERENCE_PATH = 'docs/development/reviews/M6-connection-comparison-048-authorization-reference-r2.json'
 
 
 def load_authorization_reference(root=ROOT):
@@ -30,7 +30,7 @@ def load_authorization_reference(root=ROOT):
         return None
     payload = pin.read_bytes()
     ref = GitEvidence.model_validate_json(payload).model_dump(mode='json')
-    if ref['path'] != 'docs/development/reviews/M6-connection-comparison-048-authorization-r1.json':
+    if ref['path'] != 'docs/development/reviews/M6-connection-comparison-048-authorization-r2.json':
         raise ValueError('连接048只能绑定本次专属授权')
     saved = subprocess.run(['git', 'show', 'HEAD:' + AUTHORIZATION_REFERENCE_PATH], cwd=root,
         capture_output=True, timeout=10)
