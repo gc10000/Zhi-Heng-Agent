@@ -531,3 +531,5 @@ MODEL_HOST桥接新增可选input_type=query/document，省略仍document兼容�
 ## 2026-11-03 · 连接048授权Git引用
 
 固定docs/development/reviews/M6-connection-comparison-048-authorization-reference-r1.json保存GitEvidence(commit/path/sha256)。缺文件仍为None；文件须与HEAD内原字节相同且只指本批authorization-r1.json，再由evidence_bytes核不可变Git正文。该文件不在app指纹中，允许先冻结最终代码输入，再提交授权及引用，避免循环。没有新增环境变量或API；默认catalog继续关闭。引用接线由本轮总控实施自验，原独立审查范围不追改。
+
+2026-11-03最终执行结果：本批已在供应商前失败并halt；引用仍保留历史授权，不能重用。修后准备目录output/m6-connection-comparison-048-input-r5/prepared/catalog/catalog.json默认关闭；完整anchor及精确prompt见同级上两层。新代码与旧授权输入不符将继续拒绝，不填写假授权或复用旧槽。引用文件由.gitattributes固定LF。

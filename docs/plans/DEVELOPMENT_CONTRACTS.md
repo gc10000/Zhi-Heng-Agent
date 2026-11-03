@@ -1161,3 +1161,7 @@ v3跨产品摘要不再断言“资料未说明状态/上联”，只说明不�
 ## 2026-11-03 · 连接比较正常结束与输出身份
 
 仅显式connection_comparison_v1在展示前要求本次选择调用观察到finish_reason=stop，异常或缺失终止、陈旧state值、前后冲突终止和终止后正文均拒绝；终止后的空用量帧允许。拒绝码comparison_termination_invalid，失败记录comparison_termination_rejected，bounded raw selection沿既有失败Run口保存，无正文delta、completion_snapshot或成功outcome，不自动重试。正常新模式Run保存answer_finish_reason=stop；缓存及首次outcome前恢复要求该字段且未截断，不补签。该字段仅在显式启用新模式时加入run_output身份，旧默认及v1/v2/v3投影不升级。公共OpenAPI和评分rubric不变。调用前记录重复相同输入幂等，冲突输入不能覆盖原记录。
+
+## 2026-11-03 · 连接048授权引用及精确输入顺序
+
+本批Git授权引用存固定已提交docs文件，缺失关闭/HEAD原字节漂移拒绝，仅指本批授权正文；LF检出属性保持原字节。生产输入冻结按原题product_names呈现已选产品，再补检索新增项，与QueryRunner的input_product_snapshot顺序一致；selected身份不变。调用前失败无预留时仅封存停止及执行审阅，不伪造结算或质量评分，不自动再次派发。无新增API/环境变量、无历史Run升级。

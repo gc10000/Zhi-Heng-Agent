@@ -94,6 +94,25 @@ def case(ctx,tmp_path,monkeypatch,*,separate=False,fault=None,**kwargs):
         configure_sources=lambda ctx:configure_sources(ctx,fault),raw=kwargs.pop('raw',RAW),**kwargs)
 
 
+@pytest.mark.parametrize('separate', [False, True])
+@pytest.mark.parametrize('reverse_names', [False, True])
+def test_full_input_freezer_matches_actual_job_prompt_product_order(evaluation_context,tmp_path,monkeypatch,separate,reverse_names):
+    """对照实际正式job捕获的prompt，不用另一个离线渲染结果自证。"""
+    from app.evaluation.connection_048_inputs import assemble_input
+    cfg,res,prompts,question,repo,service,user,data,catalog=case(
+        evaluation_context,tmp_path,monkeypatch,separate=separate,
+        product_names=['BX','AX'] if reverse_names else ['AX','BX'])
+    job=service.create_experiment(user,data)
+    execute_job(repo,catalog,tmp_path/'freeze-order',job['experiment_id'])
+    row=res['db'].runs.find_one({})
+    assert row['state']=='completed' and len(prompts)==1
+    inputs=dict(question={k:question[k] for k in ('id','question','product_names','history')},
+        product_ids=row['product_snapshot']['product_ids'],query_plan=row['query_plan'],
+        seeds=row['prompt_used_docs'],groups=row['evidence_groups'],frozen_scalar_payloads=res['connection_rows'])
+    frozen=assemble_input(cfg,inputs)
+    assert frozen['result']['prompt']==prompts[0]
+
+
 @pytest.mark.parametrize('separate',[False,True])
 @pytest.mark.parametrize('fault',[None,'condition'])
 def test_formal_success_reuse_and_sanitized_public_result(evaluation_context,tmp_path,monkeypatch,separate,fault):

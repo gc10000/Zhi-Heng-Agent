@@ -1,0 +1,2 @@
+# 授权引用按Git原字节核验；Windows检出时保留LF，避免自动CRLF导致有效引用被拒绝。
+docs/development/reviews/M6-connection-comparison-048-authorization-reference-r1.json text eol=lf

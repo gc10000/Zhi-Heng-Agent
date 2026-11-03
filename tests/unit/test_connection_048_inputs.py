@@ -29,6 +29,28 @@ def test_freeze_uses_full_pool_and_real_prompt_consumer():
     assert validate_input_anchor(anchor)==anchor
 
 
+@pytest.mark.parametrize('reverse_names', [False, True])
+def test_frozen_prompt_uses_formal_question_product_order_instead_of_selected_order(reverse_names):
+    """正式adapter按题目产品顺序建会话；检索后selected顺序可以相反。"""
+    from app.evaluation.connection_048_inputs import assemble_input
+    from app.runs.query_runner import QueryRunner
+    from app.answering.service import AnswerBudget
+    from app.retrieval.models import QueryPlan
+    cfg, inputs = case()
+    if reverse_names:
+        inputs['question']['product_names'].reverse()
+    anchor = assemble_input(cfg, inputs)
+    runner = object.__new__(QueryRunner)
+    runner.answer_budget = AnswerBudget.model_validate(cfg['parameters']['answer_budget'])
+    runner.evidence_attribution = cfg['parameters']['evidence_attribution']
+    runner.retrieval_policy = cfg['parameters']['retrieval']
+    _, formal_prompt = runner.evidence_prompt(inputs['question']['question'], anchor['result']['context'],
+        anchor['result']['groups'], QueryPlan.model_validate(inputs['query_plan']),
+        item_names=inputs['question']['product_names'], history=[], session_id='formal-order',
+        product_ids=inputs['product_ids'], comparison_context=anchor['result']['comparison_context_assembly'])
+    assert anchor['result']['prompt'] == formal_prompt
+
+
 @pytest.mark.parametrize('fault',['missing','extra','duplicate','body','seed','question','target','budget'])
 def test_freeze_rejects_faults_before_a_prompt_can_be_frozen(fault):
     from app.evaluation.connection_048_inputs import assemble_input

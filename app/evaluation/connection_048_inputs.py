@@ -53,8 +53,16 @@ def assemble_input(config,inputs):
     runner.evidence_attribution=policy.model_dump(mode='json')
     runner.retrieval_policy=deepcopy(config['parameters']['retrieval'])
     docs,groups,manifest=runner.assemble_connection_context(inputs['seeds'],inputs['frozen_scalar_payloads'],ids,inputs['groups'])
+    # 正式adapter按原题product_names创建input_product_snapshot；QueryRunner先按该顺序
+    # 呈现已选产品，再补检索后新增产品。selected顺序只用于比较身份，不能替代展示顺序。
+    prompt_ids=[]
+    for name in question['product_names']:
+        for pid in ids:
+            if policy.products[pid]==name and pid not in prompt_ids:
+                prompt_ids.append(pid)
+    prompt_ids.extend(pid for pid in ids if pid not in prompt_ids)
     state,prompt=runner.evidence_prompt(question['question'],docs,groups,plan,
-        item_names=[policy.products[p] for p in ids],history=question['history'],
+        item_names=[policy.products[p] for p in prompt_ids],history=question['history'],
         session_id='connection-048-input-freeze',product_ids=ids,comparison_context=manifest)
     if not prompt or state.get('comparison_answer_short_circuit') or state['prompt_used_docs']!=docs:
         raise ValueError('生产输入未形成完整生成prompt')
