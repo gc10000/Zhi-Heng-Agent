@@ -3,6 +3,7 @@ import copy
 import hashlib
 import json
 import sys
+import subprocess
 from pathlib import Path
 
 from app.answering.reviewed_subjects import evidence_bytes
@@ -18,7 +19,27 @@ BATCH = 'm6-connection-comparison-048-r1'
 SLOT = BATCH + '-support-v1-048'
 QUESTION_ID = 'support-v1-048'
 ACCOUNT_COLLECTION = 'diagnostic_connection_comparison_048_accounts'
-AUTHORIZED_GIT = None
+AUTHORIZATION_REFERENCE_PATH = 'docs/development/reviews/M6-connection-comparison-048-authorization-reference-r1.json'
+
+
+def load_authorization_reference(root=ROOT):
+    """Git引用独立于app指纹，避免授权→源码→输入→授权循环；未提交引用拒绝。"""
+    from app.answering.reviewed_subjects import GitEvidence
+    pin = root / AUTHORIZATION_REFERENCE_PATH
+    if not pin.exists():
+        return None
+    payload = pin.read_bytes()
+    ref = GitEvidence.model_validate_json(payload).model_dump(mode='json')
+    if ref['path'] != 'docs/development/reviews/M6-connection-comparison-048-authorization-r1.json':
+        raise ValueError('连接048只能绑定本次专属授权')
+    saved = subprocess.run(['git', 'show', 'HEAD:' + AUTHORIZATION_REFERENCE_PATH], cwd=root,
+        capture_output=True, timeout=10)
+    if saved.returncode or saved.stdout != payload:
+        raise ValueError('连接048授权引用尚未提交或发生漂移')
+    return ref
+
+
+AUTHORIZED_GIT = load_authorization_reference()
 SOURCE_CONFIG = dict(path='output/m6-comparison-answer-048-execution-r10/catalog/configs/m6-comparison-answer-048-execution-r8-final.json',
     sha256='ac0a4178f91fa638fd13ea08c9f897e26bf396005aa3581216e6e82ce8095b50')
 TECHNICAL_REVIEW = dict(commit='17103bfb9a37c786185557f25fc4602b62cb682d',

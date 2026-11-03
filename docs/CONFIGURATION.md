@@ -527,3 +527,7 @@ MODEL_HOST桥接新增可选input_type=query/document，省略仍document兼容�
 
 
 2026-11-03新连接模式终止补修：没有新环境变量，不改.env.example或默认开关。仅connection_comparison_v1要求本次调用有正常stop终止；缺失／异常／冲突或终止后正文在展示前拒绝，空用量帧允许。成功Run保存answer_finish_reason，缓存及首次恢复不接受缺失或漂移；新模式的完整输出身份包含该字段，旧版本不迁移。错误码comparison_termination_invalid；本模式没有已执行的真实Run，不手工补写历史状态。详见development/reviews/M6-connection-comparison-terminal-review-r1.md。
+
+## 2026-11-03 · 连接048授权Git引用
+
+固定docs/development/reviews/M6-connection-comparison-048-authorization-reference-r1.json保存GitEvidence(commit/path/sha256)。缺文件仍为None；文件须与HEAD内原字节相同且只指本批authorization-r1.json，再由evidence_bytes核不可变Git正文。该文件不在app指纹中，允许先冻结最终代码输入，再提交授权及引用，避免循环。没有新增环境变量或API；默认catalog继续关闭。引用接线由本轮总控实施自验，原独立审查范围不追改。
