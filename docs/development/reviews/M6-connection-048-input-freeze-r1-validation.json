@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "task_id": "M6-connection-048-input-freeze-r1",
+  "date": "2026-11-03",
+  "branch": "codex/m6-source-bound-comparison",
+  "base_commit": "07e92c2c5b8884183134342abdcd25791aa72764",
+  "review_kind": "implementation_self_validation",
+  "implementation_status": "passed_with_evidence_limits",
+  "independent_technical_review": "open",
+  "prior_algorithm_independent_review": "preserved",
+  "algorithm_files_unchanged": true,
+  "discovered_and_fixed": [
+    "manifest_top_level_not_recomputed",
+    "previous_account_rejection_review_not_checked"
+  ],
+  "production_input_consumer": "connection_048_production_input_v1",
+  "production_input": {
+    "full_scope_scalar_payloads_replayed": true,
+    "exact_production_prompt_frozen": true,
+    "frozen_documents": 4,
+    "frozen_payload_members": 582,
+    "prompt_documents": 10,
+    "reference_numbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "prompt_utf8_sha256": "9c1f2941f40f274aeba9d03453f5724c5ccea3135b7ab728f5c44af24319c2fe",
+    "source_result_sha256": "9b8f88948c2c97e609f436e292f1eff49ebb476bce6d0a41214ddac99a68a16c",
+    "candidate_anchor": {
+      "path": "output/m6-connection-comparison-048-input-r2/candidate-anchor-private.json",
+      "sha256": "6ecccd297795bb2170c01d7d574dba598d1cdace821f471ab3b757e061f2482e"
+    },
+    "config_subject_sha256": "54c801bea43a6f797d76d18d3dc0c8e550554e401ed1d4c4cb66834d97b21634",
+    "versions": {
+      "code": "49e4e6ef1d5ed182bf652a98b04c1702ecbe484ce5424e93b45490c2c84a7257",
+      "prompt": "cd3c40ef0e6af5de7edc7d4257aa09edeb92ac895aaeff16683d00110b395dc6",
+      "model": "565fbfe4c795fb52f84183f7b2708491fd7824fa07f2de9fd546e9d6d6e5bb90"
+    },
+    "budget": {
+      "counter": "utf8_bytes_upper_bound",
+      "input_tokens": 10340,
+      "fixed_tokens": 10340,
+      "input_limit": 28416,
+      "output_tokens": 4096,
+      "omitted_documents": 0,
+      "omitted_history": 0
+    },
+    "scalar_origin": "four_live_strong_scalar_queries_then_full_saved_replay_under_final_code",
+    "new_live_scalar_queries": 4,
+    "fresh_retrieval": false,
+    "vectors_read": false,
+    "seed_source": {
+      "path": "output/m6-comparison-answer-048-execution-r10/run-private.json",
+      "sha256": "5e675da31560859ab2a4e15f347ae68a4963ab1a8a2ae0334cbf3f37eb46d64f"
+    },
+    "model_identity": "preserved_saved_fingerprint_not_fresh_weight_verification",
+    "run_persistent_generation_input_created": false
+  },
+  "reports": {
+    "final-offline": {
+      "tests": 257,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml_sha256": "b011eaf71233a2111a0c514115e8f18ad23e3b37ccd99d474cab907c97246c44",
+      "log_sha256": "fd9336eba82ad236678aef3f7dbfe8670ec1fe2a79dd27ac1d633728e1d932f7"
+    },
+    "final-integration": {
+      "tests": 72,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml_sha256": "5460e6ffb5513e5ce6b68b500c1c1deb73f43f7b5ee610fd85f15c631e1c28fc",
+      "log_sha256": "4bb0b64c4a6a782ae6a16a916b90920722a2cffeb888262286edf27389b05558"
+    }
+  },
+  "saved_audit": {
+    "status": "passed",
+    "full_scalar_members": 582,
+    "documents": 4,
+    "prompt_documents": 10,
+    "reference_numbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "prompt_utf8_sha256": "9c1f2941f40f274aeba9d03453f5724c5ccea3135b7ab728f5c44af24319c2fe",
+    "prompt_budget_input": 10340,
+    "prompt_budget_limit": 28416,
+    "program_facts": 4,
+    "program_spans": 16,
+    "program_status": "qualified_medium_difference",
+    "actual_new_model_answers": 0,
+    "service_denied_before_create": true,
+    "drift_mutations_rejected": 4,
+    "algorithm_hashes_match": true,
+    "authorization_is_none": true,
+    "formal_manifest_absent": true,
+    "network_calls": 0,
+    "real_database_writes": 0,
+    "independent_technical_review": "open",
+    "real_quality": "open"
+  },
+  "red_evidence": {
+    "manifest_red_r2": {
+      "failures": 12,
+      "passed": 0
+    },
+    "input_module_red": {
+      "failures": 15,
+      "passed": 0
+    },
+    "input_consumer_red": {
+      "failures": 4,
+      "passed": 0
+    },
+    "previous_review_red": {
+      "failures": 3,
+      "passed": 5
+    },
+    "intermediate_consumer_green": {
+      "failures": 1,
+      "passed": 65,
+      "reason": "missing_production_inputs_KeyError_then_fixed"
+    }
+  },
+  "dispatch_admission": "blocked_no_new_authorization",
+  "authorized_git": null,
+  "formal_experiment_created": false,
+  "formal_run_created": false,
+  "formal_manifest_created": false,
+  "ledger_reserved": false,
+  "new_quality_scores": 0,
+  "provider_streams": 0,
+  "local_inference": 0,
+  "real_business_db_writes": 0,
+  "new_input_tokens": 0,
+  "new_output_tokens": 0,
+  "cumulative_input_tokens": 56239,
+  "cumulative_output_tokens": 30516,
+  "budget_upper_bound": {
+    "input_tokens": 84655,
+    "output_tokens": 34612
+  },
+  "reasoning_tokens": null,
+  "exact_http_requests": null,
+  "exact_cost": null,
+  "gateway_hard_limit": "unknown",
+  "paid_output_hard_limit": "unknown",
+  "cost_upper_bound": "unknown",
+  "m6_completed_core_tasks": 5,
+  "m6_total_core_tasks": 7,
+  "m6_04": "accepted",
+  "m6_05": "open_feedback_reassessment_proof",
+  "m6_08": "open_candidate_quality_and_stage_acceptance",
+  "remaining_43": "paused",
+  "heldout_65": "not_started",
+  "m7": "not_started",
+  "subagents_started_or_woken": 0,
+  "limitations": [
+    "self_validation_not_independent_approval",
+    "no_real_new_model_answer",
+    "old_account_live_runtime_check_still_required",
+    "runtime_wire_and_persistent_input_anchor_still_required",
+    "model_saved_fingerprint_not_fresh_weights",
+    "no_new_vector_default_pointer_TTL_or_quality_database_scan",
+    "verbose_original_context_preserved",
+    "no_frontend_behavior_change_or_repeated_audit"
+  ],
+  "real_business_mongo_reads": 0
+}

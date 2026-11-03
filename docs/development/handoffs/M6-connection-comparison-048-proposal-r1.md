@@ -1,5 +1,12 @@
 # M6新连接比较模式048单题条件方案
 
+## 2026-11-03完整输入准备更新（当前状态）
+
+四资料582成员已实际只读并用完整scope重装配；最终源码候选在`output/m6-connection-comparison-048-input-r2/`，catalog为同级`prepared/catalog/catalog.json`，独立执行输出为`prepared/execution/`，完整输入为`candidate-anchor-private.json`及`prompt-private.txt`。10文档引用连续1–10，输入保守10340/28416，prompt SHA256为`9c1f2941f40f274aeba9d03453f5724c5ccea3135b7ab728f5c44af24319c2fe`。保留原scope、原预算与身份，不需用户填路径；旧r1目录不覆盖。
+
+清单顶层/旧拒绝review补修及完整输入消费者已自验257离线、72隔离Mongo；新包独立技术仍open，旧算法独立关闭保持。来源种子为封存r8复放，非本轮新检索；无模型调用或真实质量proof。AUTHORIZED_GIT=None，正式实验/Run/清单/槽仍0；未来调用前独立持久输入锚及实际来源/旧账户/runtime/wire仍须核验。详见[本轮报告](../reviews/M6-connection-048-input-freeze-r1.md)。以下原准备状态均为历史。
+
+
 2026-11-03，分支`codex/m6-source-bound-comparison`。这是具体准备方案，**未登记、未预留、未授权、未执行**。独立技术结论以[独立报告](../reviews/M6-connection-comparison-independent-review-r1.md)为准；技术通过也不产生模型调用许可。旧r7/r8、已消费槽、blocked账户及原质量拒绝保持。
 
 ## 2026-11-03准备状态更新

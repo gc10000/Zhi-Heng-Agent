@@ -113,14 +113,19 @@ def authorized_case(tmp_path,monkeypatch):
     split=tmp_path/'split.json';split.write_text('{}',encoding='utf-8')
     original=dict(target=dict(database='m1_test_m4_target',owner_id='owner',kb_id='kb'),
         versions=dict(code='old-code',prompt='old-prompt',model='saved-model'),
-        parameters=dict(answer_budget=dict(context_window=32768,output_tokens=4096,reserve_tokens=256,max_chars=12000,
+        parameters=dict(retrieval=dict(context_limit=10),answer_budget=dict(context_window=32768,output_tokens=4096,reserve_tokens=256,max_chars=12000,
             output_token_field='max_completion_tokens',output_contract=contract()),evidence_attribution=runner.evidence_attribution),
         dataset_sha256=risk.sha(dataset),split_manifest_sha256=risk.sha(split),phase='development',split='dev')
     monkeypatch.setattr(risk,'source_config',lambda:deepcopy(original))
     cfg=risk.candidate_config()
     result=dict(prompt=prompt,context=docs,prompt_reference_map=state['prompt_reference_map'],groups=state['evidence_groups'],
         budget=state['prompt_budget'],comparison_context_assembly=manifest)
-    anchor=dict(new_config=deepcopy(cfg),result=result)
+    from app.evaluation.connection_048_inputs import assemble_input
+    anchor=assemble_input(cfg,dict(question={k:question[k] for k in ('id','question','product_names','history')},
+        query_plan=plan.model_dump(mode='json')|dict(comparison_target=plan.comparison_target,
+            comparison_target_reason=plan.comparison_target_reason),
+        product_ids=list(plan.product_ids),seeds=[pool[0],pool[2]],groups=[],frozen_scalar_payloads=pool))
+    result=anchor['result']
     anchor_path=tmp_path/'anchor.json'
     def save_anchor():anchor_path.write_text(json.dumps(anchor),encoding='utf-8')
     save_anchor()
@@ -180,7 +185,7 @@ def test_synthetic_signed_drift_cannot_become_valid_admission(tmp_path,monkeypat
     with pytest.raises(ValueError):risk.sources(parse_contract(cfg['parameters']['answer_budget']['output_contract']))
 
 
-@pytest.mark.parametrize('fault',[None,'state','pending','settled','halt'])
+@pytest.mark.parametrize('fault',[None,'state','pending','settled','halt','review_missing','review_accepted','review_evidence'])
 def test_previous_consumed_account_is_checked_read_only(tmp_path,monkeypatch,fault):
     import json
     from app.infrastructure.providers import connection_comparison_048_risk as risk
@@ -196,11 +201,15 @@ def test_previous_consumed_account_is_checked_read_only(tmp_path,monkeypatch,fau
         path=(member_dir if key=='settled' else root)/(key+'.json')
         path.write_text(json.dumps(value),encoding='utf-8')
         refs[key]=dict(path=path.relative_to(tmp_path).as_posix(),sha256=risk.sha(path))
-    account=dict(state='blocked',pending=None,unknown_windows=[],settled={risk.consumed.SLOT:receipt},halt=halt)
+    account=dict(state='blocked',pending=None,unknown_windows=[],settled={risk.consumed.SLOT:receipt},halt=halt,
+        reviews={risk.consumed.SLOT:dict(accepted=False,evidence=deepcopy(halt['source_review']))})
     if fault=='state':account['state']='open'
     if fault=='pending':account['pending']={'run_id':'unknown'}
     if fault=='settled':account['settled']={}
     if fault=='halt':account['halt']={}
+    if fault=='review_missing':account['reviews']={}
+    if fault=='review_accepted':account['reviews'][risk.consumed.SLOT]['accepted']=True
+    if fault=='review_evidence':account['reviews'][risk.consumed.SLOT]['evidence']={}
     reads=[]
     class ReadOnlyCollection:
         def find_one(self,query):
@@ -220,3 +229,48 @@ def test_previous_consumed_account_is_checked_read_only(tmp_path,monkeypatch,fau
     else:
         risk.validate_previous_account(parse_contract(contract(True)),ReadOnlyClient())
     assert reads==[{'_id':fingerprint([risk.consumed.VERSION,risk.consumed.BATCH])}]
+
+
+@pytest.mark.parametrize('fault',['missing','partial','unfrozen','prompt'])
+def test_authorization_must_consume_recomputable_complete_input(tmp_path,monkeypatch,fault):
+    from app.knowledge.repository import fingerprint
+    import hashlib
+    risk,auth,anchor,cfg,question,state,prompt,save=authorized_case(tmp_path,monkeypatch)
+    if fault=='missing':anchor.pop('production_inputs')
+    if fault=='partial':anchor['full_scope_scalar_payloads_replayed']=False
+    if fault=='unfrozen':anchor['exact_production_prompt_frozen']=False
+    if fault=='prompt':anchor['result']['prompt']+='coordinated-change'
+    anchor['prompt_utf8_sha256']=hashlib.sha256(anchor['result']['prompt'].encode()).hexdigest()
+    anchor['result_sha256']=fingerprint(anchor['result'])
+    save();auth['candidate_anchor']['sha256']=risk.sha(tmp_path/'anchor.json')
+    auth['members'][0].update(prompt_utf8_sha256=anchor['prompt_utf8_sha256'],source_result_sha256=anchor['result_sha256'])
+    with pytest.raises(ValueError):risk.sources(parse_contract(cfg['parameters']['answer_budget']['output_contract']))
+
+
+@pytest.mark.parametrize('fault',['database','version','batch','order','prior','duplicate'])
+@pytest.mark.parametrize('restore',[False,True])
+def test_manifest_top_level_cannot_redirect_or_regrant_account(tmp_path,monkeypatch,fault,restore):
+    """即使调用方重新计算清单hash，也不能把单成员挪到另一共享账本。"""
+    from app.knowledge.repository import fingerprint
+    import json
+    risk,auth,anchor,cfg,question,*_=authorized_case(tmp_path,monkeypatch)
+    manifest=deepcopy(risk.build_manifest([(cfg,question,'synthetic-control')]))
+    if fault=='database':manifest['shared_control_database']='other-control'
+    if fault=='version':manifest['version']='old-version'
+    if fault=='batch':manifest['batch_slot']='another-batch'
+    if fault=='order':manifest['dispatch_order']=[]
+    if fault=='prior':manifest['prior_receipt']['input_tokens']=0
+    if fault=='duplicate':manifest['entries']*=2
+    value=cfg['parameters']['answer_budget']['output_contract']
+    value['admission']['manifest_sha256']=fingerprint(manifest)
+    policy=parse_contract(value)
+    if restore:
+        # 模拟协调改写磁盘及请求hash；require仍须从Git授权重算身份。
+        directory=risk.slot_dir(policy);directory.mkdir(parents=True)
+        (risk.batch_dir()/'planned.json').write_text(json.dumps(manifest),encoding='utf-8')
+        (directory/'planned.json').write_text(json.dumps(dict(manifest_sha256=fingerprint(manifest),
+            entry=manifest['entries'][0])),encoding='utf-8')
+        with pytest.raises(ValueError):risk.require(policy)
+    else:
+        with pytest.raises(ValueError):risk.prepare_manifest(manifest)
+        assert not risk.batch_dir().exists()

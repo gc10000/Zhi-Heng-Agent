@@ -1,3 +1,13 @@
+## 2026-11-03 · M6连接048完整输入已冻结，清单与旧拒绝review补修完成自验
+
+当前总控补修完整清单顶层重算（12反例）及旧账户拒绝review一致性（3反例），新授权消费者从完整标量重算精确输入。257离线/契约、72随机隔离Mongo和实际关闭catalog/完整输入审计通过，均为实现身份自验；新包不同身份独立技术审查仍open，旧三算法独立关闭保持且hash匹配。
+
+实际4次指定修订标量只读取得四资料582成员；最终源码在全新input-r2目录完整重放，10文档连续引用1–10，保守输入10340/28416，无省略。full_scope_scalar_payloads_replayed与exact_production_prompt_frozen均true，prompt SHA256=`9c1f2941f40f274aeba9d03453f5724c5ccea3135b7ab728f5c44af24319c2fe`。种子为封存r8复放，不冒称重新检索/重排或新核权重；独立Run持久输入锚须未来调用前实际写入。
+
+当前冻结候选在`output/m6-connection-comparison-048-input-r2/`，完整anchor、prompt字节及`prepared/catalog/catalog.json`已配置；旧catalog/证据不覆盖。AUTHORIZED_GIT=None、合同关闭；正式实验/Run/清单/槽/评分均0。新调用/推理/真实写入0、真实业务Mongo读取0；隔离合成Mongo另列，本轮真实资料读取仅上述4次标量查询。累计实际56239/30516，HTTP/费用null、硬限unknown保持。
+
+下一项是未参与实现身份定向复核新profile及补修/输入消费者；未授权委派，不启动Agent。取得明确新单题调用授权后才可有界验证，临发仍核实际来源、旧blocked账户、runtime/wire和持久输入锚。没有新真实答案质量proof，M6保持5/7、04验收、05缺反馈复评proof、08缺候选质量/阶段证据；43暂停、heldout65/M7不启动。详见[本轮报告](reviews/M6-connection-048-input-freeze-r1.md)与同名机器摘要。以下历史按原时点保留。
+
 ## 2026-11-03 · M6连接048准入及catalog零调用准备完成
 
 新模式专属合同、登记前验证、独立CAS账本及正式Run结算已实现；补修新合同思考输出观测遗漏。222离线/契约、72新及连接模式隔离Mongo、66旧风险隔离Mongo通过。方案指定目录的关闭catalog实际预检通过：完整150题85/65，仅选048，4资料582成员冻结映射保持；正式派发blocked_no_new_authorization。

@@ -137,6 +137,10 @@ def sources(policy):
         raise ValueError('连接048成员身份漂移')
     anchor=read(checked_file(auth['candidate_anchor']))
     validate_candidate(anchor['new_config'])
+    from app.evaluation.connection_048_inputs import validate_input_anchor
+    validate_input_anchor(anchor)
+    if anchor['production_inputs']['question']!=authorized_inputs(auth,member):
+        raise ValueError('连接048冻结prompt的问题输入与原完整题集不一致')
     expected_contract=copy.deepcopy(anchor['new_config']['parameters']['answer_budget']['output_contract'])
     actual=policy.model_dump(mode='json');actual.update(enabled=False,admission=None)
     if actual!=expected_contract:
@@ -193,10 +197,27 @@ def build_manifest(items,*,artifacts=None):
 def prepare_manifest(manifest):
     if AUTHORIZED_GIT is None or manifest.get('authorization')!=AUTHORIZED_GIT:
         raise ValueError('连接048未获新授权，不能冻结派发清单')
+    validate_manifest(manifest)
     return base.prepare_manifest(manifest,profile=sys.modules[__name__])
 
 
-def require(policy): return base.require(policy,profile=sys.modules[__name__])
+def validate_manifest(manifest):
+    """重算整个清单，防止只核成员却从顶层改址领取另一份账户。"""
+    entries=manifest.get('entries')
+    if not isinstance(entries,list) or len(entries)!=1:
+        raise ValueError('连接048冻结清单必须恰好一个成员')
+    config=copy.deepcopy(entries[0]['config_subject'])
+    config['parameters']['answer_budget']['output_contract']['admission']['manifest_sha256']=fingerprint(manifest)
+    expected=build_manifest([(config,entries[0]['question'],entries[0]['control_database'])],
+        artifacts=manifest.get('artifacts',{}))
+    if manifest!=expected:
+        raise ValueError('连接048完整清单与专属授权、共享账本或顺序不一致')
+    return manifest
+
+
+def require(policy):
+    manifest=base.require(policy,profile=sys.modules[__name__])
+    return validate_manifest(manifest)
 def validate_config(config,control_database,*,question=None):
     return base.validate_config(config,control_database,question=question,profile=sys.modules[__name__])
 def validate_prompt(policy,prompt,state):
@@ -226,6 +247,7 @@ def validate_previous_account(policy,client):
     if (not saved or saved.get('state')!='blocked' or saved.get('pending') is not None or
             saved.get('unknown_windows') or set(saved.get('settled',{}))!={consumed.SLOT} or
             saved['settled'][consumed.SLOT]!=settlement.get('receipt') or saved.get('halt')!=halt or
+            saved.get('reviews')!={consumed.SLOT:dict(accepted=False,evidence=halt.get('source_review'))} or
             halt.get('no_more_provider_calls') is not True or halt.get('source_review',{}).get('accepted') is not False):
         raise ValueError('连接048旧账户未保持结算后的拒绝停止')
 
