@@ -1,3 +1,7 @@
+## 2026-11-03 · M6连接比较实现自验交付，等待独立复核与质量证明
+
+在codex/m6-source-bound-comparison延续批准计划：多维连接语义、来源装配生产端口、严格选择与proof恢复已接线；保存输入四格已由实际装配/prompt/binder运行，新程序给出限定介质比较。受影响离线/契约375通过、最终定向隔离Mongo94通过、真实前端`renderEvidence`两组21断言通过。该结论是当前执行总控的实现自验，不是独立技术关闭或真实答案质量proof。新模式默认关闭且正式评测准入拒绝；真实模型调用/本地推理/正式写入/本轮真实库读取均0。M6仍5/7：04验收保持，05缺真实反馈复评proof，08缺有效候选质量及阶段证据；43题暂停、heldout未运行、M7未启动。详见[报告](reviews/M6-connection-comparison-implementation-r1.md)、[机器摘要](reviews/M6-connection-comparison-implementation-r1-validation.json)与[任务记录](records/M6-connection-comparison-implementation-r1.md)。下方历史保留。
+
 ## 2026-11-03 · 来源装配单元已实现，下一步多维连接语义
 
 新增未接线的comparison_context纯单元：完整冻结池成员/载荷绑定、完整介绍与条件保留、必要来源不静默截断、预算拒绝及新身份。新23项红后绿，最终相关103通过（含旧检索用例）；两资料333条冻结标量payload核验后，在原10条预算内装配必要连接和4个介绍成员，重建引用；旧v3对照仍不足。不是独立技术关闭或048质量通过。

@@ -123,3 +123,29 @@ def test_git_evidence_timeout_fails_closed_before_slot(monkeypatch):
     assert error.value.status == 422
     assert error.value.code == 'comparison_admission_required'
     assert not repo.created
+
+
+@pytest.mark.parametrize('contract_version',['diagnostic_comparison_answer_048_v1',
+    'diagnostic_comparison_answer_048_v2'])
+def test_connection_version_cannot_borrow_old_risk_admission_even_if_old_handler_accepts(monkeypatch,contract_version):
+    from app.infrastructure.providers import output_contract as contracts
+    from types import SimpleNamespace
+    calls=[]
+    contract=SimpleNamespace(enabled=True,function_version=contract_version)
+    monkeypatch.setattr(contracts,'parse_contract',lambda _:contract)
+    monkeypatch.setattr(contracts,'is_product_risk',lambda _:True)
+    monkeypatch.setattr(contracts,'risk_handler',lambda _:SimpleNamespace(
+        validate_config=lambda *args:calls.append(args)))
+    catalog=Catalog({'enabled':True})
+    resolve=catalog.resolve
+    def new_mode(*args,**kwargs):
+        resolved=resolve(*args,**kwargs)
+        resolved['config']['parameters']['evidence_attribution']['comparison_answer']['function_version']='connection_comparison_v1'
+        return resolved
+    catalog.resolve=new_mode
+    repo=Repository()
+    with pytest.raises(APIError) as error:
+        EvaluationService(repo,catalog).create_experiment(object(),dict(kb_id='kb',eval_set_id='set',
+            eval_set_version='v1',config_id='new-mode',config_version='v1',client_request_id='new'))
+    assert error.value.code=='comparison_admission_required'
+    assert not calls and not repo.created

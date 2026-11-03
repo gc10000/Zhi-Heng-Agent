@@ -310,6 +310,39 @@ class QueryRunner:
                 g.revision(user,hit.document_id,hit.revision_id)
                 if hit.identity not in {h.identity for h in candidates}:candidates.append(hit)
             docs = [h.document() for h in expansion.selected]
+            comparison_context = None
+            groups = expansion.groups
+            if (comparison_enabled and plan.comparison_target is not None and attribution.comparison_answer.function_version ==
+                    'connection_comparison_v1'):
+                # 新比较模式必须从完整冻结索引池装配产品介绍和必要连接条件；
+                # 检索结果只能作为种子，不能冒充完整来源池。
+                index = g.index()
+                frozen_pool = []
+                try:
+                    for revision in revisions:
+                        remaining = 1000 - len(frozen_pool)
+                        if remaining < 1:
+                            raise APIError(422, 'required_source_budget_exceeded', '冻结比较来源超过读取上限。')
+                        frozen_pool.extend(index.revision_rows(repo, revision['active_revision_id'],
+                            max_rows=remaining))
+                except ValueError as exc:
+                    raise APIError(422, 'comparison_source_invalid', '冻结比较来源读取边界校验失败。') from exc
+                docs, groups, comparison_context = self.assemble_connection_context(
+                    docs, frozen_pool, selected, groups)
+                # 来源依赖属于扩展证据，显式加入轨迹，不能伪装成模型重排命中。
+                from app.retrieval.models import RetrievalHit
+                assembled_hits = [RetrievalHit(**{k: d[k] for k in (
+                    'chunk_uid','document_id','revision_id','ordinal','text','metadata')}) for d in docs]
+                for hit in assembled_hits:
+                    if hit.identity not in {h.identity for h in candidates}:
+                        candidates.append(hit)
+                context_expanded = list(expansion.expanded)
+                for hit in assembled_hits:
+                    if hit.identity not in {h.identity for h in ranked + context_expanded}:
+                        context_expanded.append(hit)
+            else:
+                assembled_hits = list(expansion.selected)
+                context_expanded = list(expansion.expanded)
             stage = 'answer'
             from app.query_process.agent.nodes.node_answer_output import step_3_generate_response
             prompt_names=[p['model'] for p in products if p['product_id'] in selected]
@@ -320,13 +353,14 @@ class QueryRunner:
                 ordered_ids.extend(pid for pid in selected if pid not in ordered_ids)
                 product_names={p['product_id']:p['model'] for p in products}
                 prompt_names=[product_names[pid] for pid in ordered_ids]
-            state,prompt=self.evidence_prompt(row['question'],docs,expansion.groups,plan,
+            state,prompt=self.evidence_prompt(row['question'],docs,groups,plan,
                 item_names=prompt_names,
-                history=self._history(user,current),session_id=rid,product_ids=selected)
+                history=self._history(user,current),session_id=rid,product_ids=selected,
+                comparison_context=comparison_context)
             used = {d['chunk_id'] for d in state['prompt_used_docs']}
             used_keys = {stable_key(d) for d in state['prompt_used_docs']}
             pack = EvidencePack(plan=plan, candidates=candidates, reranked=ranked,
-                expanded=expansion.expanded, selected=[h for h in expansion.selected if h.identity in used_keys])
+                expanded=context_expanded, selected=[h for h in assembled_hits if h.identity in used_keys])
             citations = []
             original_docs={stable_key(d):d for d in docs}
             for selected_doc in state['prompt_used_docs']:
@@ -350,6 +384,8 @@ class QueryRunner:
                     evaluation_fields['prompt_used_docs']=copy.deepcopy(state['prompt_used_docs'])
                 if attribution.comparison_answer is not None and attribution.comparison_answer.enabled:
                     evaluation_fields['prompt_used_docs']=copy.deepcopy(state['prompt_used_docs'])
+                    if comparison_context is not None:
+                        evaluation_fields['comparison_context_assembly']=copy.deepcopy(comparison_context)
             if self.capture_evaluation:
                 # 仅评测运行保存候选来源，不复制检索正文或标准答案。
                 evaluation_fields['evaluation_candidates'] = {name: [
@@ -469,7 +505,8 @@ class QueryRunner:
                 if prompt_used_identity(prompt_question,state.get('prompt_reference_map') or [],
                         state.get('prompt_used_docs') or [],state.get('comparison_target'))!=state['comparison_prompt_used_sha256']:
                     raise ValueError('比较生成输入与prompt-used身份hash不一致')
-                validate_saved_comparison(dict(comparison_answer=state['comparison_answer'],answer=answer),
+                validate_saved_comparison(dict(comparison_answer=state['comparison_answer'],answer=answer,
+                    comparison_context_assembly=state.get('comparison_context_assembly')),
                     state.get('comparison_frame_catalog') or [],state.get('comparison_product_ids') or [],
                     state.get('comparison_target'),state['comparison_policy_sha256'],
                     state['comparison_prompt_used_sha256'],state.get('comparison_product_labels') or {},
@@ -552,15 +589,63 @@ class QueryRunner:
         return select_context(ranked,limit=policy.context_limit,
             scope_groups=plan.scope_groups if plan.route=='compare' else (),mode=policy.comparison_context),{}
 
-    def evidence_prompt(self,question,docs,groups,plan,*,item_names,history,session_id,product_ids=None):
+    def assemble_connection_context(self, docs, frozen_pool, product_ids, groups=()):
+        """正式与离线消费者共用装配；只允许显式新版本和逐载荷核验的池。"""
+        from app.answering.evidence_attribution import EvidenceAttributionPolicy
+        from app.answering.comparison_context import assemble_comparison_context, assembly_manifest
+        from app.retrieval.search import RetrievalPolicy
+        attribution = EvidenceAttributionPolicy.model_validate(self.evidence_attribution)
+        if (attribution.comparison_answer is None or not attribution.comparison_answer.enabled or
+                attribution.comparison_answer.function_version != 'connection_comparison_v1'):
+            raise ValueError('旧比较模式不能使用新来源装配')
+        # 除可由原结构确定为纯标题/版权的项之外，全部已选证据保守保留；
+        # 不用主题关键词猜测某段不相关，不移出任何已声明的原子证据组。
+        grouped = {uid for group in groups if len(group) > 1 for uid in group}
+        required = []
+        for doc in docs:
+            headings = (doc.get('metadata') or {}).get('heading_path') or []
+            text = (doc.get('text') or '').strip()
+            title_only = bool(headings) and text == headings[-1].strip()
+            copyright_only = bool(headings) and headings[-1].strip() in {'版权', '版权声明', '封面', '封底'}
+            if doc['chunk_uid'] in grouped or not (title_only or copyright_only):
+                required.append(doc['chunk_uid'])
+        try:
+            assembled = assemble_comparison_context(docs, frozen_pool, product_ids=product_ids,
+                scope=attribution.scope.model_dump(mode='json'),
+                frozen_payloads=attribution.source_relations.frozen_payloads,
+                required_chunk_uids=required,
+                max_docs=RetrievalPolicy.model_validate(self.retrieval_policy).context_limit,
+                max_chars=self.answer_budget.max_chars)
+        except (ValueError, TypeError, KeyError) as exc:
+            raise APIError(422, 'comparison_source_invalid', '冻结比较来源完整性校验失败。') from exc
+        if assembled.status != 'complete':
+            codes = {'ambiguous':'comparison_source_ambiguous',
+                'missing_required_source':'comparison_source_missing',
+                'required_source_budget_exceeded':'required_source_budget_exceeded'}
+            raise APIError(422, codes[assembled.status], '比较所需冻结来源无法完整装配。')
+        final_docs = [d | {'chunk_id': d['chunk_uid'], 'source':'local',
+            'title':'/'.join(d['metadata'].get('heading_path', [])),
+            'asset_ids':list(d['metadata'].get('asset_ids', [])),
+            'source_refs':copy.deepcopy(d['metadata']['source_refs'])} for d in assembled.documents]
+        final_ids = {d['chunk_uid'] for d in final_docs}
+        final_groups = [list(group) for group in groups if set(group) <= final_ids]
+        final_groups += [list(dep['chunk_uids']) for dep in assembled.dependencies]
+        return final_docs, final_groups, assembly_manifest(assembled)
+
+    def evidence_prompt(self,question,docs,groups,plan,*,item_names,history,session_id,
+                        product_ids=None, comparison_context=None):
         """共享正式prompt消费者；不生成答案，不改变调用方的主体/历史。"""
         from app.knowledge.citation_api import controlled_markdown
         from app.query_process.agent.nodes.node_answer_output import step_2_construct_prompt
-        state=dict(session_id=session_id,is_stream=True,original_query=question,item_names=item_names,
-            reranked_docs=[d|{'text':controlled_markdown(d['text'],set(d['asset_ids']))} for d in docs],
-            history=history,answer_budget=self.answer_budget,evidence_groups=groups)
         from app.answering.evidence_attribution import EvidenceAttributionPolicy
         attribution=EvidenceAttributionPolicy.model_validate(getattr(self,'evidence_attribution',None) or {})
+        connection_mode=(attribution.comparison_answer is not None and
+            attribution.comparison_answer.function_version == 'connection_comparison_v1')
+        state=dict(session_id=session_id,is_stream=True,original_query=question,item_names=item_names,
+            # 连接语义的来源hash必须对应冻结正文；展示层图片替换不能改写比较输入。
+            reranked_docs=[d|{'text':d['text'] if connection_mode else
+                controlled_markdown(d['text'],set(d['asset_ids']))} for d in docs],
+            history=history,answer_budget=self.answer_budget,evidence_groups=groups)
         if attribution.enabled:
             state['evidence_attribution']=attribution.model_dump(mode='json')
         comparison_enabled=(attribution.comparison_answer is not None and attribution.comparison_answer.enabled
@@ -572,6 +657,10 @@ class QueryRunner:
             state['comparison_product_labels']={pid:attribution.products[pid] for pid in state['comparison_product_ids']
                 if pid in attribution.products}
             state['rewritten_query']=plan.rewritten_query
+            if comparison_context is not None:
+                state['comparison_context_assembly']=copy.deepcopy(comparison_context)
+                from app.retrieval.search import RetrievalPolicy
+                state['comparison_context_limit']=RetrievalPolicy.model_validate(self.retrieval_policy).context_limit
         if plan.route=='compare':
             state['evidence_scope_note']='比较只能依据本轮参考内容，未提供某型号证据时必须明确资料不足，不得推断其参数。'
         return state,step_2_construct_prompt(state)

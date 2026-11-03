@@ -489,6 +489,13 @@ class RealQueryExecutor:
                 reference_map=row.get('prompt_reference_map') or []
                 docs=row.get('prompt_used_docs') or []
                 catalog=build_frame_catalog(reference_map,docs,policy)
+                if policy.comparison_answer.function_version == 'connection_comparison_v1':
+                    from app.answering.comparison_context import validate_context_policy
+                    from app.retrieval.search import RetrievalPolicy
+                    from app.answering.service import AnswerBudget
+                    validate_context_policy(row.get('comparison_context_assembly'), policy,
+                        max_docs=RetrievalPolicy.model_validate(self.config['parameters'].get('retrieval',{})).context_limit,
+                        max_chars=AnswerBudget.model_validate(self.config['parameters'].get('answer_budget',{})).max_chars)
                 cited=[(c.get('chunk_uid'),c.get('document_id'),c.get('revision_id'),c.get('text'),
                         c.get('source_refs'),c.get('asset_ids')) for c in row.get('citations',[])]
                 expected_citations=[(d.get('chunk_uid',d.get('chunk_id')),d.get('document_id'),d.get('revision_id'),

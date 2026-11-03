@@ -21,6 +21,44 @@ class ContextAssembly:
     status: str
     issues: list
     identity_sha256: str
+    identity: dict
+
+
+def assembly_manifest(assembly):
+    """返回可放入Run proof的装配身份；不携带正文或完整池。"""
+    return deepcopy(assembly.identity) | dict(identity_sha256=assembly.identity_sha256)
+
+
+def validate_assembly_manifest(manifest, catalog):
+    """恢复时确认proof仍对应本Run实际装配的文档顺序和状态。"""
+    if not isinstance(manifest, dict) or manifest.get('function_version') != VERSION:
+        raise ValueError('比较恢复缺少冻结装配版本')
+    actual = []
+    for item in catalog:
+        uid = item['chunk_uid']
+        if uid not in actual:
+            actual.append(uid)
+    if manifest.get('status') != 'complete' or manifest.get('documents') != actual:
+        raise ValueError('比较恢复装配成员或状态发生漂移')
+    if any(not isinstance(uid, str) for uid in actual):
+        raise ValueError('比较恢复装配成员身份无效')
+    expected = fingerprint({k: v for k, v in manifest.items() if k != 'identity_sha256'})
+    if manifest.get('identity_sha256') != expected:
+        raise ValueError('比较恢复装配身份无效')
+    return manifest
+
+
+def validate_context_policy(manifest, policy, *, max_docs=None, max_chars=None):
+    """装配摘要不能自报另一冻结池、来源范围或放宽预算。"""
+    from .evidence_attribution import EvidenceAttributionPolicy
+    policy = EvidenceAttributionPolicy.model_validate(policy)
+    if (not isinstance(manifest, dict) or policy.source_relations is None or
+            manifest.get('scope') != policy.scope.model_dump(mode='json') or
+            manifest.get('frozen_pool_sha256') != fingerprint(sorted(policy.source_relations.frozen_payloads.items())) or
+            (max_docs is not None and manifest.get('max_docs') != max_docs) or
+            (max_chars is not None and manifest.get('max_chars') != max_chars)):
+        raise ValueError('比较装配与冻结策略、完整来源池或预算不一致')
+    return manifest
 
 
 def _checked_row(row, scope, frozen_payloads):
@@ -64,6 +102,11 @@ def _introduction_root(path):
         return False
     title = re.sub(r'^\s*\d+(?:\.\d+)*[.、]?\s*', '', path[-1]).strip()
     return title in _INTRO_TITLES
+
+
+def _structural_title(row):
+    path = row['metadata']['heading_path']
+    return bool(path) and row['text'].strip() == path[-1].strip()
 
 
 def assemble_comparison_context(selected_docs, frozen_pool, *, product_ids, scope,
@@ -135,8 +178,15 @@ def assemble_comparison_context(selected_docs, frozen_pool, *, product_ids, scop
             issues.append(dict(product_id=pid, code='ambiguous_introduction_subject'))
             continue
         members.sort(key=lambda uid: (pool[uid]['ordinal'], uid))
+        # 纯标题已逐字存在于正文成员的heading_path，不重复占用正文槽；
+        # 仍记录在完整池与依赖身份中。任何条件/子段都不能据此省略。
+        titles = [uid for uid in members if _structural_title(pool[uid])]
+        members = [uid for uid in members if uid not in titles]
+        if not members:
+            issues.append(dict(product_id=pid, code='introduction_body_not_in_frozen_pool'))
+            continue
         dependencies.append(dict(product_id=pid, reason='complete_product_introduction',
-            chunk_uids=members, heading_path=list(path)))
+            chunk_uids=members, structural_title_chunk_uids=titles, heading_path=list(path)))
         needed.update(members)
 
     product_order = {pid: index for index, pid in enumerate(product_ids)}
@@ -174,4 +224,4 @@ def assemble_comparison_context(selected_docs, frozen_pool, *, product_ids, scop
         max_docs=max_docs, max_chars=max_chars, documents=selected_order,
         dependencies=dependencies, dropped=dropped, status=status, issues=issues)
     return ContextAssembly([deepcopy(pool[uid]) for uid in selected_order], dependencies,
-        dropped, status, issues, fingerprint(identity))
+        dropped, status, issues, fingerprint(identity), deepcopy(identity))

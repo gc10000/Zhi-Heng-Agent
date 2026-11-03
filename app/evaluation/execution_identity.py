@@ -27,7 +27,7 @@ def run_output(row):
         'evaluation_candidates', 'prompt_budget', 'completion_snapshot', 'prompt_reference_map', 'prompt_used_docs',
         'answer_binding', 'answer_binding_failure', 'comparison_answer',
         'comparison_answer_failure', 'comparison_target', 'comparison_target_reason', 'comparison_policy_sha256',
-        'comparison_prompt_used_sha256') if k in row}
+        'comparison_prompt_used_sha256', 'comparison_context_assembly') if k in row}
 
 
 def result_subject(result):

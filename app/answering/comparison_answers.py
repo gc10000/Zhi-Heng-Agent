@@ -10,6 +10,7 @@ from app.knowledge.repository import fingerprint
 VERSION = 'comparison_answer_v1'
 VERSION_V2 = 'comparison_answer_v2'
 VERSION_V3 = 'comparison_answer_v3'
+VERSION_CONNECTION = 'connection_comparison_v1'
 _VERSION_V2_PLUS = (VERSION_V2, VERSION_V3)
 SCHEMA_VERSION = 'comparison_frame_selection_v1'
 MAX_SELECTION_CHARS = 4096
@@ -35,11 +36,11 @@ _CATEGORY_LABELS = {
 class ComparisonAnswerPolicy(BaseModel):
     model_config = ConfigDict(extra='forbid', frozen=True)
     enabled: bool = Field(default=False, strict=True)
-    function_version: Literal['comparison_answer_v1', 'comparison_answer_v2', 'comparison_answer_v3'] = VERSION
+    function_version: Literal['comparison_answer_v1', 'comparison_answer_v2', 'comparison_answer_v3', 'connection_comparison_v1'] = VERSION
 
 
 def _checked_version(version):
-    if version not in (VERSION, VERSION_V2, VERSION_V3):
+    if version not in (VERSION, VERSION_V2, VERSION_V3, VERSION_CONNECTION):
         raise ValueError('比较解释版本不受支持')
     return version
 
@@ -98,7 +99,16 @@ def build_frame_catalog(reference_map, docs, attribution):
         relation = row['source_relations']
         metadata = doc.get('metadata') or {}
         product_ids = metadata.get('product_ids') or []
-        for frame_index, frame in enumerate(relation['frames']):
+        frames = list(relation['frames'])
+        if policy.comparison_answer.function_version == VERSION_CONNECTION and not frames:
+            text = doc.get('text') or ''
+            frames = [dict(kind='source_document', direction='unknown',
+                fields=dict.fromkeys(('origin', 'medium', 'destination', 'purpose')),
+                clause=dict(start=0, end=len(text), text=text,
+                    sha256=fingerprint(text)),
+                scope=dict(start=0, end=len(text), text=text,
+                    sha256=fingerprint(text)))]
+        for frame_index, frame in enumerate(frames):
             start, end = frame['scope']['start'], frame['scope']['end']
             catalog.append(dict(
                 reference_number=row['reference_number'],
@@ -117,6 +127,10 @@ def build_frame_catalog(reference_map, docs, attribution):
                 scoped_text=(doc.get('text') or '')[start:end],
                 source_refs=doc.get('source_refs', metadata.get('source_refs', [])),
             ))
+            if policy.comparison_answer.function_version == VERSION_CONNECTION:
+                from copy import deepcopy
+                catalog[-1].update(source_document=deepcopy(doc),
+                    frozen_source=deepcopy(relation['source']))
     return catalog
 
 
@@ -445,14 +459,22 @@ def create_comparison_proof(target, policy_sha256, prompt_used_sha256,
 
 
 def bind_comparison_response(raw_json, catalog, product_ids, target,
-                             policy_sha256, prompt_used_sha256, product_labels, *, version=VERSION):
+                             policy_sha256, prompt_used_sha256, product_labels, *, version=VERSION,
+                             comparison_context=None):
     selection = validate_frame_selection(raw_json, catalog)
+    if version == VERSION_CONNECTION:
+        return bind_connection_comparison_selection(selection, catalog, product_ids, target,
+            policy_sha256, prompt_used_sha256, product_labels, raw_selection=raw_json,
+            comparison_context=comparison_context)
     return bind_comparison_selection(selection, catalog, product_ids, target,
         policy_sha256, prompt_used_sha256, product_labels, raw_selection=raw_json, version=version)
 
 
 def bind_comparison_selection(selection, catalog, product_ids, target,
                               policy_sha256, prompt_used_sha256, product_labels, *, raw_selection=None, version=VERSION):
+    if version == VERSION_CONNECTION:
+        return bind_connection_comparison_selection(selection, catalog, product_ids, target,
+            policy_sha256, prompt_used_sha256, product_labels, raw_selection=raw_selection)
     if selection and any((item['reference'], item['frame']) not in {
             (row['reference_number'], row['frame_index']) for row in catalog} for item in selection):
         raise ValueError('比较答复选择超出冻结帧目录')
@@ -480,16 +502,76 @@ def bind_comparison_selection(selection, catalog, product_ids, target,
     return answer, proof
 
 
+def bind_connection_comparison_selection(selection, catalog, product_ids, target,
+        policy_sha256, prompt_used_sha256, product_labels, *, raw_selection=None,
+        comparison_context=None):
+    from .connection_semantics import VERSION as connection_version
+    from .connection_semantics import compare_connections, derive_connection_facts, render_connection_comparison
+    from copy import deepcopy
+    for value in (policy_sha256, prompt_used_sha256):
+        if not isinstance(value, str) or not re.fullmatch(r'[a-f0-9]{64}', value):
+            raise ValueError('连接比较输入身份hash无效')
+    docs = []
+    seen = set()
+    for item in catalog:
+        key = item['chunk_uid']
+        if key in seen:
+            continue
+        seen.add(key)
+        doc = deepcopy(item.get('source_document')) or dict(chunk_uid=item['chunk_uid'], document_id=item['document_id'],
+            revision_id=item['revision_id'], ordinal=item.get('ordinal', item['frame_index']),
+            text=item.get('source_text') or item.get('scoped_text') or '',
+            reference_number=item['reference_number'], metadata=dict(
+                product_ids=item['source_product_ids'],
+                source_refs=item['source_refs'],
+                heading_path=item.get('heading_path') or [],
+                content_kind='text'))
+        doc.update(reference_number=item['reference_number'], original_sha256=item['original_sha256'],
+            payload_sha256=(item.get('frozen_source') or {}).get('payload_sha256'),
+            content_sha256=(item.get('frozen_source') or {}).get('content_sha256'))
+        docs.append(doc)
+    facts = derive_connection_facts(docs, product_ids, product_labels)
+    result = compare_connections(target, product_ids, facts)
+    answer = render_connection_comparison(result, product_labels)
+    proof = dict(function_version=connection_version, schema_version=SCHEMA_VERSION,
+        classifier_version='connection_semantics_' + connection_version,
+        comparator_version='qualified_connection_medium_v1',
+        renderer_version='connection_comparison_renderer_' + connection_version,
+        comparison_target=target, policy_sha256=policy_sha256,
+        prompt_used_sha256=prompt_used_sha256, selection_sha256=fingerprint(selection),
+        facts_sha256=fingerprint(facts), result_sha256=fingerprint(result),
+        answer_sha256=fingerprint(answer), selected_frames=selection,
+        rendered_frames=[dict(reference=x['reference_number'], frame=x['frame_index']) for x in catalog],
+        source_facts=facts, comparison_status=result['status'], result=result)
+    if comparison_context is not None:
+        from .comparison_context import validate_assembly_manifest
+        validate_assembly_manifest(comparison_context, catalog)
+        proof['comparison_context'] = deepcopy(comparison_context)
+    if raw_selection is not None:
+        proof['raw_selection'] = raw_selection
+    return answer, proof
+
+
 def validate_saved_comparison(row, catalog, product_ids, target,
                               policy_sha256, prompt_used_sha256, product_labels, *, version=VERSION):
     saved = row.get('comparison_answer') or {}
+    if version == VERSION_CONNECTION and catalog:
+        if row.get('comparison_context_assembly') != saved.get('comparison_context') or not row.get('comparison_context_assembly'):
+            raise ValueError('恢复比较装配身份与调用前冻结输入不一致')
     raw = saved.get('raw_selection')
     if raw is None and saved.get('selected_frames') == [] and not catalog:
-        answer, expected = bind_comparison_selection([], catalog, product_ids, target,
-            policy_sha256, prompt_used_sha256, product_labels, version=version)
+        if version == VERSION_CONNECTION:
+            answer, expected = bind_connection_comparison_selection([], catalog, product_ids, target,
+                policy_sha256, prompt_used_sha256, product_labels)
+        else:
+            answer, expected = bind_comparison_selection([], catalog, product_ids, target,
+                policy_sha256, prompt_used_sha256, product_labels, version=version)
     elif isinstance(raw, str):
+        if version == VERSION_CONNECTION and not saved.get('comparison_context'):
+            raise ValueError('连接比较恢复缺少冻结装配proof')
         answer, expected = bind_comparison_response(raw, catalog, product_ids, target,
-            policy_sha256, prompt_used_sha256, product_labels, version=version)
+            policy_sha256, prompt_used_sha256, product_labels, version=version,
+            comparison_context=saved.get('comparison_context'))
         expected['raw_selection'] = raw
     else:
         raise ValueError('恢复核验缺少原始帧选择')

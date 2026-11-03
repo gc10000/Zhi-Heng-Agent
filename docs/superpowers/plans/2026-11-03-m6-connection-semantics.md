@@ -8,7 +8,9 @@
 
 **Tech Stack:** Python、Pydantic、pytest、既有冻结payload和Run/outcome；隔离Mongo只用随机短m1_test_m4_前缀。
 
-**Spec:** [2026-11-03-m6-connection-semantics-design.md](../specs/2026-11-03-m6-connection-semantics-design.md)。总控已自行审阅并批准零调用实施；任务1已完成实现自验，任务2/3未执行，完整比较和生产接线仍未交付。
+**Spec:** [2026-11-03-m6-connection-semantics-design.md](../specs/2026-11-03-m6-connection-semantics-design.md)。总控已自行审阅并批准零调用实施。以下任务1/2/3的原始计划及勾选保留实施前/进行中的交接时点；最终实施自验见下方最新接续和实现报告，不代表独立复核或质量验收。
+
+**2026-11-03实施接续：**任务2/3的代码、测试、离线四格与生产接线已完成当前总控实现自验；详细结果见[实施报告](../../development/reviews/M6-connection-comparison-implementation-r1.md)。任务项保留原设计时点记录；不得把本次实现自验勾成独立技术关闭。D四格通过限定比较规则检查，但冻结rubric要求的CB Cable上联仍无同层明示证据；新模式未发真实答案，质量proof未完成。下一状态为不同实现身份定向复核，不是再修提示词或新048调用。
 
 ## 全局约束
 

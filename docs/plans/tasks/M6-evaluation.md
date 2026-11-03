@@ -952,6 +952,8 @@ R1恢复结果使用持久Run累计，另存adapter新增；R2由正式job在模
 本轮源码核对及缺口：无regression Question审阅端点；无从已审反馈生成新JSONL/manifest/catalog版本的正式步骤；manifest和Experiment没有feedback来源字段；无regression专用的反馈后同范围dev复评证明。`POST /eval-sets`只登记静态catalog中的已冻结版本。下一条执行端应接通这些来源与版本环节，且保持holdout不可选；M6-04双轮原件审阅与预校准仍须先于候选。
 
 定向验证：隔离Mongo/API `tests/integration/test_feedback_triage_workflow.py`与`tests/contract/test_feedback_triage.py` 8 passed；离线浏览器`feedback-loop.spec.ts` 2 passed；`pnpm -C frontend typecheck`及`git diff --check`退出0。验证仅覆盖本次状态修正和界面分支，不计M6任务完成。见[执行报告](../../development/reviews/M6-08-feedback-regression-route-r1.md)及[验证摘要](../../development/reviews/M6-08-feedback-regression-route-validation-r1.json)。M6-04/05/08仍未验收，M7未启动。
+2026-11-03 connection_comparison_v1接线实现自验完成：受影响375离线/契约、94隔离Mongo及实际前端renderEvidence 2组21断言通过；保存输入D生成限定介质比较。D不把CB Cable诊断路径扩为同用途上联，故原rubric质量仍未证明。新模式默认关闭且正式评测入口拒绝旧048风险合同复用。非独立技术关闭；M6仍5/7，04保持，05反馈复评proof及08有效候选质量/阶段证据仍缺，M7未启动，43题/heldout暂停。详见[实现报告](../../development/reviews/M6-connection-comparison-implementation-r1.md)。
+
 2026-11-01 assertion_binding r2实现修复R1恢复冻结来源、R2断流材料、R3空证据投影合同；108单元/契约、16隔离集成及89受影响旧路径通过，均为总控实现自验，待独立复核。没有完整比较答案或新048质量证明。M6仍5/7、04保持、05／08未验收、M7未启动；43题及heldout保持暂停。
 2026-11-01继续复核R2发现完整流协议拒绝分支的raw selection此前无长度上限；现统一限4096字符并绑定失败身份。109定向单测/契约/OpenAPI及18项隔离Mongo通过，待独立复核；没有新增模型调用或正式质量proof，M6仍5/7，05/08未验收，M7未启动。
 

@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-03",
+  "task": "M6 connection comparison implementation self-validation",
+  "branch": "codex/m6-source-bound-comparison",
+  "implementation_self_validation": true,
+  "independent_technical_review": "open",
+  "real_answer_quality": "open",
+  "phase_acceptance": "open",
+  "mode": "connection_comparison_v1",
+  "mode_default_enabled": false,
+  "new_evaluation_admission_registered": false,
+  "new_048_authorized": false,
+  "checks": {
+    "affected_offline_contract_openapi": {"passed": 375, "failed": 0},
+    "isolated_mongo_jobs": {"passed": 94, "failed": 0, "same_and_separate_database": true},
+    "actual_frontend_renderEvidence": {"cases": 2, "assertions": 21, "passed": true},
+    "saved_input_four_cell_replay": {"cells": 4, "D_semantic_identity_checks": 10, "passed": true, "formal_quality_proof": false},
+    "original_saved_v2_proof_recomputed_unchanged": true
+  },
+  "product_scope": {
+    "complete_source_qualified_comparison_reachable_offline": true,
+    "CB_cable_same_role_uplink_evidence_established": false,
+    "original_rubric_quality_pass": false
+  },
+  "risk_and_usage": {
+    "new_provider_streams": 0,
+    "local_model_inference": 0,
+    "real_business_database_reads": 0,
+    "real_business_database_writes": 0,
+    "cumulative_input_output_tokens": [56239, 30516],
+    "reasoning_http_cost_and_gateway_hard_limit": "unknown"
+  },
+  "m6": {
+    "status": "5/7",
+    "M6_04": "accepted_preserved",
+    "M6_05": "real_feedback_reevaluation_proof_missing",
+    "M6_08": "valid_candidate_quality_and_phase_evidence_missing",
+    "M7": "not_authorized_not_started",
+    "original_43": "paused",
+    "heldout_65": "not_run"
+  },
+  "private_evidence_path": "output/m6-connection-completion-20261103-r1/",
+  "next_action": "independent_targeted_technical_review_then_new_identity_quality_authorization_if_passed"
+}

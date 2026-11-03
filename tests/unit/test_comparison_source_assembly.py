@@ -156,3 +156,37 @@ def test_title_substrings_do_not_create_an_introduction(sources, heading):
     kw['frozen_payloads']['pa'] = fingerprint(pool[0])
     result = assemble(pool[2:], pool, **kw)
     assert result.status == 'missing_required_source'
+
+
+@pytest.mark.parametrize('field', ['identity_sha256', 'max_docs', 'dependencies', 'dropped'])
+def test_manifest_recomputes_all_assembly_identity(sources, field):
+    from app.answering.comparison_context import assembly_manifest, validate_assembly_manifest
+    pool, kw = sources
+    result = assemble(pool[2:], pool, **kw)
+    manifest = assembly_manifest(result)
+    catalog = [dict(chunk_uid=d['chunk_uid']) for d in result.documents]
+    validate_assembly_manifest(manifest, catalog)
+    changed = deepcopy(manifest)
+    changed[field] = {'identity_sha256':'f'*64, 'max_docs':99, 'dependencies':[], 'dropped':[]}[field]
+    with pytest.raises(ValueError):
+        validate_assembly_manifest(changed, catalog)
+
+
+def test_structural_intro_title_is_not_a_body_dependency_or_budget_slot(sources):
+    pool,kw=sources
+    header=row('intro-title','p',0,['1 产品简介'],'1 产品简介')
+    pool.append(header);kw['frozen_payloads'][header['chunk_uid']]=fingerprint(header)
+    result=assemble(pool[2:4],pool,**kw)
+    assert result.status=='complete' and len(result.documents)==4
+    dep=next(d for d in result.dependencies if d['product_id']=='p')
+    assert dep['structural_title_chunk_uids']==['intro-title']
+    assert dep['chunk_uids']==['pa']
+
+
+def test_title_only_intro_is_still_missing_required_body(sources):
+    pool,kw=sources
+    pool[0]['text']='1 产品简介'
+    pool[0]['content_sha256']=content_hash(pool[0]['text'].encode())
+    kw['frozen_payloads']['pa']=fingerprint(pool[0])
+    result=assemble(pool[2:4],pool,**kw)
+    assert result.status=='missing_required_source' and not result.documents

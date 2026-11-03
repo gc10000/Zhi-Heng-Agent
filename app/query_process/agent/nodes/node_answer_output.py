@@ -36,6 +36,12 @@ def step_1_check_answer(state) -> bool:
         docs = state.get('prompt_used_docs') or []
         refs = state.get('prompt_reference_map') or []
         catalog = build_frame_catalog(refs,docs,attribution)
+        if attribution.comparison_answer.function_version == 'connection_comparison_v1':
+          from app.answering.comparison_context import validate_context_policy
+          validate_context_policy(state.get('comparison_context_assembly'), attribution,
+            max_docs=state.get('comparison_context_limit'),
+            max_chars=state.get('answer_budget').max_chars if hasattr(state.get('answer_budget'), 'max_chars')
+              else (state.get('answer_budget') or {}).get('max_chars'))
         question = state.get('rewritten_query') or state.get('original_query') or ''
         if state.get('evidence_scope_note'):
           question += '\n\n证据限制：' + state['evidence_scope_note']
@@ -88,6 +94,11 @@ def step_2_construct_prompt(state: QueryGraphState) -> str:
   labels=evidence_labels(reranked_docs,attribution)
   comparison=(state.get('comparison_mode') is True and attribution.comparison_answer is not None
     and attribution.comparison_answer.enabled)
+  connection=(comparison and attribution.comparison_answer.function_version == 'connection_comparison_v1'
+    and state.get('comparison_target') is not None)
+  # 新模式已完成有界装配，整组按冻结顺序入prompt；不能由非相邻子组改变引用号。
+  budget_groups=([[(d.get('chunk_uid') or d.get('chunk_id')) for d in reranked_docs]]
+    if connection and reranked_docs else state.get('evidence_groups',()))
   template='answer_attributed_v1' if attribution.enabled else 'answer_out'
   relations=attribution.source_relations is not None and attribution.source_relations.enabled
   binding=attribution.assertion_binding is not None and attribution.assertion_binding.enabled
@@ -97,11 +108,11 @@ def step_2_construct_prompt(state: QueryGraphState) -> str:
       # 新策略以已接线的关系提示为基线，额外矩阵不能挤出任何原证据或历史。
       baseline=build_budgeted_prompt(reranked_docs,history,question=question,items=item_names_str,
         render=lambda **kw:load_prompt('answer_source_relations_v1',**kw),budget=budget,
-        groups=state.get('evidence_groups',()),counter=state.get('token_counter'),attributions=labels)
+        groups=budget_groups,counter=state.get('token_counter'),attributions=labels)
       oldlabels=[{k:v for k,v in label.items() if k!='source_relations'} for label in labels]
       original=build_budgeted_prompt(reranked_docs,history,question=question,items=item_names_str,
         render=lambda **kw:load_prompt('answer_attributed_v1',**kw),budget=budget,
-        groups=state.get('evidence_groups',()),counter=state.get('token_counter'),attributions=oldlabels)
+        groups=budget_groups,counter=state.get('token_counter'),attributions=oldlabels)
       if baseline['used_doc_indices']!=original['used_doc_indices'] or baseline['history']!=original['history']:
         from app.api.errors import APIError
         raise APIError(422,'source_relation_budget_exceeded','关系呈现不能挤出原证据或历史。')
@@ -109,7 +120,7 @@ def step_2_construct_prompt(state: QueryGraphState) -> str:
       oldlabels=[{k:v for k,v in label.items() if k!='source_relations'} for label in labels]
       baseline=build_budgeted_prompt(reranked_docs,history,question=question,items=item_names_str,
         render=lambda **kw:load_prompt('answer_attributed_v1',**kw),budget=budget,
-        groups=state.get('evidence_groups',()),counter=state.get('token_counter'),attributions=oldlabels)
+        groups=budget_groups,counter=state.get('token_counter'),attributions=oldlabels)
     template='answer_source_relations_v1'
   if binding:
     from app.answering.assertion_binding import render_assertion_matrix
@@ -127,14 +138,24 @@ def step_2_construct_prompt(state: QueryGraphState) -> str:
   else:
     packed = build_budgeted_prompt(reranked_docs,history,question=question,items=item_names_str,
       render=lambda **kw:load_prompt(template,**kw),budget=budget,
-      groups=state.get('evidence_groups',()),counter=state.get('token_counter'),attributions=labels)
+      groups=budget_groups,counter=state.get('token_counter'),attributions=labels)
   if comparison:
     from app.answering.comparison_answers import build_frame_catalog,render_frame_catalog,bind_comparison_selection,prompt_used_identity
     from app.knowledge.repository import fingerprint
     chosen=baseline['used_doc_indices']
+    if (connection and
+        chosen != list(range(len(reranked_docs)))):
+      from app.api.errors import APIError
+      raise APIError(422,'required_source_budget_exceeded','连接比较的冻结必要来源不能被提示词预算省略。')
     compare_docs=[reranked_docs[i] for i in chosen]
     compare_labels=[dict(labels[i],reference_number=n+1) for n,i in enumerate(chosen)]
     catalog=build_frame_catalog(compare_labels,compare_docs,attribution)
+    if attribution.comparison_answer.function_version == 'connection_comparison_v1' and state.get('comparison_target') is not None:
+      from app.answering.comparison_context import validate_assembly_manifest, validate_context_policy
+      context = state.get('comparison_context_assembly')
+      validate_assembly_manifest(context, catalog)
+      validate_context_policy(context, attribution,
+        max_docs=state.get('comparison_context_limit'), max_chars=budget.max_chars)
     state['comparison_frame_catalog']=catalog
     state['comparison_policy_sha256']=fingerprint(attribution.model_dump(mode='json'))
     state['comparison_product_ids']=list(state.get('comparison_product_ids') or [])
@@ -145,14 +166,20 @@ def step_2_construct_prompt(state: QueryGraphState) -> str:
       state['comparison_answer_short_circuit']=True
     elif not catalog:
       prompt_hash=prompt_used_identity(question,compare_labels,compare_docs,target)
-      state['answer'],state['comparison_answer']=bind_comparison_selection([],catalog,
-        state['comparison_product_ids'],target,state['comparison_policy_sha256'],prompt_hash,
-        state.get('comparison_product_labels') or {}, version=attribution.comparison_answer.function_version)
+      if attribution.comparison_answer.function_version == 'connection_comparison_v1':
+        from app.answering.comparison_answers import bind_connection_comparison_selection
+        state['answer'],state['comparison_answer']=bind_connection_comparison_selection([],catalog,
+          state['comparison_product_ids'],target,state['comparison_policy_sha256'],prompt_hash,
+          state.get('comparison_product_labels') or {})
+      else:
+        state['answer'],state['comparison_answer']=bind_comparison_selection([],catalog,
+          state['comparison_product_ids'],target,state['comparison_policy_sha256'],prompt_hash,
+          state.get('comparison_product_labels') or {}, version=attribution.comparison_answer.function_version)
       state['comparison_answer_short_circuit']=True
     else:
       from app.answering.service import build_budgeted_prompt
       frame_catalog=render_frame_catalog(catalog)
-      selected_groups=[g for g in state.get('evidence_groups',()) if all(
+      selected_groups=[g for g in budget_groups if all(
         uid in {str(d.get('chunk_uid',d.get('chunk_id'))) for d in compare_docs} for uid in g)]
       packed=build_budgeted_prompt(compare_docs,history,question=question,items=item_names_str,
         render=lambda **kw:load_prompt('answer_comparison_v1',frame_catalog=frame_catalog,**kw),budget=budget,
@@ -227,6 +254,18 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
   if observations is not None:state['answer_usage_observations']=observations
   if binding:
     from app.answering.assertion_binding import failure_record
+  connection = comparison and attribution.comparison_answer.function_version == 'connection_comparison_v1'
+  def checked_connection_catalog():
+    from app.answering.comparison_answers import build_frame_catalog
+    from app.answering.comparison_context import validate_assembly_manifest, validate_context_policy
+    checked = build_frame_catalog(state.get('prompt_reference_map') or [],state.get('prompt_used_docs') or [],attribution)
+    if checked != state.get('comparison_frame_catalog'):
+      raise ValueError('生成阶段的比较目录与冻结来源漂移')
+    validate_assembly_manifest(state.get('comparison_context_assembly'), checked)
+    validate_context_policy(state.get('comparison_context_assembly'), attribution)
+    return checked
+  if connection:
+    checked_connection_catalog()
   try:
     llm = client if client is not None else get_llm_client()
     from app.infrastructure.providers.clients import output_limit_options
@@ -299,10 +338,16 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
     try:
       if state.get('output_truncated'):
         raise ValueError('比较帧选择输出被截断')
+      if connection:
+        checked_connection_catalog()
+      if (attribution.comparison_answer.function_version == 'connection_comparison_v1' and
+          state.get('comparison_frame_catalog') and not state.get('comparison_context_assembly')):
+        raise ValueError('连接比较缺少冻结来源装配身份')
       answer,proof=bind_comparison_response(final_text,state.get('comparison_frame_catalog') or [],
         state.get('comparison_product_ids') or [],state.get('comparison_target'),
         state['comparison_policy_sha256'],state['comparison_prompt_used_sha256'],
-        state.get('comparison_product_labels') or {}, version=attribution.comparison_answer.function_version)
+         state.get('comparison_product_labels') or {}, version=attribution.comparison_answer.function_version,
+         comparison_context=state.get('comparison_context_assembly'))
     except (ValueError,TypeError,KeyError) as exc:
       state['comparison_answer_failure']=comparison_failure_record(final_text,prompt,
         state.get('prompt_reference_map'),attribution,'comparison_selection_rejected')

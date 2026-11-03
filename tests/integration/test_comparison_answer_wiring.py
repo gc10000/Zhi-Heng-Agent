@@ -15,7 +15,8 @@ pytestmark = pytest.mark.integration
 
 
 def setup(ctx, tmp_path, monkeypatch, *, separate, raw=None, interrupted=False,
-          question_text=None, no_evidence=False, product_names=None, version='comparison_answer_v1'):
+          question_text=None, no_evidence=False, product_names=None, version='comparison_answer_v1',
+          configure_sources=None):
     cfg, _, resources, prompts, question, _ = ctx
     g = resources['knowledge']()
     user = Principal(user_id=cfg['target']['owner_id'], username='比较隔离验证',
@@ -86,6 +87,8 @@ def setup(ctx, tmp_path, monkeypatch, *, separate, raw=None, interrupted=False,
                 raise TimeoutError('synthetic comparison stream interruption')
 
     resources['query_runner'].llm_factory = Model
+    if configure_sources is not None:
+        configure_sources(ctx)
     case = formal_case(ctx, tmp_path, monkeypatch, separate=separate)
     # This suite exercises answer wiring with a synthetic model. The production
     # admission gate is covered separately; create only isolated synthetic jobs

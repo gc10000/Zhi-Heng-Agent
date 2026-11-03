@@ -960,3 +960,6 @@ comparison_answer_v2已由总控直接复核：冻结目录内已识别关系补
 ## 2026-11-02 · M6比较执行身份补修与授权停止记录
 
 已完成受限执行归属接线和撤权/恢复隔离验证，但不得勾选M6质量任务。用户授权的唯一support-v1-048尝试在experiment创建前因同版本题集重复登记的config白名单冲突停止，provider/local inference均0；新授权槽已halt，不重试。M6保持5/7：04已验收，05缺反馈复评proof，08缺有效候选质量和阶段证据；43题暂停、heldout65未跑、M7未授权。详见[执行记录](../development/records/M6-comparison-answer-execution-owner-review-r1.md)。
+## 2026-11-03 · M6连接比较接线自验完成，独立复核/真实质量未完成
+
+`connection_comparison_v1`已完成范围内实现自验：受影响离线/契约375 passed、隔离Mongo94 passed、实际前端renderer2组21断言通过。保存输入四格D由新程序产生限定比较，但冻结048 rubric所需CB Cable同角色上联仍无证据，故没有真实质量通过。M6维持5/7；04保持，05缺反馈复评proof，08缺有效候选质量与阶段证据。唯一下一步是不同实现身份定向复核；复核通过后另做新身份、单题真实质量验证授权。43题保持暂停、heldout未跑、M7未启动。见[实现报告](../development/reviews/M6-connection-comparison-implementation-r1.md)。

@@ -477,4 +477,7 @@ MODEL_HOST桥接新增可选input_type=query/document，省略仍document兼容�
 2026-11-03 连接语义方案已审但未实现：connection_comparison_v1仅为预定行为名，当前配置不接受它；不新增环境变量，不修改.env.example。概述补齐形成的11项输入只是离线来源对照，不能绕过原context_limit=10注册正式运行。后续以新装配及输入身份在既有预算内保留必要来源，不升级旧Run或旧风险合同。详见[设计](superpowers/specs/2026-11-03-m6-connection-semantics-design.md)。
 
 
-2026-11-03装配单元已实现但未接线：comparison_source_assembly_v1为内部纯函数版本，无启用配置或环境变量。当前不接受connection_comparison_v1运行配置，不变更.env.example；10条预算装配回放是本机输入验证，不是正式Run或新调用授权。
+2026-11-03较早交接时：comparison_source_assembly_v1为内部纯函数版本，尚未注册connection_comparison_v1。此为历史时点说明；当前模式保持默认关闭，正式评测入口因缺独立风险授权而拒绝，不变更.env.example或增加环境变量。装配与四格回放是本机输入验证，不是正式Run或新调用授权。
+## M6连接比较模式（内部默认关闭）
+
+`connection_comparison_v1`是显式冻结`evidence_attribution.comparison_answer.function_version`，不是环境变量或用户可选开关。必须同时绑定冻结来源关系、完整payload映射及既有prompt预算；离线/开发自验之外没有新的正式评测风险合同。将其用于正式评测会在实验登记前以`comparison_admission_required`拒绝；不得通过复用旧048风险合同绕过。当前配置catalog不新增或启用该模式，没有新增环境变量。任何未来真实调用需独立审查新配置、请求身份和预算授权。
