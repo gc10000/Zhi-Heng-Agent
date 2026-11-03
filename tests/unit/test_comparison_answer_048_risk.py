@@ -23,6 +23,43 @@ def test_new_authorized_comparison_attempt_uses_fresh_identity():
     assert risk.ACCOUNT_COLLECTION != consumed.ACCOUNT_COLLECTION
 
 
+def test_v2_authorized_comparison_contract_has_fresh_versioned_identity():
+    from app.infrastructure.providers.output_contract import parse_contract, risk_handler
+
+    contract = {
+        'enabled': True,
+        'function_version': 'diagnostic_comparison_answer_048_v2',
+        'thinking': False,
+        'status': 'unknown',
+        'semantics': 'unknown',
+        'n': 1,
+        'endpoint_sha256': 'a' * 64,
+        'model': 'qwen3.8-flash',
+        'client_versions': {'openai': '2.28.0', 'langchain-openai': '1.1.11'},
+        'limit_field': 'max_completion_tokens',
+        'per_request_total_output_tokens': 4096,
+        'ledger_id': 'm6-comparison-answer-048-canary-r8',
+        'prior_input_tokens': 54664,
+        'prior_output_tokens': 30449,
+        'prior_source_sha256': 'b' * 64,
+        'max_total_input_tokens': 83080,
+        'max_total_output_tokens': 34545,
+        'admission': {
+            'authorization': {
+                'commit': 'c' * 40,
+                'path': 'docs/development/reviews/M6-comparison-answer-048-authorization-r8.json',
+                'sha256': 'd' * 64,
+            },
+            'manifest_sha256': 'e' * 64,
+            'member_slot': 'm6-comparison-answer-048-r8-support-v1-048',
+        },
+    }
+    policy = parse_contract(contract)
+    assert policy.function_version == 'diagnostic_comparison_answer_048_v2'
+    assert policy.enabled is True
+    assert risk_handler(policy).__name__.endswith('comparison_answer_048_v2_risk')
+
+
 def comparison_contract(*, enabled=False):
     return {
         'enabled': enabled,

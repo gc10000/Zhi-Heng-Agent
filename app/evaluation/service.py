@@ -57,7 +57,8 @@ class EvaluationService:
             except (TypeError, ValueError):
                 raise APIError(422, 'comparison_admission_required', '比较答复风险准入版本未登记或合同无效，暂停登记实验。') from None
             if (not comparison_contract.enabled or
-                    comparison_contract.function_version != 'diagnostic_comparison_answer_048_v1' or
+                    comparison_contract.function_version not in ('diagnostic_comparison_answer_048_v1',
+                        'diagnostic_comparison_answer_048_v2') or
                     not is_product_risk(comparison_contract)):
                 raise APIError(422, 'comparison_admission_required', '比较答复缺少独立单次风险准入，暂停登记实验。')
             from app.infrastructure.providers.output_contract import risk_handler

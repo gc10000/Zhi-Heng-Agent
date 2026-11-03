@@ -4,7 +4,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from app.retrieval.prerequisites import SourcePrerequisitePolicy
 from app.retrieval.combination import CombinationPolicy
 from app.answering.evidence_attribution import EvidenceAttributionPolicy
-from app.infrastructure.providers.output_contract import OutputContract,SingleProductRiskContract,RemainingManifestContract,NonthinkingManifestContract,SourceRelation048Contract,ComparisonAnswer048Contract
+from app.infrastructure.providers.output_contract import OutputContract,SingleProductRiskContract,RemainingManifestContract,NonthinkingManifestContract,SourceRelation048Contract,ComparisonAnswer048Contract,ComparisonAnswer048V2Contract
 
 TERMINAL = frozenset({'completed', 'failed', 'cancelled', 'interrupted'})
 ACTIVE = frozenset({'pending', 'running', 'awaiting_input', 'cancel_requested'})
@@ -27,7 +27,7 @@ class InternalRunInput(RunInput):
     comparison_target_reason: Literal[
         'explicit_single_target', 'ambiguous_targets', 'unsupported_or_missing_target', 'not_comparison'
     ] | None = None
-    output_contract: OutputContract | SingleProductRiskContract | RemainingManifestContract | NonthinkingManifestContract | SourceRelation048Contract | ComparisonAnswer048Contract | None = None
+    output_contract: OutputContract | SingleProductRiskContract | RemainingManifestContract | NonthinkingManifestContract | SourceRelation048Contract | ComparisonAnswer048Contract | ComparisonAnswer048V2Contract | None = None
 
 
 def snapshot(row):

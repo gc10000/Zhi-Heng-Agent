@@ -74,6 +74,8 @@ class SourceRelation048Contract(NonthinkingManifestContract):
 
 COMPARISON_ANSWER_048_SLOT = 'm6-comparison-answer-048-r7-support-v1-048'
 COMPARISON_ANSWER_048_AUTHORIZATION_PATH = 'docs/development/reviews/M6-comparison-answer-048-authorization-r7.json'
+COMPARISON_ANSWER_048_V2_SLOT = 'm6-comparison-answer-048-r8-support-v1-048'
+COMPARISON_ANSWER_048_V2_AUTHORIZATION_PATH = 'docs/development/reviews/M6-comparison-answer-048-authorization-r8.json'
 
 
 class ComparisonAnswer048Admission(SingleProductAdmission):
@@ -102,19 +104,46 @@ class ComparisonAnswer048Contract(NonthinkingManifestContract):
         return self
 
 
+class ComparisonAnswer048V2Admission(SingleProductAdmission):
+    member_slot: Literal[COMPARISON_ANSWER_048_V2_SLOT]
+
+
+class ComparisonAnswer048V2Contract(NonthinkingManifestContract):
+    function_version: Literal['diagnostic_comparison_answer_048_v2'] = 'diagnostic_comparison_answer_048_v2'
+    admission: ComparisonAnswer048V2Admission
+
+    @model_validator(mode='after')
+    def fixed_single_comparison_profile(self):
+        admission = self.admission
+        if admission.authorization.path != COMPARISON_ANSWER_048_V2_AUTHORIZATION_PATH:
+            raise ValueError('比较048 v2风险合同必须引用专用Git授权路径')
+        if (self.status != 'unknown' or self.semantics != 'unknown' or self.evidence is not None or
+                self.n != 1 or self.model != 'qwen3.8-flash' or
+                self.client_versions != {'openai': '2.28.0', 'langchain-openai': '1.1.11'} or
+                self.limit_field != 'max_completion_tokens' or self.thinking is not False or
+                self.reasoning_budget is not None or self.per_request_total_output_tokens != 4096 or
+                self.ledger_id != 'm6-comparison-answer-048-canary-r8' or
+                self.prior_input_tokens != 54664 or self.prior_output_tokens != 30449 or
+                self.prior_source_sha256 is None or self.max_total_input_tokens != 83080 or
+                self.max_total_output_tokens != 34545):
+            raise ValueError('比较048 v2风险合同超出固定单题profile或预算')
+        return self
+
+
 def parse_contract(value):
     kind=value.get('function_version') if isinstance(value,dict) else getattr(value,'function_version',None)
     return {'diagnostic_single_product_risk_v1':SingleProductRiskContract,
             'diagnostic_remaining_manifest_r1':RemainingManifestContract,
             'diagnostic_nonthinking_manifest_r1':NonthinkingManifestContract,
             'diagnostic_source_relation_048_v1':SourceRelation048Contract,
-            'diagnostic_comparison_answer_048_v1':ComparisonAnswer048Contract}.get(kind,OutputContract).model_validate(value)
+            'diagnostic_comparison_answer_048_v1':ComparisonAnswer048Contract,
+            'diagnostic_comparison_answer_048_v2':ComparisonAnswer048V2Contract}.get(kind,OutputContract).model_validate(value)
 
 
 def is_product_risk(value):
     if value is None:return False
     policy=parse_contract(value)
-    return policy.enabled and policy.function_version in ('diagnostic_single_product_risk_v1','diagnostic_remaining_manifest_r1','diagnostic_nonthinking_manifest_r1','diagnostic_source_relation_048_v1','diagnostic_comparison_answer_048_v1')
+    return policy.enabled and policy.function_version in ('diagnostic_single_product_risk_v1','diagnostic_remaining_manifest_r1','diagnostic_nonthinking_manifest_r1','diagnostic_source_relation_048_v1','diagnostic_comparison_answer_048_v1','diagnostic_comparison_answer_048_v2')
 
 
 def risk_handler(value):
@@ -127,6 +156,9 @@ def risk_handler(value):
     if policy.function_version=='diagnostic_comparison_answer_048_v1':
         from . import comparison_answer_048_risk
         return comparison_answer_048_risk
+    if policy.function_version=='diagnostic_comparison_answer_048_v2':
+        from . import comparison_answer_048_v2_risk
+        return comparison_answer_048_v2_risk
     if policy.function_version=='diagnostic_nonthinking_manifest_r1':
         from . import nonthinking_risk
         return nonthinking_risk
@@ -274,6 +306,9 @@ class OutputLedger:
         if policy.enabled and policy.function_version=='diagnostic_comparison_answer_048_v1':
             from .comparison_answer_048_risk import ComparisonAnswer048Ledger
             return ComparisonAnswer048Ledger(db,contract)
+        if policy.enabled and policy.function_version=='diagnostic_comparison_answer_048_v2':
+            from .comparison_answer_048_v2_risk import ComparisonAnswer048V2Ledger
+            return ComparisonAnswer048V2Ledger(db,contract)
         if policy.enabled and policy.function_version=='diagnostic_nonthinking_manifest_r1':
             from .nonthinking_risk import NonthinkingLedger
             return NonthinkingLedger(db,contract)

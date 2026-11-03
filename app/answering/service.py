@@ -2,7 +2,7 @@
 import os
 from typing import Literal
 from pydantic import BaseModel,ConfigDict,Field,model_validator,model_serializer
-from app.infrastructure.providers.output_contract import OutputContract,SingleProductRiskContract,RemainingManifestContract,NonthinkingManifestContract,SourceRelation048Contract,ComparisonAnswer048Contract
+from app.infrastructure.providers.output_contract import OutputContract,SingleProductRiskContract,RemainingManifestContract,NonthinkingManifestContract,SourceRelation048Contract,ComparisonAnswer048Contract,ComparisonAnswer048V2Contract
 from app.api.errors import APIError
 from .context_budget import pack_prompt_inputs
 
@@ -14,7 +14,7 @@ class AnswerBudget(BaseModel):
     reserve_tokens:int=Field(default=256,ge=0,le=8192,strict=True)
     max_chars:int=Field(default=12000,ge=0,le=12000,strict=True)
     output_token_field:Literal['max_tokens','max_completion_tokens']='max_tokens'
-    output_contract:OutputContract | SingleProductRiskContract | RemainingManifestContract | NonthinkingManifestContract | SourceRelation048Contract | ComparisonAnswer048Contract | None=None
+    output_contract:OutputContract | SingleProductRiskContract | RemainingManifestContract | NonthinkingManifestContract | SourceRelation048Contract | ComparisonAnswer048Contract | ComparisonAnswer048V2Contract | None=None
 
     @model_serializer(mode='wrap')
     def compatible_payload(self,handler):
