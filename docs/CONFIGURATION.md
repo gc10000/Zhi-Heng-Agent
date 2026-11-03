@@ -475,3 +475,6 @@ MODEL_HOST桥接新增可选input_type=query/document，省略仍document兼容�
 2026-11-03 v3接续：仅核明确本机端口主体后呈现documented_path；未识别/其他设备端口只保留原文。删除把程序未分类说成资料未说明的摘要。无配置键/环境变量变更、缺省v1/关闭保持；已保存本地v3候选漂移拒绝，不升级真实Run。穷举固定048目录全部2048选择都不足，当前v3不可作为完整回答候选，不在现已消费r8风险合同下启用。
 
 2026-11-03 连接语义方案已审但未实现：connection_comparison_v1仅为预定行为名，当前配置不接受它；不新增环境变量，不修改.env.example。概述补齐形成的11项输入只是离线来源对照，不能绕过原context_limit=10注册正式运行。后续以新装配及输入身份在既有预算内保留必要来源，不升级旧Run或旧风险合同。详见[设计](superpowers/specs/2026-11-03-m6-connection-semantics-design.md)。
+
+
+2026-11-03装配单元已实现但未接线：comparison_source_assembly_v1为内部纯函数版本，无启用配置或环境变量。当前不接受connection_comparison_v1运行配置，不变更.env.example；10条预算装配回放是本机输入验证，不是正式Run或新调用授权。

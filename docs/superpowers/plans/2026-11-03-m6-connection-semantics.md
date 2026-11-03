@@ -8,7 +8,7 @@
 
 **Tech Stack:** Python、Pydantic、pytest、既有冻结payload和Run/outcome；隔离Mongo只用随机短m1_test_m4_前缀。
 
-**Spec:** [2026-11-03-m6-connection-semantics-design.md](../specs/2026-11-03-m6-connection-semantics-design.md)。总控已自行审阅并批准零调用实施；本计划未执行，不是业务代码交付。
+**Spec:** [2026-11-03-m6-connection-semantics-design.md](../specs/2026-11-03-m6-connection-semantics-design.md)。总控已自行审阅并批准零调用实施；任务1已完成实现自验，任务2/3未执行，完整比较和生产接线仍未交付。
 
 ## 全局约束
 
@@ -20,18 +20,18 @@
 - 不调用供应商/本地推理，不写真实业务库，不运行43题、heldout65或M7。不同实现身份复核和正式质量证明分别保留。
 - 新增11项的审计输入不是正式配置；装配必须遵守context_limit=10及原字符/token预算，完整资料放不下须可观测拒绝。
 
-## 任务1：来源依赖装配与预算（下一实施任务）
+## 任务1：来源依赖装配与预算（已完成实现自验）
 
-**Files:** 新增app/answering/comparison_context.py、tests/unit/test_comparison_context.py；测试夹具用合成来源，不提交真实切片。
+**Files:** 新增app/answering/comparison_context.py、tests/unit/test_comparison_source_assembly.py；既有test_comparison_context.py属于检索回归，保留。测试夹具用合成来源，不提交真实切片。
 
-**Interfaces:** `assemble_comparison_context(selected_docs, frozen_pool, *, product_ids, frozen_payloads, max_docs, max_chars)`；返回`ContextAssembly(documents, dependencies, dropped, status, identity_sha256)`。documents是最终引用顺序，dependencies记录理由/完整scope及原payload身份，dropped记录候选移出项，status为complete/ambiguous/required_source_budget_exceeded。frozen_pool由已授权装载端提供，装配器不建客户端。
+**Interfaces:** `assemble_comparison_context(selected_docs, frozen_pool, *, product_ids, scope, frozen_payloads, max_docs, max_chars, required_chunk_uids=None)`；返回`ContextAssembly(documents, dependencies, dropped, status, issues, identity_sha256)`。documents是最终引用顺序，dependencies记录理由/完整scope及原payload身份，dropped记录候选移出项，status为complete/ambiguous/missing_required_source/required_source_budget_exceeded。frozen_pool由已授权装载端提供，装配器不建客户端。
 
-- [ ] 先写并运行红测：两个合成产品各有连接证据及介绍、另有纯版权项；预算4时保留两个连接及两个介绍，预算3返回required_source_budget_exceeded且documents为空。
-- [ ] 红测另外覆盖：介绍已存在不重复、单产品介绍缺失、多个不同介绍冲突、共享多产品主体、错误payload、跨修订、产品越界、unknown页码、介绍条件超字符预算。期待不是静默截断或随机选第一条。
-- [ ] 实现严格身份核对：每个候选按V2Index.payload兼容投影重算hash，并比对scope、产品和冻结成员；标题只按spec登记语法处理。去重和顺序稳定，必要段完整占预算，纯版权等未贡献事实/条件的项在候选选择时移出，不改原Run。
-- [ ] 实跑以上回归以及现有test_source_prerequisites/test_evidence_attribution相关单元；测试只能用显式合成pool，禁止自动读真实库或下载模型。
-- [ ] 在新的私有output读取本轮已保存唯一概述和旧输入，产出预算内新装配、引用映射和hash；核对源文件保护hash，不写正式Run。若通用规则无法得到正确概述，修规则或明确拒绝，不能为048追加uid白名单。
-- [ ] 维护报告/配置合同并显式暂存内聚提交；不接生产路由。
+- [x] 先写并运行红测：两个合成产品各有连接证据及介绍、另有纯版权项；预算4时保留两个连接及两个介绍，预算3返回required_source_budget_exceeded且documents为空。
+- [x] 红测另外覆盖：介绍已存在不重复、单产品介绍缺失、多个不同介绍冲突、共享多产品主体、错误payload、跨修订、产品越界、unknown页码、介绍条件超字符预算。期待不是静默截断或随机选第一条。
+- [x] 实现严格身份核对：每个候选按V2Index.payload兼容投影重算hash，并比对scope、产品和冻结成员；标题只按spec登记语法处理。去重和顺序稳定，必要段完整占预算，纯版权等未贡献事实/条件的项在候选选择时移出，不改原Run。
+- [x] 实跑以上回归以及现有test_source_prerequisites/test_evidence_attribution相关单元；测试只能用显式合成pool，禁止自动读真实库或下载模型。
+- [x] 在新的私有output读取本轮已保存唯一概述和旧输入，产出预算内新装配、引用映射和hash；核对源文件保护hash，不写正式Run。若通用规则无法得到正确概述，修规则或明确拒绝，不能为048追加uid白名单。
+- [x] 维护报告/配置合同并显式暂存内聚提交；不接生产路由。
 
 **回归接口示例（待实现合同，非已运行结果）：**
 
@@ -90,3 +90,12 @@ def test_diagnostic_path_is_not_live_state(diagnostic_path_assembly):
 不同实现身份按新差异定向复核才可记独立技术关闭。当前执行者不能通过自己复核自己补上该身份；不用子Agent绕过用户委派限制。技术通过后再决定正式新候选验证对象、身份与预算，不能继承旧槽、blocked账户或旧质量proof。
 
 本计划不改变M6阶段门槛：04保持验收，05真实反馈复评proof、08有效候选质量与阶段证据仍缺。没有任何测试数量、原文展示或人工设计草案可替代这些证据。
+
+## 任务1开始实施时的接口细化
+
+来源池必须与传入frozen_payloads成员全等；调用方只可从原完整冻结快照按明确资料/修订投影该映射，不能随意删成员制造“唯一概述”。补充显式scope参数（owner_id、kb_id、revisions、product_ids）核对payload归属。必要连接证据由调用方以required_chunk_uids提供，且只能指向selected_docs成员；省略时所有selected_docs都视为必要，装配器不得自行猜某段无贡献。只有被调用方明确列为可选的候选才可因预算移出。
+
+新增missing_required_source状态和issues字段，分别说明完整冻结池中没有可唯一确定的介绍或存在冲突；不宣称原资料本身缺少某种产品能力。子标题段也须随完整介绍保留。返回的identity还绑定范围、完整pool成员/载荷、必要来源集合和预算，不能只hash最终输出。
+
+
+2026-11-03实施接续：任务1已完成实现自验（新23、相关103、333条标量冻结池的10项预算回放），尚未接线或独立验收。原设计报告按88e359c保留；当前状态见[任务1报告](../../development/reviews/M6-comparison-source-assembly-r1.md)。下一步执行任务2，无新调用。

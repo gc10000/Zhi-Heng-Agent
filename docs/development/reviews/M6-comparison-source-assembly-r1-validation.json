@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-03",
+  "design_commit": "88e359c",
+  "role": "controller_implementation_and_self_verification",
+  "independent_acceptance": false,
+  "implemented_component": "comparison_source_assembly_v1",
+  "runtime_wired": false,
+  "new_mode_registered": false,
+  "task_1_self_verified": true,
+  "tasks_2_and_3_open": true,
+  "tests": {
+    "context-red": {
+      "tests": 23,
+      "failures": 23,
+      "errors": 0,
+      "skipped": 0
+    },
+    "context-green": {
+      "tests": 23,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "context-final": {
+      "tests": 103,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "new_tests": 23,
+  "final_targeted_tests": 103,
+  "existing_retrieval_test_restored_hash_matches": true,
+  "prior_design_hash_verified_from_git": true,
+  "replay": {
+    "frozen_scalar_rows_verified": 333,
+    "frozen_documents": 2,
+    "assembled_documents": 10,
+    "max_documents": 10,
+    "necessary_selected_sources": 4,
+    "necessary_sources_preserved": true,
+    "complete_introduction_dependencies": 2,
+    "introduction_members": 4,
+    "dropped_optional_sources": 3,
+    "catalog_rederived_by_production_code": true,
+    "overview_physical_page": 8,
+    "new_prompt_used_identity": "7c7f3f8282d0828e3e1a705baa7644cade6985894dfcd7f8abc6afafba0a1beb",
+    "assembly_identity": "f58a81d317775983f22d755ac20becb582cc5d851db85fb0f260e88279151987",
+    "source_only_product_v3_status": "insufficient_comparison",
+    "full_comparison_quality_passed": false,
+    "new_formal_run": false,
+    "provider_calls": 0,
+    "local_model_inference": 0
+  },
+  "formal_source_query_operations_total": 2,
+  "query_rows_per_operation": [
+    1,
+    333
+  ],
+  "query_results_overlap": true,
+  "vectors_read": false,
+  "formal_database_writes": 0,
+  "provider_calls": 0,
+  "local_model_inference": 0,
+  "new_formal_runs_candidates_scores_or_quality_proofs": 0,
+  "full_comparison_quality_passed": false,
+  "usage_delta": {
+    "input_tokens": 0,
+    "output_tokens": 0
+  },
+  "historical_usage_from_sealed_r8": {
+    "input_tokens": 56239,
+    "output_tokens": 30516
+  },
+  "reasoning_tokens": null,
+  "exact_http_requests": null,
+  "exact_cost": null,
+  "gateway_hard_limit": "unknown",
+  "paid_output_upper_bound": "unknown",
+  "stage": {
+    "m6": "5/7",
+    "m6_04": "accepted",
+    "m6_05": "feedback_reevaluation_proof_missing",
+    "m6_08": "candidate_quality_and_stage_evidence_missing",
+    "original_43": "paused",
+    "heldout_65": "not_run",
+    "m7": "not_started"
+  },
+  "limits": [
+    "Source assembly is a pure unit with trusted scoped full snapshot mapping; runtime authorization/loader not yet wired",
+    "Required selected set comes from old known frames only for this replay, not a complete production semantic gate",
+    "Document count and body/separator chars are checked; full prompt/token budget remains a later existing-budget check",
+    "No new integration or browser tests for this unwired unit",
+    "Old v3 still insufficient after complete source assembly",
+    "No full vector/default-pointer/TTL/account/old-quality audit",
+    "Controller-authored draft and 24 design judgments are not product quality proof"
+  ],
+  "intermediate_records": [
+    "23-failure red run preserved",
+    "new test filename collision restored and renamed; old retrieval tests included in final 103",
+    "offline proof initially assumed one dropped optional but complete introductions required four members; corrected audit in new directory"
+  ],
+  "next_task": "implement_connection_semantics_and_connection_comparison_with_actual_24_case_matrix",
+  "private_evidence": "output/m6-comparison-semantics-contract-20261103-r1",
+  "evidence_sha256": {
+    "app/answering/comparison_context.py": "d994242e9d260efef0b60a09ee8e9818ee948417b1edf3f83487dbcaa5498f4b",
+    "tests/unit/test_comparison_source_assembly.py": "e0c99b685a42bbb5f90e90557421ed7649041fadd16eae6242177a21ccaff4b7",
+    "docs/development/reviews/M6-comparison-source-assembly-r1.md": "4898245ae49262f05c81d1399b5ca669ba13dec1992fb9c50e2001b84bb8967a",
+    "docs/development/records/M6-comparison-source-assembly-r1.md": "34df26484f86073a3ddff1d0665cbfb304bfbd9f6e11103971c21c10411c3a20",
+    "docs/superpowers/plans/2026-11-03-m6-connection-semantics.md": "43ce079f51f17dabdf063d9835ae08baebf5a915354ba5f60ecabe6bf5eb47f8",
+    "output/m6-comparison-semantics-contract-20261103-r1/audit_sources.py": "0bab2e807a29d3f397a8b57f439e177957c765b91a7cdf8b5e15aaf04432022b",
+    "output/m6-comparison-semantics-contract-20261103-r1/context-final.log": "744911f827a0aff63906a126ef047fb846a4166b507b48c785f852dc8e2796d4",
+    "output/m6-comparison-semantics-contract-20261103-r1/context-final.xml": "b9e909ea6052e9291b1515c736643ea1e93302ba5ef567ce9758bf42b89e74d1",
+    "output/m6-comparison-semantics-contract-20261103-r1/context-green.log": "a101b0e6a8804a37693809094ba9c78be056e702b16ed52f47c4888823020ca3",
+    "output/m6-comparison-semantics-contract-20261103-r1/context-green.xml": "c401b704042005e40cb6c3f5df4918f5cea1f95eda7c5aa4f0a896e185b1b73b",
+    "output/m6-comparison-semantics-contract-20261103-r1/context-proof-initial-failure.json": "70c2091721baec41763dcc29aa1e42bb6bfa32c17d7f8f8627bb5f725254a61e",
+    "output/m6-comparison-semantics-contract-20261103-r1/context-red.log": "9524e28a562e64ecd8d8cf4f2b684eedfb9dd516b511772fd4a7b245834a6a6b",
+    "output/m6-comparison-semantics-contract-20261103-r1/context-red.xml": "26b026730245f5df5496969c663fff8512514268a145c85df2b891ced0d7681e",
+    "output/m6-comparison-semantics-contract-20261103-r1/context-replay.log": "70a3ed179baf3bab1b1ff506cd89ba103a47e11d0fb86ef9f1c1b5900cf8b4c4",
+    "output/m6-comparison-semantics-contract-20261103-r1/prepare_offline_input.py": "4e7adffc36e9c5915357314d1ce9594033ab4058f114368add0bb2b5e01db1fd",
+    "output/m6-comparison-semantics-contract-20261103-r1/read_frozen_overview.py": "7028cb6185887fe1e992ab813c537cde9eda332f2499f27aaf4e918674e433d6",
+    "output/m6-comparison-semantics-contract-20261103-r1/replay_context.py": "37b271270de80becc8570bf0bd712c1b880b78760f0ad0006c23b43ac1d650f1",
+    "output/m6-comparison-semantics-contract-20261103-r1/source-only-control-private.json": "2506891a67f509c3cfe1ccd32c7bc4500ff7e995a0d0716f0c8ce56f763b3504",
+    "output/m6-comparison-semantics-contract-20261103-r1/test-name-collision.json": "19bbe51f4a0bc0163c0e6c256038c949aadd8bfe981a9196698e684d3fb11a9a",
+    "output/m6-comparison-semantics-contract-20261103-r1/verify_context_replay.py": "f98fa8a52985b8f555be8ed308b7e426b28ee7cf2a5148288237f868cefc6505",
+    "output/m6-comparison-semantics-contract-20261103-r1/audit/atoms-private.json": "ca0831dcb8570a04dfd70a3013051d1af870feb0820538c63c907cad15821b8f",
+    "output/m6-comparison-semantics-contract-20261103-r1/audit/inspection-notes.json": "ddc35cbefd510884bc729f6e28654b5dc62668181c84711885b0c631a484d196",
+    "output/m6-comparison-semantics-contract-20261103-r1/audit/matrix-private.json": "8f7dd402cdd1f6549efdd415778ed298d68da4b6ec804b86c286bca7376db510",
+    "output/m6-comparison-semantics-contract-20261103-r1/audit/overview-private.json": "fee252fcf4c70640b76b2adbc5b6fd7355dce1e0beb2431091d241a07273d178",
+    "output/m6-comparison-semantics-contract-20261103-r1/audit/summary.json": "4bcb772ef8ecae5e5d4fe1c6b4ba68185afa224ffc5bd21bf68d56c40428c285",
+    "output/m6-comparison-semantics-contract-20261103-r1/context-proof-r2/input-private.json": "b923507fe0f3d74a88bf10b8383d637d5b9f57d8af5a49c897cb14ccd7d92ed2",
+    "output/m6-comparison-semantics-contract-20261103-r1/context-proof-r2/source-only-proof-private.json": "749cb6b06ba8d754d78f300c0a08bbae8c4434d5815175a5565d08ae69a8356d",
+    "output/m6-comparison-semantics-contract-20261103-r1/context-proof-r2/summary.json": "21d6d754f4586581b864c3794874e317c9de059cc06c235aa030bafc29885670",
+    "output/m6-comparison-semantics-contract-20261103-r1/context-replay/assembly-private.json": "b1fade02a359ee2b23d30056a501b8975698f111c9a1a73ace2fad2c0a4768c0",
+    "output/m6-comparison-semantics-contract-20261103-r1/context-replay/rows-private.json": "fcb306efe693965ae8373555df974b36b6a15cc5b64c029d8cce48f757762a34",
+    "output/m6-comparison-semantics-contract-20261103-r1/context-replay/summary.json": "1f620c66615f4b8911b38cef6094a06cbbaa3b2c29de7eaa8afb15e98e5eec82",
+    "output/m6-comparison-semantics-contract-20261103-r1/frozen-overview/row-private.json": "50e6f1413a155e44e1f2d9c3cd0d373266f018183ef3b77fb801d9048e24c835",
+    "output/m6-comparison-semantics-contract-20261103-r1/frozen-overview/summary.json": "7d92ba840adfc9b67a5b0cdd0e53aa9a1dd819755227fca59057cda7f59c8fd6",
+    "output/m6-comparison-semantics-contract-20261103-r1/offline-completed-input/input-and-draft-private.json": "7cc4df1b044a219aa133956d010b4e9887bd43641661b68fa083a61387d818b6",
+    "output/m6-comparison-semantics-contract-20261103-r1/offline-completed-input/summary.json": "7d636251f55a73c281531dda09ca55210dbf700b866adc6736169f048e2f4c16"
+  }
+}

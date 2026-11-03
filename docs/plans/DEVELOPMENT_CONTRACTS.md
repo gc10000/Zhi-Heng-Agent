@@ -1105,3 +1105,6 @@ v3跨产品摘要不再断言“资料未说明状态/上联”，只说明不�
 ## 2026-11-03 · 连接语义后续合同（设计已审，尚未实现）
 
 下一新行为预定connection_comparison_v1，尚未注册。新装配器仅消费同一授权冻结payload的原资料依赖，在原context_limit/字符/token预算内保留必要完整scope；新增/移出和引用重编号须进入全新输入/执行身份，不追加旧Run。多维事实分开speech_act、connection_role、端点/介质、用途/限定及operational_status；限定介质比较不外推成全面上联能力或现场成功。24行矩阵只是设计裁定，完整草案为总控撰写，均不算新程序测试或质量proof。详见[新合同](../superpowers/specs/2026-11-03-m6-connection-semantics-design.md)，旧v1/v2/v3合同和正式风险路由不升级。
+
+
+2026-11-03任务1实现：新增comparison_source_assembly_v1纯单元，尚未与策略/路由接线。完整池与冻结成员全等、逐载荷身份核验，显式scope及必要集合；省略必要集合时不允许装配器静默丢任何已选资料。结果含complete/ambiguous/missing_required_source/required_source_budget_exceeded、issues、依赖、移出和绑定范围/输入/预算的hash。仅正文/分隔字符与文档数预算已实施，完整prompt token预算须沿既有预算器在后续核验；旧合同和默认均不变。
