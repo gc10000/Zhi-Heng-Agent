@@ -176,6 +176,21 @@ def _exact_product_endpoint(endpoint, product_id, source_product_ids, product_la
             endpoint.strip() == model)
 
 
+def _path_origin_is_product(origin, product_id, source_product_ids, product_label):
+    """资料所属产品不能替代端口所属主体；未识别的端口表达仅保留原文。"""
+    if not origin:
+        return False
+    names = set()
+    if source_product_ids == [product_id]:
+        names.update({'设备', '本设备', '该设备', '本网关', '本路由器'})
+    if product_label:
+        for endpoint in (product_label, product_label.split()[-1]):
+            if _exact_product_endpoint(endpoint, product_id, source_product_ids, product_label):
+                names.add(endpoint)
+    return any(re.fullmatch(re.escape(name) + r'(?:的)?[A-Za-z0-9/_-]+口', origin.strip())
+        for name in names)
+
+
 def classify_frame(frame, clause, product_id, source_product_ids, product_label=None, *, version=VERSION):
     """按冻结原句帧分类；不能把连接、访问或检查推成设备上联。"""
     _checked_version(version)
@@ -221,7 +236,8 @@ def classify_frame(frame, clause, product_id, source_product_ids, product_label=
         # 复述同一检查帧中已冻结的接线字段，不推断接入角色或现场状态。
         fact['documented_path'] = (dict(origin=origin, medium=medium, destination=destination,
             basis='diagnostic_instruction', operational_status='unknown')
-            if category == 'diagnostic_check' and all((origin, medium, destination)) else None)
+            if category == 'diagnostic_check' and all((origin, medium, destination)) and
+                _path_origin_is_product(origin, product_id, source_product_ids, product_label) else None)
     return fact
 
 
@@ -366,9 +382,8 @@ def render_comparison_answer(result, product_labels):
         paths = {pid for pid, facts in result['products'].items()
             if any(f.get('documented_path') for f in facts)}
         if any(left != right for left in management for right in paths):
-            lines.append('两份资料明确描述的关系不同：一方为管理连接，另一方为排障指令中的物理接线路径。'
-                '资料未说明该排障路径是否已建立或其是否承担设备上联。'
-                '下面只列资料明确写出的介质、对端和管理用途；这些证据仍不足以比较双方同一用途的设备上联。')
+            lines.append('下文分别列出管理连接证据与排障条目的接线描述。'
+                '不能仅凭管理或排障这一关系分类，认定设备上联方式或现场连接状态；具体条件以所引原文为准。')
     if version in _VERSION_V2_PLUS:
         categories = {f.get('category') for facts in result['products'].values() for f in facts}
         if {'client_access', 'management_link'} <= categories:

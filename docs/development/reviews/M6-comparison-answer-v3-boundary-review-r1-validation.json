@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-03",
+  "base_commit": "9e253d77218220e455c9f1db7a148fd1b33cff13",
+  "role": "current_controller_direct_review_then_implementation_and_self_verification",
+  "independent_acceptance": false,
+  "review_verdict_before_fix": "failed_two_roots",
+  "technical_fixes_self_verified": true,
+  "full_048_comparison_quality": "not_satisfied_by_v3",
+  "new_048_released": false,
+  "R1": {
+    "problem": "document_product_membership_does_not_establish_port_subject",
+    "red_failures": 4,
+    "fix": "only_literal_owned_port_gets_documented_path; otherwise preserve source"
+  },
+  "R2": {
+    "problem": "unclassified_source_is_not_evidence_of_absent_declaration",
+    "red_failures": 2,
+    "fix": "remove_source_absence_and_exclusive_role_claims"
+  },
+  "tests": {
+    "red": {
+      "tests": 10,
+      "failures": 6,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 4
+    },
+    "offline": {
+      "tests": 330,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 330
+    },
+    "isolated_mongo": {
+      "tests": 51,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 51
+    },
+    "frontend_renderer": {
+      "actual_frontend_renderer": true,
+      "cases_passed": 2,
+      "html_images_links_inert": true,
+      "fake_citations_inert": true,
+      "real_reference_4_preserved": true
+    },
+    "warnings": 5
+  },
+  "bounded_selection_proof": {
+    "source_question_id": "support-v1-048",
+    "source_question_sha256": "2b8b425b4cd9f7d09a634a34e64862b47aaa5db38d3807722f689739873167ea",
+    "frozen_dataset_sha256": "c72a78955afe86503fbb37cc7293fa54287b0427877af4616bb762dfb57656c9",
+    "original_v2_proof_recomputed": true,
+    "catalog_frames": 11,
+    "all_selection_subsets": 2048,
+    "subset_status_counts": {
+      "insufficient_comparison": 2048
+    },
+    "ordering_cannot_add_missing_category": true,
+    "all_catalog_uplink_facts": 0,
+    "mobile_medium_not_supported_by_comparator": true,
+    "selection_only_solution_for_this_input": "impossible_under_current_classifier_and_comparator",
+    "proof_and_filter_checks": true,
+    "path_field_tamper_rejected": 3,
+    "raw_source_phrases_not_equivalent_to_classifier_coverage": true,
+    "rubric_unchanged": true,
+    "real_quality_passed": false,
+    "provider_calls": 0,
+    "local_model_inference": 0,
+    "formal_database_reads": 0,
+    "formal_database_writes": 0,
+    "source_files_sha256": {
+      "output/m6-comparison-answer-048-execution-r10/run-private.json": "5e675da31560859ab2a4e15f347ae68a4963ab1a8a2ae0334cbf3f37eb46d64f",
+      "output/m6-comparison-answer-048-execution-r10/catalog/configs/m6-comparison-answer-048-execution-r8-final.json": "ac0a4178f91fa638fd13ea08c9f897e26bf396005aa3581216e6e82ce8095b50",
+      "output/m6-comparison-answer-048-execution-r10/catalog/support-v1-fb-07c584.jsonl": "c72a78955afe86503fbb37cc7293fa54287b0427877af4616bb762dfb57656c9"
+    }
+  },
+  "old_local_candidate_recovery": {
+    "old_local_v3_candidate_rejected_without_upgrade": true,
+    "reason": "恢复比较事实、来源或渲染答案发生漂移",
+    "formal_v3_runs_changed": 0
+  },
+  "architecture_decision": {
+    "current_v3": "retain_opt_in_source_presentation; reject_as_048_complete_answer_candidate",
+    "reasons": [
+      "zero_uplink_facts_in_all_11_frozen_frames",
+      "all_2048_selection_subsets_insufficient",
+      "mobile_medium_not_comparable",
+      "technical_insufficiency_sample_does_not_replace_frozen_rubric"
+    ],
+    "next_scope": "separate_source_speech_act_connection_role_medium_purpose_and_operational_state",
+    "no_model_reported_semantics_as_hash_proof": true,
+    "no_new_call_until_source_supported_complete_offline_answer_is_demonstrated": true
+  },
+  "provider_calls": 0,
+  "local_model_inference": 0,
+  "formal_database_reads": 0,
+  "formal_database_writes": 0,
+  "new_formal_runs_scores_candidates_or_quality_proofs": 0,
+  "historical_usage_from_sealed_r8": {
+    "input_tokens": 56239,
+    "output_tokens": 30516
+  },
+  "usage_delta": {
+    "input_tokens": 0,
+    "output_tokens": 0
+  },
+  "reasoning_tokens": null,
+  "exact_http_requests": null,
+  "exact_cost": null,
+  "gateway_hard_limit": "unknown",
+  "paid_output_upper_bound": "unknown",
+  "stage": {
+    "m6": "5/7",
+    "m6_04": "accepted",
+    "m6_05": "feedback_reevaluation_proof_missing",
+    "m6_08": "candidate_quality_and_stage_evidence_missing",
+    "original_43": "paused",
+    "heldout_65": "not_run",
+    "m7": "not_started"
+  },
+  "limits": [
+    "Current controller implemented both packages; this is not a different reviewer identity",
+    "2048 subsets are exhaustive only for the fixed 11-frame catalog; order cannot add absent facts",
+    "Source text not recognized by this classifier may still contain valid semantics",
+    "No claim that all possible source grammars or all product problems were reviewed",
+    "Saved Run and snapshots are local copies; no new full live corpus or account audit",
+    "Port recognizer is conservative: unrecognized/ambiguous or multi-product endpoints retain source text only",
+    "v1/v2 behavior remains; old local v3 proof is rejected, never rewritten or upgraded"
+  ],
+  "private_evidence": "output/m6-comparison-v3-boundary-review-20261103-r1/",
+  "evidence_sha256": {
+    "app/answering/comparison_answers.py": "9e5549191d8ae97a0bb71094b4c25ccd9d4b8ee116d65f79bab21e6a28440ab4",
+    "tests/unit/test_comparison_answers.py": "3feb5c456b79fb2a19111e147a930227b0d6bfc65ac0e056ff96376725e6f0c1",
+    "tests/unit/test_comparison_v3_boundaries.py": "4ff932a1ae917f7382f03d8c28fb37d833bea92c771161b511c16a61cf711afb",
+    "output/m6-comparison-v3-boundary-review-20261103-r1/red.xml": "a9f84de8bcd429177852ad5a94d02b930222009bbd6d694c7687156e7a3e130e",
+    "output/m6-comparison-v3-boundary-review-20261103-r1/red2.xml": "2602c6e0faa062312e4a83cb0801b02bcd42c86f7d59abb04092aebf603c07ae",
+    "output/m6-comparison-v3-boundary-review-20261103-r1/green.xml": "0c1d7ad99256cd3c4b0a5c746ccadb179def5d66cce2b312cebf065825d207eb",
+    "output/m6-comparison-v3-boundary-review-20261103-r1/final-offline.xml": "76a7c931d3215e734cfbfdec2a10514792a0eb66b3c445b532f6c0b13c251e21",
+    "output/m6-comparison-v3-boundary-review-20261103-r1/final-offline.log": "3b385bc2aebf7de2850fc0ce09521a23675bb1672aa7f5ecd9e412014e667788",
+    "output/m6-comparison-v3-boundary-review-20261103-r1/final-integration.xml": "f4da34dbe5bbcef25cdb9428aba5f0f2b95a979f36f24fd4ac731f07e160549c",
+    "output/m6-comparison-v3-boundary-review-20261103-r1/final-integration.log": "01a2686fc6aad6b79a9d02eddc23fe74d07f1d14522c75c7c37897a106b85ee0",
+    "output/m6-comparison-v3-boundary-review-20261103-r1/selection-proof/summary.json": "63ecfc4e54a7f35846df7e00f197aad32310a5fbc20b6e29c7b4c10f88af74e9",
+    "output/m6-comparison-v3-boundary-review-20261103-r1/selection-proof/candidate-private.json": "527bd89904f2dc86afb9c14b12e886181a19f4609198d8e9f4a14327ffc43993",
+    "output/m6-comparison-v3-boundary-review-20261103-r1/frontend-render/render-summary.json": "c478411a1c98b0da493e2148bfc2e29ef7f65c58fe4d8a7977d27f57e857c3ef",
+    "output/m6-comparison-v3-boundary-review-20261103-r1/old-v3-local-recovery.json": "a44667f2ab141c02016b1103b48994a1619773a354dbb8240b0625e4795ae8cc"
+  }
+}

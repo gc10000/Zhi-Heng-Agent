@@ -471,3 +471,5 @@ MODEL_HOST桥接新增可选input_type=query/document，省略仍document兼容�
 ### 2026-11-03 · 比较答复v3（内部离线候选，未切默认）
 
 既有内部键`parameters.evidence_attribution.comparison_answer.function_version`可显式设`comparison_answer_v3`。开启仍须enabled=true及冻结归属/source_relations；缺省enabled=false、版本v1不变，无新增环境变量，`.env.example`无需新增项。v3分离文档端口/介质/对端与现场状态，使用独立classifier/renderer proof版本，旧Run和v1/v2配置不升级。当前仅离线/合成验证，无v3专用真实风险合同；不得将它写入已消费r8配置、复用槽或新发048。完整比较质量仍未通过。
+
+2026-11-03 v3接续：仅核明确本机端口主体后呈现documented_path；未识别/其他设备端口只保留原文。删除把程序未分类说成资料未说明的摘要。无配置键/环境变量变更、缺省v1/关闭保持；已保存本地v3候选漂移拒绝，不升级真实Run。穷举固定048目录全部2048选择都不足，当前v3不可作为完整回答候选，不在现已消费r8风险合同下启用。

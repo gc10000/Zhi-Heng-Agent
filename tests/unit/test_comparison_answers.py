@@ -184,8 +184,8 @@ def test_v3_comparison_explains_distinct_management_and_uplink_evidence():
     assert '实现设备管理' in answer
     assert '设备Cable口' in answer and '同轴电缆' in answer and '入户接口' in answer
     assert '不代表现场链路已经建立' in answer
-    assert '两份资料明确描述的关系不同' in answer
-    assert '未说明该排障路径是否已建立或其是否承担设备上联' in answer
+    assert '下文分别列出管理连接证据与排障条目的接线描述' in answer
+    assert '不能仅凭' in answer
     assert '现有证据不足' in answer
 
 

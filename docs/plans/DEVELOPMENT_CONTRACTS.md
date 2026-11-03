@@ -1095,3 +1095,9 @@ M6-02实现使用`metric_schema_version=1`启用新报告契约；M4既有配置
 `comparison_answer.function_version`增加显式`comparison_answer_v3`；enabled仍false、缺省版本仍v1，无新环境变量或公开API。v1/v2生成、proof和历史Run不升级。v3继承冻结目录补帧和完整scope保留，仅从同一physical_check帧的完整origin/medium/destination字段生成documented_path，basis=diagnostic_instruction、operational_status=unknown；category仍diagnostic_check，不升级device_uplink，不参与same_uplink_medium_v1比较。
 
 v3管理事实按冻结字段呈现介质/对端/用途；文档路径使用中性“条目涉及”而非肯定检查指令，原文否定和条件保留。所有动态字段及产品名称作为惰性字面量，引用仅来自程序编号；unknown物理页码保留旧合同。classifier/renderer分别source_frame_classifier_v3、comparison_answer_renderer_v3，完成/缓存/恢复按冻结策略版本重算并拒绝漂移。技术重算通过不等于048完整比较或候选质量通过；现r8风险合同仅v2且已消费，本包不增加v3风险合同或真实授权。
+
+## 2026-11-03 · v3直接边界补修及完整比较限制
+
+仅v3的documented_path增加端口主体核对：单产品来源下的明确本机泛称、或冻结产品精确全名/既有精确简称，后接受支持的字母/数字端口表达，才派生本产品路径。其他设备/含混/未识别端口不派生路径，完整原文保留，不扩大旧抽帧合同。资料所属产品不等于句中所有端点均属于该产品。
+
+v3跨产品摘要不再断言“资料未说明状态/上联”，只说明不能仅靠管理/排障分类认定上联或现场状态；未识别不等于不存在。函数仍为内部显式v3、缺省v1且默认关闭；当前包为受审前v3修复，旧本地v3候选proof漂移拒绝、不迁移，r8真实v2不变。固定11帧2048集合全部不足，严格选择/完整摘录不作为048质量通过；旧设计技术样例不覆盖冻结rubric。
