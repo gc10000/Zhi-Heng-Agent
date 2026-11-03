@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-03",
+  "role": "current_controller_implementation_and_direct_self_verification",
+  "base_commit": "aea8471f12b653b16fabdfd644547c696f8d9eab",
+  "function_version": "comparison_answer_v3",
+  "default_version": "comparison_answer_v1",
+  "enabled_by_default": false,
+  "offline_tests": {
+    "tests": 320,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 320
+  },
+  "isolated_mongo_tests": {
+    "tests": 51,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 51,
+    "provider_and_local_models": "synthetic"
+  },
+  "frontend_renderer_checks": {
+    "actual_frontend_renderer": true,
+    "cases_passed": 2,
+    "html_images_links_inert": true,
+    "fake_citations_inert": true,
+    "real_reference_4_preserved": true
+  },
+  "saved_input_replay": {
+    "kind": "m6_comparison_answer_v3_saved_input_replay",
+    "source_question_id": "support-v1-048",
+    "source_dataset_version": "fb-07c584730833908571fe9dd7c7c890afa3cf9e66",
+    "source_v2_proof_recomputed": true,
+    "source_selection_reused_without_model": true,
+    "supplemental_relations_rendered_by_program": 4,
+    "cb304n_path_category": "diagnostic_check",
+    "cb304n_operational_status": "unknown",
+    "comparison_status": "insufficient_comparison",
+    "documented_path_management_and_unknown_operational_status_rendered": true,
+    "frozen_048_complete_comparison_requirement_met": false,
+    "real_quality_passed": false,
+    "provider_calls": 0,
+    "local_inference": 0,
+    "real_database_reads": 0,
+    "real_database_writes": 0,
+    "usage_delta": {
+      "input_tokens": 0,
+      "output_tokens": 0
+    }
+  },
+  "passed_self_verified": [
+    "documented_path_separate_from_operational_state",
+    "management_medium_endpoint_and_purpose_rendered",
+    "dynamic_source_fields_and_product_labels_inert",
+    "negated_diagnostic_instruction_not_promoted_to_positive_requirement",
+    "versioned_proof_and_v1_v2_compatibility",
+    "same_and_separate_db_failed_stream_persistence_and_reuse"
+  ],
+  "open": {
+    "independent_technical_review": true,
+    "support_v1_048_complete_comparison": "not_demonstrated",
+    "v3_real_product_quality": "not_run",
+    "r8_risk_wiring_independent_review": "unchanged_open",
+    "m6_05": "feedback_reevaluation_proof_missing",
+    "m6_08": "valid_candidate_quality_and_stage_evidence_missing"
+  },
+  "intermediate_failures_preserved": [
+    "initial-unit: one obsolete unsupported-v3 assertion failed, 70 passed",
+    "names-red: one fake-citation failure before literal rendering fix",
+    "negation-red: one positive-requirement counterexample before neutral wording fix",
+    "private replay import-root and literal-expectation errors corrected",
+    "private frontend checker CommonJS interop error corrected",
+    "path-status-red: absent operational/uplink declaration assertion failed before renderer wording fix"
+  ],
+  "provider_calls_this_repair": 0,
+  "local_model_inference_this_repair": 0,
+  "formal_database_reads_this_repair": 0,
+  "formal_database_writes_this_repair": 0,
+  "new_official_runs_or_quality_records": 0,
+  "new_usage": {
+    "input_tokens": 0,
+    "output_tokens": 0
+  },
+  "historical_usage_from_sealed_r8": {
+    "input_tokens": 56239,
+    "output_tokens": 30516
+  },
+  "reasoning_tokens": null,
+  "exact_http_requests": null,
+  "exact_cost": null,
+  "gateway_hard_limit": "unknown",
+  "paid_output_upper_bound": "unknown",
+  "m6": "5/7",
+  "m6_04": "accepted",
+  "original_43": "paused",
+  "heldout_65": "not_run",
+  "m7": "not_started",
+  "limits": [
+    "Saved input is a local copy, not a new read of formal Run or ledger state",
+    "No complete live vector/default-pointer/TTL/legacy-quality database audit",
+    "No new 048 authorization, slot or risk profile; consumed r8 identity unchanged",
+    "Path coverage remains bounded by existing frozen frame extraction",
+    "Complete excerpts and an insufficiency statement do not satisfy the frozen comparison rubric"
+  ],
+  "private_evidence": "output/m6-comparison-v3-repair-20261103-r1/",
+  "evidence_sha256": {
+    "app/answering/comparison_answers.py": "5b4a0d67b6731ff8689b34524b42b597184b0a2c23d170c03e4f4f30e76995dd",
+    "tests/unit/test_comparison_answers.py": "784ae712b5520da104a446c207673e2e813c8df6a6c73bc52a7e549ef2c7b4a7",
+    "tests/unit/test_comparison_answer_persistence.py": "45c2e42a5a932f9bc1f5eae9c289e883f2dd36de4a9f3571d9e33fff5241d650",
+    "tests/integration/test_comparison_answer_wiring.py": "0f01201553750b6d3cdb0c505f721a71a3949b1aefbbb4ec02a301efc984233f",
+    "output/m6-comparison-v3-repair-20261103-r1/final2-offline.log": "b88257299dbd1c76ec6056e6459ee77115b12e31911d315018cd134ce464259f",
+    "output/m6-comparison-v3-repair-20261103-r1/final2-offline.xml": "2666bfd8db1c169bbcb17069d2b053f6efeb9007896cfd102552d384cf678228",
+    "output/m6-comparison-v3-repair-20261103-r1/final2-integration.log": "4196633e5b94dcbfac2ee3ebe9ff4a665ea949031db4dec30c7266f33f172d15",
+    "output/m6-comparison-v3-repair-20261103-r1/final2-integration.xml": "04b7c771a7dd3ea6b0145e96274e481d041b7957fa0842b136b7865eff8a627b",
+    "output/m6-comparison-v3-repair-20261103-r1/final-replay-r3/replay-summary.json": "88e95ab3a51c8e9d4fc52aa9635c0c82d547cb1add5bbdcebb7da7a63c909a06",
+    "output/m6-comparison-v3-repair-20261103-r1/final-replay-r3/candidate-private.json": "c2ffd52d38b29a85913c3f7e85bf2aeab37ab8abc5cdb777e17e1fbdc428c0ba",
+    "output/m6-comparison-v3-repair-20261103-r1/final-render-r3/render-summary.json": "c478411a1c98b0da493e2148bfc2e29ef7f65c58fe4d8a7977d27f57e857c3ef",
+    "output/m6-comparison-v3-repair-20261103-r1/initial-unit.xml": "5701e5bd9c37901ab8a0c96d41e7a2f3afcc2bf69ebfe0a1855b4ef048dc5e43",
+    "output/m6-comparison-v3-repair-20261103-r1/names-red.xml": "a228010d6d8faf5b730c277058d72c2af99f1b32c5e35b43e9abde0424bc8e81",
+    "output/m6-comparison-v3-repair-20261103-r1/negation-red.xml": "acdb947fbde77f052f41ced27966d60325e685d4c8c0cc14c3a7d762b5c74f1e",
+    "output/m6-comparison-v3-repair-20261103-r1/path-status-red.xml": "8a04a0abc6dbce7b91a4ca0bc5309e06ccb1a0a3018905b48a2e165716b49183"
+  }
+}

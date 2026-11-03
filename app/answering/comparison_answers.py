@@ -9,6 +9,8 @@ from app.knowledge.repository import fingerprint
 
 VERSION = 'comparison_answer_v1'
 VERSION_V2 = 'comparison_answer_v2'
+VERSION_V3 = 'comparison_answer_v3'
+_VERSION_V2_PLUS = (VERSION_V2, VERSION_V3)
 SCHEMA_VERSION = 'comparison_frame_selection_v1'
 MAX_SELECTION_CHARS = 4096
 MAX_SELECTED_FRAMES = 100
@@ -33,11 +35,11 @@ _CATEGORY_LABELS = {
 class ComparisonAnswerPolicy(BaseModel):
     model_config = ConfigDict(extra='forbid', frozen=True)
     enabled: bool = Field(default=False, strict=True)
-    function_version: Literal['comparison_answer_v1', 'comparison_answer_v2'] = VERSION
+    function_version: Literal['comparison_answer_v1', 'comparison_answer_v2', 'comparison_answer_v3'] = VERSION
 
 
 def _checked_version(version):
-    if version not in (VERSION, VERSION_V2):
+    if version not in (VERSION, VERSION_V2, VERSION_V3):
         raise ValueError('比较解释版本不受支持')
     return version
 
@@ -183,11 +185,11 @@ def classify_frame(frame, clause, product_id, source_product_ids, product_label=
     medium, purpose = _field_text(frame, 'medium'), _field_text(frame, 'purpose')
     category = 'unknown'
     condition_text = clause
-    if version == VERSION_V2:
+    if version in _VERSION_V2_PLUS:
         condition_text += '\n' + str((frame.get('scope') or {}).get('text') or '')
     belongs = _belongs_to_product(clause, product_id, source_product_ids, product_label)
     origin_matches = _origin_is_product(origin, clause, product_id, source_product_ids, product_label)
-    if version == VERSION_V2:
+    if version in _VERSION_V2_PLUS:
         origin_matches = (_exact_product_endpoint(origin, product_id, source_product_ids, product_label) or
             bool(origin and (origin.strip() in _GENERIC_DEVICE_ORIGIN or
                  _GENERIC_UPLINK_ORIGIN.fullmatch(origin.strip())) and
@@ -197,7 +199,7 @@ def classify_frame(frame, clause, product_id, source_product_ids, product_label=
     elif belongs and not _NEGATION_OR_CONDITION.search(condition_text):
         if frame.get('kind') in {'access', 'login'} and destination:
             category = 'client_access'
-        elif (version == VERSION_V2 and frame.get('kind') == 'connection' and
+        elif (version in _VERSION_V2_PLUS and frame.get('kind') == 'connection' and
               origin in {'您', '用户', '客户端', '电脑', '计算机', 'PC'} and
               _exact_product_endpoint(destination, product_id, source_product_ids, product_label)):
             category = 'client_access'
@@ -211,10 +213,16 @@ def classify_frame(frame, clause, product_id, source_product_ids, product_label=
                 origin_matches and
                 medium and destination):
             category = 'device_uplink'
-    return dict(category=category, product_id=product_id, origin=origin,
+    fact = dict(category=category, product_id=product_id, origin=origin,
         destination=destination, medium=medium, purpose=purpose,
         operational_status='unknown' if category == 'diagnostic_check' else None,
         clause=clause, scope=frame.get('scope'), frame_sha256=fingerprint(frame))
+    if version == VERSION_V3:
+        # 复述同一检查帧中已冻结的接线字段，不推断接入角色或现场状态。
+        fact['documented_path'] = (dict(origin=origin, medium=medium, destination=destination,
+            basis='diagnostic_instruction', operational_status='unknown')
+            if category == 'diagnostic_check' and all((origin, medium, destination)) else None)
+    return fact
 
 
 def derive_facts(selection, catalog, product_ids, *, version=VERSION):
@@ -294,19 +302,45 @@ def _citation(fact):
     return f"[{fact['reference_number']}]（{page_text}）"
 
 
-def _fact_description(fact):
+def _literal_field(value):
+    """动态来源字段置于足够长的行内代码中，换行按JSON字面量显示。"""
+    text = json.dumps(value, ensure_ascii=False)
+    fence = '`' * max(1, 1 + max((len(m.group()) for m in re.finditer(r'`+', text)), default=0))
+    return fence + text + fence
+
+
+def _fact_description(fact, *, version=VERSION):
     category = fact.get('category', 'unknown')
     label = _CATEGORY_LABELS.get(category, _CATEGORY_LABELS['unknown'])
     if category == 'device_uplink':
         medium = _canonical_medium(fact.get('medium'))
         if medium:
-            return f"资料记载的上联介质为{_MEDIUM_LABELS[medium]}"
+            description = f"资料记载的上联介质为{_MEDIUM_LABELS[medium]}"
+            return description
         return '资料有上联表述，但介质未能按当前比较范围确认'
     if category == 'management_link':
+        if version == VERSION_V3:
+            medium = fact.get('medium')
+            destination = fact.get('destination')
+            purpose = fact.get('purpose')
+            details = []
+            if medium and destination:
+                details.append(f'通过{_literal_field(medium)}连接到{_literal_field(destination)}')
+            if purpose:
+                details.append(f'用于{_literal_field(purpose)}')
+            if details:
+                return f"资料记载{'，'.join(details)}，但这是管理连接证据，不等同设备上联"
         return f'资料记载{label}，不能据此认定设备上联方式'
     if category == 'client_access':
         return f'资料记载{label}，不能据此认定设备上联方式'
     if category == 'diagnostic_check':
+        if version == VERSION_V3 and fact.get('documented_path'):
+            path = fact['documented_path']
+            return (f"排障条目涉及{_literal_field(path['origin'])}经"
+                f"{_literal_field(path['medium'])}至{_literal_field(path['destination'])}的接线；"
+                '这是资料描述的物理接线路径，不代表现场链路已经建立；条件与限制见原文')
+        if version == VERSION_V3:
+            return '资料描述的是排障检查条件，不代表现场链路已经建立'
         return '资料描述的是排障检查条件，不代表链路已经连接'
     return '资料原句的关系类别未能按当前规则确定'
 
@@ -326,26 +360,37 @@ def render_comparison_answer(result, product_labels):
     else:
         raise ValueError('比较结果状态无效')
     lines = [first]
-    if version == VERSION_V2:
+    if version == VERSION_V3 and status == 'insufficient_comparison':
+        management = {pid for pid, facts in result['products'].items()
+            if any(f.get('category') == 'management_link' for f in facts)}
+        paths = {pid for pid, facts in result['products'].items()
+            if any(f.get('documented_path') for f in facts)}
+        if any(left != right for left in management for right in paths):
+            lines.append('两份资料明确描述的关系不同：一方为管理连接，另一方为排障指令中的物理接线路径。'
+                '资料未说明该排障路径是否已建立或其是否承担设备上联。'
+                '下面只列资料明确写出的介质、对端和管理用途；这些证据仍不足以比较双方同一用途的设备上联。')
+    if version in _VERSION_V2_PLUS:
         categories = {f.get('category') for facts in result['products'].values() for f in facts}
         if {'client_access', 'management_link'} <= categories:
             lines.append('资料中的客户端接入与管理连接属于不同关系，不能据此认定两台设备的上联方式相同或不同。')
     for product_id in names:
         label = product_labels.get(product_id, product_id)
+        if version == VERSION_V3:
+            label = _literal_field(label)
         facts = result['products'][product_id]
         usable = [fact for fact in facts if fact.get('category') in _CATEGORY_LABELS]
-        if version == VERSION_V2:
+        if version in _VERSION_V2_PLUS:
             usable = sorted(usable, key=lambda f: (f['reference_number'], f['frame_index']))
         shown_scopes = set()
         if not usable:
             lines.append(f'{label}：本轮引用资料中没有可用的关系记录。')
             continue
         for fact in usable:
-            description = _fact_description(fact)
-            if version == VERSION_V2 and fact.get('category') == 'unknown':
+            description = _fact_description(fact, version=version)
+            if version in _VERSION_V2_PLUS and fact.get('category') == 'unknown':
                 description = '资料记载如下，现有信息不足以将其作为设备上联依据'
             lines.append(f"{label}：{description}{_citation(fact)}。")
-            if version == VERSION_V2:
+            if version in _VERSION_V2_PLUS:
                 text = fact.get('scoped_text')
                 if not isinstance(text, str) or not text:
                     raise ValueError('新比较呈现缺少完整来源范围')
@@ -356,7 +401,8 @@ def render_comparison_answer(result, product_labels):
                 fence = '`' * max(3, 1 + max((len(m.group()) for m in re.finditer(r'`+', text)), default=0))
                 lines.append(f'\n{fence}text\n{text}\n{fence}\n')
     if status == 'insufficient_comparison':
-        missing = [product_labels.get(pid, pid) for pid, reason in result['missing'].items() if reason]
+        missing = [(_literal_field(product_labels.get(pid, pid)) if version == VERSION_V3
+                    else product_labels.get(pid, pid)) for pid, reason in result['missing'].items() if reason]
         if missing:
             lines.append('缺少可比较的设备上联介质证据：' + '、'.join(missing) + '。')
     return '\n'.join(lines)
@@ -373,7 +419,7 @@ def create_comparison_proof(target, policy_sha256, prompt_used_sha256,
     expected_facts = fingerprint(facts)
     if result.get('products') is None:
         raise ValueError('比较proof缺少派生事实结果')
-    suffix = 'v2' if version == VERSION_V2 else 'v1'
+    suffix = 'v3' if version == VERSION_V3 else 'v2' if version == VERSION_V2 else 'v1'
     return dict(function_version=version, schema_version=SCHEMA_VERSION,
         classifier_version='source_frame_classifier_' + suffix, comparator_version='same_uplink_medium_v1',
         renderer_version='comparison_answer_renderer_' + suffix, comparison_target=target,
@@ -397,7 +443,7 @@ def bind_comparison_selection(selection, catalog, product_ids, target,
         raise ValueError('比较答复选择超出冻结帧目录')
     rendered = list(selection)
     supplemental = []
-    if version == VERSION_V2:
+    if version in _VERSION_V2_PLUS:
         # 完整性由冻结目录的已识别关系保证，不依赖模型恰好选中必要帧。
         selected_ids = {(x['reference'], x['frame']) for x in selection}
         all_selection = [dict(reference=x['reference_number'], frame=x['frame_index']) for x in catalog]
@@ -411,7 +457,7 @@ def bind_comparison_selection(selection, catalog, product_ids, target,
     answer = render_comparison_answer(result, product_labels)
     proof = create_comparison_proof(target, policy_sha256, prompt_used_sha256,
         selection, facts, result, answer, version=version)
-    if version == VERSION_V2:
+    if version in _VERSION_V2_PLUS:
         proof.update(coverage_version='known_frozen_relations_v1', catalog_sha256=fingerprint(catalog),
             supplemental_frames=supplemental, rendered_frames=rendered)
     if raw_selection is not None:

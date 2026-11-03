@@ -1,3 +1,9 @@
+## 2026-11-03 · comparison_answer_v3路径漏呈现补修，完整比较仍未通过
+
+当前总控继续实现：显式v3将同帧“端口—介质—对端”作为documented_path呈现，诊断分类及现场状态unknown保持，LA管理介质/对端/用途明确展示。新增并修复产品名称假引用及否定检查被肯定化反例。最终320离线/契约、51随机隔离Mongo、实际前端渲染2组通过；r8保存10份输入的旧v2 proof及离线v3恢复重算通过。此为实现直接自验，不自签独立技术关闭。
+
+v3仍为insufficient_comparison，不能满足冻结048完整比较要求；不将完整摘录或路径补齐算质量通过。下一步唯一目标为定向裁定同一用途上联的来源语义充分性，现v3不放行新048。默认v1、旧proof和r8拒绝/halt/槽保持；新调用、本地推理、正式库读写0，累计沿r8封存56239/30516。M6保持5/7：04验收，05缺反馈复评proof，08缺有效候选质量及阶段证据，43题暂停，heldout/M7不启动。详见[补修报告](reviews/M6-comparison-answer-v3-path-fix-r1.md)及[摘要](reviews/M6-comparison-answer-v3-path-fix-r1-validation.json)。历史保留。
+
 ## 2026-11-03 · comparison_answer_v2 新048单题已执行，质量复评拒绝
 
 r8独立新身份已对唯一`support-v1-048`执行1次stream；真实Run/result/outcome完成且v2 proof重算通过。答案区分客户端访问、管理连接和Cable排障条件，但没有给出冻结rubric要求的CB304n Cable上联比较，正式协调质量复评拒绝并封存halt。r8账本blocked、settled 1、pending 0、unknown窗口0；不重试。新增usage1575/67，累计56239/30516；本地BGE-M3推理发生，精确reranker次数、reasoning、HTTP、费用和付费上界unknown。r7状态不变，heldout及43题未运行。M6保持5/7：04验收保留，05缺反馈复评proof，08缺有效候选质量及阶段证据，M7未启动。代码风险路由的独立技术复核仍open；真实答案质量本次rejected。唯一下一目标是不调用048，补齐文档端口/接入介质与诊断状态的关系表达，并验证完整比较。详见[执行报告](reviews/M6-comparison-answer-048-v2-execution-r8.md)与[摘要](reviews/M6-comparison-answer-048-v2-execution-r8-validation.json)。

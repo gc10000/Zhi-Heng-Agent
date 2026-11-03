@@ -1,3 +1,9 @@
+## 2026-11-03 · comparison_answer_v3路径漏呈现补修，完整比较仍未通过
+
+当前总控继续实现：显式v3将同帧“端口—介质—对端”作为documented_path呈现，诊断分类及现场状态unknown保持，LA管理介质/对端/用途明确展示。新增并修复产品名称假引用及否定检查被肯定化反例。最终320离线/契约、51随机隔离Mongo、实际前端渲染2组通过；r8保存10份输入的旧v2 proof及离线v3恢复重算通过。此为实现直接自验，不自签独立技术关闭。
+
+v3仍为insufficient_comparison，不能满足冻结048完整比较要求；不将完整摘录或路径补齐算质量通过。下一步唯一目标为定向裁定同一用途上联的来源语义充分性，现v3不放行新048。默认v1、旧proof和r8拒绝/halt/槽保持；新调用、本地推理、正式库读写0，累计沿r8封存56239/30516。M6保持5/7：04验收，05缺反馈复评proof，08缺有效候选质量及阶段证据，43题暂停，heldout/M7不启动。详见[补修报告](../development/reviews/M6-comparison-answer-v3-path-fix-r1.md)及[摘要](../development/reviews/M6-comparison-answer-v3-path-fix-r1-validation.json)。历史保留。
+
 ## 2026-11-03 · 048唯一真实调用质量拒绝，继续零调用补修
 
 唯一r7 stream已执行：Run／experiment completed，finish=stop、未截断；新增usage1575／37，累计54664／30449。正式来源拒绝与halt已封存，账本blocked、无pending或未知窗口，不重试。实际答案遗漏必要关系且解释仅暴露规则失败，完整比较质量未通过。

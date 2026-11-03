@@ -139,6 +139,105 @@ def test_management_access_and_check_remain_distinct_facts():
     assert foreign_check['category'] == 'unknown'
 
 
+def test_v3_diagnostic_path_keeps_role_and_operational_state_separate():
+    frame = _frame('physical_check', '设备Cable口', '同轴电缆', '入户接口')
+    frame['scope']['text'] = (
+        'Cable指示灯若始终不亮表示Cable链路没有建立成功。'
+        '请确认设备Cable口的同轴电缆是否插牢，同轴电缆另一端与入户接口是否连接正确。')
+    fact = classify_frame(frame, '请确认设备Cable口的同轴电缆是否插牢，另一端与入户接口是否连接正确。',
+        'cb', ['cb'], 'Aolynk CB304n', version='comparison_answer_v3')
+    assert fact['category'] == 'diagnostic_check'
+    assert fact['medium'] == '同轴电缆'
+    assert fact['operational_status'] == 'unknown'
+    assert fact['documented_path'] == dict(origin='设备Cable口', medium='同轴电缆',
+        destination='入户接口', basis='diagnostic_instruction', operational_status='unknown')
+
+    for changed in (
+        _frame('physical_check', '设备LAN口', '网线', '路由器'),
+        _frame('physical_check', '设备Cable口', '网线', '入户接口'),
+        _frame('physical_check', '设备Cable口', '同轴电缆', '路由器'),
+    ):
+        changed['scope']['text'] = frame['scope']['text']
+        assert classify_frame(changed, frame['scope']['text'], 'cb', ['cb'],
+            'Aolynk CB304n', version='comparison_answer_v3')['category'] == 'diagnostic_check'
+    foreign = classify_frame(frame, frame['scope']['text'], 'other', ['cb'],
+        '其他设备', version='comparison_answer_v3')
+    assert foreign['category'] == 'unknown' and foreign['documented_path'] is None
+    missing = _frame('physical_check', '设备Cable口', '同轴电缆')
+    assert classify_frame(missing, frame['scope']['text'], 'cb', ['cb'],
+        'Aolynk CB304n', version='comparison_answer_v3')['documented_path'] is None
+
+
+def test_v3_comparison_explains_distinct_management_and_uplink_evidence():
+    la = _fact('la', 'management_link', '3G/4G网络', 2,
+        'LA2608需要通过3G/4G网络连接到运营商无线控制器以实现设备管理。')
+    la.update(destination='运营商无线控制器', purpose='实现设备管理')
+    cb = _fact('cb', 'diagnostic_check', '同轴电缆', 4,
+        'Cable指示灯不亮时，请确认设备Cable口的同轴电缆另一端与入户接口连接。')
+    cb.update(origin='设备Cable口', destination='入户接口', operational_status='unknown',
+        documented_path=dict(origin='设备Cable口', medium='同轴电缆', destination='入户接口',
+            basis='diagnostic_instruction', operational_status='unknown'))
+    result = compare_facts('device_uplink', ['la', 'cb'], [la, cb], version='comparison_answer_v3')
+    answer = render_comparison_answer(result, {'la':'H3C LA2608','cb':'Aolynk CB304n'})
+    assert result['status'] == 'insufficient_comparison'
+    assert '3G/4G网络' in answer and '运营商无线控制器' in answer
+    assert '实现设备管理' in answer
+    assert '设备Cable口' in answer and '同轴电缆' in answer and '入户接口' in answer
+    assert '不代表现场链路已经建立' in answer
+    assert '两份资料明确描述的关系不同' in answer
+    assert '未说明该排障路径是否已建立或其是否承担设备上联' in answer
+    assert '现有证据不足' in answer
+
+
+def test_v3_dynamic_path_fields_remain_inert_in_markdown_and_citation_filters():
+    fact = _fact('la', 'management_link', '3G/4G ` [999]', 2,
+        '资料测试值')
+    fact.update(destination='<script>alert(1)</script> ![x](https://invalid)',
+        purpose='管理``` [999]')
+    result = compare_facts('device_uplink', ['la','cb'], [fact], version='comparison_answer_v3')
+    answer = render_comparison_answer(result, {'la':'LA2608','cb':'CB304n'})
+    assert '`"<script>alert(1)</script> ![x](https://invalid)"`' in answer
+    from app.runs.answer_filter import AnswerFilter
+    from app.answering.citations import CitationGuard
+    filtered = AnswerFilter(set(), lambda _text: None)
+    guard = CitationGuard([2], filtered.write)
+    guard.write(answer, final=True)
+    filtered.write('', final=True)
+    assert 'https://invalid' in filtered.answer
+    assert '![x]' in filtered.answer
+    assert '"<script>alert(1)</script> ![x](https://invalid)"' in filtered.answer
+
+
+def test_v3_product_names_cannot_create_markdown_or_fake_citations():
+    malicious_label = 'CB [999] ![x](https://invalid) <b>设备</b> ```'
+    result = compare_facts('device_uplink', ['la', 'cb'], [], version='comparison_answer_v3')
+    answer = render_comparison_answer(result, {'la': 'LA2608', 'cb': malicious_label})
+    from app.runs.answer_filter import AnswerFilter
+    from app.answering.citations import CitationGuard
+    filtered = AnswerFilter(set(), lambda _text: None)
+    guard = CitationGuard([], filtered.write)
+    guard.write(answer, final=True)
+    filtered.write('', final=True)
+    assert filtered.answer == answer
+    assert '````"' + malicious_label + '"````' in answer
+
+
+def test_v3_negated_diagnostic_instruction_does_not_become_a_positive_requirement():
+    text = '不要检查设备Cable口的同轴电缆是否插牢,同轴电缆另一端与入户接口是否连接正确。'
+    attribution, doc, refs = _frozen_inputs(text)
+    attribution['comparison_answer']['function_version'] = 'comparison_answer_v3'
+    catalog = build_frame_catalog(refs, [doc], attribution)
+    answer, proof = bind_comparison_response(
+        '{"schema_version":"comparison_frame_selection_v1","frames":[]}',
+        catalog, ['p','q'], 'device_uplink', fingerprint(payload(attribution)), 'b'*64,
+        {'p':'合成网关','q':'另一网关'}, version='comparison_answer_v3')
+    assert proof['comparison_status'] == 'insufficient_comparison'
+    assert text in answer
+    assert '设备Cable口' in answer and '同轴电缆' in answer and '入户接口' in answer
+    assert '要求检查' not in answer
+    assert '不代表现场链路已经建立' in answer
+
+
 def test_frame_selection_is_strict_and_source_indexed():
     catalog = [dict(reference_number=1, frame_index=0)]
     raw = '{"schema_version":"comparison_frame_selection_v1","frames":[{"reference":1,"frame":0}]}'
@@ -230,7 +329,7 @@ def _fact(product_id, category, medium, reference, text):
         scoped_text=text, source_refs=[dict(kind='pdf', page=reference)], clause=text, scope=None)
 
 
-@pytest.mark.parametrize('version', ['comparison_answer_v1','comparison_answer_v2'])
+@pytest.mark.parametrize('version', ['comparison_answer_v1','comparison_answer_v2','comparison_answer_v3'])
 def test_same_uplink_medium_yields_direct_answer_with_per_product_sources(version):
     facts = [_fact('la', 'device_uplink', '以太网', 1, 'LA2608设备上联采用以太网。'),
              _fact('cb', 'device_uplink', 'Ethernet', 2, 'CB304n设备上联采用Ethernet。')]
@@ -246,7 +345,7 @@ def test_same_uplink_medium_yields_direct_answer_with_per_product_sources(versio
     ('同轴', '光纤', 'different'),
     ('无线', '无线', 'insufficient_comparison'),
 ])
-@pytest.mark.parametrize('version', ['comparison_answer_v1','comparison_answer_v2'])
+@pytest.mark.parametrize('version', ['comparison_answer_v1','comparison_answer_v2','comparison_answer_v3'])
 def test_only_explicitly_mapped_uplink_media_can_be_compared(left, right, expected, version):
     facts = [_fact('la', 'device_uplink', left, 1, f'LA2608上联介质为{left}。'),
              _fact('cb', 'device_uplink', right, 2, f'CB304n上联介质为{right}。')]
@@ -370,24 +469,30 @@ def test_new_interpretation_requires_explicit_version_and_preserves_old_proof():
     from app.answering.comparison_answers import ComparisonAnswerPolicy
     assert ComparisonAnswerPolicy(enabled=True).function_version == 'comparison_answer_v1'
     assert ComparisonAnswerPolicy(enabled=True, function_version='comparison_answer_v2').enabled
-    with pytest.raises(ValueError):
-        ComparisonAnswerPolicy(enabled=True, function_version='comparison_answer_v3')
+    assert ComparisonAnswerPolicy(enabled=True, function_version='comparison_answer_v3').enabled
     attribution, doc, refs = _frozen_inputs('本设备上联通过以太网连接到核心网。')
     catalog = build_frame_catalog(refs, [doc], attribution)
     raw = '{"schema_version":"comparison_frame_selection_v1","frames":[{"reference":1,"frame":0}]}'
     args = (raw, catalog, ['p', 'q'], 'device_uplink', 'a'*64, 'b'*64, {'p':'合成网关','q':'另一网关'})
     old_answer, old_proof = bind_comparison_response(*args)
     new_answer, new_proof = bind_comparison_response(*args, version='comparison_answer_v2')
+    v3_answer, v3_proof = bind_comparison_response(*args, version='comparison_answer_v3')
     assert old_proof['classifier_version'] == 'source_frame_classifier_v1'
     assert new_proof['classifier_version'] == 'source_frame_classifier_v2'
     assert new_proof['renderer_version'] == 'comparison_answer_renderer_v2'
     assert new_proof['function_version'] == 'comparison_answer_v2'
+    assert v3_proof['classifier_version'] == 'source_frame_classifier_v3'
+    assert v3_proof['renderer_version'] == 'comparison_answer_renderer_v3'
+    assert v3_proof['function_version'] == 'comparison_answer_v3'
     recover_args = args[1:]
     old_row = dict(answer=old_answer, comparison_answer=old_proof)
     assert validate_saved_comparison(old_row, *recover_args) == old_proof
     new_row = dict(answer=new_answer, comparison_answer=new_proof)
     assert validate_saved_comparison(new_row, *recover_args, version='comparison_answer_v2') == new_proof
-    for row, version in ((old_row,'comparison_answer_v2'), (new_row,'comparison_answer_v1')):
+    v3_row = dict(answer=v3_answer, comparison_answer=v3_proof)
+    assert validate_saved_comparison(v3_row, *recover_args, version='comparison_answer_v3') == v3_proof
+    for row, version in ((old_row,'comparison_answer_v2'), (new_row,'comparison_answer_v1'),
+                         (v3_row,'comparison_answer_v2')):
         with pytest.raises(ValueError):
             validate_saved_comparison(row, *recover_args, version=version)
     for key in ('function_version','classifier_version','renderer_version'):
@@ -455,7 +560,7 @@ def test_v2_coverage_does_not_promote_conditional_uplink_or_invent_pages():
     assert '不代表链路已经连接' in answer
 
 
-@pytest.mark.parametrize('version', ['comparison_answer_v1','comparison_answer_v2'])
+@pytest.mark.parametrize('version', ['comparison_answer_v1','comparison_answer_v2','comparison_answer_v3'])
 def test_cached_comparison_rebinds_sources_and_version_before_emitting(monkeypatch, version):
     from pathlib import Path
     from types import SimpleNamespace

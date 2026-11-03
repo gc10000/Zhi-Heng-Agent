@@ -101,7 +101,7 @@ def setup(ctx, tmp_path, monkeypatch, *, separate, raw=None, interrupted=False,
 
 
 @pytest.mark.parametrize('separate', [False, True])
-@pytest.mark.parametrize('version', ['comparison_answer_v1','comparison_answer_v2'])
+@pytest.mark.parametrize('version', ['comparison_answer_v1','comparison_answer_v2','comparison_answer_v3'])
 def test_formal_comparison_persists_complete_answer_and_reuses_one_selection(
         evaluation_context, tmp_path, monkeypatch, separate, version):
     cfg, resources, prompts, question, repo, service, user, data, catalog = setup(
@@ -130,7 +130,7 @@ def test_formal_comparison_persists_complete_answer_and_reuses_one_selection(
 
 
 @pytest.mark.parametrize('separate', [False, True])
-@pytest.mark.parametrize('version', ['comparison_answer_v1','comparison_answer_v2'])
+@pytest.mark.parametrize('version', ['comparison_answer_v1','comparison_answer_v2','comparison_answer_v3'])
 def test_interrupted_comparison_selection_is_bounded_persisted_and_never_leaks(
         evaluation_context, tmp_path, monkeypatch, separate, version):
     cfg, resources, prompts, question, repo, service, user, data, catalog = setup(
@@ -169,7 +169,7 @@ def test_unresolved_comparison_target_returns_clarification_without_generation(
     assert not run.get('comparison_answer')
 
 
-@pytest.mark.parametrize('version', ['comparison_answer_v1','comparison_answer_v2'])
+@pytest.mark.parametrize('version', ['comparison_answer_v1','comparison_answer_v2','comparison_answer_v3'])
 def test_empty_frame_catalog_returns_cited_insufficiency_without_generation(
         evaluation_context, tmp_path, monkeypatch, version):
     cfg, resources, prompts, question, repo, service, user, data, catalog = setup(
@@ -186,7 +186,7 @@ def test_empty_frame_catalog_returns_cited_insufficiency_without_generation(
     assert resources['synthetic_embedding_calls'] == []
 
 
-@pytest.mark.parametrize('version', ['comparison_answer_v1','comparison_answer_v2'])
+@pytest.mark.parametrize('version', ['comparison_answer_v1','comparison_answer_v2','comparison_answer_v3'])
 def test_invalid_complete_selection_fails_without_answer_delta_or_outcome(
         evaluation_context, tmp_path, monkeypatch, version):
     cfg, resources, prompts, question, repo, service, user, data, catalog = setup(

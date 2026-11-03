@@ -59,7 +59,7 @@ def _projector_fixture(version='comparison_answer_v1'):
     return executor, row
 
 
-@pytest.mark.parametrize('version', ['comparison_answer_v1','comparison_answer_v2'])
+@pytest.mark.parametrize('version', ['comparison_answer_v1','comparison_answer_v2','comparison_answer_v3'])
 def test_first_projection_recomputes_comparison_and_exposes_only_sanitized_summary(version):
     executor, row = _projector_fixture(version)
     result = executor.project_result(row,question=executor.comparison_question)

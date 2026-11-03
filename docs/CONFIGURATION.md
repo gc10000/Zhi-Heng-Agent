@@ -467,3 +467,7 @@ MODEL_HOST桥接新增可选input_type=query/document，省略仍document兼容�
 2026-11-03：内部evidence_attribution.comparison_answer.function_version新增comparison_answer_v2，可显式用于离线候选；enabled仍默认false、版本仍默认comparison_answer_v1。缺省和旧Run不升级。v2改进精确简称、客户端接入、完整scope条件与原文呈现；生成和恢复严格绑定策略版本。无新环境变量，公开OpenAPI未变。现048专用风险授权仅v1且已消费封存，本包不修改正式catalog或模型调用授权。
 
 2026-11-03同包续修：v2以known_frozen_relations_v1从同一冻结目录补齐所有已识别关系；proof保留原selected_frames，并单独绑定supplemental_frames、rendered_frames和catalog_sha256。缺省v1不补入。恢复重算覆盖、答案和证明；不把程序补入伪称模型选择，不把离线候选当正式质量proof。
+
+### 2026-11-03 · 比较答复v3（内部离线候选，未切默认）
+
+既有内部键`parameters.evidence_attribution.comparison_answer.function_version`可显式设`comparison_answer_v3`。开启仍须enabled=true及冻结归属/source_relations；缺省enabled=false、版本v1不变，无新增环境变量，`.env.example`无需新增项。v3分离文档端口/介质/对端与现场状态，使用独立classifier/renderer proof版本，旧Run和v1/v2配置不升级。当前仅离线/合成验证，无v3专用真实风险合同；不得将它写入已消费r8配置、复用槽或新发048。完整比较质量仍未通过。

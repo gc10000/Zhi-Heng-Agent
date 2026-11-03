@@ -1089,3 +1089,9 @@ M6-02实现使用`metric_schema_version=1`启用新报告契约；M4既有配置
 2026-11-03：比较子策略新增显式comparison_answer_v2，缺省仍v1。classifier／renderer版本随冻结策略进入proof；生成、完成核验、评测恢复、缓存和失败记录均消费该版本，协调降级拒绝。v2只接受唯一来源精确端点简称，完整scope保留且条件／否定保守处理；原文惰性呈现不等于完整比较。现真实授权和消费槽仍v1且blocked，不得升级真实Run或重试。实现自验429／29通过，独立技术与真实质量仍open。
 
 2026-11-03同包续修：v2以known_frozen_relations_v1从同一冻结目录补齐所有已识别关系；proof保留原selected_frames，并单独绑定supplemental_frames、rendered_frames和catalog_sha256。缺省v1不补入。恢复重算覆盖、答案和证明；不把程序补入伪称模型选择，不把离线候选当正式质量proof。
+
+## 2026-11-03 · 比较v3文档路径与现场状态分离（默认关闭）
+
+`comparison_answer.function_version`增加显式`comparison_answer_v3`；enabled仍false、缺省版本仍v1，无新环境变量或公开API。v1/v2生成、proof和历史Run不升级。v3继承冻结目录补帧和完整scope保留，仅从同一physical_check帧的完整origin/medium/destination字段生成documented_path，basis=diagnostic_instruction、operational_status=unknown；category仍diagnostic_check，不升级device_uplink，不参与same_uplink_medium_v1比较。
+
+v3管理事实按冻结字段呈现介质/对端/用途；文档路径使用中性“条目涉及”而非肯定检查指令，原文否定和条件保留。所有动态字段及产品名称作为惰性字面量，引用仅来自程序编号；unknown物理页码保留旧合同。classifier/renderer分别source_frame_classifier_v3、comparison_answer_renderer_v3，完成/缓存/恢复按冻结策略版本重算并拒绝漂移。技术重算通过不等于048完整比较或候选质量通过；现r8风险合同仅v2且已消费，本包不增加v3风险合同或真实授权。
