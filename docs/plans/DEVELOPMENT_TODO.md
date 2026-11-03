@@ -963,3 +963,8 @@ comparison_answer_v2已由总控直接复核：冻结目录内已识别关系补
 ## 2026-11-03 · M6连接比较接线自验完成，独立复核/真实质量未完成
 
 `connection_comparison_v1`已完成范围内实现自验：受影响离线/契约375 passed、隔离Mongo94 passed、实际前端renderer2组21断言通过。保存输入四格D由新程序产生限定比较，但冻结048 rubric所需CB Cable同角色上联仍无证据，故没有真实质量通过。M6维持5/7；04保持，05缺反馈复评proof，08缺有效候选质量与阶段证据。唯一下一步是不同实现身份定向复核；复核通过后另做新身份、单题真实质量验证授权。43题保持暂停、heldout未跑、M7未启动。见[实现报告](../development/reviews/M6-connection-comparison-implementation-r1.md)。
+
+
+## 2026-11-03 · M6连接比较验收证据补核接续
+
+来源协调删除恢复、比较开关降级及无关Cable/Web尾句反例已复现并补修；252离线／契约、55隔离Mongo、前端2组21断言通过。保存输入17项内容／16处跨度核验支持完整限定比较可达；不新增同用途／同角色门槛。当前总控实现自验，独立技术及真实质量proof保持open，不勾M6-05或08。下一唯一目标按docs/development/handoffs/M6-connection-comparison-acceptance-evidence-r1.md完成不同实现身份定向复核。5/7、04验收、43题暂停、heldout／M7未启动、累计56239/30516保持；本轮无真实调用或业务库读写。

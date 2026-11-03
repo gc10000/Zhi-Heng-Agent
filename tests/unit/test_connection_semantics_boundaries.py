@@ -6,6 +6,14 @@ from app.answering.connection_semantics import derive_connection_facts, compare_
 from tests.unit.test_connection_semantics import doc, fact
 
 
+def test_renderer_does_not_add_media_or_web_absent_from_sources():
+    facts=[fact('p','explicit_uplink','以太网',origin='本设备',destination='核心网'),
+        fact('q','explicit_uplink','光纤',origin='本设备',destination='核心网')]
+    answer=render_connection_comparison(compare_connections('device_uplink',['p','q'],facts),{'p':'甲','q':'乙'})
+    assert '以太网' in answer and '光纤' in answer
+    assert not any(word in answer for word in ('Cable','Web','用户有线/无线'))
+
+
 def derive(text, **kwargs):
     return derive_connection_facts([doc('p', text)], ['p'], **kwargs)
 

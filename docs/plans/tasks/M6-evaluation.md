@@ -963,3 +963,6 @@ R1恢复结果使用持久Run累计，另存adapter新增；R2由正式job在模
 ## 2026-11-02 · 比较答复执行身份边界补修
 
 执行身份修复与隔离回归完成自验：单元/契约1512 passed；正式job及同库/分库恢复48 passed；维护者撤权/范围/租约矩阵10 passed。唯一授权048在实验创建前被冗余同版本`register_set`冲突阻断；未创建正式experiment/slot/Run，provider stream、推理、usage增量0；r2 halt已封存且不重试。此非质量结果，不改变M6 5/7，不勾M6-05或M6-08。详见[总控执行报告](../../development/reviews/M6-comparison-answer-execution-owner-review-r1.md)及[摘要](../../development/reviews/M6-comparison-answer-execution-owner-review-validation-r1.json)。
+
+
+2026-11-03验收证据补核：新增调用前独立持久输入身份，解决首次outcome前Run自证字段可协调删来源的缺口；冻结比较输入不可关闭开关降级，尾句不固定插入无关介质。最终252离线／契约、55隔离Mongo、前端2组21断言、保存输入17内容／16span核验通过。原rubric不额外要求同用途同角色。此为总控实现自验，不签不同身份独立通过或正式质量proof，M6仍5/7。当前材料见reviews/M6-connection-comparison-acceptance-evidence-r1.md和handoffs同名验收矩阵，原历史记录保留。

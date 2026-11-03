@@ -1,3 +1,9 @@
+## 2026-11-03 · 验收证据补核及直接补修完成，独立技术与正式质量仍open
+
+基于e3178ca定向核出3项代码问题：可协调删来源自签恢复、关闭比较标志可降级、固定尾句引入无关介质／Web。已补调用前独立持久输入锚、缓存和生成身份／模式拒绝及来源中性尾句；252离线／契约、55隔离Mongo及前端2组21断言通过，所有红测／夹具失败保留。保存输入D及17内容检查、16span核验支持完整限定比较可达；原rubric并无必须同用途／同角色上联的门槛，上一报告追加更正。此为实现总控直接复核与补修自验，不自签另一身份独立验收。
+
+下一唯一目标为不同实现身份按[交接矩阵](handoffs/M6-connection-comparison-acceptance-evidence-r1.md)定向复核；本轮不委派子Agent、不执行新048、不登记真实候选或质量proof。新模式默认关闭，旧r7/r8账户／槽／评分及已关闭协议保持。真实调用／本地推理／真实库读写0，累计56239/30516；M6仍5/7，04保持，05反馈复评proof与08有效候选质量／阶段证据缺口保留，43题暂停、heldout未运行、M7未启动。详见[报告](reviews/M6-connection-comparison-acceptance-evidence-r1.md)、[摘要](reviews/M6-connection-comparison-acceptance-evidence-r1-validation.json)。
+
 ## 2026-11-03 · M6连接比较实现包待独立技术复核；真实答案质量未证明
 
 当前分支`codex/m6-source-bound-comparison`交付`connection_comparison_v1`的零调用实现自验。范围包括冻结完整标量池装配、介绍依赖和必要预算、受限连接事实/比较渲染、调用缓冲、Run/outcome/结果身份、恢复证明、缓存绕过及故障结算。最终执行：375受影响离线/契约passed、94随机隔离Mongo passed、实际前端渲染2组21断言passed、保存输入四格D限定比较通过10项机器断言；原r8的10份Run和v2 proof只读重算未改变。实现自验不是不同实现身份的独立技术关闭；新模式未用于真实答案、无正式候选或质量proof。

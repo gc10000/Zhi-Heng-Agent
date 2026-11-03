@@ -1,3 +1,9 @@
+## 2026-11-03 · M6验收证据补核：来源恢复、降级和渲染反例已补修
+
+任务M6-connection-acceptance-evidence-r1：实际复现并补修首次outcome前协调删介绍仍恢复成功、比较开关关闭可降级、渲染固定混入无关Cable/Web三项。调用前独立持久输入记录先于模型，记录丢失／漂移拒绝、不恢复补签；缓存与生成前后核输入和模式。最终252离线／契约（含OpenAPI）、55隔离Mongo、实际前端2组21断言通过；新保存输入四格和17项内容／16处跨度核验通过。纠正上一报告额外加入的同用途／同角色门槛；新程序已可给完整限定比较，非仅原文摘录，但仍不是正式模型答案质量proof。
+
+当前总控曾实现本包，不自签不同身份独立通过。下一唯一目标是按已准备[验收交接矩阵](handoffs/M6-connection-comparison-acceptance-evidence-r1.md)完成不同实现身份技术复核；本轮未登记／授权新048，不启动子Agent。真实调用、本地推理、真实库读写均0，累计56239/30516。M6保持5/7，04验收保持，05缺反馈复评proof，08缺有效候选质量及阶段证据；43题暂停，heldout／M7未启动。见[报告](reviews/M6-connection-comparison-acceptance-evidence-r1.md)及[摘要](reviews/M6-connection-comparison-acceptance-evidence-r1-validation.json)。下方历史保留。
+
 ## 2026-11-03 · M6连接比较实现自验交付，等待独立复核与质量证明
 
 在codex/m6-source-bound-comparison延续批准计划：多维连接语义、来源装配生产端口、严格选择与proof恢复已接线；保存输入四格已由实际装配/prompt/binder运行，新程序给出限定介质比较。受影响离线/契约375通过、最终定向隔离Mongo94通过、真实前端`renderEvidence`两组21断言通过。该结论是当前执行总控的实现自验，不是独立技术关闭或真实答案质量proof。新模式默认关闭且正式评测准入拒绝；真实模型调用/本地推理/正式写入/本轮真实库读取均0。M6仍5/7：04验收保持，05缺真实反馈复评proof，08缺有效候选质量及阶段证据；43题暂停、heldout未运行、M7未启动。详见[报告](reviews/M6-connection-comparison-implementation-r1.md)、[机器摘要](reviews/M6-connection-comparison-implementation-r1-validation.json)与[任务记录](records/M6-connection-comparison-implementation-r1.md)。下方历史保留。

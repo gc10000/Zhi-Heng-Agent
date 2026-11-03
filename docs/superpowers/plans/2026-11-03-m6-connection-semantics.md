@@ -95,6 +95,8 @@ def test_diagnostic_path_is_not_live_state(diagnostic_path_assembly):
 
 ## 任务1开始实施时的接口细化
 
+**2026-11-03后续验收证据接续：**上方“仍无同层明示证据”不构成原048新门槛；原rubric并不要求同用途／同角色。新四格D的完整限定比较已做17内容／16span事后核源，未签正式质量proof。定向补核另发现并修复首次outcome前协调删来源、比较开关降级和固定尾句无关术语；新增调用前独立持久输入锚及进程内核验。最终252离线／契约、55隔离Mongo、前端2组21断言通过。此仍是实现总控直接复核和自验，独立技术及真实质量open，下一唯一范围见[验收交接](../../development/handoffs/M6-connection-comparison-acceptance-evidence-r1.md)，不执行新048。
+
 来源池必须与传入frozen_payloads成员全等；调用方只可从原完整冻结快照按明确资料/修订投影该映射，不能随意删成员制造“唯一概述”。补充显式scope参数（owner_id、kb_id、revisions、product_ids）核对payload归属。必要连接证据由调用方以required_chunk_uids提供，且只能指向selected_docs成员；省略时所有selected_docs都视为必要，装配器不得自行猜某段无贡献。只有被调用方明确列为可选的候选才可因预算移出。
 
 新增missing_required_source状态和issues字段，分别说明完整冻结池中没有可唯一确定的介绍或存在冲突；不宣称原资料本身缺少某种产品能力。子标题段也须随完整介绍保留。返回的identity还绑定范围、完整pool成员/载荷、必要来源集合和预算，不能只hash最终输出。

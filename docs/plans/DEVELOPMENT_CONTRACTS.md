@@ -1113,3 +1113,10 @@ v3跨产品摘要不再断言“资料未说明状态/上联”，只说明不�
 新增默认关闭内部`connection_comparison_v1`。显式模式才从完整冻结修订的有界标量来源池装配；逐payload/归属/hash核验，完整产品介绍作为依赖保留，必要资料超预算、缺失或歧义时调用前拒绝。标题正文重复不重复占prompt槽，但仍绑定完整冻结池身份。新语义分开能力描述、管理连接、客户端接入和诊断物理路径，现场状态为not_observed；只输出有来源的限定介质比较及引用。Run保存装配身份，缓存/outcome/恢复重算同一新proof；断流保留内部raw selection，不推送不完整内容。显式新模式不能借用旧048风险合同创建正式实验；尚无新调用授权。
 
 当前验证为实现自验：375项受影响离线/契约、94隔离Mongo、前端真实`renderEvidence`两组21断言及保存输入四格D的10项内容检查。范围没有真实库读取、模型调用、候选/评分/proof写入；不作为独立技术或用户质量验收。原来完整质量问题仍依冻结rubric和新身份模型输出评估。
+
+
+## 2026-11-03 · 连接比较调用前输入冻结补充合同
+
+仅显式connection_comparison_v1在正确完整池装配、payload和prompt预算核验后，供应商调用前向目标库comparison_generation_inputs以_id=run_id、$setOnInsert写connection_generation_input_v1身份；绑定Run身份／归属、实际文档／顺序／引用映射、装配、比较目标、产品顺序／标签、规范化策略及prompt-used hash。写后读回核对，冲突或写入失败以comparison_input_checkpoint_invalid在0模型调用时拒绝。恢复和结果投影只核原记录，不补签；同／分控制库均从Run目标库读取，首次outcome前也适用。记录没有正文，无TTL或真实数据迁移变更；备份／恢复此显式模式须保留对应记录，丢失不得绕过。
+
+缓存和生成以仅本进程闭包核已核验输入，闭包不持久化、不作为跨进程proof；有冻结连接输入时禁止关闭比较标志／替换策略静默降级。默认及旧Run不新增要求。自然语言答案按每条资料来源解释，固定尾句不引入Cable/Web等无来源术语。原048不增加同角色同用途门槛，限定比较离线输出不能替代真实质量proof或独立验收。详见docs/development/reviews/M6-connection-comparison-acceptance-evidence-r1.md。

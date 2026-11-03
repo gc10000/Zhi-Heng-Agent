@@ -45,6 +45,11 @@ def configure_sources(ctx, fault=None):
     if fault=='ambiguous':
         rows.append(row('b-other-intro',pids['BX'],doc.document_id,revision.revision_id,3,
             '产品概述','BX融合了Cable网络和无线路由器的功能。'))
+    if fault=='condition':
+        condition=row('b-condition',pids['BX'],doc.document_id,revision.revision_id,2,
+            '产品简介','仅在配合指定网络集中器时适用，不表示现场已经连通。')
+        condition['metadata']['heading_path']=['产品简介','适用限制']
+        rows.append(condition)
     bounded_reads={}
     class Index:
         collection=target['collection']
@@ -59,9 +64,11 @@ def configure_sources(ctx, fault=None):
         def search(self,repo,query,**kwargs):
             return [dict(entity=deepcopy(r),retrieval_trace=[score_record('dense',1,.8,'inner_product'),
                 score_record('learned_sparse',1,.6,'inner_product'),score_record('weighted_fusion',1,1.4,'milvus_weighted_ip')])
-                for r in rows if r['metadata']['product_ids']==kwargs['product_ids'] and r['chunk_uid'] not in {'b-intro','b-other-intro'}]
+                for r in rows if r['metadata']['product_ids']==kwargs['product_ids'] and
+                    r['chunk_uid'] not in {'b-intro','b-other-intro','b-condition'}]
         def prerequisite_rows(self,*args,**kwargs):
-            return [deepcopy(r) for r in rows if r['chunk_uid'] not in {'b-intro','b-other-intro'}]
+            # 介绍和子条件只由完整池装配补入，避免合成搜索返回重复原始名次。
+            return [deepcopy(r) for r in rows if r['chunk_uid'] not in {'b-intro','b-other-intro','b-condition'}]
     g.index_factory=Index
     cfg['corpus']['documents'].append(dict(document_id=doc.document_id,revision_id=revision.revision_id,
         original_sha256=cfg['corpus']['documents'][0]['original_sha256']))
@@ -125,9 +132,11 @@ def test_failed_selection_persists_raw_without_outcome_or_retry(evaluation_conte
 
 
 @pytest.mark.parametrize('separate',[False,True])
-@pytest.mark.parametrize('mutation',[None,'source_facts','result','assembly','coordinated_source'])
+@pytest.mark.parametrize('mutation',[None,'source_facts','result','assembly','coordinated_source',
+    'coordinated_deletion','delete_condition','missing_input_checkpoint','changed_input_checkpoint'])
 def test_first_outcome_recovery_rebinds_sources_without_new_call(evaluation_context,tmp_path,monkeypatch,separate,mutation):
-    cfg,res,prompts,question,repo,service,user,data,catalog=case(evaluation_context,tmp_path,monkeypatch,separate=separate)
+    cfg,res,prompts,question,repo,service,user,data,catalog=case(evaluation_context,tmp_path,monkeypatch,
+        separate=separate,fault='condition' if mutation=='delete_condition' else None)
     original=res['query_runner'].execute
     def crash(rid):
         original(rid)
@@ -141,6 +150,15 @@ def test_first_outcome_recovery_rebinds_sources_without_new_call(evaluation_cont
     if mutation=='source_facts': row['comparison_answer']['source_facts'][0]['medium']='ethernet'
     if mutation=='result': row['comparison_answer']['result']['status']='qualified_medium_same'
     if mutation=='assembly': row['comparison_context_assembly']['max_docs']=99
+    if mutation in {'coordinated_deletion','delete_condition'}:
+        from tests.unit.test_connection_comparison_wiring import rebind_without_source
+        rebind_without_source(row,cfg['parameters']['evidence_attribution'],
+            'b-condition' if mutation=='delete_condition' else 'b-intro')
+    if mutation=='missing_input_checkpoint':
+        res['db'].comparison_generation_inputs.delete_one({'_id':row['run_id']})
+    if mutation=='changed_input_checkpoint':
+        res['db'].comparison_generation_inputs.update_one({'_id':row['run_id']},
+            {'$set':{'input_sha256':'0'*64}})
     if mutation=='coordinated_source':
         from app.answering.comparison_answers import bind_comparison_response, build_frame_catalog, prompt_used_identity
         from app.answering.evidence_attribution import evidence_labels
@@ -172,6 +190,25 @@ def test_first_outcome_recovery_rebinds_sources_without_new_call(evaluation_cont
     execute_job(repo,catalog,tmp_path/'reuse',reuse['experiment_id'])
     assert repo.get_experiment(user,reuse['experiment_id'])['state']==('failed' if mutation else 'completed')
     assert len(prompts)==1 and res['db'].runs.count_documents({})==1
+
+
+@pytest.mark.parametrize('separate',[False,True])
+def test_input_checkpoint_write_failure_stops_before_model(evaluation_context,tmp_path,monkeypatch,separate):
+    cfg,res,prompts,question,repo,service,user,data,catalog=case(evaluation_context,tmp_path,monkeypatch,separate=separate)
+    from pymongo.collection import Collection
+    original=Collection.update_one
+    def unavailable(collection,*args,**kwargs):
+        if collection.name=='comparison_generation_inputs':
+            raise RuntimeError('合成：调用前输入持久化失败')
+        return original(collection,*args,**kwargs)
+    monkeypatch.setattr(Collection,'update_one',unavailable)
+    job=service.create_experiment(user,data)
+    execute_job(repo,catalog,tmp_path/'checkpoint-failed',job['experiment_id'])
+    row=res['db'].runs.find_one({})
+    assert repo.get_experiment(user,job['experiment_id'])['state']=='failed'
+    assert row['state']=='failed' and row['error']['code']=='comparison_input_checkpoint_invalid'
+    assert not prompts and not row.get('answer')
+    assert res['db'].evaluation_outcomes.count_documents({})==0
 
 
 @pytest.mark.parametrize('separate',[False,True])

@@ -244,5 +244,5 @@ def render_connection_comparison(result, product_labels):
                     qualifiers.append(clause)
             if qualifiers:
                 lines.append('适用条件与限制：' + '；'.join(_literal(q) for q in qualifiers) + '。' + _citation(f))
-    lines.append('管理连接、Cable接入侧路径与用户有线/无线或Web访问分别理解；静态资料不能证明现场已连接。')
+    lines.append('以上按各条来源的连接角色与用途分别解释；静态资料不能证明现场已连接。')
     return '\n'.join(lines)

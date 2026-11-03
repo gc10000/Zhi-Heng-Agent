@@ -19,6 +19,35 @@ from tests.unit.test_comparison_source_assembly import row
 RAW = '{"schema_version":"comparison_frame_selection_v1","frames":[]}'
 
 
+def rebind_without_source(row, policy, uid):
+    """冻结策略不改，协调删除来源并重签所有Run内的自证字段。"""
+    from app.answering.comparison_answers import bind_comparison_response, prompt_used_identity
+    from app.answering.evidence_attribution import evidence_labels
+    before = len(row['prompt_used_docs'])
+    row['prompt_used_docs'] = [d for d in row['prompt_used_docs'] if d['chunk_uid'] != uid]
+    assert len(row['prompt_used_docs']) == before - 1
+    row['citations'] = [c for c in row.get('citations', []) if c['chunk_uid'] != uid]
+    row['prompt_reference_map'] = [dict(label, reference_number=i+1) for i, label in
+        enumerate(evidence_labels(row['prompt_used_docs'], policy))]
+    context = row['comparison_context_assembly']
+    for key in ('documents', 'selected_chunk_uids', 'required_chunk_uids'):
+        context[key] = [v for v in context[key] if v != uid]
+    context['dependencies'] = [dict(dep, chunk_uids=[v for v in dep['chunk_uids'] if v != uid])
+        for dep in context['dependencies'] if any(v != uid for v in dep['chunk_uids'])]
+    context['identity_sha256'] = fingerprint({k:v for k,v in context.items() if k != 'identity_sha256'})
+    question = ((row.get('query_plan') or {}).get('rewritten_query') or
+        row.get('rewritten_query') or row.get('original_query') or row['question'])
+    question += '\n\n证据限制：比较只能依据本轮参考内容，未提供某型号证据时必须明确资料不足，不得推断其参数。'
+    row['comparison_prompt_used_sha256'] = prompt_used_identity(question,
+        row['prompt_reference_map'], row['prompt_used_docs'], row['comparison_target'])
+    row['answer'], row['comparison_answer'] = bind_comparison_response(RAW,
+        build_frame_catalog(row['prompt_reference_map'],row['prompt_used_docs'],policy),
+        row.get('comparison_product_ids') or row['product_snapshot']['product_ids'],
+        row['comparison_target'],row['comparison_policy_sha256'],row['comparison_prompt_used_sha256'],
+        policy['products'],version='connection_comparison_v1',comparison_context=context)
+    assert row['comparison_answer']['comparison_status'] == 'qualified_medium_difference'
+
+
 def setup_connection():
     pool = [row('pa','p',0,['产品概述'],'为了实现对设备的管理，本设备需要通过3G/4G网络连接到运营商无线控制器。\n目前只支持与某厂商无线控制器互通。'),
         row('qa','q',0,['产品简介'],'本设备融合了Cable网络和无线路由器的功能。'),
@@ -84,6 +113,38 @@ def test_connection_answer_and_cached_push_recompute_all_sources(monkeypatch):
     assert len(sent)==2
     assert state['comparison_answer']['comparison_context']==state['comparison_context_assembly']
     validate_context_policy(state['comparison_context_assembly'],runner.evidence_attribution,max_docs=3,max_chars=12000)
+
+
+def test_coordinated_source_deletion_cannot_push_cached_answer(monkeypatch):
+    runner,state,prompt=state_and_prompt()
+    monkeypatch.setattr('app.query_process.agent.nodes.node_answer_output.push_to_session',lambda *args:None)
+    generate(state,prompt)
+    rebind_without_source(state,runner.evidence_attribution,'qa')
+    monkeypatch.setattr('app.query_process.agent.nodes.node_answer_output.push_to_session',
+        lambda *args:pytest.fail('协调删来源后的缓存答案不得推送'))
+    with pytest.raises(ValueError):
+        step_1_check_answer(state)
+
+
+def test_missing_input_guard_stops_before_model():
+    _,state,prompt=state_and_prompt()
+    del state['_connection_input_guard']
+    with pytest.raises(ValueError,match='调用前输入核验器'):
+        generate(state,prompt)
+
+
+@pytest.mark.parametrize('cached',[False,True])
+def test_comparison_mode_cannot_be_disabled_after_input_freeze(monkeypatch,cached):
+    _,state,prompt=state_and_prompt()
+    monkeypatch.setattr('app.query_process.agent.nodes.node_answer_output.push_to_session',lambda *args:None)
+    if cached:
+        generate(state,prompt)
+    state['comparison_mode']=False
+    with pytest.raises(ValueError):
+        if cached:
+            step_1_check_answer(state)
+        else:
+            generate(state,prompt)
 
 
 @pytest.mark.parametrize('field', ['source_facts','result','facts_sha256','answer_sha256',

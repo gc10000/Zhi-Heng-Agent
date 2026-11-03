@@ -395,6 +395,13 @@ class QueryRunner:
                          'asset_ids': list(hit.metadata.get('asset_ids', []))}}
                     for hit in group] for name, group in (
                         ('candidates', retrieved_candidates), ('reranked', ranked), ('context', pack.selected))}
+            if comparison_context is not None:
+                from app.runs.comparison_inputs import freeze_input
+                try:
+                    freeze_input(self.repo.db, row, state)
+                except Exception as exc:
+                    raise APIError(422, 'comparison_input_checkpoint_invalid',
+                        '连接比较调用前输入未能持久冻结。') from exc
             emit('citation.selected', {'citations': citations}, fields=evaluation_fields | {'citations': citations, 'stage': stage,
                 'retrieval_trace': pack.trace(), 'expansion_policy': expansion_policy.model_dump(),
                 'expansion_excluded': expansion.excluded, 'evidence_groups': expansion.groups,

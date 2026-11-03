@@ -24,6 +24,8 @@ def step_1_check_answer(state) -> bool:
   if answer:
     from app.answering.evidence_attribution import EvidenceAttributionPolicy
     attribution = EvidenceAttributionPolicy.model_validate(state.get('evidence_attribution') or {})
+    from app.runs.comparison_inputs import validate_input_mode
+    validate_input_mode(state, attribution)
     if state.get('comparison_mode') is True and attribution.comparison_answer and attribution.comparison_answer.enabled:
       from app.answering.comparison_answers import build_frame_catalog,prompt_used_identity,validate_saved_comparison
       from app.knowledge.repository import fingerprint
@@ -37,6 +39,8 @@ def step_1_check_answer(state) -> bool:
         refs = state.get('prompt_reference_map') or []
         catalog = build_frame_catalog(refs,docs,attribution)
         if attribution.comparison_answer.function_version == 'connection_comparison_v1':
+          from app.runs.comparison_inputs import validate_input_guard
+          validate_input_guard(state)
           from app.answering.comparison_context import validate_context_policy
           validate_context_policy(state.get('comparison_context_assembly'), attribution,
             max_docs=state.get('comparison_context_limit'),
@@ -221,6 +225,10 @@ def step_2_construct_prompt(state: QueryGraphState) -> str:
   # 5. 组装 Prompt
   prompt = packed['prompt']
 
+  if connection:
+    from app.runs.comparison_inputs import install_input_guard
+    install_input_guard(state)
+
   logger.info("答案提示词已组装，session={}，字符数={}，证据/历史字符数={}", state.get("session_id"), len(prompt), packed["used_chars"])
 
   return prompt
@@ -239,6 +247,8 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
   from app.answering.evidence_attribution import EvidenceAttributionPolicy
   attribution=EvidenceAttributionPolicy.model_validate(state.get('evidence_attribution') or {})
   binding=attribution.assertion_binding is not None and attribution.assertion_binding.enabled
+  from app.runs.comparison_inputs import validate_input_mode
+  validate_input_mode(state, attribution)
   comparison=(state.get('comparison_mode') is True and attribution.comparison_answer is not None
     and attribution.comparison_answer.enabled)
   buffer_output=binding or comparison
@@ -256,6 +266,8 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
     from app.answering.assertion_binding import failure_record
   connection = comparison and attribution.comparison_answer.function_version == 'connection_comparison_v1'
   def checked_connection_catalog():
+    from app.runs.comparison_inputs import validate_input_guard
+    validate_input_guard(state)
     from app.answering.comparison_answers import build_frame_catalog
     from app.answering.comparison_context import validate_assembly_manifest, validate_context_policy
     checked = build_frame_catalog(state.get('prompt_reference_map') or [],state.get('prompt_used_docs') or [],attribution)

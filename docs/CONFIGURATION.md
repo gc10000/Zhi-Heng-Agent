@@ -481,3 +481,10 @@ MODEL_HOST桥接新增可选input_type=query/document，省略仍document兼容�
 ## M6连接比较模式（内部默认关闭）
 
 `connection_comparison_v1`是显式冻结`evidence_attribution.comparison_answer.function_version`，不是环境变量或用户可选开关。必须同时绑定冻结来源关系、完整payload映射及既有prompt预算；离线/开发自验之外没有新的正式评测风险合同。将其用于正式评测会在实验登记前以`comparison_admission_required`拒绝；不得通过复用旧048风险合同绕过。当前配置catalog不新增或启用该模式，没有新增环境变量。任何未来真实调用需独立审查新配置、请求身份和预算授权。
+
+
+## 2026-11-03 · 连接比较调用前记录与验收证据
+
+本次不新增环境变量，不变更.env.example，不切默认。connection_comparison_v1仍需内部显式冻结配置且正式新评测准入未登记。仅此模式在Run目标Mongo库新增comparison_generation_inputs内部集合，_id为run_id，保存connection_generation_input_v1身份及摘要，不复制来源正文；首次插入后只校验，不在恢复时补建。备份显式新模式Run时应一并保存此集合；记录缺失／漂移则拒绝复用，写入失败comparison_input_checkpoint_invalid且不调用模型。进程内_connection_input_guard不写库、不序列化。旧模式／旧Run不迁移或新增配置。
+
+当前离线完整输入为双资料333成员明确投影，非原四资料582成员全scope；不能把回放输出直接作为正式catalog或真实质量proof。实际预算、验证、原rubric门槛纠正和后续范围见development/reviews/M6-connection-comparison-acceptance-evidence-r1.md及development/handoffs/M6-connection-comparison-acceptance-evidence-r1.md。无需用户找模型目录、查PDF或手工配置。
