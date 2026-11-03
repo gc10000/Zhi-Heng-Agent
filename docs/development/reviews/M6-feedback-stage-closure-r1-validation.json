@@ -1,0 +1,251 @@
+{
+  "date": "2026-11-03",
+  "source_head": "ee3b5a7f61c1c430a64e8132b8e388dff5a13e52",
+  "status": "quality_chain_audited_and_closed_scope_prepared_not_real_candidate_execution",
+  "stage": {
+    "M6": "5/7",
+    "M6_04": "accepted_unchanged",
+    "M6_05": "open",
+    "M6_08": "open",
+    "M7": "not_authorized"
+  },
+  "fix": {
+    "kind": "approved_policy_windows_checkout_line_endings",
+    "changed_business_algorithms": false,
+    "changed_approved_document_contents": false,
+    "changed_policy_hashes": false,
+    "independent_review": "not_performed_for_this_change",
+    "implementation_identity": "coordinator",
+    "regression_red": {
+      "tests": 4,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0
+    },
+    "regression_green": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "candidates": [
+    {
+      "candidate": 1,
+      "feedback_id": "c34496c4-c065-5765-93a5-4ba9a9167e55",
+      "binding_reference": {
+        "id": "87725c09f37660064837bef947885f75ab3dafd066ced493935ef842cfc297a4",
+        "sha256": "69af94d6c547b3def46e5f544139ff9ec94a61f70f4d06454974be455fedbb3e"
+      },
+      "annotation_id": "a0f98e3ff68798ca6c36a9a71bd0c367fa00330f6c8a298173608b768e392a15",
+      "binding_status": "valid",
+      "dataset_version": "fb-07c584730833908571fe9dd7c7c890afa3cf9e66",
+      "dataset_sha256": "c72a78955afe86503fbb37cc7293fa54287b0427877af4616bb762dfb57656c9",
+      "manifest_sha256": "3f2b3c3413da98773b600623200deb399f91da3e9c8b1b6dd0be3fc2d83109f9",
+      "baseline_experiment_id": "2b4307e3-2f03-46d7-850c-7d1054b1f8d2",
+      "calibration_id": "69a95e6b-c3b1-4ee1-8523-bab605451a2b",
+      "live_calibration_valid": true,
+      "baseline_incomplete": [],
+      "baseline_critical": [],
+      "candidate_experiment_id": "ba08ba1f-ba61-4b8d-8dc4-3e76c0703216",
+      "selected_questions": 85,
+      "live_execution_links_valid": 85,
+      "gate_status": "blocked",
+      "gate_reasons": [
+        "applicability_changed",
+        "quality_regression",
+        "review_pending_or_changed"
+      ],
+      "regression_dimensions": 8,
+      "incomplete_questions": [
+        "m6-g540-unknown-01-b",
+        "m6-g540-unknown-03-b",
+        "m6-g540-unknown-04-b",
+        "m6-g540-unknown-05-b",
+        "support-v1-047"
+      ],
+      "critical": [],
+      "review_count": 168,
+      "proof_status": "absent",
+      "proof_rejection": {
+        "status": 409,
+        "code": "regression_proof_invalid"
+      },
+      "source_hash_drift_rejection": {
+        "status": 409,
+        "code": "regression_source_invalid"
+      },
+      "subset_calibration_rejection": {
+        "status": 409,
+        "code": "regression_calibration_required"
+      },
+      "next_closed_config_sha256": "d91e7a72af48b74a5a5a68ad68329346e6cdaf907fb6e5e0223f350d67af03de",
+      "next_routes": {
+        "compare": 1,
+        "answer": 82,
+        "series": 1,
+        "clarify": 1
+      },
+      "retrieval_label_eligible_questions": 32
+    },
+    {
+      "candidate": 2,
+      "feedback_id": "ff45ecf4-4b82-5f3b-a31d-808ec5ae485e",
+      "binding_reference": {
+        "id": "01739675106c5e12eac37018a7f66ba4429e938d699cca8c3c33eae8017a7832",
+        "sha256": "5483e8cf5cd565db616c2833fa44bee52ada3d74670fef65fffee83b3c229fdb"
+      },
+      "annotation_id": "ab753fa532340bef7734801b5be116d220d0ca46052e7c16c2ac53d6a14840d4",
+      "binding_status": "valid",
+      "dataset_version": "fb-a3fa87c1adb2a6dc4e9638214164eb5f343ad008",
+      "dataset_sha256": "217fe6342f2389cf32aa112ec8591a0b8b09e97bb2d1356b085799f734249a04",
+      "manifest_sha256": "d1644269ffd71a8e9917c7cea4ac98d99b31ce0fc62f7c0978231fb3bb3a28d0",
+      "baseline_experiment_id": "29d405dc-81c9-4b63-a35f-5abdcbea081c",
+      "calibration_id": "379c925f-3bd9-4f2a-9607-e5a9679f0a2f",
+      "live_calibration_valid": true,
+      "baseline_incomplete": [],
+      "baseline_critical": [],
+      "candidate_experiment_id": "8dfc2b43-584e-43d7-bb13-b1be764bfa72",
+      "selected_questions": 85,
+      "live_execution_links_valid": 85,
+      "gate_status": "blocked",
+      "gate_reasons": [
+        "applicability_changed",
+        "quality_regression",
+        "review_pending_or_changed"
+      ],
+      "regression_dimensions": 22,
+      "incomplete_questions": [
+        "m6-g540-unknown-01-b",
+        "m6-g540-unknown-03-b",
+        "m6-g540-unknown-04-a",
+        "m6-g540-unknown-04-b",
+        "m6-g540-unknown-05-b",
+        "support-v1-047"
+      ],
+      "critical": [],
+      "review_count": 168,
+      "proof_status": "absent",
+      "proof_rejection": {
+        "status": 409,
+        "code": "regression_proof_invalid"
+      },
+      "source_hash_drift_rejection": {
+        "status": 409,
+        "code": "regression_source_invalid"
+      },
+      "subset_calibration_rejection": {
+        "status": 409,
+        "code": "regression_calibration_required"
+      },
+      "next_closed_config_sha256": "988dfae8402d363bfcc6fd66d545bcb62df809e6ab806dbf83fbaa584617101c",
+      "next_routes": {
+        "compare": 1,
+        "answer": 82,
+        "series": 1,
+        "clarify": 1
+      },
+      "retrieval_label_eligible_questions": 32
+    }
+  ],
+  "actual_validation": {
+    "isolated_mongo": {
+      "tests": 68,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "warning": "PytestAssertRewriteWarning: anyio already imported by reviewed helper",
+    "saved_input_replays": 170,
+    "saved_ordinary_or_series_prompts": 166,
+    "saved_connection_prompts": 2,
+    "clarification_no_prompt": 2,
+    "production_prompts_frozen": 0,
+    "live_quality_collections": 40,
+    "live_quality_rows": 1121,
+    "quality_namespace_unchanged": true,
+    "formal_admission_refusals": 4,
+    "unexpected_writes": 0,
+    "unit_results_are_self_validation": true,
+    "synthetic_integration_is_not_real_quality": true
+  },
+  "next_scope": {
+    "members": 170,
+    "dev_versions": 2,
+    "dev_questions_each": 85,
+    "heldout_selected": 0,
+    "new_stream_budget": 168,
+    "new_input_budget": 4773888,
+    "new_output_budget": 688128,
+    "budget_is_not_usage_or_fee_guarantee": true,
+    "question_differences": [
+      {
+        "question_id": "support-v1-001",
+        "fields": [
+          "annotation"
+        ],
+        "v1_sha256": "4b475a731a379c87d3f087a4f1d3d9cf0043801bfb2be87f85b1c072ef65774b",
+        "v2_sha256": "5d7785651c80268d538216393e6c7ea5d4f6da596688745b96940c8514aea07b"
+      }
+    ],
+    "closed_dispatch_sha256": "f9a6efe5a14f5cb87a720cb1fbbc7c8180f2bc6a6dc08ca394dd7012d9694d19",
+    "closed_requests_sha256": "ca66b7ecad1dbe4c9eb3512dc97066fe0bc1afc782c7d74dc917d160fcfa1230",
+    "closed_catalog_sha256": "a270b03209f4e4d68138f398c53910deccc484b7e620f6ead4e729affda14bae",
+    "execution_authorized": false,
+    "admission_ready": false,
+    "experiment_ids": null,
+    "run_ids": null,
+    "exact_production_prompts_frozen": 0,
+    "new_blind_judgments_required": 340,
+    "new_agent_delegation_authorized": false,
+    "old_048_authorization_reused": false
+  },
+  "new_actual_activity": {
+    "provider_streams": 0,
+    "local_inference": 0,
+    "quality_writes": 0,
+    "experiments_created": 0,
+    "runs_created": 0,
+    "slots_reserved": 0,
+    "proofs_created": 0
+  },
+  "accounting": {
+    "existing_diagnostic_usage": {
+      "input": 59589,
+      "output": 30583
+    },
+    "existing_baseline_and_old_candidate_usage": {
+      "input": 644642,
+      "output": 355857
+    },
+    "project_total": null,
+    "reason": "Two historical accounting scopes retained separately; no unverified summation",
+    "exact_http": null,
+    "cost": null,
+    "reasoning_details": null,
+    "gateway_hard_limit": "unknown",
+    "paid_output_hard_limit": "unknown",
+    "cost_upper_bound": "unknown"
+  },
+  "private_evidence": {
+    "directory": "output/m6-feedback-stage-closure-20261103-r1",
+    "file_count": 313,
+    "manifest_sha256": "ffeaae89c8be6b5e991a0557d4087ab0a597dc8d48cb36a44bcdf7de76fa1b4d"
+  },
+  "preserved_failures": [
+    "state-r1: script assumed namespace package app has __file__; no database access",
+    "state-r2: actual current consumer rejected CRLF policy documents; fixed without changing approved bytes/hash",
+    "isolation-r1: runner miscounted prefix length; no test/database write started",
+    "prepare-r1/r2: script audit hook rejected legitimate fixed Git evidence reads (including Windows command-line representation)",
+    "prepare-r3: script incorrectly demanded 85 retrieval-label-eligible questions; existing catalogs both have 32; fixed to preserve existing eligibility, not add a gate",
+    "replay-r1: reconstruction omitted scalar ordinal, rejected 166 prompts; restored actual saved ordinal; no application relaxation"
+  ],
+  "limitations": [
+    "New candidate quality, feedback regression proofs and M6 stage acceptance are not completed",
+    "New finite-scope admission, explicit expanded call/delegation authorization and runtime production inputs are not completed",
+    "No live Milvus/vector/source-wide/TTL/default-pointer scan; saved 582 scalar replay is not new live source proof",
+    "Model fingerprints retained from r2; weights not rehashed or loaded this round",
+    "No frontend behavior changes; no repeated frontend browser audit this round",
+    "Existing independent conclusions retain their original scope; this fix and preparation are implementing-coordinator self-validation"
+  ]
+}

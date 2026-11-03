@@ -1,3 +1,9 @@
+## 2026-11-03 · 已批准开发政策文件的Windows检出
+
+assistant-development-v1仍按已批准原字节/hash验证。两份docs/evaluation/assistant-development-policy-{proposal,decision}-v1.md由.gitattributes固定text eol=lf；Windows core.autocrlf=true新检出保持批准LF，正文篡改仍拒绝。没有新环境变量或API。下一170成员候选为关闭准备包，不能将单题048合同/授权扩成85题准入；未授权派发的目录和限制见[完整执行指令](development/handoffs/M6-feedback-stage-execution-r1.md)。
+
+以下历史按原时点保留。
+
 ## 2026-11-03 · M6连接048新准入与完整输入包独立技术复核通过
 
 用户本轮明确授权后，未参与实现的独立Agent完成17103bf之后07e92c2、53ecbaa及本次补修定向审查。发现validate_candidate整块忽略输出合同，协调重算后错误端点/历史来源hash仍准入；独立2反例失败，总控只正规化enabled/admission、要求anchor完整关闭模板后，由原审查者复测关闭。总控实现侧76定向通过单列，不作独立证据。

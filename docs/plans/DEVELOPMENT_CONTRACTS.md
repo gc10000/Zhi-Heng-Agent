@@ -1,3 +1,9 @@
+## 2026-11-03 · M6反馈正式复评现状与关闭候选范围
+
+现场正式消费者确认两版回归binding/原标签/85题校准有效，旧候选各85个execution_link匹配当前Run/来源/政策/attempt；旧gate均blocked（8/22下降，5/6质量投影不完整），proof调用409 regression_proof_invalid，未写入。现有单题048诊断无regression_source/政策/校准，不得倒填。已备170成员的新关闭配置，缺范围准入或挪用已消费048合同均在repo.create前422拒绝。尚无完整范围实际生成/双轮质量/两proof；M6-05/08仍open，不以保存输入回放代替，不新增heldout/Ragas/human开发前置。
+
+以下历史按原时点保留。
+
 ## 2026-11-03 · M6连接048新准入与完整输入包独立技术复核通过
 
 用户本轮明确授权后，未参与实现的独立Agent完成17103bf之后07e92c2、53ecbaa及本次补修定向审查。发现validate_candidate整块忽略输出合同，协调重算后错误端点/历史来源hash仍准入；独立2反例失败，总控只正规化enabled/admission、要求anchor完整关闭模板后，由原审查者复测关闭。总控实现侧76定向通过单列，不作独立证据。
