@@ -533,3 +533,7 @@ MODEL_HOST桥接新增可选input_type=query/document，省略仍document兼容�
 固定docs/development/reviews/M6-connection-comparison-048-authorization-reference-r1.json保存GitEvidence(commit/path/sha256)。缺文件仍为None；文件须与HEAD内原字节相同且只指本批authorization-r1.json，再由evidence_bytes核不可变Git正文。该文件不在app指纹中，允许先冻结最终代码输入，再提交授权及引用，避免循环。没有新增环境变量或API；默认catalog继续关闭。引用接线由本轮总控实施自验，原独立审查范围不追改。
 
 2026-11-03最终执行结果：本批已在供应商前失败并halt；引用仍保留历史授权，不能重用。修后准备目录output/m6-connection-comparison-048-input-r5/prepared/catalog/catalog.json默认关闭；完整anchor及精确prompt见同级上两层。新代码与旧授权输入不符将继续拒绝，不填写假授权或复用旧槽。引用文件由.gitattributes固定LF。
+
+## 2026-11-03 · 048授权引用加载时点补充
+
+授权引用在可选048 profile模块导入时读取并冻结到AUTHORIZED_GIT；load_authorization_reference会核HEAD原字节，但文件热改不会自动更新已加载常量，不能当作热撤销机制。部署/切换引用须重启相应执行进程；真正停止仍由固定批次halt与不可重领账本约束。默认服务启动不提前加载该可选profile。独立真实临时Git与新模块导入探针已覆盖该边界；旧r1已halt，本轮不借新引用重用。

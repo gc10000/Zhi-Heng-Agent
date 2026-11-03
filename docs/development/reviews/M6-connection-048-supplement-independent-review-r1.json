@@ -1,0 +1,273 @@
+{
+  "schema_version": 1,
+  "task_id": "M6-connection-048-supplement-independent-review-r1",
+  "date": "2026-11-03",
+  "role": "independent_reviewer_not_involved_in_implementation",
+  "user_authorized_supplement_review": true,
+  "reviewer_delegated": false,
+  "reviewer_modified_business_sources": false,
+  "reviewer_modified_existing_tests": false,
+  "reviewer_changed_project_index_or_head": false,
+  "reviewer_committed_or_pushed_project": false,
+  "initial_head": "a7218da427a8fe36bba3f34dae90667f479d41a5",
+  "final_git_head": "a7218da427a8fe36bba3f34dae90667f479d41a5",
+  "review_base": "7c1288a8fc3248d34703e4cc66ddbf3fde28cdae",
+  "reviewed_changes": [
+    "b8b611d authorization reference loader and LF attributes",
+    "5a73e3e submitted authorization reference activation",
+    "a7218da freezer display order matching original question and formal adapter"
+  ],
+  "final_technical_review": "passed_with_specific_boundaries",
+  "unresolved_reproduced_technical_findings": [],
+  "final_candidate": {
+    ".gitattributes": "bf877f4880146aa803c4462e3e6dbf694cd812f4072fe5b37e76f01a051b42ad",
+    "app/infrastructure/providers/connection_comparison_048_risk.py": "8e2d6bdda6b4aacb4739aa16ad83ae66cecd7d0a7e4e1848d1345f95bc6284f9",
+    "app/evaluation/connection_048_inputs.py": "196eb08ffa9cf19f1ebbc2d5dea9e0dd4b8e5c9df5de1cbeb10c4e609a8a9894",
+    "tests/unit/test_connection_048_authorization_reference.py": "d533e6b6a13f59133acffe31caad604fcbf407c38474a5247d97d18b41d0064e",
+    "tests/unit/test_connection_048_inputs.py": "d215eecb86f309d63491265cfe3f87dbcf879bd9394658fa7e10e09f1d9f6e04",
+    "tests/integration/test_connection_comparison_jobs.py": "876f0f42d72ecb3a0fd6123981c5de7b81bae0aefff3536948cd8cfe67e383cc",
+    "app/infrastructure/providers/output_contract.py": "bbfe4692909b4b69e513fbd21c12755b91f8c148c89773dd8b95fbc85d1e2e3a",
+    "app/evaluation/service.py": "669a8a2fc5c01d68202e7a2e2cd3d0ffd80670841c582949ddd086258e3a2bb4",
+    "app/evaluation/query_adapter.py": "54ac91c9e0adfb5c5399b3706fee14b6357e6b969633ff8e151dd5b789a49a49",
+    "app/runs/query_runner.py": "f0bd489fd8b925eaf4f42be7f6130aa913c3bee239d3523df2350277f4ce3849",
+    "app/runs/comparison_inputs.py": "a6ca8fea07f24065e027cb0dba79567b97843ab4e41dca720f26afd67d6648b5",
+    "app/query_process/agent/nodes/node_answer_output.py": "eb318e9dea8dcace61fc073612551c902960c82482ab4ebb87677de7cb75f2d5",
+    "app/answering/comparison_context.py": "08c846835b042179b91e67c1bff4607c06c490bedbdd94ce5e1430f1786f622a",
+    "app/answering/connection_semantics.py": "8b7819aa442200d1ce9306197e6951a0e2773887b18903183441699ade6c0487",
+    "app/answering/comparison_answers.py": "2b982763a2c641f5e6e50f4e3d398048921dd5b3a01c1177103b31be14ec8ef7"
+  },
+  "final_code_version": "765f62502e3aef14016567547ec164ab961aebadc0370d4a751f22761d245ef9",
+  "prior_independent_review": "preserved",
+  "validation_artifacts": {
+    "reference-first": {
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml_path": "output/m6-connection-048-supplement-independent-review-20261103-r1/reference-first.xml",
+      "xml_sha256": "cf98bc1edc66a91601db5d9899348089aaaf605e255214c08b25f3854cf2bb61",
+      "log_path": "output/m6-connection-048-supplement-independent-review-20261103-r1/reference-first.log",
+      "log_sha256": "0a17c15fee0402eecfb2bbd15125ed9a70cd4986a7a63f77bf08c15dc52dc846"
+    },
+    "offline-r1": {
+      "tests": 146,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml_path": "output/m6-connection-048-supplement-independent-review-20261103-r1/offline-r1.xml",
+      "xml_sha256": "ad916863ccd2098977cfa6b45a3192bfbaa1b0944c13bf8e84262b6f5f86ecba",
+      "log_path": "output/m6-connection-048-supplement-independent-review-20261103-r1/offline-r1.log",
+      "log_sha256": "9a2b5c6a6e5ddec09be9488d5ff78ec22097af482dedc4746bb6110b3e61880b"
+    },
+    "offline-final": {
+      "tests": 148,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml_path": "output/m6-connection-048-supplement-independent-review-20261103-r1/offline-final.xml",
+      "xml_sha256": "4a7245315adc74a4ec16498c5bf6c5f78a611858ec2e2089cab104b3160d460a",
+      "log_path": "output/m6-connection-048-supplement-independent-review-20261103-r1/offline-final.log",
+      "log_sha256": "589c24ea07f638a29a571a591518999f4c84767ac923df9a7a4d1668c63c4abf"
+    },
+    "full-first": {
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "xml_path": "output/m6-connection-048-supplement-independent-review-20261103-r1/full-first.xml",
+      "xml_sha256": "ffad79787c715a98bd976cd0f3099979abe2413a902985fd960845e544bbc49d",
+      "log_path": "output/m6-connection-048-supplement-independent-review-20261103-r1/full-first.log",
+      "log_sha256": "c5da6e747cb088408a0c48a3f1353a1e6c58f74651973356731a39c4d4da23a1"
+    },
+    "full-first-r2": {
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "xml_path": "output/m6-connection-048-supplement-independent-review-20261103-r1/full-first-r2.xml",
+      "xml_sha256": "478b0e150c62b7cd293041e050c98bb553ffb4fd981a3e817afac4f694b12aa6",
+      "log_path": "output/m6-connection-048-supplement-independent-review-20261103-r1/full-first-r2.log",
+      "log_sha256": "a3f6336594ed4e1e98063f6ecbf08822ed934aa02dee8a4d26259ae30ce708e0"
+    },
+    "full-first-r3": {
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "xml_path": "output/m6-connection-048-supplement-independent-review-20261103-r1/full-first-r3.xml",
+      "xml_sha256": "d4f07f99d53c9302c6dca257bda322fd574abcc6171c81c01ff6bdd0f0a5ac6f",
+      "log_path": "output/m6-connection-048-supplement-independent-review-20261103-r1/full-first-r3.log",
+      "log_sha256": "f3bc6494dd972a6574696a351faaea8235d3325535644f030dff0d15147ce543"
+    },
+    "full-first-r4": {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml_path": "output/m6-connection-048-supplement-independent-review-20261103-r1/full-first-r4.xml",
+      "xml_sha256": "110b70f847a171a1df8a4cca81e728b391fa5bc0dd7a539a0a6af8cf99a7ae53",
+      "log_path": "output/m6-connection-048-supplement-independent-review-20261103-r1/full-first-r4.log",
+      "log_sha256": "804a4a7384b75dba0c517147f7f65a87128f81b8ee43fa46a727506308f239b1"
+    },
+    "integration-final": {
+      "tests": 90,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml_path": "output/m6-connection-048-supplement-independent-review-20261103-r1/integration-final.xml",
+      "xml_sha256": "3b3caa383479978062b14cac1434cf188710db453ff8b025b93674edb1657553",
+      "log_path": "output/m6-connection-048-supplement-independent-review-20261103-r1/integration-final.log",
+      "log_sha256": "e51e3859903545a7b742ee148a60f9c5098f8b96d7946e2aa5cb5d084a8dcc22",
+      "new_full_chain_tests": 14
+    }
+  },
+  "independent_probes": {
+    "real_git_and_import": 14,
+    "complete_saved_r5_audit": 4,
+    "full_chain": 14,
+    "full_chain_same_and_separate_database": true,
+    "full_chain_scenarios": [
+      "normal_then_reject_review_halt",
+      "normal_then_accept_review_halt",
+      "invalid_selection",
+      "content_filter_finish",
+      "missing_usage",
+      "persistent_input_write_failure_before_provider",
+      "SDK_stream_read_timeout"
+    ],
+    "validator_implementations_kept": [
+      "load_authorization_reference",
+      "evidence_bytes/GitEvidence",
+      "sources",
+      "build_manifest",
+      "prepare_manifest",
+      "validate_config",
+      "validate_runtime",
+      "validate_previous_account",
+      "validate_prompt",
+      "validate_client",
+      "strict_options",
+      "OutputLedger",
+      "EvaluationService.create_experiment",
+      "execute_job",
+      "RealQueryExecutor",
+      "QueryRunner",
+      "freeze_input",
+      "validate_frozen_input",
+      "review",
+      "halt"
+    ],
+    "input_order": "question product_names explicitly reversed from observed selected order in all fourteen full-chain cases",
+    "call_assertion": "one in-memory MockTransport SDK stream for post-reservation cases; zero for input-anchor failure; no second stream on recovery",
+    "dry_capture": "each full-chain case first creates one distinct failed synthetic baseline Run to capture actual deterministic retrieval seeds/plan, stopping before model; later one risk Run is asserted unique",
+    "dataset": "full synthetic 150 rows with 85 dev and 65 heldout, only support-v1-048 selected; no heldout executed"
+  },
+  "port_replacements": {
+    "git": "real temporary Git repositories and actual commits; only git show for their synthetic commit IDs routed to that repository; GitEvidence and SHA validation unchanged",
+    "source_config": "synthetic immutable local source config with two documents/three payload rows for full-chain tests; separate r5 audit covers real saved four documents/582 members",
+    "technical_and_usage_evidence": "synthetic Git-committed reports and cumulative figures for tests; not new production authority or quality acceptance",
+    "prior_account": "new isolated synthetic r8-style blocked/settled/rejected account and hash-bound local receipts; unchanged after full-chain tests",
+    "resources": "existing synthetic knowledge/index/originals/embedder/ranker plus real Mongo in random short m1_test_m4_ databases; no model or vector service",
+    "resource_factory": "RealQueryExecutor receives isolated resources, skipping actual host runtime/weight initialization; all formal execution/link/checkpoint logic retained",
+    "model_wire": "installed preserving ChatOpenAI/openai stack via httpx.MockTransport using synthetic key and synthetic.invalid, never network transport",
+    "counts": "risk validators wrapped only to count calls, then their original implementation is called"
+  },
+  "fixture_failures": [
+    {
+      "artifact": "full-first",
+      "reason": "synthetic selected order accidentally equaled question order; test condition assertion failed before risk admission",
+      "business_defect": false
+    },
+    {
+      "artifact": "full-first-r2",
+      "reason": "attempted to register changed full dataset under same synthetic set/version; correctly rejected with eval_set_version_conflict; fixed test to use a new version",
+      "business_defect": false
+    },
+    {
+      "artifact": "full-first-r3",
+      "reason": "test callback validated pre-completion Run without completed proof input fields; fixed callback to validate actual prompt state, and validate complete Run only after completion",
+      "business_defect": false
+    }
+  ],
+  "reference_boundary": {
+    "missing": "returns None without Git IO",
+    "uncommitted_dirty_crlf_old_path_malformed": "rejected",
+    "invalid_authorization_hash_or_missing_commit": "rejected by real GitEvidence consumer",
+    "default_service": "fresh process create_app does not import the optional connection 048 profile",
+    "fresh_profile": "valid reference loaded; missing reference disabled; dirty reference raises before dispatch",
+    "caching": "AUTHORIZED_GIT is frozen at module import; explicit reload detects drift, file edits do not hot-revoke cached constants; process restart required to switch references",
+    "LF": "actual checkout-index under core.autocrlf=true preserves LF bytes via checked attributes"
+  },
+  "production_input": {
+    "directory": "output/m6-connection-comparison-048-input-r5",
+    "candidate_anchor_sha256": "0ef711349aac0628e89051a7b7eed9a61d265f873d2a3886763b171d1bcf62ef",
+    "prompt_utf8_sha256": "dd72ee38868e3b0780d5fcc670ecad3f01e10aebb4a004bd85884c69f099b225",
+    "result_sha256": "32a301571bb1f670ada85bbc2298baa45fbdb4cd84c79e13efe95f0d4ccde5ec",
+    "frozen_documents": 4,
+    "scalar_members": 582,
+    "context_documents": 10,
+    "continuous_references": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "conservative_input_tokens": 10340,
+    "input_limit": 28416,
+    "omitted_documents": 0,
+    "omitted_history": 0,
+    "code_matches_current": true,
+    "closed_catalog_preflight_passed": true,
+    "saved_failed_run_actual_input_order_prompt_and_persistent_input_hash_match": true,
+    "previous_authorization_consumption_rejected": true,
+    "previous_halt_preserved": true,
+    "previous_started_and_settled_files_absent": true
+  },
+  "protected_evidence": {
+    "previous_review_json_sha256": "64a90dc5e26b5b4d0e72499bfe9f3c9a930a36d460620431b8ad623bd317fea5",
+    "current_reference_file_sha256": "5b8798a29e0669a98308a145396f7f28cb9cff77ecc12ebf6619a1a78d819b7f",
+    "previous_halt_sha256": "eb74635c069ce7b7ee32b17508249bc71b1d0d56495f390f7b7d11c49ff033a9"
+  },
+  "outcome": "no_new_reproduced_business_defects; supplement technical pass only",
+  "reviewer_real_provider_calls": 0,
+  "reviewer_local_inference": 0,
+  "reviewer_real_business_db_reads": 0,
+  "reviewer_real_business_db_writes": 0,
+  "reviewer_live_scalar_queries": 0,
+  "credential_handling": "only previously reviewed checks.py --mongo silently consumes allowed MONGO_URL for isolated tests; no direct credential reading or printing by new tests",
+  "new_production_authorization_created": false,
+  "old_formal_attempt_retried": false,
+  "formal_slots_reused": false,
+  "actual_cumulative_usage": {
+    "input_tokens": 56239,
+    "output_tokens": 30516
+  },
+  "exact_http_requests": null,
+  "exact_cost": null,
+  "reasoning_detail": null,
+  "hard_gateway_limit": "unknown",
+  "not_verified": [
+    "fresh production Mongo old/current account state",
+    "fresh source/vector state",
+    "actual model weights/host runtime",
+    "real gateway wire behavior or paid hard limit",
+    "new authorized real stream",
+    "real answer quality",
+    "M6 phase evidence closure"
+  ],
+  "evidence_scope": "saved production failure artifacts checked offline against recorded hashes; no direct production database query; no individual-test counts summed across overlapping runs",
+  "real_answer_quality": "open",
+  "m6_core": "5/7",
+  "m6_04": "accepted_preserved",
+  "m6_05": "open",
+  "m6_08": "open",
+  "remaining_43": "paused",
+  "heldout_65": "not_run",
+  "m7": "not_started"
+}

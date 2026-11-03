@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "task_id": "M6-connection-048-supplement-controller-r1",
+  "date": "2026-11-03",
+  "role": "coordinator_evidence_verification_not_independent_signature",
+  "reviewed_source_commit": "a7218da427a8fe36bba3f34dae90667f479d41a5",
+  "independent_report": {
+    "path": "docs/development/reviews/M6-connection-048-supplement-independent-review-r1.json",
+    "sha256": "dc6d412a61d1890b322f9b1b7c9d591012268c7cc36d03128cbad5065f3df014",
+    "markdown_sha256": "dc3a49aabff7178f5d6e3eb576f30be51218f9ab5a2a5f884912e66206a622df"
+  },
+  "independent_verdict": "passed_with_specific_boundaries",
+  "evidence_statistics_verified": {
+    "offline-final": {
+      "tests": 148,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml_sha256": "4a7245315adc74a4ec16498c5bf6c5f78a611858ec2e2089cab104b3160d460a",
+      "log_sha256": "589c24ea07f638a29a571a591518999f4c84767ac923df9a7a4d1668c63c4abf"
+    },
+    "integration-final": {
+      "tests": 90,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml_sha256": "3b3caa383479978062b14cac1434cf188710db453ff8b025b93674edb1657553",
+      "log_sha256": "e51e3859903545a7b742ee148a60f9c5098f8b96d7946e2aa5cb5d084a8dcc22"
+    }
+  },
+  "all_independent_artifact_statistics_verified": {
+    "reference-first": {
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "offline-r1": {
+      "tests": 146,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "offline-final": {
+      "tests": 148,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "full-first": {
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    "full-first-r2": {
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    "full-first-r3": {
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    "full-first-r4": {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integration-final": {
+      "tests": 90,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "independent_candidate_hash_count": 15,
+  "protected_historical_file_count": 13,
+  "controller_saved_input_audit": {
+    "path": "output/m6-connection-048-supplement-controller-20261103-r1/saved-readiness.json",
+    "sha256": "4cca9f85cccdb38afe25dd1897cb802fb3e3008ed918bc4dd91bc42558e16daa"
+  },
+  "production_input": {
+    "directory": "output/m6-connection-comparison-048-input-r5",
+    "anchor_sha256": "0ef711349aac0628e89051a7b7eed9a61d265f873d2a3886763b171d1bcf62ef",
+    "code": "765f62502e3aef14016567547ec164ab961aebadc0370d4a751f22761d245ef9",
+    "prompt_utf8_sha256": "dd72ee38868e3b0780d5fcc670ecad3f01e10aebb4a004bd85884c69f099b225",
+    "source_documents": 4,
+    "scalar_members": 582,
+    "context_documents": 10,
+    "conservative_input_tokens": 10340,
+    "input_limit": 28416,
+    "exact_frozen": true,
+    "catalog_disabled": true
+  },
+  "supplement_business_fixes": 0,
+  "full_synthetic_chain_scenarios": 14,
+  "real_provider_streams": 0,
+  "local_inference": 0,
+  "real_business_db_reads": 0,
+  "real_business_db_writes": 0,
+  "isolated_mongo_actual": true,
+  "real_quality": "open_no_new_answer",
+  "old_real_attempt_halt_preserved": true,
+  "new_real_authorization_created": false,
+  "new_formal_experiment_created": false,
+  "cumulative_input_tokens": 56239,
+  "cumulative_output_tokens": 30516,
+  "exact_http_requests": null,
+  "exact_cost": null,
+  "reasoning_detail": null,
+  "gateway_hard_limit": "unknown",
+  "paid_output_hard_limit": "unknown",
+  "cost_upper_bound": "unknown",
+  "m6": "5/7",
+  "m6_04": "accepted_preserved",
+  "m6_05": "open_feedback_reevaluation_proof",
+  "m6_08": "open_candidate_quality_and_stage_evidence",
+  "remaining_43": "paused",
+  "heldout_65": "not_run",
+  "m7": "not_started"
+}
