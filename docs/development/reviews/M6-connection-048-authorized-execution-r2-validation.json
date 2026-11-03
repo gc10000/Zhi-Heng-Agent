@@ -1,0 +1,423 @@
+{
+  "schema_version": 1,
+  "task_id": "M6-connection-048-authorized-execution-r2",
+  "date": "2026-11-03",
+  "timezone": "Asia/Shanghai",
+  "status": "single_real_048_closed_with_quality_pass_and_presentation_limitation",
+  "role": "implementing_coordinator_execution_and_source_checked_quality_review_not_independent_signature",
+  "user_authorized_model_calls": true,
+  "new_formal_batch": "m6-connection-comparison-048-r2",
+  "old_r1_retried": false,
+  "code_activation_commit": "f961e710b3447aa5e3de15d1ba536a2da9359daa",
+  "authorization": {
+    "commit": "d052dafb617a3e7b1494edb8d9e96d13b98f3d15",
+    "path": "docs/development/reviews/M6-connection-comparison-048-authorization-r2.json",
+    "sha256": "472d2b29a828e2537b2c61c4b32dd087a68802bd6e7e08f0ae8063f839aac23e"
+  },
+  "dispatch_commit": "eacf2e170886c539ecbc44aa1f10518e38578058",
+  "versions": {
+    "code": "ae190c2573059b5149ebd7d64e25c74ea922a2c8117e023774cf96f1c3908cca",
+    "prompt": "cd3c40ef0e6af5de7edc7d4257aa09edeb92ac895aaeff16683d00110b395dc6",
+    "model": "565fbfe4c795fb52f84183f7b2708491fd7824fa07f2de9fd546e9d6d6e5bb90"
+  },
+  "algorithm_independent_review_preserved": true,
+  "admission_independent_review_preserved": true,
+  "supplement_independent_review": {
+    "commit": "07cab84e0eebea1f1d06400595decff004b9d51c",
+    "path": "docs/development/reviews/M6-connection-048-supplement-independent-review-r1.json",
+    "sha256": "dc6d412a61d1890b322f9b1b7c9d591012268c7cc36d03128cbad5065f3df014"
+  },
+  "new_r2_identity_independently_signed": false,
+  "new_r2_behavior_delta": "fixed batch slot and authorization paths only",
+  "reviewed_algorithms_unchanged": {
+    "app/answering/comparison_context.py": "08c846835b042179b91e67c1bff4607c06c490bedbdd94ce5e1430f1786f622a",
+    "app/answering/connection_semantics.py": "8b7819aa442200d1ce9306197e6951a0e2773887b18903183441699ade6c0487",
+    "app/answering/comparison_answers.py": "2b982763a2c641f5e6e50f4e3d398048921dd5b3a01c1177103b31be14ec8ef7"
+  },
+  "coordinator_validation": {
+    "batch-red": {
+      "tests": 5,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0,
+      "xml_path": "output/m6-connection-048-authorized-execution-20261103-r2/batch-red.xml",
+      "xml_sha256": "4034171aac48faefdb2357f242723011a0a4cbd5acbe2aee3c4ac28029712641",
+      "log_path": "output/m6-connection-048-authorized-execution-20261103-r2/batch-red.log",
+      "log_sha256": "4a3a994a28d4c858bc5cfe859c1397dabf572d9cebfc3ddbbb7439cd357567fe"
+    },
+    "offline-r1": {
+      "tests": 123,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml_path": "output/m6-connection-048-authorized-execution-20261103-r2/offline-r1.xml",
+      "xml_sha256": "cf3b6b7ea6c2325fc3984ca4792f120cfed8a6bdac11e91ecc0ff78d389c0605",
+      "log_path": "output/m6-connection-048-authorized-execution-20261103-r2/offline-r1.log",
+      "log_sha256": "638b90fe55435d7e4749d78bcad97cc4456b7125e49a66535c8c62073bd183d9"
+    },
+    "integration-r1": {
+      "tests": 90,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml_path": "output/m6-connection-048-authorized-execution-20261103-r2/integration-r1.xml",
+      "xml_sha256": "c6df03a616ccbeb810c175e11570c36469ea4a5c82c428d74834953bf7101d02",
+      "log_path": "output/m6-connection-048-authorized-execution-20261103-r2/integration-r1.log",
+      "log_sha256": "01cd64a8601397d0161e104bdab14ee0d57980e0b8619d727393344557857ba5"
+    },
+    "reference-openapi": {
+      "tests": 16,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "xml_path": "output/m6-connection-048-authorized-execution-20261103-r2/reference-openapi.xml",
+      "xml_sha256": "0fd16a39daa63743b6806b97a753a6be9d56b8761d906e62051378975ee2421e",
+      "log_path": "output/m6-connection-048-authorized-execution-20261103-r2/reference-openapi.log",
+      "log_sha256": "e77767ca8fcb2662a76c4ddd39ef4f334732b972ea17188291335f8f997d3851"
+    },
+    "reference-committed-green": {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml_path": "output/m6-connection-048-authorized-execution-20261103-r2/reference-committed-green.xml",
+      "xml_sha256": "e3c9e0a1cc450baa983f8c9ca95074a107f4ae49684f4970c71c6ad4d9337478",
+      "log_path": "output/m6-connection-048-authorized-execution-20261103-r2/reference-committed-green.log",
+      "log_sha256": "a684abb8c55785bdceb214912b772efbe12c86da9f628803c5ba3ad63ad08b23"
+    }
+  },
+  "sequence_failure": "reference-openapi checked real r2 pin before creation: 15 passed/1 failed; original test after pin commit: 1 passed; original logs retained",
+  "full_chain_synthetic_scenarios": 14,
+  "full_chain_scenarios_included_in_90": true,
+  "overlapping_runs_not_summed": true,
+  "production_input": {
+    "anchor": {
+      "path": "output/m6-connection-comparison-048-input-r6/candidate-anchor-private.json",
+      "sha256": "f83bbb5d20a19508cc959e0bf5fbac9eadc05ccc4a8cea0c3dc132215261c254"
+    },
+    "frozen_documents": 4,
+    "scalar_members": 582,
+    "context_documents": 10,
+    "continuous_references": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "conservative_input_tokens": 10340,
+    "input_limit": 28416,
+    "prompt_utf8_sha256": "dd72ee38868e3b0780d5fcc670ecad3f01e10aebb4a004bd85884c69f099b225",
+    "result_sha256": "38739ec59afa620d15dcbfd0f0c4ba584592127cdb4eb190dd2fe69dd4c009ff",
+    "fresh_predispatch_strong_scalar_queries": 4,
+    "fresh_scalar_pool_exact_replay": true,
+    "actual_weight_and_runtime_verified": true
+  },
+  "formal_execution": {
+    "experiment_id": "eda3b487-5d8e-40bf-8b89-3bf37ec0054c",
+    "run_id": "a724f414-afa1-4c6b-a96e-0a2e918cca20",
+    "attempt": 1,
+    "experiment_state": "completed",
+    "run_state": "completed",
+    "selected_dev_questions": 1,
+    "provider_streams": 1,
+    "exact_http_requests": null,
+    "model": "qwen3.8-flash",
+    "n": 1,
+    "thinking": false,
+    "sdk_max_retries": 0,
+    "finish_reason": "stop",
+    "output_truncated": false,
+    "persistent_input_verified": true,
+    "comparison_proof_recomputed": true,
+    "actual_input_tokens": 3350,
+    "actual_output_tokens": 67,
+    "reasoning_detail": null,
+    "exact_cost": null
+  },
+  "real_answer_quality": {
+    "result": "passed_single_answer_with_presentation_limitation",
+    "evaluator": "coordinator_source_checked_real_answer_review",
+    "independent_technical_signature": false,
+    "human_feedback_reevaluation": false,
+    "answer_sha256": "7c006c8279503fa148484e034a9f68ae3017c02ed57c6092b961b4beee9d6949",
+    "answer_characters": 4104,
+    "raw_model_role": "real constrained frame selection",
+    "final_answer_role": "deterministic complete source-qualified comparison rendering",
+    "selected_frames": [
+      {
+        "reference": 2,
+        "frame": 0
+      },
+      {
+        "reference": 7,
+        "frame": 0
+      }
+    ],
+    "source_fact_count": 4,
+    "comparison_status": "qualified_medium_difference",
+    "checks": [
+      {
+        "item": "direct_complete_qualified_comparison",
+        "passed": true,
+        "reason": "开头直接说明资料记载连接介质不同，随后完整解释两方路径、用途和限制，不以摘录代替比较"
+      },
+      {
+        "item": "LA2608_controller_link",
+        "passed": true,
+        "references": [
+          7
+        ],
+        "physical_pages": [
+          4
+        ],
+        "reason": "3G/4G到运营商无线控制器用于设备管理，保留仅支持H3C控制器互通限制"
+      },
+      {
+        "item": "CB304n_Cable_coax_path",
+        "passed": true,
+        "references": [
+          2,
+          4
+        ],
+        "physical_pages": [
+          8,
+          30
+        ],
+        "reason": "区分Cable能力描述与Cable口经同轴至入户接口的排障物理路径，未升级为现场已建立链路"
+      },
+      {
+        "item": "client_access_not_device_uplink",
+        "passed": true,
+        "references": [
+          1,
+          3
+        ],
+        "physical_pages": [
+          7,
+          9
+        ],
+        "reason": "有线/无线连接到CB304n明确为客户端访问，未与Cable条目跨引用拼接成设备上联能力"
+      },
+      {
+        "item": "citations_and_conditions",
+        "passed": true,
+        "references": [
+          2,
+          3,
+          4,
+          7
+        ],
+        "reason": "正文与四项来源事实、页面和限制逐项匹配，完整保存语境未提升为新事实，proof及持久输入重算通过"
+      },
+      {
+        "item": "no_unproven_generalization",
+        "passed": true,
+        "reason": "限定静态资料与各自角色用途，不推断所有上联能力、无线回程或现场状态；不要求同用途/同角色才能比较"
+      },
+      {
+        "item": "no_added_word_gate",
+        "passed": true,
+        "reason": "未将EoC或GM/GU字样作为所有答案必须出现的门槛"
+      }
+    ],
+    "limitations": [
+      {
+        "kind": "presentation",
+        "open": true,
+        "reason": "4104字符答案保留大量版权、配置命令等原文，呈现仍冗长；本次通过范围为完整性及来源正确性，不宣称通用答案或发布质量通过"
+      }
+    ]
+  },
+  "lifecycle": {
+    "status": "quality_reviewed_halted_and_same_run_recovery_verified",
+    "accepted": true,
+    "experiment_id": "eda3b487-5d8e-40bf-8b89-3bf37ec0054c",
+    "run_id": "a724f414-afa1-4c6b-a96e-0a2e918cca20",
+    "recovery_experiment_id": "f14baaf6-0612-4de7-add1-532db9701af6",
+    "same_run": true,
+    "run_unchanged": true,
+    "ledger_unchanged_on_recovery": true,
+    "provider_streams": 1,
+    "new_streams_on_recovery": 0,
+    "logical_reservations": 1,
+    "pending": false,
+    "unknown_windows": 0,
+    "cursor": 1,
+    "state": "blocked",
+    "old_r1_halt_preserved": true,
+    "old_r8_checked_readonly": true,
+    "actual_input_tokens": 3350,
+    "actual_output_tokens": 67,
+    "cumulative_input_tokens": 59589,
+    "cumulative_output_tokens": 30583,
+    "quality_review_sha256": "6ff1af8b6508aff2af21008f5dedcb4f0213a8005921c7549188d2c55f8c9642",
+    "answer_sha256": "7c006c8279503fa148484e034a9f68ae3017c02ed57c6092b961b4beee9d6949",
+    "exact_http_requests": null,
+    "exact_cost": null,
+    "reasoning_detail": null,
+    "hard_limits": "unknown"
+  },
+  "prior_input_tokens": 56239,
+  "prior_output_tokens": 30516,
+  "new_input_tokens": 3350,
+  "new_output_tokens": 67,
+  "cumulative_input_tokens": 59589,
+  "cumulative_output_tokens": 30583,
+  "exact_http_requests": null,
+  "exact_cost": null,
+  "reasoning_detail": null,
+  "gateway_hard_limit": "unknown",
+  "paid_output_hard_limit": "unknown",
+  "cost_upper_bound": "unknown",
+  "protected_historical_file_count": 13,
+  "protected_history_unchanged": true,
+  "real_business_effects": "formal experiment/Run/checkpoint/events/link/input/outcome/ledger; one recovery experiment observes same Run; no manual state edits",
+  "real_local_embedding_and_reranking": true,
+  "local_inference_count": null,
+  "private_evidence": {
+    "execution-summary.json": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/execution-summary.json",
+      "sha256": "9dcb660ce91921dcaf68e140a9a441941803b2b10105476865f5305b6f328402"
+    },
+    "formal-experiment-private.json": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/formal-experiment-private.json",
+      "sha256": "a55ffa062b44a91ce329d50c42854a671aaa3ab8bbbc89c20c544ab0b119d453"
+    },
+    "pre-dispatch-final.json": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/pre-dispatch-final.json",
+      "sha256": "a85ce585555803689aae9c199ce44b89b98455a9ca3dde9822fd04a05ab49d6f"
+    },
+    "execution-manifest.json": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/execution-manifest.json",
+      "sha256": "33b47543e80c2194e58b56d04c3b41e571ce4d2239c97f84e2d5673f0ef5724d"
+    },
+    "live-scalar-payloads-private.json": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/live-scalar-payloads-private.json",
+      "sha256": "d35860f26953d2f0001d15845c9c1eb214a466a869639974aeb3bc26ef0e698c"
+    },
+    "audit-private.json": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/audit-private.json",
+      "sha256": "1e1d42ef0b12785172f3999f52390d2c6814c84cb2f0f0c564f0bf266cfe4988"
+    },
+    "experiment-private.json": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/experiment-private.json",
+      "sha256": "6fd9328ee310156672cc4e83037db6b6d2cb1c4f285690811da51fc520fbd847"
+    },
+    "results-private.json": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/results-private.json",
+      "sha256": "dae57899617602d8e28f1bdaf3d3ee0b8e7eabb8dbcb9568a62698dac8e6e2fa"
+    },
+    "run-private.json": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/run-private.json",
+      "sha256": "0e2e87108ec34e1eb8a527898f6c01cf0682cb778260a049c6405e84d58290d9"
+    },
+    "account-private.json": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/account-private.json",
+      "sha256": "f3b6ce4c78972564a3b90bec09ae05d2a21c661f6e4d0ca7d394c5374fa8e36e"
+    },
+    "input-record-private.json": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/input-record-private.json",
+      "sha256": "80b89cf7d83512f24cdee8f8523524593b23ed7f1bebb705df9a8b96b589387d"
+    },
+    "answer-private.txt": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/answer-private.txt",
+      "sha256": "7c006c8279503fa148484e034a9f68ae3017c02ed57c6092b961b4beee9d6949"
+    },
+    "quality-review-private.json": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/quality-review-private.json",
+      "sha256": "6ff1af8b6508aff2af21008f5dedcb4f0213a8005921c7549188d2c55f8c9642"
+    },
+    "closed-account-private.json": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/closed-account-private.json",
+      "sha256": "e8c2a5385480642afb24808eaa903923219b3b0a990ccdf95df487992b7dcac2"
+    },
+    "recovery-experiment-private.json": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/recovery-experiment-private.json",
+      "sha256": "398ffaa589ea651257937a17a4fc59ad8c098d5180f9ea28e8c24c475ded74cd"
+    },
+    "closure-summary.json": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/closure-summary.json",
+      "sha256": "9cfbcb8d90b419209825cee84bcda10689e7c80dcd44787490768877d9854797"
+    },
+    "activation-delta.json": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/activation-delta.json",
+      "sha256": "9d5bd5a02ede331817c450c9b22cc224a1645bd4f058a4be42da6dbba0ae5185"
+    },
+    "script-manifest.json": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/script-manifest.json",
+      "sha256": "eee1ca358fe5418ba94f5c53dbe73d7524cc386cf0231d538c8e5f0319b9ad2a"
+    },
+    "authorize_and_prepare.py": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/authorize_and_prepare.py",
+      "sha256": "1cbf931e6c34d58c5db53aab6c63ba6ed031b54d3bf64699c6ba1afdca500bdd"
+    },
+    "execute_one.py": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/execute_one.py",
+      "sha256": "303fcf5a05c1ef89b27199d5e85221f5f9a45387db005ffc41c4ff571052ede6"
+    },
+    "audit_execution.py": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/audit_execution.py",
+      "sha256": "52748bd570596df987e82fa66e3c36a86ec7fa6031f919491873e70a3a37b203"
+    },
+    "close_and_restore.py": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/close_and_restore.py",
+      "sha256": "9f8a8f05d6f4f144e80adf44eb3f8d2b8419b36fb8782404f94358b1ba377495"
+    },
+    "close_failure.py": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/close_failure.py",
+      "sha256": "0e25847d3cb995d1d2ce283892b63578a9d6882c2b12357ec6012e5f38a97362"
+    },
+    "protected-history.json": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/protected-history.json",
+      "sha256": "8681250001de1ff7f541b1e608cf78cc56e95bb327628a7406d1137aafde06fc"
+    },
+    "freeze-r6.log": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/freeze-r6.log",
+      "sha256": "d3b6ce56928d39989b25caebfd2aeadac6cf35bd34002d73814e0ed2fcb9c59a"
+    },
+    "authorize.log": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/authorize.log",
+      "sha256": "1e6e37d5ae2c7433724b299790bcc346c91c872ccedc7195106a1aa90d4aedeb"
+    },
+    "pin.log": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/pin.log",
+      "sha256": "b4226b5d56d1e8cee77a9bf3488a9486e4d5c60fb8bb88923cbb74596fe8412a"
+    },
+    "prepare.log": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/prepare.log",
+      "sha256": "b53347b6b0fc815710bcf3ec25341b6be4f59d9c95197fc712613c415723cd30"
+    },
+    "execute.log": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/execute.log",
+      "sha256": "8ec882a86293d32461db96e5cbe267b603892bf55928d72deed51b0836aa0506"
+    },
+    "audit.log": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/audit.log",
+      "sha256": "b95b3323d10a6a65b0f9e8473dec4fee556ca0d2ddf36b06905b574b6d180224"
+    },
+    "close-and-restore.log": {
+      "path": "output/m6-connection-048-authorized-execution-20261103-r2/close-and-restore.log",
+      "sha256": "9c9e10cc30d45b8635934d2f2292bbd56edf2e01ad2de4f99ace19601a166a68"
+    }
+  },
+  "not_verified": [
+    "new whole-source/vector/TTL/default-pointer/quality-database scan",
+    "fresh front-end audit",
+    "general free-answer semantic validity",
+    "human feedback re-evaluation proof",
+    "M6 stage acceptance"
+  ],
+  "m6": "5/7",
+  "m6_04": "accepted_preserved",
+  "m6_05": "open_feedback_reevaluation_proof",
+  "m6_08": "real_single_candidate_quality_evidence_added_stage_acceptance_open",
+  "remaining_43": "paused",
+  "heldout_65": "not_run",
+  "m7": "not_started"
+}
