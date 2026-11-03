@@ -1,3 +1,17 @@
+## 2026-11-03 · M6连接048新准入与完整输入包独立技术复核通过
+
+用户本轮明确授权后，未参与实现的独立Agent完成17103bf之后07e92c2、53ecbaa及本次补修定向审查。发现validate_candidate整块忽略输出合同，协调重算后错误端点/历史来源hash仍准入；独立2反例失败，总控只正规化enabled/admission、要求anchor完整关闭模板后，由原审查者复测关闭。总控实现侧76定向通过单列，不作独立证据。
+
+独立最终324离线/契约、96隔离Mongo、额外4磁盘故障检查及r3强化输入审计2项通过，各组有重叠不累计。审查者未改业务源码，结论为passed_with_specific_boundaries，无未关闭的实证技术问题；既有三算法独立关闭及hash保持。见[独立报告](reviews/M6-connection-048-independent-review-r1.md)和同名JSON（SHA256 `64a90dc5e26b5b4d0e72499bfe9f3c9a930a36d460620431b8ad623bd317fea5`）。
+
+当前候选更新到`output/m6-connection-comparison-048-input-r3/`，catalog为`prepared/catalog/catalog.json`，独立执行目录`prepared/execution/`；完整582保存标量重冻、4资料/10文档/连续1–10、保守10340/28416及prompt字节保持。code=`c6fc212e2ea3659114a42614af22f5efae83e792f193abbffc6d533cc4d0ca38`；prompt SHA256=`9c1f2941f40f274aeba9d03453f5724c5ccea3135b7ab728f5c44af24319c2fe`。r1/r2保留，不能把旧配置代码身份冒充当前候选；种子仍为封存r8复放，未重新检索或核权重。
+
+下一项是新048有界真实验证的明确调用授权；本轮授权仅独立复核，AUTHORIZED_GIT=None、默认合同关闭，未创建授权/正式实验/Run/清单或预留槽。未来临发仍核实际来源、旧blocked账户、runtime/wire并写独立持久输入锚。本轮provider/本地推理/真实资料新查询/真实业务读写/评分均0，累计56239/30516、预算上界84655/34612不变，HTTP/费用/reasoning明细null、硬限unknown。独立技术通过不等于真实质量或阶段验收；M6保持5/7、04已验收、05反馈复评proof及08候选质量/阶段证据open，43暂停、heldout65/M7不启动。以下历史按原时点保留。
+
+## 2026-11-03 · M6连接048新包独立技术复核进行中
+
+用户本轮明确授权独立复核，已启动未参与实现的 /root/independent_048_admission_review，范围为17103bf之后07e92c2与53ecbaa的新准入/账本/catalog、清单顶层及旧拒绝review补修、完整输入冻结消费者。审查者不修改业务源码，由实现总控补修后交原审查者复测；不再委派。既有算法独立结论保留，新包结论待实际报告。未授权真实模型调用或正式派发，M6保持5/7、05/08缺口不变。
+
 ## 2026-11-03 · M6连接048完整输入已冻结，清单与旧拒绝review补修完成自验
 
 当前总控补修完整清单顶层重算（12反例）及旧账户拒绝review一致性（3反例），新授权消费者从完整标量重算精确输入。257离线/契约、72随机隔离Mongo和实际关闭catalog/完整输入审计通过，均为实现身份自验；新包不同身份独立技术审查仍open，旧三算法独立关闭保持且hash匹配。

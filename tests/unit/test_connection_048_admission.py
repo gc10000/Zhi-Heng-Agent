@@ -274,3 +274,39 @@ def test_manifest_top_level_cannot_redirect_or_regrant_account(tmp_path,monkeypa
     else:
         with pytest.raises(ValueError):risk.prepare_manifest(manifest)
         assert not risk.batch_dir().exists()
+
+
+@pytest.mark.parametrize('fault',['endpoint_sha256','prior_source_sha256'])
+def test_coordinated_anchor_contract_drift_is_not_authorized(tmp_path,monkeypatch,fault):
+    from app.evaluation.connection_048_inputs import assemble_input
+    risk,auth,anchor,cfg,question,state,prompt,save=authorized_case(tmp_path,monkeypatch)
+    anchor['new_config']['parameters']['answer_budget']['output_contract'][fault]='9'*64
+    cfg['parameters']['answer_budget']['output_contract'][fault]='9'*64
+    if fault=='endpoint_sha256':auth['runtime'][fault]='9'*64
+    rebuilt=assemble_input(anchor['new_config'],anchor['production_inputs'])
+    anchor.clear();anchor.update(rebuilt);save()
+    auth['candidate_anchor']['sha256']=risk.sha(tmp_path/'anchor.json')
+    auth['members'][0].update(source_result_sha256=anchor['result_sha256'],
+        prompt_utf8_sha256=anchor['prompt_utf8_sha256'])
+    with pytest.raises(ValueError):risk.sources(parse_contract(cfg['parameters']['answer_budget']['output_contract']))
+
+
+@pytest.mark.parametrize('fault',['endpoint_sha256','prior_source_sha256','extra_field'])
+def test_candidate_contract_only_allows_admission_switches(tmp_path,monkeypatch,fault):
+    risk,auth,anchor,cfg,*_=authorized_case(tmp_path,monkeypatch)
+    risk.validate_candidate(cfg)
+    changed=deepcopy(cfg)
+    changed['parameters']['answer_budget']['output_contract'][fault]='9'*64
+    with pytest.raises(ValueError):risk.validate_candidate(changed)
+
+
+def test_signed_anchor_must_keep_the_disabled_contract_template(tmp_path,monkeypatch):
+    from app.evaluation.connection_048_inputs import assemble_input
+    risk,auth,anchor,cfg,question,state,prompt,save=authorized_case(tmp_path,monkeypatch)
+    anchor['new_config']=deepcopy(cfg)
+    rebuilt=assemble_input(anchor['new_config'],anchor['production_inputs'])
+    anchor.clear();anchor.update(rebuilt);save()
+    auth['candidate_anchor']['sha256']=risk.sha(tmp_path/'anchor.json')
+    auth['members'][0].update(source_result_sha256=anchor['result_sha256'],
+        prompt_utf8_sha256=anchor['prompt_utf8_sha256'])
+    with pytest.raises(ValueError):risk.sources(parse_contract(cfg['parameters']['answer_budget']['output_contract']))

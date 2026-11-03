@@ -101,8 +101,11 @@ def candidate_config(original=None):
 def validate_candidate(config):
     expected=candidate_config()
     actual=copy.deepcopy(config)
-    # 派发时仅以专属授权合同替换关闭模板；其余配置必须全等。
-    actual['parameters']['answer_budget']['output_contract']=expected['parameters']['answer_budget']['output_contract']
+    # 只正规化派发开关与专属授权；端点、历史来源及其他合同字段不能被整块忽略。
+    from .output_contract import parse_contract
+    contract=parse_contract(actual['parameters']['answer_budget']['output_contract']).model_dump(mode='json')
+    contract.update(enabled=False,admission=None)
+    actual['parameters']['answer_budget']['output_contract']=contract
     if actual!=expected:
         raise ValueError('连接048配置超出冻结来源、生成包或新身份范围')
     technical_review()
@@ -136,7 +139,8 @@ def sources(policy):
     if (member.get('fixed_slot'),member.get('question_id'),member.get('expected_generation'))!=(SLOT,QUESTION_ID,True):
         raise ValueError('连接048成员身份漂移')
     anchor=read(checked_file(auth['candidate_anchor']))
-    validate_candidate(anchor['new_config'])
+    if anchor['new_config']!=validate_candidate(anchor['new_config']):
+        raise ValueError('连接048来源anchor必须保留完整关闭合同模板')
     from app.evaluation.connection_048_inputs import validate_input_anchor
     validate_input_anchor(anchor)
     if anchor['production_inputs']['question']!=authorized_inputs(auth,member):

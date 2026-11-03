@@ -1,5 +1,14 @@
 # M6新连接比较模式048单题条件方案
 
+## 2026-11-03独立技术通过与当前r3冻结候选
+
+用户授权的未参与实现Agent已通过新准入/账本/catalog、完整输入及合同补修定向审查；原2项协调端点/历史来源反例由总控修复、原审查者复测关闭，独立324离线/96隔离Mongo及4磁盘故障通过（组间不累计）。技术结论与完整边界见[新包独立报告](../reviews/M6-connection-048-independent-review-r1.md)和同名JSON；旧算法独立关闭保持。
+
+当前实际catalog：`D:/Desktop/AnXin/ansen_code/Product-Knowledge-Rag/.worktrees/m6-source-bound-comparison/output/m6-connection-comparison-048-input-r3/prepared/catalog/catalog.json`；持久输出：同级`prepared/execution/`。完整输入为r3的`candidate-anchor-private.json`，SHA256=`a7b4a0870c9acf26b9e232058e2f4d82434187ddde29a52461df6f27435555be`；code canonical=`c6fc212e2ea3659114a42614af22f5efae83e792f193abbffc6d533cc4d0ca38`。4资料582完整保存标量重装配，10条连续引用、10340/28416预算及原prompt字节/hash保持；r1/r2历史不覆盖。
+
+本次用户授权是独立复核，尚无新真实调用授权。AUTHORIZED_GIT=None、关闭合同和原身份/预算保持；未登记正式实验/Run/清单/槽。下一步取得明确新单题最多1 provider stream的授权、接受已列费用硬上限unknown及首失败停止后，按既定方案临发核实际来源/旧账户/runtime/wire/独立持久输入锚。完整答案要求及M6 05/08缺口保持，不新增门槛、不自动进入M7。以下原准备状态按历史阅读。
+
+
 ## 2026-11-03完整输入准备更新（当前状态）
 
 四资料582成员已实际只读并用完整scope重装配；最终源码候选在`output/m6-connection-comparison-048-input-r2/`，catalog为同级`prepared/catalog/catalog.json`，独立执行输出为`prepared/execution/`，完整输入为`candidate-anchor-private.json`及`prompt-private.txt`。10文档引用连续1–10，输入保守10340/28416，prompt SHA256为`9c1f2941f40f274aeba9d03453f5724c5ccea3135b7ab728f5c44af24319c2fe`。保留原scope、原预算与身份，不需用户填路径；旧r1目录不覆盖。

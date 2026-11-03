@@ -1,0 +1,221 @@
+{
+  "schema_version": 1,
+  "task_id": "M6-connection-048-independent-review-r1",
+  "date": "2026-11-03",
+  "role": "independent_reviewer_not_involved_in_implementation",
+  "delegation_authorized_by_user": true,
+  "reviewer_delegated": false,
+  "reviewer_modified_business_sources": false,
+  "reviewer_modified_existing_tests": false,
+  "initial_head": "53ecbaa12eb5f06a2cc7524f4cf0643ec3914b57",
+  "final_git_head": "53ecbaa12eb5f06a2cc7524f4cf0643ec3914b57",
+  "reviewed_range": "17103bfb9a37c786185557f25fc4602b62cb682d..53ecbaa12eb5f06a2cc7524f4cf0643ec3914b57 plus hash-frozen controller repair",
+  "initial_technical_review": "failed",
+  "final_technical_review": "passed_with_specific_boundaries",
+  "final_review_target": "HEAD plus uncommitted contract validation repair and six implementation regressions, bound by final_candidate hashes",
+  "final_candidate": {
+    "app/infrastructure/providers/connection_comparison_048_risk.py": "4baaf025b07b0456becdbe8badae48e1166037d5085385101f63ade933416d74",
+    "app/infrastructure/providers/output_contract.py": "bbfe4692909b4b69e513fbd21c12755b91f8c148c89773dd8b95fbc85d1e2e3a",
+    "app/infrastructure/providers/remaining_risk.py": "05301631fc55348e2a90254285a1d416f10665f7c45b9290afa94afa11de9712",
+    "app/infrastructure/providers/nonthinking_risk.py": "7bbc8f8aade3e14ac4b2563bfaa75430b8746fb1be7b61ca55245cee9862bb24",
+    "app/evaluation/connection_048_inputs.py": "8cdf0717780ef48e28aea1fbac4551ba86047c0e7370f37171aa7cfa085570a0",
+    "app/evaluation/connection_048_preflight.py": "16b234030feb1973996c099844f693e38f5d95c3ce342b6d8e9d6e8cc2cf8ee2",
+    "app/evaluation/service.py": "669a8a2fc5c01d68202e7a2e2cd3d0ffd80670841c582949ddd086258e3a2bb4",
+    "app/answering/service.py": "ac62cfd0b3cb8c0627b1d9fe28d94553c06f2301752fb30ef51a746fac58e932",
+    "app/runs/models.py": "12e7f5c9d50cdb1f9a30f0999eb705d5c1a26bf635b311cad2053b41963b26ca",
+    "app/runs/query_runner.py": "f0bd489fd8b925eaf4f42be7f6130aa913c3bee239d3523df2350277f4ce3849",
+    "app/query_process/agent/nodes/node_answer_output.py": "eb318e9dea8dcace61fc073612551c902960c82482ab4ebb87677de7cb75f2d5",
+    "scripts/verification/prepare_m6_connection_048.py": "0a97d8ad74f9178f74ca1bf42605a76f56550a6a2f98f652a0362647eb1bd513",
+    "scripts/verification/freeze_m6_connection_048.py": "cff4b9691358e6b1cb2c9eaeb40c1c8ae6c201d48e2e852f0797d0459c05d892",
+    "tests/unit/test_connection_048_admission.py": "f3954629e5f5b082e460b79f5d6c2c7055f47df9e4723e36e49b9c14c9cc1497",
+    "tests/unit/test_connection_048_inputs.py": "28d6f3f849e0526ee31f46ab9f5fa493a9d68a57e9c69f0ddafbcf465ec53e86",
+    "tests/unit/test_connection_048_preflight.py": "b3e79be75e533ee5b4399c92f3986dcf302efb6040c25d19b8061f961269f1ae",
+    "tests/integration/test_connection_048_risk_jobs.py": "be2b5631af4e3e95ee6da2e640d1a69eafe63a8c50b33c74843c79091d9ebb57",
+    "app/answering/comparison_context.py": "08c846835b042179b91e67c1bff4607c06c490bedbdd94ce5e1430f1786f622a",
+    "app/answering/connection_semantics.py": "8b7819aa442200d1ce9306197e6951a0e2773887b18903183441699ade6c0487",
+    "app/answering/comparison_answers.py": "2b982763a2c641f5e6e50f4e3d398048921dd5b3a01c1177103b31be14ec8ef7"
+  },
+  "final_code_version": "c6fc212e2ea3659114a42614af22f5efae83e792f193abbffc6d533cc4d0ca38",
+  "prior_algorithm_independent_review": "preserved_three_hashes_match",
+  "unresolved_reproduced_technical_findings": [],
+  "findings": [
+    {
+      "id": "R1",
+      "priority": "P1",
+      "status": "closed_by_independent_retest",
+      "root": "validate_candidate replaced the whole actual output contract, leaving coordinated endpoint and prior-source changes unchecked",
+      "initial_reproductions": 2,
+      "repair": "normalize only enabled/admission; require closed anchor to equal the complete fixed template",
+      "retested_by": "original independent probes in final-offline and probe-retest-wire"
+    }
+  ],
+  "reports": {
+    "offline-initial": {
+      "tests": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml_sha256": "5d46b5e1859835fa29dfbc72be38bd0eec9cf4a90373c85fef405d709e48e3a0",
+      "log_sha256": "9978dcff0ff088abccb351fa233edc602b5ff15bee0e7f29f3f0162f53255c1a"
+    },
+    "probe-initial": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml_sha256": "6e615a67797c9f58fcf3527e60e4df354cf7af43484a93235d65b79e6b5b009c",
+      "log_sha256": "acb01f2b4ce851f7d8092407b56a832cfd117c14435d747e4e808aa9bec3fc38"
+    },
+    "probe-coordinated": {
+      "tests": 2,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0,
+      "xml_sha256": "ff23f3bcd3372f79c07d2105c0fa54f8c09cdf45e68f5156bf67868aa51ca710",
+      "log_sha256": "b02c2c4e3cf69ad7bd1a5e99f2f58c4e7fda467e5a4b782ec979490b293d2197"
+    },
+    "probe-retest-wire": {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml_sha256": "362d9542af53f9392a1ab2f0f7905cdc53a7b14bb29838e1907733524045fce3",
+      "log_sha256": "95d07c98463e1dcd2b271442c32dbeacce9a51d290d7183f88426595306c6f51"
+    },
+    "offline-r1": {
+      "tests": 305,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml_sha256": "eae2cdbed205c74473093ee9593504c9981eeb93d1aaddea3c1e0063f34bee73",
+      "log_sha256": "a442cc9cb6824ea7cd526ba29b700ff19361254ac75565619b92e6ceac39c597"
+    },
+    "integration-r1": {
+      "tests": 96,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml_sha256": "7ae8b68eef6c821c3464b1aec20525d785c713e082746350805fffc42e545d03",
+      "log_sha256": "b04241dc65ca5c19c38437032af9b62050bff60d8981b46d236edb15ace4059b"
+    },
+    "disk-faults": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml_sha256": "fe98b297cfc6c478440af35f0f3b79cbdb934e6389682c68f5d739567b513ac6",
+      "log_sha256": "d1d2843689b9e36baf5fe23a14ea6ac1cecb53de19bdb081b396dfc969f81cac"
+    },
+    "saved-r2-audit": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml_sha256": "4565efcbeba2a13df925121e668324a97d747b9bf4e67babfa538a7c6a141164",
+      "log_sha256": "b0228820665f9b9935e212ba52fb9ddb6730a0f0d0c56a94b568a8c07f80ce61"
+    },
+    "final-offline": {
+      "tests": 324,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml_sha256": "4d96fdc81987347b07f6e9af5ef601716a9fdbf5c4d52f9b1339b2ee75f7b0f7",
+      "log_sha256": "c0cf3a1a0b619fd5a1d5ef68e66d5a4d896a3e9637c5f76756ae77fb3f8d040d"
+    },
+    "final-input-audit": {
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml_sha256": "dd3e55419fd0029b5735570163de9fbf4591c9669ffa6a0885b27d013f3b7c51",
+      "log_sha256": "a6ea5f0f7c4b5a9ae280e217d68dca1779c21653ca4268783a199788ee8d4b10"
+    }
+  },
+  "evidence_limits": {
+    "probe_initial": "two uncoordinated mutations rejected; not the reproduced finding",
+    "offline_initial": "incorrect tests/contracts path, no tests ran; corrected without overwriting the failed invocation",
+    "saved_r2_audit": "one meaningful r2 full-input audit and one pre-r3 placeholder return; not counted as two substantive checks",
+    "final_offline": "324 tests includes independent probes and r3 audit; overlap with earlier reports must not be summed",
+    "integration": "96 actual isolated Mongo tests use synthetic sources/provider/admission ports; no real provider or production authorization",
+    "wire": "installed SDK with in-memory MockTransport; one request in the positive synthetic case does not establish real HTTP count",
+    "scalar_origin": "saved full pool and seed hashes independently verified; no fresh live scalar query by reviewer; historical four-live-query origin not independently witnessed",
+    "final_input": "two strengthened r3 checks include current code/prompt/catalog and rejection before repository.create"
+  },
+  "production_input": {
+    "directory": "output/m6-connection-comparison-048-input-r3",
+    "candidate_anchor_sha256": "a7b4a0870c9acf26b9e232058e2f4d82434187ddde29a52461df6f27435555be",
+    "config_subject_sha256": "9076d71348eb97b4072e963cab7822a00d7366af5c01bd6026bb3bb78556c180",
+    "source_config_sha256": "ac0a4178f91fa638fd13ea08c9f897e26bf396005aa3581216e6e82ce8095b50",
+    "frozen_documents": 4,
+    "frozen_payload_members": 582,
+    "prompt_documents": 10,
+    "reference_numbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "conservative_input_tokens": 10340,
+    "input_limit": 28416,
+    "omitted_documents": 0,
+    "omitted_history": 0,
+    "prompt_utf8_sha256": "9c1f2941f40f274aeba9d03453f5724c5ccea3135b7ab728f5c44af24319c2fe",
+    "source_result_sha256": "9b8f88948c2c97e609f436e292f1eff49ebb476bce6d0a41214ddac99a68a16c",
+    "full_scope_scalar_payloads_replayed": true,
+    "exact_production_prompt_frozen": true,
+    "fresh_retrieval": false,
+    "fresh_weight_verification": false,
+    "seed_origin": "hash-bound archived r8 Run; exact seed/plan/group/product equality independently checked",
+    "persistent_formal_run_input_created_by_reviewer": false
+  },
+  "closed_boundaries": [
+    "disabled/unregistered authorization fails before formal experiment creation and before manifest/client side effects",
+    "new fixed slot/profile, full dataset 150/85/65, full manifest top-level identity, config/prompt source consumption",
+    "same/separate control database, CAS reservation concurrency, one settled receipt and no refund/reclaim after failure",
+    "installed SDK wire, no SDK retry/redirect, thinking observations and unknown usage blocking",
+    "disk started/settlement failure windows and matching receipt recovery, formal job and checkpoint source/termination recovery"
+  ],
+  "not_verified_live": [
+    "old blocked business account at dispatch time",
+    "fresh Milvus/vector/source state",
+    "fresh model weights/runtime host",
+    "real gateway hard limits/cost/HTTP/reasoning detail",
+    "new authorized real stream and real answer quality",
+    "formal Run persistent input anchor"
+  ],
+  "authorization_is_none": true,
+  "formal_local_manifest_absent": true,
+  "new_authorization_created": false,
+  "reviewer_real_provider_calls": 0,
+  "reviewer_local_inference": 0,
+  "reviewer_real_business_db_reads": 0,
+  "reviewer_real_business_db_writes": 0,
+  "reviewer_live_scalar_queries": 0,
+  "isolated_mongo_only": true,
+  "actual_cumulative_usage": {
+    "input_tokens": 56239,
+    "output_tokens": 30516
+  },
+  "logical_cumulative_budget_upper_bound": {
+    "input_tokens": 84655,
+    "output_tokens": 34612
+  },
+  "exact_http_requests": null,
+  "exact_cost": null,
+  "reasoning_detail": null,
+  "hard_gateway_limit": "unknown",
+  "real_answer_quality": "open",
+  "m6_core": "5/7",
+  "m6_04": "accepted_preserved",
+  "m6_05": "open",
+  "m6_08": "open",
+  "remaining_43": "paused",
+  "heldout_65": "not_run",
+  "m7": "not_started"
+}
