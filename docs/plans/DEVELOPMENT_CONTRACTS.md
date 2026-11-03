@@ -1120,3 +1120,8 @@ v3跨产品摘要不再断言“资料未说明状态/上联”，只说明不�
 仅显式connection_comparison_v1在正确完整池装配、payload和prompt预算核验后，供应商调用前向目标库comparison_generation_inputs以_id=run_id、$setOnInsert写connection_generation_input_v1身份；绑定Run身份／归属、实际文档／顺序／引用映射、装配、比较目标、产品顺序／标签、规范化策略及prompt-used hash。写后读回核对，冲突或写入失败以comparison_input_checkpoint_invalid在0模型调用时拒绝。恢复和结果投影只核原记录，不补签；同／分控制库均从Run目标库读取，首次outcome前也适用。记录没有正文，无TTL或真实数据迁移变更；备份／恢复此显式模式须保留对应记录，丢失不得绕过。
 
 缓存和生成以仅本进程闭包核已核验输入，闭包不持久化、不作为跨进程proof；有冻结连接输入时禁止关闭比较标志／替换策略静默降级。默认及旧Run不新增要求。自然语言答案按每条资料来源解释，固定尾句不引入Cable/Web等无来源术语。原048不增加同角色同用途门槛，限定比较离线输出不能替代真实质量proof或独立验收。详见docs/development/reviews/M6-connection-comparison-acceptance-evidence-r1.md。
+
+
+## 2026-11-03 · 连接比较正常结束与输出身份
+
+仅显式connection_comparison_v1在展示前要求本次选择调用观察到finish_reason=stop，异常或缺失终止、陈旧state值、前后冲突终止和终止后正文均拒绝；终止后的空用量帧允许。拒绝码comparison_termination_invalid，失败记录comparison_termination_rejected，bounded raw selection沿既有失败Run口保存，无正文delta、completion_snapshot或成功outcome，不自动重试。正常新模式Run保存answer_finish_reason=stop；缓存及首次outcome前恢复要求该字段且未截断，不补签。该字段仅在显式启用新模式时加入run_output身份，旧默认及v1/v2/v3投影不升级。公共OpenAPI和评分rubric不变。调用前记录重复相同输入幂等，冲突输入不能覆盖原记录。

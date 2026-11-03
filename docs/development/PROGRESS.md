@@ -1,3 +1,9 @@
+## 2026-11-03 · M6连接比较结束证据补修与生命周期补核完成
+
+任务M6-connection-terminal-review-r1：复现并修复合法JSON缺正常结束仍被当成功、缓存缺结束证据仍推送、终止后继续正文仍接受。仅新connection模式要求本次观察stop且无异常终止／后续正文，正常空用量帧保留；成功Run保存结束原因，缓存／首次恢复核验且新outcome身份绑定。调用前记录相同输入重复冻结幂等、不同输入冲突不覆盖均通过。最终275离线／契约（含OpenAPI）、65隔离Mongo、前端2组21断言及保存输入10语义／17内容／16span核验通过；旧v2 proof保持。所有红测保留。
+
+本轮没有新provider、本地推理或真实库读写，累计56239/30516。仍为实现总控直接复核与补修自验，独立技术和正式质量proof open；新048未授权。下一唯一目标按[累计验收矩阵](handoffs/M6-connection-comparison-acceptance-evidence-r1.md)做不同实现身份技术验收，不再以当前实现方增加自验替代该身份。M6 5/7、04验收、05／08正式证据缺口、43题暂停、heldout／M7未启动保持。详见[报告](reviews/M6-connection-comparison-terminal-review-r1.md)、[摘要](reviews/M6-connection-comparison-terminal-review-r1-validation.json)。
+
 ## 2026-11-03 · M6验收证据补核：来源恢复、降级和渲染反例已补修
 
 任务M6-connection-acceptance-evidence-r1：实际复现并补修首次outcome前协调删介绍仍恢复成功、比较开关关闭可降级、渲染固定混入无关Cable/Web三项。调用前独立持久输入记录先于模型，记录丢失／漂移拒绝、不恢复补签；缓存与生成前后核输入和模式。最终252离线／契约（含OpenAPI）、55隔离Mongo、实际前端2组21断言通过；新保存输入四格和17项内容／16处跨度核验通过。纠正上一报告额外加入的同用途／同角色门槛；新程序已可给完整限定比较，非仅原文摘录，但仍不是正式模型答案质量proof。

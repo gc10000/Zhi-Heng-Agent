@@ -21,13 +21,18 @@ def run_input(row, db):
 
 
 def run_output(row):
-    return {k: deepcopy(row[k]) for k in (
+    value = {k: deepcopy(row[k]) for k in (
         'state', 'answer', 'citations', 'candidates', 'resume_point', 'product_snapshot',
         'revision_snapshot', 'answer_support', 'output_truncated', 'retrieval_branches',
         'evaluation_candidates', 'prompt_budget', 'completion_snapshot', 'prompt_reference_map', 'prompt_used_docs',
         'answer_binding', 'answer_binding_failure', 'comparison_answer',
         'comparison_answer_failure', 'comparison_target', 'comparison_target_reason', 'comparison_policy_sha256',
         'comparison_prompt_used_sha256', 'comparison_context_assembly') if k in row}
+    mode = ((row.get('evidence_attribution') or {}).get('comparison_answer') or {})
+    if (mode.get('enabled') is True and mode.get('function_version') == 'connection_comparison_v1'
+            and 'answer_finish_reason' in row):
+        value['answer_finish_reason'] = deepcopy(row['answer_finish_reason'])
+    return value
 
 
 def result_subject(result):

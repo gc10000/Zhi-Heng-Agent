@@ -133,7 +133,8 @@ def test_failed_selection_persists_raw_without_outcome_or_retry(evaluation_conte
 
 @pytest.mark.parametrize('separate',[False,True])
 @pytest.mark.parametrize('mutation',[None,'source_facts','result','assembly','coordinated_source',
-    'coordinated_deletion','delete_condition','missing_input_checkpoint','changed_input_checkpoint'])
+    'coordinated_deletion','delete_condition','missing_input_checkpoint','changed_input_checkpoint',
+    'missing_finish','changed_finish'])
 def test_first_outcome_recovery_rebinds_sources_without_new_call(evaluation_context,tmp_path,monkeypatch,separate,mutation):
     cfg,res,prompts,question,repo,service,user,data,catalog=case(evaluation_context,tmp_path,monkeypatch,
         separate=separate,fault='condition' if mutation=='delete_condition' else None)
@@ -150,6 +151,8 @@ def test_first_outcome_recovery_rebinds_sources_without_new_call(evaluation_cont
     if mutation=='source_facts': row['comparison_answer']['source_facts'][0]['medium']='ethernet'
     if mutation=='result': row['comparison_answer']['result']['status']='qualified_medium_same'
     if mutation=='assembly': row['comparison_context_assembly']['max_docs']=99
+    if mutation=='missing_finish': del row['answer_finish_reason']
+    if mutation=='changed_finish': row['answer_finish_reason']='content_filter'
     if mutation in {'coordinated_deletion','delete_condition'}:
         from tests.unit.test_connection_comparison_wiring import rebind_without_source
         rebind_without_source(row,cfg['parameters']['evidence_attribution'],
@@ -207,8 +210,62 @@ def test_input_checkpoint_write_failure_stops_before_model(evaluation_context,tm
     row=res['db'].runs.find_one({})
     assert repo.get_experiment(user,job['experiment_id'])['state']=='failed'
     assert row['state']=='failed' and row['error']['code']=='comparison_input_checkpoint_invalid'
+    from app.runs.telemetry import run_telemetry
+    assert run_telemetry(res['runs'],user,row['run_id'])['failure_code']=='comparison_input_checkpoint_invalid'
     assert not prompts and not row.get('answer')
     assert res['db'].evaluation_outcomes.count_documents({})==0
+
+
+@pytest.mark.parametrize('separate',[False,True])
+@pytest.mark.parametrize('finish',[None,'content_filter'])
+def test_abnormal_terminal_selection_fails_without_outcome_or_visible_answer(evaluation_context,tmp_path,monkeypatch,separate,finish):
+    cfg,res,prompts,question,repo,service,user,data,catalog=case(evaluation_context,tmp_path,monkeypatch,separate=separate)
+    class Model:
+        def stream(self,prompt,**kw):
+            prompts.append(prompt)
+            yield SimpleNamespace(content=RAW,response_metadata={'finish_reason':finish})
+    res['query_runner'].llm_factory=Model
+    job=service.create_experiment(user,data)
+    execute_job(repo,catalog,tmp_path/'terminal',job['experiment_id'])
+    row=res['db'].runs.find_one({})
+    assert repo.get_experiment(user,job['experiment_id'])['state']=='failed'
+    assert row['state']=='failed' and row['error']['code']=='comparison_termination_invalid'
+    from app.runs.telemetry import run_telemetry
+    assert run_telemetry(res['runs'],user,row['run_id'])['failure_code']=='comparison_termination_invalid'
+    assert row['comparison_answer_failure']['raw_selection']==RAW
+    assert row['comparison_answer_failure']['failure_code']=='comparison_termination_rejected'
+    assert not row.get('answer') and not row.get('completion_snapshot')
+    assert res['db'].evaluation_outcomes.count_documents({})==0 and len(prompts)==1
+    events=list(res['db'].run_events.find({},{'type':1,'payload':1}))
+    assert events
+    assert not any(event.get('type')=='answer.delta' for event in events)
+    assert RAW not in str(events)
+
+
+@pytest.mark.parametrize('separate',[False,True])
+def test_input_checkpoint_repeated_freeze_and_conflict_preserve_original(evaluation_context,tmp_path,monkeypatch,separate):
+    cfg,res,prompts,question,repo,service,user,data,catalog=case(evaluation_context,tmp_path,monkeypatch,separate=separate)
+    import app.runs.comparison_inputs as checkpoints
+    original=checkpoints.freeze_input
+    checked=[]
+    def repeated(db,run,state):
+        original(db,run,state)
+        saved=db.comparison_generation_inputs.find_one({'_id':run['run_id']})
+        assert original(db,run,state)=={k:v for k,v in saved.items() if k!='_id'}
+        changed=deepcopy(state)
+        pid=changed['comparison_product_ids'][0]
+        changed['comparison_product_labels'][pid]+='-changed'
+        checkpoints.install_input_guard(changed)
+        with pytest.raises(ValueError):
+            original(db,run,changed)
+        assert db.comparison_generation_inputs.find_one({'_id':run['run_id']})==saved
+        checked.append(True)
+    monkeypatch.setattr(checkpoints,'freeze_input',repeated)
+    job=service.create_experiment(user,data)
+    execute_job(repo,catalog,tmp_path/'repeated',job['experiment_id'])
+    assert repo.get_experiment(user,job['experiment_id'])['state']=='completed'
+    assert checked==[True] and len(prompts)==1
+    assert res['db'].comparison_generation_inputs.count_documents({})==1
 
 
 @pytest.mark.parametrize('separate',[False,True])

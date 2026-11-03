@@ -521,6 +521,8 @@ class QueryRunner:
                 comparison_fields={key:state[key] for key in (
                     'comparison_answer','comparison_target','comparison_policy_sha256',
                     'comparison_prompt_used_sha256') if key in state}
+                if comparison_context is not None:
+                    comparison_fields['answer_finish_reason']=state['answer_finish_reason']
             self.commands.finish(user, rid, token, 'completed', {'answer': answer, 'citations': citations, 'message_id': row['assistant_message_id']},
                 fields={'answer': answer, 'citations': citations, 'stage': 'completed', 'completion_snapshot': completion,
                     'output_truncated':bool(state.get('output_truncated'))} |

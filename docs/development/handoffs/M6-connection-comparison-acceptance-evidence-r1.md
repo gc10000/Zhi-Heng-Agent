@@ -4,6 +4,8 @@
 
 ## 唯一审查矩阵
 
+最新接续：先读[结束与生命周期补核报告](../reviews/M6-connection-comparison-terminal-review-r1.md)及[摘要](../reviews/M6-connection-comparison-terminal-review-r1-validation.json)。其基点为657e87f；上文e3178ca是第一次补修的差异基点，**e3178ca初始新模式实施包也尚未获独立通过**。独立验收应覆盖[初始实施包](../reviews/M6-connection-comparison-implementation-r1.md)、第一次补修与本次终止边界累计范围，不能只审最后几行。只核新模式及受影响旧出口，不重开已独立关闭协议。
+
 | 检查 | 源码／证据入口 | 退出条件 |
 | --- | --- | --- |
 | 正确装配先于调用前记录 | `QueryRunner.assemble_connection_context`、`evidence_prompt`、`comparison_inputs.freeze_input` | 原完整池逐payload核验、介绍和完整子条件、必要预算通过后才首次冻结；不能从篡改恢复Run补签 |
@@ -12,6 +14,9 @@
 | 缓存及生成静默降级 | `test_coordinated_source_deletion_cannot_push_cached_answer`、`test_comparison_mode_cannot_be_disabled_after_input_freeze`、缺guard／来源生成中漂移用例 | 先验证输入和模式，再推送或调用；无自由答案绕过；进程闭包不当作持久恢复证据 |
 | 渲染无无关术语 | `test_renderer_does_not_add_media_or_web_absent_from_sources`与现有语义反例 | 仅输出资料支持的介质、端点、用途、限定及可归因的比较；不补写Cable／Web，不把客户端访问当上联 |
 | 正常与旧路径兼容 | 55项隔离Mongo（35新、20旧），252项离线／契约 | 同／分库成功复用、首次恢复、断流raw、故障结算、默认关闭、旧比较／原句选择／OpenAPI保持 |
+| 本次调用正常结束 | 最新新模式stream／invoke、异常／缺失／陈旧／冲突结束、终止后正文和空用量帧用例 | 必须本次观察stop且无异常；展示前拒绝不合格终止，raw保留，无额外调用；正常空尾帧保持 |
+| 结束持久化与恢复身份 | 最新65项隔离Mongo、275项离线／契约 | 成功Run保存结束原因，缓存及首次outcome前恢复核验；仅显式新模式outcome身份新增结束原因，旧投影不升级 |
+| 调用前记录重复／冲突 | 同／分库repeated_freeze_and_conflict用例 | 相同输入幂等且仅1记录；不同输入不能覆写原记录，正常Run仍只1次合成调用 |
 | 原048逐分句核源 | 本机新目录`four-cell-r2/D-private.json`、`clause-audit-r2-private.json` | 同一冻结双资料333成员投影，10条prompt文档；LA管理3G/4G到AC、CB融合和Cable接入侧限定比较、分型号引用均有依据；不发明同用途同角色门槛，不把程序输出算正式模型质量proof |
 
 私有材料在本机`output/m6-connection-acceptance-evidence-20261103-r1/`。`checks.py`已审阅，使用随机短测试库名；所有脚本有写入，若再运行先复制适配到全新目录，不覆盖任何红／绿日志。不得读取private-identity或输出.env值，不扫描真实库、修改真实Run／lease／slot／blocked账户。

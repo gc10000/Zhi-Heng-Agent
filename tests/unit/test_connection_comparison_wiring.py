@@ -184,6 +184,70 @@ def test_interruption_keeps_partial_selection_without_public_delta(monkeypatch):
     assert state['comparison_answer_failure']['raw_selection']==RAW[:20]
 
 
+@pytest.mark.parametrize('stream',[False,True])
+@pytest.mark.parametrize('finish',[None,'content_filter','tool_calls','error'])
+def test_selection_requires_observed_normal_termination_before_public_answer(monkeypatch,stream,finish):
+    _,state,prompt=state_and_prompt()
+    state['is_stream']=stream
+    pushed=[]
+    monkeypatch.setattr('app.query_process.agent.nodes.node_answer_output.push_to_session',lambda *a:pushed.append(a))
+    class Model:
+        calls=0
+        def invoke(self,*a,**kw):
+            self.calls+=1
+            return SimpleNamespace(content=RAW,response_metadata={'finish_reason':finish})
+        def stream(self,*a,**kw):
+            yield self.invoke()
+    model=Model()
+    with pytest.raises(AnswerGenerationError):
+        step_3_generate_response(state,prompt,client=model)
+    assert model.calls==1 and not pushed and not state.get('answer')
+    assert state['comparison_answer_failure']['raw_selection']==RAW
+
+
+def test_successful_cached_connection_requires_saved_normal_finish(monkeypatch):
+    _,state,prompt=state_and_prompt()
+    monkeypatch.setattr('app.query_process.agent.nodes.node_answer_output.push_to_session',lambda *a:None)
+    generate(state,prompt)
+    del state['answer_finish_reason']
+    with pytest.raises(ValueError):
+        step_1_check_answer(state)
+
+
+@pytest.mark.parametrize('reasons',[[None],['content_filter','stop'],['stop','tool_calls']])
+def test_stream_terminal_evidence_cannot_use_stale_or_last_only_finish(monkeypatch,reasons):
+    _,state,prompt=state_and_prompt()
+    state['answer_finish_reason']='stop'
+    pushed=[]
+    monkeypatch.setattr('app.query_process.agent.nodes.node_answer_output.push_to_session',lambda *a:pushed.append(a))
+    class Model:
+        def stream(self,*a,**kw):
+            for i,reason in enumerate(reasons):
+                yield SimpleNamespace(content=RAW if i==0 else '',response_metadata={'finish_reason':reason})
+    with pytest.raises(AnswerGenerationError):
+        step_3_generate_response(state,prompt,client=Model())
+    assert not pushed and not state.get('answer')
+    assert state['comparison_answer_failure']['raw_selection']==RAW
+
+
+@pytest.mark.parametrize('extra_content',[False,True])
+def test_finish_allows_empty_usage_chunk_but_rejects_late_selection_body(monkeypatch,extra_content):
+    _,state,prompt=state_and_prompt()
+    pushed=[]
+    monkeypatch.setattr('app.query_process.agent.nodes.node_answer_output.push_to_session',lambda *a:pushed.append(a))
+    class Model:
+        def stream(self,*a,**kw):
+            yield SimpleNamespace(content=RAW[:20] if extra_content else RAW,response_metadata={'finish_reason':'stop'})
+            yield SimpleNamespace(content=RAW[20:] if extra_content else '',response_metadata={})
+    if extra_content:
+        with pytest.raises(AnswerGenerationError):
+            step_3_generate_response(state,prompt,client=Model())
+        assert not pushed and state['comparison_answer_failure']['raw_selection']==RAW
+    else:
+        step_3_generate_response(state,prompt,client=Model())
+        assert len(pushed)==1 and state['answer_finish_reason']=='stop'
+
+
 def test_missing_manifest_and_modified_source_fail_before_model_call():
     runner,pool,plan=setup_connection()
     docs,groups,_=runner.assemble_connection_context([pool[0],pool[2]],pool,['p','q'])

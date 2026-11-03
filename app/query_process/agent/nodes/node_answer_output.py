@@ -41,6 +41,8 @@ def step_1_check_answer(state) -> bool:
         if attribution.comparison_answer.function_version == 'connection_comparison_v1':
           from app.runs.comparison_inputs import validate_input_guard
           validate_input_guard(state)
+          if state.get('answer_finish_reason') != 'stop' or state.get('output_truncated'):
+            raise ValueError('缓存连接比较缺少正常结束证据')
           from app.answering.comparison_context import validate_context_policy
           validate_context_policy(state.get('comparison_context_assembly'), attribution,
             max_docs=state.get('comparison_context_limit'),
@@ -265,6 +267,7 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
   if binding:
     from app.answering.assertion_binding import failure_record
   connection = comparison and attribution.comparison_answer.function_version == 'connection_comparison_v1'
+  observed_finishes = []
   def checked_connection_catalog():
     from app.runs.comparison_inputs import validate_input_guard
     validate_input_guard(state)
@@ -286,6 +289,12 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
     seen_observations=0
     def reasoning(response):
       nonlocal seen_observations
+      if connection:
+        if observed_finishes and (getattr(response,'content','') or ''):
+          observed_finishes.append('content_after_finish')
+        finish = (getattr(response,'response_metadata',None) or {}).get('finish_reason')
+        if finish is not None:
+          observed_finishes.append(finish)
       if mode is not None:
         record_reasoning((getattr(response,'additional_kwargs',None) or {}).get('reasoning_content'),source='normalized.additional_kwargs')
       if observations is not None:
@@ -347,7 +356,11 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
   if comparison:
     from app.answering.comparison_answers import bind_comparison_response,comparison_failure_record
     from app.api.errors import APIError
+    rejection_code = 'comparison_selection_invalid'
     try:
+      if connection and (not observed_finishes or any(reason != 'stop' for reason in observed_finishes)):
+        rejection_code = 'comparison_termination_invalid'
+        raise ValueError('连接比较选择缺少本次调用正常结束证据')
       if state.get('output_truncated'):
         raise ValueError('比较帧选择输出被截断')
       if connection:
@@ -362,9 +375,10 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
          comparison_context=state.get('comparison_context_assembly'))
     except (ValueError,TypeError,KeyError) as exc:
       state['comparison_answer_failure']=comparison_failure_record(final_text,prompt,
-        state.get('prompt_reference_map'),attribution,'comparison_selection_rejected')
+        state.get('prompt_reference_map'),attribution,
+        'comparison_termination_rejected' if rejection_code == 'comparison_termination_invalid' else 'comparison_selection_rejected')
       raise AnswerGenerationError('比较帧选择无效，已拒绝写入。',partial_answer=final_text) from APIError(
-        422,'comparison_selection_invalid','比较帧选择与冻结来源不一致。')
+        422,rejection_code,'比较选择缺少正常结束证据。' if rejection_code == 'comparison_termination_invalid' else '比较帧选择与冻结来源不一致。')
     state['comparison_answer']=proof
     final_text=answer
     if state.get('is_stream'):

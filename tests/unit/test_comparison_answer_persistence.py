@@ -15,6 +15,17 @@ from app.runs.query_runner import QueryRunner
 from tests.unit.test_comparison_answers import _frozen_inputs
 
 
+@pytest.mark.parametrize('version',[None,'comparison_answer_v1','comparison_answer_v2',
+    'comparison_answer_v3','connection_comparison_v1'])
+def test_finish_reason_identity_is_added_only_for_explicit_connection_mode(version):
+    from app.evaluation.execution_identity import run_output
+    row={'answer_finish_reason':'stop'}
+    if version:
+        row['evidence_attribution']={'comparison_answer':{'enabled':True,'function_version':version}}
+    expected={'answer_finish_reason':'stop'} if version=='connection_comparison_v1' else {}
+    assert run_output(row)==expected
+
+
 def _projector_fixture(version='comparison_answer_v1'):
     text = '本设备上联通过以太网连接到核心网。'
     policy, doc, _ = _frozen_inputs(text)

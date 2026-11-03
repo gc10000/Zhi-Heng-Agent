@@ -11,7 +11,8 @@ SAFE_CODES = {'upstream_timeout', 'upstream_connection_failed', 'provider_rate_l
     'context_changed', 'lease_expired', 'input_timeout', 'provider_capability_unsupported',
     'output_capability_unknown','output_capability_evidence_invalid','output_account_identity_conflict',
     'output_account_busy','output_account_blocked','output_settlement_conflict','execution_config_conflict',
-    'answer_binding_invalid', 'comparison_selection_invalid', 'required_source_budget_exceeded',
+    'answer_binding_invalid', 'comparison_selection_invalid', 'comparison_termination_invalid',
+    'comparison_input_checkpoint_invalid', 'required_source_budget_exceeded',
     'comparison_source_missing', 'comparison_source_ambiguous', 'comparison_source_invalid'}
 
 

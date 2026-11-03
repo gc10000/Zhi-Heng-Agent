@@ -490,6 +490,8 @@ class RealQueryExecutor:
                 docs=row.get('prompt_used_docs') or []
                 catalog=build_frame_catalog(reference_map,docs,policy)
                 if policy.comparison_answer.function_version == 'connection_comparison_v1':
+                    if row.get('answer_finish_reason') != 'stop' or row.get('output_truncated'):
+                        raise ValueError('恢复连接比较缺少正常结束证据')
                     from app.runs.comparison_inputs import validate_frozen_input
                     validate_frozen_input(self.resources['db'], row)
                     from app.answering.comparison_context import validate_context_policy

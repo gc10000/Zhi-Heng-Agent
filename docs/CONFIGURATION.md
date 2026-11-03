@@ -488,3 +488,6 @@ MODEL_HOST桥接新增可选input_type=query/document，省略仍document兼容�
 本次不新增环境变量，不变更.env.example，不切默认。connection_comparison_v1仍需内部显式冻结配置且正式新评测准入未登记。仅此模式在Run目标Mongo库新增comparison_generation_inputs内部集合，_id为run_id，保存connection_generation_input_v1身份及摘要，不复制来源正文；首次插入后只校验，不在恢复时补建。备份显式新模式Run时应一并保存此集合；记录缺失／漂移则拒绝复用，写入失败comparison_input_checkpoint_invalid且不调用模型。进程内_connection_input_guard不写库、不序列化。旧模式／旧Run不迁移或新增配置。
 
 当前离线完整输入为双资料333成员明确投影，非原四资料582成员全scope；不能把回放输出直接作为正式catalog或真实质量proof。实际预算、验证、原rubric门槛纠正和后续范围见development/reviews/M6-connection-comparison-acceptance-evidence-r1.md及development/handoffs/M6-connection-comparison-acceptance-evidence-r1.md。无需用户找模型目录、查PDF或手工配置。
+
+
+2026-11-03新连接模式终止补修：没有新环境变量，不改.env.example或默认开关。仅connection_comparison_v1要求本次调用有正常stop终止；缺失／异常／冲突或终止后正文在展示前拒绝，空用量帧允许。成功Run保存answer_finish_reason，缓存及首次恢复不接受缺失或漂移；新模式的完整输出身份包含该字段，旧版本不迁移。错误码comparison_termination_invalid；本模式没有已执行的真实Run，不手工补写历史状态。详见development/reviews/M6-connection-comparison-terminal-review-r1.md。
