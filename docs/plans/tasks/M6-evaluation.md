@@ -930,6 +930,10 @@ R1恢复结果使用持久Run累计，另存adapter新增；R2由正式job在模
 定向验证：隔离Mongo/API `tests/integration/test_feedback_triage_workflow.py`与`tests/contract/test_feedback_triage.py` 8 passed；离线浏览器`feedback-loop.spec.ts` 2 passed；`pnpm -C frontend typecheck`及`git diff --check`退出0。验证仅覆盖本次状态修正和界面分支，不计M6任务完成。见[执行报告](../../development/reviews/M6-08-feedback-regression-route-r1.md)及[验证摘要](../../development/reviews/M6-08-feedback-regression-route-validation-r1.json)。M6-04/05/08仍未验收，M7未启动。
 2026-11-01 assertion_binding r2实现修复R1恢复冻结来源、R2断流材料、R3空证据投影合同；108单元/契约、16隔离集成及89受影响旧路径通过，均为总控实现自验，待独立复核。没有完整比较答案或新048质量证明。M6仍5/7、04保持、05／08未验收、M7未启动；43题及heldout保持暂停。
 2026-11-01继续复核R2发现完整流协议拒绝分支的raw selection此前无长度上限；现统一限4096字符并绑定失败身份。109定向单测/契约/OpenAPI及18项隔离Mongo通过，待独立复核；没有新增模型调用或正式质量proof，M6仍5/7，05/08未验收，M7未启动。
+
+## 2026-11-03 · comparison_answer_v2 技术边界复核
+
+总控直接复核bb6e3f5：v1兼容、冻结目录已识别关系补入、proof重算/篡改拒绝、缓存自由答案校验及同库/分库恢复通过；新跑429离线、29隔离Mongo，原10份输入回放维持v1旧proof与真实模型选择。不是另一实现身份独立验收；不证明v2真实答案质量或未解析帧语义覆盖。下一项不得重用已消费的r7 blocked槽。M6仍5/7，05／08正式证据未齐，43题暂停、heldout未跑、M7未启动。复核材料：reviews/M6-comparison-answer-v2-controller-review-r1.md。
 ## 2026-11-02 · 比较答复执行身份边界补修
 
 执行身份修复与隔离回归完成自验：单元/契约1512 passed；正式job及同库/分库恢复48 passed；维护者撤权/范围/租约矩阵10 passed。唯一授权048在实验创建前被冗余同版本`register_set`冲突阻断；未创建正式experiment/slot/Run，provider stream、推理、usage增量0；r2 halt已封存且不重试。此非质量结果，不改变M6 5/7，不勾M6-05或M6-08。详见[总控执行报告](../../development/reviews/M6-comparison-answer-execution-owner-review-r1.md)及[摘要](../../development/reviews/M6-comparison-answer-execution-owner-review-validation-r1.json)。

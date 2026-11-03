@@ -985,3 +985,6 @@ AF-R1/AF-R1-R的总控独立通过结论保留，不重开。执行端已修正�
 唯一support-v1-048调用授权在正式experiment创建前因重复登记已注册题集而触发`eval_set_version_conflict`；已登记题集dataset/manifest一致，只有config白名单不同。没有experiment/result/slot/Run、新预算账本、provider请求/stream或推理；新授权槽halt已封存，不重试。代码修复与预调度失败均为本轮执行证据，尚未由另一审查方独立技术关闭。
 
 M6仍5/7：04保持验收；05缺反馈复评proof；08缺有效候选质量及阶段证据。无新答案或质量证明；43题暂停、heldout65未运行、M7未授权。详见[M6执行报告](reviews/M6-comparison-answer-execution-owner-review-r1.md)及[验证摘要](reviews/M6-comparison-answer-execution-owner-review-validation-r1.json)。
+## 2026-11-03 · comparison_answer_v2 有界复核结论
+
+版本兼容、已识别关系补入、proof/恢复、防缓存绕过及安全呈现直接边界复核通过；429离线、29隔离Mongo、保存输入回放均新执行。此为当前总控直接复核，不是不同实现身份的独立验收。未解析原文语义、真实v2答案质量、M6-05反馈复评proof及M6-08候选质量/阶段证据继续open。M6保持5/7；不复用已消费blocked r7、不重跑43题／heldout、不启动M7。见总控复核报告及验证摘要。

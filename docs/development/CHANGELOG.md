@@ -1440,6 +1440,10 @@ M4-R1复交验证：完整717、定向89（重叠不累加）、既有3及前端
 新增feedback.py、export.py、反馈/导出API和FeedbackForm.vue。五类反馈绑定本run引用、待审且幂等，不发布知识；只有用户确认快照可导出，重新授权精确修订，Markdown转义动态文本并保留资料版本、自报时间、用户编辑。Vue下载及反馈交互接线。
 
 验证：`.venv/Scripts/python.exe -m pytest tests/integration/test_support_feedback_export.py -q --tb=short`（M1_TEST_DB=m1_test_m5_feedback）：红2失败退出1；首次绿1失败/1通过（UUID过度转义），修复后2 passed退出0。`.venv/Scripts/python.exe -m pytest tests/contract/test_feedback_export.py -q`：7 passed退出0；`pnpm -C frontend typecheck`最终退出0；`pnpm -C frontend test:e2e -- support-case.spec.ts`：3离线浏览器通过退出0。
+
+## 2026-11-03 · comparison_answer_v2 总控边界复核
+
+直接重读提交源码并重跑429离线、29隔离Mongo和10份保存输入回放。冻结已识别关系覆盖、版本/proof恢复及缓存出口边界通过；未发现该审查范围内代码缺陷。未解析语义、真实答案质量仍open，M6保持5/7，r7消费槽不重试。当前总控曾实现代码，此复核不冒称另一实现身份的独立验收。
 ## 2026-11-02 · M6比较执行身份修复及预调度停止
 
 修复正式评测maintainer与知识库owner分离时的Run来源关联拒绝；保存knowledge_owner_id，并覆盖跨owner执行、恢复、观察复用、撤权、错误范围和旧缺失绑定。比较风险合同固定r2槽和授权路径。1512离线、48正式隔离集成及10权限/撤权矩阵通过。

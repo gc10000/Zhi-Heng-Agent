@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-03",
+  "review_role": "current_controller_direct_review_after_implementation",
+  "review_scope": ["v2 classification", "known-frame coverage", "proof restoration", "cache bypass", "v1 compatibility", "evaluation projection", "OpenAPI and affected legacy paths"],
+  "source_commit": "bb6e3f56a5c733c325d7663b79199d702c7e1654",
+  "offline_tests": {"passed":429,"failed":0,"existing_warnings":1},
+  "isolated_mongo_tests": {"passed":29,"failed":0,"synthetic_provider":true},
+  "saved_input_replay": {"documents":10,"old_v1_proof_preserved":true,"selection_unchanged":true,"supplemental_frames":[{"reference":2,"frame":1},{"reference":3,"frame":1},{"reference":3,"frame":2},{"reference":4,"frame":0}],"status":"insufficient_comparison","formal_product_answer":false},
+  "technical_boundaries": {"v1_compatibility":"passed","catalog_bound_supplements":"passed","tamper_evident_restore":"passed","empty_selection_known_relation_coverage":"passed","condition_and_relation_safety":"passed","inert_source_rendering":"passed","cached_answer_validation":"passed","same_and_separate_database_recovery":"passed","openapi":"passed"},
+  "open": {"unparsed_semantics":"open", "real_v2_quality_run":"open", "m6":"5/7", "m6_05_feedback_proof":"missing", "m6_08_candidate_quality_and_stage_proof":"missing", "original_43":"paused", "heldout_65":"not_run", "m7":"not_started"},
+  "live_provider_calls_this_review": 0,
+  "private_real_database_reads_or_writes_this_review": 0,
+  "evidence_limits": ["Frame coverage is limited to the existing frozen source-relation classifier", "This is current-controller direct review after implementation, not a review by a different implementation identity", "No full live vector/default-pointer/TTL/legacy-quality rescan", "No new formal product Run or answer-quality proof"]
+}
