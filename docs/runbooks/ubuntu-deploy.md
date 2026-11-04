@@ -15,3 +15,7 @@ Windows模型宿主使用host.docker.internal；Ubuntu使用extra_hosts的host-g
 MinIO使用deploy/minio/Dockerfile的固定源码发行构建；在无本地镜像的新机器也须构建，不从不明tag替换。服务日志json-file限10MiB×3；备份及output容量由维护者保留，不自动清理。Desktop资源不足时停止**本轮项目**后继续，不重启/清理旧服务解决测试。Milvus线程限定仅工程资源约束，不宣称性能提升。
 
 固定本轮候选而不重新构建：先在授权目标离线load本机封存的application-images-r1.tar，核候选清单image ID，再以compose.delivery.yaml加docs/development/releases/M7-delivery-r1.compose.json执行up --no-build。该覆盖文件只固定应用image ID，不含私有配置；存储基础镜像仍按base文件digest拉取。镜像归档本轮只留output，未上传或转移外部。重新构建可能产生新ID，须形成新候选，不能沿用旧验证身份。
+
+## 2026-11-04 operational-r1实际边界
+
+新项目61587/API969f425f已Windows Desktop实构建运行，精确[M7-operational-r1覆盖](../development/releases/M7-operational-r1.compose.json)及安全启动命令见[执行报告](../development/reviews/M7-operational-closure-r1.md)。Ubuntu发行版/Python3.14.4/WSL2工具和本地700目录实际通过，daemon仍属Desktop；Ubuntu原生Docker shim提示integration未启用。Linux本地完整部署及后续18秒分步启动/terminate均超时，最终Ubuntu停态unknown。没有安装系统功能、重启机器或操纵旧daemon，不能勾完整Linux部署。先定位WSL/Desktop持续可用性，再执行同一候选部署；不以健康偶尔响应替代持续可用证据。

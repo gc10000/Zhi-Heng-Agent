@@ -254,7 +254,8 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
   validate_input_mode(state, attribution)
   comparison=(state.get('comparison_mode') is True and attribution.comparison_answer is not None
     and attribution.comparison_answer.enabled)
-  buffer_output=binding or comparison or source_scoped
+  demo=(state.get('output_contract') or {}).get('function_version')=='m7_operational_demo_v1'
+  buffer_output=binding or comparison or source_scoped or demo
   if binding:
     from app.answering.evidence_attribution import evidence_labels
     from app.answering.assertion_binding import checked_sources
@@ -290,7 +291,7 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
     seen_observations=0
     def reasoning(response):
       nonlocal seen_observations
-      if connection:
+      if connection or demo:
         if observed_finishes and (getattr(response,'content','') or ''):
           observed_finishes.append('content_after_finish')
         finish = (getattr(response,'response_metadata',None) or {}).get('finish_reason')
@@ -339,6 +340,14 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
     raise AnswerGenerationError(partial_answer=partial) from exc
   finally:
     if observations is not None:state['answer_usage_validation']=summarize(observations)
+    if demo:
+      state['answer_raw_text']=final_text
+      state['answer_observed_finishes']=observed_finishes
+  if demo:
+    if not observed_finishes or any(r!='stop' for r in observed_finishes) or mode or state.get('output_truncated'):
+      raise AnswerGenerationError('演示输出终止或非思考边界不符，已拒绝发布。',partial_answer='')
+    if state.get('is_stream'):
+      push_to_session(session_id,SSEEvent.DELTA,{'delta':final_text})
   if source_scoped and not binding and not comparison:
     from app.answering.answer_surface_guard import failure_code,failure_record
     from app.api.errors import APIError
@@ -404,7 +413,7 @@ def observes_reasoning_mode(output_contract):
   return isinstance(output_contract, dict) and output_contract.get('function_version') in (
     'diagnostic_nonthinking_manifest_r1', 'diagnostic_source_relation_048_v1',
     'diagnostic_comparison_answer_048_v1', 'diagnostic_comparison_answer_048_v2',
-    'diagnostic_connection_comparison_048_v1', 'diagnostic_feedback_candidate_manifest_r1')
+    'diagnostic_connection_comparison_048_v1', 'diagnostic_feedback_candidate_manifest_r1', 'm7_operational_demo_v1')
 
 
 def _extract_images_from_docs(docs):

@@ -1,0 +1,126 @@
+{
+  "kind": "m7_operational_independent_review_v1",
+  "reviewer": "/root/m7_operational_independent_review",
+  "independent": true,
+  "participated_in_implementation": false,
+  "application_source_identity": "2496384dbe86159a64667740420ce8100627b47c20efe4235e8faef5c207149f",
+  "file_sha256": {
+    "app/infrastructure/providers/m7_demo.py": "c4fb249c75de18899ad343b054d90c78394a478b7a10cfafc1149b277679486c",
+    "app/infrastructure/queue/demo_model_budget.py": "50891b52b9f766037cd0991fb997d39fe92c9a984d94a4b7bcc2ef88f6987cd9",
+    "scripts/operations/demo_source.py": "9b9c0bee7f0376e6b564396eb7b263685c37ac5c8dd65e3cee75c169a9ef4395",
+    "examples/preview/manual-operational-v1.md": "249c38af8708bb62cd15f058b70ddd31fc72ddfd0674c9eb70252c1e9a766b6e",
+    "scripts/verification/dependency_inventory.py": "8396a5471bf5e5ce8cc7dcb3dd9c1692b866c53fcad0e928d10c230ac64d6052",
+    "scripts/operations/snapshot.py": "be42c4556a3809265810bb5306a793f9e11c5fe2ba5c2c70144d2cc0d7e51e63"
+  },
+  "result": "technical_passed_manifest_rejected_batch_stopped",
+  "tests": {
+    "independent_admission": 38,
+    "independent_source_repair": 4,
+    "implementation_source_repair_same_command": 2,
+    "independent_sparse_restore": 12
+  },
+  "finding": {
+    "id": "M7-OP-R1-source-fact-dropped",
+    "fixed_slot": "06",
+    "status": "offline_fixed_real_dispatch_stopped",
+    "first_failure_stop": true
+  },
+  "provider": {
+    "streams": 0,
+    "run_records": 0,
+    "input_records": 0,
+    "observation_records": 0,
+    "new_input_usage": null,
+    "new_output_usage": null,
+    "http_requests": null,
+    "cost": null
+  },
+  "local": {
+    "embedding_texts_reserved": 5,
+    "reranks_reserved": 0,
+    "pairs_reserved": 0
+  },
+  "fixed_manifest_sha256": "008dd946355a1f853ede21c3be613bff64813d6972f29b46b92773ad22d1a1da",
+  "batch_halt_receipt_reviewed": true,
+  "manifest_gate_issued": false,
+  "open": [
+    "actual real QA quality",
+    "restore08 provider result",
+    "full Linux deployment and native Ubuntu target",
+    "complete browser real QA closure",
+    "public distribution license obligations",
+    "continuous Desktop daemon availability",
+    "final Ubuntu WSL state unknown after start and terminate timed out"
+  ],
+  "m6": {
+    "completed": 5,
+    "total": 7,
+    "m6_04": "accepted",
+    "m6_05": "open",
+    "m6_08": "open",
+    "quality_proof_created": false
+  },
+  "evidence_directory": "output/m7-operational-independent-20261104-r1/",
+  "restore_representation_fix": "passed_limited_12_independent_checks_and_live_engineering_restore",
+  "engineering_restore": {
+    "independent_live_verified": true,
+    "mongo_regular_collections": 14,
+    "chunk_claims": 5,
+    "objects": 3,
+    "vectors": 5,
+    "exact_numeric_match": true,
+    "restore08_executed": false
+  },
+  "browser": {
+    "execution_test_passed": 1,
+    "independent_log_and_screenshots_reviewed": true,
+    "scope": "actual imported source browsing, original byte hash, refresh, generation refusal503",
+    "real_qa_chain": false
+  },
+  "safe_state": {
+    "independent_live_verified": true,
+    "active_generation": false,
+    "worker_dispatcher_stopped": true,
+    "modelhost_stopped": true,
+    "ledger_halted": true,
+    "provider_runs": 0,
+    "observed_image": "sha256:969f425f295064a76346a426991ee711cea63756623e63de6aeed2523488a138",
+    "continuous_daemon_stability": "open",
+    "extra_image_source_hash_check": "not_completed_docker_unavailable"
+  },
+  "restore_binding_receipt_reviewed": true,
+  "api_installed_inventory": {
+    "records": 106,
+    "license_file_hashes": 143,
+    "declared_license_unknown": 7,
+    "legal_approval": false,
+    "lock_items_matched": 105,
+    "extra_image_packages": [
+      {
+        "name": "pip",
+        "version": "25.0.1"
+      }
+    ],
+    "api_system_packages": 87,
+    "upstream_originals_verified": 6
+  },
+  "image_archive_mapping": {
+    "independent_verified": true,
+    "archive_sha256": "25bfd26c04fe04e6623a53ca374d73776cda415cbbd42825fd5bea6574b569e1",
+    "application_files": 210,
+    "application_source_identity": "2496384dbe86159a64667740420ce8100627b47c20efe4235e8faef5c207149f",
+    "snapshot_byte_sha256": "be42c4556a3809265810bb5306a793f9e11c5fe2ba5c2c70144d2cc0d7e51e63",
+    "tar_members": 50
+  },
+  "final_document_audit": {
+    "evidence_byte_hashes": 43,
+    "main_documents_local_links_verified": 4,
+    "independent_file_hashes_verified": 6,
+    "application_hash_unchanged": true,
+    "implementation_last_offline_passed": 8,
+    "frontend_typecheck_exit_code": 0,
+    "secret_values_seen_or_published": false,
+    "new_v2_proposal_authorized": false,
+    "allowed_in_delivery": "limited technical review, real engineering restore and source browsing, safe state and artifact identity; batch stopped before provider"
+  }
+}

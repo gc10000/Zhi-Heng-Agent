@@ -8,7 +8,8 @@
 
 按[快速开始](docs/runbooks/quickstart.md)用scripts/operations/preview.py一次生成随机配置、构建并启动独立项目。无需课程PDF或真实供应商凭据，不下载模型、不触碰旧数据。Windows使用主仓库现有Python，不全量sync替换CUDA。前端只访问同源入口；密码仅在本机私有配置，可通过copy-password复制。
 
-- [实际候选、入口与证据限制](docs/development/reviews/M7-delivery-first-r1.md)
+- [最新运行候选、入口与停止证据](docs/development/reviews/M7-operational-closure-r1.md) · [限定独立结论](docs/development/reviews/M7-operational-closure-independent-review-r1.md)
+- [早期内部候选](docs/development/reviews/M7-delivery-first-r1.md)
 - [依赖与CPU/GPU路径](docs/runbooks/dependencies.md) · [同源部署与回滚](docs/runbooks/ubuntu-deploy.md)
 - [备份/独立恢复](docs/runbooks/backup-restore.md) · [故障处理](docs/runbooks/failure-recovery.md)
 - [演示路径](docs/demo/scenarios.md) · [配置](docs/CONFIGURATION.md) · [贡献](CONTRIBUTING.md)
@@ -17,7 +18,7 @@
 
 M0至M5既有验收保持。M6当前5/7，04保持，05缺有效真实反馈proof，08缺有效新候选完整质量及阶段证据；原168真实stream/170结果/340判断、usage809676/30791、两blocked gate与halt账本保持。用户授权M7工程依赖例外，不降低旧质量门禁。
 
-构建完成、本机预览、目标Ubuntu/GPU实测、公开发布分别记录。外部部署、合并main、公开Release、新付费调用和新Agent委派本轮均未授权。公开开放相关能力前需定向真实确认或明确接受受限范围；完整回答要求不降为摘录，旧评分不改。
+构建完成、本机预览、目标Ubuntu/GPU实测、公开发布分别记录。本轮曾授权8槽/有限本地模型和唯一独立审查者；资料准备首失败后已STOP/halt，provider0、本地embedding5，不得重派发。外部部署、合并main、公开Release未授权。公开开放相关能力前需定向真实确认或明确接受受限范围；完整回答要求不降为摘录，旧评分不改。
 
 ## 结构
 

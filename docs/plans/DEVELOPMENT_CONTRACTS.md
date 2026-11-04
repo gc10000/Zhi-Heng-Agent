@@ -1,3 +1,9 @@
+## 2026-11-04 · M7显式八槽合同与宿主累计预留
+
+新增 `m7_operational_demo_v1`，只经服务端 `M7_DEMO_MANIFEST`/`M7_DEMO_AUTHORIZATION` 白名单注入正式Run，浏览器不能指定内部合同。固定8题/波次/源与恢复目标，完整prompt/docs/reference_map、租约与输入在CAS/联网前持久化；外置控制库不随知识恢复回滚，恢复只观察。未知usage/思考/异常finish/断流/前置失败halt，结算全等幂等，原始wire/SSE排他写 `M7_DEMO_EVIDENCE_DIR`，不写header/凭据/端点。无配置保留正常关闭/默认路径，不修改M6硬限判断或旧halt。
+
+宿主仅显式 `M7_DEMO_LOCAL_LEDGER` + `M7_DEMO_LOCAL_AUTHORIZATION` 时SQLite持久CAS预留64文本/8rank/512pair；绑定模型和账本路径，失败不退款、无隐式retry/redirect/下载。该v1/r1本包已halt，不是可重复演示入口；新批需新授权/版本/技术核验，不能只改环境重领。API schema外部合同不放宽，质量/计量/许可结论分离。配置见[说明](../CONFIGURATION.md)，实际出口见[报告](../development/reviews/M7-operational-closure-r1.md)。
+
 ## 2026-11-04 · M7内部交付契约与限定验证
 
 工程进入例外已由用户采用执行Prompt授权；M6质量门禁/评分/账户不变。`M7_GENERATION_ENABLED=false`在公开创建Run前拒绝且停问答扫描；新预览为空供应商/模型宿主配置，catalog关闭。健康API只读不推理；供应商仅configuration_only_not_verified，未知HTTP/费用null。SSE按持久游标读取，代理动态DNS/禁缓冲；Range只经授权资产API。个人Run/citation按owner，资料资产按组织+KB共享授权，跨KB/撤权拒绝；不将共享资料误标私人资源。

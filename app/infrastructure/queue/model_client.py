@@ -59,12 +59,14 @@ class HostEmbedder:
         if not base or not token:
             raise ValueError('请配置MODEL_HOST_URL和MODEL_HOST_TOKEN，用于worker访问宿主已有嵌入模型。')
         policy = ProviderPolicy.load('embedding') if policies_enabled() else None
+        if os.getenv('M7_DEMO_MANIFEST') and policy and policy.max_retries:
+            raise ValueError('本轮嵌入不得隐式重试')
         for attempt in range((policy.max_retries if policy else 0) + 1):
             try:
                 with requests.Session() as http:
                     http.trust_env = False
                     result = http.post(base.rstrip('/') + '/embeddings', json={'texts': texts} | ({'input_type':self.input_type} if self.input_type!='document' else {}),
-                                       headers={'X-Model-Token': token}, timeout=policy.timeout if policy else 300)
+                                       headers={'X-Model-Token': token}, timeout=policy.timeout if policy else 300, allow_redirects=False)
                     result.raise_for_status()
                     values = result.json()
                     if policy:

@@ -40,3 +40,7 @@ GPU使用另一个全新`gpu`目录，同样先安装共同依赖；三件套改
 容器向量与重排使用现有受token保护模型宿主：`MODEL_HOST_URL`、`MODEL_HOST_TOKEN`，只服务端设置。Windows容器地址为host.docker.internal，Linux为受防火墙限制的host-gateway。`/embeddings`和新增`/rerank`均复用原模型；重排normalize=True，返回分数数量/类型/有限值校验，拒绝重定向，不fallback下载。`/health/ready`只观察加载状态，不能唤起模型。
 
 本轮预览生成关闭、宿主/供应商凭据为空，不下载或执行模型。Windows CPU/GPU安装已验证；文本供应商连通性/硬限、模型推理容量及目标Ubuntu主机仍无本轮证据。PyMuPDF与MinIO的AGPL义务及课程底座授权须在公开再分发前核清，见[许可](../../THIRD_PARTY_NOTICES.md)。
+
+## operational-r1库存与许可候选
+
+本包实际加载既有embedding模型完成5文本，未替换主CUDA/权重、未下载，rerank0；API新轻量镜像构建，web/MinIO复用既有固定身份。API锁105全部与实际106包匹配（额外基底pip），另有实际API Debian87包/copyright hash、前端许可索引及六份上游原文，见[候选库存](../development/releases/M7-operational-dependencies-r1.json)。Windows宿主177记录另存私有证据，不能代替API。7个API声明许可unknown、模型/课程底座及AGPL/SSPL义务仍open；不签完整SBOM或公开再分发批准。

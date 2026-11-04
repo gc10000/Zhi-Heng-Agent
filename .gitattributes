@@ -5,3 +5,6 @@ docs/development/reviews/M6-feedback-stage-authorization-reference-r1.json text 
 # 已批准开发政策以LF原字节冻结；新工作树不能因自动CRLF使合法校准失效。
 docs/evaluation/assistant-development-policy-proposal-v1.md text eol=lf
 docs/evaluation/assistant-development-policy-decision-v1.md text eol=lf
+# 自制运行资料以UTF-8/LF字节冻结；不得因检出换行改变后续来源身份。
+examples/preview/manual-operational-v1.md text eol=lf
+docs/reuse/licenses/m7-operational-r1/* -text

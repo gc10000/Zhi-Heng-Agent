@@ -25,3 +25,7 @@ host.env由本轮runtime转换为公开回环端口，仅静默消费。文件x-
 命令中的new123仅语法例子，实际目标由本轮receipt生成，不能复用已恢复目标。写前检查清单/路径/符号链接/原件/hash/源和目标；Mongo原子预留，失败保存failed及部分产物，不删除锁、桶或集合后续写。完成后读回对象、索引、注册关系；活动修订/owner/kb保持，仅重绑目标向量身份和资产桶，源不改。第二次同目标恢复应拒绝。
 
 切换和回切必须整体更换三元绑定并重建API/worker/dispatcher；先只读验证原件Range、引用授权、RevisionPublisher.inspect、合成索引检索和重新登录权限，再开放写入。未获新模型调用授权时只读检索不等于恢复后真实问答通过，保持生成关闭。实际演练与限制见[M7报告](../development/reviews/M7-delivery-first-r1.md)。
+
+## operational-r1真实向量恢复补充
+
+本轮新样例真实embedding5chunk；备份15集合/3对象/5向量。首次独立目标f62fc7因稀疏维度字符串/整数canonical表示不同failed并保留claim；修复 `vector_dump` 仅正规化非负整数维度键为字符串，非法/冲突拒绝，向量数值仍精确比较、不舍入。独立12项通过后，全新63f2b0目标实际恢复，独立现场核索引/5chunk claims/3对象/5向量/权限注册关系。API/worker/dispatcher完整切换读回再finally回源，停消费者。第08问未执行；工程恢复成功不等于恢复后真实问答通过。外置调用账户仍halt，不从备份回滚预算。见[报告](../development/reviews/M7-operational-closure-r1.md)。

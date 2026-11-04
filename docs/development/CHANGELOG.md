@@ -1,3 +1,7 @@
+## 2026-11-04 · M7八槽受控准入、真实恢复与停止封存
+
+新增默认关闭的正式Run八槽合同、输入冻结/CAS/原流结算和本地模型持久限量；技术限定独立通过。资料准备遗漏事实触发供应商前停止，新增provider0、本地embedding5。补修来源句级删除、稀疏维度键表示及库存缺Name；新目标恢复/绑定回切、只读浏览器及API镜像/许可候选已留证。Linux部署/真实问答/完整演示仍open，详见[本包报告](reviews/M7-operational-closure-r1.md)。
+
 ## 2026-11-04 · 规划M7 Linux与真实演示完整接续包
 
 新增[完整执行Prompt](handoffs/M7-operational-closure-execution-r1.md)和[计划](../superpowers/plans/2026-11-04-m7-operational-closure-r1.md)。建议8槽真实演示/恢复/1-2-4会话、现有WSL Ubuntu实测及发布准备一次推进；新增调用、本地推理和1名审查者均须用户明确采用后才授权，本轮未执行。现有r3独立结论和M6债务保持。

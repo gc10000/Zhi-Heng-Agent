@@ -54,6 +54,8 @@ def rerank(data: RankBatch):
         from fastapi import HTTPException
         raise HTTPException(413, '重排批次过大')
     with lock:
+        from app.infrastructure.queue.demo_model_budget import reserve
+        reserve('rerank', data.pairs)
         from app.lm.reranker_utils import compute_rerank_scores
         return {'scores': compute_rerank_scores([list(pair) for pair in data.pairs], normalize=True)}
 
@@ -62,6 +64,8 @@ def rerank(data: RankBatch):
 def evaluation_job(experiment_id: str):
     from uuid import UUID
     from fastapi import HTTPException
+    if os.getenv('M7_DEMO_LOCAL_LEDGER'):
+        raise HTTPException(403, '本轮宿主不开放评测或其他模型角色')
     try:
         UUID(experiment_id)
     except ValueError:
@@ -83,6 +87,8 @@ def embeddings(data: TextBatch):
         raise HTTPException(413, '批次文本过大')
     # 重用宿主已有设备配置；不覆盖线程、模型版本或下载设置。
     with lock:
+        from app.infrastructure.queue.demo_model_budget import reserve
+        reserve('embedding', data.texts)
         from app.lm.embedding_utils import generate_embeddings
         values = generate_embeddings(data.texts,input_type=data.input_type)
         return {'dense': [[float(x) for x in vector] for vector in values['dense']],

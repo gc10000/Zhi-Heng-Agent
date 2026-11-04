@@ -1,0 +1,36 @@
+import { test, expect } from '@playwright/test'
+import { readFileSync } from 'node:fs'
+import { createHash } from 'node:crypto'
+
+test('已停止批次：真实导入资料与原件、刷新及生成拒绝；没有模型答案替身', async ({page}, info) => {
+  test.skip(!process.env.M7_BROWSER_CONFIG, '仅显式本轮隔离后台')
+  const config=JSON.parse(readFileSync(process.env.M7_BROWSER_CONFIG!, 'utf8'))
+  expect(config.actual_import).toBe(true)
+  expect(config.provider_streams).toBe(0)
+  const errors:string[]=[]
+  page.on('pageerror', e=>errors.push(e.message))
+  await page.goto('/login')
+  await page.getByLabel('用户名', {exact:true}).fill(config.username)
+  await page.getByLabel('密码', {exact:true}).fill(config.password)
+  await page.getByRole('button',{name:'登录',exact:true}).click()
+  await expect(page.getByRole('button',{name:'新建会话',exact:true})).toBeVisible()
+  await page.goto('/documents')
+  await expect(page.getByText('知衡自制运行资料-v1.md',{exact:true})).toBeVisible()
+  await page.getByRole('button',{name:'管理修订',exact:true}).click()
+  await expect(page.getByText('当前活动版本',{exact:true})).toBeVisible()
+  await page.getByRole('button',{name:'预览切片',exact:true}).click()
+  await expect(page.getByText('设备机身有一个演示网口。',{exact:false})).toBeVisible()
+  const original=await page.request.get(`/api/v1/assets/${config.original_asset_id}`)
+  expect(original.status()).toBe(200)
+  expect(createHash('sha256').update(await original.body()).digest('hex')).toBe(config.original_sha256)
+  await page.screenshot({path:info.outputPath('registered-source.png'),fullPage:true})
+  await page.reload()
+  await expect(page.getByText('知衡自制运行资料-v1.md',{exact:true})).toBeVisible()
+  await page.goto(`/chat/${config.conversation_id}`)
+  await page.getByLabel('问题',{exact:true}).fill('未授权的新生成不得执行')
+  const refused=page.waitForResponse(r=>r.url().endsWith('/runs')&&r.request().method()==='POST')
+  await page.getByRole('button',{name:'发送',exact:true}).click()
+  expect((await refused).status()).toBe(503)
+  await page.screenshot({path:info.outputPath('generation-refused.png'),fullPage:true})
+  expect(errors).toEqual([])
+})

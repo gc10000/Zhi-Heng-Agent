@@ -600,3 +600,9 @@ diagnostic_feedback_candidate_manifest_r1固定两版各85道dev、170题级槽�
 `M7_RESTORE_CONTROL_DATABASE`是同一隔离Mongo/MinIO/Milvus绑定的共享恢复控制库，由prepare_preview固定为随机`m1_test_m4_rc_`身份。旧预览可从合法随机`M7_PROJECT_NAME`稳定派生；两者均缺失则在写目标前拒绝，不能使用源/目标数据库替代控制库。所有恢复进程共用该配置，不允许按目标另选；部分/失败/未知预留不释放、不设TTL。最终补修候选固定覆盖见`docs/development/releases/M7-delivery-r3.compose.json`，r1/r2文件及镜像仅保留历史。
 
 受控重排客户端保持既有检索策略，不缩小合法候选范围；按宿主每批最多64对/256000字符分批，原顺序合并并逐批验证分数数量、数值类型和有限性。单对超协议限在任何请求前拒绝，不截断。各批共用一次重排调用的超时预算，未增加自动重试；这不是模型推理容量或质量证明。
+
+## 2026-11-04 · 显式M7八槽内部模式（r1已停止）
+
+普通预览保持 `M7_GENERATION_ENABLED=false` 且以下五项未配：`M7_DEMO_MANIFEST`（完整来源/8题/目标白名单）、`M7_DEMO_AUTHORIZATION`（实际用户授权正文及hash）、`M7_DEMO_EVIDENCE_DIR`（排他持久wire/原流/输入证据）、`M7_DEMO_LOCAL_LEDGER`（宿主SQLite累计账本）、`M7_DEMO_LOCAL_AUTHORIZATION`（绑定既有模型配置/账本路径及限量）。均只为服务端私有文件，不能用VITE_或镜像构建ARG传入；缺失/漂移拒绝，不打印内容。
+
+v1固定qwen3.8-flash/n1/nonthinking/单一4096/stream+usage/SDK retries0、8槽及227328/32768；输入28416、请求上下文窗口32768。宿主64texts/8rank/512pair是授权限量，不是吞吐或质量证明；网关/付费输出硬限、精确HTTP和费用unknown沿报告记录。本批资料首失败后已halt，不能重填配置/换目录/账本复用。新提案拟收紧14/8/48需先另作版本化适配，当前代码不自动支持。精确候选启动与限制见[本包报告](development/reviews/M7-operational-closure-r1.md)。

@@ -1,3 +1,7 @@
+## 2026-11-04 · M7运行工作包实际出口
+
+[执行结果](../development/reviews/M7-operational-closure-r1.md)：新准入/工程恢复/镜像/只读浏览器限定独立通过；来源准备首失败、provider0，旧批halt。已完成子项保持；M7-02完整Ubuntu、04恢复后真实问答、05真实容量、08完整真实演示、09许可/发布未满足，不新增全阶段勾选。M6 04保持、05/08 open。下一项仅[新批提案](../development/handoffs/M7-operational-demo-r2-proposal.md)，未获新授权不执行。
+
 ## 2026-11-04 · M7 r3内部候选限定独立复核完成
 
 [独立报告](../development/reviews/M7-candidate-independent-review-r1.md)覆盖最终实现b4d3ec77的本机内部候选定向技术：两项实证缺陷补修并独立复测关闭，open_findings为空。M7-01/03/06/07既有限定完成状态保持；其余Ubuntu、真实问答/容量、生产恢复及完整阶段验收步骤不因本次技术通过勾选。M6仍5/7、05/08 open及blocked/0proof保持；工程依赖例外继续有效。以下历史按原时点保留。

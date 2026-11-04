@@ -1,3 +1,15 @@
+## 2026-11-04 · M7运行包封存：准入/恢复限定独立通过，来源首失败停止
+
+本包八槽provider/Run均0；私有制作脚本误删同一行产品事实，独立临发拒绝后STOP/halt，不重领未消费额度。正式导入1份5chunk、embedding5文本、rerank0/pair0；供应商usage/HTTP/费用null。来源制作与稀疏键/库存缺Name已最小补修；应用身份2496384dbe86159a64667740420ce8100627b47c20efe4235e8faef5c207149f。最终自验32通过/1Windows skip，独立准入38、来源4、稀疏12分列；新工程目标实际恢复/完整绑定回切、真实后台只读浏览器1项及镜像源码映射均限定独立核实。API新构建、web/MinIO复用，不冒称全重建。
+
+入口http://127.0.0.1:61587，generation=false，现场worker/dispatcher与宿主已停、账本halt无未知调用窗口；Docker随后间歇不可用，Linux部署及最后WSL启动/停止尝试超时，当前持续可用性/Ubuntu最终停态unknown。真实1/2/4问答、恢复08和完整草稿反馈链未执行；系统/模型许可、原生Ubuntu和公开发布仍open。M6 5/7及04保持、05/08 open，旧168stream/170结果/340判断、两blocked gate/0proof/halt不改。唯一下一项是修正来源的新批具体授权提案，旧批不恢复。
+
+审查结论只覆盖[本轮不同实现身份报告](reviews/M7-operational-closure-independent-review-r1.md)，实现方未代签独立性；不签M7整阶段/生产/公开Release。以下历史按原时点保留。
+
+## 2026-11-04 · M7运行闭环已获明确执行授权
+
+用户明确采用完整工作包，授权本机Linux实测、最多8个新stream（227328/32768）、有限既有embedding/reranker及1位新独立审查者。当前从69d55c3接续，原r3关闭保持；新身份/准入与计量先合成验证和独立复核，再按1/2/4及恢复1波执行。首失败停止新派发，其他工程继续；不含生产、旧槽、heldout、外部部署或公开发布。M6质量结论保持。
+
 ## 2026-11-04 · 下一工作包已规划：Linux与8槽真实演示（未授权执行）
 
 用户要求给出下一执行Agent完整Prompt；已保存[接续Prompt](handoffs/M7-operational-closure-execution-r1.md)及[执行计划](../superpowers/plans/2026-11-04-m7-operational-closure-r1.md)。建议连续完成现有Ubuntu WSL路径、真实1/2/4会话7次及恢复后1次问答、浏览器闭环、许可/SBOM与生产差距材料；不重开M6全量复评。建议新增最多8个provider stream（输入227328/输出32768预算、未知硬限明示）、有限本地embedding/reranker及1名新独立审查者，只有用户明确采用Prompt并要求执行才生效。本轮仅规划与只读核验，未启动Ubuntu/模型/新Agent，不能把规划文档或Git提交消费为调用授权。

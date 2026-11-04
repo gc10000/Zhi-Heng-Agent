@@ -16,3 +16,7 @@
 复现入口`scripts/verification/fault_preview.py`要求显式host/runtime/browser合成配置及新output目录；只停本轮worker和MinIO，finally恢复。会话负载入口`load_support.py`只写标记工程fixture并验证存储/事件/权限，**不是模型吞吐测试**。不将HTTP未观测或费用未知写0，不把生成关闭后的拒绝当答案质量成功。
 
 正式评测旧账本仍halt，两blocked gate不改；M7故障演练不恢复168已消费范围或旧43题。
+
+## operational-r1首失败处理
+
+资料准备误删同一行必要事实在provider前被独立截获；STOP后正式DemoLedger保存halt，8槽未消费仍不重领。修正来源只离线验证、不重新导入；本地embedding已消费5文本不退款。Docker/WSL不稳定与模型质量分别记录，完整Linux未过不掩盖也不重启旧服务。最后worker/dispatcher及宿主已停、generation=false；最终Ubuntu停止命令超时需只读确认，不宣称全部系统进程已停。恢复只观察、未知usage/费用null、不得删slot/lease/claim解锁。

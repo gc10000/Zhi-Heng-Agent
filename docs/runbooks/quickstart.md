@@ -40,3 +40,7 @@ docker compose --env-file output/local-preview/runtime.env -f compose.delivery.y
 需要可重复工程流程时，另用`scripts/verification/load_support.py --env-file <本轮host.env> --base-url <实际入口> --output <新私有目录>`。host.env只将runtime中的容器DNS改为该预览的回环发布端口，不从真实.env抄凭据；脚本明确写工程合成fixture，不能作为真实模型演示。正式新生成须另行形成具体身份/预算授权。
 
 Linux命令入口为Python3.12（或Compose容器内`python -m scripts.operations.bootstrap_preview`）；Windows GPU依赖安装及设备可见性已验证，目标Ubuntu实测未完成，详见[部署](ubuntu-deploy.md)。
+
+## 当前operational-r1只读入口
+
+本轮新增入口http://127.0.0.1:61587，generation=false。由于来源临发首失败，8槽已halt、provider0；只读资料链浏览器通过，真实生成没有答案。精确镜像覆盖/已有私有runtime及仅启动api/web的命令见[执行报告](../development/reviews/M7-operational-closure-r1.md)。不要裸up整个新项目开启idle消费者，也不要使用从未部署过的generation版env。原18080仍用原r3覆盖。Docker/WSL后续间歇失败，入口是否在线需health实际核，不能保证持续可用。

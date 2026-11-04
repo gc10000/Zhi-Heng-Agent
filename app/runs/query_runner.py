@@ -115,6 +115,9 @@ class QueryRunner:
             raise
         done, lost = threading.Event(), threading.Event()
         stage = 'authorization'
+        demo_account = None
+        demo_http = None
+        demo_completed = False
         def boundary():
             if self.stopping.is_set() or lost.is_set():
                 raise ExecutionStopped()
@@ -140,6 +143,9 @@ class QueryRunner:
             boundary()
             from app.infrastructure.providers.output_contract import validate_run as validate_output_run,require_capability
             output_contract=self.answer_budget.output_contract
+            if output_contract is not None and output_contract.enabled and output_contract.function_version == 'm7_operational_demo_v1':
+                from app.infrastructure.providers.m7_demo import DemoLedger
+                demo_account = DemoLedger(self.repo.db, output_contract)
             validate_output_run(row,output_contract)
             if output_contract is not None and output_contract.enabled:
                 require_capability(output_contract)
@@ -166,6 +172,9 @@ class QueryRunner:
                 if frozen_retrieval.model_copy(update={'exclude_image_descriptions':False,'query_projection':'original','comparison_context':'global'})!=RetrievalPolicy():
                     raise ValueError('来源前提本轮固定weighted及原检索预算')
             g = self.knowledge()
+            if demo_account is not None:
+                from app.infrastructure.providers.m7_demo import validate_pipeline
+                validate_pipeline(self,row,g)
             if source_policy.enabled and g.db.name!=source_policy.scope.database:
                 raise ValueError('来源前提只允许显式隔离命名空间')
             current = self.repo.get(user, rid)
@@ -429,7 +438,11 @@ class QueryRunner:
             binding = run_event_sink.set(sink)
             try:
                 if used and not state.get('comparison_answer_short_circuit'):
-                    if self.llm_factory:
+                    if demo_account is not None:
+                        from app.infrastructure.providers.m7_demo import open_client
+                        demo_client,demo_http = open_client(output_contract,rid)
+                        client = ObservedClient(demo_client, telemetry)
+                    elif self.llm_factory:
                         client = ObservedClient(self.llm_factory(), telemetry)
                     else:
                         from app.lm.lm_utils import get_llm_client
@@ -453,10 +466,18 @@ class QueryRunner:
                         # 能力及wire先验明，随后才创建调用前未知窗口；绝不自动重试。
                         output_limit_options(client,self.answer_budget.output_tokens,self.answer_budget.output_token_field,contract=output_contract)
                         account=OutputLedger(self.repo.db,output_contract)
+                        if demo_account is not None:
+                            boundary()
+                            live_row=self.repo.get(user,rid)
+                            if live_row.get('execution_token') != token:
+                                raise ExecutionStopped()
+                            account.persist_input(live_row,prompt,state)
                         account.begin(rid,row['identity'],input_reservation=state['prompt_budget']['input_tokens'],**risk_options)
                     try:
                         step_3_generate_response(state, prompt, client=client)
                     except BaseException:
+                        if demo_account is not None:
+                            demo_account.observation(rid,state,telemetry.snapshot())
                         if state.get('answer_binding_failure'):
                             emit('stage.changed',{'stage':stage},fields={'answer_binding_failure':state['answer_binding_failure']})
                         if state.get('answer_surface_failure'):
@@ -468,12 +489,14 @@ class QueryRunner:
                             emit('stage.changed',{'stage':stage},fields={'output_settlement':settled})
                         raise
                     if account is not None:
+                        if demo_account is not None:
+                            demo_account.observation(rid,state,telemetry.snapshot())
                         telemetry.diagnostic_usage(state.get('answer_usage_observations',[]))
                         product_options={}
-                        if output_contract.function_version in ('diagnostic_remaining_manifest_r1','diagnostic_nonthinking_manifest_r1','diagnostic_source_relation_048_v1','diagnostic_comparison_answer_048_v1','diagnostic_comparison_answer_048_v2','diagnostic_connection_comparison_048_v1','diagnostic_feedback_candidate_manifest_r1'):
+                        if output_contract.function_version in ('diagnostic_remaining_manifest_r1','diagnostic_nonthinking_manifest_r1','diagnostic_source_relation_048_v1','diagnostic_comparison_answer_048_v1','diagnostic_comparison_answer_048_v2','diagnostic_connection_comparison_048_v1','diagnostic_feedback_candidate_manifest_r1','m7_operational_demo_v1'):
                             product_options['product_state']=dict(visible_body=bool(safe_answer.answer.strip()),
                                 truncated=bool(state.get('output_truncated')),finish_reason=state.get('answer_finish_reason'))
-                            if output_contract.function_version in ('diagnostic_nonthinking_manifest_r1','diagnostic_source_relation_048_v1','diagnostic_comparison_answer_048_v1','diagnostic_comparison_answer_048_v2','diagnostic_connection_comparison_048_v1','diagnostic_feedback_candidate_manifest_r1'):
+                            if output_contract.function_version in ('diagnostic_nonthinking_manifest_r1','diagnostic_source_relation_048_v1','diagnostic_comparison_answer_048_v1','diagnostic_comparison_answer_048_v2','diagnostic_connection_comparison_048_v1','diagnostic_feedback_candidate_manifest_r1','m7_operational_demo_v1'):
                                 product_options['product_state'].update(observed_reasoning=bool(state.get('answer_mode_observations')),
                                     mode_observations=state.get('answer_mode_observations',[]))
                         settled=account.settle(rid,row['identity'],telemetry.snapshot()['token_usage'],completed=True,
@@ -538,6 +561,7 @@ class QueryRunner:
                     'output_truncated':bool(state.get('output_truncated'))} |
                     ({'answer_support':'partial_output'} if state.get('output_truncated') else {}) |
                     {'telemetry_measurements': telemetry.snapshot()} | binding_fields | comparison_fields)
+            demo_completed = self.repo.get(user,rid)['state'] == 'completed'
         except ExecutionStopped:
             # 合作取消已由boundary落终态；关机/失联由原租约扫描收敛interrupted。
             pass
@@ -570,6 +594,10 @@ class QueryRunner:
                 # 存储/租约失败不伪造终态，保留账本供恢复扫描。
                 logging.getLogger(__name__).error('问答终态暂未收敛，阶段：%s', stage)
         finally:
+            if demo_http is not None:
+                demo_http.close()
+            if demo_account is not None and not demo_completed:
+                demo_account.fail(rid, 'run_not_completed')
             done.set()
             thread.join(timeout=2)
 

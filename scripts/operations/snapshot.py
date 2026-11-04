@@ -92,6 +92,17 @@ def vector_dump(client, collection):
                 raise ValueError('向量超过小样上限，拒绝截断')
     finally:
         iterator.close()
+    normalized=[]
+    for row in rows:
+        sparse=row['sparse_vector']
+        if any(type(k) not in (int,str) or int(k)<0 or str(int(k))!=str(k) for k in sparse):
+            raise ValueError('稀疏维度键不是规范非负整数')
+        keys={str(k):v for k,v in sparse.items()}
+        if len(keys)!=len(sparse):
+            raise ValueError('稀疏维度键存在歧义或重复')
+        # JSON对象键只能为字符串；统一表示，不舍入数值、不改变任何向量或元数据。
+        normalized.append(row|{'sparse_vector':keys})
+    rows=normalized
     rows.sort(key=lambda row: row['chunk_uid'])
     return rows
 

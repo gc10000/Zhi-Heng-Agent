@@ -25,6 +25,8 @@ class RunRepository:
         return row
 
     def prepare(self, user, cid, data):
+        from app.infrastructure.providers.m7_demo import admit_request
+        data, demo_rid = admit_request(self.db, user, cid, data)
         conv = self.conversations.get(user, cid)
         if data.kb_id != conv['kb_id'] or conv['archived']:
             raise APIError(409, 'conversation_unavailable', '会话知识范围不匹配或已归档。')
@@ -54,7 +56,7 @@ class RunRepository:
         identity = fingerprint(fields)
         saved = self.runs.find_one(key)
         if saved is None:
-            rid = str(uuid4())
+            rid = demo_rid or str(uuid4())
             row = key | {'run_id': rid, 'kb_id': data.kb_id, 'question': data.question,
                          'message_id': stable_id('message', rid, ['user']),
                          'assistant_message_id': stable_id('message', rid, ['assistant']),
