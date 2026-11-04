@@ -19,6 +19,8 @@
     "deploy/api/requirements.in",
     "deploy/api/requirements.lock",
     "deploy/frontend/Dockerfile",
+    "deploy/model-host/windows-cpu.lock",
+    "deploy/model-host/windows-cu128.lock",
     "deploy/nginx.conf",
     "deploy/verification/Dockerfile",
     "deploy/verification/requirements.in",

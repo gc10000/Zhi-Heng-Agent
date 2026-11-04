@@ -1,6 +1,6 @@
 # M7交付工程与内部发布候选 r1
 
-2026-11-04；分支`codex/m6-source-bound-comparison`，启动锚`fe2d957b35256907d1e990ff66f8362fc267c1e3`。本报告为同一执行方实现自验，不是独立技术通过、M6质量关闭、Ubuntu主机验收或发布批准。最终源码提交锚随冻结记录追加，镜像与证据hash见[脱敏清单](M7-delivery-first-validation-r1.json)。
+2026-11-04；分支`codex/m6-source-bound-comparison`，启动锚`fe2d957b35256907d1e990ff66f8362fc267c1e3`。本报告为同一执行方实现自验，不是独立技术通过、M6质量关闭、Ubuntu主机验收或发布批准。最终源码提交锚`ebb8ef93ddca4b41d736f23e980c59fb03f02b10`；后续文档及Windows模型安装锁补充不改变应用源码/镜像，镜像与证据hash见[脱敏清单](M7-delivery-first-validation-r1.json)。
 
 ## 可用交付
 
@@ -18,12 +18,12 @@ $py='D:/Desktop/AnXin/ansen_code/Product-Knowledge-Rag/.venv/Scripts/python.exe'
 | --- | --- |
 | 应用构建 | API CPU轻量锁定安装、Vue frozen install/typecheck/build、Nginx配置通过；镜像身份封存 |
 | 本机预览 | Windows Docker Desktop/Linux容器，两个全新项目/数据卷复现；当前最终镜像可用 |
-| 目标环境 | 独立Ubuntu主机、完整CPU模型安装与GPU重装未实测；没有用容器证据替代 |
+| 目标环境 | Windows全新CPU/GPU环境安装/导入与CUDA设备可见性通过；独立Ubuntu主机未实测 |
 | 公开发布 | 未执行；未合并main、未推镜像注册表、未建Release或写外部服务器 |
 
 ## 三个工作包
 
-A：固定API完整传递hash锁、Node22.17.1/pnpm11.25.0、基础镜像digest与实际MinIO源码/image ID；保护现有torch2.10.0+cu128三件套。新增live/ready分类，模型仅配置/已加载状态，不预热推理；新预览明确关闭生成并在写Run前503拒绝。补齐受控宿主rerank桥接，保留原normalize=True、候选及分数排序逻辑。Nginx禁SSE缓冲、转交Range，使用Docker动态DNS处理API换IP；服务端秘密不进前端。
+A：固定API完整传递hash锁、Node22.17.1/pnpm11.25.0、基础镜像digest与实际MinIO源码/image ID；保护现有torch2.10.0+cu128三件套；另建短路径CPU/GPU环境，锁定共同依赖及官方三件套wheel hash。新增live/ready分类，模型仅配置/已加载状态，不预热推理；新预览明确关闭生成并在写Run前503拒绝。补齐受控宿主rerank桥接，保留原normalize=True、候选及分数排序逻辑。Nginx禁SSE缓冲、转交Range，使用Docker动态DNS处理API换IP；服务端秘密不进前端。
 
 B：停写跨存储快照绑定活动修订、权限/用户摘要、Mongo索引/选项、完整向量与原件hash/版本；外部manifest hash必填、三独立新目标、防覆盖及失败保留。实际恢复17集合/5对象/6向量，切换API到新目标后登录/引用/PDF Range可用，再回切源三元绑定；源未覆盖，会话不恢复。不是只生成压缩包。该工具当前只放行隔离小样，不是生产热备；真实模型恢复后问答未执行。
 
@@ -41,6 +41,7 @@ C：知衡/Zhi-Heng命名、贡献/来源许可、自制CC0样例、quickstart�
 - 最终API镜像加独立测试工具层47项通过：合成429/超时/断流、输出拒绝及澄清快照、原始usage边界与持久Run恢复。测试只在随机m1_test_m4_库、供应商替身下执行，不证明真实网关、模型硬限或质量。
 - 前端62单元、类型检查/生产构建通过；同源真实后台浏览器用例1通过。早期同题浏览器1通过与最终轮重叠，不算2个场景。
 - 新清洁项目1/2/4 HTTP会话组分别最大712.15/145.19/235.43毫秒；每个会话是多接口存储/合成事件工作负载，非单请求或LLM延迟。首事件16.42毫秒且运行仍running。无真实模型容量/吞吐或峰值显存证据。
+- Windows/Python3.12.7全新CPU/GPU环境各171包pip check通过，FlagEmbedding/Transformers及7个服务组件导入通过；CPU为2.10.0+cpu，GPU为2.10.0+cu128/CUDA12.8且RTX4050可见。只核安装与设备，无权重加载、推理或显存容量证据；原CUDA三件套版本保持。官方hash锁与已装版本匹配dry-run退出0，不伪称另做一次安装。
 - 最终API镜像276文件、前端485文件有限审计通过；检查本轮合成秘密、.env/私有目录、默认镜像环境及API源码内容hash；不冒称扫描所有历史日志/凭据或完整漏洞审计。静态资源保留实际包许可记录。
 
 完整命令、退出码、日志hash和镜像ID见脱敏JSON及本机收据。应用API/web/MinIO镜像已另存本机application-images-r1.tar（不含运行env/卷，不上传），hash与字节数封存；固定image ID覆盖文件见releases/M7-delivery-r1.compose.json。恢复演练时HEAD仍为fe2d957，manifest源版本字段不是最终源码冻结，最终代码身份另见候选清单。OpenAPI与当前工厂全等，前端schema已同步。MinIO完整干净源码重建本轮未执行，复用已核固定源码本地镜像；查询Go/Debian基础镜像digest时网络失败，不能冒称完整重建路径已验证。
@@ -53,11 +54,12 @@ C：知衡/Zhi-Heng命名、贡献/来源许可、自制CC0样例、quickstart�
 4. 初版备份canonical排序改变Mongo复合索引键顺序：真实恢复目标启动失败；红测后改为有序键对并显式记录格式，旧不充分清单拒绝，失败目标不改；新目标恢复/回切通过。
 5. 镜像内根目录定位依赖.env：34失败/13通过暴露模板未加载；镜像设置PROJECT_ROOT=/workspace后47通过，不复制.env绕过。早一轮容器测试4个导入错误为PYTHONPATH配置，保留。
 6. 一次构建Docker连接EOF/短暂引擎不可观测：未手动重启全局引擎；限制前端构建内存/并发后重建成功，不凭此断定全部根因已明。
-7. 测试同名模块收集冲突已重命名单元用例；最初恢复网络前置未显式开放、保存旧失败。所有红测/失败目标/日志保留。
+7. 测试同名模块收集冲突已重命名单元用例；最初恢复网络前置未显式开放、保存旧失败。
+8. 首次GPU离线安装缓存缺torch而拒绝；随后官方索引安装成功。深层工作树CPU环境虽pip check通过，Transformers常规open在260字符路径失败；扩展路径证实文件存在。保留失败环境，在主仓库output/m7i-r2短路径建全新CPU/GPU环境后导入通过，不修改注册表或主CUDA。所有红测/失败目标/日志保留。
 
 ## 剩余边界与下一动作
 
-M7-03健康、M7-06限定安全交付检查、M7-07命名来源文档满足本轮实现自验；其余任务的已完成子步骤分别勾选，完整GPU/Ubuntu、真实问答容量/演示、生产级备份范围及独立最终验收仍open。工程候选已完整准备，不以全量质量复评阻塞本机交付。
+M7-01 Windows CPU/GPU安装、M7-03健康、M7-06限定安全交付检查、M7-07命名来源文档满足本轮实现自验；其余任务的已完成子步骤分别勾选，Ubuntu目标、真实问答容量/演示、生产级备份范围及独立最终验收仍open。工程候选已完整准备，不以全量质量复评阻塞本机交付。
 
 M6仍5/7，04保持，05缺真实反馈复评proof，08缺有效新候选完整质量与阶段证据；原168/170/340及usage809676/30791、两blocked gate、0proof和halt保持。新增真实provider stream0、本地推理0；模型usage不适用（未调用），供应商HTTP观测/费用为null，不将渲染字符当token。已知质量问题见[M7质量债务](../../evaluation/M7-quality-debt.md)，不能靠辅助草稿提示宣布修好。
 

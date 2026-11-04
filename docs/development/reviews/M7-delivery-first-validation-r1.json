@@ -2,7 +2,7 @@
   "version": "m7_internal_delivery_candidate_r1",
   "scope": "本机内部工程候选；实现自验，非独立通过/质量验收/公开发布",
   "source_commit_base": "fe2d957b35256907d1e990ff66f8362fc267c1e3",
-  "source_commit_frozen": null,
+  "source_commit_frozen": "ebb8ef93ddca4b41d736f23e980c59fb03f02b10",
   "source_files_sha256": "f6ad7d1bc71c67204a1a2ad97e0f31d4b5165614d44d2df5e455c259428f92fc",
   "images": {
     "zhi-heng-api:m7-r1": {
@@ -35,7 +35,9 @@
     "deploy/api/Dockerfile": "5106d19289b0a469f95590b853ace4b07c34e6f4ff501716494a03518951b382",
     "deploy/frontend/Dockerfile": "87c88d5c2421f0e6d10f475ba3715d219d54042d845f2f87096ec2922607622e",
     "deploy/nginx.conf": "b5d4d706e511f1d7614fdc7586862c2f8340983228f9c368364c1aa3dfb4a113",
-    ".node-version": "92f4e539bea947de4583c229e503896149ecf52c67e837e3dbe895a50daa4d0c"
+    ".node-version": "92f4e539bea947de4583c229e503896149ecf52c67e837e3dbe895a50daa4d0c",
+    "deploy/model-host/windows-cpu.lock": "834ce780c6009e6f3391dc781dbdb2f03f82273afd1ff15857f5a80250c37f43",
+    "deploy/model-host/windows-cu128.lock": "c441596028706dfbe16835541a773f3ac1ab337129e449c27aa37752f49ad626"
   },
   "private_evidence": [
     {
@@ -113,6 +115,110 @@
     {
       "path": "output/m7-delivery-first-20261104-r1/source-file-manifest-final-r1.json",
       "sha256": "2b1aaa36478dd43ef1337499268b903e81a58dc17acb958006a9fbfcb143c72c"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/gpu-install-r1.log",
+      "sha256": "563697041849c37780705f9a981281aa787bf5fe9a55ef45b0c403ea102ebcab"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/gpu-install-online-r2.log",
+      "sha256": "62f4ad651cd00e2bc3b945df243f687b72405cb27c4afb2a00da67da636396c5"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/cpu-model-deps-r1.log",
+      "sha256": "b6da2f38b683a4b186f483be2fe412e4204ca1ac8ae526edc0f764b06c6bf4c0"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/cpu-torch-r1.log",
+      "sha256": "08b0bd252edc341cf922dfeba122ac5dcf442a54c4721c0393ae843b3215cc60"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/cpu-check-r1.log",
+      "sha256": "c4ba59a7799f847650ac22be914652988bc8d36a0696e7125a1582b0e1a66b77"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/cpu-import-r1.log",
+      "sha256": "3b8f6d76a1bafc8e70a1a10c8bf0567f26f25b547c7d17698f622eb5e3166e70"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/path-boundary-r1.json",
+      "sha256": "3fd637f7e590b3225ea1b5d234d0d4d6eac59ea91d6a4671a0ae2b8a8216376a"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/torch-wheel-lock-r1.json",
+      "sha256": "6deb6b23e25371c816e88c57ec7f9853fff7475de57a95407a6ca6b357a45f2e"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/main-cuda-preserved-r2.json",
+      "sha256": "f739f3d6b377789a45fc10af414729b820d41094c4e7c5b70d2d8f5dc6573853"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/install-command-r2.json",
+      "sha256": "5c2eab0d62c21a0f63b131577037f492dac56b95fbe61c6c89a204a7f158c8da"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/model-dependencies-r1.txt",
+      "sha256": "9aef120b2e6bcc2dcc52e38762557adc127f04e58b438edfde1ab2b7aac1a057"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/cpu-short-deps-r2.log",
+      "sha256": "738d894e4900ea9cd558efe745a19f43de15540120eefc6ac09851cdac67d370"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/cpu-short-torch-r2.log",
+      "sha256": "9ba6422491fa9673b0e006745a0a584b257835156b4f65d51558c980f79e9ac1"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/cpu-short-check-r2.log",
+      "sha256": "dfda173bda29e7dd8e6b0574adb57043a645aeec4fa3f6ed1db5f413f4333b6c"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/cpu-short-import-r2.log",
+      "sha256": "753bb7bcc12cd221611fdf0acb35384797d2908298ddaec3d2b12ca918fa4a40"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/cpu-short-versions-r2.json",
+      "sha256": "e8c936cb229e7100ddad1280280c777c05262cd8ee9fb90f139ad9d35bf2e828"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/cpu-short-verify-r2.exit.json",
+      "sha256": "3ce4d336cff20c800102b2e4d68528289ffe5d18b7a9b09fc6eee5d5746f8c2a"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/cpu-hash-lock-check-r1.log",
+      "sha256": "f7fda984f2df6d1f4ebbc1690a3a6fd7f023ce11bf9696bd747d445042d39ca4"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/gpu-short-deps-r2.log",
+      "sha256": "3a491d1d6e6dbf798dad416cb260f7437fefb5df317621b9a7f09b407258892f"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/gpu-short-torch-r2.log",
+      "sha256": "ee1b7a95766bc03b5b45f0b781f62eb0fede99a44b2d0bb8f03793963c18b984"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/gpu-short-check-r2.log",
+      "sha256": "0ad504de2542c6ade6eee41b92aa3ab0ca5d48c5c72436c0eac39ac357b656f6"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/gpu-short-import-r2.log",
+      "sha256": "82d9ee2d096575b21ae1624f00355b1ec66028b704f81fa5db8d4bdec78751ac"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/gpu-short-versions-r2.json",
+      "sha256": "e44cf17dc86405d78a0fdedd40541b8bb0a856ab2b662b8b4d4c656799511f66"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/gpu-short-verify-r2.exit.json",
+      "sha256": "3ce4d336cff20c800102b2e4d68528289ffe5d18b7a9b09fc6eee5d5746f8c2a"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/gpu-hash-lock-check-r1.log",
+      "sha256": "f0810621846f3f906aa7eaa8b77fe674c3bf414cc3233ed88b18e9194219a6bf"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/final-freeze-checks-r3.json",
+      "sha256": "4d663aa164ea9803c289d82a9989834011b16c038f18f2b5a376190d03dcc937"
     }
   ],
   "checks": {
@@ -151,8 +257,30 @@
     "faults_on_final_deployment": true,
     "clean_project_new_volumes": true,
     "ubuntu_host_tested": false,
-    "new_gpu_install_tested": false,
-    "full_cpu_model_install_tested": false
+    "new_gpu_install_tested": true,
+    "full_cpu_model_install_tested": true,
+    "windows_cpu_gpu_install": {
+      "python": "3.12.7",
+      "compatible_packages_each": 171,
+      "component_imports_each": 9,
+      "cpu_torch": "2.10.0+cpu",
+      "gpu_torch": "2.10.0+cu128",
+      "cuda_build": "12.8",
+      "gpu_device": "NVIDIA GeForce RTX 4050 Laptop GPU",
+      "model_loaded": false,
+      "inference_calls": 0,
+      "official_wheel_hash_lock_dry_run_exit": 0,
+      "main_cuda_preserved": true,
+      "limit": "仅Windows x64安装/导入与设备可见性；非模型容量或Ubuntu安装"
+    },
+    "final_freeze_audit": {
+      "source_files": 276,
+      "public_files": 85,
+      "lock_hashes": 11,
+      "new_navigation_links": 78,
+      "evidence_hashes_before_this_receipt": 44,
+      "passed": true
+    }
   },
   "overlap": "各组有重叠，不累计唯一总数",
   "baseline": {
@@ -184,7 +312,8 @@
     "M7-03": "限定实现自验完成",
     "M7-06": "限定实现自验完成",
     "M7-07": "限定实现自验完成",
-    "others": "见九项记录与子步骤，完整验收open"
+    "M7-01": "Windows独立CPU/GPU安装限定实现自验完成",
+    "others": "见九项记录与子步骤，Ubuntu/真实生成容量/完整验收open"
   },
   "known_limits": [
     "M6-05/08 open；04保持",
@@ -192,7 +321,7 @@
     "生产备份命名空间未开放",
     "完整干净MinIO源码重建未测，Go/Debian镜像digest查询网络失败",
     "课程再分发许可及传递AGPL/SSPL等义务未完全核清",
-    "目标Ubuntu、CPU/GPU新模型安装与阶段独立验收缺口保留"
+    "目标Ubuntu、真实模型加载/容量与阶段独立验收缺口保留"
   ],
   "public_release_approved": false,
   "application_archive": {
@@ -224,5 +353,6 @@
     "files": 276,
     "sha256": "2b1aaa36478dd43ef1337499268b903e81a58dc17acb958006a9fbfcb143c72c",
     "algorithm": "逐文件原字节SHA256；路径到hash映射按JSON sort_keys=True,separators=(comma,colon),ensure_ascii=False的UTF8编码再SHA256。Git按text属性规范换行，镜像保留构建时原字节。"
-  }
+  },
+  "windows_install_note": "共同依赖完整hash安装；官方torch精确版本安装由索引核hash，新增3件套hash锁dry-run匹配，不冒称另一次锁文件安装。首轮长路径失败环境及离线miss保留。后续补充仅部署安装锁/文档，应用源码锚和镜像不变。"
 }

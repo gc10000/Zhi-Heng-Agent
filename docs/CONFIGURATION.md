@@ -15,6 +15,8 @@
 
 API镜像显式PROJECT_ROOT=/workspace，不依赖.env文件寻找提示模板。API镜像仅安装CPU轻量服务端锁文件，不装torch/FlagEmbedding/MinerU本地模型。PDF解析走已有受控MinerU接口；空配置拒绝。图片/文本/检索模型路径与凭据只由服务端消费。预览M6 catalog为空、评测队列无消费者，不派发旧168/旧43任务。宿主 `/rerank`复用原normalize=True实现，不引入新检索模型或排序方案。
 
+模型宿主依赖另走独立短路径环境：共同依赖从uv.lock导出hash，Windows/Python3.12的官方CPU/cu128三件套分别固定在deploy/model-host/windows-cpu.lock与windows-cu128.lock。本轮两环境安装/导入及GPU设备可见性已验证，未加载权重或推理，不改变主CUDA；详见[安装路径](runbooks/dependencies.md)。
+
 以下历史说明按原时点保留。
 
 ## 2026-11-04 · 完整候选补修完成自验，独立技术与新真实质量仍open

@@ -1,0 +1,6 @@
+# Windows x64 / CPython3.12；仅torch三件套，其他依赖按uv.lock导出hash安装。
+# 官方索引：https://download.pytorch.org/whl/cu128
+# 不用于Linux，不同步当前主CUDA环境。
+torch==2.10.0+cu128 --hash=sha256:fbde8f6a9ec8c76979a0d14df21c10b9e5cab6f0d106a73ca73e2179bc597cae
+torchvision==0.25.0+cu128 --hash=sha256:068e519838b4a8b32a09521244b170edd8c2ac9eeb6538b7bf492cd70e57ebf5
+torchaudio==2.10.0+cu128 --hash=sha256:9a890dfbc7a3301f5ce7930f3ce452841f0c34e51686609628e99ed52c5cc775

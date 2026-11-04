@@ -2,7 +2,9 @@
 
 已连续实施A应用部署、B跨存储恢复/故障权限、C清洁卷复现与候选准备。当前入口http://127.0.0.1:18080，独立项目zh-m7-05d09f；应用镜像/同源SSE/Range、健康、真实小样恢复切换回切、worker/MinIO故障及实际后台合成演示可复现。最终主机定向29通过/1Windows skip（Linux符号链接另验通过）、恢复组10通过/1skip、镜像依赖组合47合成集成、前端62单元与类型/构建、实际同源浏览器1用例通过；组间重叠不累计。失败及补修保留，详见[报告](reviews/M7-delivery-first-r1.md)和[脱敏清单](reviews/M7-delivery-first-validation-r1.json)。
 
-M7-03/06/07满足限定实现自验，其余已完成子步骤勾选，完整CPU/GPU安装、目标Ubuntu、真实模型容量/生成演示和独立最终验收仍open。M7工程依赖例外继续有效，不等待全量85题复评才交付工程；M6 5/7及04保持、05/08 open、原168stream/170结果/340判断、usage809676/30791、两blocked gate/0proof/halt不改。本轮新增真实stream/本地推理/Agent委派0；内部预览生成关闭，合成Run/待审反馈不充质量proof。未合并main、未外部部署或公开Release。下一条为固定候选的零调用定向独立技术复核提案；授权前不派Agent，见[交接](handoffs/M7-release-candidate-review-r1.md)。以下历史按原时点保留。
+M7-01/03/06/07满足限定实现自验，其余已完成子步骤勾选，目标Ubuntu、真实模型容量/生成演示和独立最终验收仍open。M7工程依赖例外继续有效，不等待全量85题复评才交付工程；M6 5/7及04保持、05/08 open、原168stream/170结果/340判断、usage809676/30791、两blocked gate/0proof/halt不改。本轮新增真实stream/本地推理/Agent委派0；内部预览生成关闭，合成Run/待审反馈不充质量proof。未合并main、未外部部署或公开Release。下一条为固定候选的零调用定向独立技术复核提案；授权前不派Agent，见[交接](handoffs/M7-release-candidate-review-r1.md)。以下历史按原时点保留。
+
+Windows独立短路径CPU/GPU安装补核：各171包依赖检查及9组件导入通过，GPU为CUDA12.8/RTX4050可见；原环境版本保持，无推理。260字符路径失败及GPU离线缓存miss均保留，安装步骤与官方wheel hash锁已补齐。应用源码锚ebb8ef93ddca4b41d736f23e980c59fb03f02b10；后续仅安装锁/文档补充，镜像不变。
 
 ## 2026-11-04 · M7交付工程启动：质量依赖例外已授权
 

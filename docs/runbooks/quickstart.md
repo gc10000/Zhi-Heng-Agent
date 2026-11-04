@@ -31,4 +31,4 @@ docker compose --env-file output/local-preview/runtime.env -f compose.delivery.y
 
 需要可重复工程流程时，另用`scripts/verification/load_support.py --env-file <本轮host.env> --base-url <实际入口> --output <新私有目录>`。host.env只将runtime中的容器DNS改为该预览的回环发布端口，不从真实.env抄凭据；脚本明确写工程合成fixture，不能作为真实模型演示。正式新生成须另行形成具体身份/预算授权。
 
-Linux命令入口为Python3.12（或Compose容器内`python -m scripts.operations.bootstrap_preview`）；目标Ubuntu实测与GPU安装当前未完成，详见[部署](ubuntu-deploy.md)。
+Linux命令入口为Python3.12（或Compose容器内`python -m scripts.operations.bootstrap_preview`）；Windows GPU依赖安装及设备可见性已验证，目标Ubuntu实测未完成，详见[部署](ubuntu-deploy.md)。
