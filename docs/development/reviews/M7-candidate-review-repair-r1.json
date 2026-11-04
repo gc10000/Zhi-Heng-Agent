@@ -6,7 +6,15 @@
   "branch": "codex/m6-source-bound-comparison",
   "candidate": "m7-r3",
   "independent_reviewer": "/root/independent_m7_candidate_review",
-  "independent_final_report": "pending_separate_reviewer_signature",
+  "independent_final_report": {
+    "path": "docs/development/reviews/M7-candidate-independent-review-r1.json",
+    "sha256": "5b6eba830eba833713cfecf6e7452e8167a9cf28c851118254b8fe285cca372d",
+    "implementation_sha": "b4d3ec77ed49d090766072fa3e1fa04386db9b16",
+    "conclusion": "passed_for_frozen_local_internal_candidate_only",
+    "open_findings": [],
+    "signed_by": "/root/independent_m7_candidate_review",
+    "implementation_author_does_not_resign": true
+  },
   "repairs": [
     "shared_restore_target_reservations",
     "host_rerank_protocol_batching"
@@ -97,5 +105,12 @@
     "build-final-r3.log": "8ad5bc3bf39714127f9d28daa4335c917d3de62e131869560ae9a507fa8bd410",
     "deploy-final-r3.log": "60a3abbfee70ae87e46f33c26bc10fed8c74fabc60baea4d36f1330524fcb15f",
     "archive-r3.json": "3a8870f7229607c0081b373d0355bc92775542db5c42129b60521b4f2da8bfe5"
+  },
+  "post_commit_coordination": {
+    "path": "output/m7-review-coordination-20261104-r1/final-coordination-freeze-r1.json",
+    "sha256": "a7be773d78e39da4a58c40c4a1581b0391c603513cc32d6ab13c3c4bde27b1d3",
+    "first_push": "GitHub Internal Server Error",
+    "retry": "ordinary push succeeded",
+    "wrong_extra_health_probe": "/api/v1/health404; corrected official /health live/ready200"
   }
 }

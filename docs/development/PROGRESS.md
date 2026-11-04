@@ -1,3 +1,11 @@
+## 2026-11-04 · M7本机内部候选独立技术复核完成，r3补修关闭
+
+唯一获授权且未参与实现的`/root/independent_m7_candidate_review`已签署[独立报告](reviews/M7-candidate-independent-review-r1.md)及[脱敏JSON](reviews/M7-candidate-independent-review-r1.json)。结论仅覆盖最终实现`b4d3ec77ed49d090766072fa3e1fa04386db9b16`对应的本机内部候选：定向技术通过，R1恢复任务共享目标覆盖（P1）、R2合法65至1000重排候选桥接422（P2）均独立实红→总控补修→原审查者复测关闭，open_findings为空。独立定向37通过/1Windows符号链接skip，Linux镜像对应边界通过；独立核源码277文件/镜像/三服务绑定、真实Nginx终态前SSE和权限/Range。实现方42通过/1skip、r3容器74通过另列，不冒充独立重跑、不累加重叠组数。
+
+当前http://127.0.0.1:18080，live/ready200，三个应用服务均r3且新生成/评测关闭。已有runtime.env仍保留旧tag；恢复必须叠加[M7-delivery-r3.compose.json](releases/M7-delivery-r3.compose.json)，完整命令见[补修报告](reviews/M7-candidate-review-repair-r1.md)。实现提交已普通push（首次GitHub500后重试成功）；本次签字/导航另作文档提交，应用源码不变。新增provider/本地推理0，审查Agent仅1名，有隔离合成存储读写；旧账本不改。
+
+这关闭本次已授权限定技术复核，不代表M7整阶段或公开发布验收。目标Ubuntu、真实模型生成/容量、生产备份准入、许可完结仍open，历史绑定切换/回切在本轮核原证据而未独立重演。M6仍5/7、04保持、05/08 open，原168stream/170结果/340判断、两blocked gate、0proof/halt保持；不把M6全量复评重新作为工程交付前置。未合并main、未外部部署或公开Release。以下历史按原时点保留。
+
 ## 2026-11-04 · M7固定内部候选已获单一独立技术复核授权
 
 用户明确授权1位未参与实现Agent按冻结范围复核；已启动 `/root/independent_m7_candidate_review`，候选HEAD `2bc736a`、应用源码锚 `ebb8ef9`。默认只读本机预览/源码/镜像及封存证据，provider与本地推理预算均0；必要故障重现仅独立合成命名空间，不写旧业务账本。总控负责补修，原审查者负责复测，不代签独立通过。目前审查进行中，M6原blocked/0proof保持；Ubuntu、真实生成容量、生产备份准入和公开发布不在本次通过范围。

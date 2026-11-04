@@ -1,3 +1,7 @@
+## 2026-11-04 · M7 r3内部候选限定独立复核完成
+
+[独立报告](../development/reviews/M7-candidate-independent-review-r1.md)覆盖最终实现b4d3ec77的本机内部候选定向技术：两项实证缺陷补修并独立复测关闭，open_findings为空。M7-01/03/06/07既有限定完成状态保持；其余Ubuntu、真实问答/容量、生产恢复及完整阶段验收步骤不因本次技术通过勾选。M6仍5/7、05/08 open及blocked/0proof保持；工程依赖例外继续有效。以下历史按原时点保留。
+
 ## 2026-11-04 · M7候选已准备：限定工程子项自验与完整验收分开
 
 M7-01/03/06/07满足本轮限定实现自验，其他已完成子步骤见[M7任务](tasks/M7-delivery.md)及[交付报告](../development/reviews/M7-delivery-first-r1.md)。Ubuntu目标、真实模型演示/容量、生产备份准入及独立阶段验收保留open；不把整阶段勾绿。M6-05/08及旧gate/proof保持，工程不再等全量质量复评才推进。普通分支push授权不含合并main或公开Release。

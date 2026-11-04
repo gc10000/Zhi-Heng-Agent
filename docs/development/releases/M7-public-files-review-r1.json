@@ -1,0 +1,22 @@
+{
+  "scope": "M7 r3独立复核报告与导航补充；不改实现SHA的r3清单原件，不代表许可核清或公开Release批准",
+  "implementation_sha": "b4d3ec77ed49d090766072fa3e1fa04386db9b16",
+  "base_manifest": "docs/development/releases/M7-public-files-r3.json",
+  "base_manifest_sha256": "604035765a4eee32bda2e64c2e61bbbf6cc2c934083330953f7a12de6ddc1e93",
+  "additional_files": [
+    "docs/development/reviews/M7-candidate-independent-review-r1.md",
+    "docs/development/reviews/M7-candidate-independent-review-r1.json",
+    "docs/development/releases/M7-public-files-review-r1.json"
+  ],
+  "independent_report_sha256": {
+    "docs/development/reviews/M7-candidate-independent-review-r1.md": "1c6cbf6d90a7941b2f8f595cde2c43d00fe90010d3060446579dd8662519fcc7",
+    "docs/development/reviews/M7-candidate-independent-review-r1.json": "5b6eba830eba833713cfecf6e7452e8167a9cf28c851118254b8fe285cca372d"
+  },
+  "excluded": [
+    "output/",
+    "evals/",
+    ".env",
+    "private-identity",
+    "日志/原始证据/模型/媒体/数据卷"
+  ]
+}

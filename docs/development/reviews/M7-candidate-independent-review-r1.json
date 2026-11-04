@@ -1,0 +1,456 @@
+{
+  "version": "m7_candidate_independent_review_r1",
+  "review_date": "2026-11-04",
+  "reviewer": {
+    "identity": "/root/independent_m7_candidate_review",
+    "independent_of_implementation": true,
+    "business_source_edits": false,
+    "subdelegation": false,
+    "own_writes": "private isolated test evidence plus this md/json report only"
+  },
+  "conclusion": "passed_for_frozen_local_internal_candidate_only",
+  "open_findings": [],
+  "closed_findings": [
+    {
+      "id": "R1",
+      "priority": "P1",
+      "status": "closed_after_independent_retest",
+      "title": "Concurrent restore can overwrite an already completed vector target",
+      "original_candidate": "ebb8ef93ddca4b41d736f23e980c59fb03f02b10",
+      "original_files": [
+        "scripts/operations/snapshot.py:227",
+        "scripts/operations/snapshot.py:230",
+        "scripts/operations/snapshot.py:245"
+      ],
+      "root_cause": "Separate absence checks and a target-DB-only reservation do not exclude restores using different DBs/buckets but one Milvus collection; ensure_collection reuses that collection before unconditional upsert.",
+      "red_evidence": "race-05cbbb/result.json",
+      "repair_by": "/root",
+      "fix_files": [
+        "scripts/operations/restore_reservations.py:27",
+        "scripts/operations/snapshot.py:234"
+      ],
+      "repair": "Shared control DB stores permanent unique claims for database, bucket and collection before any target writes; partial/failed/completed/unknown claims are never released.",
+      "green_evidence": "race-green-ee8849/result.json",
+      "scope_limit": "All restores sharing physical backend bindings must share the same control identity; trusted direct backend writes or deliberate changes of that identity are outside this tool protocol."
+    },
+    {
+      "id": "R2",
+      "priority": "P2",
+      "status": "closed_after_independent_retest",
+      "title": "Legal rerank candidate count exceeds new host request limit",
+      "original_candidate": "ebb8ef93ddca4b41d736f23e980c59fb03f02b10",
+      "original_files": [
+        "app/infrastructure/queue/model_client.py:17",
+        "app/infrastructure/model_host.py:52",
+        "app/retrieval/search.py:17"
+      ],
+      "root_cause": "HostReranker sends all candidates in one request although accepted RetrievalPolicy allows 1000 and host RankBatch allows 64.",
+      "red_evidence": "rerank-protocol-initial.json",
+      "repair_by": "/root",
+      "fix_files": [
+        "app/infrastructure/queue/model_client.py:16"
+      ],
+      "repair": "Prevalidate complete input; split by 64 pairs and 256000 characters, preserve order and normalized scores, validate each complete response, share remaining request timeout budget.",
+      "green_evidence": "rerank-protocol-green.json",
+      "scope_limit": "Synthetic score/HTTP protocol tests only; no real host service, weight load, inference throughput or hard execution-deadline guarantee."
+    }
+  ],
+  "scope_checks": [
+    {
+      "boundary": "Windows CPU/GPU install provenance / imports / official wheels",
+      "status": "passed_bounded",
+      "independent": "Original installation receipts and hashes checked; existing separate short environments rechecked/imported; all 6 official index hashes match; no reinstall",
+      "not_claimed": "Fresh independent installation, Linux GPU or inference"
+    },
+    {
+      "boundary": "Final source / lock / image / running service identity",
+      "status": "passed",
+      "independent": "Final SHA, 277 API source bytes, locks, fixed image IDs, running api/worker/dispatcher and triad bindings checked"
+    },
+    {
+      "boundary": "PROJECT_ROOT without .env / Linux symlink escape",
+      "status": "passed",
+      "independent": "Actual final image network-none startup/prompt/health/query404/no-model-import and symlink refusal"
+    },
+    {
+      "boundary": "Controlled rerank bridge",
+      "status": "passed_protocol_only",
+      "independent": "Own actual FastAPI protocol with synthetic score function, R2 red/green and failure atomicity",
+      "not_claimed": "Real host/inference"
+    },
+    {
+      "boundary": "Live / ready / generation off / entry bypass",
+      "status": "passed_current_preview",
+      "independent": "Live/ready200, models disabled; Run API503 creates no Run; no query scan; actual catalog/host/provider config disabled; /query404",
+      "not_claimed": "M7 flag as global kill switch for arbitrarily re-enabled evaluation/worker modules"
+    },
+    {
+      "boundary": "SSE before terminal / disconnect cursor",
+      "status": "passed",
+      "independent": "Actual final r3 via 18080 first event while own new Run running, then terminal exclusive cursor replay; generator and terminal replay also checked"
+    },
+    {
+      "boundary": "Personal Run/citation and shared KB asset authorization",
+      "status": "passed",
+      "independent": "10 isolated actual Mongo/MinIO HTTP checks include cross-user denial, shared KB asset success, revoked KB/owner denial, CSRF/Origin"
+    },
+    {
+      "boundary": "Original PDF Range",
+      "status": "passed",
+      "independent": "Actual proxy full/prefix/suffix/open/unsatisfiable/multiple range behavior and isolated authorized bytes/hash"
+    },
+    {
+      "boundary": "Ordered compound index / independent restore targets",
+      "status": "passed_bounded",
+      "independent": "Actual restore red/green, three shared-resource axes, failure permanence, source equality and restored index key order",
+      "not_claimed": "Production hot backup or distributed snapshot transaction"
+    },
+    {
+      "boundary": "Physical three-binding switch and rollback",
+      "status": "sealed_evidence_review_only",
+      "independent": "Read original commands/result and verified sealed hashes, reviewed switch/finally code; independently checked final current source binding",
+      "not_claimed": "This reviewer repeating historical switch/fault exercise"
+    },
+    {
+      "boundary": "Public candidate file list / licenses",
+      "status": "passed_candidate_manifest_only",
+      "independent": "93 candidate paths exist, no prohibited evidence/config/media; known license limits explicit",
+      "not_claimed": "Legal clearance or release authorization"
+    },
+    {
+      "boundary": "Frontend62 / container47+74 / actual browser demonstration",
+      "status": "implementation_evidence_only",
+      "independent": "Reviewed available sealed evidence and affected assets/code; not signed as independently rerun full suites"
+    },
+    {
+      "boundary": "Ubuntu / real model / capacity / production backup / public release / M6 quality",
+      "status": "not_tested_out_of_scope"
+    }
+  ],
+  "identity": {
+    "engineering_base_sha": "fe2d957b35256907d1e990ff66f8362fc267c1e3",
+    "initial_app_candidate_sha": "ebb8ef93ddca4b41d736f23e980c59fb03f02b10",
+    "initial_head_sha": "2bc736adff4249d97b269c02fcc6d417bb76f360",
+    "final_implementation_sha": "b4d3ec77ed49d090766072fa3e1fa04386db9b16",
+    "branch": "codex/m6-source-bound-comparison",
+    "final_source_files": {
+      "count": 277,
+      "mapping_sha256": "17fc9a88bf571c48cbfd6f08ab11ed302db7bb17e777ab24571912f1d10b3c6d",
+      "workspace_image_equal": true,
+      "git_source_diff_empty": true
+    },
+    "final_images": {
+      "api": {
+        "id": "sha256:6beb232a74f39c1813d56adbda91f19b9932d9e49890c6a5734c6f904cc98882",
+        "file_count": 277
+      },
+      "web": {
+        "id": "sha256:6db4189f8be95ae0b0fd9c908d382e1b782aa85183719a473b0aff0354dd6d7a",
+        "file_count": 485
+      }
+    },
+    "running_services": {
+      "worker": {
+        "image_id": "sha256:6beb232a74f39c1813d56adbda91f19b9932d9e49890c6a5734c6f904cc98882",
+        "running": true,
+        "fixed_release_id_matches": true,
+        "generation_disabled": true,
+        "evaluation_catalog_disabled": true,
+        "model_host_disabled": true,
+        "provider_credentials_absent": true,
+        "source_triple_binding_matches": true
+      },
+      "dispatcher": {
+        "image_id": "sha256:6beb232a74f39c1813d56adbda91f19b9932d9e49890c6a5734c6f904cc98882",
+        "running": true,
+        "fixed_release_id_matches": true,
+        "generation_disabled": true,
+        "evaluation_catalog_disabled": true,
+        "model_host_disabled": true,
+        "provider_credentials_absent": true,
+        "source_triple_binding_matches": true
+      },
+      "api": {
+        "image_id": "sha256:6beb232a74f39c1813d56adbda91f19b9932d9e49890c6a5734c6f904cc98882",
+        "running": true,
+        "fixed_release_id_matches": true,
+        "generation_disabled": true,
+        "evaluation_catalog_disabled": true,
+        "model_host_disabled": true,
+        "provider_credentials_absent": true,
+        "source_triple_binding_matches": true
+      },
+      "web": {
+        "image_id": "sha256:6db4189f8be95ae0b0fd9c908d382e1b782aa85183719a473b0aff0354dd6d7a",
+        "running": true,
+        "fixed_release_id_matches": true
+      },
+      "milvus": {
+        "image_id": "sha256:9c575df2521789f039a8ffd84fe787921962f7d7bf491c5caec32c3efa432ee8",
+        "running": true
+      },
+      "redis": {
+        "image_id": "sha256:3b73847e72874be07e6657b129a94761662b79bc0f679273757d4218573b2a98",
+        "running": true
+      },
+      "mongo": {
+        "image_id": "sha256:c53852c00c23ca9f23fc39690350ffa9a80e3642fe8f96879726d8da0abe80a7",
+        "running": true
+      },
+      "etcd": {
+        "image_id": "sha256:52f17f7e56e4f7239f0320dbfcbcc24721163d7d78ae710b466af3254ccf6366",
+        "running": true
+      },
+      "minio": {
+        "image_id": "sha256:48c2b3223491f99af2a36b68889c06f8d211afd388e3fc82e6522ad23df307c8",
+        "running": true,
+        "fixed_release_id_matches": true
+      }
+    },
+    "selected_file_sha256": {
+      ".node-version": "92f4e539bea947de4583c229e503896149ecf52c67e837e3dbe895a50daa4d0c",
+      "app/infrastructure/queue/model_client.py": "0e7578ca23c8b98db99ad2b88eb3013c9df7130b73f369cc72fdcdffd46b4b0d",
+      "compose.delivery.yaml": "222ae7d08969e370065417d8e193486f75b22df7db5baf5489e7ac9a5cf1e0f6",
+      "deploy/api/Dockerfile": "5106d19289b0a469f95590b853ace4b07c34e6f4ff501716494a03518951b382",
+      "deploy/api/requirements.lock": "a63e917504b1e36d8bc648c215ce3d9003c3728538a9a28790f6164465909db8",
+      "deploy/frontend/Dockerfile": "87c88d5c2421f0e6d10f475ba3715d219d54042d845f2f87096ec2922607622e",
+      "deploy/model-host/windows-cpu.lock": "834ce780c6009e6f3391dc781dbdb2f03f82273afd1ff15857f5a80250c37f43",
+      "deploy/model-host/windows-cu128.lock": "c441596028706dfbe16835541a773f3ac1ab337129e449c27aa37752f49ad626",
+      "deploy/nginx.conf": "b5d4d706e511f1d7614fdc7586862c2f8340983228f9c368364c1aa3dfb4a113",
+      "deploy/verification/requirements.lock": "ead1b4d1d5e77868dccd722b19314cac1c25f820ead30bf73d06957d20b98d89",
+      "docs/development/releases/M7-delivery-r3.compose.json": "35bfc7402470f27ed2d76cbb7836557f60c666ba949b2dadd5d5bd4ea5a1ae21",
+      "docs/development/releases/M7-public-files-r3.json": "604035765a4eee32bda2e64c2e61bbbf6cc2c934083330953f7a12de6ddc1e93",
+      "frontend/pnpm-lock.yaml": "35eacb4635c7cc9006726ab29cb05112d023c61396c6147b57698a5d0ce9bc39",
+      "scripts/operations/prepare_preview.py": "1b5cb14eff8a3d78aec0eac5fed55ecd7ee698bd08f6c5c06a720ae87f4e03af",
+      "scripts/operations/restore_reservations.py": "f73c5bf28493074eca38fe7490db301c0347b3cb55cf2697effb2b7cdf0b516a",
+      "scripts/operations/snapshot.py": "24f0eac2d93d3bbca6a80c2e858034baf55a1d9899644f45060772efe6b60404",
+      "uv.lock": "03edf517f770b4a01d7accae1edd7e9973ea43eeb49021f8f3b11ab57356bf2c"
+    },
+    "archive": {
+      "bytes": 296076800,
+      "sha256": "db9f652e2ab4c8ee91e8cdc1b417350f2d5aaa870f0723eb00cfae18532ea8e5",
+      "uploaded": false
+    },
+    "public_candidates": {
+      "path": "docs/development/releases/M7-public-files-r3.json",
+      "sha256": "604035765a4eee32bda2e64c2e61bbbf6cc2c934083330953f7a12de6ddc1e93",
+      "count": 93,
+      "forbidden": [],
+      "missing": [],
+      "license_limits": "课程底座许可未明、AGPL/SSPL等再分发义务待公开前核清"
+    },
+    "main_cuda_versions": {
+      "torch": "2.10.0+cu128",
+      "torchvision": "0.25.0+cu128",
+      "torchaudio": "2.10.0+cu128"
+    },
+    "independent_report_sha_note": "This report is committed later; source identity deliberately binds prior implementation commit, not itself.",
+    "remote_sync": "Root reported ordinary push retry succeeded at the final implementation SHA after transient GitHub Internal Server Error; this reviewer did not independently query remote or perform git mutations."
+  },
+  "commands": [
+    {
+      "id": "C01",
+      "command": "python -m pytest tests/contract/test_health.py tests/contract/test_model_bridge_delivery.py tests/contract/test_app_lifecycle.py tests/unit/test_restore_guards.py tests/unit/test_backup_index_order.py tests/unit/test_reranker_options.py -q --tb=short",
+      "exit": 0,
+      "result": "29 passed, 1 Windows symlink skipped, 54.51s",
+      "evidence": "offline-contracts-initial.log"
+    },
+    {
+      "id": "C02",
+      "command": "python output/m7-independent-review-20261104-r1/identity_and_live.py",
+      "exit": 1,
+      "result": "Independent tool output decoding failed under default GBK; no candidate defect",
+      "evidence": "identity-live-initial.log"
+    },
+    {
+      "id": "C03",
+      "command": "PYTHONUTF8=1 python output/m7-independent-review-20261104-r1/identity_and_live.py",
+      "exit": 0,
+      "result": "45 sealed hashes, 11 locks, 276 source files, 4 image IDs matched; HTTP/Range/SSE and 6 official wheel index hashes checked",
+      "evidence": "identity-live-initial-r2.log"
+    },
+    {
+      "id": "C04",
+      "command": "uv pip check --python <original-short-cpu-or-gpu-python>",
+      "exit": 1,
+      "result": "uv not present in shell PATH; corrected to known absolute executable; no package changes",
+      "evidence": "tool response retained in chat; corrected results C05"
+    },
+    {
+      "id": "C05",
+      "command": "C:/Users/10426/.local/bin/uv.exe pip check --python D:/Desktop/AnXin/ansen_code/Product-Knowledge-Rag/output/m7i-r2/{cpu,gpu}/Scripts/python.exe",
+      "exit": 0,
+      "result": "Each existing separate environment: 171 packages compatible; no installation performed",
+      "evidence": [
+        "cpu-independent-check.log",
+        "gpu-independent-check.log"
+      ]
+    },
+    {
+      "id": "C06",
+      "command": "<short-cpu-or-gpu-python> -c \"import torch,torchvision,torchaudio,FlagEmbedding,transformers,fastapi,langgraph,pymongo,pymilvus,minio,celery,magic_pdf; report versions/device only\"",
+      "exit": 0,
+      "result": "CPU/GPU torch trio plus 9 named components imported; CUDA12.8 / RTX4050 visible on GPU; zero weight load/inference. The handwritten imports=10 field in raw logs is not used as a measured component count.",
+      "evidence": [
+        "cpu-independent-import.log",
+        "gpu-independent-import.log"
+      ]
+    },
+    {
+      "id": "C07",
+      "command": "python output/m7-independent-review-20261104-r1/http_isolated.py",
+      "exit": 0,
+      "result": "10 explicit checks with new isolated Mongo/MinIO; no model ports or worker dispatch",
+      "evidence": "http-isolated-2a4280.json"
+    },
+    {
+      "id": "C08",
+      "command": "python output/m7-independent-review-20261104-r1/race_restore.py",
+      "exit": 0,
+      "result": "RED observation: both restore receipts completed and the earlier completed target vector was overwritten",
+      "evidence": "race-05cbbb/result.json"
+    },
+    {
+      "id": "C09",
+      "command": "python output/m7-independent-review-20261104-r1/race_restore_green.py",
+      "exit": 0,
+      "result": "GREEN: 3 shared-target axes refuse before loser writes; 3 failed-target claim axes refuse reuse; compound index ordering and source invariance verified",
+      "evidence": "race-green-ee8849/result.json"
+    },
+    {
+      "id": "C10",
+      "command": "python output/m7-independent-review-20261104-r1/rerank_protocol.py",
+      "exit": 0,
+      "result": "RED observation: legal 65-candidate local call succeeds but actual host HTTP protocol returns 422",
+      "evidence": "rerank-protocol-initial.json"
+    },
+    {
+      "id": "C11",
+      "command": "python output/m7-independent-review-20261104-r1/rerank_protocol_green.py",
+      "exit": 0,
+      "result": "GREEN: 20/64/65/1000 candidate parity; character splitting, preflight oversize rejection, empty input, later-batch score/transport failure, decreasing remaining request budget and exhaustion tested",
+      "evidence": "rerank-protocol-green.json"
+    },
+    {
+      "id": "C12",
+      "command": "python -m pytest <C01 files> tests/unit/test_restore_control_identity.py -q --tb=short",
+      "exit": 0,
+      "result": "37 passed, 1 Windows symlink skipped, 23.14s; overlaps initial run, not additive",
+      "evidence": "offline-contracts-final.log"
+    },
+    {
+      "id": "C13",
+      "command": "python output/m7-independent-review-20261104-r1/image_boundary.py --api-image zhi-heng-api:m7-r3 --output output/m7-independent-review-20261104-r1/image-boundary-final.json",
+      "exit": 0,
+      "result": "API277/web485 files inspected; actual network-none container no-env prompt/startup/live/ready/query404/no-model-import/Linux-symlink checks passed",
+      "evidence": "image-boundary-final.json"
+    },
+    {
+      "id": "C14",
+      "command": "python output/m7-independent-review-20261104-r1/live_preterminal.py",
+      "exit": 0,
+      "result": "Actual 18080 Nginx first event before terminal; own new synthetic Run only; disconnect/exclusive cursor replay; finally ends only own Run",
+      "evidence": "live-preterminal.json"
+    },
+    {
+      "id": "C15",
+      "command": "python output/m7-independent-review-20261104-r1/final_identity.py --expected-sha b4d3ec77ed49d090766072fa3e1fa04386db9b16",
+      "exit": 0,
+      "result": "Committed source/image/runtime/triad binding/release IDs/archive/public candidates checked; old 45 evidence hashes unchanged",
+      "evidence": "final-identity.json"
+    },
+    {
+      "id": "C16",
+      "command": "git diff --check",
+      "exit": 0,
+      "result": "No whitespace errors; Windows line-ending notices are not validation failures",
+      "evidence": "tool response retained in chat"
+    }
+  ],
+  "evidence_root": "output/m7-independent-review-20261104-r1",
+  "private_evidence_sha256": {
+    "output/m7-independent-review-20261104-r1/cpu-independent-check.log": "d830ea4eedbe0491f0afdadf1ccd3f764cfe291555407377f5031087cb019a5c",
+    "output/m7-independent-review-20261104-r1/cpu-independent-import.log": "4d2dab9887381323f15ea5024d9a99859cfbf2d223c200b17dd8dbc3ec88b79f",
+    "output/m7-independent-review-20261104-r1/final-identity.json": "154b39b2bb52ce9350c48c8e52efbcd5dd1d9b8cb43a6be47a92c650b19a1f60",
+    "output/m7-independent-review-20261104-r1/final-identity.log": "8b027d30427398f0665ec686e9463325308abec21779a7e689011edcd8198b25",
+    "output/m7-independent-review-20261104-r1/final_identity.py": "23a350aaec978ea22f61540d0a352e040c900c1674bd5b6365fc7b04206067d3",
+    "output/m7-independent-review-20261104-r1/generate_report.py": "590c85bf3daee7bdeeea6fd58e7245a5d1a7c691449a0d0b742fb8ace76d437e",
+    "output/m7-independent-review-20261104-r1/gpu-independent-check.log": "34cc96776fca88a70b21a4ad20779558a7af4c5ba67cc167c04d35a6f73d530a",
+    "output/m7-independent-review-20261104-r1/gpu-independent-import.log": "3e305594f9d20cfc12e7924500ba339553c9348c8c3bdd57c1462dca2ab9f7d4",
+    "output/m7-independent-review-20261104-r1/http-isolated-2a4280.json": "d4851f7e036d9c4efd83233c19704e0a11443eefe27561f880c975b4d8e58088",
+    "output/m7-independent-review-20261104-r1/http-isolated-initial.log": "ee76e90638f62f18f3759f76ebaa843065d26f748e584ba753e8d79f7b48d3d5",
+    "output/m7-independent-review-20261104-r1/http_isolated.py": "13c1a9ee7bfa28e293a4a85457c7ede3a02927aa91c0752bbe6b5eabdddc7732",
+    "output/m7-independent-review-20261104-r1/identity-live-initial-r2.log": "08d5ccf9e4293c5706c4f5f45b1a335b930dc95a9b1a36dbfbf7fe45f6591662",
+    "output/m7-independent-review-20261104-r1/identity-live-initial.json": "803676caa6c2da1e65c2f81830b9118cf29aabec6b24e01822247658a4a9a87f",
+    "output/m7-independent-review-20261104-r1/identity-live-initial.log": "44d24fe2fb781dcc205416737e237d4f8071b3668d381d4eedfa4ccacdff6461",
+    "output/m7-independent-review-20261104-r1/identity_and_live.py": "3f9e404b1fabdf46933d6b98d8c4ea4287c98027902c7ff26dbfc943017fecd6",
+    "output/m7-independent-review-20261104-r1/image-boundary-final.json": "ca2c1b859520cc4b1e9d45bdd651ea14dc4322532656e82bafe9e6a5a8352b4f",
+    "output/m7-independent-review-20261104-r1/image-boundary-final.log": "35599f5aad04c842fa49d2a4c08c0d5cf9909975a57004df0972ab2a383965b3",
+    "output/m7-independent-review-20261104-r1/image_boundary.py": "97a369edced6c4d7c7d7d78ce96c332c207df6f18b69db3572705e830713e506",
+    "output/m7-independent-review-20261104-r1/live-preterminal.json": "629452ab2cd25d404b53681f32dc3cfcced2b6fed4a053d0e2b5c2f1a1b361ae",
+    "output/m7-independent-review-20261104-r1/live-preterminal.log": "0e43bfc727bf987c12492961864b04e4768ed5970626eb79b91bcea2e540e31f",
+    "output/m7-independent-review-20261104-r1/live_preterminal.py": "3be0867f5c2dc37c07c6f03db6efa50355b8d46bfac6a16428c9eb41a1234623",
+    "output/m7-independent-review-20261104-r1/offline-contracts-final.log": "2c5df95b7b1001943974d0d8ead3b494779bd7124419f416b71e55b5145918ff",
+    "output/m7-independent-review-20261104-r1/offline-contracts-initial.log": "21bd7377bbb91f1479b961c8eebb074a9226d70746aaa8fa9c0323848135990e",
+    "output/m7-independent-review-20261104-r1/race-05cbbb/namespaces.json": "00cc6fd2d004e9247951e4f478542af1ba210a2bc8793cbb29eb7ceacb4000ac",
+    "output/m7-independent-review-20261104-r1/race-05cbbb/result.json": "5547359b93d7f65062850cf846c3150d804ed7d738a1aea9568d139616e90f23",
+    "output/m7-independent-review-20261104-r1/race-05cbbb/snapshot-a/manifest.json": "d6fcfbf7e8ba7d89324e7ddb7efd34ea37085038b63fffd133f0c1fb37c44460",
+    "output/m7-independent-review-20261104-r1/race-05cbbb/snapshot-a/mongo.json": "63d1e4e0df9ae7b5c28bf7c0f8d4dce49226afad4e33b46bcb39ea9ca15966b3",
+    "output/m7-independent-review-20261104-r1/race-05cbbb/snapshot-a/objects/857214da8d52adbc93bbedb93c7e682fd1965a8385b2568afa6de46a0994911a.bin": "857214da8d52adbc93bbedb93c7e682fd1965a8385b2568afa6de46a0994911a",
+    "output/m7-independent-review-20261104-r1/race-05cbbb/snapshot-a/vectors.json": "e51137a351abf2821f42baca9a1fbed1ee2d1d9f2222927d569b69e0be7ca76c",
+    "output/m7-independent-review-20261104-r1/race-05cbbb/snapshot-b/manifest.json": "68de2e92d65bd5c262c97327e44c5be72aa3631b2ee2122963f2446827488e00",
+    "output/m7-independent-review-20261104-r1/race-05cbbb/snapshot-b/mongo.json": "4427292350a41f7a49c62a9aa078ec86a00fffef076e2b87b0e0e4d1409d156d",
+    "output/m7-independent-review-20261104-r1/race-05cbbb/snapshot-b/objects/857214da8d52adbc93bbedb93c7e682fd1965a8385b2568afa6de46a0994911a.bin": "857214da8d52adbc93bbedb93c7e682fd1965a8385b2568afa6de46a0994911a",
+    "output/m7-independent-review-20261104-r1/race-05cbbb/snapshot-b/vectors.json": "6094fbb294a50eeecdba88522cf48a023115574d45c4a85c82433b91cfde9b95",
+    "output/m7-independent-review-20261104-r1/race-green-ee8849/result.json": "b818f972ae53f6ccf31b873c36358a7b35e474da2d0bbc4876f413f6143d5859",
+    "output/m7-independent-review-20261104-r1/race-green-ee8849/snapshot/manifest.json": "48681b140f2c2ee581693c3a08ae474766b7108eca81ae404f0be1fe063f80c3",
+    "output/m7-independent-review-20261104-r1/race-green-ee8849/snapshot/mongo.json": "f43e651d31deb2fafa2039618c2b317085f8fa1bcd31f7fce6aee5a67c894146",
+    "output/m7-independent-review-20261104-r1/race-green-ee8849/snapshot/objects/1ea77e85ab315d15a0ac126f8f978bb940c26266db557927bd634015ee8ebbee.bin": "1ea77e85ab315d15a0ac126f8f978bb940c26266db557927bd634015ee8ebbee",
+    "output/m7-independent-review-20261104-r1/race-green-ee8849/snapshot/vectors.json": "cdb569d1c11276af3e4cf496e151fe7ab817e9a79e89459ab7d85283771f9846",
+    "output/m7-independent-review-20261104-r1/race-green-r1.log": "85b0c30a625b5ebb8b0daea4dd7e5faa8c78f35db0799372ad7434214ab892a5",
+    "output/m7-independent-review-20261104-r1/race_restore.py": "d1d727cb98ac83d48584bdc97ee3aa1691e6759967418741d7cf2571543bd437",
+    "output/m7-independent-review-20261104-r1/race_restore_green.py": "a040504f84ddac402bd7c4acd650831ecc95f12265a2a3c310ca378c3a2134f9",
+    "output/m7-independent-review-20261104-r1/rerank-protocol-green.json": "4bd3a667bb00de7a6e1e66e40e24c2e69b395845257d4cf2c2762e0d787c9a1a",
+    "output/m7-independent-review-20261104-r1/rerank-protocol-green.log": "4e5b30791842f557698cb315dfef69df57fce936b92b5982d69a7a90a9e3b9ee",
+    "output/m7-independent-review-20261104-r1/rerank-protocol-initial.json": "4fea92b4822699793e629cc3dea9f8c9ddf04d5e6ccba69980c16b0bbfac43f8",
+    "output/m7-independent-review-20261104-r1/rerank-protocol-initial.log": "af17c6bd999902cd32add90437423a9e2996cd76adafb5698bfd08f85674811e",
+    "output/m7-independent-review-20261104-r1/rerank_protocol.py": "4ecc747dbecf010aec387d0331c3df5b9b2094447571d775f53859026734564f",
+    "output/m7-independent-review-20261104-r1/rerank_protocol_green.py": "3d48ebefc0da20895d7edbb3ed9a5ebf544ae051d43ad05a0d79b9752b0a512d"
+  },
+  "new_calls": {
+    "provider_streams": 0,
+    "local_model_inference": 0,
+    "model_host_started": false,
+    "provider_http_observation": null,
+    "provider_cost": null,
+    "public_wheel_index_gets": 6,
+    "real_business_database_writes": 0,
+    "old_run_lease_slot_gate_proof_mutations": 0,
+    "synthetic_actual_nginx_runs_created": 1
+  },
+  "original_seal": {
+    "evidence_files": 45,
+    "all_hashes_match": true,
+    "locks_initial": 11,
+    "initial_source_files": 276,
+    "initial_source_mapping_sha256": "f6ad7d1bc71c67204a1a2ad97e0f31d4b5165614d44d2df5e455c259428f92fc",
+    "original_private_evidence_unchanged_at_final": true
+  },
+  "baseline_preserved_not_reaccepted": {
+    "M6": "5/7",
+    "streams": 168,
+    "results": 170,
+    "judgments": 340,
+    "blocked_gates": 2,
+    "proofs": 0,
+    "quality_status": "M6-05/M6-08 remain open; no old ledger read/write or regrade by this reviewer"
+  },
+  "limits": [
+    "Read-only local candidate by default; necessary synthetic writes only to isolated test resources and one new current-preview engineering Run, all left in place.",
+    "All shared-backend restore tools must use the same immutable shared control identity.",
+    "Request timeout-budget tests do not demonstrate hard server cancellation or provider hard limits.",
+    "Historical physical binding/fault exercises were evidence-reviewed, not independently repeated.",
+    "Original installation receipts are original implementation evidence; independent import/check verification is not a second clean install.",
+    "No Ubuntu target deployment, real model capacity/quality, production hot backup, legal license clearance, merge, registry push or public release approval."
+  ]
+}

@@ -1,3 +1,5 @@
+2026-11-04复核已完成：[独立报告](../reviews/M7-candidate-independent-review-r1.md)与[JSON](../reviews/M7-candidate-independent-review-r1.json)绑定最终实现b4d3ec77；R1/R2独立补修复测关闭，限定本机内部候选技术通过。当前冻结范围任务已收尾，不需继续启动Agent；原提案与执行历史保留。目标Ubuntu、真实模型/生产/许可及公开发布均未外推通过。
+
 2026-11-04执行更新：用户已明确授权1位未参与实现Agent；唯一审查者`/root/independent_m7_candidate_review`已执行。原冻结范围保留如下。发现的恢复竞争/重排协议两项缺陷由总控补修，候选r3、自验及最终身份见[补修报告](../reviews/M7-candidate-review-repair-r1.md)；原审查者继续复测并签署独立报告。以下未授权表述仅代表提案原时点，不撤销本次授权。
 
 # 固定M7内部候选定向独立复核范围 r1

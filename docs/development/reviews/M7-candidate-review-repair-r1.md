@@ -1,3 +1,5 @@
+> 收尾更新：不同实现身份[最终独立报告](M7-candidate-independent-review-r1.md)及[JSON](M7-candidate-independent-review-r1.json)已签署，绑定补修实现b4d3ec77。限定本机候选技术通过，R1/R2独立复测关闭，open_findings为空。以下为该实现提交时的自验/待签历史，不改写独立报告；本次后续提交仅归档与导航。
+
 # M7候选独立复核补修交付 r1
 
 2026-11-04；分支`codex/m6-source-bound-comparison`；复核起点`2bc736adff4249d97b269c02fcc6d417bb76f360`。用户明确授权唯一不同实现身份审查者`/root/independent_m7_candidate_review`。本报告由总控实现方编写，只签实现补修与自验；独立结论由原审查者另签，不借用M6已审范围。
