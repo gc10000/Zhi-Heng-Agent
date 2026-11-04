@@ -11,6 +11,7 @@
 | SSE断开 | 浏览器停止订阅但Run持久存在 | Last-Event-ID只读恢复；410读冻结快照，不能重新执行模型来恢复画面 |
 | API换IP后502 | 服务名直连live成功、Nginx旧上游IP失败 | 候选已采用Docker DNS动态解析；等DNS窗口后核同源live；不能长期靠重启所有旧容器掩盖 |
 | 恢复中断 | restore_control failed/started与部分产物 | 保留未知现场；新目标恢复，不删锁或覆盖；源三元绑定可回切 |
+| 恢复目标竞争 | 共享控制库任一DB/桶/集合claim已占用 | 拒绝冲突恢复；失败/未知/部分claim全部保留，不能改共享控制身份绕过；使用全部独立的新目标 |
 
 复现入口`scripts/verification/fault_preview.py`要求显式host/runtime/browser合成配置及新output目录；只停本轮worker和MinIO，finally恢复。会话负载入口`load_support.py`只写标记工程fixture并验证存储/事件/权限，**不是模型吞吐测试**。不将HTTP未观测或费用未知写0，不把生成关闭后的拒绝当答案质量成功。
 

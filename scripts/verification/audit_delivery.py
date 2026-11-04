@@ -12,14 +12,14 @@ def inspect(image):
     return json.loads(subprocess.check_output(['docker', 'image', 'inspect', image], text=True))[0]
 
 
-def audit(env_file, output):
+def audit(env_file, output, *, api_image='zhi-heng-api:m7-r3', web_image='zhi-heng-web:m7-r3'):
     from dotenv import dotenv_values
     values = dotenv_values(env_file)
     # 仅本轮合成凭据参与匹配，不读真实.env或private-identity。
     assert values['M7_GENERATION_ENABLED'] == 'false' and values['M2_DB_NAME'].startswith('m1_test_m4_')
     secrets = [values[k].encode() for k in ('MINIO_SECRET_KEY', 'M7_PREVIEW_PASSWORD')]
     result = {'passed': False, 'images': {}, 'scope': '候选文件、镜像默认环境与本轮合成秘密；非全面漏洞或法律审计'}
-    for name, image, path in [('api', 'zhi-heng-api:m7-r1', '/workspace'), ('web', 'zhi-heng-web:m7-r1', '/usr/share/nginx/html')]:
+    for name, image, path in [('api', api_image, '/workspace'), ('web', web_image, '/usr/share/nginx/html')]:
         metadata = inspect(image)
         for assignment in metadata['Config']['Env']:
             key, _, value = assignment.partition('=')
@@ -44,7 +44,7 @@ def audit(env_file, output):
             assert 'licenses/index.json' in hashes and 'licenses/NOTICE.md' in hashes
         result['images'][name] = {'id': metadata['Id'], 'files': len(hashes), 'file_manifest_sha256': hashlib.sha256(json.dumps(hashes, sort_keys=True).encode()).hexdigest(),
                                   'synthetic_credentials_absent': True}
-    versions = subprocess.check_output(['docker', 'run', '--rm', '--network', 'none', '--entrypoint', 'python', 'zhi-heng-api:m7-r1', '-c',
+    versions = subprocess.check_output(['docker', 'run', '--rm', '--network', 'none', '--entrypoint', 'python', api_image, '-c',
         'import importlib.metadata as m,json;print(json.dumps({d.metadata["Name"]:d.version for d in m.distributions()},sort_keys=True))'], text=True)
     deps = json.loads(versions)
     assert not any(k.lower() in {'torch', 'flagembedding'} for k in deps)
@@ -58,5 +58,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--env-file', required=True)
     parser.add_argument('--output', required=True)
+    parser.add_argument('--api-image', default='zhi-heng-api:m7-r3')
+    parser.add_argument('--web-image', default='zhi-heng-web:m7-r3')
     args = parser.parse_args()
-    print(json.dumps(audit(args.env_file, args.output)))
+    print(json.dumps(audit(args.env_file, args.output, api_image=args.api_image, web_image=args.web_image)))

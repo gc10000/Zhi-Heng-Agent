@@ -1,0 +1,101 @@
+{
+  "schema": "m7_candidate_review_repair_r1",
+  "date": "2026-11-04",
+  "author_role": "implementation_self_verification",
+  "base_git": "2bc736adff4249d97b269c02fcc6d417bb76f360",
+  "branch": "codex/m6-source-bound-comparison",
+  "candidate": "m7-r3",
+  "independent_reviewer": "/root/independent_m7_candidate_review",
+  "independent_final_report": "pending_separate_reviewer_signature",
+  "repairs": [
+    "shared_restore_target_reservations",
+    "host_rerank_protocol_batching"
+  ],
+  "host_final": {
+    "tests": 43,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1
+  },
+  "container_final": {
+    "tests": 74,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "groups_overlap": true,
+  "image_audit": {
+    "api": {
+      "id": "sha256:6beb232a74f39c1813d56adbda91f19b9932d9e49890c6a5734c6f904cc98882",
+      "files": 277,
+      "file_manifest_sha256": "5a40c95f7a975fbfeef0048803fe3b53b104998de55b1428b358d1a9817b91a4",
+      "synthetic_credentials_absent": true
+    },
+    "web": {
+      "id": "sha256:6db4189f8be95ae0b0fd9c908d382e1b782aa85183719a473b0aff0354dd6d7a",
+      "files": 485,
+      "file_manifest_sha256": "59de42d3d67bbce0f6fe414380495d9eb8ddd274fe13d3ee3dbddaed5f127673",
+      "synthetic_credentials_absent": true
+    }
+  },
+  "source_identity": {
+    "path": "output/m7-review-coordination-20261104-r1/source-file-manifest-r3.json",
+    "files": 277,
+    "file_sha256": "843d17ea0722d55da2c6d5ee956c9c42748c2e1b2ece54cca267b19cfe190ded",
+    "mapping_sha256": "17fc9a88bf571c48cbfd6f08ab11ed302db7bb17e777ab24571912f1d10b3c6d"
+  },
+  "archive": {
+    "path": "output/m7-review-coordination-20261104-r1/application-images-r3.tar",
+    "bytes": 296076800,
+    "sha256": "db9f652e2ab4c8ee91e8cdc1b417350f2d5aaa870f0723eb00cfae18532ea8e5",
+    "uploaded": false
+  },
+  "generation_disabled": true,
+  "live_status": 200,
+  "ready_status": 200,
+  "new_provider_streams": 0,
+  "new_local_inference": 0,
+  "new_review_agents": 1,
+  "synthetic_storage_io": true,
+  "old_business_ledger_mutations": false,
+  "m6": {
+    "complete": 5,
+    "total": 7,
+    "05": "open",
+    "08": "open",
+    "gates": "blocked",
+    "proofs": 0
+  },
+  "open": [
+    "Ubuntu_target",
+    "real_model_generation_capacity",
+    "production_backup_admission",
+    "license_clearance",
+    "full_stage_acceptance",
+    "public_release"
+  ],
+  "private_evidence_directory": "output/m7-review-coordination-20261104-r1",
+  "private_receipt_sha256": {
+    "identity-audit.json": "db0d011d4da6d75003e7a69ff82c526e006423082e621be66f110bda7adb2f3c",
+    "reservation-red.log": "bce5621200a336e5d848812ec870c6db887aa4b8d960a80698266b030ea6bdbb",
+    "reservation-red.xml": "9e84449d41639dcdeb3bc4b699eb88e816aecf600eb176addb3572ee976ba1fa",
+    "reservation-red-r2.log": "e18ec2a4ffda1d42c6fbcad676ba5f75d2d92667196685acfdf13fb1abbb050e",
+    "reservation-red-r2.xml": "06c42bf76796cff4cf55be216f79a7f3a68a0733483ee80b8ded3fd0429ba9ae",
+    "repair-green-r1.log": "14774b75fac76bee7db55e72596c96860a62300a796ca70345ed3045d775b0de",
+    "repair-green-r1.xml": "69b79e471f9b6f72c329cada06601f349126f350728bb6f2c4567ea553a57f34",
+    "rerank-red-r1.log": "59ea2db2a3182ab9b803ba9dc4ad6b8bbf456972fdd36e6039176562362760e4",
+    "rerank-red-r1.xml": "0c84f8972afc316776e9aa3f5c966aa59617bd6737d1ea856180128f650554bf",
+    "final-green-r2.log": "0f51cfc19b8bed2cae8b60ed4a8de416cbb1db205b8ac7fb36dd46e9ac4e7bdd",
+    "final-green-r2.xml": "e2ec3dae2fe52661813bafd7cdf67bf2029ff459a0ae1b038f71eed13a86731c",
+    "final-image-r3.log": "dcc22b47eacadb888be4b2425655f9bf3b9fc2205a2cb90538bcc4016c503de7",
+    "final-image-r3.xml": "e4e29b36ec19f9c3f9e9a71d689664583f575cd1317c31347060f26de2ceb5cc",
+    "final-image-r3-command.json": "afb5d592092666812664f8c3d099c05eb38890981d713f804083917b415b4844",
+    "image-audit-final-r3.json": "176cddb30daabb30484547835e7b68cdbb7d817a0d82e3d8336bab0fe1608e16",
+    "source-file-manifest-r3.json": "843d17ea0722d55da2c6d5ee956c9c42748c2e1b2ece54cca267b19cfe190ded",
+    "source-identity-r3.json": "602481953c10f83e2bb6473c440fdc44003d0116ce03b03186661dbccb4efecb",
+    "runtime-final-r3.json": "fd6fe0b04d453e9140d53761c25959fb4dfd427e0e64c464402d77d9bfdefab9",
+    "build-final-r3.log": "8ad5bc3bf39714127f9d28daa4335c917d3de62e131869560ae9a507fa8bd410",
+    "deploy-final-r3.log": "60a3abbfee70ae87e46f33c26bc10fed8c74fabc60baea4d36f1330524fcb15f",
+    "archive-r3.json": "3a8870f7229607c0081b373d0355bc92775542db5c42129b60521b4f2da8bfe5"
+  }
+}

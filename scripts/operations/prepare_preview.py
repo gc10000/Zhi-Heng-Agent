@@ -27,7 +27,8 @@ def prepare(output):
              for name in ('HTTP', 'MONGO', 'REDIS', 'MINIO', 'MILVUS')}
     assert len(set(ports.values())) == len(ports)
     values = dict(
-        M7_PROJECT_NAME='zh-m7-' + suffix, M7_RUNTIME_ENV=env_path.as_posix(), M7_IMAGE_TAG='m7-r1',
+        M7_PROJECT_NAME='zh-m7-' + suffix, M7_RUNTIME_ENV=env_path.as_posix(), M7_IMAGE_TAG='m7-r3',
+        M7_RESTORE_CONTROL_DATABASE='m1_test_m4_rc_' + suffix,
         M2_DB_NAME=database, M2_KNOWLEDGE_OWNER_ID='preview-org-' + suffix,
         M2_OBJECT_BUCKET='zh-preview-' + suffix, M2_OBJECT_PREFIX='knowledge/',
         M2_MILVUS_COLLECTION=database + '_v2', M2_QUEUE_NAME='preview-import-' + suffix,

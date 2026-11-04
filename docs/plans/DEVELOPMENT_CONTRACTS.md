@@ -1209,3 +1209,9 @@ v3跨产品摘要不再断言“资料未说明状态/上联”，只说明不�
 新增显式diagnostic_feedback_candidate_manifest_r1：两版各85个dev身份/170唯一有序题级槽，168个provider stream预算及两条零调用澄清；qwen3.8-flash/n=1/不思考/SDK自动重试0，输出4096、输入28416，4773888/688128新增预算，未知网关/付费输出/费用硬上界不填保证。完整请求、反馈来源、预校准、题集、关闭配置subject、当前源码、完整582标量/168精确prompt/连续引用/预算由正式服务及运行前消费者绑定；原题规划的路由/产品/修订须重算一致。
 
 授权与输入清单解耦，专属Git授权及独立引用分两次提交；授权消费本包不同实现身份且覆盖当前源码的关闭技术报告。共享Mongo单文档CAS顺序预留，固定member一次消费；独立输入身份以setOnInsert在provider前持久，丢失/漂移不能恢复补签。派发CAS和halt互斥，dispatching时halt/recover明确409，不以租约失效证明旧worker已死。失败/未知/思考/异常stop/usage超预留或调用计数不等于一次stream均停止整批；恢复不新生成、不释放已消费槽。170成功仅awaiting_quality_review；两个新Agent先后盲审、正式gate/proof和M6验收保持各自证据，不以技术通过替代。旧账户、旧评分、已审算法、43题暂停及heldout/M7边界保持。
+
+## 2026-11-04 · M7隔离恢复与宿主重排补修合同
+
+相同存储绑定的恢复进程必须共用M7_RESTORE_CONTROL_DATABASE（既有随机预览可按项目稳定派生）；database/bucket/collection各唯一claim，全部取得才写目标；成功、失败、部分及未知预留无TTL、不释放，缺共享身份写前拒绝。仅限隔离合成命名空间，不承诺绕开工具的直接写入保护。
+
+HostReranker完整预检输入后按64对/256000字符拆批，单对超限零HTTP拒绝；保序、同Session、不重试、分数逐批核数量/数值/有限性，后续批只用共用deadline剩余timeout，不宣称HTTP硬墙钟上界。公共API和OpenAPI不变。详见[补修报告](../development/reviews/M7-candidate-review-repair-r1.md)。

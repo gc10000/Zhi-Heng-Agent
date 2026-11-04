@@ -1,3 +1,5 @@
+> 2026-11-04补修更新：当前运行候选已升级r3，见[补修报告](M7-candidate-review-repair-r1.md)。原r1报告及镜像证据按历史保留；已有runtime.env仍含旧tag，恢复必须使用补修报告的r3精确覆盖。独立复核结果另由审查者签署。
+
 # M7交付工程与内部发布候选 r1
 
 2026-11-04；分支`codex/m6-source-bound-comparison`，启动锚`fe2d957b35256907d1e990ff66f8362fc267c1e3`。本报告为同一执行方实现自验，不是独立技术通过、M6质量关闭、Ubuntu主机验收或发布批准。最终源码提交锚`ebb8ef93ddca4b41d736f23e980c59fb03f02b10`；后续文档及Windows模型安装锁补充不改变应用源码/镜像，镜像与证据hash见[脱敏清单](M7-delivery-first-validation-r1.json)。

@@ -73,3 +73,44 @@ def test_query_runner_rerank_keeps_title_pairs_and_order_across_bridge(monkeypat
     values = rerank('q', [{'text': 'a', 'title': '机身', 'chunk_uid': 'a'}, {'text': 'b', 'metadata': {'heading_path': ['配件']}, 'chunk_uid': 'b'}])
     assert [v['chunk_uid'] for v in values] == ['b', 'a']
     assert seen == [[['q', '章节：机身\na'], ['q', '章节：配件\nb']]]
+
+
+@pytest.mark.parametrize('count, passage_length', [(65, 8), (1000, 8), (4, 100000)])
+def test_host_rerank_batches_by_protocol_without_losing_order(monkeypatch, count, passage_length):
+    from app.infrastructure.queue import model_client
+    monkeypatch.setenv('MODEL_HOST_URL', 'http://synthetic.invalid')
+    monkeypatch.setenv('MODEL_HOST_TOKEN', 'synthetic-token')
+    monkeypatch.setenv('PROVIDER_POLICY_ENABLED', 'false')
+    pairs = [[str(n), 'a' * passage_length] for n in range(count)]
+    observed = []
+    class HTTP:
+        def __enter__(self): return self
+        def __exit__(self, *args): pass
+        def post(self, url, **kwargs):
+            batch = kwargs['json']['pairs']
+            assert 1 <= len(batch) <= 64
+            assert sum(len(q) + len(p) for q, p in batch) <= 256000
+            assert kwargs['allow_redirects'] is False and 0 < kwargs['timeout'] <= 300
+            observed.extend(batch)
+            return SimpleNamespace(raise_for_status=lambda: None,
+                                   json=lambda: {'scores': [float(q) for q, _ in batch]})
+    monkeypatch.setattr(model_client.requests, 'Session', HTTP)
+    assert model_client.HostReranker()(pairs) == list(map(float, range(count)))
+    assert observed == pairs
+
+
+def test_oversized_late_pair_is_rejected_before_any_host_request(monkeypatch):
+    from app.infrastructure.queue import model_client
+    monkeypatch.setenv('MODEL_HOST_URL', 'http://synthetic.invalid')
+    monkeypatch.setenv('MODEL_HOST_TOKEN', 'synthetic-token')
+    sent = []
+    class HTTP:
+        def __enter__(self): return self
+        def __exit__(self, *args): pass
+        def post(self, *args, **kwargs):
+            sent.append(kwargs)
+            return SimpleNamespace(raise_for_status=lambda: None, json=lambda: {'scores': [1.0]})
+    monkeypatch.setattr(model_client.requests, 'Session', HTTP)
+    with pytest.raises(ValueError):
+        model_client.HostReranker()([['q', 'valid']] * 64 + [['q', 'x' * 256000]])
+    assert not sent

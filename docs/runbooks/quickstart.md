@@ -1,3 +1,11 @@
+> 已有2026-11-04候选现为r3。旧`output/m7-delivery-first-20261104-r1/clean-preview/runtime.env`保持原tag，必须用下列精确覆盖恢复，不能对该旧配置裸执行通用up：
+>
+> ```powershell
+> docker compose --env-file output/m7-delivery-first-20261104-r1/clean-preview/runtime.env -f compose.delivery.yaml -f docs/development/releases/M7-delivery-r3.compose.json up -d --no-build
+> ```
+>
+> 入口仍为http://127.0.0.1:18080；[补修报告](../development/reviews/M7-candidate-review-repair-r1.md)说明身份与限制。以下通用创建/启动步骤用于本版脚本新建的默认r3预览。
+
 # 知衡内部预览快速开始
 
 范围是本机隔离交付候选：登录、资料、受控原件、合成工程流程及持久恢复。真实生成明确关闭；不把合成向量/答案fixture或待审反馈当M6质量证据。不会启动旧批、读取private-identity或覆盖旧Compose。

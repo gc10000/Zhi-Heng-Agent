@@ -1,4 +1,6 @@
-# 固定M7内部候选定向独立复核提案 r1（未执行）
+2026-11-04执行更新：用户已明确授权1位未参与实现Agent；唯一审查者`/root/independent_m7_candidate_review`已执行。原冻结范围保留如下。发现的恢复竞争/重排协议两项缺陷由总控补修，候选r3、自验及最终身份见[补修报告](../reviews/M7-candidate-review-repair-r1.md)；原审查者继续复测并签署独立报告。以下未授权表述仅代表提案原时点，不撤销本次授权。
+
+# 固定M7内部候选定向独立复核范围 r1
 
 源码候选固定`ebb8ef93ddca4b41d736f23e980c59fb03f02b10`，镜像/证据以M7-delivery-first-validation-r1.json为准；最终回复SHA为后续安装锁及文档冻结提交，分支codex/m6-source-bound-comparison；main未合并。用户当前只授权工程执行，不含新Agent委派；本文件是具体可审阅请求，不自称已获授权。
 

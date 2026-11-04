@@ -595,3 +595,8 @@ MODEL_HOST桥接新增可选input_type=query/document，省略仍document兼容�
 diagnostic_feedback_candidate_manifest_r1固定两版各85道dev、170题级槽、168个provider stream上限和2条047零调用澄清。使用独立diagnostic_feedback_candidate_accounts共享CAS集合及目标库feedback_candidate_generation_inputs输入身份集合；备份此显式新合同Run须保留两者及本机排他证据目录，不为旧Run迁移/补建记录。授权正文和M6-feedback-stage-authorization-reference-r1.json分提交，引用固定LF，模块导入时冻结；缺失仍关闭，不能当作热撤销。来源消费者核已提交且覆盖当前源码的不同实现身份技术报告。
 
 新增dev_question_order只允许恰好覆盖全部dev且不能与question_ids并用，支持048优先而不缩小质量范围。生产清单重算完整标量、原题路由/产品/修订及168精确prompt；运行前仍核现场完整语料与runtime，调用前输入先持久。在途halt返回409，不宣称网络已停止；恢复只观察、不重发，未知在途保留pending/unknown。全部成功仅awaiting_quality_review，真实质量与正式proof独立判断。本包不新增环境变量、浏览器API或默认启用项，.env.example无新增配置。
+## 2026-11-04 · M7恢复共享目标预留
+
+`M7_RESTORE_CONTROL_DATABASE`是同一隔离Mongo/MinIO/Milvus绑定的共享恢复控制库，由prepare_preview固定为随机`m1_test_m4_rc_`身份。旧预览可从合法随机`M7_PROJECT_NAME`稳定派生；两者均缺失则在写目标前拒绝，不能使用源/目标数据库替代控制库。所有恢复进程共用该配置，不允许按目标另选；部分/失败/未知预留不释放、不设TTL。最终补修候选固定覆盖见`docs/development/releases/M7-delivery-r3.compose.json`，r1/r2文件及镜像仅保留历史。
+
+受控重排客户端保持既有检索策略，不缩小合法候选范围；按宿主每批最多64对/256000字符分批，原顺序合并并逐批验证分数数量、数值类型和有限性。单对超协议限在任何请求前拒绝，不截断。各批共用一次重排调用的超时预算，未增加自动重试；这不是模型推理容量或质量证明。

@@ -52,6 +52,6 @@ def test_restore_roundtrip_read_original_index_registry_permissions_and_switch(t
         # 两个独立目标均可读；仅切换部署绑定，没有回写或删除源活动指针。
         source_original = OriginalStore(objects, bucket=source.bucket, prefix=source.prefix)
         assert source_original.read(mongo[source.database].knowledge_revisions.find_one({'revision_id': revision['revision_id']})) == original.read(revision)
-        with pytest.raises(ValueError, match='目标已存在'):
+        with pytest.raises(ValueError, match='目标已存在|目标已预留'):
             restore(tmp_path / 'snapshot', target, mongo, objects, vectors, expected_sha256=receipt['manifest_sha256'])
         assert canonical(mongo_dump(mongo[source.database])) == before

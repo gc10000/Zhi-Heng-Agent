@@ -231,6 +231,15 @@ def restore(directory, target, mongo, objects, vectors, *, expected_sha256):
     for revision in data.get('knowledge_revisions', {}).get('rows', []):
         if object_hashes.get(revision['object_key']) != revision['original_sha256']:
             raise ValueError('恢复清单缺少精确原件')
+    from scripts.operations.restore_reservations import reserve_targets
+    with reserve_targets(mongo, source, target, expected_sha256) as reservation:
+        return _restore_reserved(directory, target, mongo, objects, vectors, manifest, data, rows,
+                                 source=source, expected_sha256=expected_sha256, reservation=reservation)
+
+
+def _restore_reserved(directory, target, mongo, objects, vectors, manifest, data, rows, *,
+                      source, expected_sha256, reservation):
+    # 预留全部目标后再读现场；不存在检查只是兼容旧资源，不能替代跨目标共享占用。
     if mongo[target.database].list_collection_names() or objects.bucket_exists(target.bucket) or vectors.has_collection(target.collection):
         raise ValueError('恢复目标已存在，拒绝覆盖或自动继续')
     db = mongo[target.database]
@@ -282,7 +291,7 @@ def restore(directory, target, mongo, objects, vectors, *, expected_sha256):
         registry_check(mongo_dump(db), restored_rows)
         receipt = dict(state='completed', manifest_sha256=expected_sha256, target=asdict(target),
                        collections=len(data), vectors=len(rows), objects=len(manifest['objects']),
-                       sessions_restored=False, source_mutated=False)
+                       sessions_restored=False, source_mutated=False, reservation=reservation)
         db.m7_restore_control.update_one({'_id': 'exclusive'}, {'$set': receipt})
         return receipt
     except Exception:

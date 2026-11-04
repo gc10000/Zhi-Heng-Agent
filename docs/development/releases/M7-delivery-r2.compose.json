@@ -1,0 +1,19 @@
+{
+  "services": {
+    "api": {
+      "image": "sha256:54ecb86524e37d3e5119d1b8970f9f0a1592d21c3b838c04986a0cb4ea7de1f1"
+    },
+    "worker": {
+      "image": "sha256:54ecb86524e37d3e5119d1b8970f9f0a1592d21c3b838c04986a0cb4ea7de1f1"
+    },
+    "dispatcher": {
+      "image": "sha256:54ecb86524e37d3e5119d1b8970f9f0a1592d21c3b838c04986a0cb4ea7de1f1"
+    },
+    "web": {
+      "image": "sha256:6db4189f8be95ae0b0fd9c908d382e1b782aa85183719a473b0aff0354dd6d7a"
+    },
+    "minio": {
+      "image": "sha256:48c2b3223491f99af2a36b68889c06f8d211afd388e3fc82e6522ad23df307c8"
+    }
+  }
+}
