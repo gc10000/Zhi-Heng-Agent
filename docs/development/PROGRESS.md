@@ -1,3 +1,9 @@
+## 2026-11-04 · 两版真实候选全部完成，双轮独立质量已开始
+
+两版各85条正式结果均completed，170 Run/168调用前独立输入/168 provider stream/2零调用澄清，0失败；共享账本cursor170、awaiting_quality_review、pending=null、unknown=[]。实际新增usage输入809676、输出30791；旧停止账户前后全等。精确HTTP/费用/reasoning细目继续null，未运行heldout/M7/旧43或重跑基线。
+
+已构造两份纯170结果盲审输入，4份原PDF共77物理页，实际答案图片0；不包含expected/annotation/旧评分。全新Agent第一轮/root/feedback_full_blind_round1正式begin后开始；第二个全新Agent须等第一轮完整封存后才启动。真实质量、两gate/proof及阶段验收尚未完成，M6保持5/7。前文零调用/执行中状态保留原时点。
+
 ## 2026-11-04 · 完整候选已正式启动
 
 不同实现身份的新范围技术复核已通过，最终309离线/152隔离Mongo及既定5项页面契约通过。r5完整4资料582标量、170成员/168精确prompt/2澄清已独立重算；实现与报告4d307e7、授权正文9f392b2、Git引用6c4f16e均普通提交并推送。临发实际Strong来源、模型权重/runtime、旧停止账户、维护身份及新请求/槽核验通过。
