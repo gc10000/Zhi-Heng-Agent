@@ -1,0 +1,88 @@
+{
+  "kind": "m6_feedback_candidate_blind_independence_verification",
+  "date": "2026-11-04",
+  "conclusion": "passed_with_observable_tool_and_provenance_boundaries",
+  "coordinator_role": "implementation and transport coordinator; no independent technical self-signature",
+  "technical_review_separate": "M6-feedback-candidate-independent-review-r1",
+  "fresh_fork_without_parent_history": true,
+  "sequential_fresh_review_agents": 2,
+  "rounds": [
+    {
+      "round": 1,
+      "task": "/root/feedback_full_blind_round1",
+      "subjects": 170,
+      "input_sha256": "0cc01ee463f6482426e96770134733a9f1d6da6e95f36f9d786ca02ad23c2ab1",
+      "judgments_sha256": "f66d718f876a505053b1679fbbebd55c78b8128a9f6d4b16f48731f0eab3c431",
+      "provenance_sha256": "698d29543861aa42a2adb8ab05bbb57c8f587f1c292d58cc4eeed1651ec9d8d6",
+      "begin_times": [
+        "2026-11-04T05:30:24.058042+00:00",
+        "2026-11-04T05:30:24.346628+00:00"
+      ],
+      "seal_times": [
+        "2026-11-04T05:47:57.582359+00:00",
+        "2026-11-04T05:47:58.017545+00:00"
+      ],
+      "source_manifest_sha256": "bc70c76bf1c24bc2a96bb4a1ad45dd6b137eb0883271d6d1490e1101012a6cd9"
+    },
+    {
+      "round": 2,
+      "task": "/root/feedback_full_blind_round2",
+      "subjects": 170,
+      "input_sha256": "0cc01ee463f6482426e96770134733a9f1d6da6e95f36f9d786ca02ad23c2ab1",
+      "judgments_sha256": "3750101c606348ec6d6c16dced303a67ec73ab8e9c2ebdf4ede383f23ecbc4a4",
+      "provenance_sha256": "11b01032258ba3baa4266043213bb6f52a0ca52c45c4e23edba27c78568539b4",
+      "begin_times": [
+        "2026-11-04T05:48:24.485982+00:00",
+        "2026-11-04T05:48:24.810249+00:00"
+      ],
+      "seal_times": [
+        "2026-11-04T06:04:41.076157+00:00",
+        "2026-11-04T06:04:41.668404+00:00"
+      ],
+      "source_manifest_sha256": "e9546d358a161ee3af0eb7992e87c4f0cbb7345c995697e44c97cb83d8d34ddd"
+    }
+  ],
+  "subjects": 170,
+  "original_judgments": 340,
+  "expected_or_annotation_or_prior_scores_given_to_reviewers": false,
+  "first_complete_seal_precedes_second_begin": true,
+  "coordinator_modified_scores_or_semantics": false,
+  "third_vote": false,
+  "original_pdf_hashes": {
+    "D1": "72983cc9b60f7f165bf89d3f6cbe39d56c4db148fd4b894c70c37378f8be5c8e",
+    "D3": "977b5522d45fb1d3dfe8ac330c37841ad2751ffdfcbdaa64847ca753e78eff83",
+    "D4": "9eda0af991762156befd5b6ac651730835c7b8732b0c48d8761574406298ebb9",
+    "D5": "aa246f20a8b2a059b9e2c67410d0eccc2d86f3c643cc71a7b3eff6d7acff1523"
+  },
+  "actually_viewed_physical_pages": [
+    16,
+    38
+  ],
+  "drafts_equal_final": [
+    170,
+    170
+  ],
+  "exact_reviewer_model": null,
+  "reviewer_token_http_cost": null,
+  "exact_first_round_START_timestamp": null,
+  "first_round_start_evidence": "registered begin <= first original-access checkpoint <= author end <= formal seal",
+  "second_round_start_evidence": "registered begin <= first clock after START <= author end <= formal seal",
+  "os_or_kernel_isolation_audit_available": false,
+  "background_tool_implementation_audit_available": false,
+  "quality_passed_claim": false,
+  "human_publication_status": "pending",
+  "private_evidence": {
+    "output/m6-feedback-candidate-controller-20261104-r1/blind-chain-coordinator-verification.json": "ff04518ea6a9a469f357875cc578fa8716338d2c3c3cbf217beb343063421973",
+    "output/m6-feedback-candidate-controller-20261104-r1/formal-generation-consumer-verification.json": "337bf77e9dbca72f89f63445a96fb42e1f2ba280e6c2a931e5a17e6b1c5d1c36",
+    "output/m6-feedback-candidate-controller-20261104-r1/round-1-begin.json": "5b5f782a01ef738f9c3b9f0c177c03516f1fd3759da4a8a83f83b88676f52560",
+    "output/m6-feedback-candidate-controller-20261104-r1/round-1-sealed.json": "2cd977796d0142c4d4c34555df0ef9b41e92bb340b1bda194f527c5d78791bea",
+    "output/m6-feedback-candidate-controller-20261104-r1/round-1-submitted.json": "57d10c9d0041ed58b0a2288fcbfdd3aac01028eef7c32f272305afc12ce323e5",
+    "output/m6-feedback-candidate-controller-20261104-r1/round-1-coordinator-structure-audit.json": "02ac4864b77092731a6ac55668961dcf392318ec95605c0ce38193637564a2d8",
+    "output/m6-feedback-candidate-controller-20261104-r1/round-1-provenance-coordinator-audit.json": "f6c58c08b491112e103a0453ab4c3d11a651316a1c5a2b18b9e23a71def453f7",
+    "output/m6-feedback-candidate-controller-20261104-r1/round-2-begin.json": "f186fa278abeda9a5d0bfe870a6e8f288cabeb52c5bdb47429b94f8ecf8c9f53",
+    "output/m6-feedback-candidate-controller-20261104-r1/round-2-sealed.json": "0ba77f2ca3681446a73134e0ec032aa12715bc0d7972874ebd3f04df1cf7a932",
+    "output/m6-feedback-candidate-controller-20261104-r1/round-2-submitted.json": "bebcaac003f2ade60c300151b7dc920ecdc6752dcb231be3d1d85c02327ee813",
+    "output/m6-feedback-candidate-controller-20261104-r1/round-2-coordinator-structure-audit.json": "6a74fd1aa559217a92e7aef57b1045c6df581c7045a6d4f0bdc44dffcf20d560",
+    "output/m6-feedback-candidate-controller-20261104-r1/round-2-provenance-coordinator-audit.json": "ca01680d690a860da64b5f9e2465634abbc32513f11ac90f7b35f141e620a42d"
+  }
+}
