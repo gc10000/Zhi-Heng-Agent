@@ -1,6 +1,5 @@
 """按字符打包完整证据与最近历史；模板、问题及输出 token 另行管理。"""
 import re
-import json
 
 
 def readable_evidence(text):
@@ -8,13 +7,28 @@ def readable_evidence(text):
     from app.core.markdown_source import block_code_ranges,inline_code_ranges
     protected=block_code_ranges(text)+inline_code_ranges(text)
     navigation=re.compile(r'((?:依次)?点击[ \t]*)(\$?(?:>(?!>)[ \t]+(?:\\(?:emptyset|varnothing)\b[ \t]*)?){2,}\$?)')
-    def prose(value):return navigation.sub(r'\1〔未识别图标路径〕',value)
+    def prose(value):return navigation.sub(r'\1〔系统标注：未识别图标路径；非原文命令〕',value)
     result=[];end=0
     for start,stop in sorted(protected):
         if start>end:result.append(prose(text[end:start]))
         if stop>end:result.append(text[max(start,end):stop]);end=stop
     result.append(prose(text[end:]))
     return ''.join(result)
+
+
+def render_attribution(label):
+    """只向模型呈现可读的产品、对象和页范围，不泄漏内部证明字段。"""
+    parts = []
+    if label.get('product_status') == 'snapshot' and label.get('products'):
+        parts.append('产品=' + '、'.join(label['products']))
+    else:
+        parts.append('产品=unknown')
+    subject = label.get('reviewed_subject')
+    if isinstance(subject, dict) and subject.get('subject'):
+        parts.append('已核验对象范围=' + subject['subject'])
+    pages = label.get('physical_pages') or []
+    parts.append('物理页=' + ('、'.join(map(str, pages)) if pages else 'unknown'))
+    return '[归属：' + '；'.join(parts) + ']'
 
 
 def pack_prompt_inputs(docs, history, max_chars=12000, *, attributions=None):
@@ -42,10 +56,7 @@ def pack_prompt_inputs(docs, history, max_chars=12000, *, attributions=None):
             meta.append(f"[title={doc['title']}]")
         if attributions is not None:
             label=attributions[index]
-            # 关系完整跨度证明留在正式引用映射；这里单独呈现，避免把JSON当新事实。
-            visible={k:v for k,v in label.items() if k!='source_relations'}
-            meta.append('[归属='+json.dumps(visible,ensure_ascii=False,separators=(',',':'))+']')
-            meta.append('[物理页='+(','.join(map(str,label['physical_pages'])) or 'unknown')+']')
+            meta.append(render_attribution(label))
         block = ' '.join(meta) + '\n' + text
         if attributions is not None and 'source_relations' in attributions[index]:
             from .source_relations import render_relations

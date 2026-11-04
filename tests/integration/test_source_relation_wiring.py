@@ -29,7 +29,8 @@ def test_policy_and_full_span_map_survive_formal_completion_and_reuse(evaluation
     assert row['evidence_attribution']['source_relations']['enabled'] is True
     assert all('source_relations' in r for r in row['prompt_reference_map'])
     assert any(r.get('reviewed_subject', {}).get('subject') == '合成扩展台乙' for r in row['prompt_reference_map'])
-    assert 'source_relation_spans_v1' in evaluation_context[3][0]
+    assert '来源中的关系与条件定位' in evaluation_context[3][0]
+    assert 'source_relation_spans_v1' not in evaluation_context[3][0]
 
 
 @pytest.mark.parametrize('separate', [False, True])

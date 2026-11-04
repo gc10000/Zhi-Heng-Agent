@@ -1,0 +1,126 @@
+{
+  "kind": "m6_complete_candidate_quality_repair_self_validation",
+  "date": "2026-11-04",
+  "implementation_identity": "coordinator_implementation_and_self_check",
+  "independently_reviewed": false,
+  "independent_review_status": "open_for_this_change_only",
+  "source_code_sha256": "d8927a21655f90f92173aaeb00396d28597ecaff83575a68d86956f4996486df",
+  "source_files": {
+    "app/answering/context_budget.py": "aceb3230224655f592743c0a091f7789fd1056887c3c6d7fadc6132618cb06e8",
+    "app/answering/source_relations.py": "38ef73cf7aeeb2d8e8dcd0a4d2c3a0fe30bbbb1fd532faf93d00aa155929f88e",
+    "app/answering/answer_surface_guard.py": "06b44e2854d2479b41ac80023ee739ca5616be4edb6e5e1cc4aff6eae2313b39",
+    "app/evaluation/query_adapter.py": "6be42afcdf718279556efc8e233ea1e23bd80cda6c81781cf516f93a27ba1d95",
+    "app/evaluation/repository.py": "1a860884b06859e7d539a24a5371d88c4da0b104e515d9882b3f1483d70dce51",
+    "app/evaluation/result_presentation.py": "a26495584862c2d9ffcf264bd537ef0c2678c59cc4b4bd26573478e46c9cf246",
+    "app/query_process/agent/nodes/node_answer_output.py": "9af9c905181abb056258ef56569e3ba64449f8b66e95fa96d1196cd2ac59123b",
+    "app/runs/query_runner.py": "c45bab0a3955705ce38b86d0d379877f13742fa873323ac2c9abd3b47c1dd00f",
+    "prompts/answer_source_relations_v2.prompt": "d1948684792f8bd6fee0979c19f662aef6b6a2ef19512ed3cb3294dbb5ec73a9",
+    "frontend/src/features/evaluation/ResultPresentation.vue": "621e71ff3603dea757504c92828c47a237a5c5bac214f1826df5637be924df50",
+    "frontend/src/features/evaluation/types.ts": "740d8a891e933c9e4985f7bbb95ce51703ce27ac2b313f8c311c1693df3739f5"
+  },
+  "unchanged_reviewed_algorithms": {
+    "app/answering/comparison_context.py": "08c846835b042179b91e67c1bff4607c06c490bedbdd94ce5e1430f1786f622a",
+    "app/answering/connection_semantics.py": "8b7819aa442200d1ce9306197e6951a0e2773887b18903183441699ade6c0487",
+    "app/answering/comparison_answers.py": "2b982763a2c641f5e6e50f4e3d398048921dd5b3a01c1177103b31be14ec8ef7"
+  },
+  "self_validation": {
+    "final_offline": {
+      "tests": 389,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "file": "output/m6-candidate-quality-repair-20261104-r2/final-offline.xml",
+      "sha256": "76e3b25fbd4dfe0eaf5e137d80080a79211e4077a0be515ef834f1a5af72c067"
+    },
+    "final_integration": {
+      "tests": 101,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "file": "output/m6-candidate-quality-repair-20261104-r2/final-integration.xml",
+      "sha256": "c976e2b2fee81223f3017da93c4a419dc938c4b7c198e0790ffdfd907183c41d"
+    },
+    "earlier_related_integration": {
+      "tests": 67,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "file": "output/m6-candidate-quality-repair-20261104-r2/integration-r2.xml",
+      "sha256": "b3778bb786a17eef3ea2c20604e1eccc7ed0030fe847c49ca32aff8b63f6f120"
+    },
+    "overlapping_suites_not_added": true,
+    "frontend_unit": 62,
+    "frontend_e2e": 6,
+    "typecheck_exit": 0,
+    "build_exit": 0
+  },
+  "saved_input_replay": {
+    "status": "passed",
+    "kind": "saved_input_replay_only",
+    "code": "d8927a21655f90f92173aaeb00396d28597ecaff83575a68d86956f4996486df",
+    "members": 170,
+    "generated": 168,
+    "clarifications": 2,
+    "source_manifest_sha256": "efe350e63f3f6f18c02a52d3cbfee6ca8f8400c9918124a81c357a13a756454b",
+    "full_saved_scalar_members": 582,
+    "contexts_maps_and_groups_unchanged": true,
+    "max_input_tokens": 14327,
+    "sum_estimated_input_tokens": 1373472,
+    "changed_prompts": 166,
+    "provider_calls": 0,
+    "local_inference": 0,
+    "live_database_accesses": 0,
+    "production_authorization": null,
+    "independently_reviewed": false,
+    "answer_quality_proven": false
+  },
+  "original_failure_matrix": {
+    "members": 170,
+    "raw_judgments": 340,
+    "flagged_subjects": 33,
+    "flags_are_not_new_quality_scores": true,
+    "raw_sources_preserved": true
+  },
+  "original_authorized_batch": {
+    "completed": true,
+    "streams_consumed": 168,
+    "results": 170,
+    "raw_judgments": 340,
+    "usage": {
+      "input": 809676,
+      "output": 30791
+    },
+    "gates": [
+      "blocked",
+      "blocked"
+    ],
+    "proof_count": 0,
+    "halted": true
+  },
+  "current_repair_actual_activity": {
+    "provider_streams": 0,
+    "local_inference": 0,
+    "real_business_database_accesses": 0,
+    "isolated_synthetic_mongo_used": true,
+    "new_delegations": 0
+  },
+  "stage": {
+    "M6": "5/7",
+    "M6_04": "accepted",
+    "M6_05": "open",
+    "M6_08": "open",
+    "heldout_started": false,
+    "M7_started": false
+  },
+  "limits": [
+    "提示修订及保存输入回放不证明模型已正确消费对象/限定/时序",
+    "规则外泄拒绝只覆盖列明模式，不是自由答案通用语义校验",
+    "新快照不回填旧结果、subject或原340判断",
+    "旧168调用与三名Agent委派范围已执行；本补修没有新增调用或委派授权",
+    "saved_input_replay_only：没有本轮实时582标量或runtime/权重复核，尚非新批临发输入"
+  ],
+  "private_evidence": [
+    "output/m6-candidate-quality-repair-20261104-r2",
+    "output/m6-candidate-quality-repair-20261104-r3"
+  ]
+}

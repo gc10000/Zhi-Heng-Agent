@@ -1,3 +1,11 @@
+## 2026-11-04 · 完整候选与340独立判断已完成，两gate阻断，M6保持5/7
+
+两版各85真实结果/170 Run，168stream+2零调用澄清全部完成，实际输入809676/输出30791。新范围独立技术通过；两个全新Agent依次独立170判断，共340条正式记录/4seal/2attest。正式gate均blocked：22/21下降维度、各8题不完整，第二版2题wrong_object；两proof正式409拒绝且存量0。001/048两版双轮事实/引用均2，已成立边界保持。
+
+两版completed恢复仅观察，新增stream0、账本hash不变；正式halt后cursor170/settled170/168stream、pending=null、unknown=[]，旧两个停止账户全等。05缺有效反馈proof，08缺有效完整候选质量和阶段退出；04保持，M6仍5/7。原低分/unknown/适用性分歧与critical不改；047候选与前端固定澄清文案的审核呈现限制单列，不据此放行。heldout/M7/旧43/基线不运行，human发布pending独立。下一项为证据驱动的完整质量修复；本批168授权已消费并封存，不能重试或重领。
+
+本授权执行清单已跑完，质量退出未通过。最终309/152及5页面技术证据、r5输入、真实170生成/168流、340独立判断与正式拒绝/halt均完成；未勾选的有效proof/05/08不能写成执行尚未开始。接续[最终报告](../../development/reviews/M6-feedback-candidate-execution-r1.md)和[下一质量修复计划](2026-11-04-m6-complete-candidate-quality-repair-r1.md)。以下保留各时点原计划。
+
 # M6反馈复评与阶段收敛完整工作包
 
 > 执行者按 `superpowers:executing-plans` 在当前工作树连续推进。用户于2026-11-04明确授权有限准入独立复核、两版候选最多168个stream及两个新Agent顺序盲审340判断。

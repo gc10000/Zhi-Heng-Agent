@@ -157,7 +157,7 @@ def render_relations(relation):
     if not relation['frames']:
         return ''
     names = dict(origin='发起端', destination='目的端', medium='经由', purpose='用途')
-    lines = [f"[关系原句索引 {VERSION} 原文UTF8={relation['source']['content_sha256']}]"]
+    lines = ['[来源中的关系与条件定位；以下范围仅解释相邻原文]']
     for frame in relation['frames']:
         fields = []
         for key in ('origin', 'destination', 'medium', 'purpose'):

@@ -113,7 +113,7 @@ def step_2_construct_prompt(state: QueryGraphState) -> str:
     if binding:
       # 新策略以已接线的关系提示为基线，额外矩阵不能挤出任何原证据或历史。
       baseline=build_budgeted_prompt(reranked_docs,history,question=question,items=item_names_str,
-        render=lambda **kw:load_prompt('answer_source_relations_v1',**kw),budget=budget,
+        render=lambda **kw:load_prompt('answer_source_relations_v2',**kw),budget=budget,
         groups=budget_groups,counter=state.get('token_counter'),attributions=labels)
       oldlabels=[{k:v for k,v in label.items() if k!='source_relations'} for label in labels]
       original=build_budgeted_prompt(reranked_docs,history,question=question,items=item_names_str,
@@ -127,7 +127,7 @@ def step_2_construct_prompt(state: QueryGraphState) -> str:
       baseline=build_budgeted_prompt(reranked_docs,history,question=question,items=item_names_str,
         render=lambda **kw:load_prompt('answer_attributed_v1',**kw),budget=budget,
         groups=budget_groups,counter=state.get('token_counter'),attributions=oldlabels)
-    template='answer_source_relations_v1'
+    template='answer_source_relations_v2'
   if binding:
     from app.answering.assertion_binding import render_assertion_matrix
     matrix_labels=[dict(labels[i],reference_number=n+1) for n,i in enumerate(baseline['used_doc_indices'])]
@@ -249,11 +249,12 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
   from app.answering.evidence_attribution import EvidenceAttributionPolicy
   attribution=EvidenceAttributionPolicy.model_validate(state.get('evidence_attribution') or {})
   binding=attribution.assertion_binding is not None and attribution.assertion_binding.enabled
+  source_scoped=(attribution.source_relations is not None and attribution.source_relations.enabled)
   from app.runs.comparison_inputs import validate_input_mode
   validate_input_mode(state, attribution)
   comparison=(state.get('comparison_mode') is True and attribution.comparison_answer is not None
     and attribution.comparison_answer.enabled)
-  buffer_output=binding or comparison
+  buffer_output=binding or comparison or source_scoped
   if binding:
     from app.answering.evidence_attribution import evidence_labels
     from app.answering.assertion_binding import checked_sources
@@ -334,9 +335,19 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
       from app.answering.comparison_answers import comparison_failure_record
       state['comparison_answer_failure']=comparison_failure_record(final_text,prompt,
         state.get('prompt_reference_map'),attribution,'answer_generation_interrupted' if final_text else 'answer_generation_failed')
-    raise AnswerGenerationError(partial_answer=final_text) from exc
+    partial=final_text if not source_scoped or binding or comparison else ''
+    raise AnswerGenerationError(partial_answer=partial) from exc
   finally:
     if observations is not None:state['answer_usage_validation']=summarize(observations)
+  if source_scoped and not binding and not comparison:
+    from app.answering.answer_surface_guard import failure_code,failure_record
+    from app.api.errors import APIError
+    code=failure_code(final_text,state.get('prompt_used_docs') or [])
+    if code:
+      state['answer_surface_failure']=failure_record(final_text,prompt,
+        state.get('prompt_reference_map'),attribution,code)
+      raise AnswerGenerationError('回答包含内部处理说明，已拒绝发布。',partial_answer='') from APIError(
+        422,'answer_internal_rule_leak','回答包含内部处理说明，已拒绝发布。')
   if binding:
     from app.answering.assertion_binding import bind_response
     from app.api.errors import APIError
@@ -383,6 +394,8 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
     final_text=answer
     if state.get('is_stream'):
       push_to_session(session_id,SSEEvent.DELTA,{'delta':final_text})
+  elif source_scoped and not binding and state.get('is_stream'):
+    push_to_session(session_id,SSEEvent.DELTA,{'delta':final_text})
   state['answer'] = final_text
   return state
 

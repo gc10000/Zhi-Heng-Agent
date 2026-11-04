@@ -466,9 +466,14 @@ class RealQueryExecutor:
         """首次执行和恢复共用受控投影，状态/行为/引用/图片映射不另设较窄规则。"""
         rid = row['run_id']
         if row['state'] == 'awaiting_input':
-            from .result_presentation import public_candidates
+            from .result_presentation import public_candidates, clarification_presentation_snapshot
+            candidates = public_candidates(row.get('candidates', []), self.products.values())
+            products = self.config.get('corpus', {}).get('snapshot', {}).get('products')
+            if products is None:
+                products = [dict(product_id=pid, model=model) for model, pid in self.products.items()]
             return {'run_id': rid, 'state': row['state'], 'behavior': 'clarify', 'answer': '', 'citations': [],
-                    'candidates': public_candidates(row.get('candidates', []), self.products.values())} | (
+                    'candidates': candidates,
+                    'presentation_snapshot': clarification_presentation_snapshot(candidates, products)} | (
                         {'retrieval_candidates': {'candidates': [], 'reranked': [], 'context': []}}
                         if self.config.get('metric_schema_version') == 1 else {})
         if row['state'] != 'completed':

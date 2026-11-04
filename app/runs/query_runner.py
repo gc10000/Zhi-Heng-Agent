@@ -453,6 +453,8 @@ class QueryRunner:
                     except BaseException:
                         if state.get('answer_binding_failure'):
                             emit('stage.changed',{'stage':stage},fields={'answer_binding_failure':state['answer_binding_failure']})
+                        if state.get('answer_surface_failure'):
+                            emit('stage.changed',{'stage':stage},fields={'answer_surface_failure':state['answer_surface_failure']})
                         if account is not None:
                             telemetry.diagnostic_usage(state.get('answer_usage_observations',[]))
                             settled=account.settle(rid,row['identity'],telemetry.snapshot()['token_usage'],completed=False,
@@ -554,6 +556,8 @@ class QueryRunner:
                         error['retryable'] = retryable
                     self.commands.finish(user, rid, token, 'failed', {'error': error}, fields={'error': error, 'stage': stage,
                         'telemetry_measurements': telemetry.snapshot()} |
+                        ({'answer_surface_failure':state['answer_surface_failure']}
+                         if 'state' in locals() and state.get('answer_surface_failure') else {}) |
                         ({'comparison_answer_failure':state['comparison_answer_failure']}
                          if 'state' in locals() and state.get('comparison_answer_failure') else {}))
             except Exception:

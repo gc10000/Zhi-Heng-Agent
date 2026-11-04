@@ -1,3 +1,17 @@
+# M6完整候选包执行接续记录
+
+2026-11-04，分支codex/m6-source-bound-comparison，当前工作树保持。用户已一次明确授权两版各85 dev/168stream/2澄清、1名独立技术复核及2名全新Agent依次盲审170结果，不重复申请。本包执行已完成，质量未通过；M6仍5/7。
+
+实际完成：准入/共享CAS/故障生命周期、r5完整582及168prompt、实现309离线/152隔离Mongo/5页面契约、不同身份独立技术结论、两版真实170结果/168流、340原始独立判断/4seal/2attest、正式gate/proof拒绝、恢复无新生成、最终halt和旧账户保护。真实usage809676/30791，费用/HTTP/reasoning细目null，硬上界unknown。原始日志/PDF/答案/评分仅本机。
+
+两gate均blocked，下降22/21维度、各8题不完整；第二版18-a/18-b两轮均wrong_object。两proof均409且存量0；不能宣称05/08验收或进入M7。001/048两版双轮事实/引用均2保留；047呈现限制、7题适用性分歧和内部规则进入答案等问题按最终报告分列。终态账户blocked/halted、170 settled、168流、pending/unknown空，旧两个账户全等。
+
+实现和报告4d307e7、授权正文9f392b2、Git引用6c4f16e、生成归档9659a9d、独立性核验2dd50fc均已普通提交push；最终交付提交另在结束核验，不amend倒填自身SHA。未切回或合并main，tmp保留。
+
+下一完整质量修复计划已有具体证据/对象/故障/审核呈现范围，不重跑同失败profile、不改旧分/基线/门槛，不自行增加stream或Agent。见[最终执行报告](../reviews/M6-feedback-candidate-execution-r1.md)、[固定质量报告](../../evaluation/M6-feedback-candidate-development-quality-r1.md)、[修复计划](../../superpowers/plans/2026-11-04-m6-complete-candidate-quality-repair-r1.md)。
+
+## 此前按时点记录（原文保留）
+
 # M6完整候选包接续记录
 
 2026-11-04，当前工作树`m6-source-bound-comparison`，分支`codex/m6-source-bound-comparison`；启动HEAD及origin为88592b3399a71667f113ebc9bc418a8741b13a6b。本轮已获两版各85题/168stream及技术复核、顺序双盲170×2明确授权，不再要求用户重新确认。

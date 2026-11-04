@@ -1,42 +1,44 @@
 # M6两版完整候选执行与质量闭环 r1
 
-2026-11-04，Asia/Shanghai。本包由总控实施；实现自验、不同实现身份的独立技术结论、真实答案质量及阶段验收分别记录。用户已明确授权两版各85道dev题、最多168个provider stream与2条零调用澄清、一个准入独立技术复核身份，以及两个新Agent依次盲审170结果（340判断）。沿用固定qwen3.8-flash、n=1、不思考、4096输出/28416输入、SDK自动重试0、首失败停止；费用与网关硬上界unknown已接受。不重跑基线、旧43题、heldout或M7。
+2026-11-04，Asia/Shanghai。**本批授权执行流程已完成，答案质量未通过：两版gate均blocked、反馈proof均正式409拒绝且未保存。M6保持5/7，05/08不验收。** 实现自验、不同身份独立技术、真实质量和阶段验收分开记录。本报告替换准备期追加叙述为最终状态；此前各时点材料在Git及本机原件保留。
 
-## 已落实的准入与故障链
+用户明确授权两版各85道dev、最多168个provider stream及2条零调用澄清、1名独立技术复核者和2名全新Agent依次盲审170结果（340判断）。固定qwen3.8-flash、n=1、不思考、输出4096/输入28416、SDK自动重试0、首失败停止；未知网关/付费输出/费用硬上界已接受。未重跑基线、旧43、heldout或M7，未切默认资料或发布。
 
-新增专属`diagnostic_feedback_candidate_manifest_r1`合同，授权与输入清单分离，Git引用另提交并强制LF，避免授权hash固定点。正式服务在创建实验前消费完整请求、两版配置及85题身份；运行期消费当前源码、原题规划/产品/修订、完整582标量来源、168精确prompt/连续引用/预算、旧停止账户、客户端及wire。新范围不能借旧048授权或重领旧槽。
+## 真实正式执行与来源
 
-两版共用170成员CAS账本，固定顺序、逐题一次预留、168stream总上限；047两条要求0调用。派发权与halt争用同一版本，在途停止明确409拒绝，不用租约过期宣称网络已停止。独立调用前输入记录先持久化再派发；缺失/漂移、断流、usage未知或超预留、思考输出、非正常stop、调用计数异常均停止后续。恢复只观察原Run，未知在途保留pending及unknown，不二次生成。全部完成进入`awaiting_quality_review`，该状态不代表答案通过。
+两版experiment分别为`4633c638-2fb8-405b-8154-2e72c5f8b147`、`7fe25d10-5a7c-49ce-82ab-46b123f840ad`，均attempt1/completed、各85正式结果。共170 Run、168 completed生成Run/独立调用前输入锚、2 awaiting_input澄清Run；168真实stream、invoke0、0失败。实际新增usage输入809676、输出30791；授权预算4773888/688128不是usage或费用保证。精确HTTP、reasoning细目、费用null，硬上界unknown；不同历史批次不合并伪造总费用。
 
-首轮独立复核拒绝了授权/manifest循环、halt竞态、生产清单/正式链缺口和未知恢复；后续又发现恢复绕过在途协议、已完成Run恢复未核独立输入、生产规划声明与实际路由不一致及新Git引用LF缺失。最终完整链又实证结果投影重建目录丢失brand/series/aliases，真实冻结每版17-a/18-b/20-a会被误拒绝；补修改为保留并核完整冻结目录，2项系列/别名投影红测后补绿，并增加3项品牌/配件回归。总控逐项补修，不将自己的修复签为独立通过。历史已审比较算法保持；仅复核新合同及其直接执行影响。
+r5实际4资料582标量、170规划/168精确prompt/2澄清冻结，来源读取4次Milvus Strong标量查询、不读向量。manifest fingerprint `b0ad2650d3fe7675cb5bacd0d4e8cff9725f669d948b4b93092720fef7c1d867`、文件SHA256 `efe350e63f3f6f18c02a52d3cbfee6ca8f8400c9918124a81c357a13a756454b`。授权正文9f392b2、Git引用6c4f16e按顺序提交；临发重核现场582、实际模型权重/runtime/wire、旧账户、请求与空槽。独立重算和生成后正式消费者核168输入字节/引用映射、170 Run/link及两版来源/校准均通过。独立报告覆盖206文件生成后hash全等，固定源码指纹`e6ad2c5a534331760c5a3fd86f6c577340153e49240f589bb9b8f4dbae30e6d1`。
 
-## 当前实际验证
+## 技术实现、自验和独立技术边界
 
-独立正式链随后实证：首题Run已成功结算后，指标异常仍继续下一题；结果文件/服务端发布失败也没有封存共享账本。总控保存4项runner真红和6项发布出口真红后补修，仅新合同题内任意异常停止；非completed报告、发布抛错、发布CAS返回None或取消终态均封存，不允许自动重试。在途409仅保存unknown/pending，不伪造halt且保留最初错误分类。定向自验4+6项已通过，最终独立差异复测仍待结束。原170成功链在补修前源码a396c6下已完整完成，不能将其写成最终源码全链重跑；最终由同一未参与实现审查者逐文件核差异和新增故障。
+新合同`diagnostic_feedback_candidate_manifest_r1`、独立170成员共享CAS和168流上限，服务在repo.create前核两版请求/来源/校准/规划；运行消费者核完整来源、prompt、预算、客户端与wire，独立输入锚先持久后派发。Git授权引用与生产清单分离，固定LF避免循环和Windows行尾漂移；不借旧048授权或旧槽。并发派发/halt争用同一版本，在途409拒绝假停；未知pending保留，恢复只观察原Run不重生成。
 
-本轮另实际运行既定experiments/feedback-loop浏览器契约，5项通过；使用合成API响应，不能代替本轮真实服务端proof。首次发布出口测试误取public字段而KeyError，修夹具后形成真红；两次包装器控制台编码失败也保留，浏览器原始JSON为5通过/0失败/0跳过，未将包装器失败隐藏成产品成功。
+独立首轮发现授权循环、停止竞态、完整生产消费者/正式链缺口、未知恢复，后续发现恢复绕过、独立输入未核、原题规划与路由差异、产品目录brand/series/aliases丢失等问题，总控补修并由原未参与实现者复测。最终另补整题后处理首失败停止及发布异常/complete空返回/取消终态的封存，4项runner及6项job实红后补绿；在途unknown不假签halt、不覆盖首错误。旧已审三比较算法不改、不重开其独立结论。
 
-实现自验：最终309项离线/契约通过（含OpenAPI一致性），1条既有Pydantic浮点usage序列化警告；最终152项隔离Mongo通过，含完整候选账本、既有连接投影/接线和恢复。此前各组重叠不累计。定向红测覆盖缺少新联合合同类型、首失败继续下一题、缺失/多次provider计数、停止交错、输入锚删除、未知在途恢复、请求漂移、路由漂移、系列/别名投影及Windows实际checkout。部分早期红绿仅保留工具终端输出，未补造原始日志。私有证据位于`output/m6-feedback-candidate-controller-20261104-r1/`。
+实现最终309离线/契约、152随机短m1_test_m4_隔离Mongo通过；1条既有Pydantic浮点usage反例警告。既定experiments/feedback-loop共5浏览器契约通过，响应合成，不能冒作真实页面proof。不同实现身份`/root/independent_048_admission_review`最终结论passed_with_specific_boundaries、open_findings=[]：95离线、77隔离Mongo、4条安装SDK内存wire后处理故障、1纯runner和r5完整重算通过。完整170合成成功链绑定补修前a396c6源码；最终按206文件身份及runner/jobs差异实核，**没有伪称最终源码重跑170合成链**。各组重叠不累计；合成wire不等于真实供应商或答案质量。详见[独立技术报告](M6-feedback-candidate-independent-review-r1.md)。
 
-完整生产输入r5已在最终源码上实际读取4资料582标量（4次Strong查询，不读向量），重算170成员，其中168个完整prompt与旧保存输入回放逐字一致，2条澄清无prompt。r2/r3及各轮失败原件保留；完整范围与生产prompt身份不能由旧333成员投影或合成输入替代。目录`output/m6-feedback-candidate-full-20261104-r5/`；来源配置、题集原件与历史输出不提交。
+## 双轮真实质量、正式gate与proof
 
-独立审查者`/root/independent_048_admission_review`未参与实现，已完成4个同/分库正式service→job→Run→输入锚→安装SDK内存wire→结算的过程探针，补修后独立真实冻结3题投影通过。r5已独立完成170规划/168prompt/166非比较投影与完整582标量重算，源码一致；完整170成功链已在补修前源码通过，最终异常出口差异复核仍在运行。独立整体技术结论仍open，合成wire不是真实供应商。此前合成完整链的源码漂移拒绝、产品目录投影真失败均保留，不能写成那些轮次完整成功。
+两位新Agent均fork无父历史：`/root/feedback_full_blind_round1`、`/root/feedback_full_blind_round2`。第一轮完整两版seal后才begin第二轮，START在正式begin后；两轮分别独立读170完整实际结果和原件，共340判断。总控核完整原始初稿全等、两轮输入与正式答案/引用/状态/候选相同、hash/四维/唯一subject及先后；只运输不改语义，没有第三票或消去unknown。第一轮实看16物理页，第二轮38页；后台工具轨迹、OS沙箱及精确审核模型不可全核，第一轮精确START未捕获的限制明确。独立性报告2dd50fc已提交并push，随后两版正式attest各1份。详见[独立性核验](M6-feedback-candidate-blind-independence-r1.md)。
 
-## 正式执行、质量与阶段
+| 版本 | 题级结果 / 正式判断 | 下降维度 | 涉及下降题数 | 不完整题数 | 关键错误题数 | gate / proof |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | 85 / 170 | 22 | 13 | 8 | 0 | blocked / 409拒绝 |
+| 2 | 85 / 170 | 21 | 12 | 8 | 2 | blocked / 409拒绝 |
 
-最终不同实现身份的技术复核已通过，结论`passed_with_specific_boundaries`、open_findings为空，绑定最终206源码hash与e6ad2c5a指纹；独立95离线、77隔离Mongo、4条正式SDK后处理故障、1纯runner及r5完整输入重算均通过。报告见[M6-feedback-candidate-independent-review-r1](M6-feedback-candidate-independent-review-r1.md)。前文各轮“仍待结束/open”描述保留实际过程，以此最终结论为准。实现最终309离线、152隔离Mongo及5页面契约通过。真实质量与阶段仍不由技术结论替代。
+两版各7题步骤适用性分歧和047第一轮unknown保留；版本2的18-a/18-b两轮均wrong_object。实际问题还含规则合同进入产品答案、图标/连续步骤关系失真、无依据的数量/绝对限定、来源正文消费不完整。001/048在两版双轮均事实2/引用2、其余N/A，无critical，已成立子项保持。047前端确有固定澄清提示与候选，不能将审核包空answer等同网页空白；该限制单列，不改封存评分或凭此放行。完整统计与实证定位见[固定质量报告](../../evaluation/M6-feedback-candidate-development-quality-r1.md)。
 
-当前真实新provider stream、正式候选、质量判断及proof均0。下一步在最终独立结论关闭后封存本批授权与独立Git引用，临发重核现场来源及runtime/旧账户，然后沿正式业务链按两版顺序执行；首失败停止，不重试或释放槽。仅完整有效结果进入两个新Agent顺序盲审，按已批准assistant-development-v1/question-purpose-v1保留unknown、critical、低分及分歧。通过正式gate才调用两条`RegressionService.proof`。
+两条proof实际调用返回409 regression_proof_invalid，真实存量0。正式gate重读当前基线校准/结果/评分/来源；两版85结果分页和completed恢复已核，恢复禁止构造生成器、新stream0且账本hash不变。正式halt后共享账户blocked，cursor170、settled170、168stream、pending=null、unknown=[]；旧两个停止账户全等。最终只读复核重算质量和gate、核340原始记录/4seal/2attest/0proof及账户终态通过。**blocked是当前质量结论，halt是调用生命周期封存，不能混写为成功或可重领。**
 
-M6仍5/7，04验收保持；05缺反馈复评proof，08缺有效候选质量及阶段证据。单题048已成立的真实限定比较与历史独立结论保留，不能代替两版反馈复评。预算4773888/688128不等于实际usage或费用保证；精确HTTP、费用、reasoning明细无证据保留null。后续实际执行及阶段判定追加本报告，不以技术测试数提高阶段数字。
+## 原始失败与证据限制
 
-## 正式启动记录
+保留全部首轮实红、夹具/包装器错误和补修日志。来源夹具/真实冻结探针的源码漂移拒绝、系列目录丢失真失败、runner4红/job6红不隐藏；部分早期红绿只有终端原输出，没有补造日志。首个发布出口探针误读public字段先KeyError，修夹具后才形成真红；浏览器包装器GBK打印失败与实际5项JSON通过分别记。授权编排首次CRLF/LF字节比对失败、正式生成核验首次误取output_truncated、本次核验脚本编码名称拼写错误均属工具/脚本问题，保留可见失败，不冒作产品红测。最终工具按实际Git原字节和receipt字段核清。
 
-授权正文9f392b2、独立Git引用6c4f16e已提交并推送；临发现场582标量/实际模型权重/runtime/旧账户/请求身份及槽检查通过。已开始正式第一版实验4633c638-2fb8-405b-8154-2e72c5f8b147，当前运行中，首失败停止、不重试。前文准备期零调用记录不再代表当前活动量；最终usage、两版结果、盲审、gate/proof及阶段结论将在终态归档。
+完整582标量/权重临发实核不等于全业务库/向量/TTL扫描；本轮无前端行为改动，5页面项是合成契约。原始PDF、prompt、完整答案、340判断、日志、数据库及模型不提交。私有执行目录`output/m6-feedback-candidate-controller-20261104-r1/`，完整输入`output/m6-feedback-candidate-full-20261104-r5/`；脱敏hash/回执与统计见[机器摘要](M6-feedback-candidate-execution-r1-validation.json)。
 
-## 2026-11-04 · 两版真实候选全部完成，双轮独立质量已开始
+## 阶段判定与下一完整修复包
 
-两版各85条正式结果均completed，170 Run/168调用前独立输入/168 provider stream/2零调用澄清，0失败；共享账本cursor170、awaiting_quality_review、pending=null、unknown=[]。实际新增usage输入809676、输出30791；旧停止账户前后全等。精确HTTP/费用/reasoning细目继续null，未运行heldout/M7/旧43或重跑基线。
+M6-04保持；M6-05反馈审核/标签/绑定及原校准保持有效，但本批正式proof拒绝，故05不验收。M6-08真实完整候选、固定比较、恢复和既定页面契约已有实际证据，但有效候选质量与真实反馈复评proof未成立，阶段不验收。M6仍5/7，不进入M7，不增加human、heldout或Ragas门槛。授权168流已全部消费，旧批停止不可重试；不以同profile重抽或新授权包装旧槽。
 
-已构造两份纯170结果盲审输入，4份原PDF共77物理页，实际答案图片0；不包含expected/annotation/旧评分。全新Agent第一轮/root/feedback_full_blind_round1正式begin后开始；第二个全新Agent须等第一轮完整封存后才启动。真实质量、两gate/proof及阶段验收尚未完成，M6保持5/7。前文零调用/执行中状态保留原时点。
-
+下一整包按[证据驱动修复计划](../../superpowers/plans/2026-11-04-m6-complete-candidate-quality-repair-r1.md)处理对象限定/证据消费、内部规则外泄、图标与步骤时序及审核呈现边界，先覆盖完整失败矩阵的离线正反例和故障路径，不用扩词/改检索/补标签代替修复，不退回仅摘录答案。新答案必须另有合法新批身份和有界预算，不能消费本批余额（实际0）；未来生成与独立审阅范围变化仍按用户明确授权办理。此计划不预先声明修复或新的独立通过。

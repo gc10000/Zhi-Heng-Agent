@@ -254,7 +254,7 @@ class EvaluationRepository:
 
     def save_results(self, experiment_id, attempt, questions, results):
         by_id = {row['id']: row for row in results}
-        public_keys = {'answer', 'citations', 'behavior', 'route', 'state', 'candidates', 'retrieval_candidates', 'prompt_reference_map', 'answer_binding', 'comparison_summary',
+        public_keys = {'answer', 'citations', 'behavior', 'route', 'state', 'candidates', 'retrieval_candidates', 'prompt_reference_map', 'answer_binding', 'comparison_summary', 'presentation_snapshot',
                        'stage_metrics', 'stage_timings', 'logical_provider_calls', 'token_usage', 'image_selection_version',
                        'logical_provider_calls_scope', 'execution_logical_provider_calls'}
         experiment = self.experiments.find_one({'experiment_id':experiment_id}) or {}
@@ -266,6 +266,12 @@ class EvaluationRepository:
                 continue
             result = record.get('result') or {}
             clean = {key: deepcopy(value) for key, value in result.items() if key in public_keys}
+            if 'presentation_snapshot' in clean:
+                from .result_presentation import validate_clarification_presentation_snapshot
+                validate_clarification_presentation_snapshot(
+                    clean['presentation_snapshot'], candidates=clean.get('candidates') or [],
+                    state=clean.get('state'), behavior=clean.get('behavior'),
+                )
             if 'comparison_summary' in clean:
                 summary = clean['comparison_summary']
                 clean['comparison_summary'] = {key: summary[key] for key in (
@@ -294,6 +300,14 @@ class EvaluationRepository:
         rows = list(self.results.find(query).sort('question_id', 1).limit(limit + 1))
         items = [{k: deepcopy(v) for k, v in row.items() if k not in {'_id', 'experiment_id', 'attempt'}}
                  for row in rows[:limit]]
+        for item in items:
+            result = item.get('result') or {}
+            if 'presentation_snapshot' in result:
+                from .result_presentation import validate_clarification_presentation_snapshot
+                validate_clarification_presentation_snapshot(
+                    result['presentation_snapshot'], candidates=result.get('candidates') or [],
+                    state=result.get('state'), behavior=result.get('behavior'),
+                )
         return {'items': items, 'next_cursor': rows[limit - 1]['question_id'] if len(rows) > limit else None}
 
     def complete(self, experiment_id, attempt, worker_token, *, report, questions, results):

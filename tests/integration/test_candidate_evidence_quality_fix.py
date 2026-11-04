@@ -85,7 +85,8 @@ def test_formal_attribution_identity_checkpoint_completed_reuse(evaluation_conte
     checkpoint=resources['db'].evaluation_items.find_one({})
     assert checkpoint['evidence_attribution']==attribution and checkpoint['evidence_attribution_sha256']==fingerprint(attribution)
     run=resources['db'].runs.find_one({});assert run['evidence_attribution']==attribution and run['prompt_reference_map'][0]['reference_number']==1
-    assert len(prompts)==1 and 'attributed_assertions_v1' in prompts[0]
+    assert len(prompts)==1 and '归属' in prompts[0]
+    assert all(citation['text'] in prompts[0] for citation in run['citations'])
 
 
 @pytest.mark.parametrize('boundary',['snapshot','product','source','hash'])

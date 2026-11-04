@@ -66,7 +66,8 @@
     "formal_experiments": 0,
     "production_manifest_sha256": "b0ad2650d3fe7675cb5bacd0d4e8cff9725f669d948b4b93092720fef7c1d867",
     "file_sha256": "efe350e63f3f6f18c02a52d3cbfee6ca8f8400c9918124a81c357a13a756454b",
-    "code": "e6ad2c5a534331760c5a3fd86f6c577340153e49240f589bb9b8f4dbae30e6d1"
+    "code": "e6ad2c5a534331760c5a3fd86f6c577340153e49240f589bb9b8f4dbae30e6d1",
+    "scope_note": "preparation-time activity counters; final actual activity in new_actual_activity"
   },
   "private_production_manifest": {
     "path": "output/m6-feedback-candidate-full-20261104-r5/production-manifest-private.json",
@@ -88,26 +89,33 @@
     "failed_members": 0,
     "input_tokens": 809676,
     "output_tokens": 30791,
-    "quality_judgments": 0,
+    "quality_judgments": 340,
     "proofs": 0,
     "exact_http_requests": null,
     "cost": null,
     "reasoning_detail": null,
-    "previous_accounts_unchanged": true
+    "previous_accounts_unchanged": true,
+    "independence_attestations": 2,
+    "complete_round_seals": 4,
+    "completed_recovery_new_streams": 0
   },
   "stage": {
     "M6": "5/7",
     "M6_04": "accepted_unchanged",
-    "M6_05": "open",
-    "M6_08": "open",
-    "M7": "not_authorized"
+    "M6_05": "not_accepted_missing_valid_proof",
+    "M6_08": "not_accepted_candidate_quality_blocked",
+    "M7": "not_authorized_not_started"
   },
   "limits": [
     "synthetic formal wire is not provider capability or answer quality",
     "full scalar projection is not a fresh vector or all business database scan",
     "gateway paid output and cost hard upper bounds unknown",
     "exact HTTP cost and reasoning details null without evidence",
-    "early red-green terminal outputs were not retrospectively converted into raw logs"
+    "early red-green terminal outputs were not retrospectively converted into raw logs",
+    "both development gates blocked and proof consumers rejected with HTTP 409",
+    "reviewers exact model and OS isolation not verified",
+    "047 review packets retain state and candidates but do not freeze frontend fixed clarification wording",
+    "raw scores unknown critical and applicability conflicts retained without a third vote"
   ],
   "private_evidence": {
     "output/m6-feedback-candidate-controller-20261104-r1/build_validation.py": "da87aad7cf34cc57e01fbd4a8310726700b18ada8ab7113e8e1d648060eb87ac",
@@ -126,7 +134,7 @@
     "output/m6-feedback-candidate-controller-20261104-r1/freeze-r3.log": "ed744206d6a3f672b86c9fdd36964a0b8038a0093f5a60e5b452d646faff8e18",
     "output/m6-feedback-candidate-controller-20261104-r1/freeze-r4.log": "ed744206d6a3f672b86c9fdd36964a0b8038a0093f5a60e5b452d646faff8e18",
     "output/m6-feedback-candidate-controller-20261104-r1/freeze-r5.log": "ed744206d6a3f672b86c9fdd36964a0b8038a0093f5a60e5b452d646faff8e18",
-    "output/m6-feedback-candidate-controller-20261104-r1/full_execution.py": "c556658d4db5a00588b6657d7dbcd519b2fe65811841dc316ce27445876c3b31",
+    "output/m6-feedback-candidate-controller-20261104-r1/full_execution.py": "e130ff1957b1731c47f62376464c5fc579e91068e5677bfdbcb2bb89ceefe3f5",
     "output/m6-feedback-candidate-controller-20261104-r1/integration.log": "834e7b474f8d347feb5635ce3b96329da2b14e0ab0a2a846431e9ed651d5b14e",
     "output/m6-feedback-candidate-controller-20261104-r1/integration.xml": "452339b8026016b89734221f6b110534c86c5065670cae6e80ee40ec550432e4",
     "output/m6-feedback-candidate-controller-20261104-r1/offline.log": "c5c522a776e93c4da241f7959e9c4042cef5ac47cc284a5486721efc56d1b3ce",
@@ -151,7 +159,7 @@
     "output/m6-feedback-candidate-controller-20261104-r1/publication-red.xml": "0c90710df64958c490548ed93aae63f1c532d3cbd5a275bbb95681917d653fe8",
     "output/m6-feedback-candidate-controller-20261104-r1/publication-timeout-red.log": "347eac3cb646da773d1f03b55bde4971a1593aefe7944b2f7f2dfd9edb80593c",
     "output/m6-feedback-candidate-controller-20261104-r1/publication-timeout-red.xml": "675d0a2beb133fb51b7666ffaa0d3278fff6d0b8f07c29a137281edf247229bf",
-    "output/m6-feedback-candidate-controller-20261104-r1/quality_closure.py": "9ecaee09eca17a8495e08b69f9dc352343f1ac3c669e8f1ba9ea01ba32ebd780",
+    "output/m6-feedback-candidate-controller-20261104-r1/quality_closure.py": "154d7eeb28ad50da422af38dac172727c1b7704ede79e19766eac423f014117d",
     "output/m6-feedback-candidate-controller-20261104-r1/readonly-runtime-preflight-r1.json": "9885af4232c91964d7e804bd28cb701ab5a231f798298aa91a962eafb2c9f029",
     "output/m6-feedback-candidate-controller-20261104-r1/readonly-runtime-preflight-r1.log": "4247db05fd3869a32fb904904fedbd356a72f23c6630825aac7e2c23d7d0a106",
     "output/m6-feedback-candidate-controller-20261104-r1/readonly_runtime_preflight.py": "c17476f81644f9891b7aa50d29b73edab0cb238b3be9f0e5f12f026ec304d953",
@@ -169,7 +177,7 @@
     "output/m6-feedback-candidate-controller-20261104-r1/update_navigation.py": "3e72ff289d7bbaad5bd6389bd84b2b82b28fd02692f34a70cc4798bef3ddae33"
   },
   "formal_execution": {
-    "status": "completed_awaiting_blind_quality",
+    "status": "completed_quality_blocked_and_halted",
     "candidates": [
       {
         "candidate": 1,
@@ -195,18 +203,198 @@
     "exact_cost": null
   },
   "blind_quality": {
-    "status": "round_1_started",
+    "status": "completed_sealed_submitted_attested",
     "round_1": "/root/feedback_full_blind_round1",
-    "round_2": null,
+    "round_2": "/root/feedback_full_blind_round2",
     "subjects": 170,
     "expected_judgments": 340,
     "source_physical_pages": 77,
-    "actual_answer_images": 0
+    "actual_answer_images": 0,
+    "sealed_judgments": 340,
+    "coordinator_modified_semantics": false,
+    "os_sandbox_verified": false,
+    "submitted_judgments": 340,
+    "independence_report": "docs/development/reviews/M6-feedback-candidate-blind-independence-r1.md",
+    "actually_viewed_physical_pages": [
+      16,
+      38
+    ],
+    "exact_reviewer_model": null,
+    "first_round_exact_START_timestamp": null
   },
   "private_execution_evidence": {
     "output/m6-feedback-candidate-controller-20261104-r1/execution-summary.json": "aa5fdc4510b10f6a713d452ad87b0abbf83a8d0d6381e79588bf2044d49d25b5",
     "output/m6-feedback-candidate-controller-20261104-r1/activity-generation-completed.json": "220db3c26a59f377d4c774daf5d4c0ae4a17703d395aee9101cdc1107c8108a3",
     "output/m6-feedback-candidate-controller-20261104-r1/round-1-begin.json": "5b5f782a01ef738f9c3b9f0c177c03516f1fd3759da4a8a83f83b88676f52560",
-    "output/m6-feedback-candidate-controller-20261104-r1/dispatch-preflight.json": "f8ed4aeffb60409d972eefd7dbc27c7b655fc1d9dfbea29c4f38289bd414b530"
-  }
+    "output/m6-feedback-candidate-controller-20261104-r1/dispatch-preflight.json": "f8ed4aeffb60409d972eefd7dbc27c7b655fc1d9dfbea29c4f38289bd414b530",
+    "output/m6-feedback-candidate-controller-20261104-r1/round-1-sealed.json": "2cd977796d0142c4d4c34555df0ef9b41e92bb340b1bda194f527c5d78791bea",
+    "output/m6-feedback-candidate-controller-20261104-r1/round-2-begin.json": "f186fa278abeda9a5d0bfe870a6e8f288cabeb52c5bdb47429b94f8ecf8c9f53",
+    "output/m6-feedback-candidate-controller-20261104-r1/round-1-provenance-coordinator-audit.json": "f6c58c08b491112e103a0453ab4c3d11a651316a1c5a2b18b9e23a71def453f7",
+    "output/m6-feedback-candidate-controller-20261104-r1/formal-generation-consumer-verification.json": "337bf77e9dbca72f89f63445a96fb42e1f2ba280e6c2a931e5a17e6b1c5d1c36",
+    "output/m6-feedback-candidate-controller-20261104-r1/post-generation-source-identity.json": "c5ddd3d3ea00afdcb35cdeb035c4e723c82e202fb5a86209b647f0e19393f816",
+    "output/m6-feedback-candidate-controller-20261104-r1/quality-closure-summary.json": "8f03337643f731adcd545a295c2af9357e795608d0493e9cda8b6d5c6391e8e6",
+    "output/m6-feedback-candidate-controller-20261104-r1/final-quality-closure-verification.json": "962945c61d47f82824968091b9b2888b9bb43fa8543efec3dfc28de88c6b021a",
+    "output/m6-feedback-candidate-controller-20261104-r1/blind-chain-coordinator-verification.json": "ff04518ea6a9a469f357875cc578fa8716338d2c3c3cbf217beb343063421973",
+    "output/m6-feedback-candidate-controller-20261104-r1/raw-quality-comparison-private.json": "f13b3b21ad8381f43e399ab4277715808c4e3a93422cb3a2a79bfb14b141399a",
+    "output/m6-feedback-candidate-controller-20261104-r1/round-2-sealed.json": "0ba77f2ca3681446a73134e0ec032aa12715bc0d7972874ebd3f04df1cf7a932",
+    "output/m6-feedback-candidate-controller-20261104-r1/round-1-submitted.json": "57d10c9d0041ed58b0a2288fcbfdd3aac01028eef7c32f272305afc12ce323e5",
+    "output/m6-feedback-candidate-controller-20261104-r1/round-2-submitted.json": "bebcaac003f2ade60c300151b7dc920ecdc6752dcb231be3d1d85c02327ee813",
+    "output/m6-feedback-candidate-controller-20261104-r1/round-2-provenance-coordinator-audit.json": "ca01680d690a860da64b5f9e2465634abbc32513f11ac90f7b35f141e620a42d",
+    "output/m6-feedback-candidate-controller-20261104-r1/final-quality-ledger-private.json": "b643ea4c3479eba1f1c9547207bd6437dd9db20af94b132318375a16f065094a",
+    "output/m6-feedback-candidate-controller-20261104-r1/observed-quality-boundaries-private.json": "b51f1de9c657a199b814968cd4c0dda9737ba0247203c296da05e2605da2ec81"
+  },
+  "formal_generation_consumer_verification": {
+    "status": "passed",
+    "candidates": [
+      {
+        "candidate": 1,
+        "members": 85,
+        "links": 85,
+        "matching_frozen_inputs": 84,
+        "provider_streams": 84,
+        "clarifications": 1,
+        "baseline_calibration_valid": true,
+        "regression_source_valid": true
+      },
+      {
+        "candidate": 2,
+        "members": 85,
+        "links": 85,
+        "matching_frozen_inputs": 84,
+        "provider_streams": 84,
+        "clarifications": 1,
+        "baseline_calibration_valid": true,
+        "regression_source_valid": true
+      }
+    ],
+    "members": 170,
+    "provider_streams": 168,
+    "independent_generation_inputs": 168,
+    "new_provider_calls": 0,
+    "ledger_state": "awaiting_quality_review",
+    "input_tokens": 809676,
+    "output_tokens": 30791
+  },
+  "post_generation_source_identity": {
+    "status": "passed",
+    "checked_files": 206,
+    "drift": [],
+    "independently_reviewed_code": "e6ad2c5a534331760c5a3fd86f6c577340153e49240f589bb9b8f4dbae30e6d1",
+    "provider_calls": 0,
+    "database_accesses": 0
+  },
+  "quality_closure": {
+    "status": "blocked",
+    "candidates": [
+      {
+        "candidate": 1,
+        "gate_status": "blocked",
+        "gate_reasons": [
+          "applicability_changed",
+          "quality_regression",
+          "review_pending_or_changed"
+        ],
+        "regression_dimensions": 22,
+        "regression_subjects": 13,
+        "incomplete_subjects": [
+          "m6-g540-unknown-01-a",
+          "m6-g540-unknown-02-a",
+          "m6-g540-unknown-02-b",
+          "m6-g540-unknown-03-a",
+          "m6-g540-unknown-04-a",
+          "m6-g540-unknown-04-b",
+          "m6-g540-unknown-05-a",
+          "support-v1-047"
+        ],
+        "critical_subjects": [],
+        "judgments": 170,
+        "proof_id": null,
+        "proof_rejection": {
+          "status": 409,
+          "code": "regression_proof_invalid"
+        }
+      },
+      {
+        "candidate": 2,
+        "gate_status": "blocked",
+        "gate_reasons": [
+          "applicability_changed",
+          "critical_error",
+          "quality_regression",
+          "review_pending_or_changed"
+        ],
+        "regression_dimensions": 21,
+        "regression_subjects": 12,
+        "incomplete_subjects": [
+          "m6-g540-unknown-01-a",
+          "m6-g540-unknown-02-a",
+          "m6-g540-unknown-02-b",
+          "m6-g540-unknown-03-a",
+          "m6-g540-unknown-04-a",
+          "m6-g540-unknown-04-b",
+          "m6-g540-unknown-05-a",
+          "support-v1-047"
+        ],
+        "critical_subjects": [
+          "m6-g540-18-a",
+          "m6-g540-18-b"
+        ],
+        "judgments": 170,
+        "proof_id": null,
+        "proof_rejection": {
+          "status": 409,
+          "code": "regression_proof_invalid"
+        }
+      }
+    ],
+    "ledger_halted": true,
+    "cursor": 170,
+    "pending": null,
+    "unknown_windows": [],
+    "previous_accounts_unchanged": true,
+    "human_publication": "pending"
+  },
+  "final_quality_verification": {
+    "status": "passed",
+    "candidates": [
+      {
+        "candidate": 1,
+        "gate": "blocked",
+        "raw_judgments": 170,
+        "incomplete_subjects": 8,
+        "critical_subjects": 0,
+        "regression_dimensions": 22,
+        "regression_subjects": 13,
+        "current_proofs": 0,
+        "seals": 2,
+        "independence_attestations": 1
+      },
+      {
+        "candidate": 2,
+        "gate": "blocked",
+        "raw_judgments": 170,
+        "incomplete_subjects": 8,
+        "critical_subjects": 2,
+        "regression_dimensions": 21,
+        "regression_subjects": 12,
+        "current_proofs": 0,
+        "seals": 2,
+        "independence_attestations": 1
+      }
+    ],
+    "raw_judgments": 340,
+    "total_streams": 168,
+    "input_tokens": 809676,
+    "output_tokens": 30791,
+    "final_account": "blocked_and_halted",
+    "pending": null,
+    "unknown_windows": [],
+    "previous_accounts_unchanged": true,
+    "new_provider_calls": 0,
+    "heldout_or_m7_started": false,
+    "stage": "5/7",
+    "M6_05": "open",
+    "M6_08": "open"
+  },
+  "private_evidence_snapshot_note": "final current file-byte snapshot; earlier helper revisions and original failures remain in Git/history or retained logs as documented"
 }
