@@ -202,6 +202,7 @@ def run_experiment(dataset, manifest, config, output, executor, *, should_cancel
                 cancelled = True
                 break
             started = time.perf_counter()
+            stop_batch = False
             record = {'id': qid, 'config_sha256': digest, 'category': question['category'],
                       'attempt': by_id.get(qid, {}).get('attempt', 0) + 1}
             try:
@@ -242,6 +243,12 @@ def run_experiment(dataset, manifest, config, output, executor, *, should_cancel
                     record['label_eligible'] = is_label_eligible(question)
                 record.update(status='completed', result=result, metrics=metric_row)
             except Exception as exc:
+                stop_batch = getattr(exc, 'stop_batch', False) is True
+                contract = config.get('parameters', {}).get('answer_budget', {}).get('output_contract')
+                if (isinstance(contract, dict) and contract.get('enabled') is True and
+                        contract.get('function_version') == 'diagnostic_feedback_candidate_manifest_r1'):
+                    # 首失败包括响应校验、JSON及指标后处理，不能只依赖生成器异常类型。
+                    stop_batch = True
                 record.update(status='failed', error={'type': type(exc).__name__})
                 if config.get('metric_schema_version') == 1:
                     from app.infrastructure.providers.policy import classify
@@ -260,6 +267,8 @@ def run_experiment(dataset, manifest, config, output, executor, *, should_cancel
             by_id[qid] = record
             results = [by_id[r['id']] for r in selected if r['id'] in by_id]
             save_results(output, results)
+            if stop_batch:
+                break
         results = [by_id[r['id']] for r in selected if r['id'] in by_id]
         # 尝试日志已落盘而汇总尚未替换时退出，也可无需重调模型重建结果。
         save_results(output, results)
@@ -279,6 +288,14 @@ def run_experiment(dataset, manifest, config, output, executor, *, should_cancel
 
 def select_questions(rows, config):
     selected = [row for row in rows if row['split'] == config['split']]
+    if 'dev_question_order' in config:
+        order = config['dev_question_order']
+        if (config['split'] != 'dev' or 'question_ids' in config or not isinstance(order, list) or
+                any(not isinstance(q, str) for q in order) or len(order) != len(set(order)) or
+                set(order) != {q['id'] for q in selected}):
+            raise ValueError('开发题顺序必须恰好覆盖完整dev范围，不能缩小或重复')
+        by_id = {q['id']: q for q in selected}
+        return [by_id[qid] for qid in order]
     if 'question_ids' not in config:
         return selected
     ids = config['question_ids']

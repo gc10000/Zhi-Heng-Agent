@@ -4,6 +4,8 @@ assistant-development-v1仍按已批准原字节/hash验证。两份docs/evaluat
 
 以下历史按原时点保留。
 
+本批独立170成功链已在补修前源码完整通过；随后整题后处理/发布出口4+6红测已补绿，最终源码309离线/152隔离Mongo通过，既定页面5项通过。最终r5已完整重冻，独立最终故障差异和输入重算已通过，95离线/77隔离Mongo/4正式故障绿；真实新调用/质量/proof仍0。
+
 ## 2026-11-03 · M6连接048新准入与完整输入包独立技术复核通过
 
 用户本轮明确授权后，未参与实现的独立Agent完成17103bf之后07e92c2、53ecbaa及本次补修定向审查。发现validate_candidate整块忽略输出合同，协调重算后错误端点/历史来源hash仍准入；独立2反例失败，总控只正规化enabled/admission、要求anchor完整关闭模板后，由原审查者复测关闭。总控实现侧76定向通过单列，不作独立证据。
@@ -550,3 +552,9 @@ MODEL_HOST桥接新增可选input_type=query/document，省略仍document兼容�
 
 
 2026-11-03 r2实际出口：本批已真实执行1stream并正式结算、来源review(true)、halt；恢复只观察相同Run，无第二stream。合同56239/30516是本批派发前历史值，实际累计现为59589/30583；不得把当前关闭/已halt的r2身份当新额度或新授权。原输入r6、Git引用和receipt保留。
+
+## 2026-11-04 · 两版完整反馈候选专属合同
+
+diagnostic_feedback_candidate_manifest_r1固定两版各85道dev、170题级槽、168个provider stream上限和2条047零调用澄清。使用独立diagnostic_feedback_candidate_accounts共享CAS集合及目标库feedback_candidate_generation_inputs输入身份集合；备份此显式新合同Run须保留两者及本机排他证据目录，不为旧Run迁移/补建记录。授权正文和M6-feedback-stage-authorization-reference-r1.json分提交，引用固定LF，模块导入时冻结；缺失仍关闭，不能当作热撤销。来源消费者核已提交且覆盖当前源码的不同实现身份技术报告。
+
+新增dev_question_order只允许恰好覆盖全部dev且不能与question_ids并用，支持048优先而不缩小质量范围。生产清单重算完整标量、原题路由/产品/修订及168精确prompt；运行前仍核现场完整语料与runtime，调用前输入先持久。在途halt返回409，不宣称网络已停止；恢复只观察、不重发，未知在途保留pending/unknown。全部成功仅awaiting_quality_review，真实质量与正式proof独立判断。本包不新增环境变量、浏览器API或默认启用项，.env.example无新增配置。

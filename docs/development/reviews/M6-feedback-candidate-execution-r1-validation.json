@@ -1,0 +1,161 @@
+{
+  "kind": "m6_feedback_candidate_execution_validation_r1",
+  "date": "2026-11-04",
+  "implementation_identity": "coordinator",
+  "source_code_sha256": "e6ad2c5a534331760c5a3fd86f6c577340153e49240f589bb9b8f4dbae30e6d1",
+  "user_authorization": {
+    "complete_candidates": 2,
+    "dev_per_candidate": 85,
+    "max_provider_streams": 168,
+    "zero_call_clarifications": 2,
+    "new_input_budget": 4773888,
+    "new_output_budget": 688128,
+    "technical_reviewer_agents": 1,
+    "sequential_fresh_blind_review_agents": 2,
+    "total_quality_judgments": 340,
+    "stop_on_first_failure": true,
+    "sdk_retries": 0,
+    "unknown_cost_hard_limits_accepted": true
+  },
+  "self_validation": {
+    "offline": {
+      "tests": 309,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integration": {
+      "tests": 152,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "frontend": {
+      "startTime": "2026-11-04T02:46:01.217Z",
+      "duration": 38809.956999999995,
+      "expected": 5,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "runner_postprocessing": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "job_publication": {
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "evidence_counting": "earlier and directed suites overlap; no unique sum",
+    "existing_warnings": 1
+  },
+  "production_inputs": {
+    "status": "passed",
+    "members": 170,
+    "generated": 168,
+    "clarifications": 2,
+    "production_prompts_frozen": 168,
+    "full_scalar_members": 582,
+    "live_scalar_queries": 4,
+    "new_provider_streams": 0,
+    "new_local_inference": 0,
+    "formal_experiments": 0,
+    "production_manifest_sha256": "b0ad2650d3fe7675cb5bacd0d4e8cff9725f669d948b4b93092720fef7c1d867",
+    "file_sha256": "efe350e63f3f6f18c02a52d3cbfee6ca8f8400c9918124a81c357a13a756454b",
+    "code": "e6ad2c5a534331760c5a3fd86f6c577340153e49240f589bb9b8f4dbae30e6d1"
+  },
+  "private_production_manifest": {
+    "path": "output/m6-feedback-candidate-full-20261104-r5/production-manifest-private.json",
+    "sha256": "efe350e63f3f6f18c02a52d3cbfee6ca8f8400c9918124a81c357a13a756454b"
+  },
+  "independent_technical_review": {
+    "status": "passed_with_specific_boundaries",
+    "reviewer": "/root/independent_048_admission_review",
+    "implementation_participation": false,
+    "report": "docs/development/reviews/M6-feedback-candidate-independent-review-r1.json",
+    "report_sha256": "99e4c32bd314a7aca7b19ea05a330c33ae1c39557d427fd410ea85c060edab45"
+  },
+  "new_actual_activity": {
+    "provider_streams": 0,
+    "formal_experiments": 0,
+    "quality_judgments": 0,
+    "proofs": 0
+  },
+  "stage": {
+    "M6": "5/7",
+    "M6_04": "accepted_unchanged",
+    "M6_05": "open",
+    "M6_08": "open",
+    "M7": "not_authorized"
+  },
+  "limits": [
+    "synthetic formal wire is not provider capability or answer quality",
+    "full scalar projection is not a fresh vector or all business database scan",
+    "gateway paid output and cost hard upper bounds unknown",
+    "exact HTTP cost and reasoning details null without evidence",
+    "early red-green terminal outputs were not retrospectively converted into raw logs"
+  ],
+  "private_evidence": {
+    "output/m6-feedback-candidate-controller-20261104-r1/build_validation.py": "da87aad7cf34cc57e01fbd4a8310726700b18ada8ab7113e8e1d648060eb87ac",
+    "output/m6-feedback-candidate-controller-20261104-r1/final-integration-r2.log": "956b0539f7c62b185c64641beaf5e540434d2ba93f9588081f26dfd4c2809c90",
+    "output/m6-feedback-candidate-controller-20261104-r1/final-integration-r2.xml": "005df56157b4f5fd1b8257cdaca28a8ba0cc3007b0a23d7fd37678a4a0877485",
+    "output/m6-feedback-candidate-controller-20261104-r1/final-integration-r3.log": "84e896be55dd76134a67f30e0b40d9c47661a7e4e3899cfaf692094a9ef6ef0b",
+    "output/m6-feedback-candidate-controller-20261104-r1/final-integration-r3.xml": "409b9e22b7aa29a0dd72915cd7df04ba9f122e5fd456c1bf6e272f62005c0316",
+    "output/m6-feedback-candidate-controller-20261104-r1/final-integration.log": "3c62dec50afb1cacc7afc220ee98f38b340bb526a34129b69f61b49da2f8e558",
+    "output/m6-feedback-candidate-controller-20261104-r1/final-integration.xml": "9302598cda8f25d5d770c84b5810c396d7836c7142527a86a924c86595ae667a",
+    "output/m6-feedback-candidate-controller-20261104-r1/final-offline-r2.log": "c2b8a3186fd5f36b280702210bacea01c86f432f3466a1d2ffcd1cc1717d4c45",
+    "output/m6-feedback-candidate-controller-20261104-r1/final-offline-r2.xml": "7ec348f3b9f416e9d9c4c1329853a465b08335e009b680af9be20fbca189331f",
+    "output/m6-feedback-candidate-controller-20261104-r1/final-offline-r3.log": "71cdd29624a40014979cf1206ea52c8c288aaf319917770a8f7585eb0548957e",
+    "output/m6-feedback-candidate-controller-20261104-r1/final-offline-r3.xml": "56ff31b3b4012fb0778edc49ba1045307286d33155b1bbd0f4cc480343cd3a74",
+    "output/m6-feedback-candidate-controller-20261104-r1/final-offline.log": "4374f06b02c1a89bebe584e08f833baf5a47728c36f74ddc239dab0a4e9e4db5",
+    "output/m6-feedback-candidate-controller-20261104-r1/final-offline.xml": "2884a836ac8d35c3f6f0e5b02f7793cae0fa26afce13c174eeaeec78b8be2d3b",
+    "output/m6-feedback-candidate-controller-20261104-r1/freeze-r3.log": "ed744206d6a3f672b86c9fdd36964a0b8038a0093f5a60e5b452d646faff8e18",
+    "output/m6-feedback-candidate-controller-20261104-r1/freeze-r4.log": "ed744206d6a3f672b86c9fdd36964a0b8038a0093f5a60e5b452d646faff8e18",
+    "output/m6-feedback-candidate-controller-20261104-r1/freeze-r5.log": "ed744206d6a3f672b86c9fdd36964a0b8038a0093f5a60e5b452d646faff8e18",
+    "output/m6-feedback-candidate-controller-20261104-r1/full_execution.py": "c556658d4db5a00588b6657d7dbcd519b2fe65811841dc316ce27445876c3b31",
+    "output/m6-feedback-candidate-controller-20261104-r1/integration.log": "834e7b474f8d347feb5635ce3b96329da2b14e0ab0a2a846431e9ed651d5b14e",
+    "output/m6-feedback-candidate-controller-20261104-r1/integration.xml": "452339b8026016b89734221f6b110534c86c5065670cae6e80ee40ec550432e4",
+    "output/m6-feedback-candidate-controller-20261104-r1/offline.log": "c5c522a776e93c4da241f7959e9c4042cef5ac47cc284a5486721efc56d1b3ce",
+    "output/m6-feedback-candidate-controller-20261104-r1/offline.xml": "c4d41e0d308536170805532309c943397eae343dd43d4566c2cb7abcd6380315",
+    "output/m6-feedback-candidate-controller-20261104-r1/openapi.log": "202ba7ad8b14140e9a093015d483c02f400408db1a052ec482d08bff2bd457ef",
+    "output/m6-feedback-candidate-controller-20261104-r1/openapi.xml": "995b98404b1e664c4c376fc9d403d418977700c245918e85d4e1516c7b2e119c",
+    "output/m6-feedback-candidate-controller-20261104-r1/plan-and-lf-green.log": "1902985be141349caed779ec516768a5367428c64d25787260655d5fa0638440",
+    "output/m6-feedback-candidate-controller-20261104-r1/postprocess-green.log": "af850ed23ea6fc43da143e0ef9727a8c39aaf28e731945d761e77ab2f880ec54",
+    "output/m6-feedback-candidate-controller-20261104-r1/postprocess-green.xml": "4251ea436a8fb21cbc3f352f0953e3e561068a0996c5fe11fb53cb012c185b13",
+    "output/m6-feedback-candidate-controller-20261104-r1/postprocess-red.log": "c114503c64e8fb5459fd1667c6897481e0a77346fad5895c95e474ae288fdc40",
+    "output/m6-feedback-candidate-controller-20261104-r1/postprocess-red.xml": "5b3e6aeb500c3dea7924ac806dc4e015fa349bd323c188f39fa1e81acc251823",
+    "output/m6-feedback-candidate-controller-20261104-r1/prepare_blind.py": "9d5641797138d5de00c48b0c222f57e0aca92b8ae61fc3fab53a9f27996d34dc",
+    "output/m6-feedback-candidate-controller-20261104-r1/publication-green.log": "6827cd6ef3c09561bc0b730cd831be464a3c1ac718edc86963c6d8ee0f235208",
+    "output/m6-feedback-candidate-controller-20261104-r1/publication-green.xml": "9d57728767cd8b0a8bea923a7930771570f623e87dbf059e76fd5345f1b09324",
+    "output/m6-feedback-candidate-controller-20261104-r1/publication-in-flight-red.log": "3f70c8951dc7c4bf404ef9f403c80954af0e22e55ee3bb89e11c13ea2350fdf9",
+    "output/m6-feedback-candidate-controller-20261104-r1/publication-in-flight-red.xml": "ee03116bafb94a244cbe3eb7f8f810c7ec8db7fdc43447544ba905e807942986",
+    "output/m6-feedback-candidate-controller-20261104-r1/publication-red-r2.log": "34360a21e2a7122670b2646d2693d325ec7fd6d5dd5494671eb1a5b3c6a862a9",
+    "output/m6-feedback-candidate-controller-20261104-r1/publication-red-r2.xml": "9f3773f72c9777e2eef9c4f07d1e99a48b8264aa08f235c44a7234d19cf4e1bc",
+    "output/m6-feedback-candidate-controller-20261104-r1/publication-red-r3.log": "519c603fceab4483e59a109f9f4c7ab6e90411125be19e72a08e377cc4efdcb4",
+    "output/m6-feedback-candidate-controller-20261104-r1/publication-red-r3.xml": "89249e8eb774aefc51e6de85c9f4fdf19e3e21eb706750d07e8952dc5ef0f276",
+    "output/m6-feedback-candidate-controller-20261104-r1/publication-red.log": "adc8f08a97aee0e9ddfba6258da54e21519f22a874e5a8249c3fccef2c9f9869",
+    "output/m6-feedback-candidate-controller-20261104-r1/publication-red.xml": "0c90710df64958c490548ed93aae63f1c532d3cbd5a275bbb95681917d653fe8",
+    "output/m6-feedback-candidate-controller-20261104-r1/publication-timeout-red.log": "347eac3cb646da773d1f03b55bde4971a1593aefe7944b2f7f2dfd9edb80593c",
+    "output/m6-feedback-candidate-controller-20261104-r1/publication-timeout-red.xml": "675d0a2beb133fb51b7666ffaa0d3278fff6d0b8f07c29a137281edf247229bf",
+    "output/m6-feedback-candidate-controller-20261104-r1/quality_closure.py": "9ecaee09eca17a8495e08b69f9dc352343f1ac3c669e8f1ba9ea01ba32ebd780",
+    "output/m6-feedback-candidate-controller-20261104-r1/readonly-runtime-preflight-r1.json": "9885af4232c91964d7e804bd28cb701ab5a231f798298aa91a962eafb2c9f029",
+    "output/m6-feedback-candidate-controller-20261104-r1/readonly-runtime-preflight-r1.log": "4247db05fd3869a32fb904904fedbd356a72f23c6630825aac7e2c23d7d0a106",
+    "output/m6-feedback-candidate-controller-20261104-r1/readonly_runtime_preflight.py": "c17476f81644f9891b7aa50d29b73edab0cb238b3be9f0e5f12f026ec304d953",
+    "output/m6-feedback-candidate-controller-20261104-r1/review_transport.py": "b0a463070c9fbc2b5ac2495d6c73d44636272653f6345efddf1984a7667f48a7",
+    "output/m6-feedback-candidate-controller-20261104-r1/run_checks.py": "61c0cf39b2c60099902e89ffe9839c736fc45029318b92be8842f34ee4fb8c33",
+    "output/m6-feedback-candidate-controller-20261104-r1/run_final.py": "883c43e7037d9d02f1b4c39ca71c8f849fe6881225dc015e745c77c8dcb2d16b",
+    "output/m6-feedback-candidate-controller-20261104-r1/run_frontend.py": "8c80871b6f0c4f081cb6f81ccfc11bebe62126c42a7d5c451a14f1705828c562",
+    "output/m6-feedback-candidate-controller-20261104-r1/series-green.log": "d1db507fd54e961836a02eb2f5b4f354a3cda5bb7201422a67a6c6d5daea7f05",
+    "output/m6-feedback-candidate-controller-20261104-r1/series-green.xml": "4958f9448db382340e1c7e297361e48b17a9d73ea176e843a9ead2f639bbd46b",
+    "output/m6-feedback-candidate-controller-20261104-r1/series-red.log": "0efb1c19ead3656a188939c3b8a453e7a684516ba6ce9d7e2ec90a23723dcf3f",
+    "output/m6-feedback-candidate-controller-20261104-r1/series-red.xml": "5b54b141ead0c557dd114517ba0779c736c0751a6dcc91623b67d6d14553298b",
+    "output/m6-feedback-candidate-controller-20261104-r1/terminal-integration.log": "83b53e0b2f8b5435e4777d6a94cbbde79c27d7bb7f38d60d96ac1d59e1424808",
+    "output/m6-feedback-candidate-controller-20261104-r1/terminal-integration.xml": "f5fa4d22e650f2f67bced7dd60c7af06ffba369e02f9714925f1504ae4e2b76a",
+    "output/m6-feedback-candidate-controller-20261104-r1/update_final_preparation_docs.py": "9ff701bc292233842ea03a1617e238bdfda12f6aee46485f6e164ee7b8910edc",
+    "output/m6-feedback-candidate-controller-20261104-r1/update_navigation.py": "3e72ff289d7bbaad5bd6389bd84b2b82b28fd02692f34a70cc4798bef3ddae33"
+  }
+}

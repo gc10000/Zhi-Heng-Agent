@@ -1,6 +1,7 @@
 # 授权引用按Git原字节核验；Windows检出时保留LF，避免自动CRLF导致有效引用被拒绝。
 docs/development/reviews/M6-connection-comparison-048-authorization-reference-r1.json text eol=lf
 docs/development/reviews/M6-connection-comparison-048-authorization-reference-r2.json text eol=lf
+docs/development/reviews/M6-feedback-stage-authorization-reference-r1.json text eol=lf
 # 已批准开发政策以LF原字节冻结；新工作树不能因自动CRLF使合法校准失效。
 docs/evaluation/assistant-development-policy-proposal-v1.md text eol=lf
 docs/evaluation/assistant-development-policy-decision-v1.md text eol=lf

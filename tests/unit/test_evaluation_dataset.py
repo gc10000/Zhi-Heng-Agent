@@ -249,6 +249,50 @@ def test_cancelled_experiment_stops_at_question_boundary_and_keeps_completed_res
     assert report['summary']['missing_results'] == 1
 
 
+def test_fatal_batch_exception_stops_before_dispatching_the_next_question(tmp_path):
+    rows = [case('q1'), case('q2', group='g2')]
+    data, manifest, cfg = freeze(tmp_path, rows)
+    cfg.update(metric_schema_version=1, seed=11)
+    calls = []
+
+    class StopBatch(RuntimeError):
+        stop_batch = True
+
+    def execute(row):
+        calls.append(row['id'])
+        raise StopBatch('safe stop marker')
+
+    report = run_experiment(data, manifest, cfg, tmp_path / 'halted', execute)
+    assert calls == ['q1']
+    assert report['status'] == 'incomplete'
+    assert report['failed'] == 1 and report['completed'] == 0
+    assert report['summary']['missing_results'] == 1
+
+
+@pytest.mark.parametrize('fault',['executor','response','json','metric'])
+def test_candidate_first_failure_including_postprocessing_stops_entire_dispatch(tmp_path,monkeypatch,fault):
+    from app.evaluation import runner
+    data,manifest,cfg=freeze(tmp_path,[case('q1'),case('q2',group='g2')])
+    cfg.update(metric_schema_version=1,seed=11,
+        parameters=dict(answer_budget=dict(output_contract=dict(enabled=True,
+            function_version='diagnostic_feedback_candidate_manifest_r1'))))
+    calls=[]
+    def execute(question):
+        calls.append(question['id'])
+        if fault=='executor': raise ValueError('synthetic executor failure')
+        if fault=='response': return dict(answer=None,citations=[])
+        result=dict(answer='合成正文',citations=[])
+        if fault=='json': result['bad_number']=float('nan')
+        return result
+    if fault=='metric':
+        def fail(*a,**kw):raise ValueError('synthetic metrics failure')
+        monkeypatch.setattr(runner,'evidence_metrics',fail)
+    report=runner.run_experiment(data,manifest,cfg,tmp_path/'candidate-first-fault',execute)
+    assert calls==['q1']
+    assert report['status']=='incomplete' and report['failed']==1
+    assert report['summary']['missing_results']==1
+
+
 def test_m6_timeout_keeps_safe_retry_classification_and_no_private_error_text(tmp_path):
     data, manifest, cfg = freeze(tmp_path, [case()])
     cfg.update(metric_schema_version=1, seed=11)

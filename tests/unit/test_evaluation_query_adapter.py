@@ -36,6 +36,47 @@ def test_resource_factory_receives_validated_isolation_target():
     assert calls == ['m1_test_m4_adapter']
 
 
+@pytest.mark.parametrize('question,route', [('G540系列支持什么连接？','series'), ('小甲如何连接？','answer')])
+def test_projection_preserves_frozen_series_and_aliases_for_ordinary_routes(question, route):
+    from tests.unit.test_comparison_answer_persistence import _projector_fixture
+    from app.retrieval.query_planner import plan_query, serialize_query_plan, comparison_target_identity
+    adapter,row = _projector_fixture()
+    products = [dict(product_id='p',model='G540A',aliases=['小甲'],series='G540'),
+        dict(product_id='q',model='G540B',aliases=[],series='G540')]
+    adapter.config['corpus'] = dict(snapshot=dict(products=products))
+    adapter.config['parameters']['evidence_attribution']['products'] = {p['product_id']:p['model'] for p in products}
+    adapter.products = {p['model']:p['product_id'] for p in products}
+    q = dict(question=question, product_names=[], history=[])
+    plan = plan_query(question,products)
+    assert plan.route == route
+    row.update(question=question,query_plan=serialize_query_plan(plan,include_comparison=True),
+        product_snapshot=dict(product_ids=list(plan.product_ids)), **comparison_target_identity(plan))
+    row.pop('comparison_answer')
+    result = adapter.project_result(row,question=q)
+    assert result['state']=='completed'
+    assert 'comparison_summary' not in result
+
+
+@pytest.mark.parametrize('text,route', [('MateDock 3的USB-C充电口能传数据吗？','answer'),
+    ('MateDock 2的HDMI和VGA能并行输出吗？','answer'), ('华为蓝牙鼠标怎样进入配对？','series')])
+def test_projection_uses_brand_for_frozen_accessory_and_brand_scope(text,route):
+    from tests.unit.test_comparison_answer_persistence import _projector_fixture
+    from app.retrieval.query_planner import plan_query,serialize_query_plan,comparison_target_identity
+    adapter,row=_projector_fixture()
+    products=[dict(product_id='p',model='华为擎云 G540',brand='华为',series=None,aliases=[]),
+        dict(product_id='q',model='AX100',brand='合成',series=None,aliases=[])]
+    adapter.config['corpus']=dict(snapshot=dict(products=products))
+    adapter.config['parameters']['evidence_attribution']['products']={p['product_id']:p['model'] for p in products}
+    adapter.products={p['model']:p['product_id'] for p in products}
+    question=dict(question=text,product_names=[],history=[])
+    plan=plan_query(text,products)
+    assert plan.route==route
+    row.update(question=text,query_plan=serialize_query_plan(plan,include_comparison=True),
+        product_snapshot=dict(product_ids=list(plan.product_ids)),**comparison_target_identity(plan))
+    row.pop('comparison_answer')
+    assert adapter.project_result(row,question=question)['state']=='completed'
+
+
 
 def test_configured_m4_strategy_is_validated_then_reaches_resource_boundary():
     cfg=config();cfg.update(strategy='m4-configured',parameters=dict(retrieval=dict(fusion='rrf')))

@@ -1,0 +1,7 @@
+# M6完整候选包接续记录
+
+2026-11-04，当前工作树`m6-source-bound-comparison`，分支`codex/m6-source-bound-comparison`；启动HEAD及origin为88592b3399a71667f113ebc9bc418a8741b13a6b。本轮已获两版各85题/168stream及技术复核、顺序双盲170×2明确授权，不再要求用户重新确认。
+
+已补齐新范围合同、生产清单消费者、共享CAS及完整故障/观察恢复；已完成最终309离线、152隔离Mongo，r5完整582来源/168精确prompt/2澄清重冻。独立审查仍在最终异常出口及r5核验；真实新调用/正式候选/评分/proof均0。详见[执行报告](../reviews/M6-feedback-candidate-execution-r1.md)。
+
+下一动作：收取不同实现身份的最终技术报告，提交准入与报告；新批授权正文及Git引用分两次提交；运行临发准备和正式执行；如全部结果有效，依次启动两个新审核Agent并运输其原始判断；实际gate/proof及阶段矩阵收敛。不得改旧分、旧blocked、租约或槽，不覆盖历史output/tmp。M6保持5/7，05/08open，heldout/M7不启动。

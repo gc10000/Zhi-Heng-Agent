@@ -56,7 +56,7 @@ class EvaluationService:
                 comparison_contract = parse_contract(output_contract)
             except (TypeError, ValueError):
                 raise APIError(422, 'comparison_admission_required', '比较答复风险准入版本未登记或合同无效，暂停登记实验。') from None
-            allowed = (('diagnostic_connection_comparison_048_v1',)
+            allowed = (('diagnostic_connection_comparison_048_v1', 'diagnostic_feedback_candidate_manifest_r1')
                 if comparison.get('function_version') == 'connection_comparison_v1' else
                 ('diagnostic_comparison_answer_048_v1','diagnostic_comparison_answer_048_v2'))
             if (not comparison_contract.enabled or
@@ -75,6 +75,14 @@ class EvaluationService:
         elif is_product_risk(output_contract):
             from app.infrastructure.providers.output_contract import risk_handler
             risk_handler(output_contract).validate_config(resolved['config'],self.repo.db.name)
+        if (isinstance(output_contract, dict) and output_contract.get('enabled') and
+                output_contract.get('function_version') == 'diagnostic_feedback_candidate_manifest_r1'):
+            from app.infrastructure.providers.m6_feedback_candidate_risk import validate_request
+            try:
+                validate_request(resolved['config'], data)
+            except (ValueError, KeyError, OSError):
+                raise APIError(422, 'candidate_request_admission_required',
+                    '完整候选请求与专属授权清单不一致。') from None
         if data.get('quality_policy') != resolved['config'].get('quality_policy'):
             raise APIError(409,'quality_policy_mismatch','请求与冻结配置的政策身份不一致。')
         if data.get('quality_policy'):

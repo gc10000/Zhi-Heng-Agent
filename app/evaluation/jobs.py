@@ -43,11 +43,27 @@ def execute_job(repo, catalog, output_root, experiment_id, *, executor_factory=N
                 return
     thread = threading.Thread(target=heartbeat, daemon=True)
     thread.start()
+    candidate_contract = None
+    resolved = None
+    def seal_candidate(evidence):
+        if candidate_contract is None:
+            return
+        try:
+            from app.infrastructure.providers.m6_feedback_candidate_risk import FeedbackCandidateLedger
+            target = repo.db.client[resolved['config']['target']['database']]
+            FeedbackCandidateLedger(target, candidate_contract).recover_unknown(evidence)
+        except Exception as stop_error:
+            # 在途409保留unknown/pending；不假签halt，也不覆盖最初的执行错误。
+            logging.getLogger(__name__).error('反馈候选封存未确认，异常类型：%s', type(stop_error).__name__)
     try:
         if authorize_owner:
             authorize_owner(row)
         resolved = catalog.resolve(row['eval_set_id'], row['eval_set_version'], row['config_id'],
                                    row['config_version'], kb_id=row['kb_id'])
+        contract = resolved['config'].get('parameters', {}).get('answer_budget', {}).get('output_contract')
+        if (isinstance(contract, dict) and contract.get('enabled') is True and
+                contract.get('function_version') == 'diagnostic_feedback_candidate_manifest_r1'):
+            candidate_contract = contract
         if any(row[key] != resolved[key] for key in ('dataset_sha256', 'manifest_sha256', 'config_sha256')):
             raise ValueError('冻结身份发生变化，拒绝执行')
         if row.get('quality_policy')!=resolved['config'].get('quality_policy'):
@@ -102,12 +118,23 @@ def execute_job(repo, catalog, output_root, experiment_id, *, executor_factory=N
         if report['status'] == 'incomplete':
             failed = [r for r in results if r['status'] == 'failed']
             report['retryable'] = bool(failed) and all(r.get('error', {}).get('retryable') is True for r in failed)
-        repo.complete(experiment_id, attempt, token, report=report, questions=questions, results=results)
+        if candidate_contract is not None and report['status'] != 'completed':
+            report['retryable'] = False
+            seal_candidate(dict(status='candidate_report_not_completed', experiment_id=experiment_id,
+                report_status=report['status']))
+        published = repo.complete(experiment_id, attempt, token, report=report, questions=questions, results=results)
+        if candidate_contract is not None and (published is None or published.get('state') != 'completed'):
+            seal_candidate(dict(status='candidate_publication_not_completed', experiment_id=experiment_id,
+                published_state=published.get('state') if published else None))
     except Exception as exc:
         from app.infrastructure.providers.policy import classify
         code, retryable = classify(exc)
         if code == 'provider_unknown_error':
             code, retryable = 'evaluation_execution_failed', False
+        if candidate_contract is not None:
+            retryable = False
+            seal_candidate(dict(status='candidate_job_exception', experiment_id=experiment_id,
+                error_type=type(exc).__name__))
         repo.fail(experiment_id, attempt, token, error_code=code, retryable=retryable)
         logging.getLogger(__name__).error('评测执行失败，异常类型：%s', type(exc).__name__)
     finally:

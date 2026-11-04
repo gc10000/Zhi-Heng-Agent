@@ -160,6 +160,37 @@ class ConnectionComparison048Contract(NonthinkingManifestContract):
         return self
 
 
+FEEDBACK_CANDIDATE_VERSION = 'diagnostic_feedback_candidate_manifest_r1'
+FEEDBACK_CANDIDATE_BATCH = 'm6-feedback-candidate-full-r1'
+FEEDBACK_CANDIDATE_AUTHORIZATION_PATH = 'docs/development/reviews/M6-feedback-stage-authorization-r1.json'
+FEEDBACK_CANDIDATE_MEMBER_SLOTS = ('m6-feedback-stage-r1-v1', 'm6-feedback-stage-r1-v2')
+
+
+class FeedbackCandidateAdmission(SingleProductAdmission):
+    member_slot: Literal[FEEDBACK_CANDIDATE_MEMBER_SLOTS[0], FEEDBACK_CANDIDATE_MEMBER_SLOTS[1]]
+
+
+class FeedbackCandidateContract(NonthinkingManifestContract):
+    function_version: Literal[FEEDBACK_CANDIDATE_VERSION] = FEEDBACK_CANDIDATE_VERSION
+    admission: FeedbackCandidateAdmission | None = None
+
+    @model_validator(mode='after')
+    def fixed_full_candidate_profile(self):
+        if self.enabled and self.admission is None:
+            raise ValueError('完整反馈候选必须通过170成员专属范围准入')
+        if self.admission is not None and self.admission.authorization.path != FEEDBACK_CANDIDATE_AUTHORIZATION_PATH:
+            raise ValueError('完整反馈候选不能借用单题或其他Git授权')
+        expected = dict(status='unknown', semantics='unknown', evidence=None, n=1,
+            model='qwen3.8-flash', client_versions={'openai':'2.28.0','langchain-openai':'1.1.11'},
+            limit_field='max_completion_tokens', thinking=False, reasoning_budget=None,
+            per_request_total_output_tokens=4096, ledger_id=FEEDBACK_CANDIDATE_BATCH,
+            prior_input_tokens=0, prior_output_tokens=0, prior_source_sha256=None,
+            max_total_input_tokens=168*28416, max_total_output_tokens=168*4096)
+        if any(getattr(self,k) != v for k,v in expected.items()):
+            raise ValueError('完整反馈候选超出固定全范围profile或预算')
+        return self
+
+
 def parse_contract(value):
     kind=value.get('function_version') if isinstance(value,dict) else getattr(value,'function_version',None)
     return {'diagnostic_single_product_risk_v1':SingleProductRiskContract,
@@ -168,13 +199,14 @@ def parse_contract(value):
             'diagnostic_source_relation_048_v1':SourceRelation048Contract,
             'diagnostic_comparison_answer_048_v1':ComparisonAnswer048Contract,
             'diagnostic_comparison_answer_048_v2':ComparisonAnswer048V2Contract,
-            CONNECTION_048_VERSION:ConnectionComparison048Contract}.get(kind,OutputContract).model_validate(value)
+            CONNECTION_048_VERSION:ConnectionComparison048Contract,
+            FEEDBACK_CANDIDATE_VERSION:FeedbackCandidateContract}.get(kind,OutputContract).model_validate(value)
 
 
 def is_product_risk(value):
     if value is None:return False
     policy=parse_contract(value)
-    return policy.enabled and policy.function_version in ('diagnostic_single_product_risk_v1','diagnostic_remaining_manifest_r1','diagnostic_nonthinking_manifest_r1','diagnostic_source_relation_048_v1','diagnostic_comparison_answer_048_v1','diagnostic_comparison_answer_048_v2',CONNECTION_048_VERSION)
+    return policy.enabled and policy.function_version in ('diagnostic_single_product_risk_v1','diagnostic_remaining_manifest_r1','diagnostic_nonthinking_manifest_r1','diagnostic_source_relation_048_v1','diagnostic_comparison_answer_048_v1','diagnostic_comparison_answer_048_v2',CONNECTION_048_VERSION,FEEDBACK_CANDIDATE_VERSION)
 
 
 def risk_handler(value):
@@ -184,6 +216,9 @@ def risk_handler(value):
     if policy.function_version == CONNECTION_048_VERSION:
         from . import connection_comparison_048_risk
         return connection_comparison_048_risk
+    if policy.function_version == FEEDBACK_CANDIDATE_VERSION:
+        from . import m6_feedback_candidate_risk
+        return m6_feedback_candidate_risk
     if policy.function_version=='diagnostic_source_relation_048_v1':
         from . import source_relation_048_risk
         return source_relation_048_risk
@@ -337,6 +372,9 @@ class OutputLedger:
         if policy.enabled and policy.function_version == CONNECTION_048_VERSION:
             from .connection_comparison_048_risk import ConnectionComparison048Ledger
             return ConnectionComparison048Ledger(db,contract)
+        if policy.enabled and policy.function_version == FEEDBACK_CANDIDATE_VERSION:
+            from .m6_feedback_candidate_risk import FeedbackCandidateLedger
+            return FeedbackCandidateLedger(db,contract)
         if policy.enabled and policy.function_version=='diagnostic_source_relation_048_v1':
             from .source_relation_048_risk import SourceRelation048Ledger
             return SourceRelation048Ledger(db,contract)

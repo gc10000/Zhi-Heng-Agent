@@ -9,6 +9,27 @@ import subprocess
 from .validate_dataset import fingerprint
 
 
+def candidate_zero_generation(policy, question):
+    if not getattr(policy, 'enabled', False):
+        return False
+    if policy.function_version == 'diagnostic_remaining_manifest_r1':
+        from app.infrastructure.providers import remaining_risk
+        return not remaining_risk.sources(policy)[1]['expected_generation']
+    if policy.function_version == 'diagnostic_feedback_candidate_manifest_r1':
+        from app.infrastructure.providers import m6_feedback_candidate_risk
+        return not m6_feedback_candidate_risk.expected_generation(policy, question)
+    return False
+
+
+def require_zero_provider_calls(before, after):
+    keys = ('invoke_started', 'stream_started')
+    if (not isinstance(before, dict) or not isinstance(after, dict) or
+            any(type(before.get(key)) is not int or type(after.get(key)) is not int for key in keys) or
+            any(before[key] != after[key] for key in keys)):
+        raise ValueError('冻结澄清成员观察到provider调用，停止完整候选批次')
+    return True
+
+
 def accepted_dataset_document_matches(path, expected_sha256, *, root=None):
     """冻结审阅原字节或Git干净且仅行尾变化的检出副本可以接受。"""
     path = Path(path).resolve()
@@ -144,6 +165,15 @@ class RealQueryExecutor:
         if is_product_risk(from_config(self.config)):
             from app.infrastructure.providers.output_contract import risk_handler
             risk_handler(from_config(self.config)).validate_config(self.config,self.control_db.name,question=question)
+            output = from_config(self.config)
+            if output.get('function_version') == 'diagnostic_feedback_candidate_manifest_r1':
+                from app.infrastructure.providers.m6_feedback_candidate_risk import FeedbackCandidateLedger
+                checkpoint = self.checkpoints.find_one({'_id': fingerprint([self.config, question['id']])})
+                if not checkpoint or not checkpoint.get('run_id'):
+                    raise ValueError('完整候选成功检查点缺少原Run')
+                original = self.resources['runs'].get(self.user, checkpoint['run_id'])
+                FeedbackCandidateLedger(self.resources['db'], output).require_run_settled(
+                    original['run_id'], original['identity'])
         key = fingerprint([self.config,question['id']])
         saved = self.checkpoints.find_one({'_id':key})
         inputs = {k:question[k] for k in ('id','question','product_names','history')}
@@ -272,6 +302,27 @@ class RealQueryExecutor:
         self.products = {p['model']: p['product_id'] for p in g.products.collection.find({'owner_id': g.owner_id})}
 
     def __call__(self, question):
+        output = self.config.get('parameters', {}).get('answer_budget', {}).get('output_contract') or {}
+        if output.get('enabled') and output.get('function_version') == 'diagnostic_feedback_candidate_manifest_r1':
+            from app.infrastructure.providers.m6_feedback_candidate_risk import FeedbackCandidateLedger, CandidateBatchStop
+            ledger = FeedbackCandidateLedger(self.resources['db'], output)
+            ledger.initialize()
+            try:
+                result = self._execute_question(question)
+                run = self.resources['runs'].get(self.user, result['run_id'])
+                ledger.require_run_settled(run['run_id'], run['identity'])
+                return result
+            except Exception as exc:
+                try:
+                    ledger.recover_unknown(dict(status='first_candidate_failure', question_id=question['id'],
+                        error_type=type(exc).__name__))
+                except Exception:
+                    # 在途/存储失败也必须停止runner；保留首异常，不制造成功halt。
+                    pass
+                raise CandidateBatchStop('完整反馈候选首失败停止，不派发下一题。') from exc
+        return self._execute_question(question)
+
+    def _execute_question(self, question):
         from app.infrastructure.providers.output_contract import from_config,is_product_risk
         if is_product_risk(from_config(self.config)):
             from app.infrastructure.providers.output_contract import risk_handler
@@ -382,14 +433,21 @@ class RealQueryExecutor:
                 if is_product_risk(output):
                     from app.infrastructure.providers.output_contract import parse_contract,OutputLedger
                     policy=parse_contract(output)
-                    if policy.function_version=='diagnostic_remaining_manifest_r1':
-                        from app.infrastructure.providers.remaining_risk import sources
-                        if not sources(policy)[1]['expected_generation']:
-                            zero_account=OutputLedger(self.resources['db'],output)
-                            zero_account.begin(rid,persistent_run['identity'],input_reservation=0,
-                                risk_context=self.resources['query_runner'].risk_context,zero_generation=True)
+                    if candidate_zero_generation(policy,question):
+                        zero_account=OutputLedger(self.resources['db'],output)
+                        zero_account.begin(rid,persistent_run['identity'],input_reservation=0,
+                            risk_context=self.resources['query_runner'].risk_context,zero_generation=True)
                 self.resources['query_runner'].execute(rid)
                 if zero_account is not None:
+                    policy = parse_contract(output)
+                    if policy.function_version == 'diagnostic_feedback_candidate_manifest_r1':
+                        counts_after = self.resources['provider_counts'].snapshot()
+                        try:
+                            require_zero_provider_calls(counts_before, counts_after)
+                        except ValueError:
+                            zero_account.halt(dict(status='blocked_unexpected_provider_call',
+                                question_id=question['id'], before=counts_before, after=counts_after))
+                            raise
                     zero_run=self.resources['runs'].get(self.user,rid)
                     zero_account.settle_clarification(zero_run,self.project_result(zero_run,question=question))
                     zero_account.require_open()
@@ -462,8 +520,15 @@ class RealQueryExecutor:
             from app.answering.evidence_attribution import EvidenceAttributionPolicy
             from app.retrieval.query_planner import plan_query,comparison_target_identity
             policy=EvidenceAttributionPolicy.model_validate(attribution)
-            products=[dict(product_id=pid,model=label,aliases=[])
-                for pid,label in policy.products.items()]
+            products=self.config.get('corpus',{}).get('snapshot',{}).get('products')
+            if products is None:
+                # 兼容不含真实语料快照的旧隔离夹具；正式执行已要求完整snapshot。
+                products=[dict(product_id=pid,model=label,aliases=[])
+                    for pid,label in policy.products.items()]
+            elif (not isinstance(products,list) or
+                    len({p['product_id'] for p in products})!=len(products) or
+                    {p['product_id']:p['model'] for p in products}!=policy.products):
+                raise ValueError('结果重规划的完整冻结产品目录与来源策略不一致')
             try:
                 product_ids=[self.products[name] for name in question.get('product_names',[])]
             except KeyError:
