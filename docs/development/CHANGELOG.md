@@ -1,3 +1,7 @@
+## 2026-11-04 · 规划M7 Linux与真实演示完整接续包
+
+新增[完整执行Prompt](handoffs/M7-operational-closure-execution-r1.md)和[计划](../superpowers/plans/2026-11-04-m7-operational-closure-r1.md)。建议8槽真实演示/恢复/1-2-4会话、现有WSL Ubuntu实测及发布准备一次推进；新增调用、本地推理和1名审查者均须用户明确采用后才授权，本轮未执行。现有r3独立结论和M6债务保持。
+
 ## 2026-11-04 · M7 r3限定独立技术通过并归档
 
 唯一独立审查者完成签字，最终实现b4d3ec77的本机内部候选定向技术通过，R1/R2独立复测关闭；独立37通过/1Windows skip，Linux对应检查通过。总控核报告/47份证据hash并归档，源码与镜像保持；[独立报告](reviews/M7-candidate-independent-review-r1.md)。M6债务、Ubuntu/真实模型/生产恢复/许可与完整阶段验收限制保持，不替代公开发布授权。

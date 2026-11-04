@@ -1,3 +1,9 @@
+## 2026-11-04 · 下一工作包已规划：Linux与8槽真实演示（未授权执行）
+
+用户要求给出下一执行Agent完整Prompt；已保存[接续Prompt](handoffs/M7-operational-closure-execution-r1.md)及[执行计划](../superpowers/plans/2026-11-04-m7-operational-closure-r1.md)。建议连续完成现有Ubuntu WSL路径、真实1/2/4会话7次及恢复后1次问答、浏览器闭环、许可/SBOM与生产差距材料；不重开M6全量复评。建议新增最多8个provider stream（输入227328/输出32768预算、未知硬限明示）、有限本地embedding/reranker及1名新独立审查者，只有用户明确采用Prompt并要求执行才生效。本轮仅规划与只读核验，未启动Ubuntu/模型/新Agent，不能把规划文档或Git提交消费为调用授权。
+
+现场只读发现已有Ubuntu发行版Stopped/WSL2，Docker context desktop-linux、daemon Docker Desktop；下一Agent须明确WSL兼容与原生Ubuntu服务器实测差别。原r3限定独立结论、18080生成关闭、M6 5/7与blocked/0proof保持。以下历史按原时点保留。
+
 ## 2026-11-04 · M7本机内部候选独立技术复核完成，r3补修关闭
 
 唯一获授权且未参与实现的`/root/independent_m7_candidate_review`已签署[独立报告](reviews/M7-candidate-independent-review-r1.md)及[脱敏JSON](reviews/M7-candidate-independent-review-r1.json)。结论仅覆盖最终实现`b4d3ec77ed49d090766072fa3e1fa04386db9b16`对应的本机内部候选：定向技术通过，R1恢复任务共享目标覆盖（P1）、R2合法65至1000重排候选桥接422（P2）均独立实红→总控补修→原审查者复测关闭，open_findings为空。独立定向37通过/1Windows符号链接skip，Linux镜像对应边界通过；独立核源码277文件/镜像/三服务绑定、真实Nginx终态前SSE和权限/Range。实现方42通过/1skip、r3容器74通过另列，不冒充独立重跑、不累加重叠组数。
