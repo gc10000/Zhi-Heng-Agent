@@ -1,0 +1,91 @@
+{
+  "kind": "coordinator_scoped_m6_feedback_candidates_authorization",
+  "status": "authorized_for_two_complete_dev_candidates",
+  "admission_version": "diagnostic_feedback_candidate_manifest_r1",
+  "fixed_batch_slot": "m6-feedback-candidate-full-r1",
+  "candidate_slots": [
+    "m6-feedback-stage-r1-v1",
+    "m6-feedback-stage-r1-v2"
+  ],
+  "max_provider_streams": 168,
+  "new_input_budget": 4773888,
+  "new_output_budget": 688128,
+  "stop_on_first_failure": true,
+  "sdk_max_retries": 0,
+  "heldout_selected": 0,
+  "old_43_question_batch_started": false,
+  "m7_started": false,
+  "production_manifest": {
+    "path": "output/m6-feedback-candidate-full-20261104-r5/production-manifest-private.json",
+    "sha256": "efe350e63f3f6f18c02a52d3cbfee6ca8f8400c9918124a81c357a13a756454b"
+  },
+  "production_manifest_sha256": "b0ad2650d3fe7675cb5bacd0d4e8cff9725f669d948b4b93092720fef7c1d867",
+  "independent_technical_review": {
+    "commit": "4d307e7e41161f9b6f101c2afbd43504df32f835",
+    "path": "docs/development/reviews/M6-feedback-candidate-independent-review-r1.json",
+    "sha256": "14a89071d04886d7288b570cba2c9423d7d335709bfd712c005c5ca5fc587b8c"
+  },
+  "previous_accounts": [
+    {
+      "database": "product_knowledge_rag_m6_eval_control",
+      "collection": "diagnostic_comparison_answer_048_v2_accounts",
+      "snapshot": {
+        "path": "output/m6-feedback-candidate-controller-20261104-r1/previous-account-1-private.json",
+        "sha256": "b72476f87c64eafaee604efb5f2f5500de564e1b20f7ae45cd2e51fe613595ae"
+      }
+    },
+    {
+      "database": "product_knowledge_rag_m6_eval_control",
+      "collection": "diagnostic_connection_comparison_048_accounts",
+      "snapshot": {
+        "path": "output/m6-feedback-candidate-controller-20261104-r1/previous-account-2-private.json",
+        "sha256": "e8c2a5385480642afb24808eaa903923219b3b0a990ccdf95df487992b7dcac2"
+      }
+    }
+  ],
+  "runtime": {
+    "n": 1,
+    "model": "qwen3.8-flash",
+    "endpoint_sha256": "7cbf2306d7facc55fd08ea52e1d6891e0dc6bc6af6d5442df34f17403670ad2a",
+    "client_versions": {
+      "openai": "2.28.0",
+      "langchain-openai": "1.1.11"
+    },
+    "limit_field": "max_completion_tokens",
+    "requested_total_output_tokens": 4096,
+    "thinking": false,
+    "temperature": 0.1,
+    "timeout_seconds": 120,
+    "sdk_max_retries": 0,
+    "stream": true
+  },
+  "budget": {
+    "context_window": 32768,
+    "output_tokens_requested": 4096,
+    "reserve_tokens": 256,
+    "max_chars": 12000,
+    "single_input_limit": 28416,
+    "max_new_product_streams": 168,
+    "max_members": 170,
+    "max_attempts_per_member": 1
+  },
+  "user_confirmation": {
+    "date": "2026-11-04",
+    "timezone": "Asia/Shanghai",
+    "answer": "授权上述完整候选与独立审查包",
+    "scope": "两版各85道dev题，168个stream上限及两个零调用澄清；两个新Agent依次盲审340判断；正式proof与阶段判定",
+    "gateway_paid_output_and_cost_hard_limits": "unknown_accepted",
+    "exact_http_requests_not_guaranteed": true,
+    "no_retry": true,
+    "no_old_slot_reuse": true
+  },
+  "restrictions": {
+    "heldout": false,
+    "m7": false,
+    "old_43": false,
+    "baseline_rerun": false,
+    "exact_http_requests": null,
+    "exact_cost": null,
+    "reasoning_detail": null
+  }
+}
