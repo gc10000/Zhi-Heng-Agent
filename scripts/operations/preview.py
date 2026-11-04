@@ -40,6 +40,11 @@ def main():
     p.add_argument('--no-build', action='store_true', help='仅复用已构建候选镜像，不能称为重新构建')
     args = p.parse_args()
     if args.action == 'create':
+        from scripts.operations.runtime_resources import collect
+        resources = collect()
+        if not resources['ready']:
+            print(json.dumps(resources, ensure_ascii=False))
+            p.exit(1, '预览启动前资源不足或状态未知；未创建新配置，不自动停止其他项目。\n')
         from scripts.operations.prepare_preview import prepare
         info = prepare(ROOT / args.output)
         env_file = info['env_file']
@@ -47,6 +52,11 @@ def main():
         if not args.no_build:
             compose(env_file, 'build', 'api', 'web')
         ensure_minio(env_file)
+        # 构建可能消耗宿主资源；启动前再次观察，不据旧快照继续派发。
+        resources = collect()
+        if not resources['ready']:
+            print(json.dumps(resources, ensure_ascii=False))
+            p.exit(1, '构建后资源不足或状态未知；保留新配置/镜像，未启动新项目。\n')
         compose(env_file, 'up', '-d', '--wait', '--wait-timeout', '360')
         compose(env_file, 'exec', '-T', 'api', 'python', '-m', 'scripts.operations.bootstrap_preview')
         print(json.dumps({'url': info['url'], 'username': 'preview_admin', 'env_file': env_file,

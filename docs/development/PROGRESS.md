@@ -1,3 +1,14 @@
+## 2026-11-04 · M7运行资源故障定位与只读拒绝门禁
+
+Docker主机日志/wsl内核确认全局OOM：原项目Mongo曾被杀（约4.9GiB RSS）；现场Mongo WiredTiger缓存上限约3.3GiB、当前约1.64GiB，恢复后resident约4.9GiB。Docker backend stats ping连续deadline exceeded；Windows可用物理内存约0.52GiB，WSL/daemon运行容器约6.34GiB/7.60GiB，daemon余量约1.26GiB。该证据确认资源压力与故障同现，不宣称唯一根因。未改原Mongo配置/容器，未重启旧服务。
+
+只停止本轮 `zh-m7-23a6e6` 全部容器，保留容器和卷，其他项目不变。Ubuntu WSL源码编译、权限和Compose配置解析通过；部署前资源门禁测得可用物理内存约1.60GiB、daemon余量约1.16GiB，低于2/3GiB阈值，故拒绝启动。Linux/Windows Docker daemon仍是Desktop连接；没有部署、推理或清理。新 `preview create` 增加配置创建前及镜像构建后两次只读检查，未知/不足失败关闭。37定向通过/1Windows symlink skip；报告见 [M7资源恢复报告](reviews/M7-runtime-resource-recovery-r1.md) · [validation JSON](reviews/M7-runtime-resource-recovery-validation-r2.json)。
+下一步是等待维护者释放/增加可用资源或对原服务资源作单独批准，然后重跑门禁；未授权修改主项目Mongo或系统级重启。
+
+## 2026-11-04 · M7运行环境收尾接续中
+
+用户要求继续推进，当前从5156971开始定位WSL/Docker/入口超时，先核实际资源与故障层次；仅操作本轮隔离工程，不重启旧daemon或机器，不新增模型派发或Agent。原批STOP/halt和所有历史证据保持。新诊断输出使用独立私有目录，完成后同步实际结果。
+
 ## 2026-11-04 · M7运行包封存：准入/恢复限定独立通过，来源首失败停止
 
 本包八槽provider/Run均0；私有制作脚本误删同一行产品事实，独立临发拒绝后STOP/halt，不重领未消费额度。正式导入1份5chunk、embedding5文本、rerank0/pair0；供应商usage/HTTP/费用null。来源制作与稀疏键/库存缺Name已最小补修；应用身份2496384dbe86159a64667740420ce8100627b47c20efe4235e8faef5c207149f。最终自验32通过/1Windows skip，独立准入38、来源4、稀疏12分列；新工程目标实际恢复/完整绑定回切、真实后台只读浏览器1项及镜像源码映射均限定独立核实。API新构建、web/MinIO复用，不冒称全重建。

@@ -35,3 +35,5 @@ examples/preview/         自制CC0样例
 ```
 
 课程原件、解析缓存、权重、真实.env、日志、output/evals和原始判断不在交付文件中；历史来源及运行记录保留在docs。本项目不声称课程底座全部原创，也未擅自给全仓库增加开源许可证。当前任务及授权以[PROGRESS](docs/development/PROGRESS.md)、[REVIEW_STATUS](docs/development/REVIEW_STATUS.md)和[总清单](docs/plans/DEVELOPMENT_TODO.md)为准。
+
+当前运行资源限制：M7候选在WSL/Linux容器中遇到宿主内存压力，原Mongo出现OOM后由原容器策略恢复。预览启动现带资源门禁；空间/内存不足时会拒绝创建，不自动清理其他项目。具体实证见 [M7资源报告](docs/development/reviews/M7-runtime-resource-recovery-r1.md)及[validation](docs/development/reviews/M7-runtime-resource-recovery-validation-r2.json)。

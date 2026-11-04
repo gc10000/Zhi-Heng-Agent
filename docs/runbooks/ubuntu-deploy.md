@@ -19,3 +19,7 @@ MinIO使用deploy/minio/Dockerfile的固定源码发行构建；在无本地镜�
 ## 2026-11-04 operational-r1实际边界
 
 新项目61587/API969f425f已Windows Desktop实构建运行，精确[M7-operational-r1覆盖](../development/releases/M7-operational-r1.compose.json)及安全启动命令见[执行报告](../development/reviews/M7-operational-closure-r1.md)。Ubuntu发行版/Python3.14.4/WSL2工具和本地700目录实际通过，daemon仍属Desktop；Ubuntu原生Docker shim提示integration未启用。Linux本地完整部署及后续18秒分步启动/terminate均超时，最终Ubuntu停态unknown。没有安装系统功能、重启机器或操纵旧daemon，不能勾完整Linux部署。先定位WSL/Desktop持续可用性，再执行同一候选部署；不以健康偶尔响应替代持续可用证据。
+
+## 运行资源预检
+
+`preview.py create`先核Windows可用物理内存≥2GiB及Docker总内存扣除全部运行容器使用≥3GiB，再创建目录/配置；镜像构建后再次采样。daemon查询超时、格式异常或余量不足即拒绝，不自动停其他项目或删除日志/卷。它是启动瞬间保守检查，不是Linux服务器容量/运行稳定性验证。本机原Mongo已发生WSL OOM，不得靠自动重启旧服务绕过；先读 [资源恢复实证](../development/reviews/M7-runtime-resource-recovery-r1.md) 和 [validation](../development/reviews/M7-runtime-resource-recovery-validation-r2.json)。

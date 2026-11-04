@@ -15,8 +15,12 @@ Windows从开发工作树执行（主仓库Python保留原CUDA环境）：
 ```powershell
 $env:PYTHONUTF8='1'
 $py='D:/Desktop/AnXin/ansen_code/Product-Knowledge-Rag/.venv/Scripts/python.exe'
+& $py -m scripts.operations.runtime_resources
+if ($LASTEXITCODE -ne 0) { throw '宿主/daemon资源不足或状态未知，拒绝创建预览' }
 & $py scripts/operations/preview.py create
 ```
+
+`preview create`自身会在写配置前和镜像构建后各执行只读资源门禁；上面的先行命令仅打印一次资源快照。门禁要求Windows可用物理内存至少2GiB、daemon总内存扣除全部运行容器当前RSS至少3GiB；格式未知、daemon超时或stats缺行均拒绝。该快照不证明持续容量，compose可能启动后变化。拒绝时不创建配置、不停其他项目、不清理卷或日志。
 
 脚本生成`output/local-preview/runtime.env`及`preview.json`，随机数据库/桶/集合/队列、独立卷和空闲回环端口；固定镜像构建后等待存储并用现有解析/索引/发布接口登记自制样例。目录已存在时拒绝覆盖，保留失败；新试验显式使用`--output output/local-preview-r2`。已有候选镜像可加`--no-build`，这只证明新数据卷复现，不能称再次重建。
 

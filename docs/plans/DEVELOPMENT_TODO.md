@@ -1,3 +1,7 @@
+## 2026-11-04 · WSL/Docker资源收尾接续
+
+用户“继续推进”后，有限排查发现原Mongo OOM/daemon超时和主机资源不足；仅停本轮新增项目。Linux源编译/Compose config通过，运行前资源门禁拒绝新启动。拒绝路径37通过/1skip；运行与部署保持open。完整证据见[M7资源恢复报告](../development/reviews/M7-runtime-resource-recovery-r1.md)及[validation](../development/reviews/M7-runtime-resource-recovery-validation-r2.json)。下一步待资源有余量后再实测，不操作旧服务、机器或daemon。
+
 ## 2026-11-04 · M7运行工作包实际出口
 
 [执行结果](../development/reviews/M7-operational-closure-r1.md)：新准入/工程恢复/镜像/只读浏览器限定独立通过；来源准备首失败、provider0，旧批halt。已完成子项保持；M7-02完整Ubuntu、04恢复后真实问答、05真实容量、08完整真实演示、09许可/发布未满足，不新增全阶段勾选。M6 04保持、05/08 open。下一项仅[新批提案](../development/handoffs/M7-operational-demo-r2-proposal.md)，未获新授权不执行。

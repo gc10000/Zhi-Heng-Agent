@@ -1,0 +1,196 @@
+{
+  "kind": "m7_runtime_resource_recovery_validation_r2",
+  "base_commit": "515697163bc24ab82e2aa7bc48a1306c0a0d2394",
+  "root_cause": {
+    "windows_available_memory_first_sample_bytes": 559276032,
+    "wsl_daemon_limit_bytes": 8162193408,
+    "current_docker_container_memory_bytes": 6919180774,
+    "latest_windows_available_memory_bytes": 1719939072,
+    "latest_docker_estimated_headroom_bytes": 1243012634,
+    "preflight_thresholds": {
+      "host_bytes": 2147483648,
+      "daemon_headroom_bytes": 3221225472
+    },
+    "linux_kernel_oom_seen": true,
+    "oom_victim": "existing product-knowledge-rag mongod",
+    "oom_victim_rss_bytes": 5228797952,
+    "original_mongo_wiredtiger_cache_max_bytes": 3544186880,
+    "original_mongo_wiredtiger_cache_current_bytes": 1756651524,
+    "docker_backend_stats_deadline_errors": 21,
+    "oom_kills_counter": 5,
+    "unique_root_cause_claim": false
+  },
+  "scope": {
+    "stopped_only_new_project": "zh-m7-23a6e6",
+    "all_its_containers_stopped": true,
+    "containers_and_volumes_preserved": true,
+    "existing_projects_modified": false,
+    "provider_streams": 0,
+    "modelhost_started": false
+  },
+  "results": {
+    "wsl_source_compile_and_compose_config": "passed_no_containers_started",
+    "linux_deployment": "not_started_resource_gate_refused",
+    "windows_memory_gate": "refused_low_host_and_daemon_headroom",
+    "latest_snapshot": {
+      "ready": false,
+      "reasons": [
+        "host_memory_low",
+        "daemon_headroom_low"
+      ],
+      "host_available_bytes": 1719939072,
+      "daemon_total_bytes": 8162193408,
+      "container_used_bytes": 6919180774,
+      "estimated_daemon_headroom_bytes": 1243012634,
+      "minimum_host_available_bytes": 2147483648,
+      "minimum_daemon_headroom_bytes": 3221225472,
+      "capacity_verified": false,
+      "limitations": [
+        "一次只读启动快照，不证明持续稳定或模型容量",
+        "daemon余量估计未计VM/daemon及并发增长；通过后仍须观察OOM和资源"
+      ]
+    },
+    "readiness_endpoint": "post-stop unavailability expected; no inference"
+  },
+  "tests": {
+    "red": "import failure before implementation",
+    "preimplementation_green": "17 passed",
+    "final": "37 passed, 1 Windows symlink skip",
+    "exit_code": 0
+  },
+  "limits": [
+    "resource snapshot is not ongoing capacity evidence",
+    "no change to original Mongo cache or container limit",
+    "no restart of original Docker/WSL/host",
+    "no full Linux deployment"
+  ],
+  "evidence": [
+    {
+      "path": "output/m7-runtime-recovery-20261104-195414-7964/layer-probes-r1.json",
+      "sha256": "4f0b39a2818b38ec7f9964a0038b13c0b565ca6f5f3516521f3159b7dda5ada5",
+      "bytes": 1167
+    },
+    {
+      "path": "output/m7-runtime-recovery-20261104-195414-7964/windows-resources-r1.json",
+      "sha256": "23098684d554262af00cac9c530afbfd03791c2aef81854d344f10fe85d43d6b",
+      "bytes": 4259
+    },
+    {
+      "path": "output/m7-runtime-recovery-20261104-195414-7964/docker-log-summary-r1.json",
+      "sha256": "86c2ee02806b83935e16cb96dfaab77334b7598c4b5b3d8bf4b927a6ae5ebf62",
+      "bytes": 15952
+    },
+    {
+      "path": "output/m7-runtime-recovery-20261104-195414-7964/log-failure-evidence-r1.json",
+      "sha256": "92f80bd908d33c14c949526a4a0b48572204995fd039e3eaaaf3c45744ea2c55",
+      "bytes": 3983
+    },
+    {
+      "path": "output/m7-runtime-recovery-20261104-195414-7964/owned-project-before-r1.json",
+      "sha256": "0a50f1cbed50b5233f039f46e1578f9a7e8407d65e58afc70a1968fdb86a72ae",
+      "bytes": 18816
+    },
+    {
+      "path": "output/m7-runtime-recovery-20261104-195414-7964/docker-stats-before-r1.json",
+      "sha256": "eff8f4f981fc770950f26f3dc9bfa5c3b31ecb6e6533c9b852440c843e0d3192",
+      "bytes": 1311
+    },
+    {
+      "path": "output/m7-runtime-recovery-20261104-195414-7964/owned-project-stop-r1.json",
+      "sha256": "9aa18e5a90f6e56943ffc9f1f811ed10062f3a60204db5bf237a9564abe9523a",
+      "bytes": 1235
+    },
+    {
+      "path": "output/m7-runtime-recovery-20261104-195414-7964/post-stop-platform-r1.json",
+      "sha256": "2431d5631109586720ce41f6abe60a9ef6ef3007dcd3d0e8d4c0456091afc1b1",
+      "bytes": 1948
+    },
+    {
+      "path": "output/m7-runtime-recovery-20261104-195414-7964/linux-client-paths-r1.json",
+      "sha256": "73de17d5bd1063d2e1a8370c0bf202792273e6dc00aa1fe1fcfe184141037242",
+      "bytes": 1069
+    },
+    {
+      "path": "output/m7-runtime-recovery-20261104-195414-7964/linux-local-config-r1.json",
+      "sha256": "293205c53b51363cd23ea82c31f4c6e9ac74f9310ed865b317ab716e555fac05",
+      "bytes": 961
+    },
+    {
+      "path": "output/m7-runtime-recovery-20261104-195414-7964/linux-prepared-config-r1.json",
+      "sha256": "1ceaa84971aa1ec95007ca5cc5387d6f57fe89f2a2dd7ec61066d6611cc640c4",
+      "bytes": 624
+    },
+    {
+      "path": "output/m7-runtime-recovery-20261104-195414-7964/linux-private-permissions-r1.json",
+      "sha256": "177532c16206be973bff0d8e42f97fe4c1d11cfa6e394ac181a2a969c85aaff7",
+      "bytes": 82
+    },
+    {
+      "path": "output/m7-runtime-recovery-20261104-195414-7964/original-mongo-readonly-memory-r2.json",
+      "sha256": "5ebf5c09d0c1dac48a8d844e84a0e2b32918f32a2bd23a7c549fc363ddcb3c23",
+      "bytes": 237
+    },
+    {
+      "path": "output/m7-runtime-recovery-20261104-195414-7964/original-mongo-readonly-configuration-r1.json",
+      "sha256": "b006f7f5a47997c89fe43d402a6c9918f39c10f8226d95ba7187b58f102ae42f",
+      "bytes": 244
+    },
+    {
+      "path": "output/m7-runtime-recovery-20261104-195414-7964/live-resource-preflight-r2.json",
+      "sha256": "04920d1432652b7d86c99e7f69597fef295dfe465a3cf23fb37a495e96f76128",
+      "bytes": 576
+    },
+    {
+      "path": "output/m7-runtime-recovery-20261104-195414-7964/resources-red-r1.log",
+      "sha256": "ef944122d6b6f4744210fb0b3c9e83ad66b6e12245796bf61648f9aa026b2995",
+      "bytes": 1047
+    },
+    {
+      "path": "output/m7-runtime-recovery-20261104-195414-7964/resources-green-r1.log",
+      "sha256": "52773b3c3da2d3eb90e25b669c74d19909498e791873a68b5fd18a23bddf857b",
+      "bytes": 102
+    },
+    {
+      "path": "output/m7-runtime-recovery-20261104-195414-7964/resources-final-r1.log",
+      "sha256": "2415be73e6917ecd4b5807c9e670971ee3fa967e8c1e32289b26864f81b8db2f",
+      "bytes": 113
+    },
+    {
+      "path": "output/m7-runtime-recovery-20261104-195414-7964/resources-final-r2.log",
+      "sha256": "76b9b029a3978eb04c04cbd7ed7fd1d27dc749b05182151506ffdeac7938a956",
+      "bytes": 113
+    },
+    {
+      "path": "output/m7-runtime-recovery-20261104-195414-7964/resource-preflight-r2.log",
+      "sha256": "fa6276c5ed5154a33c385bf8125df2c1451cea39cf8fec4e1187b2a73f4e4bd0",
+      "bytes": 515
+    }
+  ],
+  "implementation": [
+    {
+      "path": "scripts/operations/runtime_resources.py",
+      "sha256": "1ed0c622745fdb6d084deb7126694354e2111e57aa6fbe6922db83915bb1abef",
+      "bytes": 5140
+    },
+    {
+      "path": "scripts/operations/preview.py",
+      "sha256": "60c12606a1ad6cf28b92646bdc578d9079f51be8e51be12fd47829e7313c5946",
+      "bytes": 4171
+    },
+    {
+      "path": "tests/unit/test_preview_resources.py",
+      "sha256": "7b37f7b4143dfe44e8244dda48cb7b4c7d010bc9cdf9ec97f68a0f2c49427832",
+      "bytes": 5618
+    },
+    {
+      "path": "docs/development/reviews/M7-runtime-resource-recovery-r1.md",
+      "sha256": "60d93e6a59a6636e96e6f8ceee15be6daad64ce5b80e125bcd38dd37d7bdc3f0",
+      "bytes": 3045
+    }
+  ],
+  "application_source_identity_unchanged": true,
+  "implementation_test_log": {
+    "path": "output/m7-runtime-recovery-20261104-195414-7964/resources-final-r2.log",
+    "sha256": "76b9b029a3978eb04c04cbd7ed7fd1d27dc749b05182151506ffdeac7938a956"
+  }
+}

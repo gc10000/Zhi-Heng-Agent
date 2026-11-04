@@ -163,3 +163,7 @@ M7-01/03/06/07完成限定实现自验；M7-02/04/05/08/09完整验收仍open。
 - [x] **M7-09.D** 保存验证记录，更新总清单、进度和变更记录；接口/配置/复用变动时同步相关文档。
 
 **验收：**完成标准是可运行、可恢复、可解释来源与贡献；普通源码push按Git授权执行；外部部署/公开Release须另获具体批准。
+
+#### operational环境收尾补充
+
+本机原Mongo遭WSL全局OOM（daemon日志报告累计5次，内核记录一次mongod约4.9GiB RSS被杀），Docker stats ping超时；原库按原策略恢复。仅停止新隔离项目容器并保留卷。Linux source compile/Compose解析通过；最新实测1.60GiB host available/1.16GiB daemon估算余量，低于启动门槛，未重新部署。该证据不能勾完整Ubuntu运行项；详见 [M7资源恢复报告](../../development/reviews/M7-runtime-resource-recovery-r1.md)。

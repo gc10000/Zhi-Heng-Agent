@@ -20,3 +20,7 @@
 ## operational-r1首失败处理
 
 资料准备误删同一行必要事实在provider前被独立截获；STOP后正式DemoLedger保存halt，8槽未消费仍不重领。修正来源只离线验证、不重新导入；本地embedding已消费5文本不退款。Docker/WSL不稳定与模型质量分别记录，完整Linux未过不掩盖也不重启旧服务。最后worker/dispatcher及宿主已停、generation=false；最终Ubuntu停止命令超时需只读确认，不宣称全部系统进程已停。恢复只观察、未知usage/费用null、不得删slot/lease/claim解锁。
+
+## WSL宿主内存耗尽（2026-11-04实证）
+
+WSL内核记录全局OOM并杀死既有Mongo，Docker stats ping发生deadline timeout；Mongo WiredTiger默认缓存上限约3.3GiB，实测resident约4.9GiB。主库容器按原策略自动恢复。本轮只读检查后停止自身新项目，不动原项目、缓存/内存参数、daemon或机器。preview create现有前后双资源门禁；拒绝时先核明确的资源所有者/维护窗口，不能反复启动、降低阈值或自动停止服务。
