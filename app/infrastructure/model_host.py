@@ -30,6 +30,34 @@ def health():
     return {'ready': True}
 
 
+@app.get('/health/ready', dependencies=[Depends(authorize)])
+def model_readiness():
+    import sys
+    from fastapi.responses import JSONResponse
+    embedding = sys.modules.get('app.lm.embedding_utils')
+    reranker = sys.modules.get('app.lm.reranker_utils')
+    loaded = dict(embedding=getattr(embedding, '_bge_m3_ef', None) is not None,
+                  reranker=getattr(reranker, '_reranker_model', None) is not None)
+    # 只看现有单例，不调用get_*工厂，不产生预热或推理。
+    ready = all(loaded.values())
+    return JSONResponse({'ready': ready, 'loaded': loaded}, status_code=200 if ready else 503)
+
+
+class RankBatch(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    pairs: list[tuple[str, str]] = Field(min_length=1, max_length=64)
+
+
+@app.post('/rerank', dependencies=[Depends(authorize)])
+def rerank(data: RankBatch):
+    if sum(len(q) + len(p) for q, p in data.pairs) > 256000:
+        from fastapi import HTTPException
+        raise HTTPException(413, '重排批次过大')
+    with lock:
+        from app.lm.reranker_utils import compute_rerank_scores
+        return {'scores': compute_rerank_scores([list(pair) for pair in data.pairs], normalize=True)}
+
+
 @app.post('/evaluation-jobs/{experiment_id}', dependencies=[Depends(authorize)])
 def evaluation_job(experiment_id: str):
     from uuid import UUID

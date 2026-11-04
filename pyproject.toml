@@ -1,7 +1,7 @@
 [project]
-name = "pythonproject16"
+name = "zhi-heng-agent"
 version = "0.1.0"
-description = "Add your description here"
+description = "知衡：设备技术支持与知识工作台"
 requires-python = ">=3.11"
 dependencies = [
     "fastapi>=0.135.1",

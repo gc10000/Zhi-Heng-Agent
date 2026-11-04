@@ -1,3 +1,22 @@
+# M7交付配置（2026-11-04）
+
+`compose.delivery.yaml`为独立预览拓扑，不叠加旧compose，不复用旧容器名、卷、队列、数据库或模型账户。`scripts/operations/prepare_preview.py`自动生成私有随机配置，禁止将runtime.env提交或打印。所有宿主发布端口仅绑定127.0.0.1；不提供公网TLS/认证隔离的生产部署承诺。
+
+| 配置 | 用途与默认 |
+| --- | --- |
+| M7_GENERATION_ENABLED | 普通旧部署默认true；本轮预览false，在创建Run前503拒绝新生成且关闭问答扫描。live不检查模型，ready把模型标为disabled。导入仍需要MODEL_HOST，不把缺项当成功。 |
+| M7_PROJECT_NAME / M7_RUNTIME_ENV | 生成的独立Compose项目及服务端私有环境文件路径。 |
+| M7_IMAGE_TAG | 候选镜像标签；最终以交付清单记录的image ID和源码SHA为准。 |
+| M7_HTTP_PORT / M7_MONGO_PORT / M7_REDIS_PORT / M7_MINIO_PORT / M7_MILVUS_PORT | 回环发布端口，由脚本探测空闲端口；竞争时保留失败并以新目录重做，不杀占用者。 |
+| MODEL_HOST_URL / MODEL_HOST_TOKEN | 轻量API与worker通过受控宿主复用已有BGE-M3/reranker；Windows使用host.docker.internal，Linux使用已防火墙限制的host-gateway。预览均为空，不加载或下载权重。 |
+| M7_PREVIEW_USERNAME / M7_PREVIEW_PASSWORD | 仅随机合成预览账户；bootstrap登记，密码只在本机私有文件中。不会读private-identity。 |
+
+新健康API `/health/live` 为进程存活；`/health/ready`分类Mongo、MinIO桶、Milvus集合、Redis、模型及可选工具。必要依赖不可用503，异常正文/URL不返回。模型探针只看已加载单例或宿主受token保护的ready；供应商仅配置核验，**不发推理，也不证明供应商可用或硬限**。`/api/v1/health`旧契约保留。OpenAPI及前端schema同步。
+
+API镜像显式PROJECT_ROOT=/workspace，不依赖.env文件寻找提示模板。API镜像仅安装CPU轻量服务端锁文件，不装torch/FlagEmbedding/MinerU本地模型。PDF解析走已有受控MinerU接口；空配置拒绝。图片/文本/检索模型路径与凭据只由服务端消费。预览M6 catalog为空、评测队列无消费者，不派发旧168/旧43任务。宿主 `/rerank`复用原normalize=True实现，不引入新检索模型或排序方案。
+
+以下历史说明按原时点保留。
+
 ## 2026-11-04 · 完整候选补修完成自验，独立技术与新真实质量仍open
 
 已针对本批实际错误补修对象/配件/示例及限定/时序提示、内部规则与产品证据隔离、输出发布前整体验证和澄清呈现快照。最终389离线/契约、101随机短隔离Mongo、62前端单元、6浏览器、typecheck/build通过；早一轮67相关Mongo与最终轮重叠，不累计。170保存输入/582保存标量回放保留完整上下文、连续引用和分组，166提示改变、两份048保持；最大输入估算14327/28416，不是新实际usage或临发现场核验。

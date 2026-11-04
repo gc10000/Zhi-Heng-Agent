@@ -76,7 +76,8 @@ def create_app(*, settings=None, resource_factory=open_resources):
                     except Exception as exc:
                         logging.getLogger(__name__).error('问答派发失败，异常类型：%s', type(exc).__name__)
                     await asyncio.sleep(.2)
-            query = asyncio.create_task(query_loop()) if 'query_runner' in resources else None
+            from app.api.health import generation_enabled
+            query = asyncio.create_task(query_loop()) if 'query_runner' in resources and generation_enabled() else None
             async def evaluation_loop():
                 while True:
                     try:
@@ -112,6 +113,8 @@ def create_app(*, settings=None, resource_factory=open_resources):
 
     application = FastAPI(title='设备技术支持与知识工作台', version='1.0.0', lifespan=lifespan)
     install(application)
+    from app.api.health import router as health_router
+    application.include_router(health_router)
     from app.identity.api import router as identity_router
     application.include_router(identity_router)
     from app.conversations.api import router as conversation_router

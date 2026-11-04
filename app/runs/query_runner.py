@@ -30,13 +30,19 @@ def rerank(question, docs):
     if not docs:
         return []
     with model_lock:
-        from app.lm.reranker_utils import compute_rerank_scores
         from app.infrastructure.providers.clients import local_call
         # 标题是证据对象范围，供重排区分机身/配件；不改写原正文、来源或评分含义。
         def passage(doc):
             title=doc.get('title') or '/'.join(doc.get('metadata',{}).get('heading_path',[]))
             return ('章节：'+title+'\n' if title else '')+doc['text']
-        scores = local_call('rerank', lambda: compute_rerank_scores([[question, passage(d)] for d in docs], normalize=True))
+        import os
+        pairs = [[question, passage(d)] for d in docs]
+        if os.getenv('MODEL_HOST_URL') and os.getenv('MODEL_HOST_TOKEN'):
+            from app.infrastructure.queue.model_client import HostReranker
+            scores = local_call('rerank', lambda: HostReranker()(pairs))
+        else:
+            from app.lm.reranker_utils import compute_rerank_scores
+            scores = local_call('rerank', lambda: compute_rerank_scores(pairs, normalize=True))
     from app.infrastructure.providers.policy import ProviderFailure
     import math
     if isinstance(scores, (int, float)):

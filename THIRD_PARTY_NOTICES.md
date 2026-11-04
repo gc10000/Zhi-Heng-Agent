@@ -1,5 +1,9 @@
 # 第三方来源与许可
 
+M7交付镜像新增/明确的分发依赖（非全部传递依赖的法律审核）：FastAPI/LangChain/LangGraph/Pydantic按其MIT许可；Python按PSF及镜像内系统包各自许可；Nginx按BSD许可。MongoDB Community 7为SSPL；Redis 7.4为RSALv2/SSPLv1可选许可；Milvus/etcd为Apache-2.0；MinIO社区版为AGPL-3.0-or-later，固定源码及LICENSE/CREDITS复制见deploy/minio/Dockerfile。PyMuPDF 1.26.5为AGPL或商业许可，API镜像为受控PDF处理安装该依赖。不能因为通过pip或镜像安装而省略再分发义务。
+
+依赖精确版本/hash见deploy/api/requirements.lock及前端锁；本轮仅内部候选，完整传递依赖许可证/SBOM及课程底座再分发授权尚需发布前核清。不自行增加覆盖全库的LICENSE；自制examples/preview仅按该目录CC0。公开文件清单表示脱敏候选范围，不代表法律许可或公开发布批准。
+
 课程底座及个人改造边界见[NOTICE.md](NOTICE.md)。前端实际文件映射、固定上游提交及改造内容见[复用清单](docs/reuse/manifest.json)，依赖精确版本和完整性见[锁文件](frontend/pnpm-lock.yaml)。没有将第三方组件描述为全部原创。
 
 shadcn-vue复制/改编Dialog、ResizablePanelGroup及Sidebar，来源commit de1f76cbb4b319ea26b0dea175dc00c18fce3bd0。

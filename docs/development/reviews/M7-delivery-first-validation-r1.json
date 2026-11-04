@@ -1,0 +1,228 @@
+{
+  "version": "m7_internal_delivery_candidate_r1",
+  "scope": "本机内部工程候选；实现自验，非独立通过/质量验收/公开发布",
+  "source_commit_base": "fe2d957b35256907d1e990ff66f8362fc267c1e3",
+  "source_commit_frozen": null,
+  "source_files_sha256": "f6ad7d1bc71c67204a1a2ad97e0f31d4b5165614d44d2df5e455c259428f92fc",
+  "images": {
+    "zhi-heng-api:m7-r1": {
+      "id": "sha256:2c06d908c5aa33ab1d6d0d8f0c2181ef42cd918b59b0c5592d959e3fb51a3374",
+      "architecture": "amd64",
+      "os": "linux"
+    },
+    "zhi-heng-web:m7-r1": {
+      "id": "sha256:6db4189f8be95ae0b0fd9c908d382e1b782aa85183719a473b0aff0354dd6d7a",
+      "architecture": "amd64",
+      "os": "linux"
+    },
+    "zhi-heng-minio:2025-10-15": {
+      "id": "sha256:48c2b3223491f99af2a36b68889c06f8d211afd388e3fc82e6522ad23df307c8",
+      "architecture": "amd64",
+      "os": "linux"
+    },
+    "zhi-heng-verification:m7-r1": {
+      "id": "sha256:71c1a382f980a58c92fb03ef800a032eb48b2b6766ec5dd7b9fbd3f595d54409",
+      "architecture": "amd64",
+      "os": "linux"
+    }
+  },
+  "locks": {
+    "compose.delivery.yaml": "c1bceb12fb8be8e98adcee82d2747a42df2ba1c7f8af1654f96f0f05a0c291b2",
+    "deploy/api/requirements.lock": "a63e917504b1e36d8bc648c215ce3d9003c3728538a9a28790f6164465909db8",
+    "deploy/verification/requirements.lock": "ead1b4d1d5e77868dccd722b19314cac1c25f820ead30bf73d06957d20b98d89",
+    "frontend/pnpm-lock.yaml": "35eacb4635c7cc9006726ab29cb05112d023c61396c6147b57698a5d0ce9bc39",
+    "uv.lock": "03edf517f770b4a01d7accae1edd7e9973ea43eeb49021f8f3b11ab57356bf2c",
+    "deploy/api/Dockerfile": "5106d19289b0a469f95590b853ace4b07c34e6f4ff501716494a03518951b382",
+    "deploy/frontend/Dockerfile": "87c88d5c2421f0e6d10f475ba3715d219d54042d845f2f87096ec2922607622e",
+    "deploy/nginx.conf": "b5d4d706e511f1d7614fdc7586862c2f8340983228f9c368364c1aa3dfb4a113",
+    ".node-version": "92f4e539bea947de4583c229e503896149ecf52c67e837e3dbe895a50daa4d0c"
+  },
+  "private_evidence": [
+    {
+      "path": "output/m7-delivery-first-20261104-r1/final-unit-r3.log",
+      "sha256": "231edd80ce5a965d3e308a5e5ccb1760424b3c8184ec437907e0ed97578c938e"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/restore-index-green-r4.log",
+      "sha256": "d3b272302d8707d53cf22b9ade3934739a79124b4269b5ed2db6dbb664a7c254"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/deployment-regression-r1.log",
+      "sha256": "0f452adff746615df4aa8f1c8a853b41d655d9b1cdf978d648010f777f85bab9"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/assets-green-r2.log",
+      "sha256": "ecd411776dff05ac4f845e37cfd52e02320ead77d189b7f58733e26a48ceb9d0"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/image-regression-r3.log",
+      "sha256": "42347404e0d30827ee7c1335f3e116712926ed4c8069352caa667988d0bec00b"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/frontend-unit-r1.log",
+      "sha256": "ed64c540f858e42b1406c6b1f232bb1b388f3e25cb9372e1d327aceab15180a7"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/typecheck-final-r1.log",
+      "sha256": "241be48e89412fbf6fed0e7e10a0217d6a564c74e44cc6906baaac9d4715a40a"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/build-host-final-r1.log",
+      "sha256": "01db68234b63fc965ecf3b2fa3d89ec30f0e65d67c066d717f66c79ea79ea042"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/build-api-rootfix-r5.log",
+      "sha256": "0ee00de836400a542244f8de1192f4b014cacdf4507b209436ff14e560339a81"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/build-web-final-r5.log",
+      "sha256": "fa2e1126d6e6aa916d54358c8684603490370ad60c5f2e17d4d17e3736d0cff8"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/browser-final-r2.log",
+      "sha256": "149a2817ca731e1003b8352fa7315e8166cfb4d4a1fdbe7f08cee497be25e426"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/clean-reproduce-r1.log",
+      "sha256": "a98ab43d4a219885058d4d265501a42223cac193d00be6b4feb3f9df96b2ffd7"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/clean-load-r3/result.json",
+      "sha256": "49c058c83c95f4b8f1a6bd1bd74616b085c200fa14bd3928329b9c9ec829f4a1"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/restore-live-r2/result.json",
+      "sha256": "1328b5af2bbb606a423fadf9635bbb24b649e7fb009e1dc02b5ea4eb29b4ab6a"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/fault-final-r3/result.json",
+      "sha256": "ed00e2844e4f2bef608a96aa05965b0661cc0ae9810bd70be990dcf991620476"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/image-audit-r2.json",
+      "sha256": "63de177dc50422b848a3342fc171d5ba1b91d669443546bc5ade3defe8c434e3"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/linux-symlink-r1.log",
+      "sha256": "3936b4582fb0a968c1e4bb2f72a575004ff266312efd1fd7e98405f35117c4dc"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/final-document-checks-r2.json",
+      "sha256": "8aa5f5ae1a07b2d0cab50b395b250cf8799acd1398d3ad38617ac5157d03a546"
+    },
+    {
+      "path": "output/m7-delivery-first-20261104-r1/source-file-manifest-final-r1.json",
+      "sha256": "2b1aaa36478dd43ef1337499268b903e81a58dc17acb958006a9fbfcb143c72c"
+    }
+  ],
+  "checks": {
+    "final_targeted_host": {
+      "passed": 29,
+      "skipped": 1,
+      "skip": "Windows符号链接权限；Linux另验通过"
+    },
+    "restore_unit_integration": {
+      "passed": 10,
+      "skipped": 1
+    },
+    "host_deployment_integration_initial": {
+      "passed": 41,
+      "failed": 3,
+      "reason": "隔离测试桶未配置"
+    },
+    "host_assets_after_fixture_fix": {
+      "passed": 3,
+      "warnings": 5
+    },
+    "final_api_image_synthetic_integration": {
+      "passed": 47,
+      "exit_code": 0
+    },
+    "frontend_unit": {
+      "passed": 62
+    },
+    "typecheck": true,
+    "build": true,
+    "browser_real_backend_engineering_fixture": {
+      "passed": 1,
+      "new_generation": "503拒绝，未执行"
+    },
+    "restore_actual_binding_and_rollback": true,
+    "faults_on_final_deployment": true,
+    "clean_project_new_volumes": true,
+    "ubuntu_host_tested": false,
+    "new_gpu_install_tested": false,
+    "full_cpu_model_install_tested": false
+  },
+  "overlap": "各组有重叠，不累计唯一总数",
+  "baseline": {
+    "streams": 168,
+    "results": 170,
+    "independent_judgments": 340,
+    "input_tokens": 809676,
+    "output_tokens": 30791,
+    "gates": "blocked",
+    "proofs": 0,
+    "ledger": "halt"
+  },
+  "new": {
+    "provider_streams": 0,
+    "local_inference": 0,
+    "agent_delegations": 0,
+    "real_quality_jobs": 0,
+    "model_usage": null,
+    "provider_http_observation": null,
+    "cost": null
+  },
+  "states": {
+    "build": "completed",
+    "local_preview": "available_generation_disabled",
+    "target_ubuntu": "not_executed",
+    "public_release": "not_authorized_not_executed"
+  },
+  "tasks": {
+    "M7-03": "限定实现自验完成",
+    "M7-06": "限定实现自验完成",
+    "M7-07": "限定实现自验完成",
+    "others": "见九项记录与子步骤，完整验收open"
+  },
+  "known_limits": [
+    "M6-05/08 open；04保持",
+    "新真实答案/容量/完整生成演示未执行",
+    "生产备份命名空间未开放",
+    "完整干净MinIO源码重建未测，Go/Debian镜像digest查询网络失败",
+    "课程再分发许可及传递AGPL/SSPL等义务未完全核清",
+    "目标Ubuntu、CPU/GPU新模型安装与阶段独立验收缺口保留"
+  ],
+  "public_release_approved": false,
+  "application_archive": {
+    "path": "output/m7-delivery-first-20261104-r1/application-images-r1.tar",
+    "bytes": 296076800,
+    "sha256": "0a93f6f836ca537e98ebf938cae4ee752242695a453b92cf762707c7868c0b0d",
+    "images": [
+      "zhi-heng-api:m7-r1",
+      "zhi-heng-web:m7-r1",
+      "zhi-heng-minio:2025-10-15"
+    ],
+    "scope": "本机候选离线应用镜像，不含运行env或卷；不上传"
+  },
+  "validation_commands": {
+    "host_unit": "python -m pytest tests/contract/test_health.py tests/contract/test_model_bridge_delivery.py tests/contract/test_app_lifecycle.py tests/unit/test_restore_guards.py tests/unit/test_backup_index_order.py tests/unit/test_reranker_options.py -q --tb=short",
+    "restore": "M1_TEST_DB=新随机m1_test_m4_前缀、M7_TEST_ENV=本轮host.env；python -m pytest tests/unit/test_backup_index_order.py tests/unit/test_restore_guards.py tests/integration/test_restore_manifest.py -q --tb=short",
+    "image": "精确argv/退出码封存output/m7-delivery-first-20261104-r1/image-command-r3.json；verification镜像+只读tests挂载+随机合成Mongo",
+    "frontend": [
+      "pnpm -C frontend typecheck",
+      "pnpm -C frontend exec vitest run tests/unit --reporter=dot",
+      "pnpm -C frontend build",
+      "pnpm exec playwright test -c playwright.delivery.config.ts（显式M7_BROWSER_CONFIG与私有output）"
+    ],
+    "compose": "docker compose --env-file 本轮runtime.env -f compose.delivery.yaml -f docs/development/releases/M7-delivery-r1.compose.json config --quiet",
+    "uv": "uv lock --check --offline；未sync当前CUDA环境"
+  },
+  "source_manifest": {
+    "path": "output/m7-delivery-first-20261104-r1/source-file-manifest-final-r1.json",
+    "files": 276,
+    "sha256": "2b1aaa36478dd43ef1337499268b903e81a58dc17acb958006a9fbfcb143c72c",
+    "algorithm": "逐文件原字节SHA256；路径到hash映射按JSON sort_keys=True,separators=(comma,colon),ensure_ascii=False的UTF8编码再SHA256。Git按text属性规范换行，镜像保留构建时原字节。"
+  }
+}

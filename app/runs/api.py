@@ -13,6 +13,9 @@ router = APIRouter(prefix='/api/v1', tags=['运行'])
 
 @router.post('/conversations/{cid}/runs', status_code=202)
 def create_run(cid: str, data: RunInput, request: Request, user=Depends(principal)):
+    from app.api.health import generation_enabled
+    if not generation_enabled():
+        raise APIError(503, 'generation_disabled', '内部预览尚未开放新生成；请核对原文，生成须另行授权。')
     return request.app.state.resources['run_service'].create(user, cid, data)
 
 

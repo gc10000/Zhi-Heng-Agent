@@ -1,0 +1,102 @@
+# 独立应用拓扑，不合并旧compose文件、不使用旧卷或container_name。
+name: ${M7_PROJECT_NAME:?请先运行scripts/operations/prepare_preview.py}
+x-app: &app
+  image: zhi-heng-api:${M7_IMAGE_TAG:-m7-r1}
+  build: {context: ., dockerfile: deploy/api/Dockerfile}
+  restart: unless-stopped
+  init: true
+  networks: [delivery]
+  env_file: ${M7_RUNTIME_ENV:?请指定独立运行环境文件}
+  environment:
+    MONGO_URL: mongodb://mongo:27017
+    MINIO_ENDPOINT: minio:9000
+    MILVUS_URL: http://milvus:19530
+    REDIS_URL: redis://redis:6379/0
+  extra_hosts: [host.docker.internal:host-gateway]
+  logging: {driver: json-file, options: {max-size: 10m, max-file: '3'}}
+services:
+  api:
+    <<: *app
+    depends_on:
+      mongo: {condition: service_healthy}
+      redis: {condition: service_healthy}
+    volumes: [app-work:/var/lib/zhi-heng]
+  worker:
+    <<: *app
+    command: [celery, -A, 'app.infrastructure.queue.celery_app:celery_app', worker, --loglevel=WARNING, --concurrency=1, -Q, '${M2_QUEUE_NAME}']
+    healthcheck: {disable: true}
+    depends_on: {redis: {condition: service_healthy}, mongo: {condition: service_healthy}}
+    volumes: [worker-work:/var/lib/zhi-heng]
+  dispatcher:
+    <<: *app
+    command: [python, -m, scripts.admin.dispatch_jobs]
+    healthcheck: {disable: true}
+    depends_on: {redis: {condition: service_healthy}, mongo: {condition: service_healthy}}
+  web:
+    image: zhi-heng-web:${M7_IMAGE_TAG:-m7-r1}
+    build: {context: ., dockerfile: deploy/frontend/Dockerfile}
+    restart: unless-stopped
+    ports: ['127.0.0.1:${M7_HTTP_PORT:-18080}:8080']
+    networks: [delivery]
+    depends_on: {api: {condition: service_healthy}}
+  mongo:
+    restart: unless-stopped
+    image: mongo:7.0@sha256:c53852c00c23ca9f23fc39690350ffa9a80e3642fe8f96879726d8da0abe80a7
+    networks: [delivery]
+    volumes: [mongo-data:/data/db]
+    ports: ['127.0.0.1:${M7_MONGO_PORT}:27017']
+    healthcheck: {test: [CMD, mongosh, --quiet, --eval, 'quit(db.adminCommand("ping").ok ? 0 : 1)'], interval: 5s, timeout: 3s, retries: 30}
+  redis:
+    restart: unless-stopped
+    image: redis:7.4.6-alpine@sha256:3b73847e72874be07e6657b129a94761662b79bc0f679273757d4218573b2a98
+    command: [redis-server, --appendonly, 'yes']
+    networks: [delivery]
+    volumes: [redis-data:/data]
+    ports: ['127.0.0.1:${M7_REDIS_PORT}:6379']
+    healthcheck: {test: [CMD, redis-cli, ping], interval: 5s, timeout: 3s, retries: 20}
+  etcd:
+    restart: unless-stopped
+    image: quay.io/coreos/etcd:v3.5.25@sha256:52f17f7e56e4f7239f0320dbfcbcc24721163d7d78ae710b466af3254ccf6366
+    command: [etcd, --advertise-client-urls=http://etcd:2379, --listen-client-urls=http://0.0.0.0:2379, --data-dir=/etcd]
+    environment: {ETCD_AUTO_COMPACTION_MODE: revision, ETCD_AUTO_COMPACTION_RETENTION: '1000', ETCD_QUOTA_BACKEND_BYTES: '4294967296'}
+    networks: [delivery]
+    volumes: [etcd-data:/etcd]
+    healthcheck: {test: [CMD, etcdctl, endpoint, health], interval: 5s, timeout: 3s, retries: 30}
+  minio:
+    restart: unless-stopped
+    image: zhi-heng-minio:2025-10-15
+    build: {context: deploy/minio}
+    environment: {MINIO_ROOT_USER: '${MINIO_ACCESS_KEY}', MINIO_ROOT_PASSWORD: '${MINIO_SECRET_KEY}'}
+    command: [server, /data, --console-address, ':9001']
+    networks: [delivery]
+    volumes: [minio-data:/data]
+    ports: ['127.0.0.1:${M7_MINIO_PORT}:9000']
+    healthcheck: {test: [CMD, curl, -f, http://localhost:9000/minio/health/live], interval: 5s, timeout: 3s, retries: 30}
+  milvus:
+    restart: unless-stopped
+    image: milvusdb/milvus:v2.6.10@sha256:9c575df2521789f039a8ffd84fe787921962f7d7bf491c5caec32c3efa432ee8
+    command: [milvus, run, standalone]
+    security_opt: [seccomp:unconfined]
+    environment:
+      GOMAXPROCS: '2'
+      OMP_NUM_THREADS: '2'
+      ETCD_ENDPOINTS: etcd:2379
+      MINIO_ADDRESS: minio:9000
+      MINIO_ACCESS_KEY_ID: ${MINIO_ACCESS_KEY}
+      MINIO_SECRET_ACCESS_KEY: ${MINIO_SECRET_KEY}
+    networks: [delivery]
+    volumes: [milvus-data:/var/lib/milvus]
+    ports: ['127.0.0.1:${M7_MILVUS_PORT}:19530']
+    depends_on: {etcd: {condition: service_healthy}, minio: {condition: service_healthy}}
+    healthcheck: {test: [CMD, curl, -f, http://localhost:9091/healthz], interval: 10s, timeout: 5s, start_period: 60s, retries: 30}
+networks:
+  # Desktop的internal网络不发布宿主端口；独立bridge+回环发布，供应商凭据不注入预览。
+  delivery: {driver: bridge}
+volumes:
+  mongo-data:
+  minio-data:
+  milvus-data:
+  etcd-data:
+  redis-data:
+  app-work:
+  worker-work:

@@ -3,6 +3,26 @@ import os
 import requests
 
 
+class HostReranker:
+    """容器通过同一受控宿主计算原模型分数，绝不回退下载本机模型。"""
+    def __call__(self, pairs):
+        from app.infrastructure.providers.policy import ProviderPolicy, policies_enabled
+        import math
+        base, token = os.getenv('MODEL_HOST_URL'), os.getenv('MODEL_HOST_TOKEN')
+        if not base or not token:
+            raise ValueError('缺少MODEL_HOST_URL或MODEL_HOST_TOKEN')
+        timeout = ProviderPolicy.load('rerank').timeout if policies_enabled() else 300
+        with requests.Session() as http:
+            http.trust_env = False
+            response = http.post(base.rstrip('/') + '/rerank', json={'pairs': pairs},
+                                 headers={'X-Model-Token': token}, timeout=timeout, allow_redirects=False)
+            response.raise_for_status()
+            scores = response.json()['scores']
+        if not isinstance(scores, list) or len(scores) != len(pairs) or any(type(s) not in (int, float) or not math.isfinite(s) for s in scores):
+            raise ValueError('模型宿主重排返回非法分数')
+        return scores
+
+
 class HostEmbedder:
     def __init__(self, *, input_type='document'):
         if input_type not in {'query','document'}:raise ValueError('嵌入类型无效')

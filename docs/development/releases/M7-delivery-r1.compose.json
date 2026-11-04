@@ -1,0 +1,19 @@
+{
+  "services": {
+    "api": {
+      "image": "sha256:2c06d908c5aa33ab1d6d0d8f0c2181ef42cd918b59b0c5592d959e3fb51a3374"
+    },
+    "worker": {
+      "image": "sha256:2c06d908c5aa33ab1d6d0d8f0c2181ef42cd918b59b0c5592d959e3fb51a3374"
+    },
+    "dispatcher": {
+      "image": "sha256:2c06d908c5aa33ab1d6d0d8f0c2181ef42cd918b59b0c5592d959e3fb51a3374"
+    },
+    "web": {
+      "image": "sha256:6db4189f8be95ae0b0fd9c908d382e1b782aa85183719a473b0aff0354dd6d7a"
+    },
+    "minio": {
+      "image": "sha256:48c2b3223491f99af2a36b68889c06f8d211afd388e3fc82e6522ad23df307c8"
+    }
+  }
+}

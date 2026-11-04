@@ -43,4 +43,5 @@ frontend/test-results/
 frontend/playwright-report/
 frontend/.vite/
 frontend/public/pdfjs/
+frontend/public/licenses/
 

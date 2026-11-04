@@ -1,0 +1,7 @@
+CC0 1.0 Universal
+
+The author waives copyright and related rights in the self-authored files in this
+examples/preview directory to the extent permitted by law.
+https://creativecommons.org/publicdomain/zero/1.0/
+
+仅适用于本目录的自制虚构样例，不覆盖课程代码、课程资料或第三方组件。

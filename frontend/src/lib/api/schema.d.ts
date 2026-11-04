@@ -4,6 +4,40 @@
  */
 
 export interface paths {
+    "/health/live": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Live */
+        get: operations["live_health_live_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/health/ready": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Ready */
+        get: operations["ready_health_ready_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/auth/login": {
         parameters: {
             query?: never;
@@ -919,6 +953,75 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/experiments/{eid}/review-repairs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Review Repair Status */
+        get: operations["review_repair_status_api_v1_experiments__eid__review_repairs_get"];
+        put?: never;
+        /** Register Review Repair */
+        post: operations["register_review_repair_api_v1_experiments__eid__review_repairs_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/experiments/{eid}/review-repairs/{case_id}/executions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Begin Repair */
+        post: operations["begin_repair_api_v1_experiments__eid__review_repairs__case_id__executions_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/experiments/{eid}/review-repairs/{case_id}/executions/{execution_id}/seal": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Seal Repair */
+        post: operations["seal_repair_api_v1_experiments__eid__review_repairs__case_id__executions__execution_id__seal_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/experiments/{eid}/review-repairs/{case_id}/independence": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Attest Repair */
+        post: operations["attest_repair_api_v1_experiments__eid__review_repairs__case_id__independence_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/feedback/{feedback_id}/review": {
         parameters: {
             query?: never;
@@ -1390,6 +1493,64 @@ export interface components {
             /** Evidence Mapping Sha256 */
             evidence_mapping_sha256?: string | null;
         };
+        /** RepairAttestInput */
+        RepairAttestInput: {
+            /** Seal Ids */
+            seal_ids?: string[];
+            artifact: components["schemas"]["Artifact"];
+        };
+        /** RepairInput */
+        RepairInput: {
+            /** Client Request Id */
+            client_request_id: string;
+            /** Original Seal Ids */
+            original_seal_ids: string[];
+            artifact: components["schemas"]["Artifact"];
+            /** Targets */
+            targets: components["schemas"]["RepairTarget"][];
+        };
+        /** RepairJudgment */
+        RepairJudgment: {
+            /** Question Id */
+            question_id: string;
+            /** Subject Sha256 */
+            subject_sha256: string;
+            /** Scores */
+            scores: {
+                [key: string]: 0 | 1 | 2 | "unknown" | "not_applicable";
+            };
+            /** Dimension Evidence */
+            dimension_evidence: {
+                [key: string]: string;
+            };
+            /** Source Checked */
+            source_checked: boolean;
+            /** Critical Errors */
+            critical_errors: ("unauthorized" | "wrong_model" | "wrong_object" | "fabricated_live_state" | "unsafe_procedure")[];
+        };
+        /** RepairSealInput */
+        RepairSealInput: {
+            /** Judgments */
+            judgments: components["schemas"]["RepairJudgment"][];
+        };
+        /** RepairTarget */
+        RepairTarget: {
+            /** Question Id */
+            question_id: string;
+            /** Subject Sha256 */
+            subject_sha256: string;
+            /** Replace Dimensions */
+            replace_dimensions?: ("factuality" | "citation_support" | "actionability" | "image_relevance")[];
+            /**
+             * Correct Actionability Na
+             * @default false
+             */
+            correct_actionability_na: boolean;
+            /** Actionability Applicable */
+            actionability_applicable?: boolean | null;
+            /** Rationale */
+            rationale: string;
+        };
         /** Resolution */
         Resolution: {
             /**
@@ -1595,6 +1756,46 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    live_health_live_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
+    ready_health_ready_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+        };
+    };
     login_api_v1_auth_login_post: {
         parameters: {
             query?: never;
@@ -3682,6 +3883,181 @@ export interface operations {
         responses: {
             /** @description Successful Response */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    review_repair_status_api_v1_experiments__eid__review_repairs_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                eid: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    register_review_repair_api_v1_experiments__eid__review_repairs_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                eid: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RepairInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    begin_repair_api_v1_experiments__eid__review_repairs__case_id__executions_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                eid: string;
+                case_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BeginInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    seal_repair_api_v1_experiments__eid__review_repairs__case_id__executions__execution_id__seal_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                eid: string;
+                case_id: string;
+                execution_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RepairSealInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    attest_repair_api_v1_experiments__eid__review_repairs__case_id__independence_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                eid: string;
+                case_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RepairAttestInput"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-27",
+  "updated": "2026-11-04",
   "scope": "前端实际依赖与组件源码、M6后端Markdown解析依赖；课程底座来源继续见NOTICE.md",
   "entries": [
     {
@@ -118,5 +118,14 @@
       "changes": "同源Markdown解析依赖，不复制源码；与前端markdown-it 14.1.0共享25例图片可见性契约"
     }
   ],
-  "note": "reference_commit仅为已读示例来源，不冒充npm发布包commit；发布包身份按固定版本与锁文件integrity核对。未安装React或assistant-ui。"
+  "note": "reference_commit仅为已读示例来源，不冒充npm发布包commit；发布包身份按固定版本与锁文件integrity核对。未安装React或assistant-ui。",
+  "deployment_inventory": {
+    "api_lock": "deploy/api/requirements.lock",
+    "frontend_lock": "frontend/pnpm-lock.yaml",
+    "compose": "compose.delivery.yaml",
+    "source_build": "deploy/minio/Dockerfile",
+    "license_review": "THIRD_PARTY_NOTICES.md",
+    "status": "内部交付依赖盘点，非全量传递许可审核或发布批准",
+    "new_vendored_source": false
+  }
 }
