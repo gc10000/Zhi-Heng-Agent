@@ -8,6 +8,7 @@ COPY prompts /workspace/prompts
 COPY scripts /workspace/scripts
 COPY examples /workspace/examples
 COPY NOTICE.md THIRD_PARTY_NOTICES.md /licenses/
+COPY deploy/api/licenses/ /licenses/third-party/
 ENV PROJECT_ROOT=/workspace PYTHONUNBUFFERED=1 LOG_CONSOLE_ENABLE=False LOG_FILE_ENABLE=False \
     HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 PYTHONDONTWRITEBYTECODE=1
 USER 10001:10001

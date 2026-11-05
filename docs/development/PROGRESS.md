@@ -6,7 +6,7 @@
 
 用户明确后续运行目标为Linux服务器，Windows Docker Desktop容量不再阻塞迁移准备；跳过本机Desktop资源门槛，不将其记录成Linux目标容量结论。Ubuntu WSL以Python 3.14.4对app/scripts编译通过，现有候选compose+精确r1镜像覆盖`config --quiet`通过；容器未从WSL启动，Desktop WSL integration disabled。当前已有Windows Desktop内部预览只读readiness live/ready均200，模型/工具disabled。记录见[本轮Linux迁移核验](records/M7-linux-migration-readiness-20261105.md)。下一项为目标Linux Docker主机实际部署验证；新真实演示按新批身份/授权提案执行，r1 STOP/halt不得重用。
 
-M7剩余非Linux项分为恢复后真实问答/引用（04.3）、真实1/2/4负载和资源采样（05.1/05.3）、完整真实后台演示（08.2/V）及其最终发布复核（09）；均依赖新真实演示或目标/法律证据。r1已STOP/halt不能续跑，r2需新批身份和明确授权。可独立推进的许可元数据已完成技术分诊，但没有法律结论，见[分诊记录](releases/M7-operational-license-metadata-review-r1.md)。
+M7剩余非Linux项分为恢复后真实问答/引用（04.3）、真实1/2/4负载和资源采样（05.1/05.3）、完整真实后台演示（08.2/V）及其最终发布复核（09）；均依赖新真实演示或目标/法律证据。r1已STOP/halt不能续跑，r2需新批身份和明确授权。本轮从冻结制品实读许可并补修Loguru原文遗漏：新镜像b777e4b5构建成功、原文hash正确、212app/11prompts与旧镜像全等；仅创建隔离验证容器、从未启动，旧服务/候选保持。六包许可hash及Redis成功原文核实，不把历史404算未取得。法律审批仍false，见[技术补修记录](releases/M7-operational-license-metadata-review-r1.md)。
 
 ## 2026-11-04 · M7运行资源故障定位与只读拒绝门禁
 

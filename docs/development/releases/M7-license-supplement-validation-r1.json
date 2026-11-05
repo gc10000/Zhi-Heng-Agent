@@ -1,0 +1,64 @@
+{
+  "kind": "M7_license_supplement_validation_v1",
+  "legal_approval": false,
+  "previous_image": "sha256:969f425f295064a76346a426991ee711cea63756623e63de6aeed2523488a138",
+  "new_image": "sha256:b777e4b5e3dfec31f25f2fb77bf216098f21849d2f8611d5bf69622dcf8c3d48",
+  "previous_inventory_sha256": "c90375badadba4af4d2c69c7bf6bfad6edfef40b75cf4af71fcc75ac4aa6edd4",
+  "app_unchanged_files": 212,
+  "prompts_unchanged_files": 11,
+  "six_packages": [
+    {
+      "package": "markdown-it-py",
+      "version": "4.0.0",
+      "license_files_verified": 2
+    },
+    {
+      "package": "marshmallow",
+      "version": "3.26.2",
+      "license_files_verified": 1
+    },
+    {
+      "package": "mdurl",
+      "version": "0.1.2",
+      "license_files_verified": 1
+    },
+    {
+      "package": "prompt_toolkit",
+      "version": "3.0.53",
+      "license_files_verified": 1
+    },
+    {
+      "package": "pymilvus",
+      "version": "2.6.10",
+      "license_files_verified": 1
+    },
+    {
+      "package": "wcwidth",
+      "version": "0.9.4",
+      "license_files_verified": 1
+    }
+  ],
+  "loguru": {
+    "status": "verified",
+    "package": "loguru",
+    "version": "0.7.3",
+    "source_url": "https://codeload.github.com/Delgan/loguru/tar.gz/refs/tags/0.7.3",
+    "upstream_archive_sha256": "1cad8860aa0ecf9567125381e4430046526246e075224350a6a624addac05f5e",
+    "license_sha256": "b35d026cc7aca9d5859a02eb87ddf7a386a24c986838651bd1f283f94e003327",
+    "license_bytes": 1056,
+    "installed_python_files_matched": 19,
+    "text_start": "MIT License\n\nCopyright (c) 2017\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the ri",
+    "candidate_image_license_missing": true
+  },
+  "redis_license_original_verified": true,
+  "redis_historical_404_preserved": true,
+  "container_never_started": true,
+  "new_provider_streams": 0,
+  "new_local_model_inference": 0,
+  "private_evidence_directory": "output\\m7-license-artifact-audit-20261105-r1",
+  "limitations": [
+    "构建及离线制品检查；新镜像未部署/未做运行验收",
+    "原清单和既有候选不改写；不代签不同身份独立复核",
+    "课程底座/模型/系统和AGPL/SSPL责任未核清；非公开发布批准"
+  ]
+}

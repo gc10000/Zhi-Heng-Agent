@@ -1,3 +1,7 @@
+## 2026-11-05 · 非Linux收尾推进
+
+用户明确跳过Desktop容量前置；Linux目标实测仍单列。已实核原API许可制品并将Loguru漏带MIT文本补入新候选（构建/离线验证通过，未部署），见[补修](../../development/releases/M7-operational-license-metadata-review-r1.md)。不因本次补修勾M7-09整体验收。非Linux剩余主链是04.3恢复后真实问答、05.1/05.3真实负载和采样、08.2/V完整演示，另有许可责任与发布范围最终核对；r1已halt，新真实演示须用r2新批授权。
+
 ## 2026-11-04 · operational-r1补充证据
 
 新正式准入、API构建、工程备份恢复/三进程回切及实际资料浏览器路径完成限定独立复核；来源首失败停止，provider0/embedding5，不能签真实QA/08/容量通过。Ubuntu工具/700目录已测，完整部署超时；许可候选不是公开批准。下列既有勾选保持其限定范围，M7-02/04/05/08/09完整验收仍open。见[本包报告](../../development/reviews/M7-operational-closure-r1.md)。

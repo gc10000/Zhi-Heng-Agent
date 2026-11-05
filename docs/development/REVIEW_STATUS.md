@@ -1,3 +1,7 @@
+## 2026-11-05 · M7许可制品补修，仅执行自验
+
+冻结API镜像中6包许可文件hash及Redis已取得原文实核；Loguru 0.7.3原制品漏附MIT原文，官方tag与19个安装Python文件全等后补入Dockerfile。新镜像b777e4b5构建/离线读回通过，212app/11prompts与旧镜像一致；验证容器仅创建未启动，不修改旧独立通过的候选身份或运行服务。此为执行方补修自验，非不同身份独立通过；整体验收/法律责任仍open、legal_approval=false。见[补修记录](releases/M7-operational-license-metadata-review-r1.md)及[摘要](releases/M7-license-supplement-validation-r1.json)。用户决定不以Windows Desktop容量作为Linux目标前置；目标主机验收、新批真实演示与M6质量债务保持各自边界。
+
 ## 2026-11-04 · M7运行资源故障定位与只读拒绝门禁
 
 Docker主机日志/wsl内核确认全局OOM：原项目Mongo曾被杀（约4.9GiB RSS）；现场Mongo WiredTiger缓存上限约3.3GiB、当前约1.64GiB，恢复后resident约4.9GiB。Docker backend stats ping连续deadline exceeded；Windows可用物理内存约0.52GiB，WSL/daemon运行容器约6.34GiB/7.60GiB，daemon余量约1.26GiB。该证据确认资源压力与故障同现，不宣称唯一根因。未改原Mongo配置/容器，未重启旧服务。

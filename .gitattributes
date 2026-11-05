@@ -8,3 +8,5 @@ docs/evaluation/assistant-development-policy-decision-v1.md text eol=lf
 # 自制运行资料以UTF-8/LF字节冻结；不得因检出换行改变后续来源身份。
 examples/preview/manual-operational-v1.md text eol=lf
 docs/reuse/licenses/m7-operational-r1/* -text
+# 上游许可原文按原字节进入镜像，避免Windows检出改变已核SHA。
+deploy/api/licenses/*.txt -text

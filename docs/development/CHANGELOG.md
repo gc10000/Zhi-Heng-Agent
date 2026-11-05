@@ -1,6 +1,6 @@
 ## 2026-11-05 · M7候选许可元数据分诊
 
-对固定API镜像中7个`declared_license=unknown`包逐项核出上游分类器线索及已有许可文件SHA：6项有随包许可文件记录，Loguru缺该文件；Redis上游映射仍unknown。原依赖清单`legal_approval=false`保持，不把分类器或hash写成法律结论。见[技术分诊](releases/M7-operational-license-metadata-review-r1.md)。
+对固定API镜像中7个`declared_license=unknown`包核元数据和实际许可原文：6项随包文件hash核实，Loguru原镜像漏带原文，已以官方tag/19文件全等绑定补入新镜像b777e4b5并构建/离线验证；212app/11prompts与旧镜像一致，新容器未启动。Redis成功原文hash核实，历史404仍保留；更正将失败记录误当未取得原文的判断。原清单`legal_approval=false`保持。见[技术分诊/补修](releases/M7-operational-license-metadata-review-r1.md)。
 
 ## 2026-11-05 · 转入Linux迁移验证
 
