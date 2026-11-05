@@ -1,3 +1,7 @@
+## 2026-11-05 · 原项目基础服务恢复接续
+
+用户明确“现在可以启动了”，已恢复原`product-knowledge-rag`五项基础服务。Docker Desktop原未运行，本次启动引擎后原etcd/MinIO/Redis按既有策略恢复；原Mongo仅启动一次，在非正常退出恢复后健康，再启动原Milvus。09:45（Asia/Shanghai）只读复核五服务全部healthy、OOMKilled=false，原容器ID/全部挂载一致，五命名卷及Mongo匿名配置卷均存在。不改配置、不删重建卷、不派发模型。宿主可用约0.57GiB、daemon估算余量约1.19GiB，新增预览门禁仍拒绝；不把恢复健康视为容量/质量证明。见[恢复记录](records/OPS-original-services-restart-20261105.md)。下一项仅在资源门禁通过后接续零调用Linux部署实测；新真实演示仍须新批授权，原halt保持。
+
 ## 2026-11-04 · M7运行资源故障定位与只读拒绝门禁
 
 Docker主机日志/wsl内核确认全局OOM：原项目Mongo曾被杀（约4.9GiB RSS）；现场Mongo WiredTiger缓存上限约3.3GiB、当前约1.64GiB，恢复后resident约4.9GiB。Docker backend stats ping连续deadline exceeded；Windows可用物理内存约0.52GiB，WSL/daemon运行容器约6.34GiB/7.60GiB，daemon余量约1.26GiB。该证据确认资源压力与故障同现，不宣称唯一根因。未改原Mongo配置/容器，未重启旧服务。

@@ -1,3 +1,7 @@
+## 2026-11-05 · 原项目基础服务恢复
+
+按用户启动授权恢复Docker Desktop及原Mongo/Milvus，五项原基础服务均healthy、原容器/挂载/六卷一致；保留Mongo恢复期健康失败样本。没有源码/配置变更或新推理，新增预览仍因资源不足拒绝，未将服务恢复写成容量或阶段验收。见[恢复记录](records/OPS-original-services-restart-20261105.md)。
+
 ## 2026-11-04 · 预览启动增加只读资源门禁
 
 `preview create`在配置写入前及镜像构建后核Windows可用内存/Docker daemon容器内存，资源低或未知时拒绝且不清理/停止其他项目。依据本机WSL OOM与原Mongo被杀证据；本轮新项目仅定向停止、卷保留。完整实测被2/3GiB保守门槛挡住，未启动服务。
