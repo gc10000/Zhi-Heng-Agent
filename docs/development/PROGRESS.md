@@ -6,6 +6,8 @@
 
 用户明确后续运行目标为Linux服务器，Windows Docker Desktop容量不再阻塞迁移准备；跳过本机Desktop资源门槛，不将其记录成Linux目标容量结论。Ubuntu WSL以Python 3.14.4对app/scripts编译通过，现有候选compose+精确r1镜像覆盖`config --quiet`通过；容器未从WSL启动，Desktop WSL integration disabled。当前已有Windows Desktop内部预览只读readiness live/ready均200，模型/工具disabled。记录见[本轮Linux迁移核验](records/M7-linux-migration-readiness-20261105.md)。下一项为目标Linux Docker主机实际部署验证；新真实演示按新批身份/授权提案执行，r1 STOP/halt不得重用。
 
+M7剩余非Linux项分为恢复后真实问答/引用（04.3）、真实1/2/4负载和资源采样（05.1/05.3）、完整真实后台演示（08.2/V）及其最终发布复核（09）；均依赖新真实演示或目标/法律证据。r1已STOP/halt不能续跑，r2需新批身份和明确授权。可独立推进的许可元数据已完成技术分诊，但没有法律结论，见[分诊记录](releases/M7-operational-license-metadata-review-r1.md)。
+
 ## 2026-11-04 · M7运行资源故障定位与只读拒绝门禁
 
 Docker主机日志/wsl内核确认全局OOM：原项目Mongo曾被杀（约4.9GiB RSS）；现场Mongo WiredTiger缓存上限约3.3GiB、当前约1.64GiB，恢复后resident约4.9GiB。Docker backend stats ping连续deadline exceeded；Windows可用物理内存约0.52GiB，WSL/daemon运行容器约6.34GiB/7.60GiB，daemon余量约1.26GiB。该证据确认资源压力与故障同现，不宣称唯一根因。未改原Mongo配置/容器，未重启旧服务。

@@ -1,3 +1,7 @@
+## 2026-11-05 · M7候选许可元数据分诊
+
+对固定API镜像中7个`declared_license=unknown`包逐项核出上游分类器线索及已有许可文件SHA：6项有随包许可文件记录，Loguru缺该文件；Redis上游映射仍unknown。原依赖清单`legal_approval=false`保持，不把分类器或hash写成法律结论。见[技术分诊](releases/M7-operational-license-metadata-review-r1.md)。
+
 ## 2026-11-05 · 转入Linux迁移验证
 
 按用户决定跳过Windows Docker Desktop资源容量门槛，改以未来Linux目标主机实测作为迁移/容量证据。Ubuntu WSL源码编译和冻结Compose配置解析退出0；WSL Docker集成未启用，未启动容器。现有Desktop内部候选只读live/ready均200，生成和工具关闭。完整边界见[记录](records/M7-linux-migration-readiness-20261105.md)。
