@@ -1,3 +1,7 @@
+## 2026-11-05 · 转入Linux迁移验证
+
+按用户决定跳过Windows Docker Desktop资源容量门槛，改以未来Linux目标主机实测作为迁移/容量证据。Ubuntu WSL源码编译和冻结Compose配置解析退出0；WSL Docker集成未启用，未启动容器。现有Desktop内部候选只读live/ready均200，生成和工具关闭。完整边界见[记录](records/M7-linux-migration-readiness-20261105.md)。
+
 ## 2026-11-05 · 原项目基础服务恢复
 
 按用户启动授权恢复Docker Desktop及原Mongo/Milvus，五项原基础服务均healthy、原容器/挂载/六卷一致；保留Mongo恢复期健康失败样本。没有源码/配置变更或新推理，新增预览仍因资源不足拒绝，未将服务恢复写成容量或阶段验收。见[恢复记录](records/OPS-original-services-restart-20261105.md)。

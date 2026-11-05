@@ -2,6 +2,8 @@
 
 本轮只授权本机隔离预览。Linux容器实际运行于Windows Docker Desktop，不等于目标Ubuntu主机实测；外部部署、TLS域名/防火墙验收及公开Release未执行。
 
+2026-11-05执行顺序调整：后续目标为Linux服务器，Windows Docker Desktop宿主/daemon容量阈值不作为该目标的准入或收尾条件，不为此停止Linux迁移准备。目标主机须使用其本机Linux内核、Docker Engine、cgroup/daemon实测并单独记录容量与稳定性；不得将本机Desktop/WSL数值代作目标结论。该调整不代表Linux服务器已部署或容量已验证。
+
 拓扑：浏览器→Nginx8080→FastAPI8000；API→Mongo/MinIO/Milvus/Redis；dispatcher按Mongo事实账本派发仅含job_id的消息→Redis→Linux Celery worker；模型仍在受控宿主，不进入轻量应用镜像。评测catalog为空，独立评测队列不启动消费者。所有卷/网络以随机Compose项目隔离，不设置container_name。
 
 按[quickstart](quickstart.md)生成配置及启动。Compose只发布回环端口；Mongo/Redis仅限本机隔离演练，不是生产无认证配置的批准。生产前须准备外部TLS入口、Mongo/Redis认证、MinIO最小权限服务账户、Milvus访问限制和备份密钥管理，候选不得直接改成0.0.0.0公开。`M7_GENERATION_ENABLED=false`为本轮硬限制，不以免责声明替代已知质量缺陷修复。
