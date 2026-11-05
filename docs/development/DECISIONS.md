@@ -1,3 +1,7 @@
+## 2026-11-05 · 受控导入上限必须在正式登记冻结
+
+r2真实导入出现自动租约接管attempt2，证明私有驱动终态assert不足。采用可选IMPORT_MAX_ATTEMPTS=1..10，仅新任务持久冻结；消费时不读当前环境解除上限，claim/retry原子拒绝、dispatcher与过期重排封存耗尽任务，普通未限制恢复不变。历史任务不回填。本批已STOP不再导入/问答，补修与未消费额度均不是续跑授权；Desktop容量按用户要求不作为Linux目标前置，真实Mongo/Docker故障仍如实封存。
+
 ## 2026-11-04 · 内存不足时拒绝新预览，不调原Mongo或Docker全局状态
 
 WSL内核OOM杀死既有Mongo，Docker backend ping超时且宿主可用内存低。只读核实原Mongo WiredTiger cache和容器RSS后，选择仅关闭本轮新增预览项目；不改主项目缓存、资源限额，不stop原项目或重启机器/daemon。新启动脚本按Windows物理余量≥2GiB、daemon总量减运行容器RSS≥3GiB做快照拒绝门禁；快照不构成持续容量证明。阈值下部署由维护者资源变更/降低并发后重试。

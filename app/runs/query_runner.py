@@ -143,7 +143,7 @@ class QueryRunner:
             boundary()
             from app.infrastructure.providers.output_contract import validate_run as validate_output_run,require_capability
             output_contract=self.answer_budget.output_contract
-            if output_contract is not None and output_contract.enabled and output_contract.function_version == 'm7_operational_demo_v1':
+            if output_contract is not None and output_contract.enabled and output_contract.function_version in ('m7_operational_demo_v1','m7_operational_demo_v2'):
                 from app.infrastructure.providers.m7_demo import DemoLedger
                 demo_account = DemoLedger(self.repo.db, output_contract)
             validate_output_run(row,output_contract)
@@ -493,10 +493,10 @@ class QueryRunner:
                             demo_account.observation(rid,state,telemetry.snapshot())
                         telemetry.diagnostic_usage(state.get('answer_usage_observations',[]))
                         product_options={}
-                        if output_contract.function_version in ('diagnostic_remaining_manifest_r1','diagnostic_nonthinking_manifest_r1','diagnostic_source_relation_048_v1','diagnostic_comparison_answer_048_v1','diagnostic_comparison_answer_048_v2','diagnostic_connection_comparison_048_v1','diagnostic_feedback_candidate_manifest_r1','m7_operational_demo_v1'):
+                        if output_contract.function_version in ('diagnostic_remaining_manifest_r1','diagnostic_nonthinking_manifest_r1','diagnostic_source_relation_048_v1','diagnostic_comparison_answer_048_v1','diagnostic_comparison_answer_048_v2','diagnostic_connection_comparison_048_v1','diagnostic_feedback_candidate_manifest_r1','m7_operational_demo_v1','m7_operational_demo_v2'):
                             product_options['product_state']=dict(visible_body=bool(safe_answer.answer.strip()),
                                 truncated=bool(state.get('output_truncated')),finish_reason=state.get('answer_finish_reason'))
-                            if output_contract.function_version in ('diagnostic_nonthinking_manifest_r1','diagnostic_source_relation_048_v1','diagnostic_comparison_answer_048_v1','diagnostic_comparison_answer_048_v2','diagnostic_connection_comparison_048_v1','diagnostic_feedback_candidate_manifest_r1','m7_operational_demo_v1'):
+                            if output_contract.function_version in ('diagnostic_nonthinking_manifest_r1','diagnostic_source_relation_048_v1','diagnostic_comparison_answer_048_v1','diagnostic_comparison_answer_048_v2','diagnostic_connection_comparison_048_v1','diagnostic_feedback_candidate_manifest_r1','m7_operational_demo_v1','m7_operational_demo_v2'):
                                 product_options['product_state'].update(observed_reasoning=bool(state.get('answer_mode_observations')),
                                     mode_observations=state.get('answer_mode_observations',[]))
                         settled=account.settle(rid,row['identity'],telemetry.snapshot()['token_usage'],completed=True,

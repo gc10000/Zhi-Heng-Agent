@@ -1,3 +1,9 @@
+## 2026-11-05 · M7 r2限定独立技术关闭，真实演示首失败停止
+
+r2已获用户明确授权并实际准备，正式上传后Mongo读取取消触发STOP；provider0，本地6文本仅预留、完成unknown。普通导入自动租约接管导致attempt2，已红测并补修新任务持久次数上限；原job不改，消费者/宿主已停、generation=false，无manifest/控制账户，不得称账户halt或恢复未消费槽。最终补修尚未部署；真实1/2/4问答、恢复08、完整演示及Linux目标/公开发布仍open。
+
+新独立Agent仅1位，38项正式Run/SDK、13项身份/预算及12项补修纯离线检查分列通过；CAS补修静态审阅及执行方Mongo12项收据核对，不冒充独立Mongo重跑。最终合并组仍有连接setup错误，运行镜像仍为导入时旧锚。见[独立报告](reviews/M7-operational-r2-independent-review-r1.md)及[执行证据](reviews/M7-operational-r2-execution-r1.md)。本次不签质量、M7整阶段或公开上线。以下历史保持。
+
 ## 2026-11-05 · M7许可制品补修，仅执行自验
 
 冻结API镜像中6包许可文件hash及Redis已取得原文实核；Loguru 0.7.3原制品漏附MIT原文，官方tag与19个安装Python文件全等后补入Dockerfile。新镜像b777e4b5构建/离线读回通过，212app/11prompts与旧镜像一致；验证容器仅创建未启动，不修改旧独立通过的候选身份或运行服务。此为执行方补修自验，非不同身份独立通过；整体验收/法律责任仍open、legal_approval=false。见[补修记录](releases/M7-operational-license-metadata-review-r1.md)及[摘要](releases/M7-license-supplement-validation-r1.json)。用户决定不以Windows Desktop容量作为Linux目标前置；目标主机验收、新批真实演示与M6质量债务保持各自边界。

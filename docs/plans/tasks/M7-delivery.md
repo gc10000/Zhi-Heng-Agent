@@ -1,3 +1,9 @@
+## 2026-11-05 · r2授权执行及停止
+
+r2已获用户明确授权并实际准备，正式上传后Mongo读取取消触发STOP；provider0，本地6文本仅预留、完成unknown。普通导入自动租约接管导致attempt2，已红测并补修新任务持久次数上限；原job不改，消费者/宿主已停、generation=false，无manifest/控制账户，不得称账户halt或恢复未消费槽。最终补修尚未部署；真实1/2/4问答、恢复08、完整演示及Linux目标/公开发布仍open。
+
+持久导入max_attempts补修已通过受审限定边界，未部署本批；补修镜像构建500、最终合并回归6项Mongo setup错误均保留。04.3/05.1/05.3/08.2与完整09不勾选。见[任务记录](../../development/records/M7-operational-r2.md)、[执行报告](../../development/reviews/M7-operational-r2-execution-r1.md)。
+
 ## 2026-11-05 · 非Linux收尾推进
 
 用户明确跳过Desktop容量前置；Linux目标实测仍单列。已实核原API许可制品并将Loguru漏带MIT文本补入新候选（构建/离线验证通过，未部署），见[补修](../../development/releases/M7-operational-license-metadata-review-r1.md)。不因本次补修勾M7-09整体验收。非Linux剩余主链是04.3恢复后真实问答、05.1/05.3真实负载和采样、08.2/V完整演示，另有许可责任与发布范围最终核对；r1已halt，新真实演示须用r2新批授权。

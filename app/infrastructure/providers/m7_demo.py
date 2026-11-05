@@ -12,6 +12,7 @@ from app.knowledge.repository import fingerprint
 
 VERSION = 'm7_operational_demo_v1'
 BATCH = 'm7-operational-closure-r1'
+VERSIONS = {VERSION:BATCH,'m7_operational_demo_v2':'m7-operational-closure-r2'}
 QUESTIONS = (
     '机身有几个演示网口？请引用资料。',
     'ZH-DEMO-Dock的端口能否算作机身能力？请引用资料说明。',
@@ -40,12 +41,14 @@ def require(policy):
     policy=parse_contract(policy)
     raw = Path(os.environ['M7_DEMO_AUTHORIZATION']).read_bytes()
     auth = json.loads(raw)
+    batch = VERSIONS.get(policy.function_version)
+    v2 = policy.function_version == 'm7_operational_demo_v2'
     m = json.loads(Path(os.environ['M7_DEMO_MANIFEST']).read_text('utf-8'))
     if (hashlib.sha256(raw).hexdigest() != policy.authorization_sha256 or
-        auth.get('kind') != 'explicit_user_m7_operational_authorization_v1' or auth.get('adopted') is not True or
+        auth.get('kind') != ('explicit_user_m7_operational_authorization_v2' if v2 else 'explicit_user_m7_operational_authorization_v1') or auth.get('adopted') is not True or
         [auth.get(k) for k in ('max_streams','input_budget','output_budget')] != [8,227328,32768] or
         auth.get('control_database') != policy.control_database or
-        fingerprint(m) != policy.manifest_sha256 or m.get('id') != BATCH or
+        fingerprint(m) != policy.manifest_sha256 or m.get('id') != batch or policy.ledger_id != batch or
         m.get('control_database') != policy.control_database or m.get('source_identity') != source_identity() or
         len(m.get('members', [])) != 8 or [x.get('question') for x in m['members']] != list(QUESTIONS) or
         [x.get('slot') for x in m['members']] != [f'{i:02}' for i in range(1,9)] or
@@ -59,6 +62,14 @@ def require(policy):
         not auth.get('user_instruction_sha256') or not auth.get('adopted_at') or
         not policy.control_database.startswith('m1_test_m4_')):
         deny()
+    if v2:
+        if (auth.get('batch') != batch or
+            hashlib.sha256(auth.get('user_instruction','').encode()).hexdigest()!=auth.get('user_instruction_sha256') or
+            len({t['database'] for t in m['targets']} | {policy.control_database})!=3 or
+            any(len({t[k] for t in m['targets']})!=2 for k in ('bucket','collection')) or
+            any(not t['database'].startswith('m1_test_m4_') for t in m['targets']) or
+            [x['request_id'] for x in m['members']] != [batch+':'+x['slot'] for x in m['members']]):
+            deny('r2新身份、独立控制账本或授权来源不符。')
     return m
 
 
@@ -71,7 +82,7 @@ def contract_from_environment():
         return None
     from app.answering.service import AnswerBudget
     p = AnswerBudget.load().output_contract
-    if p is None or p.function_version != VERSION or not p.enabled:
+    if p is None or p.function_version not in VERSIONS or not p.enabled:
         deny()
     require(p)
     return p
@@ -93,7 +104,7 @@ def admit_request(db, user, cid, data):
     """仅受控新实例注入内部合同；公开请求不能指定合同、控制库或新槽。"""
     p = contract_from_environment()
     if p is None:
-        if getattr(getattr(data,'output_contract',None),'function_version',None) == VERSION:
+        if getattr(getattr(data,'output_contract',None),'function_version',None) in VERSIONS:
             deny()
         return data, None
     m = require(p)
@@ -164,6 +175,7 @@ class DemoLedger:
     def __init__(self, db, contract):
         from .output_contract import parse_contract
         self.policy=parse_contract(contract); self.manifest=require(self.policy)
+        self.batch=self.manifest['id']
         control=db.client[self.policy.control_database]
         self.rows,self.inputs,self.observations=control.m7_demo_accounts,control.m7_demo_inputs,control.m7_demo_observations
         self.inputs.create_index('run_id',unique=True)
@@ -171,17 +183,17 @@ class DemoLedger:
         initial=dict(contract_sha256=self.sha,version=0,wave=0,halt=False,pending={},settled={},
             reserved_input=0,reserved_output=0,known_input=0,known_output=0,input_tokens=None,output_tokens=None,
             streams_reserved=0,unknown_windows=[],failures=[],http_requests=None,cost=None)
-        try:self.rows.update_one({'_id':BATCH},{'$setOnInsert':initial},upsert=True)
+        try:self.rows.update_one({'_id':self.batch},{'$setOnInsert':initial},upsert=True)
         except DuplicateKeyError:pass
         self.read()
 
     def read(self):
-        r=self.rows.find_one({'_id':BATCH})
+        r=self.rows.find_one({'_id':self.batch})
         if r is None or r['contract_sha256']!=self.sha:deny()
         return r
 
     def cas(self, r, fields):
-        ok=self.rows.update_one({'_id':BATCH,'version':r['version']},{'$set':fields,'$inc':{'version':1}})
+        ok=self.rows.update_one({'_id':self.batch,'version':r['version']},{'$set':fields,'$inc':{'version':1}})
         return bool(ok.matched_count)
 
     def require_open(self):

@@ -1,3 +1,9 @@
+## 2026-11-05 · 本提案已授权执行，r2已STOP
+
+用户已明确批准本提案8stream与1位新审查者。正式资料导入后发生准备读取取消，随后发现自动接管attempt2，r2已永久停止，provider0。补修不解锁；不得再以以下历史申请文字重领未消费额度。见[实际出口](../reviews/M7-operational-r2-execution-r1.md)与[独立报告](../reviews/M7-operational-r2-independent-review-r1.md)。
+
+以下为授权前提案原文，按历史保留。
+
 # 修正来源的M7真实演示新批提案（尚未授权/登记）
 
 本提案供一次明确授权决策，不是调用授权。r1已因准备资料丢事实而STOP/halt，即使provider0也不能复用；旧M6和r1账户/manifest/Run/宿主SQLite保留，未消费额度不转移。

@@ -1,3 +1,7 @@
+## 2026-11-05 · r2独立身份及持久导入次数上限
+
+新增默认关闭m7_operational_demo_v2/r2及14/8/48本地限额，保持v1身份与原边界。正式导入前置失败后STOP；发现自动接管attempt2，补修IMPORT_MAX_ATTEMPTS登记冻结、claim/requeue/retry/dispatcher及对外retryable边界，不改历史或部署恢复本批。真实Mongo定向12通过、独立38/13/12分列通过；最终合并连接错误与补修镜像构建500保留，非真实QA或阶段通过。见[记录](records/M7-operational-r2.md)。
+
 ## 2026-11-05 · M7候选许可元数据分诊
 
 对固定API镜像中7个`declared_license=unknown`包核元数据和实际许可原文：6项随包文件hash核实，Loguru原镜像漏带原文，已以官方tag/19文件全等绑定补入新镜像b777e4b5并构建/离线验证；212app/11prompts与旧镜像一致，新容器未启动。Redis成功原文hash核实，历史404仍保留；更正将失败记录误当未取得原文的判断。原清单`legal_approval=false`保持。见[技术分诊/补修](releases/M7-operational-license-metadata-review-r1.md)。

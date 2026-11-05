@@ -1,3 +1,9 @@
+## 2026-11-05 · M7 r2新身份与收紧本地授权
+
+用户明确授权r2新批最多8stream（227328/32768）及1位新独立审查者。`m7_operational_demo_v2`仅匹配`m7-operational-closure-r2`，v1/r1解析和停止含义保持；新batch独立账户，不转移旧未消费额度。新本地授权固定14embedding文本/8逻辑rank/48pair，账本路径和模型配置绑定、持久CAS预留且不退款。r2授权正文SHA、题级request=batch:slot、8会话及控制/源/恢复DB独立在正式准入校验；Run/保存prompt/SDK原流仍走原门禁。技术独立通过不等于产品临发或质量通过，后者须实核新登记6chunk完整原文及manifest；首失败停止新派发，已开始只观察，HTTP/费用未知保持null。M6质量债务和旧halt不变。
+
+2026-11-05实际出口：正式导入前置读取取消后STOP，provider0；无控制账户，不称持久halt。自动租约接管attempt2违反本包限定，原记录不改。新IMPORT_MAX_ATTEMPTS在register冻结1..10，claim/retry原子次数过滤，dispatcher/expired与耗尽pending封存，job_view限制retryable；默认无上限旧任务保持恢复。补修未部署、不恢复r2；最终合并回归有6连接setup错误，不能写成全部通过。见[执行报告](../development/reviews/M7-operational-r2-execution-r1.md)。
+
 ## 2026-11-04 · M7显式八槽合同与宿主累计预留
 
 新增 `m7_operational_demo_v1`，只经服务端 `M7_DEMO_MANIFEST`/`M7_DEMO_AUTHORIZATION` 白名单注入正式Run，浏览器不能指定内部合同。固定8题/波次/源与恢复目标，完整prompt/docs/reference_map、租约与输入在CAS/联网前持久化；外置控制库不随知识恢复回滚，恢复只观察。未知usage/思考/异常finish/断流/前置失败halt，结算全等幂等，原始wire/SSE排他写 `M7_DEMO_EVIDENCE_DIR`，不写header/凭据/端点。无配置保留正常关闭/默认路径，不修改M6硬限判断或旧halt。

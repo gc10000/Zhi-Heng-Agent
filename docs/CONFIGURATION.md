@@ -1,3 +1,7 @@
+## 2026-11-05 · 新导入任务的持久次数限制
+
+可选`IMPORT_MAX_ATTEMPTS`严格接受1至10整数字符串；未配置保持原普通导入租约恢复，空值/非法值登记前拒绝。受控一次导入在API登记前设置`IMPORT_MAX_ATTEMPTS=1`（compose.delivery的env_file读取），新job保存`max_attempts`；worker/dispatcher按持久字段执行，改环境不能解除。已耗尽的领取/手动retry拒绝，过期或pending耗尽任务封存failed，对外retryable=false且保留原错误。有效lease不被抢占。不能回填历史任务或通过部署补修恢复STOP批次；r2运行镜像未部署此补修。
+
 # M7交付配置（2026-11-04）
 
 `compose.delivery.yaml`为独立预览拓扑，不叠加旧compose，不复用旧容器名、卷、队列、数据库或模型账户。`scripts/operations/prepare_preview.py`自动生成私有随机配置，禁止将runtime.env提交或打印。所有宿主发布端口仅绑定127.0.0.1；不提供公网TLS/认证隔离的生产部署承诺。
@@ -605,4 +609,6 @@ diagnostic_feedback_candidate_manifest_r1固定两版各85道dev、170题级槽�
 
 普通预览保持 `M7_GENERATION_ENABLED=false` 且以下五项未配：`M7_DEMO_MANIFEST`（完整来源/8题/目标白名单）、`M7_DEMO_AUTHORIZATION`（实际用户授权正文及hash）、`M7_DEMO_EVIDENCE_DIR`（排他持久wire/原流/输入证据）、`M7_DEMO_LOCAL_LEDGER`（宿主SQLite累计账本）、`M7_DEMO_LOCAL_AUTHORIZATION`（绑定既有模型配置/账本路径及限量）。均只为服务端私有文件，不能用VITE_或镜像构建ARG传入；缺失/漂移拒绝，不打印内容。
 
-v1固定qwen3.8-flash/n1/nonthinking/单一4096/stream+usage/SDK retries0、8槽及227328/32768；输入28416、请求上下文窗口32768。宿主64texts/8rank/512pair是授权限量，不是吞吐或质量证明；网关/付费输出硬限、精确HTTP和费用unknown沿报告记录。本批资料首失败后已halt，不能重填配置/换目录/账本复用。新提案拟收紧14/8/48需先另作版本化适配，当前代码不自动支持。精确候选启动与限制见[本包报告](development/reviews/M7-operational-closure-r1.md)。
+v1固定qwen3.8-flash/n1/nonthinking/单一4096/stream+usage/SDK retries0、8槽及227328/32768；输入28416、请求上下文窗口32768。宿主64texts/8rank/512pair是授权限量，不是吞吐或质量证明；网关/付费输出硬限、精确HTTP和费用unknown沿报告记录。本批资料首失败后已halt，不能重填配置/换目录/账本复用。精确候选启动与限制见[本包报告](development/reviews/M7-operational-closure-r1.md)。
+
+2026-11-05明确授权的r2使用`m7_operational_demo_v2`、新batch `m7-operational-closure-r2`与新控制库；profile/provider预算不变，本地新授权kind=`m7_explicit_local_model_authorization_v2`且batch固定r2、limits精确14/8/48。v1及其旧上限含义保留，不能混用。r2核新授权正文SHA、request=`batch:slot`、8独立会话及源/恢复/控制库三方独立；源与目标桶/集合互异。两种版本均默认不配置，只有服务端冻结manifest注入正式Run，外部不能指定合同。源码、准入、来源和镜像按本轮冻结及独立审查记录；首失败halt且未知窗口只观察，不换nonce/账本重发。

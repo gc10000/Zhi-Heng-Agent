@@ -1,0 +1,167 @@
+{
+  "kind": "m7_operational_r2_execution_validation_r1",
+  "implementation_base": "13b50934a8bc4ee088075e928c7c6e33a76a8193",
+  "final_application_source_identity": "912c8a9960ca2271c271e472681860364af6afa5230782d92e7d4f1adc7be6b9",
+  "import_application_source_identity": "29c8f4f6ebe4cd58c412db6f49a23714e8b9027aa409fefe1bc09d0c9c042280",
+  "import_image": "sha256:4e8fb4cac8f1903002bb2c74f1e5e05be82fffc34fb87de4b4dbb20fac2ea1f8",
+  "status": "STOP_before_provider_with_import_attempt_violation_source_fixed_not_deployed",
+  "import_job": {
+    "state": "failed",
+    "attempt": 2,
+    "stage": "embedding_pending",
+    "error": "upstream_connection_failed",
+    "history_unchanged": true
+  },
+  "provider": {
+    "streams": 0,
+    "runs": 0,
+    "manifest_exists": false,
+    "account_exists": false,
+    "halt_record_created": false,
+    "input_tokens": null,
+    "output_tokens": null,
+    "http_requests": null,
+    "cost": null,
+    "gateway_hard_limit": "unknown",
+    "paid_output_upper_bound": "unknown",
+    "fee_upper_bound": "unknown"
+  },
+  "slots": [
+    {
+      "slot": "01",
+      "state": "not_dispatched_batch_STOP_no_reuse"
+    },
+    {
+      "slot": "02",
+      "state": "not_dispatched_batch_STOP_no_reuse"
+    },
+    {
+      "slot": "03",
+      "state": "not_dispatched_batch_STOP_no_reuse"
+    },
+    {
+      "slot": "04",
+      "state": "not_dispatched_batch_STOP_no_reuse"
+    },
+    {
+      "slot": "05",
+      "state": "not_dispatched_batch_STOP_no_reuse"
+    },
+    {
+      "slot": "06",
+      "state": "not_dispatched_batch_STOP_no_reuse"
+    },
+    {
+      "slot": "07",
+      "state": "not_dispatched_batch_STOP_no_reuse"
+    },
+    {
+      "slot": "08",
+      "state": "not_dispatched_batch_STOP_no_reuse"
+    }
+  ],
+  "local": {
+    "embedding_reserved": 6,
+    "embedding_completed": null,
+    "embedding_completed_status": "unknown",
+    "reranks_reserved": 0,
+    "pairs_reserved": 0
+  },
+  "tests": {
+    "intermediate_provider_local": {
+      "passed": 37,
+      "exit_code": 0,
+      "r2_only_noop_v1_cases": 4
+    },
+    "import_red1": {
+      "failed": 3,
+      "setup_errors": 5,
+      "exit_code": 1
+    },
+    "import_red2": {
+      "failed": 7,
+      "passed": 1,
+      "exit_code": 1
+    },
+    "import_green1": {
+      "passed": 7,
+      "setup_errors": 5,
+      "exit_code": 1
+    },
+    "import_green2": {
+      "passed": 12,
+      "exit_code": 0
+    },
+    "final_joined": {
+      "passed": 37,
+      "skipped": 4,
+      "setup_errors": 6,
+      "exit_code": 1,
+      "whole_suite_passed": false
+    }
+  },
+  "independent_report": "M7-operational-r2-independent-review-r1.md",
+  "independent_scope": {
+    "provider": 38,
+    "v2_delta": 13,
+    "import_offline": 12,
+    "executed_import_mongo": false
+  },
+  "build": {
+    "exit_code": 1,
+    "command": [
+      "docker",
+      "build",
+      "--network=none",
+      "-f",
+      "deploy/api/Dockerfile",
+      "-t",
+      "zhi-heng-api:m7-op-r2-attempt-limit",
+      "."
+    ],
+    "deployed": false
+  },
+  "safe_state": {
+    "generation_enabled": false,
+    "consumers_stopped": true,
+    "modelhost_stopped": true,
+    "observed_not_continuous": true
+  },
+  "open": [
+    "Linux target deployment",
+    "real QA and 1/2/4 capacity",
+    "restored08",
+    "full real browser workflow",
+    "attempt-limit image build/deployment",
+    "public distribution approval",
+    "M6 quality and feedback proof"
+  ],
+  "m6": {
+    "completed": 5,
+    "total": 7,
+    "m6_04": "accepted",
+    "m6_05": "open",
+    "m6_08": "open",
+    "old_usage": [
+      809676,
+      30791
+    ],
+    "old_halt_unchanged": true
+  },
+  "private_evidence_sha256": {
+    "STOP.json": "78ed3f2edb6b3eec16b513e1260582b9017d9b48008e13ad91189ce1d9ce6c24",
+    "prepare-demo-r1-receipt.json": "2618b95f1f6be6bfde8537756f85b83845d039001563135b9d59d817446733eb",
+    "post-stop-local-read.json": "a2376e96a4ad6293539a97c87da693bc203db0a5c533c5c24127675ecdc17402",
+    "final-readonly-state-r1.json": "728c270a7aa36f1f40aa4bc6157393e80e4f36f7162d81345468115124e34aeb",
+    "stop-consumers-r2.json": "aa02f6405a633cd0f5f6e111bc6102204ebc4ae2e579c6702fdb2d4af4cc2775",
+    "import-limit-red-r1.log": "5045adaeedaa9f20587db7a0fe9b1af6ff07159a94b7381dc70e7a7dc0f43fb4",
+    "import-limit-red-r2.log": "0ce180a78fcaf1d34d9fa245f8bc5c767dfea1085e314d86726c56e1ee622fc8",
+    "import-limit-green-r1.log": "f3ac421ebb26e956ad104dd7d42082e8e95be6b38b19329f31ac3194c2e7e680",
+    "import-limit-green-r2.log": "44b93a2afdd7c83afbb1e0623735f354ee6f4366d4ea8321215abbf4486f623a",
+    "targeted-green-r2.log": "de8f1777eb4f8206156293762ef99c2ee367b1a84018673d8f395223304bb66d",
+    "final-targeted-r1.log": "2cf0f257c48c1ff9443862d1d08da43a48a9661ebd9245f7157547136b80a202",
+    "build-api-r1.json": "124fd50cb6d223cdd18fedc166d00af7254199b6e6dedf9be82f71db87af6d01",
+    "build-attempt-limit-r1.log": "5a160465393f3ded75a9ef7f5055f7ecd379b601a77335e0a346de3117846331",
+    "build-attempt-limit-r1.json": "0bef27d87b1c3ed67571971413164dd038144ec2852faac1874232bfc2871216"
+  }
+}

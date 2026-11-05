@@ -1,3 +1,15 @@
+## 2026-11-05 · M7 r2首失败封存与导入次数补修
+
+r2已获用户明确授权并实际准备，正式上传后Mongo读取取消触发STOP；provider0，本地6文本仅预留、完成unknown。普通导入自动租约接管导致attempt2，已红测并补修新任务持久次数上限；原job不改，消费者/宿主已停、generation=false，无manifest/控制账户，不得称账户halt或恢复未消费槽。最终补修尚未部署；真实1/2/4问答、恢复08、完整演示及Linux目标/公开发布仍open。
+
+执行方导入定向12项通过，独立38/13/12项分别通过；最终合并37通过/4跳过/6 Mongo setup错误，补修构建Docker API500失败，不能称最终整组通过或新镜像已交付。见[执行报告](reviews/M7-operational-r2-execution-r1.md)、[独立报告](reviews/M7-operational-r2-independent-review-r1.md)。唯一下一项由执行方准备Linux目标全新身份及导入前限额验证方案；不直接续跑r2。M6质量债务及05/08 open保持。
+
+以下历史按原时点保留。
+
+## 2026-11-05 · M7 r2新批执行中（已获授权）
+
+用户明确“授权”r2新批最多8stream及1位新独立复核Agent，新增provider输入/输出227328/32768、本地14embedding文本/8rerank/48pair；接受网关/付费输出/费用硬限unknown。先做v2/r2版本化准入与定向验证，再由新审查者`/root/m7_r2_independent_review`核技术及来源/manifest，正式API波次1/2/4/恢复1，首失败停止。旧r1/M6 halt不改，Desktop容量不作前置，真实Linux目标验收单列。私有证据新建`output/m7-operational-20261105-r2/`，不覆盖历史或接触生产空间。
+
 ## 2026-11-05 · 原项目基础服务恢复接续
 
 用户明确“现在可以启动了”，已恢复原`product-knowledge-rag`五项基础服务。Docker Desktop原未运行，本次启动引擎后原etcd/MinIO/Redis按既有策略恢复；原Mongo仅启动一次，在非正常退出恢复后健康，再启动原Milvus。09:45（Asia/Shanghai）只读复核五服务全部healthy、OOMKilled=false，原容器ID/全部挂载一致，五命名卷及Mongo匿名配置卷均存在。不改配置、不删重建卷、不派发模型。宿主可用约0.57GiB、daemon估算余量约1.19GiB，新增预览门禁仍拒绝；不把恢复健康视为容量/质量证明。见[恢复记录](records/OPS-original-services-restart-20261105.md)。下一项仅在资源门禁通过后接续零调用Linux部署实测；新真实演示仍须新批授权，原halt保持。

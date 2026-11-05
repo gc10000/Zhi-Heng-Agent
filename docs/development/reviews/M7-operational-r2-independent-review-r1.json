@@ -1,0 +1,158 @@
+{
+  "kind": "m7_operational_r2_independent_review_v1",
+  "reviewer": "/root/m7_r2_independent_review",
+  "independent": true,
+  "participated_in_implementation": false,
+  "result": "limited_technical_passed_real_batch_stopped_before_provider",
+  "application_source_identity": "912c8a9960ca2271c271e472681860364af6afa5230782d92e7d4f1adc7be6b9",
+  "provider_test_source_identity": "29c8f4f6ebe4cd58c412db6f49a23714e8b9027aa409fefe1bc09d0c9c042280",
+  "application_files": 210,
+  "provider_scope_unchanged_after_import_patch": true,
+  "import_gate_image": "sha256:4e8fb4cac8f1903002bb2c74f1e5e05be82fffc34fb87de4b4dbb20fac2ea1f8",
+  "final_import_patch_deployed": false,
+  "independent_checks": {
+    "admission_host_stream": 38,
+    "v2_delta": 13,
+    "import_view_offline": 12,
+    "terminal_observe": {
+      "passed": 0,
+      "failed": 1,
+      "setup_errors": 3,
+      "exit_code": 1,
+      "classification": "mongo_blocked_before_assertion"
+    }
+  },
+  "implementation_import_checks_reviewed": {
+    "final_passed": 12,
+    "reported_exit_code": 0,
+    "independent_mongo_execution": false,
+    "business_red_failed": 7,
+    "business_red_passed": 1,
+    "first_green_passed": 7,
+    "first_green_setup_errors": 5
+  },
+  "finding": {
+    "id": "M7-OP-R2-import-reclaim-attempt-limit",
+    "observed_attempt": 2,
+    "requested_max_attempts": 1,
+    "status": "limited_source_fix_reviewed_not_deployed",
+    "actual_import_state": "failed",
+    "stage": "embedding_pending",
+    "error_code": "upstream_connection_failed",
+    "original_job_unchanged": true
+  },
+  "provider": {
+    "streams": 0,
+    "runs": 0,
+    "manifest_exists": false,
+    "budget_exists": false,
+    "control_account_exists": false,
+    "control_halt_record_created": false,
+    "stream_files": 0,
+    "manifest_gate_issued": false,
+    "input_usage": null,
+    "output_usage": null,
+    "http_requests": null,
+    "cost": null,
+    "gateway_hard_limit": "unknown",
+    "paid_output_upper_bound": "unknown"
+  },
+  "local": {
+    "embedding_texts_reserved": 6,
+    "actual_embedding_completed": "unknown",
+    "reranks_reserved": 0,
+    "pairs_reserved": 0
+  },
+  "safe_state": {
+    "independent_read": true,
+    "generation_enabled": false,
+    "worker_dispatcher_exited": true,
+    "modelhost_pid_exists": false,
+    "stop_preserved": true,
+    "batch_restart_authorized": false
+  },
+  "old_r1": {
+    "live_read_halt_receipt_reviewed": true,
+    "streams": 0,
+    "unmodified": true
+  },
+  "open": [
+    "real QA quality",
+    "restore08",
+    "complete real QA browser closure",
+    "Linux target deployment",
+    "continuous runtime availability",
+    "new import patch runtime validation",
+    "public distribution obligations"
+  ],
+  "m6": {
+    "completed": 5,
+    "total": 7,
+    "m6_04": "accepted",
+    "m6_05": "open",
+    "m6_08": "open",
+    "quality_proof_created": false
+  },
+  "file_sha256": {
+    "app/ingestion/jobs.py": "f680e9c5e2a49e900851123cf88ee22dc896b97f77ae69fff0c4f29367be4be7",
+    "app/ingestion/dispatcher.py": "20ea83c9513897d3b60259f004deabc5b2d044291d0a60f1fdbbcd7338bca4b2",
+    "app/infrastructure/providers/m7_demo.py": "db2fb0092316e652502006bcbf4bd204af44ebdd7f129e3d9a57583b4d2af8d6",
+    "app/infrastructure/providers/output_contract.py": "68087855980de9322691881e5b80a6baecfde4d42ab6ae3ef6204df005d03059",
+    "app/infrastructure/queue/demo_model_budget.py": "bf9c437049b2c8f040fb022efe872c962b4290d67e5df329a683724c654f82dd",
+    "app/runs/query_runner.py": "bf6991f84172683bf2a7faeb3cc9779aa274c3ec21211b3bf33bcb2db9887bfa",
+    "app/query_process/agent/nodes/node_answer_output.py": "6fc7312a9d137547c10a0751db982628788c4cb389c274faf1f75ea24b6b05f1",
+    "examples/preview/manual-operational-v1.md": "249c38af8708bb62cd15f058b70ddd31fc72ddfd0674c9eb70252c1e9a766b6e",
+    "tests/integration/test_import_attempt_limit.py": "0973dd768d5f0140353c4f13cdeb26119e174a7cc36bd17d4c758d2e58ca9e9a",
+    "tests/integration/test_m7_demo_budget.py": "948f66d21d5e384b5b7949806f508c143c0cc282f078292ffa4051ae7c9afdf9"
+  },
+  "evidence_sha256": {
+    "output/m7-r2-independent-20261105-r1/initial-independent-v2-r1.log": "b2b6ee74bf3535305c66ceacc482b51b49aeefc628366ec85b0f2c4f83eff6f3",
+    "output/m7-r2-independent-20261105-r1/initial-independent-v2-r1.json": "a346262936929029af3b20b12e282d8eda49b3711d96c3e242f7da7f42de1646",
+    "output/m7-r2-independent-20261105-r1/v2-delta-r1.log": "d68e9c158fc756312d23ee532ed146980c64327b3979f6985b83d8060ed8940c",
+    "output/m7-r2-independent-20261105-r1/v2-delta-r1.json": "0907005335666499ba338a5f17513c81167d75f9ec008753532bb16ed12fde3a",
+    "output/m7-r2-independent-20261105-r1/terminal-observe-v2-r1.log": "2732ded4a58a4979f8330eef2d7edf0b15a1406319573c8d725d25e5f5ac67ec",
+    "output/m7-r2-independent-20261105-r1/terminal-observe-v2-r1.json": "8dfb7e7bfd630fb901b94a94c6456d99cf9136cd504bfe99f894a8d1a59bff85",
+    "output/m7-r2-independent-20261105-r1/import-view-offline-r1.log": "1a6e6f5bb4e97aa2107886c00dcf2c70d74f9ab3a36fff9fe97de75229a82c99",
+    "output/m7-r2-independent-20261105-r1/import-view-offline-r1.json": "b71bbb1d7a908c00510d36df71fdca0cce07712089c0bc5b71bb260b1d58d44a",
+    "output/m7-r2-independent-20261105-r1/admission-approved.json": "238f64f1e968b280586651196949688ce12781169f9d6f9a1ee6b00deb21aee7",
+    "output/m7-r2-independent-20261105-r1/final-readonly-r2.json": "31bafae4e91f734798a48b724d6e03cbb25b0cc0c47667acbc6376def5f685bd",
+    "output/m7-r2-independent-20261105-r1/final-generation-key-correction.json": "095744d6e25f702dda92e54c863059ea23c6fb1afef271176b334bd21acada79",
+    "output/m7-r2-independent-20261105-r1/final-source-reconciliation-r1.json": "0d1523953cdd8cc2453392de4d7df9b54d1e4fa5f830a1597a87f3ea37a630bd",
+    "output/m7-operational-20261105-r2/STOP.json": "78ed3f2edb6b3eec16b513e1260582b9017d9b48008e13ad91189ce1d9ce6c24",
+    "output/m7-operational-20261105-r2/stop-consumers-r1.json": "9b197af876ae52a5adb0d9fc8ff562d1c4b9cb983627e00445a191f323c1a426",
+    "output/m7-operational-20261105-r2/stop-consumers-r2.json": "aa02f6405a633cd0f5f6e111bc6102204ebc4ae2e579c6702fdb2d4af4cc2775",
+    "output/m7-operational-20261105-r2/final-readonly-state-r1.json": "728c270a7aa36f1f40aa4bc6157393e80e4f36f7162d81345468115124e34aeb",
+    "output/m7-operational-20261105-r2/import-limit-red-r1.log": "5045adaeedaa9f20587db7a0fe9b1af6ff07159a94b7381dc70e7a7dc0f43fb4",
+    "output/m7-operational-20261105-r2/import-limit-red-r2.log": "0ce180a78fcaf1d34d9fa245f8bc5c767dfea1085e314d86726c56e1ee622fc8",
+    "output/m7-operational-20261105-r2/import-limit-green-r1.log": "f3ac421ebb26e956ad104dd7d42082e8e95be6b38b19329f31ac3194c2e7e680",
+    "output/m7-operational-20261105-r2/import-limit-green-r2.log": "44b93a2afdd7c83afbb1e0623735f354ee6f4366d4ea8321215abbf4486f623a",
+    "output/m7-operational-20261105-r2/final-targeted-r1.log": "2cf0f257c48c1ff9443862d1d08da43a48a9661ebd9245f7157547136b80a202",
+    "output/m7-operational-20261105-r2/build-attempt-limit-r1.json": "0bef27d87b1c3ed67571971413164dd038144ec2852faac1874232bfc2871216",
+    "output/m7-operational-20261105-r2/build-attempt-limit-r1.log": "5a160465393f3ded75a9ef7f5055f7ecd379b601a77335e0a346de3117846331"
+  },
+  "private_evidence_uploaded": false,
+  "next_action": "seal stopped r2; prepare new identity and target runtime plan; never resume or reuse r2 slots",
+  "final_execution_receipts_reviewed": {
+    "combined": {
+      "passed": 37,
+      "skipped": 4,
+      "mongo_setup_errors": 6,
+      "exit_code": 1,
+      "seconds": 111.44,
+      "fully_green": false,
+      "failure_group_rerun_by_reviewer": false
+    },
+    "test_annotation_change": {
+      "file": "tests/integration/test_m7_demo_budget.py",
+      "previously_in_file_hash_list": false,
+      "scope": "v1 r2-only branch return replaced by explicit pytest.skip",
+      "new_behavior_checks_claimed": false
+    },
+    "import_patch_image_build": {
+      "exit_code": 1,
+      "error": "Docker API _ping 500",
+      "new_image_created": false,
+      "deployed": false
+    }
+  }
+}

@@ -254,7 +254,7 @@ def step_3_generate_response(state: QueryGraphState, prompt: str, *, client=None
   validate_input_mode(state, attribution)
   comparison=(state.get('comparison_mode') is True and attribution.comparison_answer is not None
     and attribution.comparison_answer.enabled)
-  demo=(state.get('output_contract') or {}).get('function_version')=='m7_operational_demo_v1'
+  demo=(state.get('output_contract') or {}).get('function_version') in ('m7_operational_demo_v1','m7_operational_demo_v2')
   buffer_output=binding or comparison or source_scoped or demo
   if binding:
     from app.answering.evidence_attribution import evidence_labels
@@ -413,7 +413,7 @@ def observes_reasoning_mode(output_contract):
   return isinstance(output_contract, dict) and output_contract.get('function_version') in (
     'diagnostic_nonthinking_manifest_r1', 'diagnostic_source_relation_048_v1',
     'diagnostic_comparison_answer_048_v1', 'diagnostic_comparison_answer_048_v2',
-    'diagnostic_connection_comparison_048_v1', 'diagnostic_feedback_candidate_manifest_r1', 'm7_operational_demo_v1')
+    'diagnostic_connection_comparison_048_v1', 'diagnostic_feedback_candidate_manifest_r1', 'm7_operational_demo_v1','m7_operational_demo_v2')
 
 
 def _extract_images_from_docs(docs):

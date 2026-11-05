@@ -1,3 +1,9 @@
+## 2026-11-05 · operational-r2不可恢复，导入限额补修仅面向未来
+
+r2已获用户明确授权并实际准备，正式上传后Mongo读取取消触发STOP；provider0，本地6文本仅预留、完成unknown。普通导入自动租约接管导致attempt2，已红测并补修新任务持久次数上限；原job不改，消费者/宿主已停、generation=false，无manifest/控制账户，不得称账户halt或恢复未消费槽。最终补修尚未部署；真实1/2/4问答、恢复08、完整演示及Linux目标/公开发布仍open。
+
+已停止本轮worker/dispatcher及模型宿主。不可执行旧prepare_demo/configure_generation/execute_wave，不改job/lease/retryable或回填max_attempts。未来新受控身份须在API登记前配置IMPORT_MAX_ATTEMPTS=1并核新job持久字段；消费者按该字段拒绝第二次。普通未限制任务沿旧恢复，不能把通用worker启动规则套到本批。最后ready200仅瞬时内部生成关闭观测，不证明持续运行。见[执行报告](../development/reviews/M7-operational-r2-execution-r1.md)。
+
 # 故障与恢复操作
 
 只对明确的随机预览项目操作。先核`preview.json`项目/端口与runtime.env命名空间，禁止默认`docker compose down`误触旧调试服务。

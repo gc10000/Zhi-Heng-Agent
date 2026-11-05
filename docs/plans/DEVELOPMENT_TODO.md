@@ -1,3 +1,9 @@
+## 2026-11-05 · M7 r2实际出口
+
+r2已获用户明确授权并实际准备，正式上传后Mongo读取取消触发STOP；provider0，本地6文本仅预留、完成unknown。普通导入自动租约接管导致attempt2，已红测并补修新任务持久次数上限；原job不改，消费者/宿主已停、generation=false，无manifest/控制账户，不得称账户halt或恢复未消费槽。最终补修尚未部署；真实1/2/4问答、恢复08、完整演示及Linux目标/公开发布仍open。
+
+[执行报告](../development/reviews/M7-operational-r2-execution-r1.md)与[独立复核](../development/reviews/M7-operational-r2-independent-review-r1.md)分列验证/失败和未测项，本轮不新增阶段勾选。旧未授权提案文字按历史保留，本轮授权已执行并停止，不是待批准或可恢复余额。
+
 ## 2026-11-04 · WSL/Docker资源收尾接续
 
 用户“继续推进”后，有限排查发现原Mongo OOM/daemon超时和主机资源不足；仅停本轮新增项目。Linux源编译/Compose config通过，运行前资源门禁拒绝新启动。拒绝路径37通过/1skip；运行与部署保持open。完整证据见[M7资源恢复报告](../development/reviews/M7-runtime-resource-recovery-r1.md)及[validation](../development/reviews/M7-runtime-resource-recovery-validation-r2.json)。下一步待资源有余量后再实测，不操作旧服务、机器或daemon。

@@ -12,7 +12,12 @@ def reserve(kind, values):
     if not path:
         return
     auth=json.loads(Path(os.environ['M7_DEMO_LOCAL_AUTHORIZATION']).read_text('utf-8'))
-    if auth.get('kind')!='m7_explicit_local_model_authorization_v1' or auth.get('limits')!={'texts':64,'reranks':8,'pairs':512}:
+    profiles={'m7_explicit_local_model_authorization_v1':(64,8,512),
+              'm7_explicit_local_model_authorization_v2':(14,8,48)}
+    limits=profiles.get(auth.get('kind'))
+    if (limits is None or auth.get('limits')!=dict(zip(('texts','reranks','pairs'),limits)) or
+        (auth.get('kind')=='m7_explicit_local_model_authorization_v2' and auth.get('batch')!='m7-operational-closure-r2') or
+        kind not in ('embedding','rerank')):
         raise ValueError('宿主授权缺失或范围漂移')
     if str(Path(path).resolve())!=auth['ledger_path']:
         raise ValueError('不能更换宿主账本领取新额度')
@@ -27,7 +32,7 @@ def reserve(kind, values):
         db.execute('INSERT OR IGNORE INTO account VALUES (1,?,0,0,0)',(identity,))
         row=db.execute('SELECT identity,texts,reranks,pairs FROM account WHERE id=1').fetchone()
         totals=tuple(a+b for a,b in zip(row[1:],counts))
-        if row[0]!=identity or any(n>lim for n,lim in zip(totals,(64,8,512))):
+        if row[0]!=identity or any(n>lim for n,lim in zip(totals,limits)):
             raise ValueError('宿主调用累计预留超限或身份冲突')
         db.execute('UPDATE account SET texts=?,reranks=?,pairs=? WHERE id=1',totals)
         db.execute('INSERT INTO receipts(kind,count,input_sha256) VALUES (?,?,?)',(kind,len(values),fingerprint(values)))

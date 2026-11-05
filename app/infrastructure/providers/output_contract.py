@@ -193,7 +193,7 @@ class FeedbackCandidateContract(NonthinkingManifestContract):
 
 class OperationalDemoContract(OutputContract):
     """仅本轮用户明确采用的八槽内部演示；不沿用M6授权或账本。"""
-    function_version: Literal['m7_operational_demo_v1'] = 'm7_operational_demo_v1'
+    function_version: Literal['m7_operational_demo_v1','m7_operational_demo_v2'] = 'm7_operational_demo_v1'
     manifest_sha256: str = Field(pattern=r'^[a-f0-9]{64}$')
     authorization_sha256: str = Field(pattern=r'^[a-f0-9]{64}$')
     control_database: str = Field(pattern=r'^m1_test_m4_[a-z0-9_]{1,48}$')
@@ -203,7 +203,7 @@ class OperationalDemoContract(OutputContract):
         expected = dict(status='unknown', semantics='unknown', evidence=None, n=1,
             model='qwen3.8-flash', client_versions={'openai':'2.28.0','langchain-openai':'1.1.11'},
             limit_field='max_completion_tokens', thinking=False, reasoning_budget=None,
-            per_request_total_output_tokens=4096, ledger_id='m7-operational-closure-r1',
+            per_request_total_output_tokens=4096, ledger_id=('m7-operational-closure-r2' if self.function_version=='m7_operational_demo_v2' else 'm7-operational-closure-r1'),
             prior_input_tokens=0, prior_output_tokens=0, prior_source_sha256=None,
             max_total_input_tokens=227328, max_total_output_tokens=32768)
         if any(getattr(self,k) != v for k,v in expected.items()):
@@ -221,20 +221,21 @@ def parse_contract(value):
             'diagnostic_comparison_answer_048_v2':ComparisonAnswer048V2Contract,
             CONNECTION_048_VERSION:ConnectionComparison048Contract,
             FEEDBACK_CANDIDATE_VERSION:FeedbackCandidateContract,
-            'm7_operational_demo_v1':OperationalDemoContract}.get(kind,OutputContract).model_validate(value)
+            'm7_operational_demo_v1':OperationalDemoContract,
+            'm7_operational_demo_v2':OperationalDemoContract}.get(kind,OutputContract).model_validate(value)
 
 
 def is_product_risk(value):
     if value is None:return False
     policy=parse_contract(value)
-    return policy.enabled and policy.function_version in ('diagnostic_single_product_risk_v1','diagnostic_remaining_manifest_r1','diagnostic_nonthinking_manifest_r1','diagnostic_source_relation_048_v1','diagnostic_comparison_answer_048_v1','diagnostic_comparison_answer_048_v2',CONNECTION_048_VERSION,FEEDBACK_CANDIDATE_VERSION,'m7_operational_demo_v1')
+    return policy.enabled and policy.function_version in ('diagnostic_single_product_risk_v1','diagnostic_remaining_manifest_r1','diagnostic_nonthinking_manifest_r1','diagnostic_source_relation_048_v1','diagnostic_comparison_answer_048_v1','diagnostic_comparison_answer_048_v2',CONNECTION_048_VERSION,FEEDBACK_CANDIDATE_VERSION,'m7_operational_demo_v1','m7_operational_demo_v2')
 
 
 def risk_handler(value):
     """保持旧单题含义；新清单只进入其自己的封存授权及共享账本。"""
     policy=parse_contract(value)
     if not is_product_risk(policy):raise ValueError('关闭或普通合同不使用风险准入')
-    if policy.function_version == 'm7_operational_demo_v1':
+    if policy.function_version in ('m7_operational_demo_v1','m7_operational_demo_v2'):
         from . import m7_demo
         return m7_demo
     if policy.function_version == CONNECTION_048_VERSION:
@@ -393,7 +394,7 @@ class OutputLedger:
     """在现有Run执行边界串行结算，不调度job。未知窗口持久阻断下一题。"""
     def __new__(cls,db,contract):
         policy=parse_contract(contract)
-        if policy.enabled and policy.function_version == 'm7_operational_demo_v1':
+        if policy.enabled and policy.function_version in ('m7_operational_demo_v1','m7_operational_demo_v2'):
             from .m7_demo import DemoLedger
             return DemoLedger(db,contract)
         if policy.enabled and policy.function_version == CONNECTION_048_VERSION:

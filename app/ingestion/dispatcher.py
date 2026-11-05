@@ -1,5 +1,6 @@
 """Mongo作为事实账本；发消息后才确认，崩溃最多重复而不丢任务。"""
 from app.api.errors import APIError
+from app.ingestion.jobs import attempts_available
 
 
 def validate_key(key):
@@ -14,7 +15,8 @@ class Dispatcher:
     def dispatch(self, *, limit=50):
         self.jobs.requeue_expired()
         count = 0
-        for row in self.jobs.jobs.find({'state': 'pending', 'dispatch_pending': True}).limit(limit):
+        for row in self.jobs.jobs.find({'state': 'pending', 'dispatch_pending': True,
+                                       **attempts_available()}).limit(limit):
             validate_key(row['object_key'])
             # broker中仅有job_id；原件地址、密钥、Windows路径均不随消息传递。
             self.send(row['job_id'])
