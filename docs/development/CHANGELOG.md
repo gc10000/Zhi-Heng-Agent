@@ -1,3 +1,7 @@
+## 2026-11-07 · 恢复本机系统查看入口
+
+恢复既有18080内部预览，保留Docker通信残留文件后启动引擎，实际登录及三页显示验证通过；仅运行状态操作，无业务源码/依赖变更或新推理。后台消费者与旧批保持停止，见[记录](records/OPS-local-system-view-20261107.md)。
+
 ## 2026-11-05 · r2独立身份及持久导入次数上限
 
 新增默认关闭m7_operational_demo_v2/r2及14/8/48本地限额，保持v1身份与原边界。正式导入前置失败后STOP；发现自动接管attempt2，补修IMPORT_MAX_ATTEMPTS登记冻结、claim/requeue/retry/dispatcher及对外retryable边界，不改历史或部署恢复本批。真实Mongo定向12通过、独立38/13/12分列通过；最终合并连接错误与补修镜像构建500保留，非真实QA或阶段通过。见[记录](records/M7-operational-r2.md)。
