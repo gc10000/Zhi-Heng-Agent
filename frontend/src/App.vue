@@ -17,4 +17,4 @@ onMounted(async () => { useTheme().init(); window.addEventListener('session-expi
 onBeforeUnmount(() => { detach(); window.removeEventListener('session-expired', expired) })
 </script>
 <template><aside class="preview-notice" role="note">知衡 · 内部预览：回答与支持建议为辅助草稿，请核对引用原文并人工确认；已知质量问题仍在修复。</aside><p v-if="!auth.restored" role="status">正在恢复身份…</p><RouterView v-else-if="auth.user" /><LoginPage v-else @login="login" /></template>
-<style scoped>.preview-notice{padding:.5rem 1rem;background:#fff4d6;color:#503800;border-bottom:1px solid #e5c66c;font-size:.875rem}</style>
+<style scoped>.preview-notice{padding:.5rem 1rem;background:var(--warn-soft);color:var(--warn);border-bottom:1px solid var(--line2);font-size:.875rem}</style>

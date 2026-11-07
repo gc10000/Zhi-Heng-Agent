@@ -58,4 +58,4 @@ async function save(){
 <p v-if="error" role="alert">{{error}}</p><p v-if="blockers.length" id="followup-submit-help" role="status" aria-live="polite">暂不能保存追加复核：{{blockers.join('；')}}。</p>
 <button :disabled="busy||!ready" :aria-describedby="blockers.length?'followup-submit-help':undefined">保存追加复核</button>
 </form></section></template>
-<style scoped>.followup{margin:1rem 0;padding:1rem;border:1px solid var(--border,#aaa)}label{display:grid;gap:.4rem;margin:.7rem 0}input[type=checkbox]{justify-self:start}p{margin:.6rem 0;line-height:1.7}textarea,select{max-width:100%}</style>
+<style scoped>.followup{margin:1rem 0;padding:1rem;border:1px solid var(--border,var(--ink3))}label{display:grid;gap:.4rem;margin:.7rem 0}input[type=checkbox]{justify-self:start}p{margin:.6rem 0;line-height:1.7}textarea,select{max-width:100%}</style>
