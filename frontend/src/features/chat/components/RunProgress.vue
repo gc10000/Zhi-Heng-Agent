@@ -11,6 +11,9 @@ const failed = computed(() => props.run.state === 'failed' && !!props.run.error)
 const resolved = computed(() => resolveError(props.run.error?.code, props.run.error?.message))
 const stageLabel = computed(() => stages[props.run.error?.stage || ''] || props.run.error?.stage || '未知')
 const copied = computed(() => `复制错误码 ${resolved.value.code}`)
+/** T2.4：后端 run 无 behavior 字段时，按 INSUFFICIENT_ANSWER 固定文案匹配（app/answering/assertion_binding.py）。 */
+const INSUFFICIENT_ANSWER = '当前授权知识库中没有找到可用证据，请补充资料或明确设备型号。'
+const insufficient = computed(() => props.run.state === 'completed' && props.run.answer.trim() === INSUFFICIENT_ANSWER)
 async function copyCode() {
   try { await navigator.clipboard.writeText(resolved.value.code) } catch { /* 剪贴板不可用时静默 */ }
 }
@@ -18,6 +21,11 @@ async function copyCode() {
 <template>
   <div class="run-progress">
     <p role="status">{{ label }}</p>
+    <section v-if="insufficient" class="warn-banner" role="status">
+      <p class="warn-title">依据不足：当前知识库没有覆盖这个问题的资料。</p>
+      <p class="warn-advice">可上传对应设备的资料后重试，或明确设备型号缩小检索范围。</p>
+      <RouterLink class="warn-link" to="/documents">上传补充资料 →</RouterLink>
+    </section>
     <section v-if="failed" class="error-card" role="alert">
       <h3 class="error-title">{{ resolved.advice?.title || '处理出错' }}</h3>
       <p class="error-advice">{{ resolved.advice?.advice || resolved.raw || '处理过程中发生错误。' }}</p>
@@ -37,6 +45,11 @@ async function copyCode() {
 </template>
 <style scoped>
 .run-progress { color: var(--ink2); font-size: .85rem; }
+.warn-banner { background: var(--warn-soft); border: 1px solid var(--line2); border-radius: 10px; padding: 12px 14px; display: grid; gap: 6px; }
+.warn-title { margin: 0; font-weight: 700; color: var(--warn); font-size: .9rem; }
+.warn-advice { margin: 0; color: var(--ink2); line-height: 1.7; }
+.warn-link { color: var(--accent); text-decoration: none; font-weight: 600; font-size: .85rem; width: fit-content; }
+.warn-link:hover { text-decoration: underline; }
 .error-card { background: var(--danger-soft); border: 1px solid var(--danger-line); border-radius: 12px; padding: 14px 16px; display: grid; gap: 8px; }
 .error-title { margin: 0; font-size: .95rem; font-weight: 700; color: var(--ink); }
 .error-advice { margin: 0; color: var(--ink2); line-height: 1.7; overflow-wrap: anywhere; }
