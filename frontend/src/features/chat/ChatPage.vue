@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch, onBeforeUnmount } from 'vue'
+import { computed, ref, watch, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
 import { useQueryClient } from '@tanstack/vue-query'
 import { api } from '@/lib/api/client'
@@ -31,7 +31,17 @@ const streaming = useRunStream(() => {
 })
 let epoch = 0, restoreGeneration = 0, resolvedTarget = ''
 function close() { epoch++; restoreGeneration++; resolvedTarget = ''; streaming.close(); runs.forget(selectedRun.value); selectedRun.value = '' }
-watch(cid, () => { close(); run.value = undefined; ui.selectedCitation = undefined; ui.evidence = false; error.value = ''; restored.value = false }, { immediate: true })
+watch(cid, () => { close(); run.value = undefined; ui.selectedCitation = undefined; ui.evidence = false; error.value = ''; restored.value = false; ui.selectProduct(undefined, '', '') }, { immediate: true })
+/* T1.3：会话加载完成后，把设备绑定重置为该会话的 product_ids（替代上一会话遗留选择）。 */
+watch([() => conversation.data.value?.conversation_id, () => conversation.data.value?.version], ([id]) => {
+  if (!id || id !== cid.value) return
+  const bound = conversation.data.value?.product_ids ?? []
+  ui.selectProduct(undefined, '', '')
+  if (bound.length === 1) {
+    const product = productSelection.options.value.find(p => p.product_id === bound[0])
+    if (product) ui.selectProduct(product, auth.user?.user_id || '', auth.kb)
+  }
+})
 watch(() => [history.data.value, conversation.data.value, history.isFetching.value, conversation.isFetching.value,
   history.hasNextPage.value, history.error.value, conversation.error.value], async () => {
   const request = ++restoreGeneration, version = epoch, currentId = cid.value
@@ -82,19 +92,32 @@ async function command(name: 'cancel' | 'confirm-product', fields = {}) {
   catch (e) { error.value = (e as Error).message }
   finally { commandBusy.value = false }
 }
+function askAgain() { if (run.value) question.value = run.value.question }
+/* T1.5：聊天页直达反馈（ChatThread 内联表单经 CustomEvent 汇聚到这里统一提交） */
+const feedbackStatus = ref('')
+async function submitFeedback(event: Event) {
+  const value = (event as CustomEvent<{ run_id: string; citation_ids: string[]; category: string; note: string; client_request_id: string }>).detail
+  try { await api.post('/feedback', value); feedbackStatus.value = '反馈已保存为待审，尚未进入知识库。' }
+  catch (e) { feedbackStatus.value = (e as Error).message || '反馈提交失败。' }
+}
+onMounted(() => window.addEventListener('zhiheng-feedback', submitFeedback as EventListener))
+onBeforeUnmount(() => window.removeEventListener('zhiheng-feedback', submitFeedback as EventListener))
 function show(runId: string, citationId: string) { ui.selectedCitation = { runId, citationId }; ui.evidence = true }
 window.addEventListener('close-run-streams', close)
 onBeforeUnmount(() => { close(); window.removeEventListener('close-run-streams', close) })
 const showLive = computed(() => run.value && !messages.value.some(m => m.role === 'assistant' && m.run_id === run.value?.run_id))
+const scopeModel = computed(() => productSelection.options.value.find(p => p.product_id === productSelection.selectedId.value)?.model || '')
 </script>
 <template><section class="chat-page"><header class="page-heading"><div><p class="eyebrow">技术支持</p><h1>让问题回到设备与依据</h1></div></header>
 <div v-if="!cid" class="empty-state"><h2>开始一段设备咨询</h2><p class="muted">在会话目录中选择或新建会话。描述设备型号、现象与已尝试的操作。</p><p>回答会保留资料修订和来源，便于核对。</p></div>
 <template v-else><p v-if="history.isPending.value && !conversation.error.value" role="status">正在恢复会话历史…</p><p v-if="conversation.error.value || history.error.value || error || streaming.error.value" role="alert">{{ error || streaming.error.value || conversation.error.value?.message || history.error.value?.message }}</p><p v-if="streaming.connection.value" class="muted" role="status">{{ streaming.connection.value }}</p>
-<ChatThread :messages="messages" :run="run" :show-live="!!showLive" :busy="commandBusy" @citation="show" @confirm="command('confirm-product',$event)" />
+<div v-if="scopeModel" class="scope-chip mono"><span class="scope-label">SCOPE</span><b>{{ scopeModel }}</b><RouterLink to="/products" class="scope-change">更换</RouterLink></div>
+<ChatThread :messages="messages" :run="run" :show-live="!!showLive" :busy="commandBusy" @citation="show" @confirm="command('confirm-product',$event)" @ask-again="askAgain" />
+<p v-if="feedbackStatus" role="status">{{ feedbackStatus }}</p>
 <button v-if="history.hasNextPage.value" :disabled="history.isFetchingNextPage.value" @click="history.fetchNextPage()">加载更多历史</button>
 <p v-if="run && !showLive && terminal(run.state)" role="status">{{ run.state === 'completed' ? '回答完成' : run.state === 'cancelled' ? '已取消' : '回答未完成' }}</p>
 <RouterLink v-if="run?.state==='completed'" :to="{path:'/cases',query:{conversation:cid,run:run.run_id}}">进入支持流程与处理草稿</RouterLink>
-<button v-if="run && ['failed','interrupted','cancelled'].includes(run.state)" @click="question = run.question">重新提问</button>
+<button v-if="run && ['failed','interrupted','cancelled'].includes(run.state) && !run.error" @click="askAgain">重新提问</button>
 <ProductSelector :model-value="productSelection.selectedId.value" :products="productSelection.options.value" :pending="productSelection.pending.value" :error="productSelection.error.value" :has-more="productSelection.hasMore.value" @update:model-value="productSelection.choose" />
 <ChatComposer v-model="question" :busy="busy" :active="!!run && !terminal(run.state)" :disabled="!restored || history.isPending.value || !productSelection.ready.value" @send="send" @cancel="command('cancel')" /></template>
 </section></template>
