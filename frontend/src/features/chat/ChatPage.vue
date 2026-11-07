@@ -31,15 +31,22 @@ const streaming = useRunStream(() => {
 })
 let epoch = 0, restoreGeneration = 0, resolvedTarget = ''
 function close() { epoch++; restoreGeneration++; resolvedTarget = ''; streaming.close(); runs.forget(selectedRun.value); selectedRun.value = '' }
-watch(cid, () => { close(); run.value = undefined; ui.selectedCitation = undefined; ui.evidence = false; error.value = ''; restored.value = false; ui.selectProduct(undefined, '', '') }, { immediate: true })
-/* T1.3：会话加载完成后，把设备绑定重置为该会话的 product_ids（替代上一会话遗留选择）。 */
+watch(cid, () => { close(); run.value = undefined; ui.selectedCitation = undefined; ui.evidence = false; error.value = ''; restored.value = false })
+/* T1.3：会话加载完成后同步设备绑定——会话有绑定则跟随会话；无绑定时保留用户在目录的全局选择（供本轮提交）。 */
+const syncedConversation = ref('')
 watch([() => conversation.data.value?.conversation_id, () => conversation.data.value?.version], ([id]) => {
   if (!id || id !== cid.value) return
+  if (syncedConversation.value === id) return
+  syncedConversation.value = id
   const bound = conversation.data.value?.product_ids ?? []
-  ui.selectProduct(undefined, '', '')
   if (bound.length === 1) {
     const product = productSelection.options.value.find(p => p.product_id === bound[0])
     if (product) ui.selectProduct(product, auth.user?.user_id || '', auth.kb)
+  } else if (ui.selectedProduct) {
+    // 会话未绑定设备：保留用户已选（来自设备目录），发送时使用该范围
+    const current = ui.selectedProduct
+    if (current.userId === auth.user?.user_id && current.kb === auth.kb) return
+    ui.selectProduct(undefined, '', '')
   }
 })
 watch(() => [history.data.value, conversation.data.value, history.isFetching.value, conversation.isFetching.value,
