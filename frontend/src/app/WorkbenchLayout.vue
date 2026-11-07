@@ -19,7 +19,7 @@ async function logout() { try { await auth.logout() } finally { ui.clear(); void
 <template><div class="workbench">
 <a class="skip-link" href="#main-content" @click="($event.currentTarget as HTMLElement).ownerDocument.getElementById('main-content')?.focus()">跳到主要内容</a>
 <Sidebar v-model:open="ui.menu"><div class="brand"><span class="brand-mark"><BrandMark :size="26" /></span><div><strong>知衡</strong><p class="muted">设备技术支持</p></div></div>
-<label class="scope">知识范围<select v-model="auth.kb" @change="scopeChanged"><option v-for="kb in auth.user?.kb_ids" :key="kb" :value="kb">{{ kb }}</option></select></label>
+<label class="scope">知识范围<select v-model="auth.kb" @change="scopeChanged"><option v-for="kb in auth.user?.kb_ids" :key="kb" :value="kb">{{ auth.labelOf(kb) }}</option></select></label>
 <nav aria-label="工作台导航" @click="ui.menu = false"><RouterLink to="/chat">技术问答</RouterLink><RouterLink to="/products">设备目录</RouterLink><RouterLink to="/documents">资料管理</RouterLink><RouterLink to="/cases">支持流程</RouterLink><RouterLink to="/evaluations">评测工作台</RouterLink></nav>
 <div id="conversation-directory"><ConversationList /></div>
 <footer><span>{{ auth.user?.username }}</span><button @click="logout">退出登录</button></footer>
