@@ -1,0 +1,24 @@
+/* 知衡双主题 Token · v6（视觉基准 docs/design/ui-final-v6.html）
+   组件层禁止颜色字面量，只引用这些语义变量；唯一例外：PDF 纸面白底。 */
+
+:root {                                  /* LIGHT 默认 · 冷中性 + 深青 */
+  --bg: #FFFFFF;          --sidebar: #F7F8F9;    --panel: #F9FAFB;
+  --userbubble: #F1F4F7;
+  --ink: #0F172A;         --ink2: #475569;       --ink3: #94A3B8;
+  --line: #E8EBEF;        --line2: #DBE0E6;
+  --accent: #0E7490;      --accent-soft: #ECFAFD; --accent-line: #B5E6F0;
+  --ok: #059669;          --ok-soft: #ECFDF5;     --ok-line: #BBE9D4;
+  --warn: #B45309;        --warn-soft: #FEF6E7;
+  --danger: #DC2626;      --danger-soft: #FEF2F2; --danger-line: #FECACA;  /* Phase1 T1.1 用 */
+}
+
+[data-theme="dark"] {                    /* DARK · 深空青（用户指定的 C 风格） */
+  --bg: #0A0E14;          --sidebar: #0C1119;    --panel: #0F1722;
+  --userbubble: #16324F;
+  --ink: #E6EDF5;         --ink2: #9DACBE;       --ink3: #5D6B7E;
+  --line: #171E29;        --line2: #1F2A38;
+  --accent: #22D3EE;      --accent-soft: #0E2530; --accent-line: #155E75;
+  --ok: #34D399;          --ok-soft: #052E1B;     --ok-line: #14532D;
+  --warn: #FBBF24;        --warn-soft: #2A2110;
+  --danger: #F87171;      --danger-soft: #2A1215; --danger-line: #5B2326;
+}
