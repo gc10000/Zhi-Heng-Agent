@@ -27,6 +27,8 @@
 | 70581f6 | T3.3 四页铺开 | `ProductsPage.vue`、`LoginPage.vue`、`CasesPage.vue`、`OperationChecklist.vue` |
 | 521ff07 | T3.4 清理收尾 | `App.vue`、`evaluation/`×5、`tests/e2e/support-case.spec.ts` |
 | a02ddcc | 双主题截图 | `docs/design/screenshots/final/`×12 |
+| ed13d7a | 执行报告 | `docs/design/UI-REDESIGN-V6-EXECUTION-REPORT.md` |
+| 9424420 | 改版前基线截图 | `docs/design/screenshots/before/`×6 |
 
 ## 二、Checkbox 勾选（对应任务书）
 
@@ -55,7 +57,7 @@
 - Phase 0/1/2/3 每阶段完成门：`pnpm typecheck`（vue-tsc 0 错）+ `pnpm test:unit`（62/62）全绿
 - `pnpm test:e2e`：**52/52 全绿**（任务书写 23 条为旧数字，本 worktree 实有 52 条，全过）
 - 双主题运行时验证：`data-theme="dark"` → `--bg` 计算值 `#0A0E14` ✅
-- 截图：`frontend/docs/design/screenshots/final/` 6 页 × 2 主题 × 1500×960
+- 截图：`frontend/docs/design/screenshots/final/` 6 页 × 2 主题 × 1500×960（改版后）+ `screenshots/before/` 6 页（改版前基线，`codex/m6-source-bound-comparison` 原版，临时 worktree 生成后已清理）
 
 ## 四、遗留问题清单（如实）
 
