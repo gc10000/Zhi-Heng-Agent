@@ -66,6 +66,7 @@
 
 1. **环境修复（非代码）**：worktree 的 `frontend/node_modules` 原为指向主仓库的 junction，导致 vite `/@fs/` 403、pdf-runtime/pdf-viewer 两条 e2e 在基线即失败。已删除 junction 并 `pnpm install --frozen-lockfile` 重装（依赖版本零变化）。主仓库若同名 junction 仍在，与本分支无关。
 2. **T1.3 与既有 e2e 语义的折中**：任务书要求「切会话时 ui.productIds 重置为会话绑定」，但既有 e2e（selected-product.spec）要求「目录选中设备 → 新建会话 → 选择保留且发送一致」。最终实现：会话有绑定→跟随会话；无绑定→保留用户全局选择。两套验收都通过。
+   - **自审补充（已验证非问题）**：`syncedConversation` 按会话 id 一次性同步是有意设计——后端中途确认型号只写 run 的 `product_snapshot`（app/runs/commands.py confirm），不回写 `conversation.product_ids`；且 query_planner 从消息历史 assistant `product_snapshot` 继承 `recent` 上下文（app/retrieval/query_planner.py recent_product_context），前端下一问即使传空 product_ids 也不会重新触发澄清。UI 层由消息级 scope-badge 显示中途确认的设备。
 3. **T2.5 数据源限制**：后端 `/import-jobs` 只有单查端点（openapi 无列表）。任务折叠区的任务 ID 来自「上传返回 + URL ?job=」两处收集，非持久化——刷新页面后仅 ?job= 深链任务可见。若后端补列表端点可无缝接入。
 4. **T2.4 判定方式**：run 响应无 behavior 字段，按后端固定文案 `INSUFFICIENT_ANSWER`（app/answering/assertion_binding.py:14）精确匹配。后端若改文案需同步前端常量。
 5. **VERIFIED 徽标**：v6 设计稿的「VERIFIED m/n」需引用级比对数据，后端 citation 无该字段。T1.5 暂只显示 SOURCES 数；EvidenceCard 的 VERIFIED 徽标在有原件可开时显示。
