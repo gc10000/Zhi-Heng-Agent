@@ -71,4 +71,4 @@
 4. **T2.4 判定方式**：run 响应无 behavior 字段，按后端固定文案 `INSUFFICIENT_ANSWER`（app/answering/assertion_binding.py:14）精确匹配。后端若改文案需同步前端常量。
 5. **VERIFIED 徽标**：v6 设计稿的「VERIFIED m/n」需引用级比对数据，后端 citation 无该字段。T1.5 暂只显示 SOURCES 数；EvidenceCard 的 VERIFIED 徽标在有原件可开时显示。
 6. **pdf-worker 资产**：`pnpm dev`/`build` 前置的 `scripts/pdf-assets.mjs` 在直接 `npx playwright test`（不走路由 dev script）时未执行，但依赖重装后 pdf e2e 已全绿，无需额外处理。
-7. **截图覆盖**：聊天页为空态截图（mock 数据无历史消息）。带引用的回答流截图需真实后端数据，建议联调环境补拍。
+7. **截图覆盖**：~~聊天页为空态截图~~ **已补齐（2026-11-08）**——`screenshots/real/` ×4：真实预览环境（v6 前端 + qwen3.7-plus + 真实手册语料）的带引用回答流（亮/暗）与证据抽屉（亮/暗），内容断言保证非空态（ROUTE_ 文本 + citation 可见）。
