@@ -12,7 +12,8 @@ on:
 
 jobs:
   verify:
-    runs-on: ubuntu-latest
+    # ubuntu-latest 已滚动到 26.04，Playwright 1.56 尚不支持其浏览器依赖安装
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: frontend
