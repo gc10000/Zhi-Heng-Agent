@@ -222,6 +222,14 @@ MinerU本地结构版本由3升4，chunker由5升6；正式导入的 pipeline_id
 | MinerU 轻量 Agent API | 新增 `/api/v1/agent/parse/*`，文件限制、输出与调用流程不同 | 不是仅改基础地址就能切换的替代品，当前保留精准解析流程 |
 | BGE-M3 与 BGE reranker | 本项目是已验证的本地模型链路，未宣称为最新模型 | 保留。切换其他嵌入模型需匹配稠密维度、稀疏表示和 Milvus Schema；更换后需重新生成索引 |
 
+## 模型与接口更新核对（2026-11-08）
+
+| 项目 | 实测发现（2026-11-08 预览全链路验证） | 本项目处理 |
+| --- | --- | --- |
+| 文本模型下线 | `qwen3.8-flash` 调用返回 `model_not_found`；`/models` 在列且实测可用：`qwen3.7-plus`、`qwen3.8-max`、`deepseek-v4.1-flash-1017` 等 182 个 | 模板 `LLM_DEFAULT_MODEL` 更新为 `qwen3.7-plus`（本次 9 题实测所用）；复杂推理选 `qwen3.8-max` |
+| 视觉模型下线 | `qwen-vl-plus` 同样 `model_not_found`；在列 VL 型号为 `qwen3-vl-plus`、`qwen-vl-ocr` | 模板 `VL_MODEL` 更新为 `qwen3-vl-plus` |
+| 配置键提醒 | `LLM_DEFAULT_MODEL` 才是 `app/conf/lm_config.py` 读取的键；`prepare_preview` 生成的 runtime.env 不含该键（默认回落失败） | 预览开真实生成需在 runtime.env 显式追加 `LLM_DEFAULT_MODEL`（详见 docs/evaluation/evidence-expansion-9q-20261108/） |
+
 新型号已按官方页面确认，但尚未使用你的 Key 验证账号权限、可用地域及真实效果。模板建议不是“已完成 API 联调”。客户端按 provider 能力配置思考开关，部分结构化调用要求 JSON Object；后续应分别验证文本 JSON 输出、答案流式增量和图片输入。
 
 `LLM_DEFAULT_MODEL` 同时影响多个文本节点。若要只提高最终回答模型、而让改写等节点保持低成本，需要后续拆分配置，当前不能单靠一个变量分别控制。
