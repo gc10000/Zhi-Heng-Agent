@@ -29,6 +29,8 @@
 | a02ddcc | 双主题截图 | `docs/design/screenshots/final/`×12 |
 | ed13d7a | 执行报告 | `docs/design/UI-REDESIGN-V6-EXECUTION-REPORT.md` |
 | 9424420 | 改版前基线截图 | `docs/design/screenshots/before/`×6 |
+| 768ce72 | 场景级前后对比截图 | `docs/design/screenshots/scenario/`×10（T1.1/T1.2/T1.4/T1.3+T1.5/T2.4 × before/after） |
+| 27173f0 | 场景截图 e2e | `tests/e2e/__scenario-shots.spec.ts`（五场景 mock，常规套件可跑，SHOT_TAG 区分前后） |
 
 ## 二、Checkbox 勾选（对应任务书）
 
@@ -55,7 +57,8 @@
 ## 三、验收记录
 
 - Phase 0/1/2/3 每阶段完成门：`pnpm typecheck`（vue-tsc 0 错）+ `pnpm test:unit`（62/62）全绿
-- `pnpm test:e2e`：**52/52 全绿**（任务书写 23 条为旧数字，本 worktree 实有 52 条，全过）
+- `pnpm test:e2e`：**57/57 全绿**（52 条原有 + 5 条场景截图测试；任务书写 23 条为旧数字）
+- 场景对比图数据一致性：before/after 用同一份 mock 数据（`__scenario-shots.spec.ts`），仅代码版本不同——v6 分支跑 `SHOT_TAG=after`、基线 worktree 跑 `SHOT_TAG=before`
 - 双主题运行时验证：`data-theme="dark"` → `--bg` 计算值 `#0A0E14` ✅
 - 截图：`frontend/docs/design/screenshots/final/` 6 页 × 2 主题 × 1500×960（改版后）+ `screenshots/before/` 6 页（改版前基线，`codex/m6-source-bound-comparison` 原版，临时 worktree 生成后已清理）
 
