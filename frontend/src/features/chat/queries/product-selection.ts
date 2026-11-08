@@ -1,4 +1,4 @@
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useQuery } from '@tanstack/vue-query'
 import { api } from '@/lib/api/client'
 import { useAuthStore } from '@/stores/auth'
@@ -40,5 +40,15 @@ export function useProductSelection() {
     const product = options.value.find(p => p.product_id === id)
     if (!id || product) ui.selectProduct(product, auth.user!.user_id, auth.kb)
   }
-  return { selectedId, options, pending, ready, error, choose, hasMore: computed(() => !!directory.data.value?.next_cursor) }
+  /** 「以上都不是」手动指定型号：不限当前会话绑定，全目录搜索（T1.2）。 */
+  const manualOpen = ref(false), manualQuery = ref('')
+  const manualSearch = useQuery({
+    queryKey: computed(() => [...scopeKey(auth.user?.user_id || '', auth.kb, 'manual-product-search'), manualQuery.value]),
+    queryFn: ({ signal }) => api.request<Page<Product>>(`/products?kb_id=${encodeURIComponent(auth.kb)}&limit=20${manualQuery.value ? `&search=${encodeURIComponent(manualQuery.value)}` : ''}`, { signal }),
+    enabled: computed(() => manualOpen.value && !!auth.user && !!auth.kb), retry: false,
+    staleTime: 30_000,
+  })
+  function openManual() { manualOpen.value = true }
+  function closeManual() { manualOpen.value = false; manualQuery.value = '' }
+  return { selectedId, options, pending, ready, error, choose, hasMore: computed(() => !!directory.data.value?.next_cursor), manualOpen, manualQuery, manualSearch, openManual, closeManual }
 }

@@ -24,4 +24,4 @@ function url(c:Source){
 <p v-else-if="source.asset_sha256" class="muted" role="status">这条结果记录了图片来源，但当前图片未能安全读取或缺少物理页映射；请联系维护者核对，图片维度保留未知。</p>
 </li></ul>
 </template>
-<style scoped>.citations{display:grid;gap:1rem;padding-left:1.25rem}figure{margin:.7rem 0}img{display:block;max-width:min(100%,48rem);max-height:34rem;object-fit:contain;border:1px solid #cad5dc}figcaption{font-size:.9rem;color:#587080}</style>
+<style scoped>.citations{display:grid;gap:1rem;padding-left:1.25rem}figure{margin:.7rem 0}img{display:block;max-width:min(100%,48rem);max-height:34rem;object-fit:contain;border:1px solid var(--line2)}figcaption{font-size:.9rem;color:var(--ink3)}</style>

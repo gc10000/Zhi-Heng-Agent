@@ -1,13 +1,13 @@
 import {test,expect} from '@playwright/test'
 import {mockApi} from './helpers'
 
-test('处理记录开放，空数据不伪造已完成事实',async({page})=>{
+test('支持流程开放，空数据不伪造已完成事实',async({page})=>{
   await mockApi(page,async route=>{
     if(new URL(route.request().url()).pathname.endsWith('/cases')){await route.fulfill({json:{items:[],next_cursor:null}});return true}
     return false
   })
   await page.goto('/cases')
-  await expect(page.getByRole('heading',{name:'处理记录',exact:true})).toBeVisible()
+  await expect(page.getByRole('heading',{name:'支持流程',exact:true})).toBeVisible()
   await expect(page.getByText('尚无处理草稿。请从已完成的问答打开支持流程。',{exact:true})).toBeVisible()
 })
 
@@ -55,7 +55,7 @@ test('草稿编辑须先保存、确认冻结、导出和反馈分别留痕',asy
     return false
   })
   await page.goto('/cases')
-  await page.getByRole('button',{name:'通信失败 · 草稿',exact:true}).click()
+  await page.getByRole('button',{name:/通信失败/}).first().click()
   await page.getByLabel('处理摘要',{exact:true}).fill('用户编辑：已试仍无效')
   await expect(page.getByRole('button',{name:'确认保存当前服务端草稿',exact:true})).toBeDisabled()
   await page.getByRole('button',{name:'保存用户编辑',exact:true}).click()

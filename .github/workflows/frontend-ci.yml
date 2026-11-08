@@ -1,0 +1,51 @@
+name: frontend-ci
+
+on:
+  pull_request:
+    paths:
+      - "frontend/**"
+      - ".github/workflows/frontend-ci.yml"
+  push:
+    branches: [main]
+    paths:
+      - "frontend/**"
+
+jobs:
+  verify:
+    # ubuntu-latest 已滚动到 26.04，Playwright 1.56 尚不支持其浏览器依赖安装
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.25.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+          cache-dependency-path: frontend/pnpm-lock.yaml
+
+      - name: 安装依赖
+        run: pnpm install --frozen-lockfile
+
+      - name: 类型检查（vue-tsc）
+        run: pnpm typecheck
+
+      - name: 单元测试（vitest）
+        run: pnpm test:unit
+
+      - name: 生产构建（vite build）
+        run: pnpm build
+
+      - name: 安装 Playwright 浏览器（chromium）
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: 端到端测试（playwright）
+        run: pnpm test:e2e
+        env:
+          CI: "1"

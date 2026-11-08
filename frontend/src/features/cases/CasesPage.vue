@@ -40,12 +40,24 @@ const ended=computed(()=>!!support.data.value&&['handoff','resolved','cancelled'
 const toolQuery=ref('')
 const reasonLabels:Record<string,string>={all_steps_ineffective:'已有操作均由用户记录为无效',missing_evidence:'缺少可追溯证据',missing_slot:'待补充必要信息',no_progress:'没有获得新信息',round_budget:'补充信息达到上限',user_handoff:'用户要求转交',user_resolve:'用户确认解决',user_cancel:'用户结束支持',evidence_available:'已有资料可供核对',tool_repeat:'工具未获得新证据',tool_failed:'工具未获得可用结果',tool_timeout:'工具读取超时'}
 const feedbackStatus=ref(''),exported=ref('')
+/* T2.6：列表项相对时间（CaseRecord 无 created_at，确认前显示「未确认」）。 */
+function relativeTime(item: CaseRecord): string {
+  if (!item.confirmed_at) return '未确认'
+  const then = new Date(item.confirmed_at).getTime()
+  if (!Number.isFinite(then)) return ''
+  const diff = Date.now() - then
+  const minute = 60_000, hour = 3_600_000, day = 86_400_000
+  if (diff < hour) return `${Math.max(1, Math.floor(diff / minute))} 分钟前`
+  if (diff < day) return `${Math.floor(diff / hour)} 小时前`
+  if (diff < 30 * day) return `${Math.floor(diff / day)} 天前`
+  return new Date(then).toLocaleDateString('zh-CN')
+}
 const feedbackCitations=computed(()=>record.data.value?.run_snapshot?.citations||record.data.value?.citations||[])
 watch(()=>[caseId.value,...scope.value],()=>{feedbackStatus.value='';exported.value=''})
 async function feedback(value:unknown){await api.post('/feedback',value);feedbackStatus.value='反馈已保存为待审，尚未进入知识库。'}
 async function download(){if(!record.data.value)return;const generation=epoch,id=record.data.value.case_id;const data=await api.request<{filename:string;markdown:string}>('/cases/'+id+'/export');if(generation!==epoch||record.data.value?.case_id!==id)return;exported.value=data.markdown;const url=URL.createObjectURL(new Blob([data.markdown],{type:'text/markdown;charset=utf-8'}));const anchor=document.createElement('a');anchor.href=url;anchor.download=data.filename;anchor.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 </script>
-<template><section class="cases-page"><h1>处理记录</h1><p>建议、用户自报与已确认记录分别留痕。转交草稿不会自动发送给他人。</p>
+<template><section class="cases-page"><h1>支持流程</h1><p>建议、用户自报与已确认记录分别留痕。转交草稿不会自动发送给他人。</p>
 <p v-if="error||support.error.value||records.error.value||record.error.value" role="alert">{{error||support.error.value?.message||records.error.value?.message||record.error.value?.message}}</p>
 <button :disabled="busy" @click="perform(refresh)">刷新服务状态</button>
 <section v-if="cid&&support.data.value" aria-label="当前支持流程">
@@ -59,7 +71,13 @@ async function download(){if(!record.data.value)return;const generation=epoch,id
 <article v-for="call in support.data.value.tool_calls" :key="call.call_id"><p>{{({search_manual:'检索内部手册',lookup_product:'查产品目录',read_evidence:'读取引用'} as Record<string,string>)[call.tool]||'只读核对'}} · {{call.status==='completed'?'读取完成':call.status==='running'?'待核对结果':'未获得可用结果'}}</p><p v-if="call.reason">工具未获得新证据或达到预算，请转交人工支持。</p><p v-if="call.output">{{call.output.notice}}</p><blockquote v-for="(item,index) in call.output?.items||[]" :key="index">{{item.text||item.model||'请核对资料来源'}}</blockquote></article></section>
 <button :disabled="busy||!rid" @click="perform(draft)">生成转交草稿</button></section>
 <p v-if="!records.isPending.value&&!items.length">尚无处理草稿。请从已完成的问答打开支持流程。</p>
-<ul><li v-for="item in items" :key="item.case_id"><button :disabled="busy" @click="caseId=item.case_id">{{item.fields.question}} · {{item.status==='draft'?'草稿':'用户已确认'}}</button></li></ul>
+<ul class="case-list"><li v-for="item in items" :key="item.case_id" class="case-row">
+  <button class="case-main" :disabled="busy" @click="caseId=item.case_id">
+    <span class="case-question">{{ item.fields.question || '未记录问题' }}</span>
+    <span class="case-meta"><span v-if="item.fields.device" class="case-device">{{ item.fields.device }}</span><span class="case-time mono">{{ relativeTime(item) }}</span><span class="case-status" :class="item.status==='draft'?'draft':'confirmed'">{{ item.status==='draft'?'草稿':'已确认' }}</span></span>
+  </button>
+  <RouterLink v-if="item.conversation_id" class="case-back" :to="'/chat/'+item.conversation_id">回会话</RouterLink>
+</li></ul>
 <button v-if="records.hasNextPage.value" :disabled="records.isFetchingNextPage.value" @click="records.fetchNextPage()">加载更多记录</button>
 <article v-if="record.data.value" aria-label="处理草稿"><h2>{{record.data.value.status==='draft'?'待用户确认的草稿':'用户已确认记录'}}</h2><p>未知字段需保留未知；摘要来自回答，实际操作以用户自报记录为准。</p>
 <label v-for="(_,key) in record.data.value.fields" :key="key">{{{question:'问题',device:'设备',symptom:'现象',environment:'环境',error_code:'错误码',tried:'已尝试',summary:'处理摘要',handoff_reason:'转交原因'}[key]||key}}<textarea :value="key==='handoff_reason'?(reasonLabels[edits[key]||'']||edits[key]):edits[key]" @input="edits[key]=($event.target as HTMLTextAreaElement).value" :disabled="busy||record.data.value.status==='confirmed'" maxlength="16000" /></label>
@@ -69,4 +87,6 @@ async function download(){if(!record.data.value)return;const generation=epoch,id
 <OperationChecklist :operations="record.data.value.operations" :busy="true" @citation="citation" />
 <FeedbackForm :run-id="record.data.value.run_id" :citations="feedbackCitations" :busy="busy" @submit="value=>perform(()=>feedback(value))" /><p v-if="feedbackStatus" role="status">{{feedbackStatus}}</p>
 </article></section></template>
-<style scoped>.cases-page{padding:1.5rem;min-width:0;max-width:70rem}.cases-page section,.cases-page article,.cases-page form{margin:1.2rem 0}.cases-page h1{font-size:1.7rem;margin-bottom:.8rem}.cases-page h2{font-size:1.2rem;margin:1rem 0 .5rem}.cases-page p{line-height:1.7;margin:.5rem 0}.cases-page label{display:grid;gap:.4rem;margin:.7rem 0}.cases-page input,.cases-page textarea{min-width:0;max-width:100%}.cases-page button{margin:.3rem .5rem .3rem 0}.cases-page pre{max-height:22rem;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;padding:1rem;background:#fff;border:1px solid #cbd5e1}.cases-page blockquote{border-left:3px solid #0f766e;padding:.6rem 1rem;white-space:pre-wrap}.cases-page a{display:inline-block;margin:.5rem}</style>
+<style scoped>.cases-page{padding:1.5rem;min-width:0;max-width:70rem}.cases-page section,.cases-page article,.cases-page form{margin:1.2rem 0}.cases-page h1{font-size:1.7rem;margin-bottom:.8rem}.cases-page h2{font-size:1.2rem;margin:1rem 0 .5rem}.cases-page p{line-height:1.7;margin:.5rem 0}.cases-page label{display:grid;gap:.4rem;margin:.7rem 0}.cases-page input,.cases-page textarea{min-width:0;max-width:100%}.cases-page button{margin:.3rem .5rem .3rem 0}.cases-page pre{max-height:22rem;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;padding:1rem;background:var(--bg);border:1px solid var(--line2)}.cases-page blockquote{border-left:3px solid var(--accent);padding:.6rem 1rem;white-space:pre-wrap}.cases-page a{display:inline-block;margin:.5rem}
+.case-list{list-style:none;padding:0;margin:1rem 0;display:grid;gap:8px}.case-row{display:flex;align-items:center;gap:8px;min-width:0}.case-main{flex:1;min-width:0;display:grid;gap:5px;text-align:left;padding:10px 14px;background:var(--panel);border:1px solid var(--line2);border-radius:10px}.case-main:hover:not(:disabled){border-color:var(--accent)}.case-question{font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.case-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.case-device{font-size:11px;color:var(--ink2);border:1px solid var(--line2);border-radius:99px;padding:1px 9px}.case-time{font-size:9.5px;color:var(--ink3)}.case-status{font-size:10px;font-weight:700;border-radius:5px;padding:1px 8px}.case-status.draft{color:var(--warn);background:var(--warn-soft)}.case-status.confirmed{color:var(--ok);background:var(--ok-soft);border:1px solid var(--ok-line)}.case-back{font-size:12px;color:var(--accent);text-decoration:none;flex-shrink:0;margin:0}.case-back:hover{text-decoration:underline}
+.mono{font-family:ui-monospace,Consolas,monospace}</style>
