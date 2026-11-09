@@ -80,13 +80,13 @@ Phase 4 目标：把这四件事补上，让 v6 设计稿（`docs/design/ui-fina
 
 ### P4-3 · Products / Documents 真·卡片化（1 天）
 
-- [ ] **ProductsPage**：弃用整页 `catalog-page` 旧结构中的产品区块，设备卡改用 Card 组件族（Header/Content）：
+- [x] **ProductsPage**：弃用整页 `catalog-page` 旧结构中的产品区块，设备卡改用 Card 组件族（Header/Content）：
   - 卡头：lucide `Server` 图标 + 型号名（粗体）+ 系列（`--ink3` 小字）
   - 卡体：适用资料数、当前修订（mono 小字）、资料目的标签
   - 型号歧义 → `Badge` variant="warning"「型号歧义」
   - 页头：标题 + eyebrow + **「登记设备」主钮**（Button primary + `Plus`）
   - 保留既有登记表单/搜索逻辑，仅改呈现
-- [ ] **DocumentsPage**：资料行卡片化：
+- [x] **DocumentsPage**：资料行卡片化：
   - 类型图标：PDF=`FileText` / Excel=`FileSpreadsheet` / Markdown=`FileCode`（按 active_revision 或 metadata 判型，未知用 `File`）
   - 名称 + 修订徽标（`Badge`：已发布=success）+ 状态 mono 小字
   - 上传区改虚线边框拖放卡（`--line2` 虚线 + `Upload` 图标 + 文案），保留既有 input 兜底
