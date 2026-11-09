@@ -50,9 +50,9 @@ Phase 4 目标：把这四件事补上，让 v6 设计稿（`docs/design/ui-fina
 
 文件：`app/WorkbenchLayout.vue`（+ 可能新建 `components/ui/SidebarNav.vue` 承载导航块）。对照 `docs/design/ui-final-v6.html` 侧栏区块逐项落地：
 
-- [ ] ① 品牌区：保留 BrandMark + 知衡 + 副标（已有，微调间距对齐 v6）
-- [ ] ② **「新建会话」主按钮**：全宽，lucide `Plus` 图标 + 文字；样式：`--ink` 底 `--bg` 字（v6 发送钮同语义）；点击复用 ChatPage 的 createConversation 逻辑（提取到 composable 或经 stores/ui 暴露，避免复制粘贴）；非 /chat 路由点击后跳 `/chat/{新id}`
-- [ ] ③ **分组导航**（v6 六要素核心）：
+- [x] ① 品牌区：保留 BrandMark + 知衡 + 副标（已有，微调间距对齐 v6）
+- [x] ② **「新建会话」主按钮**：全宽，lucide `Plus` 图标 + 文字；样式：`--ink` 底 `--bg` 字（v6 发送钮同语义）；点击复用 ChatPage 的 createConversation 逻辑（提取到 composable 或经 stores/ui 暴露，避免复制粘贴）；非 /chat 路由点击后跳 `/chat/{新id}`
+- [x] ③ **分组导航**（v6 六要素核心）：
   ```
   工作台 WORKSPACE
     技术问答   MessageSquare
@@ -64,9 +64,9 @@ Phase 4 目标：把这四件事补上，让 v6 设计稿（`docs/design/ui-fina
     评测工作台 FlaskConical
   ```
   每项 = lucide 图标（15px，`--ink3`，激活态 `--accent`）+ 文字标签；激活项左侧 2.5px `--accent` 指示条 + `accent 10%` 底（用 color-mix）；分组标题 mono 8.5px 字距 0.15em
-- [ ] ④ 知识范围选择器：保留现有 select，容器改卡片式（1px `--line` 边 + 圆角 + label 小字），样式对齐 v6 kb 卡
-- [ ] ⑤ 会话列表：头部加搜索框（lucide `Search` 12px 图标 + 输入，按标题前端过滤 ConversationList）；列表行保留现有 hover/active 样式
-- [ ] ⑥ 用户卡片：`--line` 顶边分隔；头像圈（26px，`accent-soft` 底 accent 字，取用户名首两字母大写）+ 用户名 + 角色 mono 小标（MAINTAINER/VIEWER，从 auth.user 取）+ `LogOut` 图标退出钮
+- [x] ④ 知识范围选择器：保留现有 select，容器改卡片式（1px `--line` 边 + 圆角 + label 小字），样式对齐 v6 kb 卡
+- [x] ⑤ 会话列表：头部加搜索框（lucide `Search` 12px 图标 + 输入，按标题前端过滤 ConversationList）；列表行保留现有 hover/active 样式
+- [x] ⑥ 用户卡片：`--line` 顶边分隔；头像圈（26px，`accent-soft` 底 accent 字，取用户名首两字母大写）+ 用户名 + 角色 mono 小标（MAINTAINER/VIEWER，从 auth.user 取）+ `LogOut` 图标退出钮
 - 验收：亮暗双主题截图对照 v6 侧栏六区块；`pnpm test:e2e` 不回归（既有侧栏断言若因结构变化失败，允许同步修正选择器但不得删除用例语义）；移动端抽屉行为不回归。
 
 ### P4-2 · 非聊天页收起常驻证据栏（半天，消先天布局缺陷）
