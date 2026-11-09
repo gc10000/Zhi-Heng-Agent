@@ -11,6 +11,7 @@ import { scopeKey } from './queries/history'
 import { useProductSelection } from './queries/product-selection'
 import { useRunStore } from './stores/run'
 import { useRunStream } from './composables/useRunStream'
+import { useCreateConversation } from './composables/useCreateConversation'
 import ChatComposer from './components/ChatComposer.vue'
 import ProductSelector from './components/ProductSelector.vue'
 import ChatThread from './components/ChatThread.vue'
@@ -114,20 +115,11 @@ window.addEventListener('close-run-streams', close)
 onBeforeUnmount(() => { close(); window.removeEventListener('close-run-streams', close) })
 const showLive = computed(() => run.value && !messages.value.some(m => m.role === 'assistant' && m.run_id === run.value?.run_id))
 const scopeModel = computed(() => productSelection.options.value.find(p => p.product_id === productSelection.selectedId.value)?.model || '')
-/* T2.1：空态直接新建会话 */
-const creating = ref(false)
-async function createConversation() {
-  if (creating.value || !auth.user) return
-  creating.value = true
-  try {
-    const c = await api.post<{ conversation_id: string }>('/conversations', { kb_id: auth.kb })
-    await cache.invalidateQueries({ queryKey: ['scope', auth.user.user_id, auth.kb, 'conversations'] })
-    void router.push('/chat/' + c.conversation_id)
-  } catch (e) { error.value = (e as Error).message } finally { creating.value = false }
-}
+/* T2.1：空态直接新建会话（P4 后续修：迁移至 composable，消除与侧栏的双份逻辑） */
+const { creating, error: createError, createConversation } = useCreateConversation()
 </script>
 <template><section class="chat-page"><header class="page-heading"><div><p class="eyebrow">技术支持</p><h1>让问题回到设备与依据</h1></div></header>
-<div v-if="!cid" class="empty-state"><h2>开始一段设备咨询</h2><p class="muted">描述设备型号、现象与已尝试的操作。</p><p>回答会保留资料修订和来源，便于核对。</p><button class="primary empty-new" :disabled="creating" @click="createConversation">{{ creating ? '正在新建…' : '新建会话' }}</button></div>
+<div v-if="!cid" class="empty-state"><h2>开始一段设备咨询</h2><p class="muted">描述设备型号、现象与已尝试的操作。</p><p>回答会保留资料修订和来源，便于核对。</p><button class="primary empty-new" :disabled="creating" @click="createConversation">{{ creating ? '正在新建…' : '新建会话' }}</button><p v-if="createError" role="alert">{{ createError }}</p></div>
 <template v-else><p v-if="history.isPending.value && !conversation.error.value" role="status">正在恢复会话历史…</p><p v-if="conversation.error.value || history.error.value || error || streaming.error.value" role="alert">{{ error || streaming.error.value || conversation.error.value?.message || history.error.value?.message }}</p><p v-if="streaming.connection.value" class="muted" role="status">{{ streaming.connection.value }}</p>
 <div v-if="scopeModel" class="scope-chip mono"><span class="scope-label">SCOPE</span><b>{{ scopeModel }}</b><RouterLink to="/products" class="scope-change">更换</RouterLink></div>
 <ChatThread :messages="messages" :run="run" :show-live="!!showLive" :busy="commandBusy" @citation="show" @confirm="command('confirm-product',$event)" @ask-again="askAgain" />

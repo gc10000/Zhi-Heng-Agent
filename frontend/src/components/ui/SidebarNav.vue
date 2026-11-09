@@ -10,7 +10,7 @@ import { useCreateConversation } from '@/features/chat/composables/useCreateConv
 import { ref } from 'vue'
 
 const auth = useAuthStore(), ui = useUiStore(), route = useRoute(), router = useRouter()
-const { creating, createConversation } = useCreateConversation()
+const { creating, error, createConversation } = useCreateConversation()
 
 /* P4-1③ 分组导航（对照 ui-final-v6.html 侧栏） */
 const groups = [
@@ -42,6 +42,7 @@ const keyword = ref('')
   <div class="brand"><span class="brand-mark"><BrandMark :size="26" /></span><div><strong>知衡</strong><p class="muted">设备技术支持</p></div></div>
   <!-- ② 新建会话主钮 -->
   <button class="sb-newbtn" :disabled="creating" @click="createConversation"><Plus :size="13" :stroke-width="2" />{{ creating ? '正在新建…' : '新建会话' }}</button>
+  <p v-if="error" class="sb-newerr" role="alert">{{ error }}</p>
   <!-- ③ 分组导航 -->
   <nav aria-label="工作台导航" class="sb-nav" @click="ui.menu = false">
     <template v-for="g in groups" :key="g.label">
@@ -79,6 +80,7 @@ export default { name: 'SidebarNav' }
 .sb-newbtn { display: flex; align-items: center; justify-content: center; gap: 7px; margin: 2px 12px 8px; border: 1px solid var(--line2); background: var(--bg); color: var(--ink); border-radius: 9px; padding: 7px 0; font-size: 12.5px; font-weight: 600; cursor: pointer; }
 .sb-newbtn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
 .sb-newbtn:disabled { opacity: .6; cursor: wait; }
+.sb-newerr { margin: -2px 12px 8px; font-size: 11px; color: var(--danger); }
 /* ③ 分组导航 */
 .sb-nav { padding: 0 10px; }
 .sb-grp { font-size: 8.5px; letter-spacing: 0.15em; color: var(--ink3); padding: 11px 9px 5px; }
