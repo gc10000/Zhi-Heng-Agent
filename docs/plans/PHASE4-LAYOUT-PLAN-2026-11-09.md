@@ -34,17 +34,17 @@ Phase 4 目标：把这四件事补上，让 v6 设计稿（`docs/design/ui-fina
 
 ### P4-0 · 环境准备 + 快修四小项（半天）
 
-- [ ] **T0.1 环境与分支**：`git fetch origin && git switch main && git pull`（应到 db8481a+）→ `git switch -c feat/ui-phase4-layout` → 检查 node_modules junction 问题 → 本任务书随首 commit 入库（`docs/plans/PHASE4-LAYOUT-PLAN-2026-11-09.md`）。
-- [ ] **T0.2 [评审 D2] 场景截图测试补真断言**：`tests/e2e/__scenario-shots.spec.ts` 的 5 个测试在 screenshot 前各加 1 条可见性断言：
+- [x] **T0.1 环境与分支**：`git fetch origin && git switch main && git pull`（应到 db8481a+）→ `git switch -c feat/ui-phase4-layout` → 检查 node_modules junction 问题 → 本任务书随首 commit 入库（`docs/plans/PHASE4-LAYOUT-PLAN-2026-11-09.md`）。
+- [x] **T0.2 [评审 D2] 场景截图测试补真断言**：`tests/e2e/__scenario-shots.spec.ts` 的 5 个测试在 screenshot 前各加 1 条可见性断言：
   - t1-1 错误卡：`await expect(page.getByText('型号候选过多')).toBeVisible()`
   - t1-2 澄清：`await expect(page.getByRole('button', { name: /以上都不是/ })).toBeVisible()`
   - t1-3-t1-5：`await expect(page.getByText('适用型号：NX308-S')).toBeVisible()` + `await expect(page.getByRole('button', { name: /反馈/ }).first()).toBeVisible()`
   - t1-4 证据卡：`await expect(page.getByText('NX300 安装手册.pdf')).toBeVisible()`
   - t2-4 依据不足：`await expect(page.getByText('依据不足')).toBeVisible()`
   验收：`pnpm test:e2e` 57/57 全绿（断言加入后不再空转）。
-- [ ] **T0.3 [评审 D5] 登录主钮归位**：`LoginPage.vue` 删除 `.login-submit` 对 `--accent` 底的覆盖，改用 Button 组件 primary 语义（--ink 底），保持全宽。
-- [ ] **T0.4 [评审 D6] 清死代码**：`ChatThread.vue:38` 删除无意义三元 `m.run_id&&messages.length?undefined:undefined`，query 只留 `{ run: m.run_id }`。
-- [ ] **T0.5 [评审 D7] 空文档名回退**：`EvidenceCard.vue` 当 `nameOf(id)` 返回空串时显示 `document_id`（mono 小字），并补一条单测或场景断言覆盖该回退。
+- [x] **T0.3 [评审 D5] 登录主钮归位**：`LoginPage.vue` 删除 `.login-submit` 对 `--accent` 底的覆盖，改用 Button 组件 primary 语义（--ink 底），保持全宽。
+- [x] **T0.4 [评审 D6] 清死代码**：`ChatThread.vue:38` 删除无意义三元 `m.run_id&&messages.length?undefined:undefined`，query 只留 `{ run: m.run_id }`。
+- [x] **T0.5 [评审 D7] 空文档名回退**：`EvidenceCard.vue` 当 `nameOf(id)` 返回空串时显示 `document_id`（mono 小字），并补一条单测或场景断言覆盖该回退。
 
 ### P4-1 · 侧栏六要素重建（最高优先，1 天）
 

@@ -35,7 +35,7 @@ const liveKey = computed(() => props.run?.run_id || '')
   <div v-if="m.role==='assistant' && m.citations.length" class="ai-foot">
     <button type="button" class="act" :class="{ done: helpfulFor.includes(m.message_id) }" @click="markHelpful(m.message_id)">{{ helpfulFor.includes(m.message_id) ? '✓ 已标记有帮助' : '✓ 有帮助' }}</button>
     <button type="button" class="act" @click="toggleFeedback(m.message_id)">✎ 反馈</button>
-    <RouterLink class="act" :to="{path:'/cases',query:{conversation:m.run_id&&messages.length?undefined:undefined,run:m.run_id}}">生成处理草稿 →</RouterLink>
+    <RouterLink class="act" :to="{path:'/cases',query:{run:m.run_id}}">生成处理草稿 →</RouterLink>
     <span class="stat mono">SOURCES <b>{{ m.citations.length }}</b></span>
     <div v-if="feedbackFor===m.message_id" class="feedback-inline">
       <FeedbackForm :run-id="m.run_id" :citations="m.citations" @submit="onFeedbackSubmit" />

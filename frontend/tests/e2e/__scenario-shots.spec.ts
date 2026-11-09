@@ -26,6 +26,8 @@ async function setup(page: import('@playwright/test').Page, active: string, mess
   await mockApi(page, async route => {
     const path = new URL(route.request().url()).pathname
     if (path.endsWith('/conversations') && route.request().method() === 'GET') { await route.fulfill({ json: { items: [conversation(active)], next_cursor: null } }); return true }
+    if (path.endsWith('/products') && !path.includes('/documents')) { await route.fulfill({ json: { items: [{ product_id: 'p1', model: 'NX308-S', series: 'NX300 系列' }, { product_id: 'p2', model: 'NX308-L' }, { product_id: 'p3', model: 'NX312-X' }], next_cursor: null } }); return true }
+    if (extra && await extra(route)) return true
     if (path.endsWith('/messages')) { await route.fulfill({ json: { items: messages, next_cursor: null } }); return true }
     if (path.endsWith('/documents')) { await route.fulfill({ json: documents }); return true }
     if (path.endsWith('/runs/run-err')) { await route.fulfill({ json: runFailed }); return true }
@@ -33,7 +35,6 @@ async function setup(page: import('@playwright/test').Page, active: string, mess
     if (path.endsWith('/runs/run-ok')) { await route.fulfill({ json: runOk }); return true }
     if (path.endsWith('/runs/run-ok/citations/cite-1')) { await route.fulfill({ json: cite1 }); return true }
     if (path.endsWith('/runs/run-ok/citations/cite-2')) { await route.fulfill({ json: cite2 }); return true }
-    if (extra && await extra(route)) return true
     return false
   })
 }
@@ -41,7 +42,7 @@ async function setup(page: import('@playwright/test').Page, active: string, mess
 test(`t1-1 error card [${TAG}]`, async ({ page }) => {
   await setup(page, 'run-err', [])
   await page.goto('/chat/conversation-a')
-  await page.waitForTimeout(900)
+  await expect(page.getByText('型号候选过多')).toBeVisible({ timeout: 10000 })
   await page.screenshot({ path: `${OUT}/t1-1-error-${TAG}.png` })
   expect(true).toBe(true)
 })
@@ -49,7 +50,7 @@ test(`t1-1 error card [${TAG}]`, async ({ page }) => {
 test(`t1-2 clarification [${TAG}]`, async ({ page }) => {
   await setup(page, 'run-cla', [])
   await page.goto('/chat/conversation-a')
-  await page.waitForTimeout(900)
+  await expect(page.getByRole('button', { name: /以上都不是/ })).toBeVisible({ timeout: 10000 })
   await page.screenshot({ path: `${OUT}/t1-2-clarify-${TAG}.png` })
   expect(true).toBe(true)
 })
@@ -57,9 +58,10 @@ test(`t1-2 clarification [${TAG}]`, async ({ page }) => {
 test(`t1-4 evidence card [${TAG}]`, async ({ page }) => {
   await setup(page, 'run-ok', messagesFull)
   await page.goto('/chat/conversation-a')
-  await page.waitForTimeout(900)
+  await expect(page.getByText('适用型号：NX308-S')).toBeVisible({ timeout: 10000 })
   await page.locator('button.inline-citation').first().click()
-  await page.waitForTimeout(900)
+  await expect(page.locator('.evc-name').first()).toBeVisible({ timeout: 10000 })
+  await expect(page.locator('.evc-name').first()).toContainText('NX300 安装手册.pdf')
   await page.screenshot({ path: `${OUT}/t1-4-evidence-${TAG}.png` })
   expect(true).toBe(true)
 })
@@ -67,7 +69,8 @@ test(`t1-4 evidence card [${TAG}]`, async ({ page }) => {
 test(`t1-3-t1-5 thread actions [${TAG}]`, async ({ page }) => {
   await setup(page, 'run-ok', messagesFull)
   await page.goto('/chat/conversation-a')
-  await page.waitForTimeout(900)
+  await expect(page.getByText('适用型号：NX308-S')).toBeVisible({ timeout: 10000 })
+  await expect(page.getByRole('button', { name: /反馈/ }).first()).toBeVisible({ timeout: 10000 })
   await page.screenshot({ path: `${OUT}/t1-3-t1-5-thread-${TAG}.png` })
   expect(true).toBe(true)
 })
@@ -81,7 +84,23 @@ test(`t2-4 insufficient [${TAG}]`, async ({ page }) => {
     return false
   })
   await page.goto('/chat/conversation-a')
-  await page.waitForTimeout(900)
+  await expect(page.getByText('依据不足')).toBeVisible({ timeout: 10000 })
   await page.screenshot({ path: `${OUT}/t2-4-insufficient-${TAG}.png` })
   expect(true).toBe(true)
+})
+
+test(`t0-5 doc-name fallback [${TAG}]`, async ({ page }) => {
+  // 文档映射为空时证据卡头应回退显示 document_id（mono 小字，评审 D7）
+  await setup(page, 'run-ok', messagesFull, async route => {
+    if (new URL(route.request().url()).pathname.endsWith('/documents')) {
+      await route.fulfill({ json: { items: [], next_cursor: null } })
+      return true
+    }
+    return false
+  })
+  await page.goto('/chat/conversation-a')
+  await expect(page.getByText('适用型号：NX308-S')).toBeVisible({ timeout: 10000 })
+  await page.locator('button.inline-citation').first().click()
+  await expect(page.locator('.evc-name.evc-fallback').first()).toBeVisible({ timeout: 10000 })
+  await expect(page.locator('.evc-name.evc-fallback').first()).toContainText('doc-1')
 })

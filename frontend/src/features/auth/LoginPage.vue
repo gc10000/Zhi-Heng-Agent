@@ -22,7 +22,6 @@ async function login() {
   <p v-if="error" role="alert">{{ error }}</p><Button type="submit" class="login-submit" :disabled="busy">{{ busy ? '正在登录…' : '登录' }}</Button>
 </form></main></template>
 <style scoped>
-.login-submit { width: 100%; justify-content: center; padding: 10px; font-size: 14px; background: var(--accent); color: var(--bg); border-color: var(--accent); }
-.login-submit:hover:not(:disabled) { opacity: .9; }
+.login-submit { width: 100%; justify-content: center; padding: 10px; font-size: 14px; }
 .login-card [role=alert] { color: var(--danger); }
 </style>

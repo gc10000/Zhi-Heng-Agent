@@ -17,7 +17,7 @@ watch(()=>props.citation.citation_id,()=>{broken.value=[];showPdf.value=false;ex
 function url(id:string) { const expected='/api/v1/assets/'+encodeURIComponent(id);return props.citation.asset_urls?.[id]===expected ? expected : undefined }
 </script>
 <template><article class="evidence-card">
-  <header class="evc-head"><span class="evc-no mono">证据</span><span class="evc-name" :title="documentName || citation.title || citation.document_id">{{ documentName || citation.title || citation.document_id }}</span><span v-if="pdfSource?.page" class="evc-page mono">p{{ pdfSource.page }}</span></header>
+  <header class="evc-head"><span class="evc-no mono">证据</span><span class="evc-name" :class="{ 'evc-fallback': !documentName && !citation.title }" :title="documentName || citation.title || citation.document_id">{{ documentName || citation.title || citation.document_id }}</span><span v-if="pdfSource?.page" class="evc-page mono">p{{ pdfSource.page }}</span></header>
   <p class="eyebrow">{{ citation.source_refs.some(s=>s.kind==='image_description') ? '模型图像描述（需核对原图）' : '原文摘录' }}</p>
   <SafeMarkdown data-testid="citation-text" class="evc-quote" :text="citation.display_text || citation.text" />
   <ul class="source-refs"><li v-for="(source,i) in citation.source_refs" :key="i"><span>{{ source.kind === 'image_description' ? '模型图像描述（需核对原图）' : '原始资料' }}</span><p v-if="source.section_path?.length">章节：{{ source.section_path.join(' / ') }}</p><p v-if="source.page">物理页：{{ source.page }}</p><p v-else>未提供PDF页码，按章节或单元格溯源。</p><p v-if="source.sheet">工作表：{{ source.sheet }} {{ source.cell }}</p><p v-if="source.line_start">原文行：{{ source.line_start }}–{{ source.line_end || source.line_start }}</p></li></ul>
@@ -33,6 +33,7 @@ function url(id:string) { const expected='/api/v1/assets/'+encodeURIComponent(id
 .evc-head { display: flex; align-items: center; gap: 8px; min-width: 0; }
 .evc-no { font-size: 9px; color: var(--accent); background: var(--accent-soft); border: 1px solid var(--accent-line); border-radius: 4px; padding: 0.5px 6px; font-weight: 700; }
 .evc-name { font-size: 12.5px; font-weight: 600; color: var(--ink); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.evc-name.evc-fallback { font-family: ui-monospace, Consolas, monospace; font-size: 9.5px; font-weight: 500; color: var(--ink3); }
 .evc-page { font-size: 9px; color: var(--ink3); }
 .evc-quote { margin: 0; }
 .evc-foot { display: flex; align-items: center; gap: 8px; }
