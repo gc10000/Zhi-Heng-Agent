@@ -73,9 +73,9 @@ Phase 4 目标：把这四件事补上，让 v6 设计稿（`docs/design/ui-fina
 
 文件：`app/router.ts` + `app/WorkbenchLayout.vue`
 
-- [ ] router.ts 给 chat 路由加 `meta: { evidence: true }`
-- [ ] WorkbenchLayout：`const showEvidence = computed(() => route.meta.evidence === true && !mobile)`；桌面右栏模板条件从 `v-if="!mobile"` 改 `v-if="showEvidence"`；主 SplitterPanel 在无右栏时占满（reka-ui Splitter 单面板自动 100%，验证即可）
-- [ ] 移动端证据抽屉行为不变（按 ui.evidence 开关）
+- [x] router.ts 给 chat 路由加 `meta: { evidence: true }`
+- [x] WorkbenchLayout：`const showEvidence = computed(() => route.meta.evidence === true && !mobile)`；桌面右栏模板条件从 `v-if="!mobile"` 改 `v-if="showEvidence"`；主 SplitterPanel 在无右栏时占满（reka-ui Splitter 单面板自动 100%，验证即可）
+- [x] 移动端证据抽屉行为不变（按 ui.evidence 开关）
 - 验收：/products /documents /cases /evaluations 主区全宽无空右栏（截图×4）；/chat 证据栏宽度/拖拽/引用点击不回归（e2e citation 相关用例全绿）。
 
 ### P4-3 · Products / Documents 真·卡片化（1 天）

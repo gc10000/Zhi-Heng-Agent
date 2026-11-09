@@ -6,7 +6,7 @@ export const router = createRouter({
     { path: '/login', name: 'login', component: () => import('@/features/auth/LoginPage.vue') },
     { path: '/', redirect: '/chat' },
     { path: '/', component: () => import('./WorkbenchLayout.vue'), children: [
-      { path: 'chat/:conversationId?', name: 'chat', component: () => import('@/features/chat/ChatPage.vue') },
+      { path: 'chat/:conversationId?', name: 'chat', component: () => import('@/features/chat/ChatPage.vue'), meta: { evidence: true } },
       { path: 'products', component: () => import('@/features/products/ProductsPage.vue') },
       { path: 'documents', component: () => import('@/features/documents/DocumentsPage.vue') },
       { path: 'cases', component: () => import('@/features/cases/CasesPage.vue') },
