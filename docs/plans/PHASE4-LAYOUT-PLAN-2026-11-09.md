@@ -102,10 +102,10 @@ Phase 4 目标：把这四件事补上，让 v6 设计稿（`docs/design/ui-fina
 
 ### P4-F · 收尾（半天）
 
-- [ ] 全库 grep 验证：颜色字面量仅 tokens.css + citation-overlay；`catalog-page` 旧类在已重构页清零
-- [ ] 全套验收：`pnpm typecheck && pnpm test:unit && pnpm build && pnpm test:e2e`（57/57，含 T0.2 补强的断言）
-- [ ] 双主题全站截图更新至 `docs/design/screenshots/final/`（6 页 × 2 主题，覆盖新侧栏与全宽页面）
-- [ ] 执行报告：`frontend/docs/design/PHASE4-EXECUTION-REPORT.md`（checkbox 对照 + 实际改动文件 + 遗留清单，格式沿用 v6 报告）
+- [x] 全库 grep 验证：颜色字面量仅 tokens.css + citation-overlay；`catalog-page` 旧类在已重构页清零
+- [x] 全套验收：`pnpm typecheck && pnpm test:unit && pnpm build && pnpm test:e2e`（57/57，含 T0.2 补强的断言）
+- [x] 双主题全站截图更新至 `docs/design/screenshots/final/`（6 页 × 2 主题，覆盖新侧栏与全宽页面）
+- [x] 执行报告：`frontend/docs/design/PHASE4-EXECUTION-REPORT.md`（checkbox 对照 + 实际改动文件 + 遗留清单，格式沿用 v6 报告）
 
 ## 四、工期与顺序
 
