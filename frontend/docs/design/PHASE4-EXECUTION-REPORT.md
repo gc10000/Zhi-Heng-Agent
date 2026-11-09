@@ -4,7 +4,13 @@
 > 任务书：`docs/plans/PHASE4-LAYOUT-PLAN-2026-11-09.md`（已随首个 commit 入库，评审 D4 闭环）
 > 目标：修复评审 D1「四页铺开只做了 token 换肤、布局级重构未发生」
 
-## 一、Commit 序列（7 个）
+## 〇、收尾后自审补充（a8454dd，随评审材料生成发现）
+
+- **问题**：P4-1 提取 `useCreateConversation` 后，ChatPage 空态按钮（T2.1 遗留）未迁移，两份近似逻辑并存——恰是任务书 P4-1② 要求避免的"复制粘贴"；且侧栏消费方未解构 `error`，新建失败静默无提示；ChatPage 空态的 alert 行在 `v-else`（有 cid）分支内，空态下错误同样不可见。
+- **修复**：ChatPage 迁移到 composable（解构 `error: createError` 并在空态展示）；SidebarNav 补 `role=alert` 提示（`--danger`）。
+- **验收**：typecheck 0 错 / 单测 62/62 / build / e2e 58/58 全绿（2026-11-09 复跑）。
+
+## 一、Commit 序列（8 个）
 
 | Commit | 任务 | 实际改动文件 |
 |--------|------|--------------|
@@ -14,7 +20,8 @@
 | c9ea7c1 | P4-2 证据栏按路由 | `router.ts`（chat meta.evidence）、`WorkbenchLayout.vue`（showEvidence computed） |
 | f6c7291 | P4-3 两页卡片化 | `ProductsPage.vue`（Card 族+Server 图标+登记弹层）、`DocumentsPage.vue`（类型图标+发布 Badge+虚线拖放上传卡） |
 | 239ef78 | P4-4 评测页整理 | `evaluation/` 5 文件（页头 1.1rem 粗体+表格 12px+行 hover） |
-| (本提交) | P4-F 收尾 | `screenshots/final/` ×12 更新、本报告 |
+| 1958a6f | P4-F 收尾 | `screenshots/final/` ×12 更新、本报告 |
+| a8454dd | 自审补充修复 | `ChatPage.vue`（迁移 composable+空态错误展示）、`SidebarNav.vue`（失败提示） |
 
 ## 二、Checkbox 勾选（对应任务书）
 
